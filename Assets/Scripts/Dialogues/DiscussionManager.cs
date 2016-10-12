@@ -14,6 +14,7 @@ public class DiscussionManager : MonoBehaviour {
 	}
 
 	public void SetChoices (int amount, string[] content) {
+
 		for (int i = 0; i < amount ; ++i ) {
 			choiceButtons[i].SetActive (true);
 			choiceButtons [i].GetComponentInChildren<Text> ().text = content [i];
@@ -21,12 +22,15 @@ public class DiscussionManager : MonoBehaviour {
 	}
 
 	public void Choose (int i) {
+
 		StoryReader.Instance.SetDecal (i);
 
 		foreach ( GameObject button in choiceButtons ) {
 			button.SetActive (false);
 		}
 
+		Debug.Log ("next in choose");
+		
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
 	}

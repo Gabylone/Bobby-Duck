@@ -35,6 +35,9 @@ public class StoryLoader : MonoBehaviour {
 	{
 		string[] rows = data.text.Split ('\n');
 
+		foreach ( string row in rows )
+			Debug.Log (row);
+
 		int rowIndex 		= 0;
 		int collumnIndex 	= 0;
 

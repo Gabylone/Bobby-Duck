@@ -30,10 +30,13 @@ public class StoryReader : MonoBehaviour {
 		if ( waitForInput ) {
 			if ( Input.GetMouseButtonDown (0) ) {
 
+				Debug.Log ("next by input");
+
+				waitForInput = false;
+				
 				NextCell ();
 				UpdateStory ();
 
-				waitForInput = false;
 			}
 		}
 
@@ -41,6 +44,9 @@ public class StoryReader : MonoBehaviour {
 			timer -= Time.deltaTime;
 
 			if (timer <= 0) {
+
+				Debug.Log ("next by wait");
+
 				NextCell ();
 				UpdateStory ();
 				waitToNextCell = false;
@@ -75,7 +81,6 @@ public class StoryReader : MonoBehaviour {
 	}
 	public void UpdateStory () {
 
-		Debug.Log ("content : " + StoryLoader.Instance.GetContent);
 		StoryFunctions.Instance.Read ( StoryLoader.Instance.GetContent );
 
 	}
@@ -125,6 +130,14 @@ public class StoryReader : MonoBehaviour {
 		}
 		set {
 			decal = value;
+		}
+	}
+	public bool WaitForInput2 {
+		get {
+			return waitForInput;
+		}
+		set {
+			waitForInput = value;
 		}
 	}
 	#endregion

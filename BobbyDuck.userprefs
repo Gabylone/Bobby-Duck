@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Stories\StoryLoader.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Stories\StoryReader.cs" Line="84" Column="41" />
+      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="48" Column="28" />
+      <File FileName="Assets\Scripts\Dialogues\DiscussionManager.cs" Line="18" Column="1" />
+      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="50" Column="4" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
