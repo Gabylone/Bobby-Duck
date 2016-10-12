@@ -47,9 +47,9 @@ public class StoryReader : MonoBehaviour {
 
 				Debug.Log ("next by wait");
 
+				waitToNextCell = false;
 				NextCell ();
 				UpdateStory ();
-				waitToNextCell = false;
 			}
 		}
 

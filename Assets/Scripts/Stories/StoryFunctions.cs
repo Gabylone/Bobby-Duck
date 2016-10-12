@@ -59,13 +59,11 @@ public class StoryFunctions : MonoBehaviour {
 
 			// get bubble content
 		Debug.Log ("next to set choices");
-		
-
 		StoryReader.Instance.NextCell ();
 
 		string[] choices = new string[amount];
 
-		int tmpDecal = 0;
+		int tmpDecal = StoryReader.Instance.Decal;
 		int a = amount;
 
 		while ( a > 0 ) {
@@ -103,7 +101,8 @@ public class StoryFunctions : MonoBehaviour {
 
 		DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain.Icon.GetTransform);
 
-		StoryReader.Instance.WaitForInput ();
+		StoryReader.Instance.Wait (0.5f);
+//		StoryReader.Instance.WaitForInput ();
 
 	}
 
@@ -113,7 +112,8 @@ public class StoryFunctions : MonoBehaviour {
 
 		DialogueManager.Instance.SetDialogue (phrase, Crews.playerCrew.captain.Icon.GetTransform);
 
-		StoryReader.Instance.WaitForInput ();
+		StoryReader.Instance.Wait(0.5f);
+//		StoryReader.Instance.WaitForInput ();
 	}
 	#endregion
 }
