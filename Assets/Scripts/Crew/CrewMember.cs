@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//[System.Serializable]
+[System.Serializable]
 public class CrewMember {
 
 	private Crews.Side side;
@@ -51,9 +51,9 @@ public class CrewMember {
 
 		Health -= (1);
 
-		if (health == 0) {
-			Kill ();
-		}
+//		if (health == 0) {
+//			Kill ();
+//		}
 
 		CardManager.Instance.UpdateCards ();
 
@@ -61,7 +61,7 @@ public class CrewMember {
 
 	public void Kill () {
 
-		Crews.playerCrew.RemoveMember (this);
+		Crews.getCrew(side).RemoveMember (this);
 	}
 
 	#region parameters

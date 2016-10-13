@@ -8,7 +8,34 @@ public class CombatManager : MonoBehaviour {
 	public static CombatManager Instance;
 
 	Crews.Side attackingCrew;
+	Crews.Side defendingCrew;
 	Crews.Side targetCrew;
+
+	public Crews.Side TargetCrew {
+		get {
+			return targetCrew;
+		}
+	}
+
+	public Crews.Side AttackingCrew {
+		get {
+			return attackingCrew;
+		}
+		set {
+			attackingCrew = value;
+			defendingCrew = value == Crews.Side.Enemy ? Crews.Side.Player : Crews.Side.Enemy;
+		}
+	}
+
+	public Crews.Side DefendingCrew {
+		get {
+			return defendingCrew;
+		}
+		set {
+			defendingCrew = value;
+			attackingCrew = value == Crews.Side.Enemy ? Crews.Side.Player : Crews.Side.Enemy;
+		}
+	}
 
 	// states
 	public enum States {
@@ -70,10 +97,11 @@ public class CombatManager : MonoBehaviour {
 
 			// init
 		firstTurn = true;
-		targetCrew = Crews.Side.Player;
+		SetTargetCrew(Crews.Side.Player);
 
 			// create enemy crew
-		Crews.enemyCrew.CreateRandomCrew ();
+		if ( Crews.enemyCrew.CrewMembers.Count == 0 )
+			Crews.enemyCrew.CreateRandomCrew ();
 
 	}
 	private void CombatStart_Update () {
@@ -98,7 +126,7 @@ public class CombatManager : MonoBehaviour {
 
 			if (targetCrew == Crews.Side.Player) {
 				
-				targetCrew = Crews.Side.Enemy;
+				SetTargetCrew(Crews.Side.Enemy);;
 				
 				ChangeState (States.CrewPlacement);
 				
@@ -107,6 +135,7 @@ public class CombatManager : MonoBehaviour {
 					// player can choose his member
 				foreach (CrewMember member in Crews.playerCrew.CrewMembers) {
 					member.Icon.ChoosingMember = true;
+					member.Icon.Overable = true;
 				}
 
 			}
@@ -118,12 +147,13 @@ public class CombatManager : MonoBehaviour {
 
 	public void SetPlayerMember ( CrewMember member ) {
 
-		targetCrew = Crews.Side.Player;
+		SetTargetCrew(Crews.Side.Player);
 
 		setMember (Crews.Side.Player, member);
 		
 		foreach ( CrewMember m in Crews.playerCrew.CrewMembers ) {
 			m.Icon.ChoosingMember = false;
+			m.Icon.Overable = false;
 		}
 		
 		if (firstTurn) {
@@ -142,25 +172,28 @@ public class CombatManager : MonoBehaviour {
 
 			int newIndex = Random.Range (0, Crews.enemyCrew.CrewMembers.Count);
 
-			if ( Crews.enemyCrew.CrewMembers.Count > 1 ) {
+			if (firstTurn == false) {
+				if (Crews.enemyCrew.CrewMembers.Count > 1) {
 
-				while (newIndex == getMember (Crews.Side.Enemy).GetIndex) {
-					newIndex = Random.Range (0, Crews.enemyCrew.CrewMembers.Count);
+					while (newIndex == getMember (Crews.Side.Enemy).GetIndex) {
+						newIndex = Random.Range (0, Crews.enemyCrew.CrewMembers.Count);
+					}
 				}
 			}
+
 
 			setMember (Crews.Side.Enemy, Crews.enemyCrew.CrewMembers [newIndex]); 
 
 
 			if ( firstTurn )
-				targetCrew = Crews.Side.Player;
+				SetTargetCrew(Crews.Side.Player);
 
 			ChangeState (States.MemberLerp);
 			
 
 		} else {
 			if ( firstTurn ) {
-				targetCrew = Crews.Side.Enemy;
+				SetTargetCrew(Crews.Side.Enemy);;
 				ChangeState (States.MemberChoice);
 			} else {
 
@@ -202,10 +235,10 @@ public class CombatManager : MonoBehaviour {
 
 			if ( firstTurn ) {
 				if ( targetCrew == Crews.Side.Player ) {
-					targetCrew = Crews.Side.Enemy;
+					SetTargetCrew(Crews.Side.Enemy);;
 					ChangeState (States.MemberLerp);
 				} else {
-					targetCrew = Crews.Side.Player;
+					SetTargetCrew(Crews.Side.Player);
 					ChangeState (States.StartTurn);
 				}
 			} else {
@@ -224,13 +257,13 @@ public class CombatManager : MonoBehaviour {
 	private void StartTurn_Start () {
 
 		if (firstTurn) {
-			attackingCrew = getMember (Crews.Side.Player).SpeedDice >= getMember (Crews.Side.Enemy).SpeedDice ? Crews.Side.Player : Crews.Side.Enemy;
+			AttackingCrew = getMember (Crews.Side.Player).SpeedDice >= getMember (Crews.Side.Enemy).SpeedDice ? Crews.Side.Player : Crews.Side.Enemy;
 			firstTurn = false;
 		} else {
-			attackingCrew = attackingCrew == Crews.Side.Player ? Crews.Side.Enemy : Crews.Side.Player;
+			AttackingCrew = AttackingCrew == Crews.Side.Player ? Crews.Side.Enemy : Crews.Side.Player;
 		}
 
-		if ( attackingCrew == Crews.Side.Player )
+		if ( AttackingCrew == Crews.Side.Player )
 		{
 			DiceManager.Instance.ShowFeedbackDice ();
 		}
@@ -263,9 +296,9 @@ public class CombatManager : MonoBehaviour {
 	#region DiceThrow
 	private void DiceThrow_Start () {
 		
-		DiceManager.Instance.ThrowDirection = attackingCrew == Crews.Side.Player ? 1 : -1;
+		DiceManager.Instance.ThrowDirection = AttackingCrew == Crews.Side.Player ? 1 : -1;
 
-		DiceManager.Instance.ThrowDice (currentDiceType,getMember(attackingCrew).getDiceValues[(int)currentDiceType+1]);
+		DiceManager.Instance.ThrowDice (currentDiceType,getMember(AttackingCrew).getDiceValues[(int)currentDiceType+1]);
 	}
 	private void DiceThrow_Update () {
 		
@@ -284,56 +317,65 @@ public class CombatManager : MonoBehaviour {
 		switch ( currentDiceType ) {
 		case DiceTypes.Attack :
 
-			switch ( DiceManager.Instance.CurrentThrow.Result (defendingMember.ConstitutionDice) ) {
+			switch ( DiceManager.Instance.CurrentThrow.Result (getMember(DefendingCrew).ConstitutionDice) ) {
 
 			case Throw.Results.CritFailure:
 
-				DialogueManager.Instance.SetDialogue ("Merde !", getMember(attackingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("Merde !", getMember(AttackingCrew).IconObj.transform);
 
 				break;
 
 			case Throw.Results.Failure :
-				DialogueManager.Instance.SetDialogue ("Raté !", getMember(attackingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("Raté !", getMember(AttackingCrew).IconObj.transform);
 				//
 				break;
 
 			case Throw.Results.Success:
-				DialogueManager.Instance.SetDialogue ("Aïe !", defendingMember.IconObj.transform);
-				defendingMember.GetHit (DiceManager.Instance.CurrentThrow.highestResult);
+				DialogueManager.Instance.SetDialogue ("Aïe !", getMember(DefendingCrew).IconObj.transform);
+				getMember(DefendingCrew).GetHit (DiceManager.Instance.CurrentThrow.highestResult);
 
+				if (getMember(DefendingCrew).Health == 0) {
+					SetTargetCrew (DefendingCrew);
+					ChangeState (States.MemberReturn);
+				}
 				break;
 
 			case Throw.Results.CritSuccess :
-				DialogueManager.Instance.SetDialogue ("Merde !", defendingMember.IconObj.transform);
-				defendingMember.GetHit (DiceManager.Instance.CurrentThrow.highestResult + 1);
-
+				DialogueManager.Instance.SetDialogue ("Merde !", getMember(DefendingCrew).IconObj.transform);
+				getMember(DefendingCrew).GetHit (DiceManager.Instance.CurrentThrow.highestResult + 1);
+				if (getMember(DefendingCrew).Health == 0) {
+					SetTargetCrew (DefendingCrew);
+					ChangeState (States.MemberReturn);
+				}
 				break;
 			}
 
 			break;
 		case DiceTypes.Speed :
 
-			switch ( DiceManager.Instance.CurrentThrow.Result (defendingMember.SpeedDice) ) {
+			switch ( DiceManager.Instance.CurrentThrow.Result (getMember(DefendingCrew).SpeedDice) ) {
 				
 			case Throw.Results.CritFailure:
 				
-				DialogueManager.Instance.SetDialogue ("Merde !", getMember(attackingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("Merde !", getMember(AttackingCrew).IconObj.transform);
 				
 				break;
 				
 			case Throw.Results.Failure :
-				DialogueManager.Instance.SetDialogue ("Raté !", getMember(attackingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("Raté !", getMember(AttackingCrew).IconObj.transform);
 				//
 				break;
 				
 			case Throw.Results.Success:
-				DialogueManager.Instance.SetDialogue ("A la prochaine !", getMember(attackingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("A la prochaine !", getMember(AttackingCrew).IconObj.transform);
+				SetTargetCrew (AttackingCrew);
 				ChangeState(States.MemberReturn);
 				//
 				break;
 				
-			case Throw.Results.CritSuccess :
-				DialogueManager.Instance.SetDialogue ("Tchao !", getMember(attackingCrew).IconObj.transform);
+			case Throw.Results.CritSuccess:
+				DialogueManager.Instance.SetDialogue ("Tchao !", getMember (AttackingCrew).IconObj.transform);
+				SetTargetCrew (AttackingCrew);
 				ChangeState(States.MemberReturn);
 				//
 				break;
@@ -354,26 +396,44 @@ public class CombatManager : MonoBehaviour {
 
 	#region MemberReturn
 	private void MemberReturn_Start () {
-		getMember (attackingCrew).Icon.HideBody ();
-		getMember (attackingCrew).Icon.MoveToPoint (Crews.PlacingType.Combat, memberPlacement_Duration);
+		getMember (targetCrew).Icon.HideBody ();
+		getMember (targetCrew).Icon.MoveToPoint (Crews.PlacingType.Combat, memberPlacement_Duration);
 
-		CardManager.Instance.HideFightingCard (attackingCrew);
+		CardManager.Instance.HideFightingCard (targetCrew);
 	}
 	private void MemberReturn_Update () {
 
 		if (timeInState >= memberPlacement_Duration) {
 
-			if ( getMember(attackingCrew).Health == 0 ) {
-				getMember(attackingCrew).Kill ();
+			if (getMember (targetCrew).Health == 0) {
+				getMember (targetCrew).Kill ();
+
+				if (Crews.getCrew (targetCrew).CrewMembers.Count == 0) {
+					WinFight ();
+					return;
+				}
+
 			}
 
-			targetCrew = attackingCrew;
 			ChangeState (States.MemberChoice);
 		}
 
 	}
 	private void MemberReturn_Exit () {
+		
+	}
+	#endregion
 
+	#region win fight
+	private void ExitFight () {
+		CardManager.Instance.HideFightingCard (Crews.Side.Enemy);
+		CardManager.Instance.HideFightingCard (Crews.Side.Player);
+		updateState = null;
+	}
+	private void WinFight () {
+		ExitFight ();
+		Crews.enemyCrew.Hide ();
+		IslandManager.Instance.Leave ();
 	}
 	#endregion
 
@@ -469,20 +529,17 @@ public class CombatManager : MonoBehaviour {
 		}
 	}
 
-	public CrewMember getMember (Crews.Side attackingCrew) {
-		return members[(int)attackingCrew];
+	public CrewMember getMember (Crews.Side side) {
+		return members[(int)side];
 	}
 
-	public CrewMember defendingMember {
-		get {
-			return attackingCrew == Crews.Side.Player ? getMember (Crews.Side.Enemy) : getMember(Crews.Side.Player);
-		}
+	public void setMember ( Crews.Side crew, CrewMember member ) {
+		members [(int)crew] = member;
 	}
 
-	public void setMember ( Crews.Side attackingCrew, CrewMember member ) {
-		members [(int)attackingCrew] = member;
+	public void SetTargetCrew ( Crews.Side side ) {
+		targetCrew = side;
 	}
-
 	#endregion
 
 }

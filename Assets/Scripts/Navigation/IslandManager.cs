@@ -5,6 +5,8 @@ public class IslandManager : MonoBehaviour {
 
 	public static IslandManager Instance;
 
+	bool onIsland = false;
+
 	void Awake() {
 		Instance = this;
 	}
@@ -18,15 +20,32 @@ public class IslandManager : MonoBehaviour {
 	}
 
 	private void StartStory () {
+
+		onIsland = true;
+
 		Crews.playerCrew.captain.Icon.ShowBody ();
 		StoryReader.Instance.PickRandomStory ();
+
 	}
 
 	public void Leave () {
-		//
+
+		onIsland = false;
+
+		Transitions.Instance.ActionTransition.Switch();
+
+		Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
+
+		Crews.enemyCrew.Hide ();
 	}
 
 	void Update () {
 		
+	}
+
+	public bool OnIsland {
+		get {
+			return onIsland;
+		}
 	}
 }

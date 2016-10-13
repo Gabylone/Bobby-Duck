@@ -29,8 +29,6 @@ public class DiscussionManager : MonoBehaviour {
 			button.SetActive (false);
 		}
 
-		Debug.Log ("next in choose");
-		
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
 	}

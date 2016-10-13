@@ -116,6 +116,12 @@ public class DialogueManager : MonoBehaviour {
 
 	private void UpdateBubblePosition ()
 	{
+
+		if (speaker_Transform == null) {
+			EndDialogue ();
+			return;
+		}
+
 		// get viewport position of target object
 		Vector3 pos = Camera.main.WorldToViewportPoint (speaker_Transform.position);
 

@@ -73,7 +73,10 @@ public class CrewIcon : MonoBehaviour {
 	}
 
 	public void OnPointerExit () {
-		
+
+		if (overable == false)
+			return;
+
 		pointerOver = false;
 		scaleLerp = true;
 		timer = 0f;
@@ -81,6 +84,8 @@ public class CrewIcon : MonoBehaviour {
 		CardManager.Instance.HideOvering ();
 	}
 	public void OnPointerDown() {
+
+		OnPointerExit ();
 
 		if (choosingMember) {
 
@@ -92,7 +97,6 @@ public class CrewIcon : MonoBehaviour {
 		
 		}
 
-		OnPointerExit ();
 	}
 	#endregion
 
@@ -135,8 +139,14 @@ public class CrewIcon : MonoBehaviour {
 		moveLerp = false;
 		overable = true;
 
-		if (currentPlacingType == Crews.PlacingType.Discussion) {
+		if (currentPlacingType == Crews.PlacingType.Discussion
+			||currentPlacingType == Crews.PlacingType.SoloCombat) {
 			ShowBody ();
+		}
+
+		if (currentPlacingType == Crews.PlacingType.Combat
+			|| currentPlacingType == Crews.PlacingType.Map) {
+			HideBody();
 		}
 
 	}
@@ -190,6 +200,12 @@ public class CrewIcon : MonoBehaviour {
 		}
 		set {
 			overable = value;
+		}
+	}
+
+	public float MoveDuration {
+		get {
+			return moveDuration;
 		}
 	}
 	#endregion

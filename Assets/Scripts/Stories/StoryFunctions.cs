@@ -7,12 +7,22 @@ public class StoryFunctions : MonoBehaviour {
 
 	string cellParams = "";
 
-	private string[] functionNames = new string [5] {
+	private string[] functionNames = new string [15] {
 		"randomRange",
 		"PlayerSpeak",
 		"OtherSpeak",
 		"randomAppear",
-		"setChoices"
+		"setChoices",
+		"launchCombat",
+		"randomCrew",
+		"removeGold",
+		"addGold",
+		"none",
+		"none",
+		"none",
+		"none",
+		"none",
+		"end"
 	};
 
 	void Awake () {
@@ -44,12 +54,12 @@ public class StoryFunctions : MonoBehaviour {
 		int range = int.Parse (cellParams);
 		int random = Random.Range (0, range);
 
-		Debug.Log ("next by random");
 		StoryReader.Instance.NextCell ();
 
 		StoryReader.Instance.SetDecal (random );
 
 		StoryReader.Instance.UpdateStory ();
+
 
 	}
 	void setChoices () {
@@ -58,7 +68,6 @@ public class StoryFunctions : MonoBehaviour {
 		int amount = int.Parse (cellParams);
 
 			// get bubble content
-		Debug.Log ("next to set choices");
 		StoryReader.Instance.NextCell ();
 
 		string[] choices = new string[amount];
@@ -92,7 +101,17 @@ public class StoryFunctions : MonoBehaviour {
 	void randomAppear () {
 		Crews.enemyCrew.CreateRandomMember ();
 
-		StoryReader.Instance.WaitForInput();
+		StoryReader.Instance.Wait ( Crews.playerCrew.captain.Icon.MoveDuration );
+	}
+
+	void randomCrew () {
+		Crews.enemyCrew.CreateRandomCrew ();
+		Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Combat);
+
+		Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+
+		StoryReader.Instance.Wait ( Crews.playerCrew.captain.Icon.MoveDuration );
+
 	}
 
 	void OtherSpeak () {
@@ -101,8 +120,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain.Icon.GetTransform);
 
-		StoryReader.Instance.Wait (0.5f);
-//		StoryReader.Instance.WaitForInput ();
+		StoryReader.Instance.WaitForInput ();
 
 	}
 
@@ -112,8 +130,28 @@ public class StoryFunctions : MonoBehaviour {
 
 		DialogueManager.Instance.SetDialogue (phrase, Crews.playerCrew.captain.Icon.GetTransform);
 
-		StoryReader.Instance.Wait(0.5f);
-//		StoryReader.Instance.WaitForInput ();
+		StoryReader.Instance.WaitForInput ();
+	}
+
+	void launchCombat () {
+		CombatManager.Instance.StartCombat ();
+	}
+
+	void end () {
+		IslandManager.Instance.Leave ();
+	}
+	#endregion
+
+	#region gold
+	void removeGold () {
+		int amount = int.Parse (cellParams);
+		GoldManager.Instance.RemoveGold (amount);
+		StoryReader.Instance.Wait ( 1f );
+	}
+	void addGold () {
+		int amount = int.Parse (cellParams);
+		GoldManager.Instance.AddGold (amount);
+		StoryReader.Instance.Wait ( 1f );
 	}
 	#endregion
 }

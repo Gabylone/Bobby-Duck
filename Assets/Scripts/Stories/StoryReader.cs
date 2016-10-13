@@ -30,12 +30,7 @@ public class StoryReader : MonoBehaviour {
 		if ( waitForInput ) {
 			if ( Input.GetMouseButtonDown (0) ) {
 
-				Debug.Log ("next by input");
-
-				waitForInput = false;
-				
-				NextCell ();
-				UpdateStory ();
+				PressInput ();
 
 			}
 		}
@@ -44,8 +39,6 @@ public class StoryReader : MonoBehaviour {
 			timer -= Time.deltaTime;
 
 			if (timer <= 0) {
-
-				Debug.Log ("next by wait");
 
 				waitToNextCell = false;
 				NextCell ();
@@ -58,13 +51,27 @@ public class StoryReader : MonoBehaviour {
 	public void PickRandomStory () {
 
 //		currentStory = StoryLoader.Instance.Stories [Random.Range (0, StoryLoader.Instance.Stories.Count)];
-		currentStory = StoryLoader.Instance.Stories [0];
+		currentStory = StoryLoader.Instance.Stories [1];
 		SetStory (currentStory);
 	}
 
+	#region wait for input
+	[SerializeField]
+	private GameObject inputButton;
+
 	public void WaitForInput () {
 		waitForInput = true;
+
+		inputButton.SetActive (true);
 	}
+	public void PressInput () {
+		waitForInput = false;
+		inputButton.SetActive (false);
+
+		NextCell ();
+		UpdateStory ();
+	}
+	#endregion
 
 	public void Wait ( float duration ) {
 		waitToNextCell = true;

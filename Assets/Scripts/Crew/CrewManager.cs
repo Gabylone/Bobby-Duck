@@ -65,45 +65,6 @@ public class CrewManager : MonoBehaviour {
 	}
 	#endregion
 
-	/*#region MemberLerp
-	private void MemberLerp_Start () {
-
-		lerpPos = getMember (targetMember).IconObj.transform.position;
-
-		CardManager.Instance.ShowFightingCard (targetMember);
-
-		DialogueManager.Instance.SetDialogue ("A l'abordage !", getMember (targetMember).IconObj.transform);
-
-	}
-	private void MemberLerp_Update () {
-
-		Vector3 lerp = Vector3.Lerp (lerpPos, Crews.getCrew (targetMember).CrewAnchors [(int)Crews.PlacingType.SoloCombat].position, timeInState);
-		getMember (targetMember).IconObj.transform.position = lerp;
-
-		if ( timeInState > 1 ) {
-
-			getMember(targetMember).Icon.ShowBody ();
-			getMember(targetMember).Icon.Overable = false;
-
-			if ( firstTurn ) {
-				if ( targetMember == Turns.Player ) {
-					targetMember = Turns.Enemy;
-					ChangeState (States.MemberLerp);
-				} else {
-					targetMember = Turns.Player;
-					ChangeState (States.StartTurn);
-				}
-			} else {
-				ChangeState (States.StartTurn);
-			}
-
-		}
-	}
-	private void MemberLerp_Exit () {
-
-	}
-	#endregion*/
-
 	#region crew list
 	public void AddMember ( CrewMember member ) {
 		crewMembers.Add (member);
@@ -123,21 +84,26 @@ public class CrewManager : MonoBehaviour {
 		Destroy (member.IconObj);
 
 		crewMembers.Remove (member);
-
-		
+	}
+	public void Hide () {
+		for (int i = 0; i < crewMembers.Count; ++i) {
+			RemoveMember (crewMembers[i]);
+		}
 	}
 	#endregion
 
 	#region creation
 	public void CreateRandomCrew () {
 		
-		crewMembers.Clear ();
+		Hide ();
 
 		CrewCreator.Instance.TargetSide = side;
 
 		CrewMember crewMember;
 
 		int count = Random.Range (2,7);
+		if (side == Crews.Side.Enemy)
+			count = 1;
 
 		for (int i = 0; i < count; ++i ) {
 			CrewMember member = CrewCreator.Instance.NewMember ();

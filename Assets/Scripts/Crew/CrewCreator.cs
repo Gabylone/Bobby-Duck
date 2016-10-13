@@ -79,10 +79,10 @@ public class CrewCreator : MonoBehaviour {
 			1,
 
 			// dice
-			Random.Range (1,6),
-			Random.Range (1,6),
-			Random.Range (1,6),
-			Random.Range (1,6),
+			Random.Range (1,1),
+			Random.Range (1,1),
+			Random.Range (1,1),
+			Random.Range (1,1),
 
 			// side
 			targetSide,
