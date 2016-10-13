@@ -102,8 +102,6 @@ public class CrewManager : MonoBehaviour {
 		CrewMember crewMember;
 
 		int count = Random.Range (2,7);
-		if (side == Crews.Side.Enemy)
-			count = 1;
 
 		for (int i = 0; i < count; ++i ) {
 			CrewMember member = CrewCreator.Instance.NewMember ();

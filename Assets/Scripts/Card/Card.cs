@@ -24,21 +24,15 @@ public class Card : MonoBehaviour {
 
 	private GameObject memberIcon;
 
-	[Header("Equipment")]
-	[SerializeField]
-	private Image weaponImage;
-	[SerializeField]
-	private Image clothImage;
-
 	[Header("Dice")]
 	[SerializeField]
-	private Image[] heart;
+	private Image heart;
 	[SerializeField]
-	private Image[] attackDice;
+	private Image attackDice;
 	[SerializeField]
-	private Image[] speedDice;
+	private Image speedDice;
 	[SerializeField]
-	private Image[] constDice;
+	private Image constDice;
 
 	[Header("Card Bounds")]
 	[SerializeField]
@@ -66,38 +60,19 @@ public class Card : MonoBehaviour {
 		name_Text.text = member.MemberName;
 		lvl_Text.text = member.Level.ToString ();
 
-		Image[][] images = new Image[4][] {
+		Image[] images = new Image[4]{
 			heart,
 			attackDice,
 			speedDice,
 			constDice,
 		};
 
-		// icon
-		memberIcon = Instantiate (member.IconObj) as GameObject;
-		memberIcon.transform.SetParent (GetTransform);
-		memberIcon.transform.position = iconAnchor.position;
-		memberIcon.transform.localScale = Vector3.one * 0.7f;
-		memberIcon.GetComponent<CrewIcon> ().HideBody ();
-
-		memberIcon.GetComponent<CrewIcon> ().enabled = false;
-
-		// 
-		foreach (Image image in memberIcon.GetComponentsInChildren<Image>())
-			image.raycastTarget = false;
-
-		//
 		int a = 0;
-		foreach ( Image[] dice in images ) {
+		foreach ( Image dice in images ) {
 
-			int d = 0;
-			foreach (Image die in dice) {
-				die.enabled = d < member.getDiceValues[a];
+			dice.enabled = member.getDiceValues[a] > 0;
+			dice.GetComponentInChildren<Text>().text = member.getDiceValues[a].ToString ();
 
-				++d;
-			}
-
-			d = 0;
 			++a;
 		}
 
@@ -121,10 +96,7 @@ public class Card : MonoBehaviour {
 		name_Text.text = "";
 		lvl_Text.text = "";
 
-		weaponImage.sprite = null;
-		clothImage.sprite = null;
-
-		Image[][] images = new Image[4][] {
+		Image[] images = new Image[4] {
 			heart,
 			attackDice,
 			speedDice,
@@ -135,9 +107,8 @@ public class Card : MonoBehaviour {
 			Destroy (memberIcon);
 		}
 
-		foreach ( Image[] dice in images ) {
-			foreach ( Image die in dice )
-				die.enabled = false;
+		foreach ( Image dice in images ) {
+			dice.enabled = false;
 		}
 	}
 

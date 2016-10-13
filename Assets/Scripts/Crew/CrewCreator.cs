@@ -78,11 +78,14 @@ public class CrewCreator : MonoBehaviour {
 			// lvl
 			1,
 
-			// dice
-			Random.Range (1,1),
-			Random.Range (1,1),
-			Random.Range (1,1),
-			Random.Range (1,1),
+			// health
+			Random.Range (3,10),
+			// attack
+			0,
+			// constitution
+			0,
+			// speed
+			0,
 
 			// side
 			targetSide,
