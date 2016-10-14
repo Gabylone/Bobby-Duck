@@ -36,6 +36,13 @@ public class CrewIcon : MonoBehaviour {
 	[SerializeField]
 	private float moveDuration = 1f;
 
+	[Header("decals")]
+	[SerializeField]
+	private float overingDecal = 2f;
+	[SerializeField]
+	private float placementDecal = 1f;
+
+
 	void Awake () {
 		_transform = transform;
 	}
@@ -48,8 +55,6 @@ public class CrewIcon : MonoBehaviour {
 
 		if ( scaleLerp ) {
 			
-			timer += Time.deltaTime;
-
 			float l = pointerOver ? (timer / scaleDuration) : 1-(timer / scaleDuration);
 
 			GetTransform.localScale = Vector3.Lerp (Vector3.one, Vector3.one * scaleAmount, l);
@@ -58,16 +63,20 @@ public class CrewIcon : MonoBehaviour {
 				scaleLerp = false;
 		}
 
+		if (moveLerp || scaleLerp)
+			timer += Time.deltaTime;
+
 	}
 	#region selection
-	public void OnPointerEnter () {
+	public void OnPointerEnter() {
 
-		if (overable == false)
+		if (!overable)
 			return;
 
 		pointerOver = true;
+		Crews.getCrew (member.Side).OveringIndex = member.GetIndex;
+		Crews.getCrew (member.Side).UpdateCrew (currentPlacingType);
 		scaleLerp = true;
-		timer = 0f;
 
 		CardManager.Instance.ShowOvering (member);
 	}
@@ -78,8 +87,10 @@ public class CrewIcon : MonoBehaviour {
 			return;
 
 		pointerOver = false;
+		Crews.getCrew (member.Side).OveringIndex = 50;
+		Crews.getCrew (member.Side).UpdateCrew (currentPlacingType);
+
 		scaleLerp = true;
-		timer = 0f;
 
 		CardManager.Instance.HideOvering ();
 	}
@@ -107,8 +118,15 @@ public class CrewIcon : MonoBehaviour {
 		currentPlacingType = placingType;
 
 		float decal = 0f;
-		if (placingType == Crews.PlacingType.Combat || placingType == Crews.PlacingType.Map)
+		if (placingType == Crews.PlacingType.Combat || placingType == Crews.PlacingType.Map) {
 			decal = member.GetIndex;
+
+			if ( member.GetIndex > Crews.getCrew(member.Side).OveringIndex ) {
+				moveDuration = 0.1f;
+				decal += 2.1f;
+			}
+
+		}
 
 		targetPos = Crews.getCrew(member.Side).CrewAnchors [(int)placingType].position + Crews.playerCrew.CrewAnchors [(int)placingType].up * decal;
 
@@ -116,7 +134,7 @@ public class CrewIcon : MonoBehaviour {
 	}
 
 	private void MoveStart () {
-		overable = false;
+//		overable = false;
 		moveLerp = true;
 
 		initPos = GetTransform.position;
@@ -124,8 +142,6 @@ public class CrewIcon : MonoBehaviour {
 		timer = 0f;
 	}
 	private void MoveUpdate () {
-
-		timer += Time.deltaTime;
 
 		float l = timer / moveDuration;
 

@@ -1,17 +1,17 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Combat\CombatManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Crew\CrewIcon.cs">
     <Files>
-      <File FileName="Assets\Scripts\Stories\StoryReader.cs" Line="54" Column="49" />
+      <File FileName="Assets\Scripts\Crew\CrewIcon.cs" Line="73" Column="16" />
       <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="25" Column="8" />
-      <File FileName="Assets\Scripts\Navigation\IslandManager.cs" Line="31" Column="2" />
-      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="410" Column="5" NotebookId="1" />
-      <File FileName="Assets\Scripts\Crew\CrewManager.cs" Line="87" Column="1" NotebookId="1" />
-      <File FileName="Assets\Scripts\Gold\GoldManager.cs" Line="35" Column="3" NotebookId="1" />
-      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="64" Column="25" NotebookId="1" />
-      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="38" Column="1" NotebookId="1" />
-      <File FileName="Assets\Scripts\Crew\CrewIcon.cs" Line="92" Column="45" NotebookId="1" />
-      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="85" Column="21" NotebookId="1" />
+      <File FileName="Assets\Scripts\Card\CardManager.cs" Line="23" Column="49" />
+      <File FileName="Assets\Scripts\Stories\StoryReader.cs" Line="55" Column="14" NotebookId="1" />
+      <File FileName="Assets\Scripts\Navigation\IslandManager.cs" Line="37" Column="6" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\Crews.cs" Line="14" Column="13" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\CrewManager.cs" Line="105" Column="49" NotebookId="1" />
+      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="156" Column="28" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="74" Column="37" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="39" Column="28" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

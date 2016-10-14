@@ -27,11 +27,13 @@ public class CrewMember {
 		constitutionDice = _constitutionDice;
 
 		side = _side;
-
 		Level = _level;
 
 		iconObj = _iconObj;
 		icon = iconObj.GetComponent<CrewIcon> ();
+
+		if (side == Crews.Side.Enemy)
+			icon.Overable = false;
 	}
 
 	private string memberName;

@@ -29,14 +29,12 @@ public class CrewManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-//
-//		if (Input.GetKeyDown (KeyCode.P) && this.gameObject.name == "PlayerCrew") {
-//			Crews.playerCrew.RemoveMember (crewMembers[0]);
-//			Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
-//		}
+		
 	}
 
 	#region crew placement
+	public int OveringIndex = 50;
+
 	public void UpdateCrew ( Crews.PlacingType placingType ) {
 
 		previousPlacingType = currentPlacingType;
