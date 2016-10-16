@@ -33,12 +33,20 @@ public class CrewManager : MonoBehaviour {
 	}
 
 	#region crew placement
-	public int OveringIndex = 50;
-
+	public void HideCrew () {
+		foreach ( CrewMember member in crewMembers )
+			member.Icon.HideFace ();
+	}
+	public void ShowCrew () {
+		foreach ( CrewMember member in crewMembers )
+			member.Icon.ShowFace ();
+	}
 	public void UpdateCrew ( Crews.PlacingType placingType ) {
 
 		previousPlacingType = currentPlacingType;
 		currentPlacingType = placingType;
+
+//		CardManager.Instance.OveringCard.
 
 		foreach ( CrewMember member in crewMembers ) {
 			member.Icon.MoveToPoint (placingType);

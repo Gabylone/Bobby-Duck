@@ -27,14 +27,6 @@ public class StoryReader : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if ( waitForInput ) {
-			if ( Input.GetMouseButtonDown (0) ) {
-
-				PressInput ();
-
-			}
-		}
-
 		if ( waitToNextCell ) {
 			timer -= Time.deltaTime;
 

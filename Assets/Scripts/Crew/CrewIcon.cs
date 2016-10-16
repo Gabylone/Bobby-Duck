@@ -41,7 +41,8 @@ public class CrewIcon : MonoBehaviour {
 	private float overingDecal = 2f;
 	[SerializeField]
 	private float placementDecal = 1f;
-
+	Crews.PlacingType currentPlacingType;
+	
 
 	void Awake () {
 		_transform = transform;
@@ -74,8 +75,6 @@ public class CrewIcon : MonoBehaviour {
 			return;
 
 		pointerOver = true;
-		Crews.getCrew (member.Side).OveringIndex = member.GetIndex;
-		Crews.getCrew (member.Side).UpdateCrew (currentPlacingType);
 		scaleLerp = true;
 
 		CardManager.Instance.ShowOvering (member);
@@ -87,9 +86,6 @@ public class CrewIcon : MonoBehaviour {
 			return;
 
 		pointerOver = false;
-		Crews.getCrew (member.Side).OveringIndex = 50;
-		Crews.getCrew (member.Side).UpdateCrew (currentPlacingType);
-
 		scaleLerp = true;
 
 		CardManager.Instance.HideOvering ();
@@ -98,7 +94,11 @@ public class CrewIcon : MonoBehaviour {
 
 		OnPointerExit ();
 
-		if (choosingMember) {
+		if ( InventoryManager.Instance.Opened ) {
+
+			InventoryManager.Instance.SelectedMember = member.GetIndex;
+
+		} else if (choosingMember) {
 
 			CombatManager.Instance.SetPlayerMember (Member);
 
@@ -112,20 +112,23 @@ public class CrewIcon : MonoBehaviour {
 	#endregion
 
 	#region movement
-	Crews.PlacingType currentPlacingType;
+
+	public void MoveToPoint ( Vector3 pos , float duration = 0.5f ) {
+		
+		targetPos = pos;
+
+		MoveStart ();
+	}
+
 	public void MoveToPoint ( Crews.PlacingType placingType , float duration = 0.5f ) {
 
 		currentPlacingType = placingType;
-
+		
 		float decal = 0f;
+
 		if (placingType == Crews.PlacingType.Combat || placingType == Crews.PlacingType.Map) {
+
 			decal = member.GetIndex;
-
-			if ( member.GetIndex > Crews.getCrew(member.Side).OveringIndex ) {
-				moveDuration = 0.1f;
-				decal += 2.1f;
-			}
-
 		}
 
 		targetPos = Crews.getCrew(member.Side).CrewAnchors [(int)placingType].position + Crews.playerCrew.CrewAnchors [(int)placingType].up * decal;
@@ -174,6 +177,12 @@ public class CrewIcon : MonoBehaviour {
 	}
 	public void ShowBody () {
 		bodyObj.SetActive (true);
+	}
+	public void HideFace () {
+		faceObj.SetActive (false);
+	}
+	public void ShowFace () {
+		faceObj.SetActive (true);
 	}
 	#endregion
 
@@ -227,4 +236,9 @@ public class CrewIcon : MonoBehaviour {
 	#endregion
 
 
+	public Crews.PlacingType CurrentPlacingType {
+		get {
+			return currentPlacingType;
+		}
+	}
 }

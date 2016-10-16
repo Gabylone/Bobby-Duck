@@ -1,11 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class MapManager : MonoBehaviour {
 
 	public static MapManager Instance;
 	private MapImage mapImage;
-	private MapUI mapUI;
 
 	private int posX = 0;
 	private int posY = 0;
@@ -18,7 +17,6 @@ public class MapManager : MonoBehaviour {
 	void Start () {
 
 		mapImage = GetComponent<MapImage> ();
-		mapUI = GetComponent<MapUI> ();
 
 			// init boat pos
 		posX = (int)(mapImage.TextureWidth / 2);
@@ -64,15 +62,5 @@ public class MapManager : MonoBehaviour {
 			posY = value;
 		}
 	}
-
-
 	#endregion
-	public MapUI MapUI {
-		get {
-			return mapUI;
-		}
-		set {
-			mapUI = value;
-		}
-	}
 }

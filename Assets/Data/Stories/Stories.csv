@@ -1,0 +1,11 @@
+Les dés;;;;;;;;;Bandits;
+randomAppear;;;;;;;;;randomCrew;
+OtherSpeak :Bonjour !;;;;;;;;;OtherSpeak :Oyé !;
+PlayerSpeak :Bonjour à vous !;;;;;;;;;PlayerSpeak :Coucou;
+OtherSpeak :Veux tu jouer aux dés ?;;;;;;;;;OtherSpeak :Donne 200 pièces ou meurs !;
+setChoices2;;;;;;;;;setChoices2;
+Oh Oui !;;;;;;Non Merci !;;Bye bye;Tenez !;Plutôt mourir !
+randomRange6;;;;;;OtherSpeak :Et pourquoi ça ?;;OtherSpeak :Bye;removeGold200;launchCombat
+OtherSpeak :Le dé fait 1 !;OtherSpeak :Le dé fait 2 !;OtherSpeak :Le dé fait 3 !;OtherSpeak :Le dé fait 4 !;OtherSpeak :Le dé fait 5 !;OtherSpeak :Le dé fait 6 !;setChoices2;;end;OtherSpeak :Haha ! A la prochaine !;
+end;end;end;end;end;end;Je dois y aller;Je t'emmerde;;end;
+;;;;;;end;end;;;

@@ -39,16 +39,12 @@ public class Card : MonoBehaviour {
 	private Vector2 cardBoundsX = new Vector2();
 	[SerializeField]
 	private Vector2 cardBoundsY = new Vector2();
+	[SerializeField]
+	private bool centerCard = false;
 
 	void Start () {
-		
 		_transform = cardObject.GetComponent<Transform>();
-
 		HideCard ();
-	}
-
-	void Update () {
-		
 	}
 
 	public void UpdateMember ( CrewMember member ) {
@@ -84,6 +80,9 @@ public class Card : MonoBehaviour {
 		pos.y = Mathf.Clamp ( pos.y , cardBoundsY.x, cardBoundsY.y );
 
 		GetTransform.position = pos;
+
+		Vector3 dir = GetTransform.position - Vector3.zero;
+		GetTransform.up = dir;
 
 	}
 
@@ -122,6 +121,12 @@ public class Card : MonoBehaviour {
 		}
 		set {
 			_transform = value;
+		}
+	}
+
+	public Transform IconAnchor {
+		get {
+			return iconAnchor;
 		}
 	}
 }

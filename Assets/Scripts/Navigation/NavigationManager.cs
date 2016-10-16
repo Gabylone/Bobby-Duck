@@ -36,8 +36,6 @@ public class NavigationManager : MonoBehaviour {
 	#region movement
 	public void Move ( int dir ) {
 
-		MapManager.Instance.MapUI.Switch ();
-
 		currentDirection = (Directions)dir;
 
 		Transitions.Instance.ScreenTransition.Switch ();

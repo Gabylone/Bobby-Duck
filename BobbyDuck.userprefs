@@ -1,11 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Card\Card.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LootManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\Card\Card.cs" Line="114" Column="1" />
-      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\ItemLoader.cs" Line="47" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\Item.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LootManager.cs" Line="68" Column="56" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
