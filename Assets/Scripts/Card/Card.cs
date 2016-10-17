@@ -43,6 +43,10 @@ public class Card : MonoBehaviour {
 	private bool centerCard = false;
 
 	void Start () {
+		Init ();
+	}
+
+	public void Init () {
 		_transform = cardObject.GetComponent<Transform>();
 		HideCard ();
 	}
@@ -66,7 +70,6 @@ public class Card : MonoBehaviour {
 		int a = 0;
 		foreach ( Image dice in images ) {
 
-			dice.enabled = member.getDiceValues[a] > 0;
 			dice.GetComponentInChildren<Text>().text = member.getDiceValues[a].ToString ();
 
 			++a;
@@ -82,7 +85,7 @@ public class Card : MonoBehaviour {
 		GetTransform.position = pos;
 
 		Vector3 dir = GetTransform.position - Vector3.zero;
-		GetTransform.up = dir;
+		GetTransform.right = -dir;
 
 	}
 
@@ -104,10 +107,6 @@ public class Card : MonoBehaviour {
 
 		if (memberIcon != null) { 
 			Destroy (memberIcon);
-		}
-
-		foreach ( Image dice in images ) {
-			dice.enabled = false;
 		}
 	}
 

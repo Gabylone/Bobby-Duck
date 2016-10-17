@@ -94,11 +94,7 @@ public class CrewIcon : MonoBehaviour {
 
 		OnPointerExit ();
 
-		if ( InventoryManager.Instance.Opened ) {
-
-			InventoryManager.Instance.SelectedMember = member.GetIndex;
-
-		} else if (choosingMember) {
+		if (choosingMember) {
 
 			CombatManager.Instance.SetPlayerMember (Member);
 
@@ -130,6 +126,8 @@ public class CrewIcon : MonoBehaviour {
 
 			decal = member.GetIndex;
 		}
+
+		moveDuration = duration;
 
 		targetPos = Crews.getCrew(member.Side).CrewAnchors [(int)placingType].position + Crews.playerCrew.CrewAnchors [(int)placingType].up * decal;
 

@@ -11,6 +11,9 @@ public class ItemButton : MonoBehaviour {
 	[SerializeField] private Text paramText;
 	[SerializeField] private Text priceText;
 
+	[SerializeField] private GameObject paramObj;
+
+
 	private string name;
 	private string description;
 	private int param;
@@ -42,7 +45,7 @@ public class ItemButton : MonoBehaviour {
 		}
 		set {
 			param = value;
-			paramText.text = price.ToString ();
+			paramText.text = param.ToString ();
 		}
 	}
 
@@ -59,6 +62,15 @@ public class ItemButton : MonoBehaviour {
 	public Button Button {
 		get {
 			return button;
+		}
+	}
+
+	public GameObject ParamObj {
+		get {
+			return paramObj;
+		}
+		set {
+			paramObj = value;
 		}
 	}
 }

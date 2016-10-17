@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[System.Serializable]
 public class Item {
 
 	public int ID = 0;
@@ -9,7 +10,7 @@ public class Item {
 	public string 	description = "";
 	public int 		value = 0;
 	public int 		price = 0;
-
+		
 	public Item (
 
 		int _id,

@@ -9,7 +9,9 @@ public class ItemLoader : MonoBehaviour {
 		Provisions,
 		Weapon,
 		Clothes,
-		Mics
+		Mics,
+
+		None,
 	}
 	ItemType currentType = ItemType.Provisions;
 
@@ -17,11 +19,13 @@ public class ItemLoader : MonoBehaviour {
 	private TextAsset[] files;
 
 	private Item[][] items = new Item[4][];
+
 	[Header("Chances")]
 	[SerializeField] private float[] items_AppearChance;
 	[SerializeField] private int[] items_MaxPerLoot;
 
 	void Awake () {
+		
 		Instance = this;
 
 		foreach ( TextAsset file in files ) {
@@ -39,9 +43,9 @@ public class ItemLoader : MonoBehaviour {
 
 		string[] rows = data.text.Split ('\n');
 
-		items[(int)currentType] = new Item[rows.Length-1];
+		items[(int)currentType] = new Item[rows.Length-2];
 
-		for ( int i = 1; i < rows.Length-1 ;++i ) {
+		for ( int i = 1; i < items[(int)currentType].Length+1 ;++i ) {
 
 			string[] cells = rows[i].Split (';');
 			Item newItem =
@@ -53,9 +57,31 @@ public class ItemLoader : MonoBehaviour {
 				int.Parse(cells[3])// price
 				);
 
+//			Debug.Log (newItem.name);
 			items[(int)currentType][i-1] = newItem;
 		}
 
+
+	}
+
+	public Item[][] getRandomInventory () {
+
+		Item[][] randomItems = new Item[4][];
+
+		// get item amount
+		for (int itemType = 0; itemType < 4; ++itemType ) {
+			if (Random.value * 100 < items_AppearChance [itemType]) {
+				int itemAmount = Random.Range (1, items_MaxPerLoot [itemType]+1);
+				randomItems [itemType] = new Item[itemAmount];
+				for (int i = 0; i < itemAmount; ++i) {
+					randomItems [itemType] [i] = getRandomItem ((ItemType)itemType);
+				}
+			} else {
+				randomItems [itemType] = new Item[0];
+			}
+		}
+
+		return randomItems;
 	}
 
 	public Item[] getRandomLoot () {
@@ -66,7 +92,7 @@ public class ItemLoader : MonoBehaviour {
 		// get item amount
 		for (int itemType = 0; itemType < 4; ++itemType ) {
 			if ( Random.value * 100 < items_AppearChance[itemType] ) {
-				int itemAmount = Random.Range (1,items_MaxPerLoot[itemType]);
+				int itemAmount = Random.Range (1,items_MaxPerLoot[itemType]+1);
 				itemAmounts[itemType] = itemAmount;
 				globalAmount += itemAmount;
 			}
@@ -84,7 +110,12 @@ public class ItemLoader : MonoBehaviour {
 	}
 
 	public Item getRandomItem ( ItemType itemType ) {
-		return items[(int)itemType][Random.Range (0,items[(int)itemType].Length)];
+		
+		int index = Random.Range (0, items [(int)itemType].Length);
+
+		// Debug.Log ("random item : " + items [(int)itemType] [index].name);
+
+		return items[(int)itemType][index];
 	} 
 
 	public Item[] getItems ( ItemType itemType ) {

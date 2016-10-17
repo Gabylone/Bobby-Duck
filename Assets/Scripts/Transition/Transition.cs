@@ -10,18 +10,20 @@ public class Transition : MonoBehaviour {
 	[SerializeField]
 	private float duration = 1f;
 
-	bool isFaded = false;
+	bool isFaded = true;
 
 	[SerializeField]
 	private Image targetImage;
+
+	[SerializeField]
+	private GameObject transitionCanvas;
 
 	[SerializeField]
 	private Color targetColor = Color.black;
 
 	void Start () {
 		
-		targetImage.gameObject.SetActive (true);
-		Switch ();
+		transitionCanvas.SetActive (true);
 		Switch ();
 	}
 

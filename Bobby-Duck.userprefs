@@ -1,17 +1,13 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Crew\CrewIcon.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\InventoryCard.cs">
     <Files>
-      <File FileName="Assets\Scripts\Crew\CrewIcon.cs" Line="73" Column="16" />
-      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="25" Column="8" />
-      <File FileName="Assets\Scripts\Card\CardManager.cs" Line="23" Column="49" />
-      <File FileName="Assets\Scripts\Stories\StoryReader.cs" Line="55" Column="14" NotebookId="1" />
-      <File FileName="Assets\Scripts\Navigation\IslandManager.cs" Line="37" Column="6" NotebookId="1" />
-      <File FileName="Assets\Scripts\Crew\Crews.cs" Line="14" Column="13" NotebookId="1" />
-      <File FileName="Assets\Scripts\Crew\CrewManager.cs" Line="105" Column="49" NotebookId="1" />
-      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="156" Column="28" NotebookId="1" />
-      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="74" Column="37" NotebookId="1" />
-      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="39" Column="28" NotebookId="1" />
+      <File FileName="Assets\Scripts\Inventory\LootUI.cs" Line="123" Column="8" />
+      <File FileName="Assets\Scripts\Inventory\LootManager.cs" Line="36" Column="2" />
+      <File FileName="Assets\Scripts\Inventory\CrewNavigator.cs" Line="97" Column="35" />
+      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="81" Column="22" />
+      <File FileName="Assets\InventoryCard.cs" Line="5" Column="2" />
+      <File FileName="Assets\Scripts\Card\Card.cs" Line="5" Column="1" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

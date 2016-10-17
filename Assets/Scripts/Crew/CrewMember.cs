@@ -21,7 +21,10 @@ public class CrewMember {
 		GameObject _iconObj )
 	{
 		memberName 			 = _name;
-		health 			 = _health;
+
+		health			= _health;
+		maxHealth 		= _health;
+
 		attackDice 		 = _attackDice;
 		speedDice		 = _speedDice;
 		constitutionDice = _constitutionDice;
@@ -40,9 +43,12 @@ public class CrewMember {
 	private int level;
 
 	private int health;
+	private int maxHealth;
 	private int attackDice;
 	private int speedDice;
 	private int constitutionDice;
+
+	private Item[] equipment = new Item[3];
 
 	private CrewIcon icon;
 	private GameObject iconObj;
@@ -52,10 +58,6 @@ public class CrewMember {
 		iconObj.GetComponent<CrewInfo> ().DisplayInfo (damage.ToString () + " - " + ConstitutionDice.ToString () + " = " + Health.ToString ());
 
 		Health -= (1);
-
-//		if (health == 0) {
-//			Kill ();
-//		}
 
 		CardManager.Instance.UpdateCards ();
 
@@ -72,7 +74,7 @@ public class CrewMember {
 			return health;
 		}
 		set {
-			health = value;
+			health = Mathf.Clamp (health , 0 , maxHealth);
 		}
 	}
 
@@ -172,4 +174,22 @@ public class CrewMember {
 		}
 	}
 	#endregion
+
+	public int MaxHealth {
+		get {
+			return maxHealth;
+		}
+		set {
+			maxHealth = value;
+		}
+	}
+
+	public Item[] Equipment {
+		get {
+			return equipment;
+		}
+		set {
+			equipment = value;
+		}
+	}
 }

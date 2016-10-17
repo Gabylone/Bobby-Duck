@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
-public class InventoryManager : MonoBehaviour {
+public class CrewNavigator : MonoBehaviour {
 
-	public static InventoryManager Instance;
+	public static CrewNavigator Instance;
 
-	[Header("Selection")]
-	[SerializeField]
-	private RectTransform select_Transform;
 	private int selectedMember = 0;
 
 	[Header("Card")]
 	[SerializeField]
 	private GameObject inventoryCardsParent;
 	private Card[] inventoryCards;
+	Vector3[] iconPositions;
 
 	[SerializeField]
 	private Transform crewCanvas;
@@ -29,7 +28,16 @@ public class InventoryManager : MonoBehaviour {
 	}
 
 	void Start() {
+
+		lootObj.SetActive (false);
 		inventoryCards = inventoryCardsParent.GetComponentsInChildren<Card>();
+
+		int a = 0;
+		iconPositions = new Vector3[inventoryCards.Length];
+		foreach (Card inventoryCard in inventoryCards) {
+			iconPositions [a] = inventoryCard.IconAnchor.position;
+			++a;
+		}
 	}
 
 	#region inventory states
@@ -40,17 +48,16 @@ public class InventoryManager : MonoBehaviour {
 
 		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
 
-//			Crews.playerCrew.CrewMembers[i].Icon.MoveToPoint (inventoryCards[i].IconAnchor.position);
 			Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (inventoryCards[i].IconAnchor);
+//			Crews.playerCrew.CrewMembers [i].Icon.MoveToPoint (iconPositions[i], 0.2f);
 			Crews.playerCrew.CrewMembers[i].Icon.GetTransform.localPosition = Vector3.zero;
 			Crews.playerCrew.CrewMembers[i].Icon.HideBody ();
 			Crews.playerCrew.CrewMembers[i].Icon.Overable = false;
-			
-			inventoryCards[i].UpdateMember (Crews.playerCrew.CrewMembers[i]);
-
 		}
 
-		UpdateSelection ();
+		UpdateMembers ();
+
+		SelectedMemberIndex = 0;
 
 	}
 
@@ -61,7 +68,7 @@ public class InventoryManager : MonoBehaviour {
 		
 		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
 			
-			Crews.playerCrew.CrewMembers[i].Icon.MoveToPoint (Crews.playerCrew.CrewMembers[i].Icon.CurrentPlacingType);
+			Crews.playerCrew.CrewMembers[i].Icon.MoveToPoint (Crews.playerCrew.CrewMembers[i].Icon.CurrentPlacingType, 0.2f);
 			Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (crewCanvas);
 			Crews.playerCrew.CrewMembers[i].Icon.Overable = true;
 			
@@ -73,22 +80,32 @@ public class InventoryManager : MonoBehaviour {
 	#endregion
 
 	#region crew management
-	private void UpdateSelection () {
-		select_Transform.SetParent (inventoryCards[selectedMember].IconAnchor);
-		select_Transform.localPosition = Vector3.zero;
-	}
-	public int SelectedMember {
+	public int SelectedMemberIndex {
 		get {
 			return selectedMember;
 		}
 		set {
+			inventoryCards [SelectedMemberIndex].GetComponentInChildren<Button>().interactable = true;
+			inventoryCards [SelectedMemberIndex].GetComponent<InventoryCard> ().Deployed = false;
 			selectedMember = value;
-			UpdateSelection ();
+
+			inventoryCards [SelectedMemberIndex].GetComponentInChildren<Button>().interactable = false;
+			inventoryCards [SelectedMemberIndex].GetComponent<InventoryCard> ().Deployed = true;
+		}
+	}
+	public CrewMember SelectedMember {
+		get {
+			return Crews.playerCrew.CrewMembers[SelectedMemberIndex];
 		}
 	}
 	#endregion
 
-	#region loot management
+	#region Update members
+	public void UpdateMembers () {
+		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
+			inventoryCards[i].UpdateMember (Crews.playerCrew.CrewMembers[i]);
+		}
+	}
 	#endregion
 
 	#region properties

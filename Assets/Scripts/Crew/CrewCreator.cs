@@ -32,6 +32,9 @@ public class CrewCreator : MonoBehaviour {
 		"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"};
 
 	[SerializeField]
+	private int maxHP = 10;
+
+	[SerializeField]
 	private int partAmount = 3;
 
 	[Header("Face")]
@@ -79,13 +82,13 @@ public class CrewCreator : MonoBehaviour {
 			1,
 
 			// health
-			Random.Range (3,10),
+			maxHP,
 			// attack
-			0,
+			1,
 			// constitution
-			0,
+			1,
 			// speed
-			0,
+			1,
 
 			// side
 			targetSide,
@@ -193,6 +196,12 @@ public class CrewCreator : MonoBehaviour {
 		}
 		set {
 			targetSide = value;
+		}
+	}
+
+	public int MaxHP {
+		get {
+			return maxHP;
 		}
 	}
 }
