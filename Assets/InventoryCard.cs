@@ -25,17 +25,20 @@ public class InventoryCard : Card {
 
 	private bool deployed = false;
 
+	private int memberIndex = 0;
+
 	void Start () {
 		
+		itemButtons = itemParent.GetComponentsInChildren<ItemButton> ();
+
 		Init ();
 
 		initScale = backGroundTransform.sizeDelta.y;
 
-		itemButtons = itemParent.GetComponentsInChildren<ItemButton> ();
 
 		int a = 0;
 		foreach ( Transform statTransform in stats_Transforms ) {
-			stats_InitPos[a] = statTransform.position;
+			stats_InitPos[a] = statTransform.localPosition;
 			++a;
 		}
 
@@ -48,6 +51,10 @@ public class InventoryCard : Card {
 			Deployed = !Deployed;
 	}
 
+	public void Select () {
+		CrewNavigator.Instance.SelectedMemberIndex = MemberIndex;
+	}
+
 	public void Deploy () {
 
 		Vector2 scale = backGroundTransform.sizeDelta;
@@ -56,17 +63,24 @@ public class InventoryCard : Card {
 
 		CrewMember crewMember = CrewNavigator.Instance.SelectedMember;
 
+		itemParent.SetActive (true);
+
 		int a = 0;
 		foreach (ItemButton itemButton in itemButtons) {
-
 			stats_Transforms [a].transform.position = stats_DeployedAnchors [a].position;
 
-			itemButton.gameObject.SetActive (crewMember.Equipment [a] != null);
 			if ( crewMember.Equipment [a] != null ) {
 				itemButton.Name = crewMember.Equipment [a].name;
 				itemButton.Param = crewMember.Equipment [a].value;
 				itemButton.Price = crewMember.Equipment [a].price;
+			} else {
+				itemButton.Name = "";
+				itemButton.Param = 0;
+				itemButton.Price = 0;
 			}
+
+			itemButton.Enabled = crewMember.Equipment [a] != null;
+
 			++a;
 		}
 	}
@@ -80,11 +94,21 @@ public class InventoryCard : Card {
 		int a = 0;
 		foreach (ItemButton itemButton in itemButtons) {
 
-			stats_Transforms [a].transform.position = stats_InitPos[a];
+			stats_Transforms [a].transform.localPosition = stats_InitPos[a];
 
-			itemButton.gameObject.SetActive (false);
+			itemButton.Enabled = false;
 
+			++a;
 		}
+
+		itemParent.SetActive (false);
+	}
+
+	public void RemoveItem (int i) {
+		LootManager.playerLoot.AddItem ( ( (ItemLoader.ItemType)i + 1) , CrewNavigator.Instance.SelectedMember.Equipment [i]);
+		CrewNavigator.Instance.SelectedMember.Equipment [i] = null;
+		CrewNavigator.Instance.SelectedCard.Deploy ();
+		CrewNavigator.Instance.LootUI.UpdateLootUI ();
 	}
 
 	public bool Deployed {
@@ -98,6 +122,15 @@ public class InventoryCard : Card {
 				Deploy ();
 			else
 				Reset ();
+		}
+	}
+
+	public int MemberIndex {
+		get {
+			return memberIndex;
+		}
+		set {
+			memberIndex = value;
 		}
 	}
 }

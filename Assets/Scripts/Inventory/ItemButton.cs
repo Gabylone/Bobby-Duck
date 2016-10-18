@@ -12,13 +12,32 @@ public class ItemButton : MonoBehaviour {
 	[SerializeField] private Text priceText;
 
 	[SerializeField] private GameObject paramObj;
+	[SerializeField] private GameObject priceObj;
 
+	private int index = 0;
 
 	private string name;
 	private string description;
 	private int param;
 	private int price;
 
+	bool enabled = false;
+
+	public void Select () {
+		GetComponentInParent<LootUI> ().UpdateActionButton (index);
+	}
+
+	public bool Enabled {
+		get {
+			return enabled;
+		}
+		set {
+			enabled = value;
+			GetComponent<Button> ().interactable = value;
+		}
+	}
+
+	#region params
 	public string Name {
 		get {
 			return name;
@@ -46,6 +65,7 @@ public class ItemButton : MonoBehaviour {
 		set {
 			param = value;
 			paramText.text = param.ToString ();
+			paramObj.SetActive ( value > 0 );
 		}
 	}
 
@@ -56,6 +76,7 @@ public class ItemButton : MonoBehaviour {
 		set {
 			price = value;
 			priceText.text = price.ToString ();
+			priceObj.SetActive (value > 0);
 		}
 	}
 
@@ -65,12 +86,13 @@ public class ItemButton : MonoBehaviour {
 		}
 	}
 
-	public GameObject ParamObj {
+	public int Index {
 		get {
-			return paramObj;
+			return index;
 		}
 		set {
-			paramObj = value;
+			index = value;
 		}
 	}
+	#endregion
 }

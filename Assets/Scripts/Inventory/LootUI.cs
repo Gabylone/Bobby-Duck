@@ -15,24 +15,34 @@ public class LootUI : MonoBehaviour {
 	private int maxPage 		= 0;
 
 	[Header("Action Button")]
-	private int selectionIndex = 0;
 	[SerializeField] private GameObject actionButtonObj;
 	[SerializeField] private string[] actionButtonTexts;
+	private int selectionIndex = 0;
 
 	[Header("Category")]
 	[SerializeField] private Button[] categoryButtons;
 
+	[Header("Pages")]
+	[SerializeField] private GameObject previousPageButton;
+	[SerializeField] private GameObject nextPageButton;
+
+
+
 	void Start () {
 
 		itemButtons = itemButtonGroup.GetComponentsInChildren<ItemButton>();
-
+		int a = 0;
+		foreach ( ItemButton itemButton in itemButtons ) {
+			itemButton.Index = a;
+			++a;
+		}
 		SwitchCategory (0);
 	}
 
 	void Update () {
 
 		if ( Input.GetKeyDown (KeyCode.L))  {
-			LootManager.Instance.RemoveItem (currentCategory, 1);
+			LootManager.playerLoot.RemoveItem (currentCategory, 1);
 			UpdateLootUI ();
 		}
 	}
@@ -44,18 +54,18 @@ public class LootUI : MonoBehaviour {
 
 		foreach ( ItemButton itemButton in itemButtons ) {
 
-			itemButton.gameObject.SetActive ( a < LootManager.Instance.getLoot (currentCategory).Length );
+			itemButton.gameObject.SetActive ( a < LootManager.playerLoot.getCategory (currentCategory).Length );
 
-			if ( a < LootManager.Instance.getLoot (currentCategory).Length ) {
+			if ( a < LootManager.playerLoot.getCategory (currentCategory).Length ) {
 
-				Item item = ItemLoader.Instance.getItem (currentCategory,LootManager.Instance.getLoot (currentCategory)[a].ID);
+				Item item = ItemLoader.Instance.getItem (currentCategory,LootManager.playerLoot.getCategory (currentCategory)[a].ID);
 
 				itemButton.Name 		= item.name;
 				itemButton.Description 	= item.description;
 
-				itemButton.ParamObj.SetActive (currentCategory != ItemLoader.ItemType.Mics);
 				itemButton.gameObject.SetActive (true);
-				itemButton.Param = item.value;
+
+				itemButton.Param = currentCategory != ItemLoader.ItemType.Mics ? item.value : 0;
 
 				itemButton.Price 		= item.price;
 			}
@@ -68,7 +78,6 @@ public class LootUI : MonoBehaviour {
 
 
 	#region category navigation
-
 	public void SwitchCategory ( int cat ) {
 
 		if ( cat == (int)currentCategory)
@@ -91,9 +100,6 @@ public class LootUI : MonoBehaviour {
 	#endregion
 
 	#region page navigation
-	[SerializeField] private GameObject previousPageButton;
-	[SerializeField] private GameObject nextPageButton;
-
 	public void NextPage () {
 		++currentPage;
 		UpdateLootUI ();
@@ -104,7 +110,7 @@ public class LootUI : MonoBehaviour {
 	}
 
 	private void UpdatePages () {
-		maxPage = Mathf.CeilToInt ( LootManager.Instance.getLoot (currentCategory).Length / ItemPerPage);
+		maxPage = Mathf.CeilToInt ( LootManager.playerLoot.getCategory (currentCategory).Length / ItemPerPage);
 
 		previousPageButton.SetActive( currentPage > 0 );
 		nextPageButton.SetActive( currentPage < maxPage );
@@ -117,35 +123,9 @@ public class LootUI : MonoBehaviour {
 	}
 	#endregion
 
-	#region item usage
-	public void UseItem () {
-
-		CrewMember targetMember = CrewNavigator.Instance.SelectedMember;
-
-		switch (currentCategory) {
-		case ItemLoader.ItemType.Provisions:
-			targetMember.Health += SelectedItem.value;
-			// states 
-			break;
-		case ItemLoader.ItemType.Weapon:
-			targetMember.AttackDice = SelectedItem.value;
-			break;
-		case ItemLoader.ItemType.Clothes:
-			targetMember.ConstitutionDice = SelectedItem.value;
-			break;
-		}
-
-		int removeIndex = currentPage + selectionIndex;
-
-		LootManager.Instance.RemoveItem ( currentCategory, removeIndex);
-
-		UpdateLootUI ();
-		CrewNavigator.Instance.UpdateMembers();
-
-	}
+	#region action button
 	public void UpdateActionButton (int index) {
-
-		bool actionButtonActive = LootManager.Instance.getLoot (currentCategory).Length > 0 && currentCategory != ItemLoader.ItemType.Mics;
+		bool actionButtonActive = LootManager.playerLoot.getCategory (currentCategory).Length > 0 && currentCategory != ItemLoader.ItemType.Mics;
 		actionButtonObj.SetActive (actionButtonActive);
 
 		Vector3 targetPos = actionButtonObj.transform.position;
@@ -163,7 +143,26 @@ public class LootUI : MonoBehaviour {
 
 	public Item SelectedItem {
 		get {
-			return LootManager.Instance.getLoot (currentCategory)[currentPage+selectionIndex];
+			return LootManager.playerLoot.getCategory (currentCategory)[currentPage+selectionIndex];
+		}
+	}
+
+	public ItemLoader.ItemType CurrentCategory {
+		get {
+			return currentCategory;
+		}
+	}
+
+
+	public int CurrentPage {
+		get {
+			return currentPage;
+		}
+	}
+
+	public int SelectionIndex {
+		get {
+			return selectionIndex;
 		}
 	}
 }

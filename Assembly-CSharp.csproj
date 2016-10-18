@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\Inventory\Item.cs" />
      <Compile Include="Assets\Scripts\Inventory\ItemButton.cs" />
      <Compile Include="Assets\Scripts\Inventory\ItemLoader.cs" />
+     <Compile Include="Assets\Scripts\Inventory\Loot.cs" />
      <Compile Include="Assets\Scripts\Inventory\LootManager.cs" />
      <Compile Include="Assets\Scripts\Inventory\LootUI.cs" />
      <Compile Include="Assets\Scripts\Map\MapImage.cs" />
@@ -79,6 +80,7 @@
      <Compile Include="Assets\Scripts\Stories\StoryReader.cs" />
      <Compile Include="Assets\Scripts\Transition\Transition.cs" />
      <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
+     <Compile Include="Assets\TradeManager.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

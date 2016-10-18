@@ -12,6 +12,7 @@ public class ItemLoader : MonoBehaviour {
 		Mics,
 
 		None,
+		Any,
 	}
 	ItemType currentType = ItemType.Provisions;
 

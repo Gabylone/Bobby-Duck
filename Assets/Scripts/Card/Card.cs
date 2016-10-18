@@ -42,7 +42,7 @@ public class Card : MonoBehaviour {
 	[SerializeField]
 	private bool centerCard = false;
 
-	void Start () {
+	void Awake () {
 		Init ();
 	}
 
@@ -84,8 +84,10 @@ public class Card : MonoBehaviour {
 
 		GetTransform.position = pos;
 
-		Vector3 dir = GetTransform.position - Vector3.zero;
-		GetTransform.right = -dir;
+		if (centerCard) {
+			Vector3 dir = GetTransform.position - Vector3.zero;
+			GetTransform.right = -dir;
+		}
 
 	}
 
