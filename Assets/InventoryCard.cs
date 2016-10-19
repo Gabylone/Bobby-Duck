@@ -105,7 +105,7 @@ public class InventoryCard : Card {
 	}
 
 	public void RemoveItem (int i) {
-		LootManager.playerLoot.AddItem ( ( (ItemLoader.ItemType)i + 1) , CrewNavigator.Instance.SelectedMember.Equipment [i]);
+		LootManager.Instance.PlayerLoot.AddItem ( ( (ItemLoader.ItemType)i + 1) , CrewNavigator.Instance.SelectedMember.Equipment [i]);
 		CrewNavigator.Instance.SelectedMember.Equipment [i] = null;
 		CrewNavigator.Instance.SelectedCard.Deploy ();
 		CrewNavigator.Instance.LootUI.UpdateLootUI ();

@@ -69,9 +69,7 @@ public class Card : MonoBehaviour {
 
 		int a = 0;
 		foreach ( Image dice in images ) {
-
 			dice.GetComponentInChildren<Text>().text = member.getDiceValues[a].ToString ();
-
 			++a;
 		}
 

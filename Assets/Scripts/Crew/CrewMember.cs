@@ -13,8 +13,8 @@ public class CrewMember {
 
 		int _health,
 		int _attackDice,
-		int _speedDice,
 		int _constitutionDice,
+		int _speedDice,
 
 		Crews.Side _side,
 	
@@ -26,8 +26,8 @@ public class CrewMember {
 		maxHealth 		= _health;
 
 		attackDice 		 = _attackDice;
-		speedDice		 = _speedDice;
 		constitutionDice = _constitutionDice;
+		speedDice		 = _speedDice;
 
 		side = _side;
 		Level = _level;
@@ -55,9 +55,12 @@ public class CrewMember {
 
 	public void GetHit (int damage) {
 
-		iconObj.GetComponent<CrewInfo> ().DisplayInfo (damage.ToString () + " - " + ConstitutionDice.ToString () + " = " + Health.ToString ());
+		string smallText = damage.ToString () + " - " + constitutionDice.ToString () + " = ";
+		string bigText = (damage-constitutionDice).ToString ();
 
-		Health -= (1);
+		iconObj.GetComponent<CrewInfo> ().DisplayInfo (smallText, bigText , Color.red);
+
+		Health -= (damage-constitutionDice);
 
 		CardManager.Instance.UpdateCards ();
 
@@ -74,7 +77,7 @@ public class CrewMember {
 			return health;
 		}
 		set {
-			health = Mathf.Clamp (health , 0 , maxHealth);
+			health = Mathf.Clamp (value , 0 , maxHealth);
 		}
 	}
 

@@ -6,6 +6,12 @@ public class LootUI : MonoBehaviour {
 
 	ItemLoader.ItemType currentCategory = ItemLoader.ItemType.Weapon;
 
+	[SerializeField]
+	private GameObject lootObj;
+
+	[SerializeField]
+	private Crews.Side side;
+
 	[Header("Item Buttons")]
 	[SerializeField]
 	private GameObject itemButtonGroup;
@@ -27,24 +33,33 @@ public class LootUI : MonoBehaviour {
 	[SerializeField] private GameObject nextPageButton;
 
 
+	public void Show () {
+		
+		Init ();
+		lootObj.SetActive (true);
 
-	void Start () {
 
+	}
+
+	private void Init () {
 		itemButtons = itemButtonGroup.GetComponentsInChildren<ItemButton>();
 		int a = 0;
 		foreach ( ItemButton itemButton in itemButtons ) {
 			itemButton.Index = a;
 			++a;
 		}
+
 		SwitchCategory (0);
 	}
 
-	void Update () {
+	public void Hide () {
+		lootObj.SetActive (false);
+	}
 
-		if ( Input.GetKeyDown (KeyCode.L))  {
-			LootManager.playerLoot.RemoveItem (currentCategory, 1);
-			UpdateLootUI ();
-		}
+
+	void Start () {
+
+
 	}
 
 	#region item button	
@@ -54,11 +69,11 @@ public class LootUI : MonoBehaviour {
 
 		foreach ( ItemButton itemButton in itemButtons ) {
 
-			itemButton.gameObject.SetActive ( a < LootManager.playerLoot.getCategory (currentCategory).Length );
+			itemButton.gameObject.SetActive ( a < LootManager.Instance.getLoot(side).getCategory (currentCategory).Length );
 
-			if ( a < LootManager.playerLoot.getCategory (currentCategory).Length ) {
+			if ( a < LootManager.Instance.getLoot(side).getCategory (currentCategory).Length ) {
 
-				Item item = ItemLoader.Instance.getItem (currentCategory,LootManager.playerLoot.getCategory (currentCategory)[a].ID);
+				Item item = ItemLoader.Instance.getItem (currentCategory,LootManager.Instance.getLoot(side).getCategory (currentCategory)[a].ID);
 
 				itemButton.Name 		= item.name;
 				itemButton.Description 	= item.description;
@@ -80,9 +95,6 @@ public class LootUI : MonoBehaviour {
 	#region category navigation
 	public void SwitchCategory ( int cat ) {
 
-		if ( cat == (int)currentCategory)
-			return;
-
 		categoryButtons [(int)currentCategory].interactable = true;
 		categoryButtons [cat].interactable = false;
 
@@ -93,9 +105,9 @@ public class LootUI : MonoBehaviour {
 	}
 
 	public void UpdateLootUI () {
-		UpdateActionButton (0);
 		UpdatePages ();
 		UpdateItemButtons ();
+		UpdateActionButton (0);
 	}
 	#endregion
 
@@ -110,7 +122,7 @@ public class LootUI : MonoBehaviour {
 	}
 
 	private void UpdatePages () {
-		maxPage = Mathf.CeilToInt ( LootManager.playerLoot.getCategory (currentCategory).Length / ItemPerPage);
+		maxPage = Mathf.CeilToInt ( LootManager.Instance.getLoot(side).getCategory (currentCategory).Length / ItemPerPage);
 
 		previousPageButton.SetActive( currentPage > 0 );
 		nextPageButton.SetActive( currentPage < maxPage );
@@ -125,8 +137,15 @@ public class LootUI : MonoBehaviour {
 
 	#region action button
 	public void UpdateActionButton (int index) {
-		bool actionButtonActive = LootManager.playerLoot.getCategory (currentCategory).Length > 0 && currentCategory != ItemLoader.ItemType.Mics;
-		actionButtonObj.SetActive (actionButtonActive);
+
+		if ( LootManager.Instance.getLoot(side).getCategory (currentCategory).Length == 0 
+			|| (currentCategory == ItemLoader.ItemType.Mics && !TradeManager.Instance.Trading) ) {
+
+			actionButtonObj.SetActive (false);
+			return;
+		}
+
+		actionButtonObj.SetActive (true);
 
 		Vector3 targetPos = actionButtonObj.transform.position;
 
@@ -143,7 +162,7 @@ public class LootUI : MonoBehaviour {
 
 	public Item SelectedItem {
 		get {
-			return LootManager.playerLoot.getCategory (currentCategory)[currentPage+selectionIndex];
+			return LootManager.Instance.getLoot(side).getCategory (currentCategory)[currentPage+selectionIndex];
 		}
 	}
 
@@ -160,9 +179,33 @@ public class LootUI : MonoBehaviour {
 		}
 	}
 
+	public int ItemIndex {
+		get {
+			return currentPage + selectionIndex;
+		}
+	}
+
 	public int SelectionIndex {
 		get {
 			return selectionIndex;
+		}
+	}
+
+	public GameObject LootObj {
+		get {
+			return lootObj;
+		}
+		set {
+			lootObj = value;
+		}
+	}
+
+	public string[] ActionButtonTexts {
+		get {
+			return actionButtonTexts;
+		}
+		set {
+			actionButtonTexts = value;
 		}
 	}
 }

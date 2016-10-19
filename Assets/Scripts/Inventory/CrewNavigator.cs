@@ -9,21 +9,20 @@ public class CrewNavigator : MonoBehaviour {
 	private int selectedMember = 0;
 
 	[SerializeField]
+	private Crews.Side targetSide;
+
+	[Header("LootUI")]
+	[SerializeField]
 	private LootUI lootUI;
 
 	[Header("Card")]
 	[SerializeField]
 	private GameObject inventoryCardsParent;
 	private InventoryCard[] inventoryCards;
-	Vector3[] iconPositions;
 	private Vector3 cardOrigin;
 
 	[SerializeField]
 	private Transform crewCanvas;
-
-	[Header("Loot")]
-	[SerializeField]
-	private GameObject lootObj;
 
 	bool opened = false;
 
@@ -32,14 +31,19 @@ public class CrewNavigator : MonoBehaviour {
 	}
 
 	void Start() {
+		Init ();
+	}
 
-		lootObj.SetActive (false);
+	private void Init () {
+		
+		lootUI.Hide ();
+
+		// init crew cards
 		inventoryCards = inventoryCardsParent.GetComponentsInChildren<InventoryCard>();
 
+		// set indexes
 		int a = 0;
-		iconPositions = new Vector3[inventoryCards.Length];
 		foreach (InventoryCard inventoryCard in inventoryCards) {
-			iconPositions [a] = inventoryCard.IconAnchor.position;
 			inventoryCard.MemberIndex = a;
 			++a;
 		}
@@ -47,38 +51,55 @@ public class CrewNavigator : MonoBehaviour {
 		cardOrigin = inventoryCards [0].GetTransform.localPosition;
 	}
 
-	#region use item
+	#region button action
+	public void Action () {
+		if (TradeManager.Instance.Trading) {
+			TradeManager.Instance.SellItem ( lootUI.CurrentCategory ,lootUI.ItemIndex);
+		} else {
+			UseItem ();
+		}
+	}
 	public void UseItem () {
 
 		CrewMember targetMember = CrewNavigator.Instance.SelectedMember;
 
 		switch (lootUI.CurrentCategory) {
 		case ItemLoader.ItemType.Provisions:
+
 			targetMember.Health += lootUI.SelectedItem.value;
+
 			// states 
+
 			break;
 		case ItemLoader.ItemType.Weapon:
+			
 			targetMember.AttackDice = lootUI.SelectedItem.value;
+
 			if (targetMember.Equipment [0] != null)
-				LootManager.playerLoot.AddItem (lootUI.CurrentCategory, targetMember.Equipment [0]);
+				LootManager.Instance.PlayerLoot.AddItem (lootUI.CurrentCategory, targetMember.Equipment [0]);
 
 			targetMember.Equipment [0] = lootUI.SelectedItem;
 
 			CrewNavigator.Instance.SelectedCard.Deploy ();
+
 			break;
+
 		case ItemLoader.ItemType.Clothes:
+
 			targetMember.ConstitutionDice = lootUI.SelectedItem.value;
+
 			if (targetMember.Equipment [2] != null)
-				LootManager.playerLoot.AddItem (lootUI.CurrentCategory, targetMember.Equipment [2]);
+				LootManager.Instance.PlayerLoot.AddItem (lootUI.CurrentCategory, targetMember.Equipment [2]);
 
 			targetMember.Equipment [2] = lootUI.SelectedItem;
+
 			CrewNavigator.Instance.SelectedCard.Deploy ();
+
 			break;
+
 		}
 
-		int removeIndex = lootUI.CurrentPage + lootUI.SelectionIndex;
-
-		LootManager.playerLoot.RemoveItem ( lootUI.CurrentCategory, removeIndex);
+		LootManager.Instance.PlayerLoot.RemoveItem ( lootUI.CurrentCategory, lootUI.ItemIndex);
 
 		lootUI.UpdateLootUI ();
 		CrewNavigator.Instance.UpdateMembers();
@@ -87,10 +108,16 @@ public class CrewNavigator : MonoBehaviour {
 	#endregion
 
 	#region inventory states
+	public void Switch () {
+		if (opened)
+			Close ();
+		else
+			Open ();
+	}
 	public void Open () {
 
 		opened = true;
-		lootObj.SetActive (true);
+		lootUI.Show ();
 
 		UpdateMembers ();
 		SelectedMemberIndex = 0;
@@ -99,20 +126,17 @@ public class CrewNavigator : MonoBehaviour {
 		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
 
 			Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (inventoryCards[i].IconAnchor);
-//			Crews.playerCrew.CrewMembers [i].Icon.MoveToPoint (iconPositions[i], 0.2f);
 			Crews.playerCrew.CrewMembers[i].Icon.GetTransform.localPosition = Vector3.zero;
 			Crews.playerCrew.CrewMembers[i].Icon.HideBody ();
 			Crews.playerCrew.CrewMembers[i].Icon.Overable = false;
 		}
-
-
 
 	}
 
 	public void Close () {
 		
 		opened = false;
-		lootObj.SetActive (false);
+		lootUI.Hide ();
 		
 		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
 			
@@ -121,9 +145,7 @@ public class CrewNavigator : MonoBehaviour {
 			Crews.playerCrew.CrewMembers[i].Icon.Overable = true;
 			
 			inventoryCards[i].UpdateMember (Crews.playerCrew.CrewMembers[i]);
-			
 		}
-		
 	}
 	#endregion
 
@@ -188,16 +210,11 @@ public class CrewNavigator : MonoBehaviour {
 		}
 	}
 
-	public GameObject LootObj {
-		get {
-			return lootObj;
-		}
-	}
-
 	public LootUI LootUI {
 		get {
 			return lootUI;
 		}
 	}
+
 	#endregion
 }

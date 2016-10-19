@@ -1,13 +1,12 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\InventoryCard.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Dice\DiceManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\Inventory\LootUI.cs" Line="123" Column="8" />
-      <File FileName="Assets\Scripts\Inventory\LootManager.cs" Line="36" Column="2" />
-      <File FileName="Assets\Scripts\Inventory\CrewNavigator.cs" Line="97" Column="35" />
-      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="81" Column="22" />
-      <File FileName="Assets\InventoryCard.cs" Line="5" Column="2" />
-      <File FileName="Assets\Scripts\Card\Card.cs" Line="5" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="31" Column="3" />
+      <File FileName="Assets\Scripts\Crew\CrewInfo.cs" Line="50" Column="26" />
+      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="305" Column="29" />
+      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="69" Column="2" />
+      <File FileName="Assets\Scripts\Dice\DiceManager.cs" Line="95" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

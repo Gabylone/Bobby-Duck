@@ -5,21 +5,25 @@ using System.Collections;
 public class CrewInfo : MonoBehaviour {
 
 	[Header("Info")]
-	[SerializeField] private Text targetText;
+	[SerializeField] private Transform infoTransform;
+	[SerializeField] private Text smallText;
+	[SerializeField] private Text bigText;
 	[SerializeField] private float duration;
 	[SerializeField] private float decalY = 1f;
 	[SerializeField] private float targetScale = 1.5f;
 	private Vector3 initPos = Vector3.zero;
+
+	CrewIcon icon;
 
 	bool displaying = false;
 
 	float timer = 0f;
 
 	void Start () {
+		icon = GetComponent<CrewIcon> ();
 
-		initPos = targetText.transform.position;
-
-		targetText.gameObject.SetActive (false);
+		initPos = infoTransform.localPosition;
+		infoTransform.gameObject.SetActive (false);
 
 	}
 
@@ -29,26 +33,29 @@ public class CrewInfo : MonoBehaviour {
 
 			float l = timer/duration;
 
-			targetText.transform.position = Vector3.Lerp ( initPos , initPos + Vector3.up * decalY, l );
-			targetText.transform.localScale = Vector3.Lerp ( Vector3.one , Vector3.one * targetScale, l );
+			infoTransform.localPosition = Vector3.Lerp ( initPos , initPos + Vector3.up * decalY, l );
+			infoTransform.localScale = Vector3.Lerp ( Vector3.one , Vector3.one * targetScale, l );
 
 			if ( l >= 1 )
 				EndDisplay ();
 		}
 	}
 
-	public void DisplayInfo (string info) {
-		targetText.gameObject.SetActive (true);
+	public void DisplayInfo (string smallContent , string bigContent, Color textColor ) {
+		infoTransform.gameObject.SetActive (true);
 
 		timer = 0f;
 		displaying = true;
 
-		targetText.text = info;
+		smallText.text = smallContent;
+		bigText.text = bigContent;
+
+		bigText.color = textColor;
 	}
 
 	private void EndDisplay () {
 
-		targetText.gameObject.SetActive (false);
+		infoTransform.gameObject.SetActive (false);
 		displaying = false;
 	}
 

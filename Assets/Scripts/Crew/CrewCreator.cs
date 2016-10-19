@@ -86,7 +86,7 @@ public class CrewCreator : MonoBehaviour {
 			// attack
 			1,
 			// constitution
-			1,
+			0,
 			// speed
 			1,
 

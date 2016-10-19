@@ -295,7 +295,11 @@ public class CombatManager : MonoBehaviour {
 
 	#region DiceThrow
 	private void DiceThrow_Start () {
-		
+
+		// DEBUG : skip dice
+
+
+
 		DiceManager.Instance.ThrowDirection = AttackingCrew == Crews.Side.Player ? 1 : -1;
 
 		DiceManager.Instance.ThrowDice (currentDiceType,getMember(AttackingCrew).getDiceValues[(int)currentDiceType+1]);
@@ -314,6 +318,9 @@ public class CombatManager : MonoBehaviour {
 	private void Results_Start () {
 
 			// success //
+
+		Debug.Log ("throw result : " + DiceManager.Instance.CurrentThrow.Result (getMember(DefendingCrew).AttackDice));
+
 		switch ( currentDiceType ) {
 		case DiceTypes.Attack :
 
@@ -322,7 +329,7 @@ public class CombatManager : MonoBehaviour {
 			case Throw.Results.CritFailure:
 
 				DialogueManager.Instance.SetDialogue ("Merde !", getMember(AttackingCrew).IconObj.transform);
-
+				//
 				break;
 
 			case Throw.Results.Failure :
@@ -332,7 +339,7 @@ public class CombatManager : MonoBehaviour {
 
 			case Throw.Results.Success:
 				DialogueManager.Instance.SetDialogue ("Aïe !", getMember(DefendingCrew).IconObj.transform);
-				getMember(DefendingCrew).GetHit (DiceManager.Instance.CurrentThrow.highestResult);
+				getMember(DefendingCrew).GetHit (getMember (attackingCrew).AttackDice);
 
 				if (getMember(DefendingCrew).Health == 0) {
 					SetTargetCrew (DefendingCrew);
@@ -340,9 +347,11 @@ public class CombatManager : MonoBehaviour {
 				}
 				break;
 
-			case Throw.Results.CritSuccess :
-				DialogueManager.Instance.SetDialogue ("Merde !", getMember(DefendingCrew).IconObj.transform);
-				getMember(DefendingCrew).GetHit (DiceManager.Instance.CurrentThrow.highestResult + 1);
+			case Throw.Results.CritSuccess:
+				DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", getMember (DefendingCrew).IconObj.transform);
+				int criticalDamage = Mathf.CeilToInt ( getMember (attackingCrew).AttackDice * 1.5f );
+				getMember(DefendingCrew).GetHit (getMember (attackingCrew).AttackDice + criticalDamage);
+
 				if (getMember(DefendingCrew).Health == 0) {
 					SetTargetCrew (DefendingCrew);
 					ChangeState (States.MemberReturn);
@@ -358,7 +367,7 @@ public class CombatManager : MonoBehaviour {
 			case Throw.Results.CritFailure:
 				
 				DialogueManager.Instance.SetDialogue ("Merde !", getMember(AttackingCrew).IconObj.transform);
-				
+				//
 				break;
 				
 			case Throw.Results.Failure :
