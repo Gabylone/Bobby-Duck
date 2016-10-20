@@ -20,6 +20,7 @@ public class CrewMember {
 	
 		GameObject _iconObj )
 	{
+			// assign stats
 		memberName 			 = _name;
 
 		health			= _health;
@@ -33,10 +34,9 @@ public class CrewMember {
 		Level = _level;
 
 		iconObj = _iconObj;
-		icon = iconObj.GetComponent<CrewIcon> ();
 
-		if (side == Crews.Side.Enemy)
-			icon.Overable = false;
+			// initialization
+		Init ();
 	}
 
 	private string memberName;
@@ -51,14 +51,25 @@ public class CrewMember {
 	private Item[] equipment = new Item[3];
 
 	private CrewIcon icon;
+	private CrewInfo info;
 	private GameObject iconObj;
+
+	private void Init () {
+
+		icon = iconObj.GetComponent<CrewIcon> ();
+		info = iconObj.GetComponent<CrewInfo> ();
+
+		if (side == Crews.Side.Enemy)
+			icon.Overable = false;
+	}
 
 	public void GetHit (int damage) {
 
 		string smallText = damage.ToString () + " - " + constitutionDice.ToString () + " = ";
 		string bigText = (damage-constitutionDice).ToString ();
 
-		iconObj.GetComponent<CrewInfo> ().DisplayInfo (smallText, bigText , Color.red);
+		info.DisplayInfo (smallText, bigText , Color.red);
+		Icon.Animator.SetTrigger ("GetHit");
 
 		Health -= (damage-constitutionDice);
 
@@ -193,6 +204,12 @@ public class CrewMember {
 		}
 		set {
 			equipment = value;
+		}
+	}
+
+	public CrewInfo Info {
+		get {
+			return info;
 		}
 	}
 }

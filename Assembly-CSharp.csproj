@@ -45,7 +45,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\InventoryCard.cs" />
      <Compile Include="Assets\Scripts\Billboard.cs" />
      <Compile Include="Assets\Scripts\Card\Card.cs" />
      <Compile Include="Assets\Scripts\Card\CardManager.cs" />
@@ -61,13 +60,15 @@
      <Compile Include="Assets\Scripts\Dice\Dice.cs" />
      <Compile Include="Assets\Scripts\Dice\DiceManager.cs" />
      <Compile Include="Assets\Scripts\Gold\GoldManager.cs" />
-     <Compile Include="Assets\Scripts\Inventory\CrewNavigator.cs" />
+     <Compile Include="Assets\Scripts\Inventory\InventoryCard.cs" />
      <Compile Include="Assets\Scripts\Inventory\Item.cs" />
      <Compile Include="Assets\Scripts\Inventory\ItemButton.cs" />
      <Compile Include="Assets\Scripts\Inventory\ItemLoader.cs" />
      <Compile Include="Assets\Scripts\Inventory\Loot.cs" />
      <Compile Include="Assets\Scripts\Inventory\LootManager.cs" />
      <Compile Include="Assets\Scripts\Inventory\LootUI.cs" />
+     <Compile Include="Assets\Scripts\Inventory\OtherLoot.cs" />
+     <Compile Include="Assets\Scripts\Inventory\PlayerLoot.cs" />
      <Compile Include="Assets\Scripts\Map\MapImage.cs" />
      <Compile Include="Assets\Scripts\Map\MapManager.cs" />
      <Compile Include="Assets\Scripts\Map\UIButton.cs" />
@@ -80,7 +81,7 @@
      <Compile Include="Assets\Scripts\Stories\StoryReader.cs" />
      <Compile Include="Assets\Scripts\Transition\Transition.cs" />
      <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
-     <Compile Include="Assets\TradeManager.cs" />
+     <None Include="Assets\Data\Items\a faire.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

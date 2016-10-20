@@ -15,7 +15,7 @@ public class LootUI : MonoBehaviour {
 	[Header("Item Buttons")]
 	[SerializeField]
 	private GameObject itemButtonGroup;
-	private ItemButton[] itemButtons;
+	private ItemButton[] itemButtons = new ItemButton[0];
 
 	private int currentPage 	= 0;
 	private int maxPage 		= 0;
@@ -36,13 +36,16 @@ public class LootUI : MonoBehaviour {
 	public void Show () {
 		
 		Init ();
-		lootObj.SetActive (true);
 
+		lootObj.SetActive (true);
 
 	}
 
 	private void Init () {
-		itemButtons = itemButtonGroup.GetComponentsInChildren<ItemButton>();
+		
+		if ( itemButtons.Length == 0 )
+			itemButtons = itemButtonGroup.GetComponentsInChildren<ItemButton>();
+
 		int a = 0;
 		foreach ( ItemButton itemButton in itemButtons ) {
 			itemButton.Index = a;
@@ -139,7 +142,7 @@ public class LootUI : MonoBehaviour {
 	public void UpdateActionButton (int index) {
 
 		if ( LootManager.Instance.getLoot(side).getCategory (currentCategory).Length == 0 
-			|| (currentCategory == ItemLoader.ItemType.Mics && !TradeManager.Instance.Trading) ) {
+			|| (currentCategory == ItemLoader.ItemType.Mics && !OtherLoot.Instance.Trading) ) {
 
 			actionButtonObj.SetActive (false);
 			return;

@@ -52,7 +52,7 @@ public class InventoryCard : Card {
 	}
 
 	public void Select () {
-		CrewNavigator.Instance.SelectedMemberIndex = MemberIndex;
+		PlayerLoot.Instance.SelectedMemberIndex = MemberIndex;
 	}
 
 	public void Deploy () {
@@ -61,7 +61,7 @@ public class InventoryCard : Card {
 		scale.y = fullScale;
 		backGroundTransform.sizeDelta = scale;
 
-		CrewMember crewMember = CrewNavigator.Instance.SelectedMember;
+		CrewMember crewMember = PlayerLoot.Instance.SelectedMember;
 
 		itemParent.SetActive (true);
 
@@ -105,10 +105,10 @@ public class InventoryCard : Card {
 	}
 
 	public void RemoveItem (int i) {
-		LootManager.Instance.PlayerLoot.AddItem ( ( (ItemLoader.ItemType)i + 1) , CrewNavigator.Instance.SelectedMember.Equipment [i]);
-		CrewNavigator.Instance.SelectedMember.Equipment [i] = null;
-		CrewNavigator.Instance.SelectedCard.Deploy ();
-		CrewNavigator.Instance.LootUI.UpdateLootUI ();
+		LootManager.Instance.PlayerLoot.AddItem ( ( (ItemLoader.ItemType)i + 1) , PlayerLoot.Instance.SelectedMember.Equipment [i]);
+		PlayerLoot.Instance.SelectedMember.Equipment [i] = null;
+		PlayerLoot.Instance.SelectedCard.Deploy ();
+		PlayerLoot.Instance.LootUI.UpdateLootUI ();
 	}
 
 	public bool Deployed {

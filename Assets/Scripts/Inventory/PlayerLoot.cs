@@ -2,9 +2,9 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class CrewNavigator : MonoBehaviour {
+public class PlayerLoot : MonoBehaviour {
 
-	public static CrewNavigator Instance;
+	public static PlayerLoot Instance;
 
 	private int selectedMember = 0;
 
@@ -53,15 +53,15 @@ public class CrewNavigator : MonoBehaviour {
 
 	#region button action
 	public void Action () {
-		if (TradeManager.Instance.Trading) {
-			TradeManager.Instance.SellItem ( lootUI.CurrentCategory ,lootUI.ItemIndex);
+		if (OtherLoot.Instance.Trading) {
+			OtherLoot.Instance.SellItem ( lootUI.CurrentCategory ,lootUI.ItemIndex);
 		} else {
 			UseItem ();
 		}
 	}
 	public void UseItem () {
 
-		CrewMember targetMember = CrewNavigator.Instance.SelectedMember;
+		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
 
 		switch (lootUI.CurrentCategory) {
 		case ItemLoader.ItemType.Provisions:
@@ -80,7 +80,7 @@ public class CrewNavigator : MonoBehaviour {
 
 			targetMember.Equipment [0] = lootUI.SelectedItem;
 
-			CrewNavigator.Instance.SelectedCard.Deploy ();
+			PlayerLoot.Instance.SelectedCard.Deploy ();
 
 			break;
 
@@ -93,7 +93,7 @@ public class CrewNavigator : MonoBehaviour {
 
 			targetMember.Equipment [2] = lootUI.SelectedItem;
 
-			CrewNavigator.Instance.SelectedCard.Deploy ();
+			PlayerLoot.Instance.SelectedCard.Deploy ();
 
 			break;
 
@@ -102,19 +102,19 @@ public class CrewNavigator : MonoBehaviour {
 		LootManager.Instance.PlayerLoot.RemoveItem ( lootUI.CurrentCategory, lootUI.ItemIndex);
 
 		lootUI.UpdateLootUI ();
-		CrewNavigator.Instance.UpdateMembers();
+		PlayerLoot.Instance.UpdateMembers();
 
 	}
 	#endregion
 
-	#region inventory states
+	#region crew navigator
 	public void Switch () {
 		if (opened)
 			Close ();
 		else
 			Open ();
 	}
-	public void Open () {
+	private void Open () {
 
 		opened = true;
 		lootUI.Show ();
@@ -133,7 +133,7 @@ public class CrewNavigator : MonoBehaviour {
 
 	}
 
-	public void Close () {
+	private void Close () {
 		
 		opened = false;
 		lootUI.Hide ();
@@ -157,7 +157,9 @@ public class CrewNavigator : MonoBehaviour {
 		set {
 			inventoryCards [SelectedMemberIndex].GetComponentInChildren<Button>().interactable = true;
 			inventoryCards [SelectedMemberIndex].Deployed = false;
+
 			selectedMember = value;
+
 			inventoryCards [SelectedMemberIndex].GetComponentInChildren<Button>().interactable = false;
 			inventoryCards [SelectedMemberIndex].Deployed = true;
 

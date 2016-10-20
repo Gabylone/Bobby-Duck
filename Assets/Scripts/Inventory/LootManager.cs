@@ -9,7 +9,7 @@ public class LootManager : MonoBehaviour {
 	[SerializeField]
 	private Loot playerLoot;
 	[SerializeField]
-	private Loot enemyLoot;
+	private Loot otherLoot;
 
 	void Awake () {
 		Instance = this;
@@ -22,13 +22,13 @@ public class LootManager : MonoBehaviour {
 		}
 	}
 
-	public Loot EnemyLoot {
+	public Loot OtherLoot {
 		get {
-			return enemyLoot;
+			return otherLoot;
 		}
 	}
 
 	public Loot getLoot (Crews.Side side) {
-		return side == Crews.Side.Player ? playerLoot : enemyLoot;
+		return side == Crews.Side.Player ? playerLoot : otherLoot;
 	}
 }

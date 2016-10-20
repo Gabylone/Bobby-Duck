@@ -6,35 +6,40 @@ public class CrewIcon : MonoBehaviour {
 
 	private int id = 0;
 
-	bool pointerOver = false;
 
-	private CrewMember member;
-
-	[SerializeField]
-	private float scaleAmount = 1.5f;
-	[SerializeField]
-	private float scaleDuration = 0.35f;
-
+		// components
+	[Header ("Components")]
 	[SerializeField]
 	private GameObject faceObj;
 
 	[SerializeField]
 	private GameObject bodyObj;
 
-	private bool overable = true;
-
+	private Animator animator;
+	private CrewMember member;
 	private Transform _transform;
 
-	float timer = 0f;
-	bool choosingMember = false;
+	[Header("Overing")]
+	[SerializeField]
+	private float scaleAmount = 1.5f;
+	[SerializeField]
+	private float scaleDuration = 0.35f;
+	private bool pointerOver = false;
+	private bool overable = true;
 
-	bool scaleLerp = false;
 
-	bool moveLerp = false;
-	Vector3 initPos = Vector3.zero;
-	Vector3 targetPos = Vector3.zero;
+	[Header("Lerping")]
 	[SerializeField]
 	private float moveDuration = 1f;
+
+	float timer = 0f;
+
+	bool choosingMember = false;
+	bool scaleLerp = false;
+	bool moveLerp = false;
+
+	Vector3 initPos = Vector3.zero;
+	Vector3 targetPos = Vector3.zero;
 
 	[Header("decals")]
 	[SerializeField]
@@ -46,6 +51,7 @@ public class CrewIcon : MonoBehaviour {
 
 	void Awake () {
 		_transform = transform;
+		animator = GetComponent<Animator> ();
 	}
 
 	void Update () {
@@ -99,9 +105,7 @@ public class CrewIcon : MonoBehaviour {
 			CombatManager.Instance.SetPlayerMember (Member);
 
 		} else {
-
 			DialogueManager.Instance.SetDialogue ("Oui ?", GetTransform);
-		
 		}
 
 	}
@@ -229,6 +233,12 @@ public class CrewIcon : MonoBehaviour {
 	public float MoveDuration {
 		get {
 			return moveDuration;
+		}
+	}
+
+	public Animator Animator {
+		get {
+			return animator;
 		}
 	}
 	#endregion
