@@ -42,7 +42,7 @@ public class Card : MonoBehaviour {
 	[SerializeField]
 	private bool centerCard = false;
 
-	void Awake () {
+	public virtual void Awake () {
 		Init ();
 	}
 

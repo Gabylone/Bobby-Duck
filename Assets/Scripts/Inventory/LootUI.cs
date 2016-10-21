@@ -35,16 +35,16 @@ public class LootUI : MonoBehaviour {
 
 	public void Show () {
 		
+		lootObj.SetActive (true);
 		Init ();
 
-		lootObj.SetActive (true);
 
 	}
 
 	private void Init () {
 		
 		if ( itemButtons.Length == 0 )
-			itemButtons = itemButtonGroup.GetComponentsInChildren<ItemButton>();
+			itemButtons = itemButtonGroup.GetComponentsInChildren<ItemButton>(true);
 
 		int a = 0;
 		foreach ( ItemButton itemButton in itemButtons ) {
@@ -133,6 +133,8 @@ public class LootUI : MonoBehaviour {
 
 	public int ItemPerPage {
 		get {
+			if (itemButtons.Length == 0)
+				itemButtons = itemButtonGroup.GetComponentsInChildren<ItemButton>();
 			return itemButtons.Length;
 		}
 	}
@@ -156,6 +158,7 @@ public class LootUI : MonoBehaviour {
 
 		actionButtonObj.transform.position = targetPos;
 
+		Debug.Log (actionButtonObj.GetComponentInChildren<Text> ());
 		actionButtonObj.GetComponentInChildren<Text> ().text = actionButtonTexts[(int)currentCategory];
 
 		selectionIndex = index;
