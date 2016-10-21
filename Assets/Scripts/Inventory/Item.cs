@@ -10,6 +10,8 @@ public class Item {
 	public string 	description = "";
 	public int 		value = 0;
 	public int 		price = 0;
+
+	public ItemCategory category;
 		
 	public Item (
 
@@ -18,7 +20,9 @@ public class Item {
 		string _name,
 		string _description,
 		int _value,
-		int _price
+		int _price,
+
+		ItemCategory _cat
 		)
 	{
 		ID = _id;
@@ -27,5 +31,7 @@ public class Item {
 		description = _description;
 		value = _value;
 		price = _price;
+
+		category = _cat;
 	}
 }

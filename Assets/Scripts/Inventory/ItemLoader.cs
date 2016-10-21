@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum ItemCategory {
+	Provisions,
+	Weapon,
+	Clothes,
+	Shoes,
+	Mics,
+}
+
 public class ItemLoader : MonoBehaviour {
 
 	public static ItemLoader Instance;
 
-	public enum ItemType {
-		Provisions,
-		Weapon,
-		Clothes,
-		Mics,
 
-		None,
-		Any,
-	}
-	ItemType currentType = ItemType.Provisions;
+	[SerializeField]
+	private int categoryAmount = 5;
+
+	ItemCategory currentType = ItemCategory.Provisions;
 
 	[SerializeField]
 	private TextAsset[] files;
 
-	private Item[][] items = new Item[4][];
+	private Item[][] items;
 
 	[Header("Chances")]
 	[SerializeField] private float[] items_AppearChance;
@@ -28,6 +31,8 @@ public class ItemLoader : MonoBehaviour {
 	void Awake () {
 		
 		Instance = this;
+
+		items = new Item[categoryAmount][];
 
 		foreach ( TextAsset file in files ) {
 			LoadItems (file);
@@ -55,7 +60,8 @@ public class ItemLoader : MonoBehaviour {
 				cells[0],// name
 				cells[1],// description
 				int.Parse(cells[2]),// value
-				int.Parse(cells[3])// price
+				int.Parse(cells[3]),// price
+				currentType
 				);
 
 //			Debug.Log (newItem.name);
@@ -67,15 +73,15 @@ public class ItemLoader : MonoBehaviour {
 
 	public Item[][] getRandomInventory () {
 
-		Item[][] randomItems = new Item[4][];
+		Item[][] randomItems = new Item[categoryAmount][];
 
 		// get item amount
-		for (int itemType = 0; itemType < 4; ++itemType ) {
+		for (int itemType = 0; itemType < categoryAmount; ++itemType ) {
 			if (Random.value * 100 < items_AppearChance [itemType]) {
 				int itemAmount = Random.Range (1, items_MaxPerLoot [itemType]+1);
 				randomItems [itemType] = new Item[itemAmount];
 				for (int i = 0; i < itemAmount; ++i) {
-					randomItems [itemType] [i] = getRandomItem ((ItemType)itemType);
+					randomItems [itemType] [i] = getRandomItem ((ItemCategory)itemType);
 				}
 			} else {
 				randomItems [itemType] = new Item[0];
@@ -88,10 +94,10 @@ public class ItemLoader : MonoBehaviour {
 	public Item[] getRandomLoot () {
 
 		int globalAmount = 0;
-		int[] itemAmounts = new int[4];
+		int[] itemAmounts = new int[categoryAmount];
 
 		// get item amount
-		for (int itemType = 0; itemType < 4; ++itemType ) {
+		for (int itemType = 0; itemType < categoryAmount; ++itemType ) {
 			if ( Random.value * 100 < items_AppearChance[itemType] ) {
 				int itemAmount = Random.Range (1,items_MaxPerLoot[itemType]+1);
 				itemAmounts[itemType] = itemAmount;
@@ -102,15 +108,15 @@ public class ItemLoader : MonoBehaviour {
 		Item[] loot = new Item[globalAmount];
 
 		int a = 0;
-		for (int itemType = 0; itemType < 4; ++itemType ) {
+		for (int itemType = 0; itemType < categoryAmount; ++itemType ) {
 			for (int i = 0; i < itemAmounts[itemType]; ++i )
-				loot[a] = getRandomItem((ItemType)itemType);
+				loot[a] = getRandomItem((ItemCategory)itemType);
 		}
 
 		return loot;
 	}
 
-	public Item getRandomItem ( ItemType itemType ) {
+	public Item getRandomItem ( ItemCategory itemType ) {
 		
 		int index = Random.Range (0, items [(int)itemType].Length);
 
@@ -119,11 +125,11 @@ public class ItemLoader : MonoBehaviour {
 		return items[(int)itemType][index];
 	} 
 
-	public Item[] getItems ( ItemType itemType ) {
+	public Item[] getItems ( ItemCategory itemType ) {
 		return items[(int)itemType];
 	} 
 
-	public Item getItem ( ItemType itemType , int itemID ) {
+	public Item getItem ( ItemCategory itemType , int itemID ) {
 		return items[(int)itemType][itemID];
 	}
 

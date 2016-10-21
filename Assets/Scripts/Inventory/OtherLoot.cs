@@ -14,6 +14,11 @@ public class OtherLoot : MonoBehaviour {
 	[SerializeField]
 	private GameObject buttonObj;
 
+	[SerializeField]
+	private CategoryContent category_TradeContent;
+	[SerializeField]
+	private CategoryContent category_OtherLootContent;
+
 	private string[] playerPreviousLootActions;
 
 	bool trading = false;
@@ -37,20 +42,15 @@ public class OtherLoot : MonoBehaviour {
 		buttonObj.SetActive (false);
 
 			// player loot ui
-		playerPreviousLootActions = playerLootUI.ActionButtonTexts;
-		playerLootUI.ActionButtonTexts = new string[4] {
-			"Vendre","Vendre","Vendre","Vendre"
-		};
-
-		playerLootUI.Show ();
+		playerLootUI.CategoryContent = PlayerLoot.Instance.TradeCategoryContent;
+		playerLootUI.Visible = true;
 		playerLootUI.UpdateActionButton (0);
 
 			// enemy loot ui
 		LootManager.Instance.OtherLoot.Randomize ();
-		otherLootUI.ActionButtonTexts = new string[4] {
-			"Acheter","Acheter","Acheter","Acheter"
-		};
-		otherLootUI.Show ();
+
+		otherLootUI.CategoryContent = category_TradeContent;
+		otherLootUI.Visible = true;
 		otherLootUI.UpdateActionButton(0);
 
 		trading = true;
@@ -59,10 +59,9 @@ public class OtherLoot : MonoBehaviour {
 	public void EndTrade () {
 
 		buttonObj.SetActive (true);
-		playerLootUI.ActionButtonTexts = playerPreviousLootActions;
 
-		otherLootUI.Hide ();
-		playerLootUI.Hide ();
+		otherLootUI.Visible = false;
+		playerLootUI.Visible = false;
 
 		trading = false;
 
@@ -74,12 +73,12 @@ public class OtherLoot : MonoBehaviour {
 		}
 	}
 
-	public void SellItem ( ItemLoader.ItemType category , int index ) {
+	public void SellItem ( ItemCategory category , int index ) {
 
 		GoldManager.Instance.AddGold (playerLootUI.SelectedItem.price);
 
-		LootManager.Instance.OtherLoot.AddItem (category, playerLootUI.SelectedItem);
-		LootManager.Instance.PlayerLoot.RemoveItem (category, index);
+		LootManager.Instance.OtherLoot.AddItem (playerLootUI.SelectedItem);
+		LootManager.Instance.PlayerLoot.RemoveItem (playerLootUI.SelectedItem);
 
 		playerLootUI.UpdateLootUI ();
 		otherLootUI.UpdateLootUI ();
@@ -90,8 +89,8 @@ public class OtherLoot : MonoBehaviour {
 
 		GoldManager.Instance.RemoveGold (otherLootUI.SelectedItem.price);
 
-		LootManager.Instance.PlayerLoot.AddItem (otherLootUI.CurrentCategory, otherLootUI.SelectedItem);
-		LootManager.Instance.OtherLoot.RemoveItem (otherLootUI.CurrentCategory, otherLootUI.ItemIndex);
+		LootManager.Instance.PlayerLoot.AddItem (otherLootUI.SelectedItem);
+		LootManager.Instance.OtherLoot.RemoveItem (playerLootUI.SelectedItem);
 
 		playerLootUI.UpdateLootUI ();
 		otherLootUI.UpdateLootUI ();
@@ -106,17 +105,14 @@ public class OtherLoot : MonoBehaviour {
 
 		// enemy loot ui
 		LootManager.Instance.OtherLoot.Randomize ();
-		otherLootUI.ActionButtonTexts = new string[4] {
-			"Prendre","Prendre","Prendre","Prendre"
-		};
-
-		otherLootUI.Show ();
+		otherLootUI.CategoryContent = category_OtherLootContent;
+		otherLootUI.Visible = true;
 		otherLootUI.UpdateActionButton(0);
 
 	}
 	public void PickUpItem () {
-		LootManager.Instance.PlayerLoot.AddItem (otherLootUI.CurrentCategory, otherLootUI.SelectedItem);
-		LootManager.Instance.OtherLoot.RemoveItem (otherLootUI.CurrentCategory, otherLootUI.ItemIndex);
+		LootManager.Instance.PlayerLoot.AddItem (otherLootUI.SelectedItem);
+		LootManager.Instance.OtherLoot.RemoveItem (otherLootUI.SelectedItem);
 
 		playerLootUI.UpdateLootUI ();
 		otherLootUI.UpdateLootUI ();
@@ -135,12 +131,12 @@ public class OtherLoot : MonoBehaviour {
 		
 		buttonObj.SetActive (true);
 
-		otherLootUI.Hide ();
+		otherLootUI.Visible = false;
 
 		if (trading) {
 			trading = false;
 			playerLootUI.ActionButtonTexts = playerPreviousLootActions;
-			playerLootUI.Hide ();
+			playerLootUI.Visible = false;
 		} else {
 			trading = false;
 		}

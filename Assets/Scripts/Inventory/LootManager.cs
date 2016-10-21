@@ -7,13 +7,19 @@ public class LootManager : MonoBehaviour {
 	public static LootManager Instance;
 
 	[SerializeField]
+	private CategoryContent defaultCategoryContent;
+
 	private Loot playerLoot;
-	[SerializeField]
 	private Loot otherLoot;
 
 	void Awake () {
+		
 		Instance = this;
+
+		playerLoot = new Loot ();
 		playerLoot.Randomize ();
+
+		otherLoot = new Loot ();
 	}
 
 	public Loot PlayerLoot {
@@ -30,5 +36,11 @@ public class LootManager : MonoBehaviour {
 
 	public Loot getLoot (Crews.Side side) {
 		return side == Crews.Side.Player ? playerLoot : otherLoot;
+	}
+
+	public CategoryContent DefaultCategoryContent {
+		get {
+			return defaultCategoryContent;
+		}
 	}
 }
