@@ -9,6 +9,11 @@ public class PlayerLoot : MonoBehaviour {
 	private int selectedMember = 0;
 
 	[SerializeField]
+	private CategoryContent inventoryCategoryContent;
+	[SerializeField]
+	private CategoryContent tradeCategoryContent;
+
+	[SerializeField]
 	private Crews.Side targetSide;
 
 	[Header("LootUI")]
@@ -35,8 +40,6 @@ public class PlayerLoot : MonoBehaviour {
 	}
 
 	private void Init () {
-		
-		lootUI.Hide ();
 
 		// init crew cards
 		inventoryCards = inventoryCardsParent.GetComponentsInChildren<InventoryCard>();
@@ -54,7 +57,7 @@ public class PlayerLoot : MonoBehaviour {
 	#region button action
 	public void Action () {
 		if (OtherLoot.Instance.Trading) {
-			OtherLoot.Instance.SellItem ( lootUI.CurrentCategory ,lootUI.ItemIndex);
+			OtherLoot.Instance.SellItem ( lootUI.SelectedItem.category ,lootUI.ItemIndex);
 		} else {
 			UseItem ();
 		}
@@ -63,33 +66,45 @@ public class PlayerLoot : MonoBehaviour {
 
 		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
 
-		switch (lootUI.CurrentCategory) {
-		case ItemLoader.ItemType.Provisions:
+		switch (lootUI.SelectedItem.category) {
+		case ItemCategory.Provisions:
 
 			targetMember.Health += lootUI.SelectedItem.value;
 
 			// states 
 
 			break;
-		case ItemLoader.ItemType.Weapon:
+		case ItemCategory.Weapon:
 			
 			targetMember.AttackDice = lootUI.SelectedItem.value;
 
 			if (targetMember.Equipment [0] != null)
-				LootManager.Instance.PlayerLoot.AddItem (lootUI.CurrentCategory, targetMember.Equipment [0]);
+				LootManager.Instance.PlayerLoot.AddItem (targetMember.Equipment [0]);
 
 			targetMember.Equipment [0] = lootUI.SelectedItem;
 
 			PlayerLoot.Instance.SelectedCard.Deploy ();
 
 			break;
+		case ItemCategory.Shoes:
 
-		case ItemLoader.ItemType.Clothes:
+			targetMember.SpeedDice = lootUI.SelectedItem.value;
+
+			if (targetMember.Equipment [1] != null)
+				LootManager.Instance.PlayerLoot.AddItem (targetMember.Equipment [1]);
+
+			targetMember.Equipment [1] = lootUI.SelectedItem;
+
+			PlayerLoot.Instance.SelectedCard.Deploy ();
+
+			break;
+
+		case ItemCategory.Clothes:
 
 			targetMember.ConstitutionDice = lootUI.SelectedItem.value;
 
 			if (targetMember.Equipment [2] != null)
-				LootManager.Instance.PlayerLoot.AddItem (lootUI.CurrentCategory, targetMember.Equipment [2]);
+				LootManager.Instance.PlayerLoot.AddItem (targetMember.Equipment [2]);
 
 			targetMember.Equipment [2] = lootUI.SelectedItem;
 
@@ -99,8 +114,7 @@ public class PlayerLoot : MonoBehaviour {
 
 		}
 
-		LootManager.Instance.PlayerLoot.RemoveItem ( lootUI.CurrentCategory, lootUI.ItemIndex);
-
+		LootManager.Instance.PlayerLoot.RemoveItem ( lootUI.SelectedItem);
 		lootUI.UpdateLootUI ();
 		PlayerLoot.Instance.UpdateMembers();
 
@@ -116,13 +130,11 @@ public class PlayerLoot : MonoBehaviour {
 	}
 	private void Open () {
 
-		opened = true;
-		lootUI.Show ();
-
+			// Members
 		UpdateMembers ();
 		SelectedMemberIndex = 0;
 
-		// set icons
+			// set icons
 		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
 
 			Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (inventoryCards[i].IconAnchor);
@@ -131,12 +143,17 @@ public class PlayerLoot : MonoBehaviour {
 			Crews.playerCrew.CrewMembers[i].Icon.Overable = false;
 		}
 
+			// loot
+		opened = true;
+		lootUI.CategoryContent = inventoryCategoryContent;
+		lootUI.Visible = true;
+
 	}
 
 	private void Close () {
 		
 		opened = false;
-		lootUI.Hide ();
+		lootUI.Visible = false;
 		
 		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
 			
@@ -219,4 +236,10 @@ public class PlayerLoot : MonoBehaviour {
 	}
 
 	#endregion
+
+	public CategoryContent TradeCategoryContent {
+		get {
+			return tradeCategoryContent;
+		}
+	}
 }

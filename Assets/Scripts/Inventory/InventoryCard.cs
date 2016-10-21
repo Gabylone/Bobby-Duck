@@ -110,7 +110,7 @@ public class InventoryCard : Card {
 	}
 
 	public void RemoveItem (int i) {
-		LootManager.Instance.PlayerLoot.AddItem ( ( (ItemLoader.ItemType)i + 1) , PlayerLoot.Instance.SelectedMember.Equipment [i]);
+		LootManager.Instance.PlayerLoot.AddItem (PlayerLoot.Instance.SelectedMember.Equipment [i]);
 		PlayerLoot.Instance.SelectedMember.Equipment [i] = null;
 		PlayerLoot.Instance.SelectedCard.Deploy ();
 		PlayerLoot.Instance.LootUI.UpdateLootUI ();

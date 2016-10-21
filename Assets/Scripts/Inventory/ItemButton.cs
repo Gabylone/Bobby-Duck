@@ -4,6 +4,9 @@ using System.Collections;
 
 public class ItemButton : MonoBehaviour {
 
+	[SerializeField]
+	private LootUI lootUI;
+
 	[Header("UI elements")]
 	[SerializeField] private Button button;
 	[SerializeField] private Text nameText;
@@ -24,7 +27,7 @@ public class ItemButton : MonoBehaviour {
 	bool enabled = false;
 
 	public void Select () {
-		GetComponentInParent<LootUI> ().UpdateActionButton (index);
+		lootUI.UpdateActionButton (index);
 	}
 
 	public bool Enabled {
