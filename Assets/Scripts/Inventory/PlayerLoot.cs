@@ -29,6 +29,10 @@ public class PlayerLoot : MonoBehaviour {
 	[SerializeField]
 	private Transform crewCanvas;
 
+	[Header("Sounds")]
+	[SerializeField] private AudioClip eatSound;
+	[SerializeField] private AudioClip equipSound;
+
 	bool opened = false;
 
 	void Awake () {
@@ -69,13 +73,17 @@ public class PlayerLoot : MonoBehaviour {
 		switch (lootUI.SelectedItem.category) {
 		case ItemCategory.Provisions:
 
+			SoundManager.Instance.PlaySound (eatSound);
+
 			targetMember.Health += lootUI.SelectedItem.value;
+			targetMember.CurrentHunger -= lootUI.SelectedItem.value;
 
-			// states 
-
+			UpdateMembers ();
 			break;
 		case ItemCategory.Weapon:
-			
+
+			SoundManager.Instance.PlaySound (equipSound);
+
 			targetMember.AttackDice = lootUI.SelectedItem.value;
 
 			if (targetMember.Equipment [0] != null)
@@ -87,6 +95,8 @@ public class PlayerLoot : MonoBehaviour {
 
 			break;
 		case ItemCategory.Shoes:
+
+			SoundManager.Instance.PlaySound (equipSound);
 
 			targetMember.SpeedDice = lootUI.SelectedItem.value;
 
@@ -100,6 +110,8 @@ public class PlayerLoot : MonoBehaviour {
 			break;
 
 		case ItemCategory.Clothes:
+
+			SoundManager.Instance.PlaySound (equipSound);
 
 			targetMember.ConstitutionDice = lootUI.SelectedItem.value;
 
@@ -151,7 +163,7 @@ public class PlayerLoot : MonoBehaviour {
 	}
 
 	private void Close () {
-		
+
 		opened = false;
 		lootUI.Visible = false;
 		

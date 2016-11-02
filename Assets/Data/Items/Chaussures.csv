@@ -1,6 +1,6 @@
-Chaussures;Description;Value;$
-Chaussures de cuir;C'est un chaussures de cuir;2;30
-Sandales;C'est un sandales;1;10
-Chaussures usées;C'est un chaussures usées;1;16
-Bottes de marin;C'est un bottes de marin;2;24
-Jambières de fer;C'est un jambières de fer;1;12
+Chaussures;Description;Value;$;W
+Chaussures de cuir;C'est un chaussures de cuir;2;2;9
+Sandales;C'est un sandales;1;8;11
+Chaussures usées;C'est un chaussures usées;1;12;16
+Bottes de marin;C'est un bottes de marin;2;2;3
+Jambières de fer;C'est un jambières de fer;1;14;20

@@ -11,7 +11,7 @@ public class CombatManager : MonoBehaviour {
 	Crews.Side defendingCrew;
 	Crews.Side targetCrew;
 
-	// states
+	// stsates
 	public enum States {
 		None,
 		CombatStart,
@@ -50,6 +50,12 @@ public class CombatManager : MonoBehaviour {
 	private float timeInState = 0f;
 
 	bool choosingMember = false;
+
+	[Header("Sounds")]
+	[SerializeField] private AudioClip escapeSound;
+	[SerializeField] private AudioClip hitSound;
+	[SerializeField] private AudioClip hurtSound;
+
 
 	[SerializeField]
 	private GameObject chooseMemberFeedback;
@@ -185,6 +191,9 @@ public class CombatManager : MonoBehaviour {
 
 	}
 	public void Escape () {
+
+		SoundManager.Instance.PlaySound (escapeSound);
+
 		ChoosingMember = false;
 		ExitFight ();
 	}
@@ -316,6 +325,9 @@ public class CombatManager : MonoBehaviour {
 				break;
 
 			case Throw.Results.Success:
+
+				SoundManager.Instance.PlaySound (hitSound);
+
 				DialogueManager.Instance.SetDialogue ("Aïe !", getMember(DefendingCrew).IconObj.transform);
 				getMember(DefendingCrew).GetHit (getMember (attackingCrew).AttackDice);
 //				getMember (AttackingCrew).Info.DisplayInfo ("SUCESS","!",Color.magenta);
@@ -327,6 +339,10 @@ public class CombatManager : MonoBehaviour {
 				break;
 
 			case Throw.Results.CritSuccess:
+
+				SoundManager.Instance.PlaySound (hitSound);
+				SoundManager.Instance.PlaySound (hurtSound);
+
 				DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", getMember (DefendingCrew).IconObj.transform);
 				int criticalDamage = Mathf.CeilToInt (getMember (attackingCrew).AttackDice * 1.5f);
 				getMember (DefendingCrew).GetHit (getMember (attackingCrew).AttackDice + criticalDamage);
@@ -356,6 +372,8 @@ public class CombatManager : MonoBehaviour {
 				break;
 				
 			case Throw.Results.Success:
+				SoundManager.Instance.PlaySound (escapeSound);
+
 				DialogueManager.Instance.SetDialogue ("A la prochaine !", getMember(AttackingCrew).IconObj.transform);
 				SetTargetCrew (AttackingCrew);
 				ChangeState(States.MemberReturn);
@@ -363,6 +381,8 @@ public class CombatManager : MonoBehaviour {
 				break;
 				
 			case Throw.Results.CritSuccess:
+				SoundManager.Instance.PlaySound (escapeSound);
+
 				DialogueManager.Instance.SetDialogue ("Tchao !", getMember (AttackingCrew).IconObj.transform);
 				SetTargetCrew (AttackingCrew);
 				ChangeState(States.MemberReturn);
@@ -396,6 +416,7 @@ public class CombatManager : MonoBehaviour {
 
 			if (getMember (targetCrew).Health == 0) {
 				getMember (targetCrew).Kill ();
+				getMember (AttackingCrew).AddXP (getMember (targetCrew).Level);
 
 				if (Crews.getCrew (targetCrew).CrewMembers.Count == 0) {
 					WinFight ();

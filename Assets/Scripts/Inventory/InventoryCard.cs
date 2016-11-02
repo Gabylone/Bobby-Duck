@@ -27,26 +27,22 @@ public class InventoryCard : Card {
 
 	private int memberIndex = 0;
 
-	public override void Awake ()
-	{
-//		base.Awake ();	
-	}
-
 	void Start () {
 		
 		itemButtons = itemParent.GetComponentsInChildren<ItemButton> ();
 
+		Init ();
+
 		initScale = backGroundTransform.sizeDelta.y;
-		
+
+
 		int a = 0;
 		foreach ( Transform statTransform in stats_Transforms ) {
 			stats_InitPos[a] = statTransform.localPosition;
 			++a;
 		}
-		
-		Deployed = false;
 
-		Init ();
+		Deployed = false;
 
 	}
 
@@ -78,10 +74,10 @@ public class InventoryCard : Card {
 				itemButton.Param = crewMember.Equipment [a].value;
 				itemButton.Price = crewMember.Equipment [a].price;
 			} else {
-				Debug.Log ("player has no items");
 				itemButton.Name = "";
 				itemButton.Param = 0;
 				itemButton.Price = 0;
+				itemButton.Weight = 0;
 			}
 
 			itemButton.Enabled = crewMember.Equipment [a] != null;

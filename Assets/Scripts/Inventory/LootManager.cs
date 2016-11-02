@@ -12,12 +12,27 @@ public class LootManager : MonoBehaviour {
 	private Loot playerLoot;
 	private Loot otherLoot;
 
-	void Awake () {
+	public void Init () {
 		
 		Instance = this;
 
 		playerLoot = new Loot ();
-		playerLoot.Randomize ();
+		playerLoot.Randomize ( ItemLoader.allCategories );
+
+		ItemCategory[] cats = new ItemCategory[5] {
+			ItemCategory.Provisions,
+			ItemCategory.Weapon,
+			ItemCategory.Clothes,
+			ItemCategory.Shoes,
+			ItemCategory.Mics
+		};
+
+		Item[] items = playerLoot.getCategory (cats);
+
+		foreach ( Item item in items ) {
+			WeightManager.Instance.AddWeight ( item.weight );
+		}
+
 
 		otherLoot = new Loot ();
 	}
@@ -36,6 +51,10 @@ public class LootManager : MonoBehaviour {
 
 	public Loot getLoot (Crews.Side side) {
 		return side == Crews.Side.Player ? playerLoot : otherLoot;
+	}
+
+	public void setLoot ( Crews.Side side , Loot targetLoot) {
+		otherLoot = targetLoot;
 	}
 
 	public CategoryContent DefaultCategoryContent {

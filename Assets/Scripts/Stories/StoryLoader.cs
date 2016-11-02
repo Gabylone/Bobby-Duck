@@ -7,114 +7,87 @@ public class StoryLoader : MonoBehaviour {
 
 	public static StoryLoader Instance;
 
-	List<Story> stories = new List<Story>();
+	Story[,] islandStories;
+
+	Story[] stories;
+//	private int[] storyIDs = 0;
+	private int frequencyCount = 0;
 
 	List<List<string>> content = new List<List<string>>();
 
 	[SerializeField]
-	private TextAsset data;
+	private TextAsset[] storyFiles;
+	private int currentFile = 0;
+
+	[SerializeField]
+	private Text storyVisualizer;
 
 	void Awake () {
 		Instance = this;
 
-		LoadStories ();
+		stories = new Story[ storyFiles.Length ];
 
-	}
+		for (int i = 0; i < storyFiles.Length; ++i ) {
+			//
+			LoadStories ();
 
-	void Start () {
-		
-	}
-
-	void Update () {
-		if ( Input.GetKeyDown (KeyCode.I) ) {
-//			Debug.Log ( content[6][4] );
+			++currentFile;
 		}
+
+
 	}
 
 	void LoadStories ()
 	{
-		string[] rows = data.text.Split ('\n');
+		string[] rows = storyFiles[currentFile].text.Split ('\n');
 
-		int rowIndex 		= 0;
 		int collumnIndex 	= 0;
+		for (int rowIndex = 1; rowIndex < rows.Length; ++rowIndex ) {
 
-		foreach (string row in rows) {
+			string[] rowContent = rows[rowIndex].Split (';');
 
+			// create story
+			if (rowIndex == 1) 
+			{
+				stories [currentFile] = new Story (currentFile, rowContent [0], int.Parse (rowContent [1]));
 
-			string[] rowContent = row.Split (';');
-
-			collumnIndex 	= 0;
-
-
-			foreach (string cellContent in rowContent) {
-
-				if ( rowIndex == 0 ) {
-					// create missions
-
-					if (cellContent.Length > 0) {
-						stories.Add ( new Story (collumnIndex , cellContent) );
-					}
-
-					content.Add (new List<string> ());
-
-
-				} else {
-					// set mission contents
-
-					content [collumnIndex].Add (cellContent);
-
-//					Debug.Log ( cellContent );
-
+				foreach (string cellContent in rowContent) {
+					stories [currentFile].content.Add (new List<string> ());
 				}
 
+			}
+			else
+			{
 
+				foreach (string cellContent in rowContent) {
 
-				++collumnIndex;
+					stories [currentFile].content [collumnIndex].Add (cellContent);
+					++collumnIndex;
+
+				}
 			}
 
-			++rowIndex;
+			collumnIndex 	= 0;
 
 		}
 	}
 
 	#region properties
-	public void UpdateContent () {
-
-
-		int rowIndex = 0;
-		int collIndex = 0;
-
-
-		foreach (List<string> row in content) {
-
-			foreach ( string cell in row ) {
-
-				collIndex++;
-			}
-
-			collIndex = 0;
-
-			++rowIndex;
-
-
-		}
-
-	}
 	public string GetContent {
 		get {
-			return content
-				[StoryReader.Instance.CurrentStory.index + StoryReader.Instance.Decal]
+			return CurrentIslandStory.content
+				[StoryReader.Instance.Decal]
 				[StoryReader.Instance.Index];
 		}
 	}
 	public string ReadDecal (int decal) {
 
-		return content
-			[StoryReader.Instance.CurrentStory.index + decal]
+		return CurrentIslandStory.content
+			[decal]
 			[StoryReader.Instance.Index]; 
 
 	}
-	public List<Story> Stories {
+	public Story[] Stories {
 		get {
 			return stories;
 		}
@@ -123,22 +96,46 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 	#endregion
+
+	public Story[,] IslandStories {
+		get {
+			return islandStories;
+		}
+		set {
+			islandStories = value;
+		}
+	}
+
+	public Story CurrentIslandStory {
+		get {
+			return IslandStories [MapManager.Instance.PosX, MapManager.Instance.PosY];
+		}
+		set {
+			IslandStories [MapManager.Instance.PosX, MapManager.Instance.PosY] = value;
+		}
+	}
 }
 
 [System.Serializable]
 public class Story {
 
-	public int 		index 	= 0;
+	public int 		storyID 	= 0;
 	public string 	name 	= "";
 
+	public int frequency = 0;
+
+	public List<List<string>> content = new List<List<string>>();
 
 	public Story (
-		int _index,
-		string _name
+		int _storyID,
+		string _name,
+		int _freq
 	)
 	{
-		index = _index;
+		storyID = _storyID;
 		name = _name;
+
+		frequency = _freq;
 	}
 
 }

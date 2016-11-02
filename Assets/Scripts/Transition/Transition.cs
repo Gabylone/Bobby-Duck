@@ -10,7 +10,7 @@ public class Transition : MonoBehaviour {
 	[SerializeField]
 	private float duration = 1f;
 
-	bool isFaded = true;
+	bool isFaded = false;
 
 	[SerializeField]
 	private Image targetImage;
@@ -23,8 +23,6 @@ public class Transition : MonoBehaviour {
 
 	void Start () {
 		
-		transitionCanvas.SetActive (true);
-		Switch ();
 	}
 
 	void Update () {
@@ -43,10 +41,17 @@ public class Transition : MonoBehaviour {
 	}
 
 	public void Switch () {
+		transitionCanvas.SetActive (true);
+
 		timer = 0f;
 
 		isFaded = !isFaded;
 		lerping = true;
+	}
+
+	public void QuickSwitch () {
+		targetImage.color = isFaded ? Color.clear : Color.black;
+		isFaded = !isFaded;
 	}
 
 	public float Duration {

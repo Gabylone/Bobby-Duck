@@ -15,6 +15,9 @@ public class StoryReader : MonoBehaviour {
 	bool waitToNextCell = false;
 	float timer = 0f;
 
+	[SerializeField]
+	private AudioClip pressInputButton;
+
 	void Awake () {
 		Instance = this;
 	}
@@ -40,11 +43,10 @@ public class StoryReader : MonoBehaviour {
 
 	}
 
-	public void PickRandomStory () {
-
-//		currentStory = StoryLoader.Instance.Stories [Random.Range (0, StoryLoader.Instance.Stories.Count)];
-		currentStory = StoryLoader.Instance.Stories [1];
-		SetStory (currentStory);
+	public Story RandomStory {
+		get {
+			return StoryLoader.Instance.Stories [Random.Range (0, StoryLoader.Instance.Stories.Length)];
+		}
 	}
 
 	#region wait for input
@@ -57,6 +59,11 @@ public class StoryReader : MonoBehaviour {
 		inputButton.SetActive (true);
 	}
 	public void PressInput () {
+
+		SoundManager.Instance.PlaySound (pressInputButton);
+
+		DialogueManager.Instance.HideNarrator ();
+
 		waitForInput = false;
 		inputButton.SetActive (false);
 
@@ -73,13 +80,16 @@ public class StoryReader : MonoBehaviour {
 	#region navigation
 	public void SetStory ( Story newStory ) {
 
+		currentStory = newStory;
+
 		index = 0;
 		decal = 0;
-
-		UpdateStory ();
 	}
 	public void UpdateStory () {
 
+		if ( StoryLoader.Instance.GetContent == null) {
+			Debug.LogError ( " no function at index : " + index.ToString () + " / decal : " + decal.ToString () );
+		}
 		StoryFunctions.Instance.Read ( StoryLoader.Instance.GetContent );
 
 	}

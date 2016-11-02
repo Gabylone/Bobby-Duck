@@ -10,12 +10,13 @@ public class ItemButton : MonoBehaviour {
 	[Header("UI elements")]
 	[SerializeField] private Button button;
 	[SerializeField] private Text nameText;
-	[SerializeField] private Text descriptionText;
 	[SerializeField] private Text paramText;
 	[SerializeField] private Text priceText;
+	[SerializeField] private Text weightText;
 
 	[SerializeField] private GameObject paramObj;
 	[SerializeField] private GameObject priceObj;
+	[SerializeField] private GameObject weightObj;
 
 	private int index = 0;
 
@@ -23,6 +24,7 @@ public class ItemButton : MonoBehaviour {
 	private string description;
 	private int param;
 	private int price;
+	private int weight;
 
 	bool enabled = false;
 
@@ -51,16 +53,6 @@ public class ItemButton : MonoBehaviour {
 		}
 	}
 
-	public string Description {
-		get {
-			return description;
-		}
-		set {
-			description = value;
-			descriptionText.text = description;
-		}
-	}
-
 	public int Param {
 		get {
 			return param;
@@ -80,6 +72,17 @@ public class ItemButton : MonoBehaviour {
 			price = value;
 			priceText.text = price.ToString ();
 			priceObj.SetActive (value > 0);
+		}
+	}
+
+	public int Weight {
+		get {
+			return weight;
+		}
+		set {
+			weight = value;
+			weightText.text = weight.ToString ();
+			weightObj.SetActive (value > 0);
 		}
 	}
 

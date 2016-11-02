@@ -1,0 +1,26 @@
+Nom;Fréquence / 5;;;;
+Taverne;2;;;;
+Narrator : De la fumée monte dans le ciel et une odeur merveilleuse flotte dans l'air. C'est une taverne.;;;;;
+setChoices2;;;;;
+Reprenons la mer;Entrons;;;;
+leave;randomCrew;;;;
+;OtherSpeak : Qu'est-ce que je peux faire pour vous ?;;;;
+;setChoices3;;;;
+;Des chambres pour mes hommes !;;;On a faim !;Ça ira pour aujourdh'ui
+;OtherSpeak : Ça sera 50 pièces d'or;;;OtherSpeak : Regardez voir ce que j'ai;OtherSpeak : Bon bah à la prochaine !
+;setChoices2;;;tradeFood;leave
+;Tenez !;;Je n'ai pas assez…;goTo2/5;
+;checkGold50;;OtherSpeak : C'est rien mon bon monsieur;;
+;OtherSpeak : Prenez le dortoir à gauche en haut des escaliers !;OtherSpeak : Désolé mon bon m'sieur mais c'est pas assez;goTo2/5;;
+;OtherSpeak : Bonne nuit;goTo2/5;;;
+;randomPercent4;;;;
+;setWeatherNight;;;setWeatherDay;
+;nextDay;;;nextDay;
+;Narrator : Des craquements dans le couloir réveillent l'équipage;;;Narrator : L'équipe se réveille au son des mouettes…;
+;setChoices2;;;setChoices2;
+;Je vais voir ce que c'est;On verra demain…;;OtherSpeak : Alors, bien dormis ?;
+;PlayerSpeak : Vous pensiez nous avoir comme ça ?!;setWeatherDay;;Non j'ai très mal dormis;Oui merci !
+;launchCombat;randomRange2;;goTo2/5;goTo2/5
+;conclude;Narrator : L'équipage se réveille. Plus de deux cents pièces d'or ont disparues;Narrator : Le capitaine et ses hommes se réveillent après une bonne nuit de sommeil;;
+;;PlayerSpeak : Nos bourses ! Qui a pris ma bourse !?;leave;;
+;;leave;;;

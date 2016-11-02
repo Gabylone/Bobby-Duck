@@ -8,68 +8,61 @@ public class MapImage : MonoBehaviour {
 	private Image targetImage;
 
 	[SerializeField]
-	private int textureWidth = 100;
+	private Color hiddenColor;
 
 	[SerializeField]
-	private int textureHeight = 100;
+	private int textureScale = 100;
 
 	[SerializeField]
 	private Color mapColor = Color.magenta;
 
 	public void InitImage () {
 
-		Texture2D texture = new Texture2D (textureWidth, textureHeight);
+//		Texture2D texture = targetImage.sprite.texture;
+		Texture2D texture = new Texture2D (textureScale, textureScale);
 
-		for ( int x = 0; x < textureWidth ; ++x ) {
-			for (int y = 0; y < textureHeight; ++y ) {
-				texture.SetPixel ( x , y , mapColor );
+		for ( int x = 0; x < textureScale ; ++x ) {
+			for (int y = 0; y < textureScale; ++y ) {
+//				texture.SetPixel (x, y, MapManager.Instance.CheckIsland[x,y] ? Color.yellow : Color.blue);
+				texture.SetPixel (x, y, hiddenColor);
 			}
 		}
-
+//
 		texture.filterMode = FilterMode.Point;
 
-		Sprite sprite = Sprite.Create (texture, new Rect (0, 0, textureWidth , textureHeight) , Vector2.one * 0.5f );
+		texture.Apply ();
+//
+		Sprite sprite = Sprite.Create (texture, new Rect (0, 0, textureScale , textureScale) , Vector2.one * 0.5f );
 		targetImage.sprite = sprite;
 	}
 
-	public void UpdateCurrentPixel (Color color) {
+	public void UpdatePixel ( int x , int y, Color color) {
 
 		Texture2D texture = (Texture2D)targetImage.mainTexture;
 
-		texture.SetPixel (MapManager.Instance.PosX, MapManager.Instance.PosY, color);
+		texture.SetPixel (x, y, color);
 
 		texture.filterMode = FilterMode.Point;
 
-//		UpdateImagePosition ();
-
 		texture.Apply ();
 
-		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, textureWidth , textureHeight) , Vector2.one * 0.5f );
+		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, textureScale , textureScale) , Vector2.one * 0.5f );
 
 	}
 
 	public void UpdateImagePosition () {
-		int x = (300 * MapManager.Instance.PosX) / textureWidth;
-		int y = (300 * MapManager.Instance.PosY) / textureHeight;
-		targetImage.transform.localPosition = new Vector2 (300 - x , (textureHeight- y) );
+		int x = (300 * MapManager.Instance.PosX) / textureScale;
+		int y = (300 * MapManager.Instance.PosY) / textureScale;
+		targetImage.transform.localPosition = new Vector2 (300 - x , (textureScale- y) );
 	}
 
 	#region properties
-	public int TextureWidth {
+	public int TextureScale {
 		get {
-			return textureWidth;
+			return textureScale;
 		}
 		set {
-			textureWidth = value;
-		}
-	}
-
-	public int TextureHeight {
-		get {
-			return textureHeight;
-		}
-		set {
-			textureHeight = value;
+			textureScale = value;
 		}
 	}
 	#endregion

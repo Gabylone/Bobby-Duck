@@ -27,9 +27,16 @@ public class DialogueManager : MonoBehaviour {
 	private int TextIndex = 0;
 	private string[] TextsToDisplay = new string[2] {"Rentrer","Dialogues"};
 
+	[Header("Narrator")]
+	[SerializeField] private Text narratorText;
+	[SerializeField] private GameObject narratorObj;
+
 	[SerializeField]
 	private float DisplayTime = 2.5f;
 	private float CurrentTime = 0f;
+
+	[Header("Sounds")]
+	[SerializeField] private AudioClip[] speakSounds;
 
 	void Update() 
 	{
@@ -75,6 +82,8 @@ public class DialogueManager : MonoBehaviour {
 		DisplayingText = true;
 
 		UpdateBubblePosition ();
+
+		SoundManager.Instance.PlayRandomSound ( speakSounds );
 	}
 
 	private void UpdateDialogue () {
@@ -104,6 +113,17 @@ public class DialogueManager : MonoBehaviour {
 	}
 	#endregion
 
+	#region narrator
+	public void ShowNarrator (string text) {
+		narratorObj.SetActive (true);
+
+		narratorText.text = text;
+	}
+	public void HideNarrator () {
+		narratorObj.SetActive (false);
+	}
+	#endregion
+
 	private void NextPhrase ()
 	{
 		++TextIndex;
@@ -116,7 +136,6 @@ public class DialogueManager : MonoBehaviour {
 
 	private void UpdateBubblePosition ()
 	{
-
 		if (speaker_Transform == null) {
 			EndDialogue ();
 			return;

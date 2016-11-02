@@ -6,7 +6,6 @@ public class CrewIcon : MonoBehaviour {
 
 	private int id = 0;
 
-
 		// components
 	[Header ("Components")]
 	[SerializeField]
@@ -127,7 +126,6 @@ public class CrewIcon : MonoBehaviour {
 		float decal = 0f;
 
 		if (placingType == Crews.PlacingType.Combat || placingType == Crews.PlacingType.Map) {
-
 			decal = member.GetIndex;
 		}
 

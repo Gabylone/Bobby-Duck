@@ -4,7 +4,18 @@ using System.Collections;
 public class MapManager : MonoBehaviour {
 
 	public static MapManager Instance;
+
 	private MapImage mapImage;
+
+	[SerializeField]
+	private Color islandColor;
+	[SerializeField]
+	private Color discoveredColor;
+
+	private MapGenerator mapGenerator;
+	bool[,] 	checkIsland;
+	Vector2[,] 	islandPositions;
+	Loot[,] islandLoots;
 
 	private int posX = 0;
 	private int posY = 0;
@@ -17,32 +28,38 @@ public class MapManager : MonoBehaviour {
 	void Start () {
 
 		mapImage = GetComponent<MapImage> ();
+		mapGenerator = GetComponent<MapGenerator> ();
 
 			// init boat pos
-		posX = (int)(mapImage.TextureWidth / 2);
-		posY = (int)(mapImage.TextureHeight / 2);
+		posX = (int)(mapImage.TextureScale / 2);
+		posY = (int)(mapImage.TextureScale / 6);
 
-		mapImage.InitImage ();
-
-		mapImage.UpdateCurrentPixel (Color.red);
+		mapGenerator.GenerateIslands ();
 
 	}
 
 	public void SetNewPos ( Vector2 v ) {
 
-		mapImage.UpdateCurrentPixel (Color.grey);
-
 		posX += (int)v.x;
 		posY += (int)v.y;
 
-		mapImage.UpdateCurrentPixel (Color.red);
+		int shipRange = NavigationManager.Instance.ShipRange;
+
+		for (int x = -shipRange; x <= shipRange; ++x ) {
+
+			for (int y = -shipRange; y <= shipRange; ++y ) {
+
+				if (x == 0 && y == 0) {
+					mapImage.UpdatePixel (posX + x, posY + y, Color.red);
+				} else {
+					mapImage.UpdatePixel (posX + x, posY + y, checkIsland [posX + x, posY + y] ? islandColor : discoveredColor);
+				}
 
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+			}
+
+		}
+
 	}
 
 	#region properties
@@ -62,5 +79,58 @@ public class MapManager : MonoBehaviour {
 			posY = value;
 		}
 	}
+	public int Middle {
+		get {
+			return mapImage.TextureScale/2;
+		}
+	}
 	#endregion
+
+	public bool[,] CheckIsland {
+		get {
+			return checkIsland;
+		}
+		set {
+			checkIsland = value;
+		}
+	}
+
+	public bool CheckCurrentPosIsland {
+		get {
+			return checkIsland [posX, posY];
+		}
+	}
+
+	public Vector2[,] IslandPositions {
+		get {
+			return islandPositions;
+		}
+		set {
+			islandPositions = value;
+		}
+	}
+
+	public Vector2 CurrentIslandPosition {
+		get {
+			return islandPositions[posX,posY];
+		}
+	}
+
+	public Loot[,] IslandLoots {
+		get {
+			return islandLoots;
+		}
+		set {
+			islandLoots = value;
+		}
+	}
+
+	public Loot CurrentIslandLoot {
+		get {
+			return islandLoots [posX, posY];
+		}
+		set {
+			islandLoots [posX, posY] = value;
+		}
+	}
 }

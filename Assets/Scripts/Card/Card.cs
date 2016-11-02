@@ -12,10 +12,13 @@ public class Card : MonoBehaviour {
 	private GameObject cardObject;
 
 	[SerializeField]
-	private Text lvl_Text;
-
-	[SerializeField]
 	private Text name_Text;
+
+	[Header("Level")]
+	[SerializeField]
+	private Text lvl_Text;
+	[SerializeField]
+	private Image lvl_Image;
 
 	bool displaying = false;
 
@@ -42,7 +45,16 @@ public class Card : MonoBehaviour {
 	[SerializeField]
 	private bool centerCard = false;
 
-	public virtual void Awake () {
+	// states => hunger ; cold ( array way )
+	[Header("States")]
+	[SerializeField]
+	private Image[] stateFeedbacks;
+	[SerializeField]
+	private Image[] stateWarnings;
+	[SerializeField]
+	private Animator[] stateAnimators;
+
+	void Awake () {
 		Init ();
 	}
 
@@ -57,9 +69,15 @@ public class Card : MonoBehaviour {
 
 		cardObject.SetActive (true);
 
+			// general info
 		name_Text.text = member.MemberName;
+
+			// INFO
 		lvl_Text.text = member.Level.ToString ();
 
+		lvl_Image.fillAmount = ((float)member.Xp / (float)member.StepToNextLevel);
+
+		// STATS & Equipment
 		Image[] images = new Image[4]{
 			heart,
 			attackDice,
@@ -73,6 +91,16 @@ public class Card : MonoBehaviour {
 			++a;
 		}
 
+		images [0].fillAmount = (float)member.Health / (float)member.MaxHealth;
+
+			// STATES
+		float[] values = new float[2] { member.CurrentHunger, member.CurrentCold };
+
+		for (int i = 0; i < stateFeedbacks.Length ; ++i ) {
+			stateFeedbacks [i].fillAmount = values[i] / member.MaxState;
+			stateWarnings[i].enabled = values[i] >= member.MaxState;
+			stateAnimators[i].SetBool ("Warning",values[i] >= member.MaxState);
+		}
 	}
 
 	public void PlaceCard (Vector3 pos) {

@@ -21,6 +21,12 @@ public class OtherLoot : MonoBehaviour {
 
 	private string[] playerPreviousLootActions;
 
+	[Header("Sounds")]
+	[SerializeField] private AudioClip buySound;
+	[SerializeField] private AudioClip sellSound;
+	[SerializeField] private AudioClip equipSound;
+	[SerializeField] private AudioClip lootSound;
+
 	bool trading = false;
 
 	void Awake () {
@@ -46,9 +52,6 @@ public class OtherLoot : MonoBehaviour {
 		playerLootUI.Visible = true;
 		playerLootUI.UpdateActionButton (0);
 
-			// enemy loot ui
-		LootManager.Instance.OtherLoot.Randomize ();
-
 		otherLootUI.CategoryContent = category_TradeContent;
 		otherLootUI.Visible = true;
 		otherLootUI.UpdateActionButton(0);
@@ -65,6 +68,11 @@ public class OtherLoot : MonoBehaviour {
 
 		trading = false;
 
+		if ( IslandManager.Instance.OnIsland ) {
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.UpdateStory ();
+		}
+
 	}
 
 	public bool Trading {
@@ -75,10 +83,15 @@ public class OtherLoot : MonoBehaviour {
 
 	public void SellItem ( ItemCategory category , int index ) {
 
+		SoundManager.Instance.PlaySound (sellSound);
+
 		GoldManager.Instance.AddGold (playerLootUI.SelectedItem.price);
+
+		WeightManager.Instance.RemoveWeight (otherLootUI.SelectedItem.weight);
 
 		LootManager.Instance.OtherLoot.AddItem (playerLootUI.SelectedItem);
 		LootManager.Instance.PlayerLoot.RemoveItem (playerLootUI.SelectedItem);
+
 
 		playerLootUI.UpdateLootUI ();
 		otherLootUI.UpdateLootUI ();
@@ -87,10 +100,17 @@ public class OtherLoot : MonoBehaviour {
 	}
 	public void BuyItem () {
 
+		SoundManager.Instance.PlaySound (buySound);
+
+		if (!WeightManager.Instance.CheckWeight (otherLootUI.SelectedItem.weight))
+			return;
+		WeightManager.Instance.AddWeight (otherLootUI.SelectedItem.weight);
+
 		GoldManager.Instance.RemoveGold (otherLootUI.SelectedItem.price);
 
 		LootManager.Instance.PlayerLoot.AddItem (otherLootUI.SelectedItem);
-		LootManager.Instance.OtherLoot.RemoveItem (playerLootUI.SelectedItem);
+		LootManager.Instance.OtherLoot.RemoveItem (otherLootUI.SelectedItem);
+
 
 		playerLootUI.UpdateLootUI ();
 		otherLootUI.UpdateLootUI ();
@@ -101,18 +121,29 @@ public class OtherLoot : MonoBehaviour {
 	#region looting
 	public void StartLooting () {
 
+		SoundManager.Instance.PlaySound (lootSound);
+
 		buttonObj.SetActive (false);
 
 		// enemy loot ui
-		LootManager.Instance.OtherLoot.Randomize ();
+		LootManager.Instance.OtherLoot.Randomize (ItemLoader.allCategories);
+
 		otherLootUI.CategoryContent = category_OtherLootContent;
 		otherLootUI.Visible = true;
 		otherLootUI.UpdateActionButton(0);
 
 	}
 	public void PickUpItem () {
+
+		SoundManager.Instance.PlaySound (equipSound);
+
+		if (!WeightManager.Instance.CheckWeight (otherLootUI.SelectedItem.weight))
+			return;
+		WeightManager.Instance.AddWeight (otherLootUI.SelectedItem.weight);
+
 		LootManager.Instance.PlayerLoot.AddItem (otherLootUI.SelectedItem);
 		LootManager.Instance.OtherLoot.RemoveItem (otherLootUI.SelectedItem);
+
 
 		playerLootUI.UpdateLootUI ();
 		otherLootUI.UpdateLootUI ();
@@ -134,9 +165,8 @@ public class OtherLoot : MonoBehaviour {
 		otherLootUI.Visible = false;
 
 		if (trading) {
-			trading = false;
-			playerLootUI.ActionButtonTexts = playerPreviousLootActions;
-			playerLootUI.Visible = false;
+
+			EndTrade ();
 		} else {
 			trading = false;
 		}

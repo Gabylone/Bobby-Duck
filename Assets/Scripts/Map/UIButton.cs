@@ -20,6 +20,11 @@ public class UIButton : MonoBehaviour {
 
 	float timer = 0f;
 
+	[Header("Sounds")]
+	[SerializeField] private bool playSounds = false;
+	[SerializeField] private AudioClip openSound;
+	[SerializeField] private AudioClip closeSound;
+
 	[SerializeField]
 	private float duration = 2f;
 
@@ -77,8 +82,12 @@ public class UIButton : MonoBehaviour {
 
 		timer = 0f;
 
+
 		lerping = true;
 		opened = !opened;
+
+		if ( playSounds )
+			SoundManager.Instance.PlaySound ( opened ? closeSound : openSound );
 
 		menu.gameObject.SetActive (true);
 		button.gameObject.SetActive (true);

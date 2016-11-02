@@ -40,7 +40,10 @@ public class CrewMember {
 	}
 
 	private string memberName;
+
 	private int level;
+	private int xp = 0;
+	private int stepToNextLevel = 10;
 
 	private int health;
 	private int maxHealth;
@@ -48,11 +51,21 @@ public class CrewMember {
 	private int speedDice;
 	private int constitutionDice;
 
+	private int daysOnBoard = 0;
+
 	private Item[] equipment = new Item[3];
 
 	private CrewIcon icon;
 	private CrewInfo info;
 	private GameObject iconObj;
+
+	private float currentCold = 0;
+	private float stepsToCold = 1;
+
+	private float currentHunger = 0;
+	private float stepsToHunger = 1;
+
+	private int maxState = 20;
 
 	private void Init () {
 
@@ -63,6 +76,7 @@ public class CrewMember {
 			icon.Overable = false;
 	}
 
+	#region health
 	public void GetHit (int damage) {
 
 		string smallText = damage.ToString () + " - " + constitutionDice.ToString () + " = ";
@@ -81,6 +95,50 @@ public class CrewMember {
 
 		Crews.getCrew(side).RemoveMember (this);
 	}
+	#endregion
+
+	public void AddXP ( int _xp ) {
+		xp += _xp;
+		if ( xp >= stepToNextLevel ) {
+			Debug.Log (memberName + " nest level");
+			++level;
+			xp = stepToNextLevel - xp;
+
+			maxHealth += 5;
+			health = maxHealth;
+
+			stepsToCold -= 0.1f;
+		}
+	}
+
+	#region states
+	public void AddToStates () {
+
+		CurrentHunger += StepsToHunger;
+
+		if ( CurrentHunger >= maxState ) {
+			--Health;
+			if ( health == 0 )
+			{
+				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + memberName + " est mort d'une faim atroce");
+				Kill ();
+			}
+		}
+
+//		if ( MapManager.Instance.PosY > 0 )
+//			CurrentCold += StepsToCold;
+
+		if ( CurrentCold >= maxState ) {
+			--Health;
+			if ( health == 0 )
+			{
+				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + memberName + " meurt d'un froid mordant");
+				Kill ();
+			}
+		}
+
+	}
+	#endregion
 
 	#region parameters
 	public int Health {
@@ -189,6 +247,7 @@ public class CrewMember {
 	}
 	#endregion
 
+	#region properties
 	public int MaxHealth {
 		get {
 			return maxHealth;
@@ -210,6 +269,66 @@ public class CrewMember {
 	public CrewInfo Info {
 		get {
 			return info;
+		}
+	}
+	#endregion
+
+	#region states properties
+	public float StepsToHunger {
+		get {
+			return stepsToHunger;
+		}
+		set {
+			stepsToHunger = value;
+		}
+	}
+
+	public float CurrentHunger {
+		get {
+			return currentHunger;
+		}
+		set {
+			currentHunger = Mathf.Clamp (value, 0, maxState);
+		}
+	}
+
+	public float StepsToCold {
+		get {
+			return stepsToCold;
+		}
+		set {
+			stepsToCold = value;
+		}
+	}
+
+	public float CurrentCold {
+		get {
+			return currentCold;
+		}
+		set {
+			currentCold = Mathf.Clamp (value, 0, maxState);
+		}
+	}
+
+	public int MaxState {
+		get {
+			return maxState;
+		}
+		set {
+			maxState = value;
+		}
+	}
+	#endregion
+
+	public int Xp {
+		get {
+			return xp;
+		}
+	}
+
+	public int StepToNextLevel {
+		get {
+			return stepToNextLevel;
 		}
 	}
 }

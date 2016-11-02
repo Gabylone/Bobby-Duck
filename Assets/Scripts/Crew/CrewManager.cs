@@ -13,6 +13,10 @@ public class CrewManager : MonoBehaviour {
 	[SerializeField] private Crews.Side side;
 	[SerializeField] private Transform[] crewAnchors;
 
+	private int memberCapacity = 2;
+	[SerializeField]
+	private int maxMember = 8;
+
 	private bool placingCrew = false;
 
 	[SerializeField] private float placingDuration = 0.5f;
@@ -46,8 +50,6 @@ public class CrewManager : MonoBehaviour {
 		previousPlacingType = currentPlacingType;
 		currentPlacingType = placingType;
 
-//		CardManager.Instance.OveringCard.
-
 		foreach ( CrewMember member in crewMembers ) {
 			member.Icon.MoveToPoint (placingType);
 		}
@@ -73,6 +75,11 @@ public class CrewManager : MonoBehaviour {
 
 	#region crew list
 	public void AddMember ( CrewMember member ) {
+
+		if (crewMembers.Count == memberCapacity) {
+			return;
+		}
+
 		crewMembers.Add (member);
 	}
 	public List<CrewMember> CrewMembers {
@@ -105,14 +112,14 @@ public class CrewManager : MonoBehaviour {
 
 		CrewCreator.Instance.TargetSide = side;
 
-		CrewMember crewMember;
-
-		int count = Random.Range (2,7);
+		int count = Random.Range (2,MemberCapacity);
 
 		for (int i = 0; i < count; ++i ) {
 			CrewMember member = CrewCreator.Instance.NewMember ();
 			AddMember (member);
 		}
+
+		UpdateCrew (Crews.PlacingType.Combat);
 	}
 	public void CreateRandomMember () {
 
@@ -131,5 +138,19 @@ public class CrewManager : MonoBehaviour {
 
 	#endregion
 
+	public int MaxMember {
+		get {
+			return maxMember;
+		}
+	}
 
+	public int MemberCapacity {
+		get {
+			return memberCapacity;
+		}
+		set {
+			memberCapacity = Mathf.Clamp (value, 0, MaxMember);
+			BoatManager.Instance.UpdateCrewImages ();
+		}
+	}
 }
