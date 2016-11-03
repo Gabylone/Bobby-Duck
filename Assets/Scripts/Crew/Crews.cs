@@ -13,6 +13,7 @@ public class Crews : MonoBehaviour {
 		Combat,
 		SoloCombat,
 		Discussion,
+		Hidden
 	}
 
 	public static CrewManager[] crews = new CrewManager[2];

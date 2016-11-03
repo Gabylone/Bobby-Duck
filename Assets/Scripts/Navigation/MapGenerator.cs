@@ -38,11 +38,17 @@ public class MapGenerator : MonoBehaviour {
 
 		int islandAmount = Mathf.RoundToInt (mapImage.TextureScale / 10);
 
+		int y1 = Random.Range (0, (mapImage.TextureScale / 2) - (noManSeaScale / 2));
+		int y2 = Random.Range ((mapImage.TextureScale / 2) + (noManSeaScale / 2), mapImage.TextureScale);
+		int treasureY = Random.value > 0.5f ? Mathf.RoundToInt (y1) : Mathf.RoundToInt (y2);
+
 		for ( int y = 0; y < mapImage.TextureScale ; ++y ) {
 
 			for (int i = 0; i < islandAmount; ++i ) {
 
 				int x = Random.Range ( 0, mapImage.TextureScale );
+
+
 
 				bool isInNoMansSea =
 					y > (mapImage.TextureScale / 2) - (noManSeaScale/2)
@@ -50,6 +56,10 @@ public class MapGenerator : MonoBehaviour {
 
 				if (!MapManager.Instance.CheckIsland[x,y]
 					&& isInNoMansSea == false) {
+
+					if ( i == 0 && y == treasureY ) {
+						//
+					}
 
 					MapManager.Instance.CheckIsland 	[x, y] 	= true;
 					MapManager.Instance.IslandPositions [x, y] 	= new Vector2 ( Random.Range (-islandRange.x,islandRange.x), Random.Range (-islandRange.y, islandRange.y) );

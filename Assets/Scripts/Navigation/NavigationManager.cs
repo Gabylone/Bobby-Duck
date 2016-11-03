@@ -161,42 +161,6 @@ public class NavigationManager : MonoBehaviour {
 	}
 	#endregion
 
-	private Vector2 getDir ( Directions dir ) {
-		
-		switch (dir) {
-		case Directions.North:
-			return new Vector2 (0, 1);
-			break;
-		case Directions.NorthEast:
-			return new Vector2 (1, 1);
-			break;
-		case Directions.East:
-			return new Vector2 (1, 0);
-			break;
-		case Directions.SouthEast:
-			return new Vector2 (1, -1);
-			break;
-		case Directions.South:
-			return new Vector2 (0, -1);
-			break;
-		case Directions.SouthWest:
-			return new Vector2 (-1, -1);
-			break;
-		case Directions.West:
-			return new Vector2 (-1, 0);
-			break;
-		case Directions.NorthWest:
-			return new Vector2 (-1, 1);
-			break;
-		case Directions.None:
-			return new Vector2 (0, 0);
-			break;
-		}
-
-		return Vector2.zero;
-
-	}
-
 	public int ShipRange {
 		get {
 
@@ -236,4 +200,78 @@ public class NavigationManager : MonoBehaviour {
 			PlaySound ();
 		}
 	}
+
+	#region tools
+	public string getDirName ( Directions dir ) {
+
+		switch (dir) {
+		case Directions.North:
+			return "au nord";
+			break;
+		case Directions.NorthEast:
+			return "au nord est";
+			break;
+		case Directions.East:
+			return "à l'est";
+			break;
+		case Directions.SouthEast:
+			return "au sud est";
+			break;
+		case Directions.South:
+			return "au sud";
+			break;
+		case Directions.SouthWest:
+			return "au sud ouest";
+			break;
+		case Directions.West:
+			return "à l'ouest";
+			break;
+		case Directions.NorthWest:
+			return "au nord ouest";
+			break;
+		case Directions.None:
+			return "nulle part";
+			break;
+		}
+
+		return "nulle part";
+
+	}
+	public Vector2 getDir ( Directions dir ) {
+
+		switch (dir) {
+		case Directions.North:
+			return new Vector2 (0, 1);
+			break;
+		case Directions.NorthEast:
+			return new Vector2 (1, 1);
+			break;
+		case Directions.East:
+			return new Vector2 (1, 0);
+			break;
+		case Directions.SouthEast:
+			return new Vector2 (1, -1);
+			break;
+		case Directions.South:
+			return new Vector2 (0, -1);
+			break;
+		case Directions.SouthWest:
+			return new Vector2 (-1, -1);
+			break;
+		case Directions.West:
+			return new Vector2 (-1, 0);
+			break;
+		case Directions.NorthWest:
+			return new Vector2 (-1, 1);
+			break;
+		case Directions.None:
+			return new Vector2 (0, 0);
+			break;
+		}
+
+		return Vector2.zero;
+
+	}
+
+	#endregion
 }

@@ -86,7 +86,7 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region character & crew
-	void randomAppear () {
+	void randomCharacter() {
 		Crews.enemyCrew.CreateRandomMember ();
 
 		StoryReader.Instance.Wait ( Crews.playerCrew.captain.Icon.MoveDuration );
@@ -96,10 +96,25 @@ public class StoryFunctions : MonoBehaviour {
 		Crews.enemyCrew.CreateRandomCrew ();
 		Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Combat);
 
-		Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+		if (Crews.enemyCrew.captain.Icon.CurrentPlacingType != Crews.PlacingType.Discussion) {
+			Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Combat);
+			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+		}
 
 		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.MoveDuration);
 
+	}
+	void hideOther () {
+		Crews.enemyCrew.Hide ();
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+	}
+	void deleteOther () {
+		Crews.enemyCrew.DeleteCrew ();
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
 	}
 	#endregion
 
@@ -215,6 +230,59 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region loot
+	void lootAll () {
+		if ( MapManager.Instance.CurrentIslandLoot == null ) {
+			MapManager.Instance.CurrentIslandLoot = new Loot ();
+			MapManager.Instance.CurrentIslandLoot.Randomize (ItemLoader.allCategories);
+		}
+
+		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
+		OtherLoot.Instance.StartLooting ();
+	}
+	void lootFood () {
+		if ( MapManager.Instance.CurrentIslandLoot == null ) {
+			MapManager.Instance.CurrentIslandLoot = new Loot ();
+			MapManager.Instance.CurrentIslandLoot.Randomize (ItemCategory.Provisions);
+		}
+
+		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
+		OtherLoot.Instance.StartLooting ();
+	}
+
+	void lootWeapons() {
+		if ( MapManager.Instance.CurrentIslandLoot == null ) {
+			MapManager.Instance.CurrentIslandLoot = new Loot ();
+			MapManager.Instance.CurrentIslandLoot.Randomize (ItemCategory.Provisions);
+		}
+
+		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
+		OtherLoot.Instance.StartLooting ();
+
+	}
+
+	void lootClothes() {
+
+		if ( MapManager.Instance.CurrentIslandLoot.getLoot.Length == 0 ) {
+			ItemCategory[] cats = new ItemCategory[2] {ItemCategory.Clothes, ItemCategory.Shoes};
+			MapManager.Instance.CurrentIslandLoot.Randomize (cats);
+		}
+
+		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
+		OtherLoot.Instance.StartLooting ();
+	}
+
+	void lootMisc() {
+
+		if ( MapManager.Instance.CurrentIslandLoot.getLoot.Length == 0 ) {
+			MapManager.Instance.CurrentIslandLoot.Randomize (ItemCategory.Mics);
+		}
+
+		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
+		OtherLoot.Instance.StartLooting ();
+	}
+	#endregion
+
+	#region trade
 	void tradeAll () {
 		if ( MapManager.Instance.CurrentIslandLoot == null ) {
 			MapManager.Instance.CurrentIslandLoot = new Loot ();
@@ -222,7 +290,6 @@ public class StoryFunctions : MonoBehaviour {
 		}
 
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-
 		OtherLoot.Instance.StartTrade ();
 	}
 	void tradeFood () {
@@ -232,9 +299,7 @@ public class StoryFunctions : MonoBehaviour {
 		}
 
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-
 		OtherLoot.Instance.StartTrade ();
-
 	}
 
 	void tradeWeapons() {
@@ -244,23 +309,18 @@ public class StoryFunctions : MonoBehaviour {
 		}
 
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-
 		OtherLoot.Instance.StartTrade ();
-
 	}
 
 	void tradeClothes() {
 		
 		if ( MapManager.Instance.CurrentIslandLoot.getLoot.Length == 0 ) {
 			ItemCategory[] cats = new ItemCategory[2] {ItemCategory.Clothes, ItemCategory.Shoes};
-
 			MapManager.Instance.CurrentIslandLoot.Randomize (cats);
 		}
 
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-
 		OtherLoot.Instance.StartTrade ();
-
 	}
 
 	void tradeMisc() {
@@ -270,16 +330,12 @@ public class StoryFunctions : MonoBehaviour {
 		}
 
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-
 		OtherLoot.Instance.StartTrade ();
-
 	}
 	#endregion
 
 	#region story navigation
 	void goTo () {
-
-		Debug.Log ("goto ?");
 
 		string[] coords = cellParams.Split ('/');
 
@@ -321,8 +377,21 @@ public class StoryFunctions : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
+	}
+	void checkDay () {
 
+		StoryReader.Instance.NextCell ();
 
+		if (NavigationManager.Instance.IsNight)
+			StoryReader.Instance.SetDecal (1);
+
+		StoryReader.Instance.UpdateStory ();
+	}
+	#endregion
+
+	#region clues
+	void checkClue () {
+		
 	}
 	#endregion
 }

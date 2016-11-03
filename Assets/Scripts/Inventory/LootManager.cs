@@ -19,15 +19,7 @@ public class LootManager : MonoBehaviour {
 		playerLoot = new Loot ();
 		playerLoot.Randomize ( ItemLoader.allCategories );
 
-		ItemCategory[] cats = new ItemCategory[5] {
-			ItemCategory.Provisions,
-			ItemCategory.Weapon,
-			ItemCategory.Clothes,
-			ItemCategory.Shoes,
-			ItemCategory.Mics
-		};
-
-		Item[] items = playerLoot.getCategory (cats);
+		Item[] items = playerLoot.getCategory (ItemLoader.allCategories);
 
 		foreach ( Item item in items ) {
 			WeightManager.Instance.AddWeight ( item.weight );

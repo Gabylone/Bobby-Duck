@@ -1,0 +1,8 @@
+Nom;Fréquence / 5
+Taverne;5
+Narrator : Le bateau accoste sur une petite île. Aucune trace d'autres humains.;
+setChoices2;
+On lève l'ancre !;On va rester ici pour la nuit
+leave;setWeatherDay
+;nextDay
+;goTo1/2

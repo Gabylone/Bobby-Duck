@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{CE518872-3EF7-4D3D-C182-63E254D60B74}</ProjectGuid>
+    <ProjectGuid>{732211AA-2DC6-792B-7407-8D3C9F536B6B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -86,7 +86,7 @@
      <Compile Include="Assets\Scripts\Transition\Transition.cs" />
      <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
      <Compile Include="Assets\StoryTest.cs" />
-     <None Include="Assets\Data\Items\a faire.txt" />
+     <None Include="Assets\Resources\Items\a faire.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

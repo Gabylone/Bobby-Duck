@@ -98,10 +98,16 @@ public class CrewManager : MonoBehaviour {
 
 		crewMembers.Remove (member);
 	}
-	public void Hide () {
-		for (int i = 0; i < crewMembers.Count; ++i) {
-			RemoveMember (crewMembers[i]);
+	public void DeleteCrew () {
+
+		for (int i = 0; i < crewMembers.Count; i++ ) {
+			RemoveMember (crewMembers [i]);
 		}
+
+		crewMembers.Clear ();
+	}
+	public void Hide () {
+		UpdateCrew (Crews.PlacingType.Hidden);
 	}
 	#endregion
 
@@ -123,7 +129,7 @@ public class CrewManager : MonoBehaviour {
 	}
 	public void CreateRandomMember () {
 
-		crewMembers.Clear ();
+		DeleteCrew ();
 
 		CrewCreator.Instance.TargetSide = side;
 

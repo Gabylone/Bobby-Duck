@@ -19,12 +19,10 @@ public class IslandManager : MonoBehaviour {
 
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion, Transitions.Instance.ActionTransition.Duration);
 			
-		// SET STORY
 		if ( StoryLoader.Instance.CurrentIslandStory == null ) {
 			StoryLoader.Instance.CurrentIslandStory = StoryReader.Instance.RandomStory;
 		}
 
-//		StoryReader.Instance.SetStory (StoryLoader.Instance.Stories[0]);
 		StoryReader.Instance.SetStory (StoryLoader.Instance.CurrentIslandStory);
 
 		onIsland = true;
@@ -55,9 +53,5 @@ public class IslandManager : MonoBehaviour {
 		get {
 			return onIsland;
 		}
-	}
-
-	public void TestStory ( int id ) {
-		
 	}
 }

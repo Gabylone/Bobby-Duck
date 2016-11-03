@@ -87,11 +87,11 @@ public class OtherLoot : MonoBehaviour {
 
 		GoldManager.Instance.AddGold (playerLootUI.SelectedItem.price);
 
-		WeightManager.Instance.RemoveWeight (otherLootUI.SelectedItem.weight);
+		Debug.Log (otherLootUI.SelectedItem.weight.ToString( ));
+		WeightManager.Instance.RemoveWeight (playerLootUI.SelectedItem.weight);
 
 		LootManager.Instance.OtherLoot.AddItem (playerLootUI.SelectedItem);
 		LootManager.Instance.PlayerLoot.RemoveItem (playerLootUI.SelectedItem);
-
 
 		playerLootUI.UpdateLootUI ();
 		otherLootUI.UpdateLootUI ();
@@ -110,7 +110,6 @@ public class OtherLoot : MonoBehaviour {
 
 		LootManager.Instance.PlayerLoot.AddItem (otherLootUI.SelectedItem);
 		LootManager.Instance.OtherLoot.RemoveItem (otherLootUI.SelectedItem);
-
 
 		playerLootUI.UpdateLootUI ();
 		otherLootUI.UpdateLootUI ();

@@ -248,3 +248,24 @@ public class CrewIcon : MonoBehaviour {
 		}
 	}
 }
+
+// pour garder les mecs en place quoi...
+public class IconID {
+	
+	public string name = "";
+	public int lvl = 0;
+	public int maxHP = 0;
+	public int attack = 0;
+	public int constitution = 0;
+	public int speed = 0;
+
+	public int bodyColorID = 0;
+
+	public int hairColorID = 0;
+	public int hairSpriteID = 0;
+	public int beardSpriteID = 0;
+
+	public int clothColorID = 0;
+	public int clothSpriteID = 0;
+
+}

@@ -16,6 +16,7 @@ public class StoryLoader : MonoBehaviour {
 	List<List<string>> content = new List<List<string>>();
 
 	[SerializeField]
+	private string pathToCSVs = "Data/Stories/CSVs";
 	private TextAsset[] storyFiles;
 	private int currentFile = 0;
 
@@ -25,16 +26,19 @@ public class StoryLoader : MonoBehaviour {
 	void Awake () {
 		Instance = this;
 
-		stories = new Story[ storyFiles.Length ];
+		storyFiles = new TextAsset[Resources.LoadAll ("Stories/CSVs", typeof(TextAsset)).Length];
 
-		for (int i = 0; i < storyFiles.Length; ++i ) {
-			//
-			LoadStories ();
-
-			++currentFile;
+		int index = 0;
+		foreach ( TextAsset textAsset in Resources.LoadAll ("Stories/CSVs", typeof(TextAsset) )) {
+			storyFiles[index] = textAsset;
+			++index;
 		}
 
-
+		stories = new Story[ storyFiles.Length ];
+		for (int i = 0; i < storyFiles.Length; ++i ) {
+			LoadStories ();
+			++currentFile;
+		}
 	}
 
 	void LoadStories ()

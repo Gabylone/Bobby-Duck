@@ -146,11 +146,10 @@ public class CrewCreator : MonoBehaviour {
 		int spritesIndex = 0;
 		for (int i = (int)Parts.Beard; i <= (int)Parts.Hair; ++i ) {
 			
-			int index = Random.Range ( -1, sprites.Length );
+			int index = Random.Range ( -1, sprites[spritesIndex].Length );
 
 			if (index > -1) {
-//				images [i].sprite = sprites[spritesIndex][Random.Range (0, sprites.Length)];
-				images [i].sprite = sprites[spritesIndex][Random.Range (0, sprites[spritesIndex].Length)];
+				images [i].sprite = sprites[spritesIndex][index];
 				images [i].color = hairColor;
 			} else {
 				images [i].enabled = false;
@@ -159,7 +158,7 @@ public class CrewCreator : MonoBehaviour {
 			spritesIndex++;
 		}
 
-		// clothes
+		// clothes ( needs to be an int from set of color )
 		Color clothesColor = randomColor;
 		images[(int)Parts.Clothes].sprite = clothesSprites[Random.Range (0,clothesSprites.Length)];
 		images[(int)Parts.Clothes].color = clothesColor;

@@ -8,6 +8,11 @@ public class StoryTest : MonoBehaviour {
 
 	public int storyID = 0;
 
+	public int X1 = 0;
+	public int Y1 = 0;
+	public int X2 = 0;
+	public int Y2 = 0;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -17,10 +22,8 @@ public class StoryTest : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.Return) ) {
 
-			StoryReader.Instance.CurrentStory = StoryLoader.Instance.Stories [storyID];
+			StoryLoader.Instance.CurrentIslandStory = StoryLoader.Instance.Stories [storyID];
 			IslandManager.Instance.Enter ();
-
-//			Debug.Log (StoryReader.Instance.CurrentStory.content[1][4]);
 
 		}
 
@@ -42,6 +45,24 @@ public class StoryTest : MonoBehaviour {
 		if ( Input.GetKeyDown (KeyCode.RightArrow )) {
 			++decal;
 			Debug.Log ( StoryReader.Instance.CurrentStory.content[decal][lign]);
+		}
+
+		if ( Input.GetKeyDown (KeyCode.S )) {
+			checkDirection ();
+		}
+	}
+
+	void checkDirection () {
+		Vector2 dir = (new Vector2 (X2, Y2) - new Vector2 (X1, Y1));
+
+		for (int i = 0; i < 8; ++i ) {
+
+//			Debug.Log (" Direction vers : " + (Directions)(i) + " c'est " + Vector2.Angle ( dir , NavigationManager.Instance.getDir((Directions)i) ) );
+
+			if ( Vector2.Angle ( dir , NavigationManager.Instance.getDir((Directions)i) ) < 45f ) {
+				Debug.Log (NavigationManager.Instance.getDirName((Directions)(i)));
+			}
+
 		}
 	}
 }
