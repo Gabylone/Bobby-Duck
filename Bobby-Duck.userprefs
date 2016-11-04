@@ -1,16 +1,13 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Inventory\LootUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Navigation\MapGenerator.cs">
     <Files>
-      <File FileName="Assets\Scripts\Inventory\Loot.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Inventory\LootUI.cs" Line="27" Column="54" />
-      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Inventory\OtherLoot.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Inventory\PlayerLoot.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Inventory\LootManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Inventory\ItemLoader.cs" Line="1" Column="1" />
-      <File FileName="Assets\BoatManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Crew\CrewManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Navigation\MapGenerator.cs" Line="42" Column="1" />
+      <File FileName="Assets\Scripts\Map\MapManager.cs" Line="21" Column="17" />
+      <File FileName="Assets\Scripts\Navigation\NavigationManager.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\Treasure\ClueManager.cs" Line="50" Column="3" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

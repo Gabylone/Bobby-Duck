@@ -26,6 +26,7 @@ public class MapGenerator : MonoBehaviour {
 		MapManager.Instance.CheckIsland = new bool[mapImage.TextureScale, mapImage.TextureScale];
 		MapManager.Instance.IslandPositions = new Vector2[mapImage.TextureScale, mapImage.TextureScale];
 		MapManager.Instance.IslandLoots = new Loot [mapImage.TextureScale, mapImage.TextureScale];
+		MapManager.Instance.GaveClue = new bool [mapImage.TextureScale, mapImage.TextureScale];
 
 		StoryLoader.Instance.IslandStories = new Story[mapImage.TextureScale,mapImage.TextureScale];
 

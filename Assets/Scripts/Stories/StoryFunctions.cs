@@ -5,37 +5,15 @@ public class StoryFunctions : MonoBehaviour {
 
 	public static StoryFunctions Instance;
 
-	[SerializeField]
-	private TextAsset functionData;
-
 	string cellParams = "";
 
 	private string[] functionNames;
 
 	void Awake () {
 		Instance = this;
-
-		LoadFunctions ();
-	}
-
-	void LoadFunctions () {
-		string[] rows = functionData.text.Split ( '\n' );
-
-		functionNames = new string[rows.Length-1];
-
-		for (int row = 0; row < functionNames.Length; ++row ) {
-
-			functionNames [row] = rows [row].Split (';') [0];
-
-		}
-//
-//		foreach ( string n in functionNames )
-//			Debug.Log ("found function : " + n);
 	}
 
 	public void Read ( string content ) {
-
-
 
 		foreach ( string functionName in functionNames ) {
 
@@ -44,8 +22,8 @@ public class StoryFunctions : MonoBehaviour {
 				cellParams = content.Remove (0, functionName.Length);
 
 				SendMessage (functionName);
-				return;
 
+				return;
 			}
 
 		}
@@ -373,10 +351,24 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 	}
 	void nextDay () {
+		
+		StartCoroutine (nextDayCoroutine ());
+	}
+	IEnumerator nextDayCoroutine () {
+
+		if (Crews.enemyCrew.CrewMembers.Count > 0) {
+			Crews.enemyCrew.Hide ();
+
+			yield return new WaitForSeconds (0.5f);
+		}
+
 		NavigationManager.Instance.Move (Directions.None);
+
+		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration * 2);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
+
 	}
 	void checkDay () {
 
@@ -390,8 +382,17 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region clues
-	void checkClue () {
-		
+	void checkClues () {
+		ClueManager.Instance.StartClue ();
 	}
 	#endregion
+
+	public string[] FunctionNames {
+		get {
+			return functionNames;
+		}
+		set {
+			functionNames = value;
+		}
+	}
 }

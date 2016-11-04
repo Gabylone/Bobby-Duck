@@ -85,6 +85,7 @@
      <Compile Include="Assets\Scripts\Stories\StoryReader.cs" />
      <Compile Include="Assets\Scripts\Transition\Transition.cs" />
      <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
+     <Compile Include="Assets\Scripts\Treasure\ClueManager.cs" />
      <Compile Include="Assets\StoryTest.cs" />
      <None Include="Assets\Resources\Items\a faire.txt" />
  <Reference Include="UnityEngine.UI">

@@ -69,14 +69,6 @@ public class NavigationManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		if ( Input.GetKeyDown( KeyCode.T ) ) {
-			IsNight = !IsNight;
-		}
-
-		if ( Input.GetKeyDown( KeyCode.Y ) ) {
-			Raining = !Raining;
-		}
 		
 		boatTransform.Translate ( getDir(currentDirection) * boatSpeed * Time.deltaTime , Space.World );
 

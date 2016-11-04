@@ -13,9 +13,13 @@ public class MapManager : MonoBehaviour {
 	private Color discoveredColor;
 
 	private MapGenerator mapGenerator;
+
+	#region island data
 	bool[,] 	checkIsland;
 	Vector2[,] 	islandPositions;
 	Loot[,] islandLoots;
+	bool[,] gaveClue;
+	#endregion
 
 	private int posX = 0;
 	private int posY = 0;
@@ -131,6 +135,15 @@ public class MapManager : MonoBehaviour {
 		}
 		set {
 			islandLoots [posX, posY] = value;
+		}
+	}
+
+	public bool[,] GaveClue {
+		get {
+			return gaveClue;
+		}
+		set {
+			gaveClue = value;
 		}
 	}
 }

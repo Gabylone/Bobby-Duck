@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class StoryLoader : MonoBehaviour {
 
 	public static StoryLoader Instance;
+	StoryFunctions storyFunction;
 
 	Story[,] islandStories;
 
@@ -24,7 +25,10 @@ public class StoryLoader : MonoBehaviour {
 	private Text storyVisualizer;
 
 	void Awake () {
+		
 		Instance = this;
+
+		storyFunction = GetComponent<StoryFunctions> ();
 
 		storyFiles = new TextAsset[Resources.LoadAll ("Stories/CSVs", typeof(TextAsset)).Length];
 
@@ -36,7 +40,12 @@ public class StoryLoader : MonoBehaviour {
 
 		stories = new Story[ storyFiles.Length ];
 		for (int i = 0; i < storyFiles.Length; ++i ) {
-			LoadStories ();
+			if (currentFile == 0) {
+				LoadFunctions ();
+			} else {
+				LoadStories ();
+			}
+
 			++currentFile;
 		}
 	}
@@ -72,6 +81,19 @@ public class StoryLoader : MonoBehaviour {
 			}
 
 			collumnIndex 	= 0;
+
+		}
+	}
+
+	void LoadFunctions () {
+		
+		string[] rows = storyFiles[currentFile].text.Split ( '\n' );
+
+		storyFunction.FunctionNames = new string[rows.Length-1];
+
+		for (int row = 0; row < storyFunction.FunctionNames.Length; ++row ) {
+
+			storyFunction.FunctionNames [row] = rows [row].Split (';') [0];
 
 		}
 	}

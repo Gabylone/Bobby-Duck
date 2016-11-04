@@ -1,0 +1,30 @@
+Nom;Fréquence / 5;;;;
+Bandits;1;;;;
+Narrator : Le bateau s'approche d'une grande île. Aucunes trace d'autres bateau.;;;;;
+setChoices2;;;;;
+Explorer l'île;Repartir;;;;
+Narrator : Une grande montagne s'ouvre devant l'équipage;OtherSpeak : Encore un guet apens ! Tayo !;;;;
+setChoices2;leave;;;;
+S'avancer;Revenir sur ses pas;;;;
+Narrator : L'équipe escalade pendant un bon quart d'heure avant d'arriver sur un plateau. La vue est magnifique.;PlayerSpeak : On va revenir sur la plage, rien à voir ici….;;;;
+setChoices3;goTo1/2;;;;
+Continuer de grimper;Camper pour la nuit;Redescendre;;;
+Narrator : L'équipe se remet à grimper, cette fois pendant seulement quelques minutes avant d'arriver devant une grotte;nextDay;OtherSpeak : Qu'est-ce qu'on fait là bordel…;;;
+setChoices2;goTo1/8;goTo1/5;;;
+Continuer de grimper;Entrer dans la grotte;Redescendre;;;
+Narrator : L'équipe arrive au sommet de la montagne. Il n'y a aucun chemin à part vers la grotte;Narrator : L'équipage arrive dans une pièce magnifique. Une grande porte se tient au bout.;OtherSpeak : Qu'est-ce qu'on fait là bordel…;;;
+PlayerSpeak : C'est totalement vide ! ;PlayerSpeak : LE TRESOR !;goTo1/8;;;
+setChoices2;goTo1/18;;;;
+Descendre vers grotte;Camper pour la nuit;;;;
+goTo1/11;goTo1/11;;;;
+setChoices2;;;;;
+S'approcher de la porte;Sortir;;;;
+PlayerSpeak : Il y a quelque chose d'écrit !;PlayerSpeak : Il est moche ! On s'casse;;;;
+Narrator : « récitez les formules »;Narrator : L'équipe est de retour devant la grotte;;;;
+setChoices2;goTo1/10;;;;
+C'est parti ! ;;;;;Je ne comprends rien… on s'en va
+checkClues;;;;;Narrator : L'équipe est de retour devant la grotte
+Narrator : Rien en se passe…;;;Narrator : Un des loquets sur la porte se dévérouille…;Narrator : Un grincement immense fait trembler la caverne…;goTo1/11
+setChoices3;;;Narrator : « RECITEZ LA FORMULE »;PlayerSpeak : EUREKA !;
+Quelle arnaque ! On se barre !;Je crois qu'il nous faut plus d'indices…;Je vais pas me laisser faire comme ça ! (Réassayer);goTo1/22;Narrator : « Vous avez gagné »;
+;;goTo1/24;;;

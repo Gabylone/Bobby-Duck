@@ -17,8 +17,8 @@ leave;randomCrew;;;;
 ;setWeatherNight;;;setWeatherDay;
 ;nextDay;;;nextDay;
 ;Narrator : Des craquements dans le couloir réveillent l'équipage;;;Narrator : L'équipe se réveille au son des mouettes…;
-;setChoices2;;;setChoices2;
-;Je vais voir ce que c'est;On verra demain…;;OtherSpeak : Alors, bien dormis ?;
+;setChoices2;;;OtherSpeak : Alors, bien dormis ?;
+;Je vais voir ce que c'est;On verra demain…;;setChoices2;
 ;PlayerSpeak : Vous pensiez nous avoir comme ça ?!;setWeatherDay;;Non j'ai très mal dormis;Oui merci !
 ;launchCombat;randomRange2;;goTo2/5;goTo2/5
 ;conclude;Narrator : L'équipage se réveille. Plus de deux cents pièces d'or ont disparues;Narrator : Le capitaine et ses hommes se réveillent après une bonne nuit de sommeil;;
