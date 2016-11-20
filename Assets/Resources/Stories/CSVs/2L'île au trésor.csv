@@ -1,0 +1,32 @@
+Nom;Fréquence / 5;;;;
+Bandits;1;;;;
+Narrator : Le bateau est sur la plage d'une grande île. Aucune trace d'autres bateaux.;;;;;
+SetChoices2;;;;;
+Explorer l'île;Repartir;;;;
+Narrator : Une grande montagne s'ouvre devant l'équipage;PlayerSpeak : Encore un guet apens ! Tayo !;;;;
+SetChoices2;Leave;;;;
+S'avancer;Revenir sur ses pas;;;;
+Narrator : L'équipe escalade pendant un bon quart d'heure avant d'arriver sur un plateau. La vue est magnifique.;PlayerSpeak : On va revenir sur la plage, rien à voir ici….;;;;
+SetChoices3;GoToA/4;;;;
+Continuer de grimper;Camper pour la nuit;;;;
+Narrator : L'équipe se remet à grimper, cette fois pendant seulement quelques minutes avant d'arriver devant une grotte;nextDay;;;;
+SetChoices2;GoToA/10;;;;
+Continuer de grimper;Entrer dans la grotte;;;;
+Narrator : L'équipe est au sommet de la montagne. Il n'y a aucun chemin à part vers la grotte;Narrator : L'équipage arrive dans une pièce magnifique. Une grande porte se tient au bout.;;;;
+PlayerSpeak : La vue est magnifique;PlayerSpeak : LE TRESOR !;;;;
+SetChoices2;GoToA/21;;;;
+Descendre vers grotte;Camper pour la nuit;;;;
+GoToA/13;GoToA/16;;;;
+;;;;;
+SetChoices2;;;;;
+S'approcher de la porte;Sortir;;;;
+PlayerSpeak : Il y a quelque chose d'écrit !;PlayerSpeak : Il est moche ! On s'casse;;;;
+Narrator : « récitez les formules »;Narrator : L'équipage est devant la grotte;;;;
+SetChoices2;GoToA/13;;;;
+C'est parti ! ;;;;;Je ne comprends rien… on s'en va
+checkClues;;;;;GoToA/13
+Narrator : Rien ne se passe;;;Narrator : Un des loquets sur la porte se dévérouille…;Narrator : Un grincement immense fait trembler la caverne…;
+SetChoices3;;;Narrator : « RECITEZ LA FORMULE »;PlayerSpeak : EUREKA !;
+Quelle arnaque ! On se barre !;Je crois qu'il nous faut plus d'indices…;Je vais pas me laisser faire comme ça ! (Réassayer);PlayerSpeak : C'est reparti !;Narrator : « Vous avez gagné »;
+GoToA/21;GoToA/21;PlayerSpeak : C'est reparti !;GoToA/27;Leave;
+;;GoToA/27;;;

@@ -1,13 +1,9 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Navigation\MapGenerator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Items\a faire 2.txt">
     <Files>
-      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Navigation\MapGenerator.cs" Line="42" Column="1" />
-      <File FileName="Assets\Scripts\Map\MapManager.cs" Line="21" Column="17" />
-      <File FileName="Assets\Scripts\Navigation\NavigationManager.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets\Scripts\Treasure\ClueManager.cs" Line="50" Column="3" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="133" Column="78" />
+      <File FileName="Assets\Resources\Items\a faire 2.txt" Line="13" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

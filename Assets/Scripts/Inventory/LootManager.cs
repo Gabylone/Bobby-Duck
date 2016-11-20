@@ -16,17 +16,13 @@ public class LootManager : MonoBehaviour {
 		
 		Instance = this;
 
-		playerLoot = new Loot ();
-		playerLoot.Randomize ( ItemLoader.allCategories );
+		playerLoot = new Loot (0,0,ItemLoader.allCategories);
 
 		Item[] items = playerLoot.getCategory (ItemLoader.allCategories);
 
 		foreach ( Item item in items ) {
 			WeightManager.Instance.AddWeight ( item.weight );
 		}
-
-
-		otherLoot = new Loot ();
 	}
 
 	public Loot PlayerLoot {
@@ -45,7 +41,27 @@ public class LootManager : MonoBehaviour {
 		return side == Crews.Side.Player ? playerLoot : otherLoot;
 	}
 
+	public Loot GetIslandLoot ( ItemCategory[] categories ) {
+
+		int row = StoryReader.Instance.Decal;
+		int col = StoryReader.Instance.Index;
+
+		var tmpLoot = MapManager.Instance.CurrentIsland.Loots.Find (x => x.col == col && x.row == row);
+
+		if (tmpLoot == null) {
+
+			Loot newLoot = new Loot (row , col, categories);
+			MapManager.Instance.CurrentIsland.Loots.Add (newLoot);
+
+			return newLoot;
+
+		}
+
+		return tmpLoot;
+	}
+
 	public void setLoot ( Crews.Side side , Loot targetLoot) {
+		Debug.Log ("loot : " + targetLoot.id.ToString ());
 		otherLoot = targetLoot;
 	}
 

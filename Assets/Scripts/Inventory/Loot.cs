@@ -4,12 +4,25 @@ using System;
 
 public class Loot {
 
+	public int id = 0;
+	public int row = 0;
+	public int col = 0;
+
+
 	private Item[][] loot = new Item[4][];
 
 	public Item[][] getLoot {
 		get {
 			return loot;
 		}
+	}
+
+	public Loot(int _row, int _col, ItemCategory[] categories)
+	{
+		row = _row;
+		col = _col;
+
+		Randomize (categories);
 	}
 
 	public void Randomize ( ItemCategory category ) {

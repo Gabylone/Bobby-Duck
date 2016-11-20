@@ -33,15 +33,6 @@ public class OtherLoot : MonoBehaviour {
 		Instance = this;
 	}
 
-	void Update () {
-		if (Input.GetKeyDown (KeyCode.L)) {
-			if (trading)
-				EndTrade ();
-			else
-				StartTrade ();
-		}
-	}
-
 	#region trade
 	public void StartTrade () {
 
@@ -57,22 +48,6 @@ public class OtherLoot : MonoBehaviour {
 		otherLootUI.UpdateActionButton(0);
 
 		trading = true;
-	}
-
-	public void EndTrade () {
-
-		buttonObj.SetActive (true);
-
-		otherLootUI.Visible = false;
-		playerLootUI.Visible = false;
-
-		trading = false;
-
-		if ( IslandManager.Instance.OnIsland ) {
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.UpdateStory ();
-		}
-
 	}
 
 	public bool Trading {
@@ -124,9 +99,6 @@ public class OtherLoot : MonoBehaviour {
 
 		buttonObj.SetActive (false);
 
-		// enemy loot ui
-		LootManager.Instance.OtherLoot.Randomize (ItemLoader.allCategories);
-
 		otherLootUI.CategoryContent = category_OtherLootContent;
 		otherLootUI.Visible = true;
 		otherLootUI.UpdateActionButton(0);
@@ -163,11 +135,14 @@ public class OtherLoot : MonoBehaviour {
 
 		otherLootUI.Visible = false;
 
-		if (trading) {
+		otherLootUI.Visible = false;
+		playerLootUI.Visible = false;
 
-			EndTrade ();
-		} else {
-			trading = false;
+		trading = false;
+
+		if ( IslandManager.Instance.OnIsland ) {
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.UpdateStory ();
 		}
 		
 

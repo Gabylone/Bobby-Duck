@@ -43,12 +43,6 @@ public class StoryReader : MonoBehaviour {
 
 	}
 
-	public Story RandomStory {
-		get {
-			return StoryLoader.Instance.Stories [Random.Range (0, StoryLoader.Instance.Stories.Length)];
-		}
-	}
-
 	#region wait for input
 	[SerializeField]
 	private GameObject inputButton;
@@ -90,6 +84,7 @@ public class StoryReader : MonoBehaviour {
 		if ( StoryLoader.Instance.GetContent == null) {
 			Debug.LogError ( " no function at index : " + index.ToString () + " / decal : " + decal.ToString () );
 		}
+
 		StoryFunctions.Instance.Read ( StoryLoader.Instance.GetContent );
 
 	}

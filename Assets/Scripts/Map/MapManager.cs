@@ -14,13 +14,6 @@ public class MapManager : MonoBehaviour {
 
 	private MapGenerator mapGenerator;
 
-	#region island data
-	bool[,] 	checkIsland;
-	Vector2[,] 	islandPositions;
-	Loot[,] islandLoots;
-	bool[,] gaveClue;
-	#endregion
-
 	private int posX = 0;
 	private int posY = 0;
 
@@ -56,7 +49,7 @@ public class MapManager : MonoBehaviour {
 				if (x == 0 && y == 0) {
 					mapImage.UpdatePixel (posX + x, posY + y, Color.red);
 				} else {
-					mapImage.UpdatePixel (posX + x, posY + y, checkIsland [posX + x, posY + y] ? islandColor : discoveredColor);
+					mapImage.UpdatePixel (posX + x, posY + y, mapGenerator.IslandIds [posX + x, posY + y] > -1 ? islandColor : discoveredColor);
 				}
 
 
@@ -88,62 +81,21 @@ public class MapManager : MonoBehaviour {
 			return mapImage.TextureScale/2;
 		}
 	}
+	public bool NearIsland {
+		get {
+			return MapGenerator.Instance.IslandIds [posX, posY] > -1;
+		}
+	}
+	public int IslandID {
+		get {
+			return MapGenerator.Instance.IslandIds [posX, posY]; 
+		}
+	}
+	public IslandData CurrentIsland {
+		get {
+			return MapGenerator.Instance.IslandDatas [0];
+//			return MapGenerator.Instance.IslandDatas [IslandID];
+		}
+	}
 	#endregion
-
-	public bool[,] CheckIsland {
-		get {
-			return checkIsland;
-		}
-		set {
-			checkIsland = value;
-		}
-	}
-
-	public bool CheckCurrentPosIsland {
-		get {
-			return checkIsland [posX, posY];
-		}
-	}
-
-	public Vector2[,] IslandPositions {
-		get {
-			return islandPositions;
-		}
-		set {
-			islandPositions = value;
-		}
-	}
-
-	public Vector2 CurrentIslandPosition {
-		get {
-			return islandPositions[posX,posY];
-		}
-	}
-
-	public Loot[,] IslandLoots {
-		get {
-			return islandLoots;
-		}
-		set {
-			islandLoots = value;
-		}
-	}
-
-	public Loot CurrentIslandLoot {
-		get {
-			return islandLoots [posX, posY];
-		}
-		set {
-			islandLoots [posX, posY] = value;
-		}
-	}
-
-	public bool[,] GaveClue {
-		get {
-			return gaveClue;
-		}
-		set {
-			gaveClue = value;
-		}
-	}
 }

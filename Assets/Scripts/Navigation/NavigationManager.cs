@@ -125,9 +125,9 @@ public class NavigationManager : MonoBehaviour {
 	}
 	private void SetIsland () {
 		
-		islandImage.gameObject.SetActive ( MapManager.Instance.CheckCurrentPosIsland );
-		if ( MapManager.Instance.CheckCurrentPosIsland )
-			islandImage.transform.localPosition = MapManager.Instance.CurrentIslandPosition;
+		islandImage.gameObject.SetActive ( MapManager.Instance.NearIsland );
+		if ( MapManager.Instance.NearIsland )
+			islandImage.transform.localPosition = MapManager.Instance.CurrentIsland.Position;
 
 	}
 	#endregion

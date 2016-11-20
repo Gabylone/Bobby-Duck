@@ -76,9 +76,8 @@ public class CrewManager : MonoBehaviour {
 	#region crew list
 	public void AddMember ( CrewMember member ) {
 
-		if (crewMembers.Count == memberCapacity) {
+		if (crewMembers.Count == memberCapacity)
 			return;
-		}
 
 		crewMembers.Add (member);
 	}
@@ -100,6 +99,9 @@ public class CrewManager : MonoBehaviour {
 	}
 	public void DeleteCrew () {
 
+		if (crewMembers.Count == 0)
+			return;
+
 		for (int i = 0; i < crewMembers.Count; i++ ) {
 			RemoveMember (crewMembers [i]);
 		}
@@ -112,38 +114,22 @@ public class CrewManager : MonoBehaviour {
 	#endregion
 
 	#region creation
-	public void CreateRandomCrew () {
-		
-		Hide ();
-
-		CrewCreator.Instance.TargetSide = side;
-
-		int count = Random.Range (2,MemberCapacity);
-
-		for (int i = 0; i < count; ++i ) {
-			CrewMember member = CrewCreator.Instance.NewMember ();
-			AddMember (member);
-		}
-
-		UpdateCrew (Crews.PlacingType.Combat);
-	}
-	public void CreateRandomMember () {
+	public void createCrew (Crew crew) {
 
 		DeleteCrew ();
 
 		CrewCreator.Instance.TargetSide = side;
 
-		CrewMember crewMember = CrewCreator.Instance.NewMember ();
-		AddMember (crewMember);
+		for (int i = 0; i < crew.MemberIDs.Length; ++i ) {
+			CrewMember member = CrewCreator.Instance.NewMember (crew.MemberIDs[i]);
+			AddMember (member);
+		}
 
-		crewMember.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+		UpdateCrew (Crews.PlacingType.Combat);
 	}
 	#endregion
 
 	#region property
-
-	#endregion
-
 	public int MaxMember {
 		get {
 			return maxMember;
@@ -159,4 +145,7 @@ public class CrewManager : MonoBehaviour {
 			BoatManager.Instance.UpdateCrewImages ();
 		}
 	}
+	#endregion
+
+
 }

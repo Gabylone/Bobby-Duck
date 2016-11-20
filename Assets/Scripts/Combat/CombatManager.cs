@@ -75,9 +75,6 @@ public class CombatManager : MonoBehaviour {
 			updateState ();
 			timeInState += Time.deltaTime;
 		}
-
-		if (Input.GetKeyDown (KeyCode.M))
-			WinFight ();
 	}
 
 	public void StartCombat () {
@@ -93,8 +90,10 @@ public class CombatManager : MonoBehaviour {
 		SetTargetCrew(Crews.Side.Player);
 
 			// create enemy crew
-		if ( Crews.enemyCrew.CrewMembers.Count == 0 )
-			Crews.enemyCrew.CreateRandomCrew ();
+		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
+			Debug.LogError ("pas d'équipage pour commencer combat");
+			updateState = null;
+		}
 
 	}
 	private void CombatStart_Update () {
@@ -438,11 +437,15 @@ public class CombatManager : MonoBehaviour {
 	private void ExitFight () {
 		CardManager.Instance.HideFightingCard (Crews.Side.Enemy);
 		CardManager.Instance.HideFightingCard (Crews.Side.Player);
-		IslandManager.Instance.Leave ();
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+
 		Crews.enemyCrew.Hide ();
 		updateState = null;
 	}
 	private void WinFight () {
+		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(ItemLoader.allCategories));
 		OtherLoot.Instance.StartLooting ();
 		ExitFight ();
 	}

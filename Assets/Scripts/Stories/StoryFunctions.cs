@@ -28,34 +28,40 @@ public class StoryFunctions : MonoBehaviour {
 
 		}
 
-		Debug.LogError ("cell returns no function : " + content);
+		Debug.LogError (
+			"cell returns no function at decal\n" + StoryReader.Instance.Decal + "\n" +
+			"index : " + StoryReader.Instance.Index + "\n" +
+			"qui contient : " + content);
 
 	}
 
 	#region random
-	void randomPercent () {
+	void RandomPercent () {
 
 		float chance = float.Parse ( cellParams );
-		Debug.Log (chance.ToString() );
+		int randomDecal = Random.value * 100f < chance ? 0 : 1;
 
-		if (Random.value * 100f < chance) {
-			StoryReader.Instance.NextCell ();
-		} else {
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.SetDecal (1);
-		}
+		StoryReader.Instance.NextCell ();
+
+		int decal = StoryLoader.Instance.SaveDecal > -1 ? StoryLoader.Instance.SaveDecal : randomDecal;
+		StoryLoader.Instance.SaveDecal = decal;
+
+		StoryReader.Instance.SetDecal (decal);
 
 		StoryReader.Instance.UpdateStory ();
 
 	}
-	void randomRange () {
+	void RandomRange () {
 
 		int range = int.Parse (cellParams);
-		int random = Random.Range (0, range);
+		int randomDecal = Random.Range (0, range);
 
 		StoryReader.Instance.NextCell ();
 
-		StoryReader.Instance.SetDecal (random );
+		int decal = StoryLoader.Instance.SaveDecal > -1 ? StoryLoader.Instance.SaveDecal : randomDecal;
+		StoryLoader.Instance.SaveDecal = decal;
+
+		StoryReader.Instance.SetDecal (decal);
 
 		StoryReader.Instance.UpdateStory ();
 
@@ -64,31 +70,52 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region character & crew
-	void randomCharacter() {
-		Crews.enemyCrew.CreateRandomMember ();
+	Crew GetCrew (int amount) {
+		
+		int row = StoryReader.Instance.Decal;
+		int col = StoryReader.Instance.Index;
 
-		StoryReader.Instance.Wait ( Crews.playerCrew.captain.Icon.MoveDuration );
+		var tmp = MapManager.Instance.CurrentIsland.Crews.Find (x => x.col == col && x.row == row);
+
+		if (tmp == null) {
+
+			Crew newCrew = new Crew (amount, row, col);
+
+			MapManager.Instance.CurrentIsland.Crews.Add (newCrew);
+
+			return newCrew;
+
+		}
+
+		return tmp;
 	}
 
-	void randomCrew () {
-		Crews.enemyCrew.CreateRandomCrew ();
-		Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Combat);
+	void NewCharacter() {
 
-		if (Crews.enemyCrew.captain.Icon.CurrentPlacingType != Crews.PlacingType.Discussion) {
-			Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Combat);
-			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-		}
+		Crews.enemyCrew.createCrew (GetCrew (1));
+
+		StoryReader.Instance.Wait ( Crews.playerCrew.captain.Icon.MoveDuration );
+
+	}
+
+	void NewCrew () {
+		
+		int l = Crews.playerCrew.CrewMembers.Count;
+
+		int amount = Random.Range ( l-1 , l+2 );
+
+		Crews.enemyCrew.createCrew (GetCrew (amount));
 
 		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.MoveDuration);
 
 	}
-	void hideOther () {
+	void HideOther () {
 		Crews.enemyCrew.Hide ();
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
 	}
-	void deleteOther () {
+	void DeleteOther () {
 		Crews.enemyCrew.DeleteCrew ();
 
 		StoryReader.Instance.NextCell ();
@@ -111,7 +138,8 @@ public class StoryFunctions : MonoBehaviour {
 		string phrase = cellParams.Remove (0,2);
 
 		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
-			Crews.enemyCrew.CreateRandomCrew ();
+			Debug.LogError ("no enemy crew for other speak");
+			return;
 		}
 
 		Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
@@ -131,7 +159,7 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.WaitForInput ();
 	}
 
-	void setChoices () {
+	void SetChoices () {
 
 		// get amount
 		int amount = int.Parse (cellParams);
@@ -169,20 +197,20 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region end
-	void launchCombat () {
+	void LaunchCombat () {
 		CombatManager.Instance.StartCombat ();
 	}
-	void leave () {
+	void Leave () {
 		IslandManager.Instance.Leave ();
 	}
-	void conclude () {
+	void Conclude () {
 		Debug.LogError ("a CODER : CONCLUDE");
 		IslandManager.Instance.Leave ();
 	}
 	#endregion
 
 	#region gold
-	void checkGold () {
+	void CheckGold () {
 		int amount = int.Parse (cellParams);
 
 		if (GoldManager.Instance.CheckGold (amount)) {
@@ -195,130 +223,91 @@ public class StoryFunctions : MonoBehaviour {
 
 		StoryReader.Instance.UpdateStory ();
 	}
-	void removeGold () {
+	void RemoveGold () {
 		int amount = int.Parse (cellParams);
 		GoldManager.Instance.RemoveGold (amount);
 		StoryReader.Instance.Wait ( 1f );
 	}
-	void addGold () {
+	void AddGold () {
 		int amount = int.Parse (cellParams);
 		GoldManager.Instance.AddGold (amount);
 		StoryReader.Instance.Wait ( 1f );
 	}
 	#endregion
 
-	#region loot
-	void lootAll () {
-		if ( MapManager.Instance.CurrentIslandLoot == null ) {
-			MapManager.Instance.CurrentIslandLoot = new Loot ();
-			MapManager.Instance.CurrentIslandLoot.Randomize (ItemLoader.allCategories);
-		}
-
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
+	#region trade & loot
+	void Loot() {
+		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(getLootCategories()));
 		OtherLoot.Instance.StartLooting ();
 	}
-	void lootFood () {
-		if ( MapManager.Instance.CurrentIslandLoot == null ) {
-			MapManager.Instance.CurrentIslandLoot = new Loot ();
-			MapManager.Instance.CurrentIslandLoot.Randomize (ItemCategory.Provisions);
-		}
-
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-		OtherLoot.Instance.StartLooting ();
-	}
-
-	void lootWeapons() {
-		if ( MapManager.Instance.CurrentIslandLoot == null ) {
-			MapManager.Instance.CurrentIslandLoot = new Loot ();
-			MapManager.Instance.CurrentIslandLoot.Randomize (ItemCategory.Provisions);
-		}
-
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-		OtherLoot.Instance.StartLooting ();
-
-	}
-
-	void lootClothes() {
-
-		if ( MapManager.Instance.CurrentIslandLoot.getLoot.Length == 0 ) {
-			ItemCategory[] cats = new ItemCategory[2] {ItemCategory.Clothes, ItemCategory.Shoes};
-			MapManager.Instance.CurrentIslandLoot.Randomize (cats);
-		}
-
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-		OtherLoot.Instance.StartLooting ();
-	}
-
-	void lootMisc() {
-
-		if ( MapManager.Instance.CurrentIslandLoot.getLoot.Length == 0 ) {
-			MapManager.Instance.CurrentIslandLoot.Randomize (ItemCategory.Mics);
-		}
-
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-		OtherLoot.Instance.StartLooting ();
-	}
-	#endregion
-
-	#region trade
-	void tradeAll () {
-		if ( MapManager.Instance.CurrentIslandLoot == null ) {
-			MapManager.Instance.CurrentIslandLoot = new Loot ();
-			MapManager.Instance.CurrentIslandLoot.Randomize (ItemLoader.allCategories);
-		}
-
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-		OtherLoot.Instance.StartTrade ();
-	}
-	void tradeFood () {
-		if ( MapManager.Instance.CurrentIslandLoot == null ) {
-			MapManager.Instance.CurrentIslandLoot = new Loot ();
-			MapManager.Instance.CurrentIslandLoot.Randomize (ItemCategory.Provisions);
-		}
-
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
+	void Trade() {
+		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(getLootCategories()));
 		OtherLoot.Instance.StartTrade ();
 	}
 
-	void tradeWeapons() {
-		if ( MapManager.Instance.CurrentIslandLoot == null ) {
-			MapManager.Instance.CurrentIslandLoot = new Loot ();
-			MapManager.Instance.CurrentIslandLoot.Randomize (ItemCategory.Provisions);
+	public ItemCategory[] getLootCategories () {
+		string[] cellParts = cellParams.Split ('/');
+		ItemCategory[] categories = new ItemCategory[cellParts.Length];
+
+		int index = 0;
+
+		foreach ( string cellPart in cellParts ) {
+
+			switch (cellPart) {
+
+			case "All":
+				categories = ItemLoader.allCategories;
+				break;
+			case "Food":
+				categories [index] = ItemCategory.Provisions;
+				break;
+			case "Weapons":
+				categories [index] = ItemCategory.Weapon;
+				break;
+			case "Clothes":
+				categories [index] = ItemCategory.Clothes;
+				break;
+			case "Shoes":
+				categories [index] = ItemCategory.Shoes;
+				break;
+			case "Misc":
+				categories [index] = ItemCategory.Mics;
+				break;
+			}
+
+			++index;
 		}
 
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-		OtherLoot.Instance.StartTrade ();
-	}
-
-	void tradeClothes() {
-		
-		if ( MapManager.Instance.CurrentIslandLoot.getLoot.Length == 0 ) {
-			ItemCategory[] cats = new ItemCategory[2] {ItemCategory.Clothes, ItemCategory.Shoes};
-			MapManager.Instance.CurrentIslandLoot.Randomize (cats);
-		}
-
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-		OtherLoot.Instance.StartTrade ();
-	}
-
-	void tradeMisc() {
-
-		if ( MapManager.Instance.CurrentIslandLoot.getLoot.Length == 0 ) {
-			MapManager.Instance.CurrentIslandLoot.Randomize (ItemCategory.Mics);
-		}
-
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, MapManager.Instance.CurrentIslandLoot);
-		OtherLoot.Instance.StartTrade ();
+		return categories;
 	}
 	#endregion
 
 	#region story navigation
-	void goTo () {
+	void GoTo () {
 
 		string[] coords = cellParams.Split ('/');
 
-		StoryReader.Instance.Decal = int.Parse (coords [0])-1;
-		StoryReader.Instance.Index = int.Parse (coords [1])-1;
+		string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+		int a = 0;
+
+		char targetChar = coords [0] [0];
+
+		Debug.Log ("Target Char : " + targetChar);
+
+		foreach (char c in alphabet) {
+			if (c == targetChar) {
+				break;
+			}
+			a++;
+		}
+
+		int newIndex = int.Parse (coords [1]) - 3;
+
+		Debug.Log ("nouveau decal : " + a + " / nouveau index : " + newIndex);
+
+		StoryReader.Instance.Decal = a;
+		StoryReader.Instance.Index = newIndex;
 
 		StoryReader.Instance.UpdateStory ();
 
@@ -326,35 +315,28 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region weather 
-	void setWeatherNight () {
-		NavigationManager.Instance.IsNight = true;
+	void SetWeather() {
+
+		switch ( cellParams ) {
+		case "Day":
+			NavigationManager.Instance.IsNight = false;
+			break;
+		case "Night":
+			NavigationManager.Instance.IsNight = true;
+			break;
+		case "Rain":
+			NavigationManager.Instance.Raining = true;
+			break;
+		}
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
 	}
-	void setWeatherDay() {
-		NavigationManager.Instance.IsNight = false;
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-	void setWeatherRain () {
-		NavigationManager.Instance.Raining = true;
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-	void switchWeather () {
-		NavigationManager.Instance.IsNight = !NavigationManager.Instance.IsNight;
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-	void nextDay () {
+	void NextDay () {
 		
-		StartCoroutine (nextDayCoroutine ());
+		StartCoroutine (NextDayCoroutine ());
 	}
-	IEnumerator nextDayCoroutine () {
+	IEnumerator NextDayCoroutine () {
 
 		if (Crews.enemyCrew.CrewMembers.Count > 0) {
 			Crews.enemyCrew.Hide ();
@@ -370,7 +352,7 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 
 	}
-	void checkDay () {
+	void CheckDay () {
 
 		StoryReader.Instance.NextCell ();
 
@@ -382,8 +364,57 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region clues
-	void checkClues () {
+	void CheckClues () {
 		ClueManager.Instance.StartClue ();
+	}
+	void GiveFormulaCharacter () {
+
+		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
+			Debug.LogError ("no enemy crew for other speak");
+			return;
+		}
+
+		Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+		DialogueManager.Instance.SetDialogue (getFormula(), Crews.enemyCrew.captain.Icon.GetTransform);
+
+		StoryReader.Instance.WaitForInput ();
+
+	}
+	string getFormula () {
+		int clueIndex = ClueManager.Instance.CurrentClue;
+
+		string clue = ClueManager.Instance.Clues[ClueManager.Instance.CurrentClue];
+
+		bool clueAlreadyFound = false;
+
+		int a = 0;
+		foreach ( int i in ClueManager.Instance.ClueIslands ) {
+
+			if ( i == MapManager.Instance.IslandID ) {
+				clue = ClueManager.Instance.Clues [a];
+				clueIndex = a;
+				clueAlreadyFound = true;
+			}
+
+			++a;
+		}
+
+		if ( clueAlreadyFound == false ) {
+
+			ClueManager.Instance.CurrentClue += 1;
+
+		}
+
+		ClueManager.Instance.ClueIslands [clueIndex] = MapManager.Instance.IslandID;
+
+		return clue;
+	}
+	void GiveFormulaNarrator () {
+
+		DialogueManager.Instance.ShowNarrator (getFormula());
+
+		StoryReader.Instance.WaitForInput ();
+
 	}
 	#endregion
 

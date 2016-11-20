@@ -15,6 +15,7 @@ public class CrewCreator : MonoBehaviour {
 		Body,
 		Clothes,
 		LeftArm,
+		Sword,
 		RightArm,
 		LeftFoot,
 		RightFoot,
@@ -32,23 +33,18 @@ public class CrewCreator : MonoBehaviour {
 		"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"};
 
 	[SerializeField]
-	private int maxHP = 10;
+	private int startHealth = 10;
 
 	[SerializeField]
 	private int partAmount = 3;
 
-	[Header("Face")]
+	[Header("Sprites")]
 	[SerializeField]
 	private Sprite[] faceSprites;
-
-	[Header("Hair & Beard")]
 	[SerializeField]
 	private Sprite[] hairSprites;
-
 	[SerializeField]
 	private Sprite[] beardSprites;
-
-	[Header ("Clothes")]
 	[SerializeField]
 	private Sprite[] clothesSprites;
 
@@ -57,6 +53,16 @@ public class CrewCreator : MonoBehaviour {
 	[SerializeField] private Color darkSkin;
 	[SerializeField] private Color darkHair;
 	[SerializeField] private Color beige;
+	[SerializeField] private Color[] hairColors = new Color [7] {
+		Color.red,
+		Color.white,
+		Color.black,
+		Color.yellow,
+		Color.gray,
+		Color.gray,
+		Color.gray,
+	};
+
 	#endregion
 
 	void Awake () {
@@ -72,29 +78,18 @@ public class CrewCreator : MonoBehaviour {
 		
 	}
 
-	public CrewMember NewMember () {
-		
+	public CrewMember NewMember (MemberID memberID) {
+
+
 		CrewMember crewMember = new CrewMember (
-			// name
-			names[Random.Range (0,names.Length)],
 
-			// lvl
-			1,
-
-			// health
-			maxHP,
-			// attack
-			1,
-			// constitution
-			0,
-			// speed
-			1,
+			memberID,
 
 			// side
 			targetSide,
 
 			/// icon
-			NewIcon ()
+			NewIcon (memberID)
 		);
 
 		crewMember.IconObj.GetComponent<CrewIcon> ().Member = crewMember;
@@ -103,71 +98,48 @@ public class CrewCreator : MonoBehaviour {
 	}
 
 	#region icons
-	public GameObject NewIcon() {
+	public GameObject NewIcon(MemberID memberID) {
 
 		GameObject icon = Instantiate (memberPrefab) as GameObject;
 
 		icon.transform.SetParent (crewParent);
 		icon.transform.localScale = Vector3.one;
 		icon.transform.localPosition = Vector2.zero;
-		// get images
 
-		Image[] images = new Image[icon.GetComponentsInChildren<Image>().Length];
-
-		int a = 0;
-		foreach (Image image in icon.GetComponentsInChildren<Image>()) {
-			images[a] = image;
-			++a;
-		}
+		Image[] images = icon.GetComponentsInChildren<Image> ();
 
 		// body
-		Color bodyColor = Random.value < 0.35f ? darkSkin : beige;
+		Color bodyColor = memberID.bodyColorID == 1 ? darkSkin : beige;
 
 		images[(int)Parts.Face].color = bodyColor;
 		images[(int)Parts.Body].color = bodyColor;
 
-		// beard && hair
-		Color[] colors = new Color [7] {
-			Color.red,
-			Color.white,
-			Color.black,
-			Color.yellow,
-			Color.gray,
-			lightBrown,
-			darkHair,
-		};
-		Color hairColor = colors [Random.Range (0, colors.Length)];
+		int beardIndex = memberID.beardSpriteID;
+		if (beardIndex > -1)
+			images[(int)Parts.Beard].sprite = beardSprites [beardIndex];
+		else
+			images[(int)Parts.Beard].enabled = false;
+		images[(int)Parts.Beard].color = hairColors [memberID.hairColorID];
 
-		Sprite[][] sprites = new Sprite[2][] {
-			beardSprites,
-			hairSprites,
-		};
-
-		int spritesIndex = 0;
-		for (int i = (int)Parts.Beard; i <= (int)Parts.Hair; ++i ) {
-			
-			int index = Random.Range ( -1, sprites[spritesIndex].Length );
-
-			if (index > -1) {
-				images [i].sprite = sprites[spritesIndex][index];
-				images [i].color = hairColor;
-			} else {
-				images [i].enabled = false;
-			}
-
-			spritesIndex++;
-		}
+		int hearIndex = memberID.hairSpriteID;
+		if (hearIndex > -1)
+			images[(int)Parts.Hair].sprite = hairSprites [hearIndex];
+		else
+			images[(int)Parts.Hair].enabled = false;
+		images[(int)Parts.Hair].color = hairColors [memberID.hairColorID];
 
 		// clothes ( needs to be an int from set of color )
-		Color clothesColor = randomColor;
-		images[(int)Parts.Clothes].sprite = clothesSprites[Random.Range (0,clothesSprites.Length)];
-		images[(int)Parts.Clothes].color = clothesColor;
+		Color clothesColor = memberID.clothColor;
+		images[(int)Parts.Clothes].sprite = clothesSprites[memberID.clothSpriteID];
+		images[(int)Parts.Clothes].color 	= clothesColor;
 
-		for (int i = (int)Parts.LeftArm; i <= (int)Parts.RightArm; ++i )
-			images[i].color = bodyColor;
+		images[(int)Parts.LeftFoot].color = clothesColor;
+		images[(int)Parts.RightFoot].color 	= clothesColor;
 
-		for (int i = (int)Parts.LeftFoot; i <= (int)Parts.RightFoot; ++i )
-			images[i].color = clothesColor;
+		images[(int)Parts.LeftArm].color = bodyColor;
+		images[(int)Parts.RightArm].color = bodyColor;
+
+		images[(int)Parts.Sword].color 	= Color.grey;
 
 		icon.GetComponent<CrewIcon> ().HideBody ();
 
@@ -175,19 +147,6 @@ public class CrewCreator : MonoBehaviour {
 		return icon;
 	}
 	#endregion
-
-	public Color randomColor {
-		get {
-
-			float r = Random.value;
-			float g = Random.value;
-			float b = Random.value;
-
-			Color rdmColor = new Color (r,g,b);
-
-			return rdmColor;
-		}
-	}
 
 	public Crews.Side TargetSide {
 		get {
@@ -198,9 +157,114 @@ public class CrewCreator : MonoBehaviour {
 		}
 	}
 
-	public int MaxHP {
+	public Sprite[] HairSprites {
 		get {
-			return maxHP;
+			return hairSprites;
+		}
+	}
+
+	public Sprite[] BeardSprites {
+		get {
+			return beardSprites;
+		}
+	}
+
+	public Sprite[] ClothesSprites {
+		get {
+			return clothesSprites;
+		}
+	}
+
+
+	public Color[] HairColors {
+		get {
+			return hairColors;
+		}
+	}
+
+	public string[] Names {
+		get {
+			return names;
+		}
+	}
+
+	public int StartHealth {
+		get {
+			return startHealth;
+		}
+	}
+}
+
+
+
+public class MemberID {
+
+	public int nameID 	= 0;
+
+	public int lvl 		= 0;
+
+	public int maxHP 	= 0;
+
+	public int attack 	= 0;
+	public int constitution = 0;
+	public int speed = 0;
+
+	public int bodyColorID = 0;
+
+	public int hairSpriteID = 0;
+	public int hairColorID 	= 0;
+	public int beardSpriteID = 0;
+
+	public Color clothColor;
+	public int clothSpriteID = 0;
+
+	public MemberID () {
+
+		nameID 			= Random.Range (0, CrewCreator.Instance.Names.Length);
+
+		lvl = 1;
+
+		maxHP 			= CrewCreator.Instance.StartHealth;
+
+		attack 			= lvl;
+		constitution 	= lvl;
+		speed 			= lvl;
+
+		bodyColorID = Random.value < 0.35f ? 0 : 1;
+
+		hairColorID 	= Random.Range ( 0 , CrewCreator.Instance.HairColors.Length );
+		hairSpriteID 	= Random.Range (-1 , CrewCreator.Instance.HairSprites.Length	);
+		beardSpriteID 	= Random.Range (-1 , CrewCreator.Instance.BeardSprites.Length	);
+
+		clothSpriteID 	= Random.Range ( 0 , CrewCreator.Instance.ClothesSprites.Length	);
+		clothColor 		= Random.ColorHSV();
+
+	}
+
+}
+
+public class Crew {
+
+	public int row = 0;
+	public int col = 0;
+
+	MemberID[] memberIDs;
+
+	public Crew (int amount, int r , int c) {
+
+		row = r;
+		col = c;
+
+		amount = Mathf.Clamp ( amount , 1, amount );
+		memberIDs = new MemberID[amount];
+
+		for (int i = 0; i < memberIDs.Length; ++i )
+			memberIDs[i] = new MemberID ();
+	}
+
+	public MemberID[] MemberIDs {
+		get {
+			return memberIDs;
 		}
 	}
 }

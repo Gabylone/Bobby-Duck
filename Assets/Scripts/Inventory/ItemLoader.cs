@@ -13,7 +13,6 @@ public class ItemLoader : MonoBehaviour {
 
 	public static ItemLoader Instance;
 
-
 	[SerializeField]
 	private int categoryAmount = 5;
 
@@ -134,6 +133,12 @@ public class ItemLoader : MonoBehaviour {
 		}
 	}
 	#endregion
+
+	public int CategoryAmount {
+		get {
+			return categoryAmount;
+		}
+	}
 
 }
 

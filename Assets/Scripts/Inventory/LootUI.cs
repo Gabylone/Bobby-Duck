@@ -118,9 +118,8 @@ public class LootUI : MonoBehaviour {
 
 	public void UpdateLootUI () {
 
-		if (!visible) {
+		if (!visible)
 			return;
-		}
 
 		ItemCategory[] categories = CategoryContent.itemCategories [currentCat].categories;
 		Item[] items = LootManager.Instance.getLoot (side).getCategory (categories);

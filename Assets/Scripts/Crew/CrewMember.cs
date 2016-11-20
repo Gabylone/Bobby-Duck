@@ -5,51 +5,22 @@ using System.Collections;
 public class CrewMember {
 
 	private Crews.Side side;
+	private MemberID memberID;
 
-	public CrewMember (
-		string _name,
-
-		int _level,
-
-		int _health,
-		int _attackDice,
-		int _constitutionDice,
-		int _speedDice,
-
-		Crews.Side _side,
-	
-		GameObject _iconObj )
+	public CrewMember (MemberID _memberID, Crews.Side _side,GameObject _iconObj )
 	{
-			// assign stats
-		memberName 			 = _name;
-
-		health			= _health;
-		maxHealth 		= _health;
-
-		attackDice 		 = _attackDice;
-		constitutionDice = _constitutionDice;
-		speedDice		 = _speedDice;
-
-		side = _side;
-		Level = _level;
+		memberID = _memberID;
 
 		iconObj = _iconObj;
 
-			// initialization
+		side = _side;
+
 		Init ();
 	}
 
-	private string memberName;
-
-	private int level;
+	private int health = 0;
 	private int xp = 0;
 	private int stepToNextLevel = 10;
-
-	private int health;
-	private int maxHealth;
-	private int attackDice;
-	private int speedDice;
-	private int constitutionDice;
 
 	private int daysOnBoard = 0;
 
@@ -69,6 +40,8 @@ public class CrewMember {
 
 	private void Init () {
 
+		health = MaxHealth;
+
 		icon = iconObj.GetComponent<CrewIcon> ();
 		info = iconObj.GetComponent<CrewInfo> ();
 
@@ -79,13 +52,13 @@ public class CrewMember {
 	#region health
 	public void GetHit (int damage) {
 
-		string smallText = damage.ToString () + " - " + constitutionDice.ToString () + " = ";
-		string bigText = (damage-constitutionDice).ToString ();
+		string smallText = damage.ToString () + " - " + ConstitutionDice.ToString () + " = ";
+		string bigText = (damage-ConstitutionDice).ToString ();
 
 		info.DisplayInfo (smallText, bigText , Color.red);
 		Icon.Animator.SetTrigger ("GetHit");
 
-		Health -= (damage-constitutionDice);
+		Health -= (damage-ConstitutionDice);
 
 		CardManager.Instance.UpdateCards ();
 
@@ -100,12 +73,11 @@ public class CrewMember {
 	public void AddXP ( int _xp ) {
 		xp += _xp;
 		if ( xp >= stepToNextLevel ) {
-			Debug.Log (memberName + " nest level");
-			++level;
+			++Level;
 			xp = stepToNextLevel - xp;
 
-			maxHealth += 5;
-			health = maxHealth;
+			MaxHealth += 5;
+			health = MaxHealth;
 
 			stepsToCold -= 0.1f;
 		}
@@ -120,7 +92,7 @@ public class CrewMember {
 			--Health;
 			if ( health == 0 )
 			{
-				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + memberName + " est mort d'une faim atroce");
+				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
 				Kill ();
 			}
 		}
@@ -132,7 +104,7 @@ public class CrewMember {
 			--Health;
 			if ( health == 0 )
 			{
-				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + memberName + " meurt d'un froid mordant");
+				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + MemberName + " meurt d'un froid mordant");
 				Kill ();
 			}
 		}
@@ -146,63 +118,60 @@ public class CrewMember {
 			return health;
 		}
 		set {
-			health = Mathf.Clamp (value , 0 , maxHealth);
+			health = Mathf.Clamp (value , 0 , MaxHealth);
 		}
 	}
 
 	public string MemberName {
 		get {
-			return memberName;
-		}
-		set {
-			memberName = value;
+			return CrewCreator.Instance.Names[memberID.nameID];
 		}
 	}
 
 
 	public int Level {
 		get {
-			return level;
+			return memberID.lvl;
 		}
 		set {
-			level = value;
+			memberID.lvl = value;
 		}
 	}
 
 	public int AttackDice {
 		get {
-			return attackDice;
+			return memberID.attack;
 		}
 		set {
-			attackDice = value;
+			memberID.attack = value;
 		}
 	}
 
 	public int SpeedDice {
 		get {
-			return speedDice;
+			return memberID.speed;
 		}
 		set {
-			speedDice = value;
+			memberID.speed = value;
 		}
 	}
 
 	public int ConstitutionDice {
 		get {
-			return constitutionDice;
+			return memberID.constitution;
 		}
 		set {
-			constitutionDice = value;
+			memberID.constitution = value;
 		}
 	}
 
 	public int[] getDiceValues {
 		get {
 			return new int[] {
-				health,
-				attackDice,
-				speedDice,
-				constitutionDice
+				Health,
+				AttackDice,
+				SpeedDice,
+				ConstitutionDice
 			};
 		}
 	}
@@ -233,7 +202,6 @@ public class CrewMember {
 	public int GetIndex {
 		get {
 			return Crews.getCrew (side).CrewMembers.FindIndex (x => x == this);
-
 		}
 	}
 
@@ -250,10 +218,10 @@ public class CrewMember {
 	#region properties
 	public int MaxHealth {
 		get {
-			return maxHealth;
+			return memberID.maxHP;
 		}
 		set {
-			maxHealth = value;
+			memberID.maxHP = value;
 		}
 	}
 

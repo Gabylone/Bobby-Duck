@@ -2,13 +2,16 @@ Nom;Fréquence / 5;;
 Bandits;3;;
 Narrator : L'équipage accoste sur une petite île.;;;
 Narrator : Quelques hommes s'avancent;;;
-OtherSpeak : Oyé !;;;
-PlayerSpeak : Ahoi !;;;
-OtherSpeak : C'est simple : 200 pièces d'or ou c'est fini !;;;
-setChoices3;;;
+randomPercent;;;
+PlayerSpeak : Ahoi !;non;;
+randomPercent50;;;
+OtherSpeak : C'est simple : 200 pièces d'or ou c'est fini !;non;;
+SetChoices3;;;
 Tenez…;;Plutôt mourir !;Je n'ai pas assez
 checkGold200;;launchCombat;OtherSpeak : Tanpis Pour vous !
-removeGold200;OtherSpeak : Vous vous foutez de moi ?;conclude;launchCombat
-OtherSpeak : C'est très bien ça…;OtherSpeak : Déglingez les gars !;;conclude
+removeGold200;OtherSpeak : Vous vous foutez de moi ?;Conclude;launchCombat
+OtherSpeak : C'est très bien ça…;GoTo1/10;GoTo1/6;Conclude
 OtherSpeak : A la prochaine;launchCombat;;
-conclude;conclude;;
+Conclude;Conclude;;
+;;Narrator : L'équipe est devant la grotte;
+;;GoTo1/13;

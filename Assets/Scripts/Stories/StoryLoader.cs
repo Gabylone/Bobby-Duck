@@ -66,6 +66,7 @@ public class StoryLoader : MonoBehaviour {
 
 				foreach (string cellContent in rowContent) {
 					stories [currentFile].content.Add (new List<string> ());
+					stories [currentFile].contentDecal.Add (new List<int> ());
 				}
 
 			}
@@ -75,6 +76,8 @@ public class StoryLoader : MonoBehaviour {
 				foreach (string cellContent in rowContent) {
 
 					stories [currentFile].content [collumnIndex].Add (cellContent);
+					stories [currentFile].contentDecal [collumnIndex].Add (-1);
+
 					++collumnIndex;
 
 				}
@@ -106,6 +109,14 @@ public class StoryLoader : MonoBehaviour {
 				[StoryReader.Instance.Index];
 		}
 	}
+	public int SaveDecal {
+		get {
+			return CurrentIslandStory.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index];
+		}
+		set {
+			CurrentIslandStory.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index] = value;
+		}
+	}
 	public string ReadDecal (int decal) {
 
 		return CurrentIslandStory.content
@@ -134,10 +145,44 @@ public class StoryLoader : MonoBehaviour {
 
 	public Story CurrentIslandStory {
 		get {
-			return IslandStories [MapManager.Instance.PosX, MapManager.Instance.PosY];
+			int id = 0;
+//			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
+			return MapGenerator.Instance.IslandDatas [id].Story;
 		}
 		set {
-			IslandStories [MapManager.Instance.PosX, MapManager.Instance.PosY] = value;
+			int id = 0;
+//			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
+			MapGenerator.Instance.IslandDatas [id].Story = value;
+		}
+	}
+
+	public Story RandomStory {
+		get {
+
+			for( int i = 0; i < ClueManager.Instance.ClueAmount + 1; ++i ) {
+				if ( i == 0 ) {
+
+					if (MapManager.Instance.PosX == ClueManager.Instance.TreasureIslandX &&
+						MapManager.Instance.PosY == ClueManager.Instance.TreasureIslandY ) {
+
+						return stories [1];
+
+					}
+
+
+				} else {
+
+					if (MapManager.Instance.PosX == ClueManager.Instance.Clue_XPos[i-1] &&
+						MapManager.Instance.PosY == ClueManager.Instance.Clue_YPos[i-1] ) {
+							
+						return stories [2];
+
+					}
+
+				}
+			}
+
+			return Stories [Random.Range (0, StoryLoader.Instance.Stories.Length)];
 		}
 	}
 }
@@ -151,6 +196,7 @@ public class Story {
 	public int frequency = 0;
 
 	public List<List<string>> content = new List<List<string>>();
+	public List<List<int>> contentDecal = new List<List<int>>();
 
 	public Story (
 		int _storyID,

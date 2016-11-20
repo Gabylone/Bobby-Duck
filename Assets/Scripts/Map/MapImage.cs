@@ -23,7 +23,7 @@ public class MapImage : MonoBehaviour {
 
 		for ( int x = 0; x < textureScale ; ++x ) {
 			for (int y = 0; y < textureScale; ++y ) {
-//				texture.SetPixel (x, y, MapManager.Instance.CheckIsland[x,y] ? Color.yellow : Color.blue);
+//				texture.SetPixel (x, y, MapGenerator.Instance.IslandIds[x,y] > -1 ? Color.yellow : Color.blue);
 				texture.SetPixel (x, y, hiddenColor);
 			}
 		}

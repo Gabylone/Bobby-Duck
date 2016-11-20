@@ -20,11 +20,12 @@ public class Crews : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		crews[0] 	= GetComponentsInChildren<CrewManager> () [0];	
-		crews[1] 	= GetComponentsInChildren<CrewManager> () [1];
+		crews [0] 	= GetComponentsInChildren<CrewManager> () [0];	
+		crews [1] 	= GetComponentsInChildren<CrewManager> () [1];
 
-		crews[0].CreateRandomCrew ();
-		crews[0].UpdateCrew (PlacingType.Map);
+		Crew playerCrew = new Crew (2,0,0);
+		crews [0].createCrew (playerCrew);
+		crews [0].UpdateCrew (PlacingType.Map);
 	}
 	
 	// Update is called once per frame

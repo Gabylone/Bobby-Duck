@@ -6,8 +6,16 @@ public class ClueManager : MonoBehaviour {
 
 	public static ClueManager Instance;
 
+	private int currentClue = 0;
 	private int clueAmount = 2;
 
+	private int treasureIslandX = 0;
+	private int treasureIslandY = 0;
+
+	private int[] clue_XPos;
+	private int[] clue_YPos;
+
+	private int[] clueIslands;
 	private string[] clues = new string[2] {
 		"Bonjour",
 		"Connard"
@@ -21,6 +29,12 @@ public class ClueManager : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+	}
+
+	void Start () {
+		clueIslands = new int[clues.Length];
+		for (int i = 0; i < clueIslands.Length; ++i)
+			clueIslands [i] = -1;
 	}
 
 	public int ClueAmount {
@@ -81,6 +95,66 @@ public class ClueManager : MonoBehaviour {
 		} else {
 			StoryReader.Instance.SetDecal (1);
 			StoryReader.Instance.UpdateStory ();
+		}
+	}
+
+	public int[] Clue_XPos {
+		get {
+			return clue_XPos;
+		}
+		set {
+			clue_XPos = value;
+		}
+	}
+
+	public int[] Clue_YPos {
+		get {
+			return clue_YPos;
+		}
+		set {
+			clue_YPos = value;
+		}
+	}
+
+	public int TreasureIslandX {
+		get {
+			return treasureIslandX;
+		}
+		set {
+			treasureIslandX = value;
+		}
+	}
+
+	public int TreasureIslandY {
+		get {
+			return treasureIslandY;
+		}
+		set {
+			treasureIslandY = value;
+		}
+	}
+
+	public string[] Clues {
+		get {
+			return clues;
+		}
+	}
+
+	public int[] ClueIslands {
+		get {
+			return clueIslands;
+		}
+		set {
+			clueIslands = value;
+		}
+	}
+
+	public int CurrentClue {
+		get {
+			return currentClue;
+		}
+		set {
+			currentClue = Mathf.Clamp (value, 0, clues.Length);
 		}
 	}
 }
