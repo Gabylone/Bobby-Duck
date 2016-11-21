@@ -1,0 +1,20 @@
+Nom;Fréquence / 5;;;;;;;
+Taverne;2;;;;;;;
+Narrator : L'île est immense, mais une gigantesque colonne de fumée tourne au dessus d'elle.;;;;;;;;
+SetChoices4;;;;;;;;
+Choice : Repartir;Choice : Regarder à la loupe ( nec. Loupe 4 );Choice : Accoster sur l'île;Choice : ( test clues );;;;;
+PlayerSpeak : On a rien à faire ici !;Narrator : Un homme barbus est au bord de la plage. Il agitte violemment les bras en direction du bateau;Narrator : Un homme barbus est au bord de la plage. Il vous fait des signes.;NewCharacter;;;;;
+Leave;GoToB/4;PlayerSpeak : Tout va bien ?;SetChoices4;;;;;
+;;NewCharacter;Choice : (  give direction to formula );Choice : ( give clue narrator );Choice : ( check clues );Choice : ( give clue character );;
+;;OtherSpeak : 3 ans que je suis coincé ici !;GiveDirectionToClue;GiveClue;CheckClues;GiveClue;;
+;;OtherSpeak : Emmenez moi avec vous, je vous en prie !;;Leave;Leave;Leave;;
+;;SetChoices3;;;;;;
+;;Choice : Montes !;Choice : Donne nous tout ce que tu as ou on te croque la bite.;;;Choice : Désolé mon gars, pas assez de place à bord;;
+;;OtherSpeak : Merci m'sieur !;RandomRange3;;;RandomPercent40;;
+;;Leave;OtherSpeak : Mais je n'ai absolument rien !;GoToD/18;GoToE/18;OtherSpeak : Donnez moi au moins quelque chose à manger;;OtherSpeak : Enculé ! 
+;;;SetChoices2;;;SetChoices2;;LaunchCombat
+;;;Choice : Rien à foutre;;Choice : Mon couillon t'es en vaine : On s'en va.;Choice : Tiens.;Choice : Non continue à manger des noix de coco.;Conclude
+;;;RandomPercent30;;OtherSpeak : …;RemoveFromInv;OtherSpeak : Vous êtes sans coeur !;
+;;;OtherSpeak : Tenez…;OtherSpeak : Faudra passer sur mon cadavre ! ;Leave;OtherSpeak : Merci !;Conclude;
+;;;LootMisc;LaunchCombat;;Leave;;
+;;;Leave;Conclude;;;;

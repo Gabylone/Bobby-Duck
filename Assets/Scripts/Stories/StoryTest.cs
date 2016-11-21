@@ -57,8 +57,6 @@ public class StoryTest : MonoBehaviour {
 
 		for (int i = 0; i < 8; ++i ) {
 
-//			Debug.Log (" Direction vers : " + (Directions)(i) + " c'est " + Vector2.Angle ( dir , NavigationManager.Instance.getDir((Directions)i) ) );
-
 			if ( Vector2.Angle ( dir , NavigationManager.Instance.getDir((Directions)i) ) < 45f ) {
 				Debug.Log (NavigationManager.Instance.getDirName((Directions)(i)));
 			}

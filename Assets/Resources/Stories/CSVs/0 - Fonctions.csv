@@ -1,0 +1,27 @@
+Fonctions;Description;écrite ?;Testée ?
+Leave;termine l'histoire mais le joueur peut revenir;;
+Conclude;termine l'histoire mais le joueur ne peut pas revenir;;
+GoTo;retourne au decal X , ligne Y;;
+RandomPercent;X pourcent de chance;;
+RandomRange;choisit entre X possibilités;;
+NewCrew;crée un équipage aléatoire;;
+NewCharacter;fait apparaître un personnage aléatoire;;
+HideOther;cache le personnage;;
+DeleteOther;supprime le personnage;;
+Narrator;dialogue narrateur;;
+SetChoices;fait apparaître plusieurs bulles de dialogues que le joueur peut choisir X étant le nombre de choix;;
+PlayerSpeak;dialogue pour PNJ;;
+OtherSpeak;dialogue pour PNJ;;
+CheckGold;vérifie si le joueur a X argent;;
+RemoveGold;enlève X argent au joueur;;
+AddGold;enlève X argent au joueur;;
+Loot;crée un loot, toutes catégories confondues;;
+Trade;crée un loot de nourriture;;
+LaunchCombat;lance un combat entre le personnage ou l'équipage non joueur;;
+CheckClues;lance la vérification d'indice pour le trésor;;
+GiveClue;;;
+GiveDirectionToClue;donne la direction vers l'indice le plus près;;
+SetWeather;lance la pluie;;
+SwitchWeather;lance le jour si nuit et nuit si jour;;
+NextDay;le bateau avance sur place;;
+CheckDay;se décale si c'est la nuit;;

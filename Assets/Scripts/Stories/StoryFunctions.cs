@@ -175,7 +175,11 @@ public class StoryFunctions : MonoBehaviour {
 		while ( a > 0 ) {
 
 			if ( StoryLoader.Instance.ReadDecal (tmpDecal).Length > 0 ) {
-				choices [amount-a] = StoryLoader.Instance.ReadDecal (tmpDecal);
+
+				string choice = StoryLoader.Instance.ReadDecal (tmpDecal);
+				choice = choice.Remove (0, 9);
+
+				choices [amount - a] = choice;
 
 				--a;
 			}
@@ -367,54 +371,73 @@ public class StoryFunctions : MonoBehaviour {
 	void CheckClues () {
 		ClueManager.Instance.StartClue ();
 	}
-	void GiveFormulaCharacter () {
+	void GiveClue() {
+
+		string formula = getFormula ();
+
+		Debug.Log (formula);
+
 
 		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
-			Debug.LogError ("no enemy crew for other speak");
-			return;
-		}
+			DialogueManager.Instance.ShowNarrator (formula);
+		} else {
+			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+			DialogueManager.Instance.SetDialogue (getFormula(), Crews.enemyCrew.captain.Icon.GetTransform);
 
-		Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-		DialogueManager.Instance.SetDialogue (getFormula(), Crews.enemyCrew.captain.Icon.GetTransform);
+		}
 
 		StoryReader.Instance.WaitForInput ();
 
 	}
-	string getFormula () {
-		int clueIndex = ClueManager.Instance.CurrentClue;
+	void GiveDirectionToClue () {
 
-		string clue = ClueManager.Instance.Clues[ClueManager.Instance.CurrentClue];
+		Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
+		string directionPhrase = NavigationManager.Instance.getDirName (dir);
+//		if ( Random.value < 0.6f ) {
+//			directionPhrase = "J'en ai aucune idée";
+//		}
+
+		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
+			DialogueManager.Instance.ShowNarrator (directionPhrase);
+		} else {
+			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.enemyCrew.captain.Icon.GetTransform);
+		}
+
+		StoryReader.Instance.WaitForInput ();
+	}
+
+	string getFormula () {
+		
+		int clueIndex = ClueManager.Instance.ClueIndex;
+
+		string clue = ClueManager.Instance.Clues[clueIndex];
 
 		bool clueAlreadyFound = false;
 
 		int a = 0;
+
 		foreach ( int i in ClueManager.Instance.ClueIslands ) {
 
 			if ( i == MapManager.Instance.IslandID ) {
+				Debug.Log ("already found clue in island");
 				clue = ClueManager.Instance.Clues [a];
 				clueIndex = a;
 				clueAlreadyFound = true;
 			}
 
 			++a;
+
 		}
 
 		if ( clueAlreadyFound == false ) {
-
-			ClueManager.Instance.CurrentClue += 1;
-
+			Debug.Log ("first time gave clue");
+			ClueManager.Instance.ClueIndex += 1;
 		}
 
 		ClueManager.Instance.ClueIslands [clueIndex] = MapManager.Instance.IslandID;
 
 		return clue;
-	}
-	void GiveFormulaNarrator () {
-
-		DialogueManager.Instance.ShowNarrator (getFormula());
-
-		StoryReader.Instance.WaitForInput ();
-
 	}
 	#endregion
 

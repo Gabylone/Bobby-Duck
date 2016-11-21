@@ -1,0 +1,9 @@
+Nom;Fréquence / 5
+Taverne;2
+Narrator : Le bateau accoste sur une petite île. Aucune trace d'autres humains.;
+SetChoices2;
+Choice : On lève l'ancre !;Choice : On va rester ici pour la nuit
+Leave;SetWeatherDay
+;NextDay
+;Narrator : Le bateau est sur une petite île. L'air est frais et matinal.
+;GoToB/4

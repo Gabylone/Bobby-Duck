@@ -6,7 +6,7 @@ public class ClueManager : MonoBehaviour {
 
 	public static ClueManager Instance;
 
-	private int currentClue = 0;
+	private int clueIndex = 0;
 	private int clueAmount = 2;
 
 	private int treasureIslandX = 0;
@@ -32,9 +32,12 @@ public class ClueManager : MonoBehaviour {
 	}
 
 	void Start () {
+		
 		clueIslands = new int[clues.Length];
+
 		for (int i = 0; i < clueIslands.Length; ++i)
 			clueIslands [i] = -1;
+		
 	}
 
 	public int ClueAmount {
@@ -63,6 +66,7 @@ public class ClueManager : MonoBehaviour {
 		int index = 0;
 
 		foreach ( string clue in clues ) {
+			
 			if ( clue == stringToCheck ) {
 				DeleteClue (index);
 				return;
@@ -95,6 +99,12 @@ public class ClueManager : MonoBehaviour {
 		} else {
 			StoryReader.Instance.SetDecal (1);
 			StoryReader.Instance.UpdateStory ();
+		}
+	}
+
+	public Vector2 GetNextClueIslandPos {
+		get {
+			return new Vector2 ( clue_XPos[ClueIndex] , clue_YPos[ClueIndex] );
 		}
 	}
 
@@ -149,12 +159,12 @@ public class ClueManager : MonoBehaviour {
 		}
 	}
 
-	public int CurrentClue {
+	public int ClueIndex {
 		get {
-			return currentClue;
+			return clueIndex;
 		}
 		set {
-			currentClue = Mathf.Clamp (value, 0, clues.Length);
+			clueIndex = Mathf.Clamp (value, 0, clues.Length);
 		}
 	}
 }

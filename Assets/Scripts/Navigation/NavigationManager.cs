@@ -194,6 +194,21 @@ public class NavigationManager : MonoBehaviour {
 	}
 
 	#region tools
+	public Directions getDirectionToPoint ( Vector2 point ) {
+
+		Vector2 boatPos = new Vector2 (MapManager.Instance.PosX, MapManager.Instance.PosY);
+		Vector2 direction = point - boatPos;
+
+		for (int i = 0; i < 8; ++i ) {
+			if ( Vector2.Angle ( direction , NavigationManager.Instance.getDir((Directions)i) ) < 45f ) {
+				return (Directions)i;
+			}
+
+		}
+
+		Debug.Log ("coun't find a direction");
+		return Directions.None;
+	}
 	public string getDirName ( Directions dir ) {
 
 		switch (dir) {

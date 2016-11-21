@@ -1,0 +1,14 @@
+Nom;Fréquence / 5;;
+Taverne;2;;
+Narrator : L'équipage accoste sur une petite île.;;;
+Narrator : Quelques hommes s'avancent;;;
+OtherSpeak : Oyé !;;;
+PlayerSpeak : Ahoi !;;;
+OtherSpeak : C'est simple : 200 pièces d'or ou c'est fini !;;;
+SetChoices3;;;
+Choice : Tenez…;;Choice : Plutôt mourir !;Choice : Je n'ai pas assez
+CheckGold200;;LaunchCombat;OtherSpeak : Tanpis Pour vous !
+RemoveGold200;OtherSpeak : Vous vous foutez de moi ?;Conclude;LaunchCombat
+OtherSpeak : C'est très bien ça…;OtherSpeak : Déglingez les, les gars !;;Conclude
+OtherSpeak : A la prochaine;LaunchCombat;;
+Conclude;Conclude;;
