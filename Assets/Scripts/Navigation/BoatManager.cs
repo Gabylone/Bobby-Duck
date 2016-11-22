@@ -18,12 +18,12 @@ public class BoatManager : MonoBehaviour {
 		Instance = this;
 	}
 
-	UIButton uiButton;
-
 	[SerializeField]
 	private Text boatLevelText;
 	private int boatCurrentLevel = 1;
 
+	[SerializeField]
+	private Button[] upgradeButtons;
 
 	[Header("Crew")]
 	[SerializeField]
@@ -42,18 +42,20 @@ public class BoatManager : MonoBehaviour {
 	[Header("Sounds")]
 	[SerializeField] private AudioClip upgradeSound;
 
+	void Start () {
+		Trading = false;
+	}
+
 	public void ShowUpgradeMenu () {
 		UpdateCrewImages ();
 		UpdatePrices ();
 		UpdateTexts ();
 	}
 
-	public void StartTrade () {
-		//
+	public void CloseUpgradeMenu () {
+		GetComponent<UIButton> ().Switch ();
 	}
-	public void EndTrade () {
-		//
-	}
+
 
 	public void Upgrade ( int i ) {
 
@@ -106,4 +108,18 @@ public class BoatManager : MonoBehaviour {
 		}
 	}
 
+	public bool Trading {
+		get {
+			return trading;
+		}
+		set {
+			trading = value;
+
+			foreach (Button button in upgradeButtons)
+				button.interactable = trading;
+
+			foreach (Button button in crewButtons)
+				button.interactable = trading;
+		}
+	}
 }

@@ -4,7 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class CrewManager : MonoBehaviour {
-	
+
+	Crew managedCrew;
+
 	Crews.PlacingType previousPlacingType = Crews.PlacingType.Map;
 	Crews.PlacingType currentPlacingType = Crews.PlacingType.Map;
 
@@ -25,16 +27,6 @@ public class CrewManager : MonoBehaviour {
 
 	[SerializeField]
 	private Vector3[] crewDecals = new Vector3 [2] { new Vector3(0.3f,0f),new Vector3(0f, 0.35f)};
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	#region crew placement
 	public void HideCrew () {
@@ -79,6 +71,7 @@ public class CrewManager : MonoBehaviour {
 		if (crewMembers.Count == memberCapacity)
 			return;
 
+		managedCrew.Add (member.MemberID);
 		crewMembers.Add (member);
 	}
 	public List<CrewMember> CrewMembers {
@@ -95,6 +88,7 @@ public class CrewManager : MonoBehaviour {
 
 		Destroy (member.IconObj);
 
+		managedCrew.Remove (member.MemberID);
 		crewMembers.Remove (member);
 	}
 	public void DeleteCrew () {
@@ -102,9 +96,8 @@ public class CrewManager : MonoBehaviour {
 		if (crewMembers.Count == 0)
 			return;
 
-		for (int i = 0; i < crewMembers.Count; i++ ) {
-			RemoveMember (crewMembers [i]);
-		}
+		foreach ( CrewMember member in CrewMembers )
+			Destroy (member.IconObj);
 
 		crewMembers.Clear ();
 	}
@@ -114,16 +107,17 @@ public class CrewManager : MonoBehaviour {
 	#endregion
 
 	#region creation
-	public void createCrew (Crew crew) {
+	public void setCrew (Crew crew) {
 
 		DeleteCrew ();
 
 		CrewCreator.Instance.TargetSide = side;
 
-		for (int i = 0; i < crew.MemberIDs.Length; ++i ) {
-			CrewMember member = CrewCreator.Instance.NewMember (crew.MemberIDs[i]);
-			AddMember (member);
+		for (int i = 0; i < crew.MemberIDs.Count; ++i ) {
+			CrewMembers.Add (CrewCreator.Instance.NewMember (crew.MemberIDs[i]));
 		}
+
+		ManagedCrew = crew;
 
 		UpdateCrew (Crews.PlacingType.Combat);
 	}
@@ -147,5 +141,12 @@ public class CrewManager : MonoBehaviour {
 	}
 	#endregion
 
-
+	public Crew ManagedCrew {
+		get {
+			return managedCrew;
+		}
+		set {
+			managedCrew = value;
+		}
+	}
 }

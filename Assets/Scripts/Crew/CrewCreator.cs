@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CrewCreator : MonoBehaviour {
 
@@ -248,7 +249,7 @@ public class Crew {
 	public int row = 0;
 	public int col = 0;
 
-	MemberID[] memberIDs;
+	List<MemberID> memberIDs = new List<MemberID>();
 
 	public Crew (int amount, int r , int c) {
 
@@ -256,13 +257,19 @@ public class Crew {
 		col = c;
 
 		amount = Mathf.Clamp ( amount , 1, amount );
-		memberIDs = new MemberID[amount];
-
-		for (int i = 0; i < memberIDs.Length; ++i )
-			memberIDs[i] = new MemberID ();
+		for (int i = 0; i < amount; ++i)
+			memberIDs.Add (new MemberID ());
 	}
 
-	public MemberID[] MemberIDs {
+	public void Add ( MemberID id ) {
+		memberIDs.Add (id);
+	}
+
+	public void Remove ( MemberID id ) {
+		memberIDs.Remove (id);
+	}
+
+	public List<MemberID> MemberIDs {
 		get {
 			return memberIDs;
 		}

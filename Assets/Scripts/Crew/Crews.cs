@@ -24,7 +24,7 @@ public class Crews : MonoBehaviour {
 		crews [1] 	= GetComponentsInChildren<CrewManager> () [1];
 
 		Crew playerCrew = new Crew (2,0,0);
-		crews [0].createCrew (playerCrew);
+		crews [0].setCrew (playerCrew);
 		crews [0].UpdateCrew (PlacingType.Map);
 	}
 	

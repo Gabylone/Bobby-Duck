@@ -438,8 +438,8 @@ public class CombatManager : MonoBehaviour {
 		CardManager.Instance.HideFightingCard (Crews.Side.Enemy);
 		CardManager.Instance.HideFightingCard (Crews.Side.Player);
 
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
+//		StoryReader.Instance.NextCell ();
+//		StoryReader.Instance.UpdateStory ();
 
 		Crews.enemyCrew.Hide ();
 		updateState = null;

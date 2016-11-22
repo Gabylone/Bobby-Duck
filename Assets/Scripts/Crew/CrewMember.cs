@@ -225,6 +225,12 @@ public class CrewMember {
 		}
 	}
 
+	public MemberID MemberID {
+		get {
+			return memberID;
+		}
+	}
+
 	public Item[] Equipment {
 		get {
 			return equipment;

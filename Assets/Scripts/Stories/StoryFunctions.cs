@@ -79,6 +79,8 @@ public class StoryFunctions : MonoBehaviour {
 
 		if (tmp == null) {
 
+			Debug.Log ("creating new crew");
+
 			Crew newCrew = new Crew (amount, row, col);
 
 			MapManager.Instance.CurrentIsland.Crews.Add (newCrew);
@@ -87,39 +89,142 @@ public class StoryFunctions : MonoBehaviour {
 
 		}
 
+		Debug.Log ("getting previous crew");
 		return tmp;
 	}
 
 	void NewCharacter() {
 
-		Crews.enemyCrew.createCrew (GetCrew (1));
+		StoryReader.Instance.NextCell ();
 
-		StoryReader.Instance.Wait ( Crews.playerCrew.captain.Icon.MoveDuration );
+		Crew islandCrew = GetCrew (1);
+
+		if (islandCrew.MemberIDs.Count == 0) {
+			StoryReader.Instance.SetDecal (1);
+		} else {
+			Crews.enemyCrew.setCrew (islandCrew);
+			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+		}
+
+		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.MoveDuration);
 
 	}
 
 	void NewCrew () {
-		
+
+		StoryReader.Instance.NextCell ();
+
 		int l = Crews.playerCrew.CrewMembers.Count;
 
 		int amount = Random.Range ( l-1 , l+2 );
+		Crew islandCrew = GetCrew (amount);
 
-		Crews.enemyCrew.createCrew (GetCrew (amount));
+		if (islandCrew.MemberIDs.Count == 0) {
+			StoryReader.Instance.SetDecal (1);
+		} else {
+			Crews.enemyCrew.setCrew (islandCrew);
+			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+		}
 
 		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.MoveDuration);
 
+	}
+	void AddMember () {
+
+		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.MemberCapacity) {
+
+			string phrase = "Je regrette, le bateau est trop petit";
+			DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain.Icon.GetTransform);
+
+			StoryReader.Instance.WaitForInput ();
+
+		} else {
+
+			CrewMember targetMember = Crews.enemyCrew.captain;
+
+			Crews.playerCrew.AddMember (targetMember);
+			Crews.enemyCrew.RemoveMember (targetMember);
+
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.Wait (0.5f);
+		
+		}
+
+	}
+	void RemoveMember () {
+
+		int removeIndex = Random.Range (0,Crews.playerCrew.CrewMembers.Count);
+		CrewMember memberToRemove = Crews.playerCrew.CrewMembers [removeIndex];
+
+		Crews.playerCrew.RemoveMember (memberToRemove);
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (0.5f);
+
+	}
+	#endregion
+
+	#region hide & show
+	void HideAll () {
+		Crews.enemyCrew.Hide ();
+		Crews.playerCrew.Hide ();
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (1f);
+	}
+	void ShowAll () {
+		Crews.playerCrew.ShowCrew ();
+		Crews.enemyCrew.ShowCrew ();
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (1f);
+	}
+	void HidePlayer() {
+		Crews.playerCrew.Hide ();
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (1f);
+	}
+	void ShowPlayer () {
+		Crews.playerCrew.ShowCrew ();
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (1f);
 	}
 	void HideOther () {
 		Crews.enemyCrew.Hide ();
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
+		StoryReader.Instance.Wait (1f);
+	}
+	void ShowOther() {
+		Crews.enemyCrew.ShowCrew ();
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (1f);
 	}
 	void DeleteOther () {
 		Crews.enemyCrew.DeleteCrew ();
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
+		StoryReader.Instance.Wait (1f);
+	}
+	#endregion
+
+	#region boatUpgrades
+	void OpenBoatUpgrades () {
+		BoatManager.Instance.ShowUpgradeMenu ();
+		BoatManager.Instance.Trading = true;
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (0.5f);
+	}
+	void CloseBoatUpgrades () {
+		BoatManager.Instance.CloseUpgradeMenu ();
+		BoatManager.Instance.Trading = false;
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (0.5f);
 	}
 	#endregion
 
@@ -187,7 +292,7 @@ public class StoryFunctions : MonoBehaviour {
 			++tmpDecal;
 
 			if ( tmpDecal > 20 ) {
-				Debug.LogError ("reached while limit");
+				Debug.LogError ("set choice reached limit");
 				break;
 			}
 
@@ -230,11 +335,15 @@ public class StoryFunctions : MonoBehaviour {
 	void RemoveGold () {
 		int amount = int.Parse (cellParams);
 		GoldManager.Instance.RemoveGold (amount);
+
+		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait ( 1f );
 	}
 	void AddGold () {
 		int amount = int.Parse (cellParams);
 		GoldManager.Instance.AddGold (amount);
+
+		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait ( 1f );
 	}
 	#endregion
@@ -284,6 +393,19 @@ public class StoryFunctions : MonoBehaviour {
 
 		return categories;
 	}
+	void RemoveFromInventory () {
+		Debug.Log ("remove something from inventory");
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (0.5f);
+	}
+	void AddToInventory () {
+		Debug.Log ("add something from inventory");
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (0.5f);
+		//
+	}
 	#endregion
 
 	#region story navigation
@@ -297,8 +419,6 @@ public class StoryFunctions : MonoBehaviour {
 
 		char targetChar = coords [0] [0];
 
-		Debug.Log ("Target Char : " + targetChar);
-
 		foreach (char c in alphabet) {
 			if (c == targetChar) {
 				break;
@@ -308,12 +428,15 @@ public class StoryFunctions : MonoBehaviour {
 
 		int newIndex = int.Parse (coords [1]) - 3;
 
-		Debug.Log ("nouveau decal : " + a + " / nouveau index : " + newIndex);
-
 		StoryReader.Instance.Decal = a;
 		StoryReader.Instance.Index = newIndex;
 
 		StoryReader.Instance.UpdateStory ();
+
+	}
+	void SwitchStory () {
+
+
 
 	}
 	#endregion
@@ -340,6 +463,7 @@ public class StoryFunctions : MonoBehaviour {
 		
 		StartCoroutine (NextDayCoroutine ());
 	}
+
 	IEnumerator NextDayCoroutine () {
 
 		if (Crews.enemyCrew.CrewMembers.Count > 0) {
@@ -356,6 +480,24 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 
 	}
+
+	void Fade () {
+		StartCoroutine (FadeCoroutine ());
+	}
+	IEnumerator FadeCoroutine () {
+
+		Transitions.Instance.ScreenTransition.Switch ();
+
+		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration );
+
+		Transitions.Instance.ScreenTransition.Switch ();
+
+		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration );
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+	}
+
 	void CheckDay () {
 
 		StoryReader.Instance.NextCell ();
@@ -393,9 +535,6 @@ public class StoryFunctions : MonoBehaviour {
 
 		Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
 		string directionPhrase = NavigationManager.Instance.getDirName (dir);
-//		if ( Random.value < 0.6f ) {
-//			directionPhrase = "J'en ai aucune idée";
-//		}
 
 		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
 			DialogueManager.Instance.ShowNarrator (directionPhrase);

@@ -1,0 +1,16 @@
+Nom;Fréquence / 5;;;;;;;;;;;;;;
+Forêt noire;2;;;;;;;;;;;;;;
+Narrator : Le bâteau est ancré près d'une île immense, couverte d'arbres. L'équipage descend sur une grande étendue d'herbe, menant à un bois de chaînes.;;;;;;;;;;;;;;;
+SetChoices3;;;;;;;;;;;;;;;
+Choice : Il vaut mieux reprendre la route !;Choice : On va rester quelques temps;;Choice : Entrons dans la forêt !;;;;;;;;;;;;
+Leave;SwitchWeather;;Fade;;;;;;;;;;;;
+;NextDay;;Narrator : Le chemin est clair pendant quelques mètres. mais la forêt est de plus en plus dense.;;;;;;;;;;;;
+;GoToA/4;;SetChoices2;;;;;;;;;;;;
+;;;Choice : Je ne vois rien, retournons au bateau.;Choice : Continuons !;;;;;;;;;;;
+;;;Fade;SwitchWeather;;;;Fade;;;;Fade;;;
+;;;GoToD/6;Narrator : Après quelques heures de marche, la nuit est tombée. On ne reconnaît rien. Plusieurs chemin s'offrent au capitaine.;;;;PlayerSpeak : …;;;;PlayerSpeak : …;;;
+;;;;PlayerSpeak : Je crois que je suis perdu !;;;;SetChoices4;;;;SetChoices4;;;
+;;;;SetChoices4;;;;Choice : Il faut retourner sur nos pas.;Choice : A gauche !;Choice : Droit devant !;Choice : A droite !;Choice : Il faut retourner sur nos pas.;Choice : A gauche !;Choice : Droit devant !;Choice : A droite !
+;;;;Choice : Il faut retourner sur nos pas.;Choice : A gauche !;Choice : Droit devant !;Choice : A droite !;;;GoT;GoToM/10;Fade;GoToI/8;;PlayerSpeak : 
+;;;;Fade;GoToI/10;;;;;;;GoToE/11;;;
+;;;;GoToE/11;;;;;;;;;;;

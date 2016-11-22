@@ -15,6 +15,10 @@ public class StoryReader : MonoBehaviour {
 	bool waitToNextCell = false;
 	float timer = 0f;
 
+	bool fallBackStory = false;
+	int fallBackCoordX = 0;
+	int fallBackCoordY = 0;
+
 	[SerializeField]
 	private AudioClip pressInputButton;
 
@@ -36,7 +40,6 @@ public class StoryReader : MonoBehaviour {
 			if (timer <= 0) {
 
 				waitToNextCell = false;
-				NextCell ();
 				UpdateStory ();
 			}
 		}
@@ -136,12 +139,33 @@ public class StoryReader : MonoBehaviour {
 			decal = value;
 		}
 	}
-	public bool WaitForInput2 {
+	#endregion
+
+	#region fall back story
+	public bool FallBackStory {
 		get {
-			return waitForInput;
+			return fallBackStory;
 		}
 		set {
-			waitForInput = value;
+			fallBackStory = value;
+		}
+	}
+
+	public int FallBackCoordX {
+		get {
+			return fallBackCoordX;
+		}
+		set {
+			fallBackCoordX = value;
+		}
+	}
+
+	public int FallBackCoordY {
+		get {
+			return fallBackCoordY;
+		}
+		set {
+			fallBackCoordY = value;
 		}
 	}
 	#endregion

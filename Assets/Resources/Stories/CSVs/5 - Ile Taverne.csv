@@ -1,35 +1,35 @@
-Nom;Fréquence / 5;;;;
-Taverne;2;;;;
-Narrator : De la fumée monte dans le ciel et une odeur merveilleuse flotte dans l'air. C'est une taverne.;;;;;
-SetChoices2;;;;;
-Choice : Reprenons la mer;Choice : Entrons;;;;
-Leave;NewCrew;;;;
-;OtherSpeak : Qu'est-ce que je peux faire pour vous ?;GoToB/25;;;
-;SetChoices3;;;;
-;Choice : Des chambres pour mes hommes !;;;Choice : On a faim !;Choice : Ça ira pour aujourdh'ui
-;OtherSpeak : Ça sera 50 pièces d'or;;;OtherSpeak : Regardez voir ce que j'ai;OtherSpeak : Bon bah à la prochaine !
-;SetChoices2;;;TradeFood;GoToA/3
-;Choice : Tenez !;;Choice : Je n'ai pas assez…;GoToB/7;
-;CheckGold50;;OtherSpeak : C'est rien mon bon monsieur;;
-;RemoveGold50;OtherSpeak : Désolé mon bon m'sieur mais c'est pas assez;GoToB/7;;
-;OtherSpeak : Prenez le dortoir à gauche en haut des escaliers !;GoToB/7;;;
-;OtherSpeak : Bonne nuit;;;;
-;RandomPercent5;;;;
-;SetWeatherNight;;;SetWeatherDay;
-;Narrator : Des craquements dans le couloir réveillent l'équipage;;;NextDay;
-;SetChoices2;Choice : On verra demain…;;Narrator : L'équipe se réveille au son des mouettes…;
-;Choice : Je vais voir ce que c'est;SetWeatherDay;;OtherSpeak : Alors, bien dormis ?;
-;PlayerSpeak : Vous pensiez nous avoir comme ça ?!;Narrator : L'équipage se réveille. Plus de deux cents pièces d'or ont disparues;Narrator : Le capitaine et ses hommes se réveillent après une bonne nuit de sommeil;SetChoices2;
-;OtherSpeak : Sacre Bleu !;PlayerSpeak : Nos bourses ! Qui a pris ma bourse !?;Leave;Choice : Non j'ai très mal dormis;Choice : Oui merci !
-;LaunchCombat;Leave;;OtherSpeak : Bah merde alors…;OtherSpeak : Bah merde alors…
-;Narrator : Il n'y a plus personne dans l'auberge.;;;GoToB/7;GoToB/7
-;SetChoices3;;;;
-;Choice : Chercher le garde manger;;Choice : Repasser une nuit à l'auberge;Choice : Reprendre le large;
-;RandomPercent10;;PlayerSpeak : Au lit !;PlayerSpeak : On a rien plus rien à faire ici !;
-;Narrator : La porte du garde manger est entrouverte;;SwitchWeather;Leave;
-;SetChoices2;;NextDay;;
-;Choice : Fouiller;Choice : Revenir;GoToB/25;;
-;RandomPercent25;GoToB/25;;;
-;PlayerSpeak : Il n'y a rien là dedans.;PlayerSpeak : Miam !;;;
-;GoToB/30;LootFood;;;
-;;GoToB/30;;;
+Nom;Fréquence / 5;;;;;;;
+Taverne;2;;;;;;;
+Narrator : De la fumée monte dans le ciel et une odeur merveilleuse flotte dans l'air. C'est une taverne.;;;;;;;;
+SetChoices2;;;;;;;;
+Choice : Reprenons la mer;Choice : Entrons;;;;;;;
+Leave;NewCrew;;;;;;;
+;OtherSpeak : Qu'est-ce que je peux faire pour vous ?;GoToB/25;;;;;;
+;SetChoices3;;;;;;;
+;Choice : Des chambres pour mes hommes !;;;Choice : On a faim !;Choice : Ça ira pour aujourdh'ui;;;
+;OtherSpeak : Ça sera 50 pièces d'or;;;OtherSpeak : Regardez voir ce que j'ai;OtherSpeak : Bon bah à la prochaine !;;;
+;SetChoices2;;;TradeFood;GoToA/3;;;
+;Choice : Tenez !;;Choice : Je n'ai pas assez…;GoToB/7;;;;
+;CheckGold50;;OtherSpeak : C'est rien mon bon monsieur;;;;;
+;RemoveGold50;OtherSpeak : Désolé mon bon m'sieur mais c'est pas assez;GoToB/7;;;;;
+;OtherSpeak : Prenez le dortoir à gauche en haut des escaliers !;GoToB/7;;;;;;
+;OtherSpeak : Bonne nuit;;;;;;;
+;RandomPercent5;;;;;;;
+;SetWeatherNight;;;;;;SetWeatherDay;
+;Narrator : Des craquements dans le couloir réveillent l'équipage;;;;;;NextDay;
+;SetChoices2;;;;;;Narrator : L'équipe se réveille au chant des mouettes…;
+;Choice : Je vais voir ce que c'est;;;;Choice : On verra demain…;;OtherSpeak : Alors, bien dormis ?;
+;PlayerSpeak : Vous pensiez nous avoir comme ça ?!;;;;SetWeatherDay;;SetChoices2;
+;OtherSpeak : Sacre Bleu !;;;;Narrator : L'équipage se réveille. Plus de deux cents pièces d'or ont disparues;GoToH/20;Choice : Non j'ai très mal dormis;Choice : Oui merci !
+;LaunchCombat;;;;PlayerSpeak : Ma bourse ! Qui a pris ma bourse !;;OtherSpeak : Bah merde alors…;OtherSpeak : Génial
+;Narrator : Il n'y a plus personne dans l'auberge.;;;;RemoveGold100;;GoToB/7;GoToB/7
+;SetChoices3;;;;;;;
+;Choice : Chercher le garde manger;;Choice : Repasser une nuit à l'auberge;Choice : Reprendre le large;;;;
+;RandomPercent10;;PlayerSpeak : Je crois qu'on a besoin d'une bonne nuit de sommeil;PlayerSpeak : On a rien plus rien à faire ici !;;;;
+;Narrator : La porte du garde manger est entrouverte;Narrator : La porte du garde manger est fermée;SwitchWeather;Leave;;;;
+;SetChoices2;GoToB/26;NextDay;;;;;
+;Choice : Fouiller;Choice : Revenir;GoToB/25;;;;;
+;RandomPercent25;GoToB/25;;;;;;
+;PlayerSpeak : Il n'y a rien là dedans.;PlayerSpeak : Miam !;;;;;;
+;GoToB/30;LootFood;;;;;;
+;;GoToB/30;;;;;;

@@ -2,15 +2,16 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Stories\StoryFunctions.cs">
     <Files>
-      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="133" Column="78" />
-      <File FileName="Assets\Resources\Items\a faire 2.txt" Line="13" Column="19" />
-      <File FileName="Assets\GameManager.cs" Line="10" Column="34" />
-      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="400" Column="27" />
-      <File FileName="Assets\Scripts\Navigation\NavigationManager.cs" Line="197" Column="1" />
-      <File FileName="Assets\Scripts\Dialogues\DialogueManager.cs" Line="117" Column="26" NotebookId="1" />
-      <File FileName="Assets\Scripts\Map\MapManager.cs" Line="43" Column="31" NotebookId="1" />
-      <File FileName="Assets\Scripts\Stories\StoryTest.cs" Line="57" Column="3" NotebookId="1" />
-      <File FileName="Assets\Scripts\Treasure\ClueManager.cs" Line="51" Column="2" NotebookId="1" />
+      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="295" Column="33" />
+      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="294" Column="3" />
+      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="450" Column="16" />
+      <File FileName="Assets\Scripts\Crew\Crews.cs" Line="26" Column="38" />
+      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="272" Column="24" />
+      <File FileName="Assets\Scripts\Navigation\NavigationManager.cs" Line="99" Column="51" />
+      <File FileName="Assets\Scripts\Navigation\BoatManager.cs" Line="56" Column="39" />
+      <File FileName="Assets\Scripts\Crew\CrewManager.cs" Line="110" Column="24" NotebookId="1" />
+      <File FileName="Assets\Scripts\Stories\StoryReader.cs" Line="72" Column="2" NotebookId="1" />
+      <File FileName="Assets\Scripts\Navigation\IslandManager.cs" Line="101" Column="16" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
