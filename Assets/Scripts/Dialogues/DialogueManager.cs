@@ -118,6 +118,10 @@ public class DialogueManager : MonoBehaviour {
 		narratorObj.SetActive (true);
 
 		narratorText.text = text;
+
+		if ( !IslandManager.Instance.OnIsland ) {
+			Invoke ("HideNarrator" , 2.5f );
+		}
 	}
 	public void HideNarrator () {
 		narratorObj.SetActive (false);

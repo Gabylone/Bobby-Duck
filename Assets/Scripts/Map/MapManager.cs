@@ -7,6 +7,8 @@ public class MapManager : MonoBehaviour {
 
 	private MapImage mapImage;
 
+	private UIButton mapButton;
+
 	[SerializeField]
 	private Color islandColor;
 	[SerializeField]
@@ -26,9 +28,10 @@ public class MapManager : MonoBehaviour {
 
 		mapImage = GetComponent<MapImage> ();
 		mapGenerator = GetComponent<MapGenerator> ();
+		mapButton = GetComponent<UIButton> ();
 
 			// init boat pos
-		posX = (int)(mapImage.TextureScale / 2);
+		posX = Random.Range (0, (int)(mapImage.TextureScale));
 		posY = (int)(mapImage.TextureScale / 6);
 
 		mapGenerator.GenerateIslands ();
@@ -93,9 +96,15 @@ public class MapManager : MonoBehaviour {
 	}
 	public IslandData CurrentIsland {
 		get {
-			return MapGenerator.Instance.IslandDatas [0];
-//			return MapGenerator.Instance.IslandDatas [IslandID];
+//			return MapGenerator.Instance.IslandDatas [0];
+			return MapGenerator.Instance.IslandDatas [IslandID];
 		}
 	}
 	#endregion
+
+	public UIButton MapButton {
+		get {
+			return mapButton;
+		}
+	}
 }

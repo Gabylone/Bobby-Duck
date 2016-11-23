@@ -213,15 +213,15 @@ public class StoryFunctions : MonoBehaviour {
 
 	#region boatUpgrades
 	void OpenBoatUpgrades () {
-		BoatManager.Instance.ShowUpgradeMenu ();
-		BoatManager.Instance.Trading = true;
+		BoatUpgradeManager.Instance.ShowUpgradeMenu ();
+		BoatUpgradeManager.Instance.Trading = true;
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (0.5f);
 	}
 	void CloseBoatUpgrades () {
-		BoatManager.Instance.CloseUpgradeMenu ();
-		BoatManager.Instance.Trading = false;
+		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
+		BoatUpgradeManager.Instance.Trading = false;
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (0.5f);
@@ -446,13 +446,13 @@ public class StoryFunctions : MonoBehaviour {
 
 		switch ( cellParams ) {
 		case "Day":
-			NavigationManager.Instance.IsNight = false;
+			WeatherManager.Instance.IsNight = false;
 			break;
 		case "Night":
-			NavigationManager.Instance.IsNight = true;
+			WeatherManager.Instance.IsNight = true;
 			break;
 		case "Rain":
-			NavigationManager.Instance.Raining = true;
+			WeatherManager.Instance.Raining = true;
 			break;
 		}
 
@@ -483,9 +483,21 @@ public class StoryFunctions : MonoBehaviour {
 
 	void Fade () {
 		StartCoroutine (FadeCoroutine ());
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (Transitions.Instance.ActionTransition.Duration * 2);
+
 	}
 	IEnumerator FadeCoroutine () {
 
+		bool fadePlayer = Crews.playerCrew.captain.Icon.CurrentPlacingType == Crews.PlacingType.Discussion;
+		bool fadeOther = Crews.enemyCrew.captain.Icon.CurrentPlacingType == Crews.PlacingType.Discussion;
+		if (fadePlayer)
+			Crews.playerCrew.HideCrew ();
+		if ( fadeOther )
+			Crews.enemyCrew.HideCrew ();
+
+		Crews.playerCrew.HideCrew ();
 		Transitions.Instance.ScreenTransition.Switch ();
 
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration );
@@ -494,15 +506,17 @@ public class StoryFunctions : MonoBehaviour {
 
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration );
 
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
+		if (fadePlayer)
+			Crews.playerCrew.ShowCrew ();
+		if ( fadeOther )
+			Crews.enemyCrew.ShowCrew ();
 	}
 
 	void CheckDay () {
 
 		StoryReader.Instance.NextCell ();
 
-		if (NavigationManager.Instance.IsNight)
+		if (WeatherManager.Instance.IsNight)
 			StoryReader.Instance.SetDecal (1);
 
 		StoryReader.Instance.UpdateStory ();

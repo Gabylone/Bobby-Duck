@@ -94,6 +94,7 @@ public class CrewMember {
 			{
 				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
 				Kill ();
+				return;
 			}
 		}
 
@@ -106,8 +107,11 @@ public class CrewMember {
 			{
 				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + MemberName + " meurt d'un froid mordant");
 				Kill ();
+				return;
 			}
 		}
+
+		++daysOnBoard;
 
 	}
 	#endregion

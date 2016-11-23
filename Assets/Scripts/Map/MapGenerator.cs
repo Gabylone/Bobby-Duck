@@ -65,18 +65,26 @@ public class MapGenerator : MonoBehaviour {
         {
             int y1 = Random.Range(0, (mapImage.TextureScale / 2) - (noManSeaScale / 2));
             int y2 = Random.Range((mapImage.TextureScale / 2) + (noManSeaScale / 2), mapImage.TextureScale);
+
             int y = Random.value > 0.5f ? Mathf.RoundToInt(y1) : Mathf.RoundToInt(y2);
 			int x = Random.Range ( 0, mapImage.TextureScale );
 
 			islandIds 	[x, y] 	= islandID;
 			++islandID;
 
-			if ( i == 0 ) {
+			if ( i == ClueManager.Instance.ClueAmount  ) {
+				// Treasure
 				ClueManager.Instance.TreasureIslandY = y;
 				ClueManager.Instance.TreasureIslandX = x;
+			} else if ( i == ClueManager.Instance.ClueAmount + 1  ) {
+				// Home
+				MapManager.Instance.PosX = x;
+				MapManager.Instance.PosY = y;
+
 			} else {
-				ClueManager.Instance.Clue_XPos [i - 1] = x;
-				ClueManager.Instance.Clue_YPos [i - 1] = y;
+				// Clues
+				ClueManager.Instance.Clue_XPos [i] = x;
+				ClueManager.Instance.Clue_YPos [i] = y;
 			}
 
         }
@@ -120,9 +128,12 @@ public class MapGenerator : MonoBehaviour {
 		yield return new WaitForEndOfFrame ();
 
 		mapImage.InitImage ();
-		NavigationManager.Instance.Move (Directions.None);
+		IslandManager.Instance.SetIsland ();
+		StoryLoader.Instance.CurrentIslandStory = StoryLoader.Instance.Stories[1];
+		IslandManager.Instance.Enter ();
 
 		#endregion
 
 	}
+
 }

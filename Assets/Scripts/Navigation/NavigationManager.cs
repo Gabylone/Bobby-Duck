@@ -20,66 +20,10 @@ public class NavigationManager : MonoBehaviour {
 
 	private Directions currentDirection;
 
-	[Header("Boat")]
-	[SerializeField]
-	private Transform boatTransform;
-	[SerializeField]
-	private Vector2 boatBounds = new Vector2 ( 350f, 164f );
-	[SerializeField]
-	private float boatSpeed = 0.3f;
-
 	private int shipRange = 1;
-
-	[Header("Island")]
-	[SerializeField] private Image islandImage;
-
-	[Header("Weather")]
-	[Header("Rain")]
-	[SerializeField] private Image rainImage;
-
-	bool raining = false;
-
-	private int currentRain = 0;
-	[SerializeField] private int rainRate = 20;
-	[SerializeField] private int rainDuration = 5;
-
-	[Header("Night")]
-	[SerializeField] private Image nightImage;
-
-	bool isNight = false;
-
-	private int currentNight = 0;
-	[SerializeField] private int nightRate = 8;
-	[SerializeField] private int nightDuration = 4;
-
-	[Header ("Sounds")]
-	[SerializeField] private AudioClip rainSound;
-	[SerializeField] private AudioClip daySound;
-
-
 
 	void Awake () {
 		Instance = this;
-	}
-
-	// Use this for initialization
-	void Start () {
-		PlaySound ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-		boatTransform.Translate ( getDir(currentDirection) * boatSpeed * Time.deltaTime , Space.World );
-
-		if (Input.GetKeyDown (KeyCode.A)) {
-			for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i) {
-				Crews.playerCrew.CrewMembers [i].AddToStates ();
-				Crews.playerCrew.CrewMembers [i].AddXP(1);
-			}
-
-			PlayerLoot.Instance.UpdateMembers ();
-		}
 	}
 
 	#region movement
@@ -103,7 +47,7 @@ public class NavigationManager : MonoBehaviour {
 
 	private void MoveDelay () {
 
-		SetBoatPos ();
+		BoatManager.Instance.SetBoatPos ();
 
 		MapManager.Instance.SetNewPos (getDir (currentDirection));
 
@@ -111,45 +55,12 @@ public class NavigationManager : MonoBehaviour {
 			Crews.playerCrew.CrewMembers[i].AddToStates ();
 		}
 
-		SetIsland ();
+		IslandManager.Instance.SetIsland ();
 
 		Transitions.Instance.ScreenTransition.Switch ();
 
-		UpdateWeather ();
+		WeatherManager.Instance.UpdateWeather ();
 
-	}
-	private void SetBoatPos () {
-
-		boatTransform.localPosition = -new Vector2(getDir (currentDirection).x * boatBounds.x, getDir (currentDirection).y * boatBounds.y);
-
-	}
-	private void SetIsland () {
-		
-		islandImage.gameObject.SetActive ( MapManager.Instance.NearIsland );
-		if ( MapManager.Instance.NearIsland )
-			islandImage.transform.localPosition = MapManager.Instance.CurrentIsland.Position;
-
-	}
-	#endregion
-
-	#region weather
-	private void UpdateWeather () {
-
-		// rain image
-		currentRain++;
-		int r1 = Raining ? rainDuration : rainRate;
-		if (currentRain == r1)
-			Raining = !Raining;
-
-		currentNight++;
-		int r2 = IsNight ? nightDuration : nightRate;
-		if (currentNight == r2)
-			IsNight = !IsNight;
-	}
-	public void PlaySound () {
-		if (!IslandManager.Instance.OnIsland) {
-			SoundManager.Instance.PlayAmbiance (raining ? rainSound : daySound);
-		}
 	}
 	#endregion
 
@@ -157,39 +68,16 @@ public class NavigationManager : MonoBehaviour {
 		get {
 
 			int range = shipRange;
-			if (raining)
+
+			if (WeatherManager.Instance.Raining)
 				range--;
-			if (isNight)
+			if (WeatherManager.Instance.IsNight)
 				range--;
 			
-			return Mathf.Clamp (shipRange,0,10);
+			return Mathf.Clamp (range,0,10);
 		}
 		set {
 			shipRange = value;
-		}
-	}
-
-	public bool Raining {
-		get {
-			return raining;
-		}
-		set {
-			raining = value;
-			currentRain = 0;
-			rainImage.gameObject.SetActive ( value );
-			PlaySound ();
-		}
-	}
-
-	public bool IsNight {
-		get {
-			return isNight;
-		}
-		set {
-			isNight = value;
-			currentNight = 0;
-			nightImage.gameObject.SetActive (value);
-			PlaySound ();
 		}
 	}
 
@@ -281,4 +169,13 @@ public class NavigationManager : MonoBehaviour {
 	}
 
 	#endregion
+
+	public Directions CurrentDirection {
+		get {
+			return currentDirection;
+		}
+		set {
+			currentDirection = value;
+		}
+	}
 }

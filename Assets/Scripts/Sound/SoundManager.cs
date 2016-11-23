@@ -44,4 +44,9 @@ public class SoundManager : MonoBehaviour {
 		ambianceSource.Play ();
 	}
 
+	public AudioSource AmbianceSource {
+		get {
+			return ambianceSource;
+		}
+	}
 }

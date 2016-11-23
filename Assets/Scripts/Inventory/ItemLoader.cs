@@ -20,6 +20,7 @@ public class ItemLoader : MonoBehaviour {
 	public static ItemCategory[] allCategories;
 
 	[SerializeField]
+	private string pathToCSVs = "Items/CSVs";
 	private TextAsset[] files;
 
 	private Item[][] items;
@@ -43,6 +44,13 @@ public class ItemLoader : MonoBehaviour {
 		}
 
 		items = new Item[categoryAmount][];
+
+		files = new TextAsset[Resources.LoadAll (pathToCSVs, typeof(TextAsset)).Length];
+		int index = 0;
+		foreach ( TextAsset textAsset in Resources.LoadAll (pathToCSVs, typeof(TextAsset) )) {
+			files[index] = textAsset;
+			++index;
+		}
 
 		foreach ( TextAsset file in files ) {
 			LoadItems (file);

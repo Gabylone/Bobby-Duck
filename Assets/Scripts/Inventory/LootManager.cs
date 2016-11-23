@@ -16,7 +16,8 @@ public class LootManager : MonoBehaviour {
 		
 		Instance = this;
 
-		playerLoot = new Loot (0,0,ItemLoader.allCategories);
+		ItemCategory[] categories = new ItemCategory[1] {ItemCategory.Provisions};
+		playerLoot = new Loot (0,0,categories);
 
 		Item[] items = playerLoot.getCategory (ItemLoader.allCategories);
 

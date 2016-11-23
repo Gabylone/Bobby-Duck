@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,20 +7,60 @@ public class IslandManager : MonoBehaviour {
 
 	public static IslandManager Instance;
 
+	[Header("Island")]
+	[SerializeField] private Image islandImage;
+
 	bool onIsland = false;
 
-	[SerializeField] private AudioClip dockSound;
+	[Header("Clue")]
+	[SerializeField] private int clueIslandIndex = 2;
+	[SerializeField] private int clueIslandXPos = 0;
+	[SerializeField] private int clueIslandYPos = 0;
+
+	[Header("Treasure")]
+	[SerializeField] private int treasureIslandIndex = 3;
+	[SerializeField] private int treasureIslandXPos = 0;
+	[SerializeField] private int treasureIslandYPos = 0;
+
+	[Header("Home")]
+	[SerializeField] private int homeIslandIndex = 1;
+	[SerializeField] private int homeIslandXPos = 0;
+	[SerializeField] private int homeIslandYPos = 0;
+
+	[SerializeField] private Vector3 decal;
+
+	[SerializeField]
+	private bool playIntroduction = false;
 
 	void Awake() {
 		Instance = this;
 	}
 
+	void Update () {
+		if ( Input.GetKeyDown (KeyCode.Q) )
+			Leave ();
+	}
+
 	public void Enter (){
-		
+		if (OnIsland)
+			return;
+		MapManager.Instance.MapButton.Opened = false;
+
+		StartCoroutine (EnterCoroutine ());
+	}
+
+	IEnumerator EnterCoroutine () {
+
+		Transitions.Instance.ScreenTransition.Switch ();
+
+		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
+		BoatManager.Instance.BoatTransform.position = IslandManager.Instance.IslandImage.transform.position + decal;
+
 		Transitions.Instance.ActionTransition.Switch();
+		Transitions.Instance.ScreenTransition.Switch ();
 
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion, Transitions.Instance.ActionTransition.Duration);
-			
+
 		if ( StoryLoader.Instance.CurrentIslandStory == null ) {
 			StoryLoader.Instance.CurrentIslandStory = StoryLoader.Instance.RandomStory;
 		}
@@ -28,12 +69,10 @@ public class IslandManager : MonoBehaviour {
 
 		onIsland = true;
 
-		Invoke ("StartStory" , Transitions.Instance.ActionTransition.Duration);
+		yield return new WaitForSeconds (Transitions.Instance.ActionTransition.Duration);
 
-		SoundManager.Instance.PlayAmbiance (dockSound);
-	}
+		SoundManager.Instance.AmbianceSource.volume = SoundManager.Instance.AmbianceSource.volume / 2;
 
-	private void StartStory () {
 		StoryReader.Instance.UpdateStory ();
 	}
 
@@ -47,7 +86,8 @@ public class IslandManager : MonoBehaviour {
 
 		Crews.enemyCrew.Hide ();
 
-		NavigationManager.Instance.PlaySound ();
+		SoundManager.Instance.AmbianceSource.volume = SoundManager.Instance.AmbianceSource.volume * 2;
+		WeatherManager.Instance.PlaySound ();
 	}
 
 	public bool OnIsland {
@@ -56,6 +96,21 @@ public class IslandManager : MonoBehaviour {
 		}
 	}
 
+	public Image IslandImage {
+		get {
+			return islandImage;
+		}
+		set {
+			islandImage = value;
+		}
+	}
+	public void SetIsland () {
+
+		islandImage.gameObject.SetActive ( MapManager.Instance.NearIsland );
+		if ( MapManager.Instance.NearIsland )
+			islandImage.transform.localPosition = MapManager.Instance.CurrentIsland.Position;
+
+	}
 
 }
 

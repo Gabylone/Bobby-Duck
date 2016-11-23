@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\AwakeTest.cs" />
+     <Compile Include="Assets\BoatLight.cs" />
+     <Compile Include="Assets\BoatManager.cs" />
      <Compile Include="Assets\GameManager.cs" />
      <Compile Include="Assets\Scripts\Card\Card.cs" />
      <Compile Include="Assets\Scripts\Card\CardManager.cs" />
@@ -74,9 +76,10 @@
      <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
      <Compile Include="Assets\Scripts\Map\MapImage.cs" />
      <Compile Include="Assets\Scripts\Map\MapManager.cs" />
-     <Compile Include="Assets\Scripts\Navigation\BoatManager.cs" />
+     <Compile Include="Assets\Scripts\Navigation\BoatUpgradeManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\IslandManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\NavigationManager.cs" />
+     <Compile Include="Assets\Scripts\Navigation\WeatherManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\Wheel.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
      <Compile Include="Assets\Scripts\StateMachine.cs" />
@@ -88,8 +91,8 @@
      <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
      <Compile Include="Assets\Scripts\Transition\UIButton.cs" />
      <Compile Include="Assets\Scripts\Treasure\ClueManager.cs" />
-     <None Include="Assets\Resources\Items\a faire 2.txt" />
-     <None Include="Assets\Resources\Items\a faire 1.txt" />
+     <None Include="Assets\a faire 2.txt" />
+     <None Include="Assets\a faire 1.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

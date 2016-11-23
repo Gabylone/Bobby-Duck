@@ -76,26 +76,31 @@ public class UIButton : MonoBehaviour {
 
 	#region ui events
 	public void Switch () {
-
-		if (lerping)
-			return;
-
-		timer = 0f;
-
-
-		lerping = true;
-		opened = !opened;
-
-		if ( playSounds )
-			SoundManager.Instance.PlaySound ( opened ? closeSound : openSound );
-
-		menu.gameObject.SetActive (true);
-		button.gameObject.SetActive (true);
-
-		button.GetComponent<Button> ().interactable = !opened;
-
+		Opened= !Opened;
 	}
 	#endregion
 
 
+	public bool Opened {
+		get {
+			return opened;
+		}
+		set {
+
+			if (lerping )
+				return;
+
+
+			opened = value;
+
+			timer = 0f;
+			lerping = true;
+			SoundManager.Instance.PlaySound ( opened ? closeSound : openSound );
+
+			menu.gameObject.SetActive (true);
+			button.gameObject.SetActive (true);
+
+			button.GetComponent<Button> ().interactable = !opened;
+		}
+	}
 }

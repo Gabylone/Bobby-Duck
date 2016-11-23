@@ -8,16 +8,13 @@ public class StoryLoader : MonoBehaviour {
 	public static StoryLoader Instance;
 	StoryFunctions storyFunction;
 
-	Story[,] islandStories;
-
 	Story[] stories;
-//	private int[] storyIDs = 0;
-	private int frequencyCount = 0;
+	int[] storyRate;
 
 	List<List<string>> content = new List<List<string>>();
 
 	[SerializeField]
-	private string pathToCSVs = "Data/Stories/CSVs";
+	private string pathToCSVs = "Stories/CSVs";
 	private TextAsset[] storyFiles;
 	private int currentFile = 0;
 
@@ -33,12 +30,15 @@ public class StoryLoader : MonoBehaviour {
 		storyFiles = new TextAsset[Resources.LoadAll ("Stories/CSVs", typeof(TextAsset)).Length];
 
 		int index = 0;
-		foreach ( TextAsset textAsset in Resources.LoadAll ("Stories/CSVs", typeof(TextAsset) )) {
+		foreach ( TextAsset textAsset in Resources.LoadAll (pathToCSVs, typeof(TextAsset) )) {
 			storyFiles[index] = textAsset;
 			++index;
 		}
 
 		stories = new Story[ storyFiles.Length ];
+		storyRate = new int[storyFiles.Length];
+
+
 		for (int i = 0; i < storyFiles.Length; ++i ) {
 			if (currentFile == 0) {
 				LoadFunctions ();
@@ -62,7 +62,8 @@ public class StoryLoader : MonoBehaviour {
 			// create story
 			if (rowIndex == 1) 
 			{
-				stories [currentFile] = new Story (currentFile, rowContent [0], int.Parse (rowContent [1]));
+				stories [currentFile] = new Story (currentFile, rowContent [0]);
+				storyRate [currentFile] = int.Parse (rowContent [1]);
 
 				foreach (string cellContent in rowContent) {
 					stories [currentFile].content.Add (new List<string> ());
@@ -134,24 +135,16 @@ public class StoryLoader : MonoBehaviour {
 	}
 	#endregion
 
-	public Story[,] IslandStories {
-		get {
-			return islandStories;
-		}
-		set {
-			islandStories = value;
-		}
-	}
-
 	public Story CurrentIslandStory {
 		get {
-			int id = 0;
-//			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
+			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
 			return MapGenerator.Instance.IslandDatas [id].Story;
 		}
 		set {
-			int id = 0;
-//			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
+			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
+			if ( id > MapGenerator.Instance.IslandDatas.Count || id < 0 ) {
+				Debug.LogError ( "Merde : " + id.ToString () + " Longueur " + MapGenerator.Instance.IslandDatas.Count );
+			}
 			MapGenerator.Instance.IslandDatas [id].Story = value;
 		}
 	}
@@ -159,30 +152,56 @@ public class StoryLoader : MonoBehaviour {
 	public Story RandomStory {
 		get {
 
-			for( int i = 0; i < ClueManager.Instance.ClueAmount + 1; ++i ) {
-				if ( i == 0 ) {
+				// check if treasure island
+			if (MapManager.Instance.PosX == ClueManager.Instance.TreasureIslandX &&
+				MapManager.Instance.PosY == ClueManager.Instance.TreasureIslandY ) {
 
-					if (MapManager.Instance.PosX == ClueManager.Instance.TreasureIslandX &&
-						MapManager.Instance.PosY == ClueManager.Instance.TreasureIslandY ) {
+				Debug.LogError ("fall on treasure island and didn't code it");
 
-						return stories [1];
+				return stories [-1];
 
-					}
+			}
 
+			// check if clue island
+			for( int i = 0; i < ClueManager.Instance.ClueAmount ; ++i ) {
 
-				} else {
+				if (MapManager.Instance.PosX == ClueManager.Instance.Clue_XPos[i] &&
+					MapManager.Instance.PosY == ClueManager.Instance.Clue_YPos[i] ) {
 
-					if (MapManager.Instance.PosX == ClueManager.Instance.Clue_XPos[i-1] &&
-						MapManager.Instance.PosY == ClueManager.Instance.Clue_YPos[i-1] ) {
-							
-						return stories [2];
-
-					}
+					return stories [2];
 
 				}
 			}
 
-			return Stories [Random.Range (0, StoryLoader.Instance.Stories.Length)];
+			// set random story
+			int storyIndex = Random.Range (3, StoryLoader.Instance.Stories.Length);
+
+			if ( storyRate[storyIndex] == 0 ) {
+				int i = storyIndex + 1;
+
+				while ( storyRate[i] == 0 ) {
+
+					if (i == storyIndex) {
+						Debug.LogError ("No more story frequency");
+						break;
+					}
+
+					if ( storyRate[i] > 0 ) {
+						storyIndex = i;
+						break;
+					}
+
+					++i;
+
+					if (i == StoryLoader.Instance.stories.Length)
+						i = 0;
+				}
+			}
+
+			Debug.Log ("Chose Index : " + storyIndex.ToString ());
+			storyRate [storyIndex]--;
+
+			return Stories [storyIndex];
 		}
 	}
 }
@@ -193,21 +212,16 @@ public class Story {
 	public int 		storyID 	= 0;
 	public string 	name 	= "";
 
-	public int frequency = 0;
-
 	public List<List<string>> content = new List<List<string>>();
 	public List<List<int>> contentDecal = new List<List<int>>();
 
 	public Story (
 		int _storyID,
-		string _name,
-		int _freq
+		string _name
 	)
 	{
 		storyID = _storyID;
 		name = _name;
-
-		frequency = _freq;
 	}
 
 }

@@ -12,6 +12,9 @@ public class ClueManager : MonoBehaviour {
 	private int treasureIslandX = 0;
 	private int treasureIslandY = 0;
 
+	private int homeIslandX = 0;
+	private int homeIslandY = 0;
+
 	private int[] clue_XPos;
 	private int[] clue_YPos;
 
@@ -141,6 +144,18 @@ public class ClueManager : MonoBehaviour {
 		}
 		set {
 			treasureIslandY = value;
+		}
+	}
+
+	public int HomeIslandX {
+		get {
+			return homeIslandX;
+		}
+	}
+
+	public int HomeIslandY {
+		get {
+			return homeIslandY;
 		}
 	}
 

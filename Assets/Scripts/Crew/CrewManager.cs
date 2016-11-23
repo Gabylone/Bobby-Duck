@@ -136,7 +136,7 @@ public class CrewManager : MonoBehaviour {
 		}
 		set {
 			memberCapacity = Mathf.Clamp (value, 0, MaxMember);
-			BoatManager.Instance.UpdateCrewImages ();
+			BoatUpgradeManager.Instance.UpdateCrewImages ();
 		}
 	}
 	#endregion
