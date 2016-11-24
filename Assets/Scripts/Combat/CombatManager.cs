@@ -207,7 +207,7 @@ public class CombatManager : MonoBehaviour {
 		
 		CardManager.Instance.ShowFightingCard (targetCrew);
 		
-		DialogueManager.Instance.SetDialogue ("A l'abordage !", getMember (targetCrew).IconObj.transform);
+		DialogueManager.Instance.SetDialogue ("A l'abordage !", getMember (targetCrew));
 		
 	}
 	private void MemberLerp_Update () {
@@ -312,13 +312,13 @@ public class CombatManager : MonoBehaviour {
 
 			case Throw.Results.CritFailure:
 
-				DialogueManager.Instance.SetDialogue ("Merde !", getMember(AttackingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("Merde !", getMember(AttackingCrew));
 				getMember (AttackingCrew).Info.DisplayInfo ("Fail","",Color.grey);
 				//
 				break;
 
 			case Throw.Results.Failure :
-				DialogueManager.Instance.SetDialogue ("Raté !", getMember(AttackingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("Raté !", getMember(AttackingCrew));
 				getMember (AttackingCrew).Info.DisplayInfo ("Fail","",Color.grey);
 				//
 				break;
@@ -327,7 +327,7 @@ public class CombatManager : MonoBehaviour {
 
 				SoundManager.Instance.PlaySound (hitSound);
 
-				DialogueManager.Instance.SetDialogue ("Aïe !", getMember(DefendingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("Aïe !", getMember(DefendingCrew));
 				getMember(DefendingCrew).GetHit (getMember (attackingCrew).AttackDice);
 //				getMember (AttackingCrew).Info.DisplayInfo ("SUCESS","!",Color.magenta);
 
@@ -342,7 +342,7 @@ public class CombatManager : MonoBehaviour {
 				SoundManager.Instance.PlaySound (hitSound);
 				SoundManager.Instance.PlaySound (hurtSound);
 
-				DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", getMember (DefendingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", getMember (DefendingCrew));
 				int criticalDamage = Mathf.CeilToInt (getMember (attackingCrew).AttackDice * 1.5f);
 				getMember (DefendingCrew).GetHit (getMember (attackingCrew).AttackDice + criticalDamage);
 				getMember (AttackingCrew).Info.DisplayInfo ("CRITICAL","!",Color.magenta);
@@ -361,19 +361,19 @@ public class CombatManager : MonoBehaviour {
 				
 			case Throw.Results.CritFailure:
 				
-				DialogueManager.Instance.SetDialogue ("Merde !", getMember(AttackingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("Merde !", getMember(AttackingCrew));
 				//
 				break;
 				
 			case Throw.Results.Failure :
-				DialogueManager.Instance.SetDialogue ("Raté !", getMember(AttackingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("Raté !", getMember(AttackingCrew));
 				//
 				break;
 				
 			case Throw.Results.Success:
 				SoundManager.Instance.PlaySound (escapeSound);
 
-				DialogueManager.Instance.SetDialogue ("A la prochaine !", getMember(AttackingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("A la prochaine !", getMember(AttackingCrew));
 				SetTargetCrew (AttackingCrew);
 				ChangeState(States.MemberReturn);
 				//
@@ -382,7 +382,7 @@ public class CombatManager : MonoBehaviour {
 			case Throw.Results.CritSuccess:
 				SoundManager.Instance.PlaySound (escapeSound);
 
-				DialogueManager.Instance.SetDialogue ("Tchao !", getMember (AttackingCrew).IconObj.transform);
+				DialogueManager.Instance.SetDialogue ("Tchao !", getMember (AttackingCrew));
 				SetTargetCrew (AttackingCrew);
 				ChangeState(States.MemberReturn);
 				//

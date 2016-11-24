@@ -32,4 +32,31 @@ public class Transitions : MonoBehaviour {
 			actionTransition = value;
 		}
 	}
+
+	public void FadeScreen () {
+		StartCoroutine (FadeCoroutine ());
+		//
+	}
+	IEnumerator FadeCoroutine () {
+
+		bool fadePlayer = Crews.playerCrew.captain.Icon.CurrentPlacingType == Crews.PlacingType.Discussion;
+		bool fadeOther = Crews.enemyCrew.CrewMembers.Count > 0;
+		if (fadePlayer)
+			Crews.playerCrew.HideCrew ();
+		if ( fadeOther )
+			Crews.enemyCrew.HideCrew ();
+
+		ScreenTransition.Switch ();
+
+		yield return new WaitForSeconds (ScreenTransition.Duration );
+
+		ScreenTransition.Switch ();
+
+		yield return new WaitForSeconds (ScreenTransition.Duration );
+
+		if (fadePlayer)
+			Crews.playerCrew.ShowCrew ();
+		if ( fadeOther )
+			Crews.enemyCrew.ShowCrew ();
+	}
 }

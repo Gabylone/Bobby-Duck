@@ -150,31 +150,41 @@ public class StoryLoader : MonoBehaviour {
 	}
 
 	public Story RandomStory {
+
+		// IDEE : Pick story: 
+		// chaque catégorie à un range ( et la fréquence s'applque au trésor et aux ineices )
+
 		get {
 
 				// check if treasure island
-			if (MapManager.Instance.PosX == ClueManager.Instance.TreasureIslandX &&
-				MapManager.Instance.PosY == ClueManager.Instance.TreasureIslandY ) {
+			if (MapManager.Instance.PosX == IslandManager.Instance.TreasureIslandXPos &&
+				MapManager.Instance.PosY == IslandManager.Instance.TreasureIslandYPos ) {
 
-				Debug.LogError ("fall on treasure island and didn't code it");
+				return stories [2];
 
-				return stories [-1];
+			}
+
+				// check for home island
+			if (MapManager.Instance.PosX == IslandManager.Instance.HomeIslandXPos &&
+				MapManager.Instance.PosY == IslandManager.Instance.HomeIslandYPos ) {
+
+				return stories [1];
 
 			}
 
 			// check if clue island
 			for( int i = 0; i < ClueManager.Instance.ClueAmount ; ++i ) {
 
-				if (MapManager.Instance.PosX == ClueManager.Instance.Clue_XPos[i] &&
-					MapManager.Instance.PosY == ClueManager.Instance.Clue_YPos[i] ) {
+				if (MapManager.Instance.PosX == IslandManager.Instance.ClueIslandsXPos[i] &&
+					MapManager.Instance.PosY == IslandManager.Instance.ClueIslandsYPos[i] ) {
 
-					return stories [2];
+					return stories [3];
 
 				}
 			}
 
 			// set random story
-			int storyIndex = Random.Range (3, StoryLoader.Instance.Stories.Length);
+			int storyIndex = Random.Range (4, StoryLoader.Instance.Stories.Length);
 
 			if ( storyRate[storyIndex] == 0 ) {
 				int i = storyIndex + 1;
@@ -198,7 +208,6 @@ public class StoryLoader : MonoBehaviour {
 				}
 			}
 
-			Debug.Log ("Chose Index : " + storyIndex.ToString ());
 			storyRate [storyIndex]--;
 
 			return Stories [storyIndex];

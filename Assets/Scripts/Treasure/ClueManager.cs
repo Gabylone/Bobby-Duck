@@ -9,19 +9,10 @@ public class ClueManager : MonoBehaviour {
 	private int clueIndex = 0;
 	private int clueAmount = 2;
 
-	private int treasureIslandX = 0;
-	private int treasureIslandY = 0;
-
-	private int homeIslandX = 0;
-	private int homeIslandY = 0;
-
-	private int[] clue_XPos;
-	private int[] clue_YPos;
-
 	private int[] clueIslands;
 	private string[] clues = new string[2] {
-		"Bonjour",
-		"Connard"
+		"formule1",
+		"formule2"
 	};
 
 	[SerializeField]
@@ -34,8 +25,10 @@ public class ClueManager : MonoBehaviour {
 		Instance = this;
 	}
 
-	void Start () {
-		
+	public void Init () {
+
+		// randomize clues
+
 		clueIslands = new int[clues.Length];
 
 		for (int i = 0; i < clueIslands.Length; ++i)
@@ -91,7 +84,6 @@ public class ClueManager : MonoBehaviour {
 				newClues [a] = clues [i];
 				++a;
 			}
-
 		}
 
 		clues = newClues;
@@ -107,55 +99,7 @@ public class ClueManager : MonoBehaviour {
 
 	public Vector2 GetNextClueIslandPos {
 		get {
-			return new Vector2 ( clue_XPos[ClueIndex] , clue_YPos[ClueIndex] );
-		}
-	}
-
-	public int[] Clue_XPos {
-		get {
-			return clue_XPos;
-		}
-		set {
-			clue_XPos = value;
-		}
-	}
-
-	public int[] Clue_YPos {
-		get {
-			return clue_YPos;
-		}
-		set {
-			clue_YPos = value;
-		}
-	}
-
-	public int TreasureIslandX {
-		get {
-			return treasureIslandX;
-		}
-		set {
-			treasureIslandX = value;
-		}
-	}
-
-	public int TreasureIslandY {
-		get {
-			return treasureIslandY;
-		}
-		set {
-			treasureIslandY = value;
-		}
-	}
-
-	public int HomeIslandX {
-		get {
-			return homeIslandX;
-		}
-	}
-
-	public int HomeIslandY {
-		get {
-			return homeIslandY;
+			return new Vector2 ( IslandManager.Instance.ClueIslandsXPos[ClueIndex] , IslandManager.Instance.ClueIslandsYPos[ClueIndex] );
 		}
 	}
 

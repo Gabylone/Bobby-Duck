@@ -89,4 +89,13 @@ public class GoldManager : MonoBehaviour {
 			goldAmount = value;
 		}
 	}
+
+	public bool Visible {
+		get {
+			return goldGroup.activeSelf;
+		}
+		set {
+			goldGroup.SetActive (value);
+		}
+	}
 }

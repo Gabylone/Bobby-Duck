@@ -30,12 +30,15 @@ public class CrewManager : MonoBehaviour {
 
 	#region crew placement
 	public void HideCrew () {
-		foreach ( CrewMember member in crewMembers )
-			member.Icon.HideFace ();
+		foreach (CrewMember member in crewMembers) {
+			member.Icon.MoveToPoint (Crews.PlacingType.Hidden);
+
+		}
 	}
 	public void ShowCrew () {
-		foreach ( CrewMember member in crewMembers )
-			member.Icon.ShowFace ();
+		foreach (CrewMember member in crewMembers) {
+			member.Icon.MoveToPoint (member.Icon.PreviousPlacingType);
+		}
 	}
 	public void UpdateCrew ( Crews.PlacingType placingType ) {
 
@@ -90,6 +93,12 @@ public class CrewManager : MonoBehaviour {
 
 		managedCrew.Remove (member.MemberID);
 		crewMembers.Remove (member);
+
+		if ( CrewMembers.Count == 0 ) {
+			if ( side == Crews.Side.Player ) {
+				GameManager.Instance.GameOver ();
+			}
+		}
 	}
 	public void DeleteCrew () {
 

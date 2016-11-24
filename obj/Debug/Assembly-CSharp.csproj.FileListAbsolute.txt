@@ -1,1 +1,22 @@
 C:\Users\Gabriel\Documents\Bobby Duck\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\Assembly-CSharp.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\UnityEditor.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\UnityEngine.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\UnityEngine.Networking.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\UnityEngine.UI.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\Mono.Cecil.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\Unity.SerializationLogic.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\Unity.DataContract.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\Unity.UNetWeaver.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\Unity.CecilTools.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\Mono.Cecil.Pdb.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\Mono.Cecil.Mdb.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\UnityEngine.xml
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\UnityEditor.xml
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\UnityEngine.UI.xml
+C:\Users\Gabriel\Documents\Bobby-Duck\Temp\bin\Debug\UnityEngine.Networking.xml
+C:\Users\Gabriel\Documents\Bobby-Duck\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Gabriel\Documents\Bobby-Duck\obj\Debug\Assembly-CSharp.dll
+C:\Users\Gabriel\Documents\Bobby-Duck\obj\Debug\Assembly-CSharp.pdb

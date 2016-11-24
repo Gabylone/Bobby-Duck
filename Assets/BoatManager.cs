@@ -41,7 +41,7 @@ public class BoatManager : MonoBehaviour {
 
 	public void SetBoatPos () {
 		Vector2 getDir =NavigationManager.Instance.getDir(NavigationManager.Instance.CurrentDirection);
-		boatTransform.localPosition = new Vector2(-getDir.x * boatBounds.x, getDir.y * boatBounds.y);
+		boatTransform.localPosition = new Vector2(-getDir.x * boatBounds.x, -getDir.y * boatBounds.y);
 
 	}
 

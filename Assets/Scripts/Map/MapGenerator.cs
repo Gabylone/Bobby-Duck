@@ -58,38 +58,35 @@ public class MapGenerator : MonoBehaviour {
 		int islandID = 0;
 
 		#region clues & treasure island
-		ClueManager.Instance.Clue_XPos = new int[ClueManager.Instance.ClueAmount];
-		ClueManager.Instance.Clue_YPos = new int[ClueManager.Instance.ClueAmount];
-
-        for ( int i = 0; i < ClueManager.Instance.ClueAmount; ++i)
+			// CLUES
+		for ( int i = 0; i < ClueManager.Instance.ClueAmount; ++i)
         {
-            int y1 = Random.Range(0, (mapImage.TextureScale / 2) - (noManSeaScale / 2));
-            int y2 = Random.Range((mapImage.TextureScale / 2) + (noManSeaScale / 2), mapImage.TextureScale);
+            
+			IslandManager.Instance.ClueIslandsXPos[i] = RandomX;
+			IslandManager.Instance.ClueIslandsYPos[i] = RandomY;
 
-            int y = Random.value > 0.5f ? Mathf.RoundToInt(y1) : Mathf.RoundToInt(y2);
-			int x = Random.Range ( 0, mapImage.TextureScale );
-
-			islandIds 	[x, y] 	= islandID;
+			islandIds 	[IslandManager.Instance.ClueIslandsXPos[i], IslandManager.Instance.ClueIslandsYPos[i]] 	= islandID;
 			++islandID;
 
-			if ( i == ClueManager.Instance.ClueAmount  ) {
-				// Treasure
-				ClueManager.Instance.TreasureIslandY = y;
-				ClueManager.Instance.TreasureIslandX = x;
-			} else if ( i == ClueManager.Instance.ClueAmount + 1  ) {
-				// Home
-				MapManager.Instance.PosX = x;
-				MapManager.Instance.PosY = y;
-
-			} else {
-				// Clues
-				ClueManager.Instance.Clue_XPos [i] = x;
-				ClueManager.Instance.Clue_YPos [i] = y;
-			}
-
         }
-		#endregion
 
+			// TREASURE
+		IslandManager.Instance.TreasureIslandXPos = RandomX;
+		IslandManager.Instance.TreasureIslandYPos = RandomY;
+
+		islandIds 	[IslandManager.Instance.TreasureIslandXPos, IslandManager.Instance.TreasureIslandYPos] 	= islandID;
+		++islandID;
+
+			// HOME
+		IslandManager.Instance.HomeIslandXPos = RandomX;
+		IslandManager.Instance.HomeIslandYPos = RandomY;
+
+		MapManager.Instance.PosX = IslandManager.Instance.HomeIslandXPos;
+		MapManager.Instance.PosY = IslandManager.Instance.HomeIslandYPos;
+
+		islandIds 	[IslandManager.Instance.HomeIslandXPos, IslandManager.Instance.HomeIslandYPos] 	= islandID;
+		++islandID;
+		#endregion
 
 		#region island
 		for ( int y = 0; y < mapImage.TextureScale ; ++y ) {
@@ -127,13 +124,35 @@ public class MapGenerator : MonoBehaviour {
 
 		yield return new WaitForEndOfFrame ();
 
-		mapImage.InitImage ();
 		IslandManager.Instance.SetIsland ();
 		StoryLoader.Instance.CurrentIslandStory = StoryLoader.Instance.Stories[1];
+
+		mapImage.InitImage ();
+		MapManager.Instance.UpdateImage ();
+
 		IslandManager.Instance.Enter ();
+
+		StoryLoader.Instance.CurrentIslandStory = null;
+
 
 		#endregion
 
+	}
+
+	public int RandomX {
+		get {
+			return Random.Range ( 0, mapImage.TextureScale );
+		}
+	}
+
+	public int RandomY {
+		get {
+
+			int y1 = Random.Range(0, (mapImage.TextureScale / 2) - (noManSeaScale / 2));
+			int y2 = Random.Range((mapImage.TextureScale / 2) + (noManSeaScale / 2), mapImage.TextureScale);
+
+			return Random.value > 0.5f ? Mathf.RoundToInt(y1) : Mathf.RoundToInt(y2);
+		}
 	}
 
 }

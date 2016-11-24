@@ -46,6 +46,7 @@ public class CrewIcon : MonoBehaviour {
 	[SerializeField]
 	private float placementDecal = 1f;
 	Crews.PlacingType currentPlacingType;
+	Crews.PlacingType previousPlacingType;
 	
 
 	void Awake () {
@@ -104,7 +105,7 @@ public class CrewIcon : MonoBehaviour {
 			CombatManager.Instance.SetPlayerMember (Member);
 
 		} else {
-			DialogueManager.Instance.SetDialogue ("Oui ?", GetTransform);
+			DialogueManager.Instance.SetDialogue ("Oui ?", member);
 		}
 
 	}
@@ -121,8 +122,9 @@ public class CrewIcon : MonoBehaviour {
 
 	public void MoveToPoint ( Crews.PlacingType placingType , float duration = 0.5f ) {
 
+		previousPlacingType = currentPlacingType;
 		currentPlacingType = placingType;
-		
+
 		float decal = 0f;
 
 		if (placingType == Crews.PlacingType.Combat || placingType == Crews.PlacingType.Map) {
@@ -245,6 +247,12 @@ public class CrewIcon : MonoBehaviour {
 	public Crews.PlacingType CurrentPlacingType {
 		get {
 			return currentPlacingType;
+		}
+	}
+
+	public Crews.PlacingType PreviousPlacingType {
+		get {
+			return previousPlacingType;
 		}
 	}
 }

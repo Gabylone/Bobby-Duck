@@ -10,6 +10,8 @@ public class WeightManager : MonoBehaviour {
 	private int currentCapacity = 100;
 
 	[SerializeField]
+	private GameObject weightGroup;
+	[SerializeField]
 	private Image weightImage;
 	[SerializeField]
 	private Text weightText;
@@ -96,6 +98,15 @@ public class WeightManager : MonoBehaviour {
 		}
 		set {
 			currentCapacity = value;
+		}
+	}
+
+	public bool Visible {
+		get {
+			return weightGroup.activeSelf;
+		}
+		set {
+			weightGroup.SetActive (value);
 		}
 	}
 	#endregion

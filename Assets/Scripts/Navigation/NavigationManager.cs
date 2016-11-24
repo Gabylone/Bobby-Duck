@@ -44,16 +44,20 @@ public class NavigationManager : MonoBehaviour {
 
 		Invoke ("MoveDelay", Transitions.Instance.ScreenTransition.Duration);
 	}
+	public void UpdateTime () {
+		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
+			Crews.playerCrew.CrewMembers[i].AddToStates ();
+		}
 
+		WeatherManager.Instance.UpdateWeather ();
+	}
 	private void MoveDelay () {
 
 		BoatManager.Instance.SetBoatPos ();
 
 		MapManager.Instance.SetNewPos (getDir (currentDirection));
 
-		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
-			Crews.playerCrew.CrewMembers[i].AddToStates ();
-		}
+		UpdateTime ();
 
 		IslandManager.Instance.SetIsland ();
 
@@ -102,31 +106,22 @@ public class NavigationManager : MonoBehaviour {
 		switch (dir) {
 		case Directions.North:
 			return "au nord";
-			break;
 		case Directions.NorthEast:
 			return "au nord est";
-			break;
 		case Directions.East:
 			return "à l'est";
-			break;
 		case Directions.SouthEast:
 			return "au sud est";
-			break;
 		case Directions.South:
 			return "au sud";
-			break;
 		case Directions.SouthWest:
 			return "au sud ouest";
-			break;
 		case Directions.West:
 			return "à l'ouest";
-			break;
 		case Directions.NorthWest:
 			return "au nord ouest";
-			break;
 		case Directions.None:
 			return "nulle part";
-			break;
 		}
 
 		return "nulle part";
@@ -137,31 +132,22 @@ public class NavigationManager : MonoBehaviour {
 		switch (dir) {
 		case Directions.North:
 			return new Vector2 (0, 1);
-			break;
 		case Directions.NorthEast:
 			return new Vector2 (1, 1);
-			break;
 		case Directions.East:
 			return new Vector2 (1, 0);
-			break;
 		case Directions.SouthEast:
 			return new Vector2 (1, -1);
-			break;
 		case Directions.South:
 			return new Vector2 (0, -1);
-			break;
 		case Directions.SouthWest:
 			return new Vector2 (-1, -1);
-			break;
 		case Directions.West:
 			return new Vector2 (-1, 0);
-			break;
 		case Directions.NorthWest:
 			return new Vector2 (-1, 1);
-			break;
 		case Directions.None:
 			return new Vector2 (0, 0);
-			break;
 		}
 
 		return Vector2.zero;

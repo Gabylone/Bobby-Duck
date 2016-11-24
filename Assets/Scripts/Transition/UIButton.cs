@@ -28,6 +28,7 @@ public class UIButton : MonoBehaviour {
 	[SerializeField]
 	private float duration = 2f;
 
+	bool locked = false;
 	bool opened = false;
 
 	void Start () {
@@ -87,9 +88,14 @@ public class UIButton : MonoBehaviour {
 		}
 		set {
 
+			if (locked)
+				return;
+
 			if (lerping )
 				return;
 
+			if (opened == value)
+				return;
 
 			opened = value;
 
@@ -101,6 +107,16 @@ public class UIButton : MonoBehaviour {
 			button.gameObject.SetActive (true);
 
 			button.GetComponent<Button> ().interactable = !opened;
+		}
+	}
+
+	public bool Locked {
+		get {
+			return locked;
+		}
+		set {
+			locked = value;
+			button.GetComponent<Button> ().interactable = !value;
 		}
 	}
 }

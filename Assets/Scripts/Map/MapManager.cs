@@ -24,7 +24,7 @@ public class MapManager : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Start () {
+	public void Init () {
 
 		mapImage = GetComponent<MapImage> ();
 		mapGenerator = GetComponent<MapGenerator> ();
@@ -40,8 +40,16 @@ public class MapManager : MonoBehaviour {
 
 	public void SetNewPos ( Vector2 v ) {
 
+		mapImage.UpdatePixel (posX, posY, mapGenerator.IslandIds [posX, posY] > -1 ? islandColor : discoveredColor);
+
 		posX += (int)v.x;
 		posY += (int)v.y;
+
+		UpdateImage ();
+	}
+
+	public void UpdateImage () {
+
 
 		int shipRange = NavigationManager.Instance.ShipRange;
 
@@ -52,9 +60,9 @@ public class MapManager : MonoBehaviour {
 				if (x == 0 && y == 0) {
 					mapImage.UpdatePixel (posX + x, posY + y, Color.red);
 				} else {
+
 					mapImage.UpdatePixel (posX + x, posY + y, mapGenerator.IslandIds [posX + x, posY + y] > -1 ? islandColor : discoveredColor);
 				}
-
 
 			}
 
@@ -96,7 +104,6 @@ public class MapManager : MonoBehaviour {
 	}
 	public IslandData CurrentIsland {
 		get {
-//			return MapGenerator.Instance.IslandDatas [0];
 			return MapGenerator.Instance.IslandDatas [IslandID];
 		}
 	}

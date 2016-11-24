@@ -176,7 +176,6 @@ public class CrewCreator : MonoBehaviour {
 		}
 	}
 
-
 	public Color[] HairColors {
 		get {
 			return hairColors;
@@ -219,6 +218,8 @@ public class MemberID {
 	public Color clothColor;
 	public int clothSpriteID = 0;
 
+	public int voiceID = 0;
+
 	public MemberID () {
 
 		nameID 			= Random.Range (0, CrewCreator.Instance.Names.Length);
@@ -239,6 +240,8 @@ public class MemberID {
 
 		clothSpriteID 	= Random.Range ( 0 , CrewCreator.Instance.ClothesSprites.Length	);
 		clothColor 		= Random.ColorHSV();
+
+		voiceID 		= Random.Range ( 0 , DialogueManager.Instance.SpeakSounds.Length );
 
 	}
 

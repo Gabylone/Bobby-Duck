@@ -134,7 +134,7 @@ public class StoryFunctions : MonoBehaviour {
 		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.MemberCapacity) {
 
 			string phrase = "Je regrette, le bateau est trop petit";
-			DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain.Icon.GetTransform);
+			DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain);
 
 			StoryReader.Instance.WaitForInput ();
 
@@ -249,7 +249,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 
-		DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain.Icon.GetTransform);
+		DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain);
 
 		StoryReader.Instance.WaitForInput ();
 
@@ -259,7 +259,7 @@ public class StoryFunctions : MonoBehaviour {
 		
 		string phrase = cellParams.Remove (0,2);
 
-		DialogueManager.Instance.SetDialogue (phrase, Crews.playerCrew.captain.Icon.GetTransform);
+		DialogueManager.Instance.SetDialogue (phrase, Crews.playerCrew.captain);
 
 		StoryReader.Instance.WaitForInput ();
 	}
@@ -303,6 +303,22 @@ public class StoryFunctions : MonoBehaviour {
 		DiscussionManager.Instance.SetChoices (amount, choices);
 
 	}
+
+	void GiveTip ()  {
+
+		string[] tips = new string[3] {
+
+			"Un grand vide sépare le nord du sud",
+			"Mieux vaut bien se préparer pour aller du nord au sud !",
+			"Les pirates se déplacent librement sur les mers",
+
+		};
+
+		DialogueManager.Instance.SetDialogue (tips[Random.Range (0,tips.Length)], Crews.enemyCrew.captain);
+
+		StoryReader.Instance.WaitForInput ();
+
+	}
 	#endregion
 
 	#region end
@@ -324,7 +340,6 @@ public class StoryFunctions : MonoBehaviour {
 
 		if (GoldManager.Instance.CheckGold (amount)) {
 			StoryReader.Instance.NextCell ();
-			GoldManager.Instance.RemoveGold (amount);
 		} else {
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.SetDecal (1);
@@ -436,15 +451,33 @@ public class StoryFunctions : MonoBehaviour {
 	}
 	void SwitchStory () {
 
+		Debug.Log ("bonjour !");
 
+	}
 
+	void CheckFirstVisit () {
+
+		StoryReader.Instance.NextCell ();
+
+		if ( MapManager.Instance.CurrentIsland.firstVisit == false ) {
+			StoryReader.Instance.SetDecal (1);
+		}
+
+		StoryReader.Instance.UpdateStory ();
 	}
 	#endregion
 
-	#region weather 
+	#region weather
 	void SetWeather() {
+		StartCoroutine (SetWeatherCoroutine (cellParams));
+	}
+	IEnumerator SetWeatherCoroutine (string weather) {
 
-		switch ( cellParams ) {
+		Transitions.Instance.FadeScreen ();
+
+		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
+
+		switch ( weather ) {
 		case "Day":
 			WeatherManager.Instance.IsNight = false;
 			break;
@@ -456,60 +489,21 @@ public class StoryFunctions : MonoBehaviour {
 			break;
 		}
 
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-	void NextDay () {
-		
-		StartCoroutine (NextDayCoroutine ());
-	}
+		NavigationManager.Instance.UpdateTime ();
 
-	IEnumerator NextDayCoroutine () {
-
-		if (Crews.enemyCrew.CrewMembers.Count > 0) {
-			Crews.enemyCrew.Hide ();
-
-			yield return new WaitForSeconds (0.5f);
-		}
-
-		NavigationManager.Instance.Move (Directions.None);
-
-		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration * 2);
+		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
-
 	}
 
 	void Fade () {
-		StartCoroutine (FadeCoroutine ());
+
+		Transitions.Instance.FadeScreen ();
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (Transitions.Instance.ActionTransition.Duration * 2);
 
-	}
-	IEnumerator FadeCoroutine () {
-
-		bool fadePlayer = Crews.playerCrew.captain.Icon.CurrentPlacingType == Crews.PlacingType.Discussion;
-		bool fadeOther = Crews.enemyCrew.captain.Icon.CurrentPlacingType == Crews.PlacingType.Discussion;
-		if (fadePlayer)
-			Crews.playerCrew.HideCrew ();
-		if ( fadeOther )
-			Crews.enemyCrew.HideCrew ();
-
-		Crews.playerCrew.HideCrew ();
-		Transitions.Instance.ScreenTransition.Switch ();
-
-		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration );
-
-		Transitions.Instance.ScreenTransition.Switch ();
-
-		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration );
-
-		if (fadePlayer)
-			Crews.playerCrew.ShowCrew ();
-		if ( fadeOther )
-			Crews.enemyCrew.ShowCrew ();
 	}
 
 	void CheckDay () {
@@ -538,7 +532,7 @@ public class StoryFunctions : MonoBehaviour {
 			DialogueManager.Instance.ShowNarrator (formula);
 		} else {
 			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-			DialogueManager.Instance.SetDialogue (getFormula(), Crews.enemyCrew.captain.Icon.GetTransform);
+			DialogueManager.Instance.SetDialogue (getFormula(), Crews.enemyCrew.captain);
 
 		}
 
@@ -554,7 +548,7 @@ public class StoryFunctions : MonoBehaviour {
 			DialogueManager.Instance.ShowNarrator (directionPhrase);
 		} else {
 			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.enemyCrew.captain.Icon.GetTransform);
+			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.enemyCrew.captain);
 		}
 
 		StoryReader.Instance.WaitForInput ();

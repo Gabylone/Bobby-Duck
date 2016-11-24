@@ -20,7 +20,7 @@ public class DialogueManager : MonoBehaviour {
 	[Header("Parameters")]
 	[SerializeField]
 	private Vector3 speaker_Decal = Vector3.up * 2f;
-	private Transform speaker_Transform;
+	private CrewMember talkingMember;
 
 	[SerializeField] private Vector2 bubbleBounds = new Vector2();
 
@@ -47,18 +47,18 @@ public class DialogueManager : MonoBehaviour {
 	}
 
 	#region set dialogue
-	public void SetDialogue (string[] phrases, Transform t) {
+	public void SetDialogue (string[] phrases, CrewMember crewMember) {
 		DialogueTexts = phrases;
 
-		speaker_Transform = t;
+		talkingMember = crewMember;
 
 		StartDialogue ();
 	}
-	public void SetDialogue (string phrase, Transform t) {
+	public void SetDialogue (string phrase, CrewMember crewMember) {
 
 		DialogueTexts = new string[1]{ phrase };
 
-		speaker_Transform = t;
+		talkingMember = crewMember;
 
 		StartDialogue ();
 	}
@@ -83,7 +83,7 @@ public class DialogueManager : MonoBehaviour {
 
 		UpdateBubblePosition ();
 
-		SoundManager.Instance.PlayRandomSound ( speakSounds );
+		SoundManager.Instance.PlaySound ( speakSounds[talkingMember.MemberID.voiceID] );
 	}
 
 	private void UpdateDialogue () {
@@ -117,6 +117,15 @@ public class DialogueManager : MonoBehaviour {
 	public void ShowNarrator (string text) {
 		narratorObj.SetActive (true);
 
+
+		if ( text.Contains ("CAPITAINE") ) {
+			text = text.Replace ( "CAPITAINE" , Crews.playerCrew.captain.MemberName );
+		}
+
+		if ( text.Contains ("OTHERNAME") ) {
+			text= text.Replace ( "OTHERNAME" , Crews.enemyCrew.captain.MemberName );
+		}
+
 		narratorText.text = text;
 
 		if ( !IslandManager.Instance.OnIsland ) {
@@ -140,13 +149,13 @@ public class DialogueManager : MonoBehaviour {
 
 	private void UpdateBubblePosition ()
 	{
-		if (speaker_Transform == null) {
+		if (talkingMember == null) {
 			EndDialogue ();
 			return;
 		}
 
 		// get viewport position of target object
-		Vector3 pos = Camera.main.WorldToViewportPoint (speaker_Transform.position);
+				Vector3 pos = Camera.main.WorldToViewportPoint (talkingMember.Icon.GetTransform.position);
 
 			// clamp bubble
 		pos.x = Mathf.Clamp (pos.x, bubbleBounds.x, 1 - bubbleBounds.x);
@@ -177,5 +186,11 @@ public class DialogueManager : MonoBehaviour {
 		bubble_Text.transform.position = bubble_Image.transform.position;
 
 
+	}
+
+	public AudioClip[] SpeakSounds {
+		get {
+			return speakSounds;
+		}
 	}
 }

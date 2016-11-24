@@ -18,12 +18,11 @@ public class Crews : MonoBehaviour {
 
 	public static CrewManager[] crews = new CrewManager[2];
 
-	// Use this for initialization
 	void Start () {
 		crews [0] 	= GetComponentsInChildren<CrewManager> () [0];	
 		crews [1] 	= GetComponentsInChildren<CrewManager> () [1];
 
-		Crew playerCrew = new Crew (2,0,0);
+		Crew playerCrew = new Crew (1,0,0);
 		crews [0].setCrew (playerCrew);
 		crews [0].UpdateCrew (PlacingType.Map);
 	}
