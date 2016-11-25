@@ -291,7 +291,7 @@ public class StoryFunctions : MonoBehaviour {
 
 			++tmpDecal;
 
-			if ( tmpDecal > 20 ) {
+			if ( tmpDecal > 40 ) {
 				Debug.LogError ("set choice reached limit");
 				break;
 			}

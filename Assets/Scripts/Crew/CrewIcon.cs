@@ -255,4 +255,16 @@ public class CrewIcon : MonoBehaviour {
 			return previousPlacingType;
 		}
 	}
+
+	public GameObject BodyObj {
+		get {
+			return bodyObj;
+		}
+	}
+
+	public GameObject FaceObj {
+		get {
+			return faceObj;
+		}
+	}
 }

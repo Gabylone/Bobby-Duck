@@ -149,7 +149,7 @@ public class DialogueManager : MonoBehaviour {
 
 	private void UpdateBubblePosition ()
 	{
-		if (talkingMember == null) {
+		if (talkingMember.Icon.GetTransform == null) {
 			EndDialogue ();
 			return;
 		}

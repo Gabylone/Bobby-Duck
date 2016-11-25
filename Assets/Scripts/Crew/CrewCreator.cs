@@ -104,7 +104,9 @@ public class CrewCreator : MonoBehaviour {
 		GameObject icon = Instantiate (memberPrefab) as GameObject;
 
 		icon.transform.SetParent (crewParent);
+
 		icon.transform.localScale = Vector3.one;
+
 		icon.transform.localPosition = Vector2.zero;
 
 		Image[] images = icon.GetComponentsInChildren<Image> ();
@@ -143,6 +145,10 @@ public class CrewCreator : MonoBehaviour {
 		images[(int)Parts.Sword].color 	= Color.grey;
 
 		icon.GetComponent<CrewIcon> ().HideBody ();
+		Vector3 scale = new Vector3 ( TargetSide == Crews.Side.Player ? 1 : -1 , 1 , 1);
+
+		icon.GetComponent<CrewIcon> ().FaceObj.transform.localScale = scale;
+		icon.GetComponent<CrewIcon> ().BodyObj.transform.localScale = scale;
 
 
 		return icon;
