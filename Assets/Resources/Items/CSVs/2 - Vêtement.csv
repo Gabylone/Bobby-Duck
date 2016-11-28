@@ -1,14 +1,14 @@
-Vêtement;Description;Value;$;W
-Plastron de cuir;C'est un plastron de cuir;2;26;13
-Salopette;C'est un salopette;1;12;6
-Bout de tissu;C'est un bout de tissu;1;14;7
-Epaulières;C'est un epaulières;2;32;16
-Marcel;C'est un marcel;1;18;9
-Tenue d'officier;C'est un tenue d'officier;3;38;19
-Toge en tissu;C'est un toge en tissu;1;20;10
-Habit de mineur;C'est un habit de mineur;2;24;12
-Habit de bandit;C'est un habit de bandit;3;36;18
-Armure en acier;C'est un armure en acier;4;44;22
-Plastron de fer;C'est un plastron de fer;4;52;26
-Haut de paysan;C'est un haut de paysan;1;12;6
-Armure du roi Pirate;C'est un armure du roi pirate;5;58;29
+Vêtement;Description;Value;$;W;LVL
+Bout de tissu;C'est un bout de tissu;10;30;5;1
+Marcel;C'est un marcel;12;31;6;1
+Toge en tissu;C'est un toge en tissu;10;26;5;1
+Haut de paysan;C'est un haut de paysan;13;28;7;1
+Salopette;C'est un salopette;24;49;12;2
+Habit de mineur;C'est un habit de mineur;30;69;15;2
+Plastron de cuir;C'est un plastron de cuir;42;91;21;3
+Epaulières;C'est un epaulières;39;79;20;3
+Tenue d'officier;C'est un tenue d'officier;45;94;23;3
+Habit de bandit;C'est un habit de bandit;39;87;20;3
+Plastron de fer;C'est un plastron de fer;48;103;24;4
+Armure en acier;C'est un armure en acier;75;151;38;5
+Armure du roi Pirate;C'est un armure du roi pirate;110;220;55;10

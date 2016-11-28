@@ -27,7 +27,7 @@ public class StoryTest : MonoBehaviour {
 
 		}
 
-		if ( Input.GetKeyDown (KeyCode.UpArrow )) {
+		/*if ( Input.GetKeyDown (KeyCode.UpArrow )) {
 			--lign;
 			Debug.Log ( StoryReader.Instance.CurrentStory.content[decal][lign]);
 		}
@@ -49,7 +49,7 @@ public class StoryTest : MonoBehaviour {
 
 		if ( Input.GetKeyDown (KeyCode.S )) {
 			checkDirection ();
-		}
+		}*/
 	}
 
 	void checkDirection () {

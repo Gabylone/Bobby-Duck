@@ -4,27 +4,44 @@ using System.Collections;
 
 public class MapImage : MonoBehaviour {
 
+	private MapGenerator mapGenerator;
+
+	[Header("General")]
 	[SerializeField]
 	private Image targetImage;
-
 	[SerializeField]
-	private Color hiddenColor;
+	private bool revealMap = false;
+	[SerializeField]
+	[Range(0,1)]
+	private float mapTransparency = 0.5f;
+
+	[Header("Colors")]
+	[SerializeField]
+	private Color unvisitedIslandColor;
+	[SerializeField]
+	private Color visitedIslandColor;
+	[SerializeField]
+	private Color discoveredColor;
+	[SerializeField]
+	private Color undiscoveredColor;
+	[SerializeField]
+	private Color boatPositionColor;
 
 	[SerializeField]
 	private int textureScale = 100;
 
-	[SerializeField]
-	private Color mapColor = Color.magenta;
-
 	public void InitImage () {
 
-//		Texture2D texture = targetImage.sprite.texture;
+		mapGenerator = GetComponent<MapGenerator> ();
+
 		Texture2D texture = new Texture2D (textureScale, textureScale);
 
 		for ( int x = 0; x < textureScale ; ++x ) {
 			for (int y = 0; y < textureScale; ++y ) {
-//				texture.SetPixel (x, y, MapGenerator.Instance.IslandIds[x,y] > -1 ? Color.yellow : Color.blue);
-				texture.SetPixel (x, y, hiddenColor);
+				if ( revealMap )
+					texture.SetPixel (x, y, MapGenerator.Instance.IslandIds[x,y] > -1 ? Color.yellow : Color.blue);
+				else
+					texture.SetPixel (x, y, undiscoveredColor);
 			}
 		}
 //
@@ -36,7 +53,14 @@ public class MapImage : MonoBehaviour {
 		targetImage.sprite = sprite;
 	}
 
-	public void UpdatePixel ( int x , int y, Color color) {
+	public void UpdatePixel ( int x , int y, Color color = default(Color)) {
+
+		if ( color == default(Color) ) {
+			color = discoveredColor;
+			if ( mapGenerator.IslandIds [x, y] > -1 ) {
+				color = mapGenerator.IslandDatas[mapGenerator.IslandIds [x, y]].visited ? visitedIslandColor : unvisitedIslandColor;
+			}
+		}
 
 		Texture2D texture = (Texture2D)targetImage.mainTexture;
 
@@ -63,6 +87,12 @@ public class MapImage : MonoBehaviour {
 		}
 		set {
 			textureScale = value;
+		}
+	}
+
+	public Image TargetImage {
+		get {
+			return targetImage;
 		}
 	}
 	#endregion

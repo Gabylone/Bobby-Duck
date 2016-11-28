@@ -160,6 +160,8 @@ public class StoryLoader : MonoBehaviour {
 			if (MapManager.Instance.PosX == IslandManager.Instance.TreasureIslandXPos &&
 				MapManager.Instance.PosY == IslandManager.Instance.TreasureIslandYPos ) {
 
+				Debug.Log ("treasure island");
+
 				return stories [2];
 
 			}
@@ -167,6 +169,8 @@ public class StoryLoader : MonoBehaviour {
 				// check for home island
 			if (MapManager.Instance.PosX == IslandManager.Instance.HomeIslandXPos &&
 				MapManager.Instance.PosY == IslandManager.Instance.HomeIslandYPos ) {
+
+				Debug.Log ("home island");
 
 				return stories [1];
 
@@ -177,6 +181,8 @@ public class StoryLoader : MonoBehaviour {
 
 				if (MapManager.Instance.PosX == IslandManager.Instance.ClueIslandsXPos[i] &&
 					MapManager.Instance.PosY == IslandManager.Instance.ClueIslandsYPos[i] ) {
+
+					Debug.Log ("clue island");
 
 					return stories [3];
 

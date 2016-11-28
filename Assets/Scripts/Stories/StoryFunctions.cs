@@ -133,7 +133,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.MemberCapacity) {
 
-			string phrase = "Je regrette, le bateau est trop petit";
+			string phrase = "Oh non, le bateau est trop petit";
 			DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain);
 
 			StoryReader.Instance.WaitForInput ();
@@ -142,7 +142,9 @@ public class StoryFunctions : MonoBehaviour {
 
 			CrewMember targetMember = Crews.enemyCrew.captain;
 
-			Crews.playerCrew.AddMember (targetMember);
+			CrewCreator.Instance.TargetSide = Crews.Side.Player;
+			CrewMember newMember = CrewCreator.Instance.NewMember (Crews.enemyCrew.captain.MemberID);
+			Crews.playerCrew.AddMember (newMember);
 			Crews.enemyCrew.RemoveMember (targetMember);
 
 			StoryReader.Instance.NextCell ();
@@ -306,11 +308,13 @@ public class StoryFunctions : MonoBehaviour {
 
 	void GiveTip ()  {
 
-		string[] tips = new string[3] {
+		string[] tips = new string[5] {
 
 			"Un grand vide sépare le nord du sud",
 			"Mieux vaut bien se préparer pour aller du nord au sud !",
 			"Les pirates se déplacent librement sur les mers",
+			"Une bonne longue vue règle les problemes de vision la nuit",
+			"Une bonne longue vue règle les problemes de vision les jours de pluie",
 
 		};
 
@@ -459,7 +463,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 
-		if ( MapManager.Instance.CurrentIsland.firstVisit == false ) {
+		if ( MapManager.Instance.CurrentIsland.visited == true) {
 			StoryReader.Instance.SetDecal (1);
 		}
 

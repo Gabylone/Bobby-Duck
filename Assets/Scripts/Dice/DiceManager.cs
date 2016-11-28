@@ -92,7 +92,8 @@ public class DiceManager : MonoBehaviour {
 
 		ResetDice ();
 
-		currentThrow = new Throw (diceAmount, type);
+		currentThrow = new Throw (1, type);
+//		currentThrow = new Throw (diceAmount, type);
 
 		ChangeState (states.throwing);
 
@@ -362,14 +363,14 @@ public class Throw {
 
 		if ( highestResult == 6 )
 			return Results.CritSuccess;
-
-		if (highestResult > valueToCompare)
-			return Results.Success;
+//
+//		if (highestResult > valueToCompare)
+//			return Results.Success;
 
 		if (highestResult == 1)
-			return Results.CritFailure;
+			return Results.Failure;
 
-		return Results.Failure;
+		return Results.Success;
 	}
 
 }

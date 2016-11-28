@@ -94,7 +94,7 @@ public class IslandManager : MonoBehaviour {
 
 		Crews.enemyCrew.Hide ();
 
-		MapManager.Instance.CurrentIsland.firstVisit = false;
+		MapManager.Instance.CurrentIsland.visited = true;
 
 		SoundManager.Instance.AmbianceSource.volume = SoundManager.Instance.AmbianceSource.volume * 2;
 		WeatherManager.Instance.PlaySound ();
@@ -191,7 +191,7 @@ public class IslandData {
 	private bool gaveClue = false;
 	private Vector2 position;
 
-	public bool firstVisit = true;
+	public bool visited = false;
 
 	public IslandData ( Vector2 pos )
 	{

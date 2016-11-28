@@ -1,13 +1,14 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Stories\StoryFunctions.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\tout doux bobbyu.txt">
     <Files>
-      <File FileName="Assets\Scripts\Dialogues\DialogueManager.cs" Line="69" Column="3" />
-      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="492" Column="31" NotebookId="1" />
-      <File FileName="Assets\Scripts\Map\MapImage.cs" Line="39" Column="21" NotebookId="1" />
-      <File FileName="Assets\Scripts\Map\MapManager.cs" Line="43" Column="35" NotebookId="1" />
-      <File FileName="Assets\Scripts\Navigation\NavigationManager.cs" Line="81" Column="31" NotebookId="1" />
-      <File FileName="Assets\Scripts\Map\MapGenerator.cs" Line="131" Column="23" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="73" Column="43" />
+      <File FileName="Assets\Scripts\Dice\DiceManager.cs" Line="366" Column="3" />
+      <File FileName="Assets\Scripts\Map\MapManager.cs" Line="62" Column="26" />
+      <File FileName="Assets\Scripts\Map\MapImage.cs" Line="58" Column="15" />
+      <File FileName="Assets\tout doux bobbyu.txt" Line="5" Column="38" />
+      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="315" Column="51" NotebookId="1" />
+      <File FileName="Assets\Scripts\Stories\StoryTest.cs" Line="23" Column="3" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

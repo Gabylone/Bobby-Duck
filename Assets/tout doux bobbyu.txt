@@ -1,10 +1,30 @@
 
-// PLUS
+// BUG
+- pas de retour dans caserne tentes.
+- loot random peut ne rien avoir.
+- tout de le monde a de l'équipement.
 
-- penser à donner des stats pour les gars
-- change loot = niveau ?
+// CHANGEMENTS COMBATS /
+
+
+
+// FEATURES : 
+- système de sommeil ?
+- statistiques personnages
+- niveau objects
+	- ne pas pouvoir équiper un objet supérieur
+	- loot des objets de son niveau
+	- les ennemis ont un équipement selon le niveau
+
 - jetter / déposer des affaires ?
 
+
+
+
+
+
+
+/* ----------------------------------- */
 Egberto Gismonti Sanfona
 Un bateau IMMENSE alors que tu es un tout petit bateau
 tu peux pas mourir quand ta faim et ton sommeil son à zéro. mais tu es beaucoup moins efficace.

@@ -31,7 +31,7 @@ public class CrewCreator : MonoBehaviour {
 
 
 	private string[] names = new string[51] {
-		"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"};
+		"Jean", "Eric", "Nathan", "Jacques", "Benoit", "Jeremy", "Flo", "Bertrand", "Vladimir", "Dimitri", "Jean-Jacques", "Gérard", "Nestor", "Etienne", "Leon", "Henry", "David", "Esteban", "Louis", "Carles", "Victor", "Michel", "Gabriel", "Pierre", "André", "Fred", "Cassius", "César", "Paul", "Martin", "Claude", "Levis", "Alex", "Olivier", "Mustafa", "Nicolas", "Chris", "Oleg", "Emile", "Richard", "Romulus", "Rufus", "Stan", "Charles", "Quincy", "Antoine", "Virgile", "Boromir", "Archibald", "Eddy", "Kenneth"};
 
 	[SerializeField]
 	private int startHealth = 10;
@@ -76,7 +76,9 @@ public class CrewCreator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if ( Input.GetKeyDown(KeyCode.M)) {
+			Crews.playerCrew.captain.SetRandomEquipment ();
+		}
 	}
 
 	public CrewMember NewMember (MemberID memberID) {
@@ -205,16 +207,21 @@ public class CrewCreator : MonoBehaviour {
 
 public class MemberID {
 
+		// name
 	public int nameID 	= 0;
 
+		// lvl
 	public int lvl 		= 0;
 
+		// hp
 	public int maxHP 	= 0;
 
+		// stats
 	public int attack 	= 0;
 	public int constitution = 0;
 	public int speed = 0;
 
+		// icon index
 	public int bodyColorID = 0;
 
 	public int hairSpriteID = 0;
@@ -225,6 +232,11 @@ public class MemberID {
 	public int clothSpriteID = 0;
 
 	public int voiceID = 0;
+
+		// equipment
+	public int weaponID = 0;
+	public int clothesID = 0;
+	public int shoesID = 0;
 
 	public MemberID () {
 
@@ -248,6 +260,10 @@ public class MemberID {
 		clothColor 		= Random.ColorHSV();
 
 		voiceID 		= Random.Range ( 0 , DialogueManager.Instance.SpeakSounds.Length );
+
+		weaponID 	= Random.value < 0.5f ? -1 : Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Weapon).Length );
+		clothesID 	= Random.value < 0.5f ? -1 : Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Clothes).Length );
+		shoesID 	= Random.value < 0.5f ? -1 : Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Shoes).Length );
 
 	}
 

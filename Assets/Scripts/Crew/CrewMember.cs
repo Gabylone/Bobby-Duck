@@ -40,25 +40,42 @@ public class CrewMember {
 
 	private void Init () {
 
+		// health
 		health = MaxHealth;
 
+		// icon
 		icon = iconObj.GetComponent<CrewIcon> ();
 		info = iconObj.GetComponent<CrewInfo> ();
 
+		// side
 		if (side == Crews.Side.Enemy)
 			icon.Overable = false;
+
+		// equipment
+		if (memberID.weaponID > -1)
+			SetEquipment (EquipmentPart.Weapon, 	ItemLoader.Instance.getItem (ItemCategory.Weapon, memberID.weaponID));
+		if (memberID.clothesID > -1)
+			SetEquipment (EquipmentPart.Clothes, 	ItemLoader.Instance.getItem (ItemCategory.Clothes, memberID.clothesID));
+		if (memberID.shoesID > -1)
+			SetEquipment (EquipmentPart.Shoes, 		ItemLoader.Instance.getItem (ItemCategory.Shoes, memberID.shoesID));
+
 	}
 
 	#region health
 	public void GetHit (int damage) {
 
-		string smallText = damage.ToString () + " - " + ConstitutionDice.ToString () + " = ";
-		string bigText = (damage-ConstitutionDice).ToString ();
+		float damageTaken = damage - Random.Range (ConstitutionDice, ConstitutionDice - 1.5f);
+		damageTaken = Mathf.Clamp ( damage , Random.Range (1 , 3) , damageTaken );
+
+		damageTaken = Mathf.CeilToInt (damageTaken);
+
+		string smallText = damage + " / " + ConstitutionDice;
+		string bigText = damageTaken.ToString ();
 
 		info.DisplayInfo (smallText, bigText , Color.red);
 		Icon.Animator.SetTrigger ("GetHit");
 
-		Health -= (damage-ConstitutionDice);
+		Health -= (int)damageTaken;
 
 		CardManager.Instance.UpdateCards ();
 
@@ -67,16 +84,19 @@ public class CrewMember {
 	public void Kill () {
 
 		Crews.getCrew(side).RemoveMember (this);
+
 	}
 	#endregion
 
 	public void AddXP ( int _xp ) {
+		
 		xp += _xp;
+
 		if ( xp >= stepToNextLevel ) {
 			++Level;
 			xp = stepToNextLevel - xp;
 
-			MaxHealth += 5;
+			MaxHealth += 20;
 			health = MaxHealth;
 
 			stepsToCold -= 0.1f;
@@ -89,6 +109,9 @@ public class CrewMember {
 		CurrentHunger += StepsToHunger;
 
 		if ( CurrentHunger >= maxState ) {
+
+			DialogueManager.Instance.SetDialogue ("J'ai faim !", this);
+
 			--Health;
 			if ( health == 0 )
 			{
@@ -235,6 +258,53 @@ public class CrewMember {
 		}
 	}
 
+	public CrewInfo Info {
+		get {
+			return info;
+		}
+	}
+	#endregion
+
+	#region equipment
+	public enum EquipmentPart {
+		Weapon,
+		Clothes,
+		Shoes
+	}
+	public void SetRandomEquipment () {
+
+		ItemCategory[] equipmentCategories = new ItemCategory[3] {
+			ItemCategory.Weapon,
+			ItemCategory.Clothes,
+			ItemCategory.Shoes
+		};
+
+		for (int i = 0; i < 3; ++i) {
+			
+			if (Random.value < 0.5f) {
+				Item equipmentItem = ItemLoader.Instance.getRandomItem (equipmentCategories [i]);
+				SetEquipment ((EquipmentPart)i, equipmentItem);
+			}
+		}
+
+	}
+	public void SetEquipment ( EquipmentPart part , Item item ) {
+		
+		equipment [(int)part] = item;
+
+		if (item.category == ItemCategory.Weapon)
+			AttackDice = item.value;
+
+		if (item.category == ItemCategory.Clothes)
+			ConstitutionDice = item.value;
+
+		if (item.category == ItemCategory.Shoes)
+			SpeedDice = item.value;
+	}
+	public Item GetEquipment ( EquipmentPart part ) {
+		return equipment [(int)part];
+	}
+
 	public Item[] Equipment {
 		get {
 			return equipment;
@@ -244,11 +314,6 @@ public class CrewMember {
 		}
 	}
 
-	public CrewInfo Info {
-		get {
-			return info;
-		}
-	}
 	#endregion
 
 	#region states properties

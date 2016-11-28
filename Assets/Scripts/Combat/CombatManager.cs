@@ -195,6 +195,8 @@ public class CombatManager : MonoBehaviour {
 
 		ChoosingMember = false;
 		ExitFight ();
+		IslandManager.Instance.Leave ();
+
 	}
 	#endregion
 
@@ -305,6 +307,8 @@ public class CombatManager : MonoBehaviour {
 
 //		Debug.Log ("throw result : " + DiceManager.Instance.CurrentThrow.Result (getMember(DefendingCrew).AttackDice));
 
+		int attack = getMember (attackingCrew).AttackDice;
+
 		switch ( currentDiceType ) {
 		case DiceTypes.Attack :
 
@@ -327,8 +331,11 @@ public class CombatManager : MonoBehaviour {
 
 				SoundManager.Instance.PlaySound (hitSound);
 
-				DialogueManager.Instance.SetDialogue ("Aïe !", getMember(DefendingCrew));
-				getMember(DefendingCrew).GetHit (getMember (attackingCrew).AttackDice);
+				DialogueManager.Instance.SetDialogue ("Aïe !", getMember (DefendingCrew));
+
+				float damage = Random.Range (attack, attack * 1.5f);
+
+				getMember(DefendingCrew).GetHit (Mathf.CeilToInt(damage));
 //				getMember (AttackingCrew).Info.DisplayInfo ("SUCESS","!",Color.magenta);
 
 				if (getMember(DefendingCrew).Health == 0) {
@@ -343,8 +350,10 @@ public class CombatManager : MonoBehaviour {
 				SoundManager.Instance.PlaySound (hurtSound);
 
 				DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", getMember (DefendingCrew));
-				int criticalDamage = Mathf.CeilToInt (getMember (attackingCrew).AttackDice * 1.5f);
-				getMember (DefendingCrew).GetHit (getMember (attackingCrew).AttackDice + criticalDamage);
+
+				float criticalDamage = Random.Range (attack, attack * 1.5f) * 1.5f;
+
+				getMember (DefendingCrew).GetHit (Mathf.CeilToInt(criticalDamage));
 				getMember (AttackingCrew).Info.DisplayInfo ("CRITICAL","!",Color.magenta);
 
 				if (getMember(DefendingCrew).Health == 0) {
@@ -433,13 +442,10 @@ public class CombatManager : MonoBehaviour {
 	}
 	#endregion
 
-	#region win fight
+	#region fight end
 	private void ExitFight () {
 		CardManager.Instance.HideFightingCard (Crews.Side.Enemy);
 		CardManager.Instance.HideFightingCard (Crews.Side.Player);
-
-//		StoryReader.Instance.NextCell ();
-//		StoryReader.Instance.UpdateStory ();
 
 		Crews.enemyCrew.Hide ();
 		updateState = null;

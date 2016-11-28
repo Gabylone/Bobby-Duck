@@ -9,11 +9,6 @@ public class MapManager : MonoBehaviour {
 
 	private UIButton mapButton;
 
-	[SerializeField]
-	private Color islandColor;
-	[SerializeField]
-	private Color discoveredColor;
-
 	private MapGenerator mapGenerator;
 
 	private int posX = 0;
@@ -40,10 +35,10 @@ public class MapManager : MonoBehaviour {
 
 	public void SetNewPos ( Vector2 v ) {
 
-		mapImage.UpdatePixel (posX, posY, mapGenerator.IslandIds [posX, posY] > -1 ? islandColor : discoveredColor);
+		mapImage.UpdatePixel (posX, posY);
 
-		posX += (int)v.x;
-		posY += (int)v.y;
+		PosX += (int)v.x;
+		PosY += (int)v.y;
 
 		UpdateImage ();
 	}
@@ -61,12 +56,19 @@ public class MapManager : MonoBehaviour {
 					mapImage.UpdatePixel (posX + x, posY + y, Color.red);
 				} else {
 
-					mapImage.UpdatePixel (posX + x, posY + y, mapGenerator.IslandIds [posX + x, posY + y] > -1 ? islandColor : discoveredColor);
+					if (posX + x < mapImage.TextureScale && posX + x >= 0 &&
+					    posY + y < mapImage.TextureScale && posY + y >= 0) {
+
+						mapImage.UpdatePixel (posX + x, posY + y);
+					}
 				}
 
 			}
 
 		}
+
+		mapImage.TargetImage.transform.localPosition = new Vector2 (200 - (posX* 2) , -(posY* 2));
+
 
 	}
 
@@ -76,7 +78,7 @@ public class MapManager : MonoBehaviour {
 			return posX;
 		}
 		set {
-			posX = value;
+			posX = Mathf.Clamp (value, 0 , mapImage.TextureScale-1);
 		}
 	}
 	public int PosY {
@@ -84,7 +86,7 @@ public class MapManager : MonoBehaviour {
 			return posY;
 		}
 		set {
-			posY = value;
+			posY = Mathf.Clamp (value, 0 , mapImage.TextureScale-1);
 		}
 	}
 	public int Middle {

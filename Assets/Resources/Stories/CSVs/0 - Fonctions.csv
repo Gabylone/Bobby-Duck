@@ -3,6 +3,7 @@ Leave;termine l'histoire mais le joueur peut revenir;;
 Conclude;termine l'histoire mais le joueur ne peut pas revenir;;
 SwitchStory;SwitchStoryNomDeLHistoire/A/1 ( fallback coords );;
 GoTo;retourne au decal X , ligne Y;;
+Fade;Fade;;
 CheckFirstVisit;retourne au decal X , ligne Y;;
 RandomPercent;X pourcent de chance;;
 RandomRange;choisit entre X possibilités;;

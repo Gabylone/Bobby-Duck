@@ -76,54 +76,37 @@ public class PlayerLoot : MonoBehaviour {
 			SoundManager.Instance.PlaySound (eatSound);
 
 			targetMember.Health += lootUI.SelectedItem.value;
-			targetMember.CurrentHunger -= lootUI.SelectedItem.value;
+			targetMember.CurrentHunger -= (lootUI.SelectedItem.value * 3);
 
 			UpdateMembers ();
 			break;
 		case ItemCategory.Weapon:
-
-			SoundManager.Instance.PlaySound (equipSound);
-
-			targetMember.AttackDice = lootUI.SelectedItem.value;
-
-			if (targetMember.Equipment [0] != null)
-				LootManager.Instance.PlayerLoot.AddItem (targetMember.Equipment [0]);
-
-			targetMember.Equipment [0] = lootUI.SelectedItem;
-
-			PlayerLoot.Instance.SelectedCard.Deploy ();
-
-			break;
+		case ItemCategory.Clothes:
 		case ItemCategory.Shoes:
 
 			SoundManager.Instance.PlaySound (equipSound);
 
-			targetMember.SpeedDice = lootUI.SelectedItem.value;
+			CrewMember.EquipmentPart part = CrewMember.EquipmentPart.Clothes;
+			switch (lootUI.SelectedItem.category) {
+			case ItemCategory.Weapon:
+				part = CrewMember.EquipmentPart.Weapon;
+				break;
+			case ItemCategory.Clothes:
+				part = CrewMember.EquipmentPart.Clothes;
+				break;
+			case ItemCategory.Shoes:
+				part = CrewMember.EquipmentPart.Shoes;
+				break;
+			}
 
-			if (targetMember.Equipment [1] != null)
-				LootManager.Instance.PlayerLoot.AddItem (targetMember.Equipment [1]);
+			if (targetMember.GetEquipment(part) != null)
+				LootManager.Instance.PlayerLoot.AddItem (targetMember.GetEquipment(part) );
 
-			targetMember.Equipment [1] = lootUI.SelectedItem;
-
-			PlayerLoot.Instance.SelectedCard.Deploy ();
-
-			break;
-
-		case ItemCategory.Clothes:
-
-			SoundManager.Instance.PlaySound (equipSound);
-
-			targetMember.ConstitutionDice = lootUI.SelectedItem.value;
-
-			if (targetMember.Equipment [2] != null)
-				LootManager.Instance.PlayerLoot.AddItem (targetMember.Equipment [2]);
-
-			targetMember.Equipment [2] = lootUI.SelectedItem;
+			targetMember.SetEquipment (part, lootUI.SelectedItem);
 
 			PlayerLoot.Instance.SelectedCard.Deploy ();
 
 			break;
-
 		}
 
 		LootManager.Instance.PlayerLoot.RemoveItem ( lootUI.SelectedItem);
