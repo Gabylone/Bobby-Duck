@@ -280,11 +280,9 @@ public class CrewMember {
 		};
 
 		for (int i = 0; i < 3; ++i) {
-			
-			if (Random.value < 0.5f) {
-				Item equipmentItem = ItemLoader.Instance.getRandomItem (equipmentCategories [i]);
-				SetEquipment ((EquipmentPart)i, equipmentItem);
-			}
+
+			Item equipmentItem = ItemLoader.Instance.getRandomItem (equipmentCategories [i]);
+			SetEquipment ((EquipmentPart)i, equipmentItem);
 		}
 
 	}
@@ -300,6 +298,7 @@ public class CrewMember {
 
 		if (item.category == ItemCategory.Shoes)
 			SpeedDice = item.value;
+		
 	}
 	public Item GetEquipment ( EquipmentPart part ) {
 		return equipment [(int)part];

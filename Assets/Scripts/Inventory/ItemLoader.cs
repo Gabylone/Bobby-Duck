@@ -106,15 +106,8 @@ public class ItemLoader : MonoBehaviour {
 
 			int itemType = (int)cat;
 
-			int itemAmount = 0;
-//			int itemAmount = Random.Range (1, items_MaxPerLoot [itemType]+1);
+			int itemAmount = Random.Range (1, items_MaxPerLoot [itemType]+1);
 
-			while (Random.value * 100 < items_AppearChance [itemType]) {
-				++itemAmount;
-
-				if (itemAmount >= items_MaxPerLoot [itemType])
-					break;
-			}
 			randomItems [itemType] = new Item[itemAmount];
 
 			for (int i = 0; i < itemAmount; ++i)

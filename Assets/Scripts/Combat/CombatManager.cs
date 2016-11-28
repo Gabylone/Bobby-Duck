@@ -305,8 +305,6 @@ public class CombatManager : MonoBehaviour {
 
 			// success //
 
-//		Debug.Log ("throw result : " + DiceManager.Instance.CurrentThrow.Result (getMember(DefendingCrew).AttackDice));
-
 		int attack = getMember (attackingCrew).AttackDice;
 
 		switch ( currentDiceType ) {

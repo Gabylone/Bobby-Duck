@@ -8,7 +8,11 @@ public class StoryLoader : MonoBehaviour {
 	public static StoryLoader Instance;
 	StoryFunctions storyFunction;
 
-	Story[] stories;
+	List<Story> stories = new List<Story> ();
+	List<Story> clueStories = new List<Story> ();
+	List<Story> treasureStories = new List<Story> ();
+	List<Story> homeStories = new List<Story> ();
+
 	int[] storyRate;
 
 	List<List<string>> content = new List<List<string>>();
@@ -35,7 +39,6 @@ public class StoryLoader : MonoBehaviour {
 			++index;
 		}
 
-		stories = new Story[ storyFiles.Length ];
 		storyRate = new int[storyFiles.Length];
 
 
@@ -55,6 +58,9 @@ public class StoryLoader : MonoBehaviour {
 		string[] rows = storyFiles[currentFile].text.Split ('\n');
 
 		int collumnIndex 	= 0;
+
+		Story newStory = new Story (0, "name");
+
 		for (int rowIndex = 1; rowIndex < rows.Length; ++rowIndex ) {
 
 			string[] rowContent = rows[rowIndex].Split (';');
@@ -62,22 +68,22 @@ public class StoryLoader : MonoBehaviour {
 			// create story
 			if (rowIndex == 1) 
 			{
-				stories [currentFile] = new Story (currentFile, rowContent [0]);
+				newStory.storyID = currentFile;
+				newStory.name = rowContent [0];
 				storyRate [currentFile] = int.Parse (rowContent [1]);
 
 				foreach (string cellContent in rowContent) {
-					stories [currentFile].content.Add (new List<string> ());
-					stories [currentFile].contentDecal.Add (new List<int> ());
+					newStory.content.Add (new List<string> ());
+					newStory.contentDecal.Add (new List<int> ());
 				}
-
 			}
 			else
 			{
 
 				foreach (string cellContent in rowContent) {
 
-					stories [currentFile].content [collumnIndex].Add (cellContent);
-					stories [currentFile].contentDecal [collumnIndex].Add (-1);
+					newStory.content [collumnIndex].Add (cellContent);
+					newStory.contentDecal [collumnIndex].Add (-1);
 
 					++collumnIndex;
 
@@ -87,6 +93,26 @@ public class StoryLoader : MonoBehaviour {
 			collumnIndex 	= 0;
 
 		}
+
+		if ( newStory.name.Contains ("Indice") ) {
+			Debug.Log ("indice island");
+			clueStories.Add (newStory);
+			return;
+		}
+
+		if ( newStory.name.Contains ("Trésor") ) {
+			Debug.Log ("treasure island");
+			treasureStories.Add (newStory);
+			return;
+		}
+
+		if ( newStory.name.Contains ("Maison") ) {
+			Debug.Log ("maison island");
+			homeStories.Add (newStory);
+			return;
+		}
+
+		stories.Add (newStory);
 	}
 
 	void LoadFunctions () {
@@ -125,7 +151,7 @@ public class StoryLoader : MonoBehaviour {
 			[StoryReader.Instance.Index]; 
 
 	}
-	public Story[] Stories {
+	public List<Story> Stories {
 		get {
 			return stories;
 		}
@@ -142,9 +168,6 @@ public class StoryLoader : MonoBehaviour {
 		}
 		set {
 			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
-			if ( id > MapGenerator.Instance.IslandDatas.Count || id < 0 ) {
-				Debug.LogError ( "Merde : " + id.ToString () + " Longueur " + MapGenerator.Instance.IslandDatas.Count );
-			}
 			MapGenerator.Instance.IslandDatas [id].Story = value;
 		}
 	}
@@ -152,7 +175,7 @@ public class StoryLoader : MonoBehaviour {
 	public Story RandomStory {
 
 		// IDEE : Pick story: 
-		// chaque catégorie à un range ( et la fréquence s'applque au trésor et aux ineices )
+		// chaque catégorie à un range ( et la fréquence s'applque au trésor et aux indices )
 
 		get {
 
@@ -162,7 +185,9 @@ public class StoryLoader : MonoBehaviour {
 
 				Debug.Log ("treasure island");
 
-				return stories [2];
+				if (treasureStories.Count == 0)
+					Debug.LogError ("no treasure stories");
+				return treasureStories [Random.Range (0, treasureStories.Count)];
 
 			}
 
@@ -172,7 +197,10 @@ public class StoryLoader : MonoBehaviour {
 
 				Debug.Log ("home island");
 
-				return stories [1];
+				if (homeStories.Count == 0)
+					Debug.LogError ("no home stories");
+				
+				return homeStories [Random.Range (0,homeStories.Count)];
 
 			}
 
@@ -182,15 +210,16 @@ public class StoryLoader : MonoBehaviour {
 				if (MapManager.Instance.PosX == IslandManager.Instance.ClueIslandsXPos[i] &&
 					MapManager.Instance.PosY == IslandManager.Instance.ClueIslandsYPos[i] ) {
 
-					Debug.Log ("clue island");
-
-					return stories [3];
+					if (clueStories.Count == 0)
+						Debug.LogError ("no clue stories");
+					
+					return clueStories[Random.Range (0,clueStories.Count)];
 
 				}
 			}
 
 			// set random story
-			int storyIndex = Random.Range (4, StoryLoader.Instance.Stories.Length);
+			int storyIndex = Random.Range (0, StoryLoader.Instance.Stories.Count);
 
 			if ( storyRate[storyIndex] == 0 ) {
 				int i = storyIndex + 1;
@@ -209,7 +238,7 @@ public class StoryLoader : MonoBehaviour {
 
 					++i;
 
-					if (i == StoryLoader.Instance.stories.Length)
+					if (i == StoryLoader.Instance.stories.Count)
 						i = 0;
 				}
 			}

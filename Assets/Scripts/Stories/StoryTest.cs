@@ -26,30 +26,6 @@ public class StoryTest : MonoBehaviour {
 			IslandManager.Instance.Enter ();
 
 		}
-
-		/*if ( Input.GetKeyDown (KeyCode.UpArrow )) {
-			--lign;
-			Debug.Log ( StoryReader.Instance.CurrentStory.content[decal][lign]);
-		}
-
-		if ( Input.GetKeyDown (KeyCode.DownArrow )) {
-			++lign;
-			Debug.Log ( StoryReader.Instance.CurrentStory.content[decal][lign]);
-		}
-
-		if ( Input.GetKeyDown (KeyCode.LeftArrow )) {
-			--decal;
-			Debug.Log ( StoryReader.Instance.CurrentStory.content[decal][lign]);
-		}
-
-		if ( Input.GetKeyDown (KeyCode.RightArrow )) {
-			++decal;
-			Debug.Log ( StoryReader.Instance.CurrentStory.content[decal][lign]);
-		}
-
-		if ( Input.GetKeyDown (KeyCode.S )) {
-			checkDirection ();
-		}*/
 	}
 
 	void checkDirection () {
