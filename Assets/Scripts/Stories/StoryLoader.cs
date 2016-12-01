@@ -95,19 +95,19 @@ public class StoryLoader : MonoBehaviour {
 		}
 
 		if ( newStory.name.Contains ("Indice") ) {
-			Debug.Log ("indice island");
+//			Debug.Log ("indice island");
 			clueStories.Add (newStory);
 			return;
 		}
 
 		if ( newStory.name.Contains ("Trésor") ) {
-			Debug.Log ("treasure island");
+//			Debug.Log ("treasure island");
 			treasureStories.Add (newStory);
 			return;
 		}
 
 		if ( newStory.name.Contains ("Maison") ) {
-			Debug.Log ("maison island");
+//			Debug.Log ("maison island");
 			homeStories.Add (newStory);
 			return;
 		}

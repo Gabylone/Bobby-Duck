@@ -1,21 +1,18 @@
 Arme;Description;Value;$;W;LVL
-Epée rouillée;C'est un epée rouillée;15;31;8;1
-Pioche de mineur;C'est un pioche de mineur;13;30;7;1
-Dague cassée;C'est un dague cassée;14;33;7;1
-Matraque en bois;C'est un matraque en bois;15;39;8;1
-Petite épée;C'est un petite épée;28;59;14;2
-Dague en acier;C'est un dague en acier;30;67;15;2
-Matraque en fer;C'est un matraque en fer;24;56;12;2
-Machette;C'est un machette;24;52;12;2
-Grande épée en acier;C'est un grande épée en acier;33;74;17;3
-Longue Rapière;C'est un longue rapière;33;69;17;3
-Cimeterre;C'est un cimeterre;33;74;17;3
-Massue de pierre;C'est un massue de pierre;36;82;18;3
-Lance rouillée;C'est un lance rouillée;39;81;20;3
-Claymore;C'est un claymore;48;96;24;4
-Etoile du matin;C'est un etoile du matin;56;122;28;4
-Lance en acier;C'est un lance en acier;70;143;35;5
-Grand Marteau;C'est un grand marteau;60;124;30;5
-Fouet;C'est un fouet;66;137;33;6
-Epée de Barbe rouge;C'est un epée de barbe rouge;140;280;70;10
-Marteau du roi Pirate;C'est un marteau du roi pirate;100;201;50;10
+Epée rouillée;C'est un epée rouillée;10;22;5;1
+Pioche de mineur;C'est un pioche de mineur;14;32;7;1
+Dague cassée;C'est un dague cassée;11;26;6;1
+Matraque en bois;C'est un matraque en bois;14;38;7;1
+Petite épée;C'est un petite épée;20;50;10;2
+Dague en acier;C'est un dague en acier;20;50;10;2
+Matraque en fer;C'est un matraque en fer;30;66;15;2
+Machette;C'est un machette;30;67;15;2
+Grande épée en acier;C'est un grande épée en acier;36;81;18;3
+Longue Rapière;C'est un longue rapière;30;62;15;3
+Cimeterre;C'est un cimeterre;36;80;18;3
+Massue de pierre;C'est un massue de pierre;30;68;15;3
+Lance rouillée;C'est un lance rouillée;30;61;15;3
+Claymore;C'est un claymore;60;128;30;4
+Etoile du matin;C'est un etoile du matin;56;115;28;4
+Lance en acier;C'est un lance en acier;75;158;38;5
+Grand Marteau;C'est un grand marteau;70;145;35;5

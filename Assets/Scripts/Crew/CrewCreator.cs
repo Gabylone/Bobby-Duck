@@ -72,13 +72,7 @@ public class CrewCreator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if ( Input.GetKeyDown(KeyCode.M)) {
-			Crews.playerCrew.captain.SetRandomEquipment ();
-		}
+		
 	}
 
 	public CrewMember NewMember (MemberID memberID) {
@@ -261,9 +255,9 @@ public class MemberID {
 
 		voiceID 		= Random.Range ( 0 , DialogueManager.Instance.SpeakSounds.Length );
 
-		weaponID 	= Random.value < 0.5f ? -1 : Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Weapon).Length );
-		clothesID 	= Random.value < 0.5f ? -1 : Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Clothes).Length );
-		shoesID 	= Random.value < 0.5f ? -1 : Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Shoes).Length );
+		weaponID 		= Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Weapon).Length );
+		clothesID 		= Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Clothes).Length );
+		shoesID 		= Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Shoes).Length );
 
 	}
 

@@ -52,12 +52,9 @@ public class CrewMember {
 			icon.Overable = false;
 
 		// equipment
-		if (memberID.weaponID > -1)
-			SetEquipment (EquipmentPart.Weapon, 	ItemLoader.Instance.getItem (ItemCategory.Weapon, memberID.weaponID));
-		if (memberID.clothesID > -1)
-			SetEquipment (EquipmentPart.Clothes, 	ItemLoader.Instance.getItem (ItemCategory.Clothes, memberID.clothesID));
-		if (memberID.shoesID > -1)
-			SetEquipment (EquipmentPart.Shoes, 		ItemLoader.Instance.getItem (ItemCategory.Shoes, memberID.shoesID));
+		SetEquipment (EquipmentPart.Weapon, 	ItemLoader.Instance.getItem (ItemCategory.Weapon, memberID.weaponID));
+		SetEquipment (EquipmentPart.Clothes, 	ItemLoader.Instance.getItem (ItemCategory.Clothes, memberID.clothesID));
+		SetEquipment (EquipmentPart.Shoes, 		ItemLoader.Instance.getItem (ItemCategory.Shoes, memberID.shoesID));
 
 	}
 

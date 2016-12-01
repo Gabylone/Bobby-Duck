@@ -9,8 +9,8 @@ Leave;Fade;;;;;;;;;;
 ;SetChoices4;;;;;;;;;;
 ;Choice : Des chambres pour mes hommes !;;;Choice : On a faim !;Choice : (autre);Choice : Ça ira pour aujourdh'ui;;SetChoices3;;;
 ;OtherSpeak : Ça sera 50 pièces d'or;;;OtherSpeak : Regardez voir ce que j'ai;GoToI/10;OtherSpeak : Bon bah à la prochaine !;;Choice : C'est quoi les nouvelles de la région ?;;Choice : (attaquer);Choice : (autre)
-;SetChoices2;;;TradeFood;;GoToA/3;;RandomPercent40;;GoToB/25;GoToB/9
-;Choice : Tenez !;;Choice : Je n'ai pas assez…;GoToB/8;;;;OtherSpeak : Qu'est-ce que j'en sais moi ?;GiveTip;;
+;SetChoices2;;;TradeFood;;HideOther;;RandomPercent40;;GoToB/25;GoToB/9
+;Choice : Tenez !;;Choice : Je n'ai pas assez…;GoToB/8;;GoToA/3;;OtherSpeak : Qu'est-ce que j'en sais moi ?;GiveTip;;
 ;CheckGold50;;OtherSpeak : C'est rien mon bon monsieur;;;;;GoToB/8;GoToB/8;;
 ;RemoveGold50;OtherSpeak : Désolé mon bon m'sieur mais c'est pas assez;GoToB/8;;;;;;;;
 ;OtherSpeak : Prenez le dortoir à gauche en haut des escaliers !;GoToB/8;;;;;;;;;
