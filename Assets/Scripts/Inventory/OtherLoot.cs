@@ -22,7 +22,6 @@ public class OtherLoot : MonoBehaviour {
 	private string[] playerPreviousLootActions;
 
 	[Header("Sounds")]
-	[SerializeField] private AudioClip buySound;
 	[SerializeField] private AudioClip sellSound;
 	[SerializeField] private AudioClip equipSound;
 	[SerializeField] private AudioClip lootSound;
@@ -62,7 +61,6 @@ public class OtherLoot : MonoBehaviour {
 
 		GoldManager.Instance.AddGold (playerLootUI.SelectedItem.price);
 
-		Debug.Log (otherLootUI.SelectedItem.weight.ToString( ));
 		WeightManager.Instance.RemoveWeight (playerLootUI.SelectedItem.weight);
 
 		LootManager.Instance.OtherLoot.AddItem (playerLootUI.SelectedItem);
@@ -75,10 +73,12 @@ public class OtherLoot : MonoBehaviour {
 	}
 	public void BuyItem () {
 
-		SoundManager.Instance.PlaySound (buySound);
+		if (!GoldManager.Instance.CheckGold (otherLootUI.SelectedItem.price))
+			return;
 
 		if (!WeightManager.Instance.CheckWeight (otherLootUI.SelectedItem.weight))
 			return;
+
 		WeightManager.Instance.AddWeight (otherLootUI.SelectedItem.weight);
 
 		GoldManager.Instance.RemoveGold (otherLootUI.SelectedItem.price);

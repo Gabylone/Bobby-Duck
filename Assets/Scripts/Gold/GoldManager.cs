@@ -22,6 +22,7 @@ public class GoldManager : MonoBehaviour {
 
 	[Header("Sound")]
 	[SerializeField] private AudioClip noGoldSound;
+	[SerializeField] private AudioClip buySound;
 
 	void Awake () {
 		Instance = this;
@@ -57,6 +58,8 @@ public class GoldManager : MonoBehaviour {
 			DisplayFeedback ();
 			return false;
 		}
+
+		SoundManager.Instance.PlaySound (buySound);
 
 		return true;
 	}

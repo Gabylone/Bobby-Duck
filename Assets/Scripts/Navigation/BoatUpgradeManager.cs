@@ -25,6 +25,9 @@ public class BoatUpgradeManager : MonoBehaviour {
 	[SerializeField]
 	private Button[] upgradeButtons;
 
+	[SerializeField]
+	private UIButton uiButton;
+
 	[Header("Crew")]
 	[SerializeField]
 	private Button[] crewButtons;
@@ -47,6 +50,9 @@ public class BoatUpgradeManager : MonoBehaviour {
 	}
 
 	public void ShowUpgradeMenu () {
+
+		GetComponent<UIButton> ().Switch ();
+
 		UpdateCrewImages ();
 		UpdatePrices ();
 		UpdateTexts ();
@@ -101,7 +107,6 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 	public void UpdateCrewImages () {
 		for (int i = 0; i < crewButtons.Length; ++i ) {
-
 			crewButtons [i].gameObject.SetActive (i <= Crews.playerCrew.MemberCapacity);
 			crewButtons [i].image.color = i == Crews.playerCrew.MemberCapacity ? Color.white : Color.black;
 			crewButtons [i].interactable = i == Crews.playerCrew.MemberCapacity && trading;
@@ -116,10 +121,20 @@ public class BoatUpgradeManager : MonoBehaviour {
 			trading = value;
 
 			foreach (Button button in upgradeButtons)
-				button.interactable = trading;
+				button.interactable = value;
 
 			foreach (Button button in crewButtons)
-				button.interactable = trading;
+				button.interactable = value;
+
+		}
+	}
+
+	public void Close () {
+		if ( Trading == true ) {
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.UpdateStory ();
+
+			Trading = false;
 		}
 	}
 }

@@ -76,7 +76,7 @@ public class PlayerLoot : MonoBehaviour {
 			SoundManager.Instance.PlaySound (eatSound);
 
 			targetMember.Health += lootUI.SelectedItem.value;
-			targetMember.CurrentHunger -= (lootUI.SelectedItem.value * 3);
+			targetMember.CurrentHunger -= (lootUI.SelectedItem.value * 2);
 
 			UpdateMembers ();
 			break;
@@ -84,7 +84,8 @@ public class PlayerLoot : MonoBehaviour {
 		case ItemCategory.Clothes:
 		case ItemCategory.Shoes:
 
-			SoundManager.Instance.PlaySound (equipSound);
+			if (!targetMember.CheckLevel (lootUI.SelectedItem.level))
+				return;
 
 			CrewMember.EquipmentPart part = CrewMember.EquipmentPart.Clothes;
 			switch (lootUI.SelectedItem.category) {
@@ -105,6 +106,8 @@ public class PlayerLoot : MonoBehaviour {
 			targetMember.SetEquipment (part, lootUI.SelectedItem);
 
 			PlayerLoot.Instance.SelectedCard.Deploy ();
+
+			SoundManager.Instance.PlaySound (equipSound);
 
 			break;
 		}

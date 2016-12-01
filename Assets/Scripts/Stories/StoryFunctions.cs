@@ -147,6 +147,8 @@ public class StoryFunctions : MonoBehaviour {
 			Crews.playerCrew.AddMember (newMember);
 			Crews.enemyCrew.RemoveMember (targetMember);
 
+			newMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.Wait (0.5f);
 		
@@ -214,19 +216,11 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region boatUpgrades
-	void OpenBoatUpgrades () {
+	void BoatUpgrades () {
 		BoatUpgradeManager.Instance.ShowUpgradeMenu ();
 		BoatUpgradeManager.Instance.Trading = true;
 
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (0.5f);
-	}
-	void CloseBoatUpgrades () {
-		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
-		BoatUpgradeManager.Instance.Trading = false;
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (0.5f);
+		Debug.Log ("bon ?");
 	}
 	#endregion
 

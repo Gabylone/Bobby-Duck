@@ -93,6 +93,8 @@ public class LootUI : MonoBehaviour {
 
 				itemButton.Weight 		= item.weight;
 
+				itemButton.Level 		= item.level;
+
 			}
 
 			a++;

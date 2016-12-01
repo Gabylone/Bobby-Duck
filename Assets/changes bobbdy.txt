@@ -1,11 +1,12 @@
-test boat stories
-reset faim gain
-regarder jusqu'au matin
-jours et nuits un peu plus longs
-caserne ils ont pas l'air de vouloit faie quoi que ce soit
-oerder plus de points de bie
-update position naufragé
-clamp gold
+- baisser levée nourriture
+- baisser argent bandits
+- baisser argent chambre tav
+- NEwCRew + nombre de membres ( et changer dans caserne )
 
-revois le système de combat mec...$
-clamp degat
+
+
+POST RENDU
+- pirates et bateaux
+- création personnage
+- création bâteau
+

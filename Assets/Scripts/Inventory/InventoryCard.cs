@@ -73,11 +73,13 @@ public class InventoryCard : Card {
 				itemButton.Name = crewMember.Equipment [a].name;
 				itemButton.Param = crewMember.Equipment [a].value;
 				itemButton.Price = crewMember.Equipment [a].price;
+				itemButton.Price = crewMember.Equipment [a].level;
 			} else {
 				itemButton.Name = "";
 				itemButton.Param = 0;
 				itemButton.Price = 0;
 				itemButton.Weight = 0;
+				itemButton.Level = 0;
 			}
 
 			itemButton.Enabled = crewMember.Equipment [a] != null;

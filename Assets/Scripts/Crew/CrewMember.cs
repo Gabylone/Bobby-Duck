@@ -30,13 +30,13 @@ public class CrewMember {
 	private CrewInfo info;
 	private GameObject iconObj;
 
-	private float currentCold = 0;
-	private float stepsToCold = 1;
+	private int currentCold = 0;
+	private int stepsToCold = 10;
 
-	private float currentHunger = 0;
-	private float stepsToHunger = 1;
+	private int currentHunger = 0;
+	private int stepsToHunger = 10;
 
-	private int maxState = 20;
+	private int maxState = 100;
 
 	private void Init () {
 
@@ -61,9 +61,10 @@ public class CrewMember {
 	#region health
 	public void GetHit (int damage) {
 
-		float damageTaken = damage - Random.Range (ConstitutionDice, ConstitutionDice - 1.5f);
-		damageTaken = Mathf.Clamp ( damage , Random.Range (1 , 3) , damageTaken );
+		float consti = Random.Range (ConstitutionDice, ConstitutionDice + 1.5f);
+		float damageTaken = (damage/ConstitutionDice)*10;
 
+		damageTaken = Mathf.Clamp ( damageTaken , Random.Range (1 , 3) , 100 );
 		damageTaken = Mathf.CeilToInt (damageTaken);
 
 		string smallText = damage + " / " + ConstitutionDice;
@@ -85,6 +86,7 @@ public class CrewMember {
 	}
 	#endregion
 
+	#region level
 	public void AddXP ( int _xp ) {
 		
 		xp += _xp;
@@ -95,10 +97,21 @@ public class CrewMember {
 
 			MaxHealth += 20;
 			health = MaxHealth;
-
-			stepsToCold -= 0.1f;
 		}
 	}
+	public bool CheckLevel ( int lvl ) {
+
+		if (lvl > Level) {
+
+			DialogueManager.Instance.SetDialogue ("Je sais pas porter ça moi...", this);
+
+			return false;
+		}
+
+		return true;
+
+	}
+	#endregion
 
 	#region states
 	public void AddToStates () {
@@ -109,7 +122,7 @@ public class CrewMember {
 
 			DialogueManager.Instance.SetDialogue ("J'ai faim !", this);
 
-			--Health;
+			Health -= StepsToHunger;
 			if ( health == 0 )
 			{
 				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
@@ -122,7 +135,7 @@ public class CrewMember {
 //			CurrentCold += StepsToCold;
 
 		if ( CurrentCold >= maxState ) {
-			--Health;
+			Health -= StepsToCold;
 			if ( health == 0 )
 			{
 				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + MemberName + " meurt d'un froid mordant");
@@ -313,7 +326,7 @@ public class CrewMember {
 	#endregion
 
 	#region states properties
-	public float StepsToHunger {
+	public int StepsToHunger {
 		get {
 			return stepsToHunger;
 		}
@@ -322,7 +335,7 @@ public class CrewMember {
 		}
 	}
 
-	public float CurrentHunger {
+	public int CurrentHunger {
 		get {
 			return currentHunger;
 		}
@@ -331,7 +344,7 @@ public class CrewMember {
 		}
 	}
 
-	public float StepsToCold {
+	public int StepsToCold {
 		get {
 			return stepsToCold;
 		}
@@ -340,7 +353,7 @@ public class CrewMember {
 		}
 	}
 
-	public float CurrentCold {
+	public int CurrentCold {
 		get {
 			return currentCold;
 		}

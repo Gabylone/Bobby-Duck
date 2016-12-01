@@ -1,12 +1,14 @@
 Vêtement;Description;Value;$;W;LVL
-Bout de tissu;C'est un bout de tissu;10;21;5;1
-Marcel;C'est un marcel;13;34;7;1
-Toge en tissu;C'est un toge en tissu;14;29;7;1
-Haut de paysan;C'est un haut de paysan;11;31;6;1
-Salopette;C'est un salopette;30;70;15;2
-Habit de mineur;C'est un habit de mineur;26;54;13;2
-Plastron de cuir;C'est un plastron de cuir;39;79;20;3
-Epaulières;C'est un epaulières;30;66;15;3
-Tenue d'officier;C'est un tenue d'officier;33;70;17;3
-Habit de bandit;C'est un habit de bandit;39;81;20;3
-Plastron de fer;C'est un plastron de fer;44;93;22;4
+Bout de tissu;C'est un bout de tissu;10;29;5;1
+Marcel;C'est un marcel;12;32;6;1
+Toge en tissu;C'est un toge en tissu;12;32;6;1
+Haut de paysan;C'est un haut de paysan;12;28;6;1
+Salopette;C'est un salopette;30;69;15;2
+Habit de mineur;C'est un habit de mineur;24;55;12;2
+Plastron de cuir;C'est un plastron de cuir;33;70;17;3
+Epaulières;C'est un epaulières;39;84;20;3
+Tenue d'officier;C'est un tenue d'officier;45;96;23;3
+Habit de bandit;C'est un habit de bandit;36;81;18;3
+Plastron de fer;C'est un plastron de fer;48;105;24;4
+Armure en acier;C'est un armure en acier;75;156;38;5
+Armure du roi Pirate;C'est un armure du roi pirate;60;127;30;6

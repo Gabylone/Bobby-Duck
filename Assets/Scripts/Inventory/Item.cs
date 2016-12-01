@@ -11,6 +11,7 @@ public class Item {
 	public int 		value = 0;
 	public int 		price = 0;
 	public int 		weight = 0;
+	public int 		level = 0;
 
 	public ItemCategory category;
 		
@@ -23,6 +24,7 @@ public class Item {
 		int _value,
 		int _price,
 		int _weight,
+		int _level,
 
 		ItemCategory _cat
 		)
@@ -34,6 +36,7 @@ public class Item {
 		value = _value;
 		price = _price;
 		weight = _weight;
+		level = _level;
 
 		category = _cat;
 	}

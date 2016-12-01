@@ -28,6 +28,7 @@ RemoveGold;enlève X argent au joueur;;
 AddGold;enlève X argent au joueur;;
 Loot;crée un loot, toutes catégories confondues;;
 Trade;crée un loot de nourriture;;
+BoatUpgrades;;;
 LaunchCombat;lance un combat entre le personnage ou l'équipage non joueur;;
 CheckClues;lance la vérification d'indice pour le trésor (  0 = mauvais indice, 1 = un indice trouvé, 2 = tous les indices trouvés );;
 GiveClue;;;

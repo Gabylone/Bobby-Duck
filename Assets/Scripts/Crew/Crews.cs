@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Crews : MonoBehaviour {
 
+	public static Crews Instance;
+
 	public enum Side {
 		Player,
 		Enemy,
@@ -18,7 +20,7 @@ public class Crews : MonoBehaviour {
 
 	public static CrewManager[] crews = new CrewManager[2];
 
-	void Start () {
+	void Awake () {
 		crews [0] 	= GetComponentsInChildren<CrewManager> () [0];	
 		crews [1] 	= GetComponentsInChildren<CrewManager> () [1];
 

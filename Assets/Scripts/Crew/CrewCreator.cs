@@ -236,7 +236,12 @@ public class MemberID {
 
 		nameID 			= Random.Range (0, CrewCreator.Instance.Names.Length);
 
-		lvl = 1;
+		if (Crews.playerCrew.CrewMembers.Count > 0)
+			lvl = Random.Range ( Crews.playerCrew.captain.Level -1 , Crews.playerCrew.captain.Level + 1 );
+		else
+			lvl = 1;
+
+		lvl = Mathf.Clamp ( lvl , 1 , 10 );
 
 		maxHP 			= CrewCreator.Instance.StartHealth;
 
@@ -244,6 +249,7 @@ public class MemberID {
 		constitution 	= lvl;
 		speed 			= lvl;
 
+		// il a 35% de chance d'être noir
 		bodyColorID = Random.value < 0.35f ? 0 : 1;
 
 		hairColorID 	= Random.Range ( 0 , CrewCreator.Instance.HairColors.Length );
@@ -255,9 +261,9 @@ public class MemberID {
 
 		voiceID 		= Random.Range ( 0 , DialogueManager.Instance.SpeakSounds.Length );
 
-		weaponID 		= Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Weapon).Length );
-		clothesID 		= Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Clothes).Length );
-		shoesID 		= Random.Range ( 0 , ItemLoader.Instance.getItems(ItemCategory.Shoes).Length );
+		weaponID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Weapon, lvl);
+		clothesID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Clothes, lvl);
+		shoesID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Shoes, lvl);
 
 	}
 
