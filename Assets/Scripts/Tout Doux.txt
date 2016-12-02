@@ -1,0 +1,29 @@
+FEATURES A VENIR
+- déposer/jetter objets
+- croiser des bateaux qui se déplacent librement sur la map
+( pirates, marchands, soldats etc... )
+- regarder le random des histoires ( le village apparait beaucoup trop de fois )
+- mettre narrateur 'vous entrez maintenant dans la mer de vide.
+( ne pas RIEN mettre sur le nom man sea. mais beaucoup moins )/
+- Une il giveDirectionToClue
+
+- Characters
+	- Distinction h/f
+	- stats
+	- LVL upgrades
+	- Talents spéciaux
+	- sommeil
+
+- création personnage
+- création bâteau
+
+- craft
+
+- bouts de cartes
+
+/* ----------------------------------- */
+Egberto Gismonti Sanfona
+Un bateau IMMENSE alors que tu es un tout petit bateau
+tu peux pas mourir quand ta faim et ton sommeil son à zéro.
+Mais tu es beaucoup moins efficace.
+

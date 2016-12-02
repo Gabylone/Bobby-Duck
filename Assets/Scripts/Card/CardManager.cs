@@ -22,7 +22,11 @@ public class CardManager : MonoBehaviour {
 	#region overing cards
 	public void ShowOvering ( CrewMember member ) {
 		overingCard.UpdateMember (member);
-		overingCard.PlaceCard (member.IconObj.transform.position + decal);
+		Vector3 targetPos = member.IconObj.transform.position;
+		if ( member.IconObj.transform.position.x > 0 )
+			targetPos += decal;
+
+		overingCard.PlaceCard (targetPos);
 	}
 	public void HideOvering () {
 		overingCard.HideCard ();
@@ -37,14 +41,10 @@ public class CardManager : MonoBehaviour {
 		combatCards [(int)attackingCrew].HideCard ();
 	}
 	public void UpdateCards () {
-		for (int i = 0; i < 2; ++i) {
-
+		for (int i = 0; i < 2; ++i)
 			combatCards [i].UpdateMember (CombatManager.Instance.Members[i]);
-
-		}
 	}
 	#endregion
-
 
 	public Card OveringCard {
 		get {

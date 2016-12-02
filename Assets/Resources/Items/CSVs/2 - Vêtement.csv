@@ -1,14 +1,23 @@
 Vêtement;Description;Value;$;W;LVL
-Bout de tissu;C'est un bout de tissu;10;29;5;1
-Marcel;C'est un marcel;12;32;6;1
-Toge en tissu;C'est un toge en tissu;12;32;6;1
-Haut de paysan;C'est un haut de paysan;12;28;6;1
-Salopette;C'est un salopette;30;69;15;2
-Habit de mineur;C'est un habit de mineur;24;55;12;2
-Plastron de cuir;C'est un plastron de cuir;33;70;17;3
-Epaulières;C'est un epaulières;39;84;20;3
-Tenue d'officier;C'est un tenue d'officier;45;96;23;3
-Habit de bandit;C'est un habit de bandit;36;81;18;3
-Plastron de fer;C'est un plastron de fer;48;105;24;4
-Armure en acier;C'est un armure en acier;75;156;38;5
-Armure du roi Pirate;C'est un armure du roi pirate;60;127;30;6
+Habit de noble;C'est un habit de noble;10;29;5;1
+Marcel;C'est un marcel;13;31;7;1
+Toge en tissu;C'est un toge en tissu;10;24;5;1
+Habit de paysan;C'est un habit de paysan;11;25;6;1
+Tenue de voyageur;C'est un tenue de voyageur;15;36;8;1
+Fourrure;C'est un fourrure;14;36;7;1
+Salopette;C'est un salopette;15;32;8;1
+Habit de mineur;C'est un habit de mineur;10;26;5;1
+Chemise de maille;C'est un chemise de maille;22;47;11;2
+Armure de parade;C'est un armure de parade;22;54;11;2
+Armure de bois;C'est un armure de bois;22;47;11;2
+Cuirasse rouillée;C'est un cuirasse rouillée;22;53;11;2
+Harnais de cuir;C'est un harnais de cuir;22;52;11;2
+Veste renforcée;C'est un veste renforcée;30;69;15;2
+Plastron de cuir;C'est un plastron de cuir;39;87;20;3
+Epaulières;C'est un epaulières;45;91;23;3
+Tenue d'officier;C'est un tenue d'officier;39;78;20;3
+Habit de bandit;C'est un habit de bandit;30;66;15;3
+Plastron de fer;C'est un plastron de fer;44;94;22;4
+Cotte de maille;C'est un cotte de maille;60;121;30;4
+Armure en acier;C'est un armure en acier;50;101;25;5
+Armure en plaque;C'est un armure en plaque;84;172;42;6

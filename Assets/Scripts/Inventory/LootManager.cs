@@ -62,7 +62,6 @@ public class LootManager : MonoBehaviour {
 	}
 
 	public void setLoot ( Crews.Side side , Loot targetLoot) {
-		Debug.Log ("loot : " + targetLoot.id.ToString ());
 		otherLoot = targetLoot;
 	}
 

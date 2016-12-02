@@ -4,20 +4,20 @@ Narrator : Après avoir évité une vingtaine de bateau de pêche, le bateau ac
 SetChoices3;;;;;;;;;;;;;;
 Choice : Aller voir les pêcheurs;Choice : Repartir;;Choice : Entrer dans le village;;;;;;;;;;;
 NewCharacter;PlayerSpeak : Ça pue on s'casse.;;CheckDay;;;;;;;;;;;
-PlayerSpeak : Bonjour pêcheur !;Leave;;Narrator : Le village est petit mais vivant, c'est un jour de marché. Des hommes déplacent des caisses de poissons pendant que des femmes le cuisine et le vend. Une petite rue s'ouvre vers la gauche;;;;;;;;;Narrator : Le village est sombre et calme. La place est éclairée par quelques torches. La fenêtre d'une petite maison est éclairée.;;
+PlayerSpeak : Bonjour pêcheur !;Leave;;Narrator : Le village est petit mais vivant, c'est un jour de marché. Des hommes déplacent des caisses de poissons pendant que des femmes le cuisine et le vend. Une petite rue s'ouvre vers la gauche;;;;;;;;;Narrator : La nuit, le village est sombre et calme. La place est éclairée par quelques torches. La fenêtre d'une petite maison est éclairée.;;
 OtherSpeak : Salut à toi;;;SetChoices3;;;;;;;;;SetChoices2;;
 SetChoices3;;;Choice : Retourner sur les quais;Choice : Parler aux poissoniers;Choice : S'aventurer dans le village;;;;;;;Choice : Retourner sur les quais;Choice : S'aventurer dans le village;
-Choice : Bobby Dick, ça te dit quelque chose ?;Choice : Tu AS du poisson, ou autre, à me vendre non ?;Choice : (Revenir aux quais);GoToA/3;NewCharacter;Narrator : La rue mène sur un impasse et sur la chaleur d'une taverne. Des coups de marteaux et de scie sortent d’un grand hangar vers la droite.;;;;;;;GoToA/4;Narrator : La rue mène sur un impasse et sur la chaleur d'une taverne. Toutes les boutiques sont fermées.;
-OtherSpeak : Oui je crois. Certains clients en parlent;OtherSpeak : Et comment !;HideOther;;PlayerSpeak : Hé la !;SetChoices3;;;;;;;;SetChoices2;
-OtherSpeak : Ils partent…;TradeFood;GoToA/4;;OtherSpeak : Hé ho !;Choice : Entrons;Choice : Revenons en arrière;Choice : Entrer dans hangar;;;;;;Choice : Entrons !;Choice : Revenons en arrière
-GiveDirectionToClue;PlayerSpeak : Merci bien !;;;OtherSpeak : Qu'est-ce que je peux faire ?;GoToA/22;GoToD/8;Fade;;;;;;GoToA/22;GoToD/6
-GoToA/9;OtherSpeak : Au plaisir;;;PlayerSpeak : Me vendre à manger.;;;NewCharacter;;;;;;;
-;GoToA/9;;;TradeFood;;;OtherSpeak : Bien le bonjour !;;;;;;;
-;;;;OtherSpeak : A la prochaine !;;;SetChoices4;;;;;;;
-;;;;HideOther;;;Choice : Qu’est-ce que vous vendez ici ?;Choice : Le trésor de Bobby Dick, ça vous parle ?;;Choice : J’ai besoin de quelques changements sur bateau.;Choice : Sortir du hangar;;;
-;;;;GoToD/8;;;OtherSpeak : Vous me laissez votre bateau pendant quelques heures et j’en fais des merveilles !;RandomPercent30;;BoatUpgrades;Fade;;;
-;;;;;;;GoToH/16;OtherSpeak : Mon femme est allée chercher mon fils, qui est à sa recherche;OtherSpeak : Rien du tout.;GoToH/16;GoToF/10;;;
-;;;;;;;;GiveDirectionToClue;GoToH/16;;;;;
+Choice : (Revenir aux quais);Choice : Bobby Dick, ça te dit quelque chose ?;Choice : Tu AS du poisson, ou autre, à me vendre non ?;GoToA/3;NewCharacter;Narrator : La rue mène sur un impasse et sur la chaleur d'une taverne. Des coups de marteaux et de scie sortent d’un grand hangar vers la droite.;;;;;;;GoToA/4;Narrator : La rue mène sur un impasse et sur la chaleur d'une taverne. Toutes les boutiques sont fermées.;
+HideOther;OtherSpeak : Oui, certains clients en parlent. Ils partent…;RandomPercent70;;PlayerSpeak : Hé la !;SetChoices3;;;;;;;;SetChoices2;
+GoToA/4;GiveDirectionToClue;OtherSpeak : Rien aujourd'hui;OtherSpeak : Et comment !;OtherSpeak : Hé ho !;Choice : Entrons;Choice : Revenons en arrière;Choice : Entrer dans hangar;;;;;;Choice : Entrons !;Choice : Revenons en arrière
+;GoToA/9;OtherSpeak : La période est sèche.;TradeFood;OtherSpeak : Qu'est-ce que je peux faire ?;GoToA/22;GoToD/8;Fade;;;;;;GoToA/22;GoToD/6
+;;GoToA/9;PlayerSpeak : Merci bien !;PlayerSpeak : Me vendre à manger.;;;NewCharacter;;;;;;;
+;;;OtherSpeak : Au plaisir;RandomPercent40;;;OtherSpeak : Bien le bonjour !;;;;;;;
+;;;GoToA/9;TradeFood;OtherSpeak : J'ai plus rien !;;SetChoices4;;;;;;;
+;;;;OtherSpeak : A la prochaine !;GoToD/8;;Choice : Qu’est-ce que vous vendez ici ?;Choice : Le trésor de Bobby Dick, ça vous parle ?;;Choice : J’ai besoin de quelques changements sur bateau.;Choice : Sortir du hangar;;;
+;;;;HideOther;;;OtherSpeak : Je fais des merveilles avec votre bâteau ! ;RandomPercent30;;BoatUpgrades;HideOther;;;
+;;;;GoToD/8;;;GoToH/16;OtherSpeak : Mon femme est allée chercher mon fils, qui est à sa recherche;OtherSpeak : Rien du tout.;GoToH/16;Fade;;;
+;;;;;;;;GiveDirectionToClue;GoToH/16;;GoToF/10;;;
 ;;;;;;;;GoToH/16;;;;;;
 Fade;;;;;;;;;;;;;;
 Narrator : La taverne est grande mais il y a peu de client.;;;;;;;;;;;;;;

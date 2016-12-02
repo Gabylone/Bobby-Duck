@@ -79,8 +79,6 @@ public class StoryFunctions : MonoBehaviour {
 
 		if (tmp == null) {
 
-			Debug.Log ("creating new crew");
-
 			Crew newCrew = new Crew (amount, row, col);
 
 			MapManager.Instance.CurrentIsland.Crews.Add (newCrew);
@@ -89,7 +87,6 @@ public class StoryFunctions : MonoBehaviour {
 
 		}
 
-		Debug.Log ("getting previous crew");
 		return tmp;
 	}
 
@@ -116,7 +113,13 @@ public class StoryFunctions : MonoBehaviour {
 
 		int l = Crews.playerCrew.CrewMembers.Count;
 
-		int amount = Random.Range ( l-1 , l+2 );
+		int amount = 0;
+		if ( cellParams.Length > 0 ) {
+			amount = int.Parse(cellParams);
+		} else {
+			amount = Random.Range ( l-1 , l+2 );
+		}
+
 		Crew islandCrew = GetCrew (amount);
 
 		if (islandCrew.MemberIDs.Count == 0) {
@@ -219,8 +222,6 @@ public class StoryFunctions : MonoBehaviour {
 	void BoatUpgrades () {
 		BoatUpgradeManager.Instance.ShowUpgradeMenu ();
 		BoatUpgradeManager.Instance.Trading = true;
-
-		Debug.Log ("bon ?");
 	}
 	#endregion
 
@@ -302,13 +303,14 @@ public class StoryFunctions : MonoBehaviour {
 
 	void GiveTip ()  {
 
-		string[] tips = new string[5] {
+		string[] tips = new string[6] {
 
 			"Un grand vide sépare le nord du sud",
 			"Mieux vaut bien se préparer pour aller du nord au sud !",
 			"Les pirates se déplacent librement sur les mers",
 			"Une bonne longue vue règle les problemes de vision la nuit",
 			"Une bonne longue vue règle les problemes de vision les jours de pluie",
+			"C'est en discutant avec les gens que vous saurez où chercher le trésor.",
 
 		};
 
@@ -327,7 +329,6 @@ public class StoryFunctions : MonoBehaviour {
 		IslandManager.Instance.Leave ();
 	}
 	void Conclude () {
-		Debug.LogError ("a CODER : CONCLUDE");
 		IslandManager.Instance.Leave ();
 	}
 	#endregion
@@ -447,11 +448,6 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 
 	}
-	void SwitchStory () {
-
-		Debug.Log ("bonjour !");
-
-	}
 
 	void CheckFirstVisit () {
 
@@ -478,9 +474,11 @@ public class StoryFunctions : MonoBehaviour {
 		switch ( weather ) {
 		case "Day":
 			WeatherManager.Instance.IsNight = false;
+			WeatherManager.Instance.Raining = false;
 			break;
 		case "Night":
 			WeatherManager.Instance.IsNight = true;
+			WeatherManager.Instance.Raining = false;
 			break;
 		case "Rain":
 			WeatherManager.Instance.Raining = true;
@@ -524,7 +522,6 @@ public class StoryFunctions : MonoBehaviour {
 		string formula = getFormula ();
 
 		Debug.Log (formula);
-
 
 		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
 			DialogueManager.Instance.ShowNarrator (formula);

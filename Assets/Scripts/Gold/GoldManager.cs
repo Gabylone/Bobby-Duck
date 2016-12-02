@@ -89,7 +89,7 @@ public class GoldManager : MonoBehaviour {
 			return goldAmount;
 		}
 		set {
-			goldAmount = value;
+			goldAmount = Mathf.Clamp (value, 0 , value );
 		}
 	}
 

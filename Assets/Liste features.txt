@@ -1,0 +1,18 @@
+FEATURES A VENIR
+- déposer/jetter objets
+- croiser des bateaux qui se déplacent librement sur la map
+( pirates, marchands, soldats etc... )
+- Beaucoup plus d'histoires ( il n'y en a qu'une dixaine pour l'instant, c'est des histoires tests )
+- Personnages
+	- Distinction homme / femme ( en déplaise au transgenders )
+	- stats ( STR, DEX, CHAR, CONST etc )
+qu'on peut monter à chaque niveau.
+	- Talents spéciaux
+( cuisine, pêche etc... )
+	- sommeil
+( avoir une barre de sommeil, mais ça peut aussi être chiant à voir )
+
+- création personnage
+- création bâteau
+
+- craft ( pouvoir combiner des objects divers ( qui servent à rien pour l'instant ) pour faire d'autres trucs )

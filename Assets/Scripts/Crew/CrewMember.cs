@@ -31,10 +31,10 @@ public class CrewMember {
 	private GameObject iconObj;
 
 	private int currentCold = 0;
-	private int stepsToCold = 10;
+	private int stepsToCold = 4;
 
 	private int currentHunger = 0;
-	private int stepsToHunger = 10;
+	private int stepsToHunger = 4;
 
 	private int maxState = 100;
 

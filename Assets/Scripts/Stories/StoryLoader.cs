@@ -41,7 +41,6 @@ public class StoryLoader : MonoBehaviour {
 
 		storyRate = new int[storyFiles.Length];
 
-
 		for (int i = 0; i < storyFiles.Length; ++i ) {
 			if (currentFile == 0) {
 				LoadFunctions ();

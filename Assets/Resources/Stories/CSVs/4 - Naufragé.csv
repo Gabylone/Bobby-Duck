@@ -10,7 +10,7 @@ Leave;NewCharacter;;;;;;;;
 ;OtherSpeak : 3 ans que je suis coincé ici !;;;;;;;;
 ;OtherSpeak : Emmenez moi avec vous, je vous en prie !;;;;;;;;
 ;SetChoices3;;;;;;;;
-;Choice : Montes !;;;Choice : Donne nous tout ce que tu as ou on te croque la bite.;;;Choice : Désolé mon gars, pas assez de place à bord;;
+;Choice : Monte !;;;Choice : Donne nous tout ce que tu as ou on te croque la bite.;;;Choice : Désolé mon gars, pas assez de place à bord;;
 ;OtherSpeak : Merci m'sieur !;;;RandomRange2;;;RandomPercent40;;
 ;AddMember;;;OtherSpeak : Mais je n'ai absolument rien !;GoToE/18;;OtherSpeak : Donnez moi au moins quelque chose à manger;;OtherSpeak : Enculé ! 
 ;GoToA/22;;;SetChoices2;;;SetChoices2;;LaunchCombat

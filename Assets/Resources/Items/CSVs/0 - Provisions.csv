@@ -1,10 +1,37 @@
 Provisions;Description;Value;$;W;LVL
-Poulet;C'est un poulet;30;15;8;0
-Pomme;C'est un pomme;10;1;1;0
-Thon;C'est un thon;20;2;1;0
-Hareng;C'est un hareng;10;3;2;0
-Morceau de fromage;C'est un morceau de fromage;20;6;3;0
-Bout de pain;C'est un bout de pain;20;4;2;0
-Sardine;C'est un sardine;10;4;2;0
-Noix;C'est un noix;10;2;1;0
-Cacahuètes;C'est un cacahuètes;10;4;2;0
+Betterave;C'est un betterave;6;19;3;1
+Hareng;C'est un hareng;10;30;5;1
+Bout de pain;C'est un bout de pain;7;16;4;1
+Sardine;C'est un sardine;4;17;2;1
+Bout de lard;C'est un bout de lard;11;31;6;1
+Chou de Bruxelles;C'est un chou de bruxelles;6;15;3;1
+Châtaigne;C'est un châtaigne;7;24;4;1
+Citron;C'est un citron;2;4;1;1
+Ail;C'est un ail;16;41;8;2
+Maïs;C'est un maïs;8;21;4;2
+Biscuit;C'est un biscuit;16;36;8;2
+Thon;C'est un thon;18;44;9;2
+Morceau de fromage;C'est un morceau de fromage;17;36;9;2
+Cacahuètes;C'est un cacahuètes;18;45;9;2
+Crustacé;C'est un crustacé;13;27;7;2
+Lapin;C'est un lapin;18;42;9;2
+Lotte;C'est un lotte;17;43;9;3
+Morue;C'est un morue;22;45;11;3
+Crabe;C'est un crabe;17;41;9;3
+Crevette;C'est un crevette;24;53;12;3
+Oeuf de caille;C'est un oeuf de caille;22;44;11;3
+Carré de chocolat;C'est un carré de chocolat;25;54;13;3
+Madeleine;C'est un madeleine;23;55;12;3
+Poulet;C'est un poulet;23;48;12;3
+Noix;C'est un noix;24;51;12;3
+Ananas;C'est un ananas;22;44;11;3
+Clémentine;C'est un clémentine;25;58;13;4
+Orange;C'est un orange;28;63;14;4
+Champignon;C'est un champignon;23;50;12;4
+Saumon;C'est un saumon;30;60;15;4
+Cabillaud;C'est un cabillaud;24;49;12;4
+Homard;C'est un homard;32;71;16;4
+Lasagnes;C'est un lasagnes;23;56;12;4
+Patisserie;C'est un patisserie;26;58;13;4
+Pomme;C'est un pomme;29;59;15;5
+Asperges;C'est un asperges;36;78;18;5
