@@ -279,6 +279,7 @@ public class StoryFunctions : MonoBehaviour {
 			if ( StoryLoader.Instance.ReadDecal (tmpDecal).Length > 0 ) {
 
 				string choice = StoryLoader.Instance.ReadDecal (tmpDecal);
+
 				choice = choice.Remove (0, 9);
 
 				choices [amount - a] = choice;
@@ -288,7 +289,7 @@ public class StoryFunctions : MonoBehaviour {
 
 			++tmpDecal;
 
-			if ( tmpDecal > 40 ) {
+			if ( tmpDecal > 60 ) {
 				Debug.LogError ("set choice reached limit");
 				break;
 			}
@@ -398,7 +399,8 @@ public class StoryFunctions : MonoBehaviour {
 				categories [index] = ItemCategory.Shoes;
 				break;
 			case "Misc":
-				categories [index] = ItemCategory.Mics;
+				Debug.Log ("!!! je suis donc bien passé par là");
+				categories [index] = ItemCategory.Misc;
 				break;
 			}
 

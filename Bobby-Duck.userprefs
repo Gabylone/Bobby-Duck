@@ -1,9 +1,10 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Stories\StoryLoader.cs">
     <Files>
-      <File FileName="Assets\Scripts\Inventory\ItemLoader.cs" Line="56" Column="29" />
-      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="30" Column="19" />
+      <File FileName="Assets\Scripts\Inventory\ItemLoader.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="65" Column="5" />
+      <File FileName="Assets\Resources\Items\CSVs\Percentage.cs" Line="24" Column="12" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

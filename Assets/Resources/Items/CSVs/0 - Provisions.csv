@@ -1,37 +1,37 @@
 Provisions;Description;Value;$;W;LVL
-Betterave;C'est un betterave;6;19;3;1
-Hareng;C'est un hareng;10;30;5;1
-Bout de pain;C'est un bout de pain;7;16;4;1
-Sardine;C'est un sardine;4;17;2;1
-Bout de lard;C'est un bout de lard;11;31;6;1
-Chou de Bruxelles;C'est un chou de bruxelles;6;15;3;1
-Châtaigne;C'est un châtaigne;7;24;4;1
-Citron;C'est un citron;2;4;1;1
-Ail;C'est un ail;16;41;8;2
-Maïs;C'est un maïs;8;21;4;2
-Biscuit;C'est un biscuit;16;36;8;2
-Thon;C'est un thon;18;44;9;2
-Morceau de fromage;C'est un morceau de fromage;17;36;9;2
-Cacahuètes;C'est un cacahuètes;18;45;9;2
-Crustacé;C'est un crustacé;13;27;7;2
-Lapin;C'est un lapin;18;42;9;2
-Lotte;C'est un lotte;17;43;9;3
-Morue;C'est un morue;22;45;11;3
-Crabe;C'est un crabe;17;41;9;3
-Crevette;C'est un crevette;24;53;12;3
-Oeuf de caille;C'est un oeuf de caille;22;44;11;3
-Carré de chocolat;C'est un carré de chocolat;25;54;13;3
-Madeleine;C'est un madeleine;23;55;12;3
-Poulet;C'est un poulet;23;48;12;3
-Noix;C'est un noix;24;51;12;3
-Ananas;C'est un ananas;22;44;11;3
-Clémentine;C'est un clémentine;25;58;13;4
-Orange;C'est un orange;28;63;14;4
-Champignon;C'est un champignon;23;50;12;4
-Saumon;C'est un saumon;30;60;15;4
-Cabillaud;C'est un cabillaud;24;49;12;4
-Homard;C'est un homard;32;71;16;4
-Lasagnes;C'est un lasagnes;23;56;12;4
-Patisserie;C'est un patisserie;26;58;13;4
-Pomme;C'est un pomme;29;59;15;5
-Asperges;C'est un asperges;36;78;18;5
+Betterave;C'est un betterave;15;5;3;0
+Hareng;C'est un hareng;9;3;2;0
+Bout de pain;C'est un bout de pain;9;3;2;0
+Sardine;C'est un sardine;6;2;1;0
+Bout de lard;C'est un bout de lard;9;3;2;0
+Chou de Bruxelles;C'est un chou de bruxelles;9;3;2;0
+Châtaigne;C'est un châtaigne;6;2;1;0
+Citron;C'est un citron;6;2;1;0
+Ail;C'est un ail;6;2;1;0
+Maïs;C'est un maïs;9;3;2;0
+Biscuit;C'est un biscuit;9;3;2;0
+Thon;C'est un thon;9;3;2;0
+Morceau de fromage;C'est un morceau de fromage;15;5;3;0
+Cacahuètes;C'est un cacahuètes;6;2;1;0
+Crustacé;C'est un crustacé;18;6;4;0
+Lapin;C'est un lapin;24;8;5;0
+Lotte;C'est un lotte;18;6;4;0
+Morue;C'est un morue;15;5;3;0
+Crabe;C'est un crabe;15;5;3;0
+Crevette;C'est un crevette;9;3;2;0
+Oeuf de caille;C'est un oeuf de caille;9;3;2;0
+Carré de chocolat;C'est un carré de chocolat;9;3;2;0
+Madeleine;C'est un madeleine;9;3;2;0
+Poulet;C'est un poulet;18;6;4;0
+Noix;C'est un noix;9;3;2;0
+Ananas;C'est un ananas;15;5;3;0
+Clémentine;C'est un clémentine;9;3;2;0
+Orange;C'est un orange;9;3;2;0
+Champignon;C'est un champignon;9;3;2;0
+Saumon;C'est un saumon;18;6;4;0
+Cabillaud;C'est un cabillaud;15;5;3;0
+Homard;C'est un homard;18;6;4;0
+Lasagnes;C'est un lasagnes;15;5;3;0
+Patisserie;C'est un patisserie;15;5;3;0
+Pomme;C'est un pomme;6;2;1;0
+Asperges;C'est un asperges;9;3;2;0

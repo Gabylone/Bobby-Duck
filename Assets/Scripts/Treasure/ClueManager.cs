@@ -28,6 +28,8 @@ public class ClueManager : MonoBehaviour {
 	public void Init () {
 
 		// randomize clues
+		for (int i = 0; i < clues.Length; ++i )
+			clues[i] = NameGeneration.Instance.randomWord.ToUpper ();
 
 		clueIslands = new int[clues.Length];
 
@@ -99,6 +101,9 @@ public class ClueManager : MonoBehaviour {
 
 	public Vector2 GetNextClueIslandPos {
 		get {
+			if ( clueIndex == clues.Length ) 
+				return new Vector2 ( IslandManager.Instance.TreasureIslandXPos , IslandManager.Instance.TreasureIslandYPos );
+
 			return new Vector2 ( IslandManager.Instance.ClueIslandsXPos[ClueIndex] , IslandManager.Instance.ClueIslandsYPos[ClueIndex] );
 		}
 	}

@@ -6,7 +6,7 @@ public enum ItemCategory {
 	Weapon,
 	Clothes,
 	Shoes,
-	Mics,
+	Misc,
 }
 
 public class ItemLoader : MonoBehaviour {

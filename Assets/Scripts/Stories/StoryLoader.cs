@@ -12,15 +12,14 @@ public class StoryLoader : MonoBehaviour {
 	List<Story> clueStories = new List<Story> ();
 	List<Story> treasureStories = new List<Story> ();
 	List<Story> homeStories = new List<Story> ();
-
-	int[] storyRate;
+	List<int> storyPercents = new List<int> ();
 
 	List<List<string>> content = new List<List<string>>();
 
 	[SerializeField]
 	private string pathToCSVs = "Stories/CSVs";
 	private TextAsset[] storyFiles;
-	private int currentFile = 0;
+	private int currentFile = 1;
 
 	[SerializeField]
 	private Text storyVisualizer;
@@ -30,7 +29,6 @@ public class StoryLoader : MonoBehaviour {
 		Instance = this;
 
 		storyFunction = GetComponent<StoryFunctions> ();
-
 		storyFiles = new TextAsset[Resources.LoadAll ("Stories/CSVs", typeof(TextAsset)).Length];
 
 		int index = 0;
@@ -39,10 +37,8 @@ public class StoryLoader : MonoBehaviour {
 			++index;
 		}
 
-		storyRate = new int[storyFiles.Length];
-
-		for (int i = 0; i < storyFiles.Length; ++i ) {
-			if (currentFile == 0) {
+		for (int i = 1; i < storyFiles.Length; ++i ) {
+			if (currentFile == 1) {
 				LoadFunctions ();
 			} else {
 				LoadStories ();
@@ -69,7 +65,7 @@ public class StoryLoader : MonoBehaviour {
 			{
 				newStory.storyID = currentFile;
 				newStory.name = rowContent [0];
-				storyRate [currentFile] = int.Parse (rowContent [1]);
+				newStory.freq = int.Parse (rowContent [1]);
 
 				foreach (string cellContent in rowContent) {
 					newStory.content.Add (new List<string> ());
@@ -78,7 +74,6 @@ public class StoryLoader : MonoBehaviour {
 			}
 			else
 			{
-
 				foreach (string cellContent in rowContent) {
 
 					newStory.content [collumnIndex].Add (cellContent);
@@ -89,29 +84,27 @@ public class StoryLoader : MonoBehaviour {
 				}
 			}
 
-			collumnIndex 	= 0;
+			collumnIndex = 0;
 
 		}
 
 		if ( newStory.name.Contains ("Indice") ) {
-//			Debug.Log ("indice island");
 			clueStories.Add (newStory);
 			return;
 		}
 
 		if ( newStory.name.Contains ("Trésor") ) {
-//			Debug.Log ("treasure island");
 			treasureStories.Add (newStory);
 			return;
 		}
 
 		if ( newStory.name.Contains ("Maison") ) {
-//			Debug.Log ("maison island");
 			homeStories.Add (newStory);
 			return;
 		}
 
 		stories.Add (newStory);
+		storyPercents.Add (newStory.freq);
 	}
 
 	void LoadFunctions () {
@@ -218,32 +211,8 @@ public class StoryLoader : MonoBehaviour {
 			}
 
 			// set random story
-			int storyIndex = Random.Range (0, StoryLoader.Instance.Stories.Count);
-
-			if ( storyRate[storyIndex] == 0 ) {
-				int i = storyIndex + 1;
-
-				while ( storyRate[i] == 0 ) {
-
-					if (i == storyIndex) {
-						Debug.LogError ("No more story frequency");
-						break;
-					}
-
-					if ( storyRate[i] > 0 ) {
-						storyIndex = i;
-						break;
-					}
-
-					++i;
-
-					if (i == StoryLoader.Instance.stories.Count)
-						i = 0;
-				}
-			}
-
-			storyRate [storyIndex]--;
-
+			int storyIndex = Percentage.getRandomIndex (storyPercents.ToArray());
+			Debug.Log ("index chosen from % : " + storyIndex);
 			return Stories [storyIndex];
 		}
 	}
@@ -253,7 +222,8 @@ public class StoryLoader : MonoBehaviour {
 public class Story {
 
 	public int 		storyID 	= 0;
-	public string 	name 	= "";
+	public string 	name 		= "";
+	public int 		freq 		= 0;
 
 	public List<List<string>> content = new List<List<string>>();
 	public List<List<int>> contentDecal = new List<List<int>>();

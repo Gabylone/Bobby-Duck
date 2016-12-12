@@ -48,8 +48,6 @@ public class NavigationManager : MonoBehaviour {
 		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
 			Crews.playerCrew.CrewMembers[i].AddToStates ();
 		}
-
-		WeatherManager.Instance.UpdateWeather ();
 	}
 	private void MoveDelay () {
 

@@ -87,7 +87,7 @@ public class LootUI : MonoBehaviour {
 
 				itemButton.Name 		= item.name;
 
-				itemButton.Param 		= CategoryContent.itemCategories[currentCat].categories[0] != ItemCategory.Mics ? item.value : 0;
+				itemButton.Param 		= CategoryContent.itemCategories[currentCat].categories[0] != ItemCategory.Misc ? item.value : 0;
 
 				itemButton.Price 		= item.price;
 

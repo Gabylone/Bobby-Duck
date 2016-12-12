@@ -1,8 +1,8 @@
-Nom;Fréquence / 5
-Ile déserte var 1;10
-Narrator : Le bateau accoste sur une petite île. Aucune trace d'autres humains.;
-SetChoices2;
-Choice : On lève l'ancre !;Choice : On va rester ici pour la nuit
-Leave;SetWeatherDay
-;Narrator : Le bateau est sur une petite île. L'air est frais et matinal.
-;GoToA/4
+Nom;Fréquence %;
+Ile déserte var 1;30;
+Narrator : Le bateau accoste sur un îlot minuscule. La plage est totalement déserte.;;
+SetChoices2;;
+Choice : On lève l'ancre !;Choice : On va rester ici pour la nuit;Choice : On va rester ici pour la nuit
+Leave;SetWeatherDay;SetWeatherDay
+;Narrator : Le bateau est sur une petite île. L'air est frais et matinal.;Narrator : Le bateau est sur une petite île. L'air est frais et matinal.
+;GoToA/4;GoToA/4
