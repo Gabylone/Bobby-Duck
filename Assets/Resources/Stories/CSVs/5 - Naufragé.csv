@@ -1,13 +1,13 @@
 Nom;Fréquence %;;;;;;;;
-Naufragé;15;;;;;;;;
+Naufragé;14;;;;;;;;
 Narrator : L'île est immense, mais une gigantesque colonne de fumée tourne au dessus d'elle.;;;;;;;;;
 SetChoices2;;;;;;;;;
 Choice : Repartir;Choice : Accoster sur l'île;;;;;;;;
 PlayerSpeak : On a rien à faire ici !;Fade;;;;;;;;
-Leave;NewCharacter;;;;;;;;
-;Narrator : Un homme barbus est au bord de la plage. Il vous fait des signes.;Narrator : La plage est vide.;;;;;;;
-;PlayerSpeak : Tout va bien ?;GoToA/22;;;;;;;
-;OtherSpeak : 3 ans que je suis coincé ici !;;;;;;;;
+Leave;NewCrew1;;;;;;;;
+;Narrator : Un homme barbus est au bord de la plage. Il vous fait des signes.;Narrator : La plage est vide.;OtherSpeak : Oh non encore vous !;;;;;;
+;PlayerSpeak : Tout va bien ?;GoToA/22;OtherSpeak : Je vous en pris laissez moi en vie;;;;;;
+;OtherSpeak : 3 ans que je suis coincé ici !;;GoToE/16;;;;;;
 ;OtherSpeak : Emmenez moi avec vous, je vous en prie !;;;;;;;;
 ;SetChoices3;;;;;;;;
 ;Choice : Monte !;;;Choice : Donne nous tout ce que tu as ou on te croque la bite.;;;Choice : Désolé mon gars, pas assez de place à bord;;

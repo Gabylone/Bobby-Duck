@@ -43,6 +43,9 @@ public class CardManager : MonoBehaviour {
 	public void UpdateCards () {
 		for (int i = 0; i < 2; ++i)
 			combatCards [i].UpdateMember (CombatManager.Instance.Members[i]);
+
+		for ( int i = 0; i < 2; i++ )
+			combatCards[i].UpdateMember (CombatManager.Instance.Members[i]);
 	}
 	#endregion
 
@@ -51,4 +54,5 @@ public class CardManager : MonoBehaviour {
 			return overingCard;
 		}
 	}
+
 }

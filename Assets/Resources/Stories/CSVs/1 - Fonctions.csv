@@ -8,7 +8,6 @@ CheckFirstVisit;retourne au decal X , ligne Y;;
 RandomPercent;X pourcent de chance;;
 RandomRange;choisit entre X possibilités;;
 NewCrew;crée un équipage aléatoire;;
-NewCharacter;fait apparaître un personnage aléatoire;;
 ShowAll;;;
 HideAll;;;
 ShowPlayer;;;

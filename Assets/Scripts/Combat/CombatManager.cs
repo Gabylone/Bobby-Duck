@@ -51,11 +51,14 @@ public class CombatManager : MonoBehaviour {
 
 	bool choosingMember = false;
 
+	int enemeyCount = 0;
+
 	[Header("Sounds")]
 	[SerializeField] private AudioClip escapeSound;
 	[SerializeField] private AudioClip hitSound;
 	[SerializeField] private AudioClip hurtSound;
 
+	bool fighting = false;
 
 	[SerializeField]
 	private GameObject chooseMemberFeedback;
@@ -78,7 +81,12 @@ public class CombatManager : MonoBehaviour {
 	}
 
 	public void StartCombat () {
+
+		PlayerLoot.Instance.InventoryButton.Locked = true;
+
 		ChangeState (States.CombatStart);
+
+		fighting = true;
 	}
 
 	#region CombatStart
@@ -191,9 +199,17 @@ public class CombatManager : MonoBehaviour {
 	}
 	public void Escape () {
 
+		DialogueManager.Instance.SetDialogue ("Espece de lache !", getMember (Crews.Side.Enemy));
+
 		SoundManager.Instance.PlaySound (escapeSound);
 
 		ChoosingMember = false;
+
+//		ExitFight ();
+//		StoryReader.Instance.SetDecal (3);
+//		StoryReader.Instance.NextCell ();
+//		StoryReader.Instance.Wait (0.5f);
+
 		ExitFight ();
 		IslandManager.Instance.Leave ();
 
@@ -252,6 +268,9 @@ public class CombatManager : MonoBehaviour {
 		if ( AttackingCrew == Crews.Side.Player )
 		{
 			DiceManager.Instance.ShowFeedbackDice ();
+
+			PlayerLoot.Instance.InventoryButton.Locked = false;
+
 		}
 		else
 		{
@@ -331,9 +350,11 @@ public class CombatManager : MonoBehaviour {
 
 				DialogueManager.Instance.SetDialogue ("Aïe !", getMember (DefendingCrew));
 
-				float damage = Random.Range (attack, attack * 1.5f);
+//				float damage = Random.Range (attack, attack * 1.5f);
 
-				getMember(DefendingCrew).GetHit (Mathf.CeilToInt(damage));
+//				getMember(DefendingCrew).GetHit (Mathf.CeilToInt(attack));
+				getMember(DefendingCrew).GetHit (attack);
+
 //				getMember (AttackingCrew).Info.DisplayInfo ("SUCESS","!",Color.magenta);
 
 				if (getMember(DefendingCrew).Health == 0) {
@@ -349,7 +370,7 @@ public class CombatManager : MonoBehaviour {
 
 				DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", getMember (DefendingCrew));
 
-				float criticalDamage = Random.Range (attack, attack * 1.5f) * 1.5f;
+				float criticalDamage = attack * 1.5f;
 
 				getMember (DefendingCrew).GetHit (Mathf.CeilToInt(criticalDamage));
 				getMember (AttackingCrew).Info.DisplayInfo ("CRITICAL","!",Color.magenta);
@@ -422,7 +443,7 @@ public class CombatManager : MonoBehaviour {
 
 			if (getMember (targetCrew).Health == 0) {
 				getMember (targetCrew).Kill ();
-				getMember (AttackingCrew).AddXP (getMember (targetCrew).Level);
+				getMember (AttackingCrew).AddXP (getMember (targetCrew).Level * 10);
 
 				if (Crews.getCrew (targetCrew).CrewMembers.Count == 0) {
 					WinFight ();
@@ -445,10 +466,18 @@ public class CombatManager : MonoBehaviour {
 		CardManager.Instance.HideFightingCard (Crews.Side.Enemy);
 		CardManager.Instance.HideFightingCard (Crews.Side.Player);
 
+		fighting = false;
+
 		Crews.enemyCrew.Hide ();
-		updateState = null;
+		updateState = null;;
 	}
 	private void WinFight () {
+
+		int po = Crews.enemyCrew.ManagedCrew.Value * (int)Random.Range ( 10 , 15 );
+		string phrase = "Il avait " + po + " pièces d'or";
+
+		GoldManager.Instance.AddGold (po);
+
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(ItemLoader.allCategories));
 		OtherLoot.Instance.StartLooting ();
 		ExitFight ();
@@ -603,4 +632,11 @@ public class CombatManager : MonoBehaviour {
 		}
 	}
 	#endregion
+
+
+	public bool Fighting {
+		get {
+			return fighting;
+		}
+	}
 }

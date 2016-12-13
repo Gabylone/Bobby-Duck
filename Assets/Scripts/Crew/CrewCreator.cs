@@ -31,7 +31,8 @@ public class CrewCreator : MonoBehaviour {
 
 
 	private string[] names = new string[51] {
-		"Jean", "Eric", "Nathan", "Jacques", "Benoit", "Jeremy", "Flo", "Bertrand", "Vladimir", "Dimitri", "Jean-Jacques", "Gérard", "Nestor", "Etienne", "Leon", "Henry", "David", "Esteban", "Louis", "Carles", "Victor", "Michel", "Gabriel", "Pierre", "André", "Fred", "Cassius", "César", "Paul", "Martin", "Claude", "Levis", "Alex", "Olivier", "Mustafa", "Nicolas", "Chris", "Oleg", "Emile", "Richard", "Romulus", "Rufus", "Stan", "Charles", "Quincy", "Antoine", "Virgile", "Boromir", "Archibald", "Eddy", "Kenneth"};
+		"Jean", "Eric", "Nathan", "Jacques", "Benoit", "Jeremy", "Flo", "Bertrand", "Vladimir", "Dimitri", "Jean-Jacques", "Gérard", "Nestor", "Etienne", "Leon", "Henry", "David", "Esteban", "Louis", "Carles", "Victor", "Michel", "Gabriel", "Pierre", "André", "Fred", "Cassius", "César", "Paul", "Martin", "Claude", "Levis", "Alex", "Olivier", "Mustafa", "Nicolas", "Chris", "Oleg", "Emile", "Richard", "Romulus", "Rufus", "Stan", "Charles", "Quincy", "Antoine", "Virgile", "Boromir", "Archibald", "Eddy", "Kenneth"
+	};
 
 	[SerializeField]
 	private int startHealth = 10;
@@ -271,6 +272,12 @@ public class MemberID {
 
 public class Crew {
 
+	public bool hostile = false;
+
+	public int InitCount = 0;
+
+	public int Value = 0;
+
 	public int row = 0;
 	public int col = 0;
 
@@ -281,9 +288,16 @@ public class Crew {
 		row = r;
 		col = c;
 
+		InitCount = amount;
+
+
 		amount = Mathf.Clamp ( amount , 1, amount );
 		for (int i = 0; i < amount; ++i)
 			memberIDs.Add (new MemberID ());
+
+		foreach (MemberID mID in MemberIDs)
+			Value += mID.lvl;
+
 	}
 
 	public void Add ( MemberID id ) {

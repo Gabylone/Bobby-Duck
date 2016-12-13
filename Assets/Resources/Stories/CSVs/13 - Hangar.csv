@@ -1,0 +1,20 @@
+Nom;Fréquence %;;;;;
+Hangar;0;;;;;
+Narrator : Le bateau est accosté sur une minuscule île, la plage est jonchée de bateau de toute taille, certains sont mêmes des carcasses. Il y a une vielle cabane au bout d'un petit chemin.;;;;;;
+SetChoices2;;;;;;
+Choice : Repartir;Choice : Vers la cabane;;;;;
+OtherSpeak : On s'en va !;Fade;;;;;
+Leave;NewCrew1;;;;;
+;OtherSpeak : Bonjour !;;;;;
+;SetChoice4;;;;;
+;Choice : Qu'est-ce que vous vendez ?;Choice : Occupez vous de mon bateau !;Choice : Bobby Dick ?;;Choice : ( attaquer );
+;;OtherSpeak : Avec plaisir !;RandomPercent40;;RandomPercent50;
+;;BoatUpgrades;OtherSpeak : Encore un…;OtherSpeak : Non ça me dis rien !;OtherSpeak : Non, non.;
+;;;GiveDirection;GoToB/9;OtherSpeak : Prenez ça, laissez moi, svp.;
+;;;GoToB/9;;LootMisc/Food;
+;;;;;OtherSpeak : Je n'ai rien d'autre…;
+;;;;;SetChoice2;
+;;;;;Choice : Merci beaucoup.;Choice : Tout de même, je te crotte.
+;;;;;GoToB/9;LaunchCombat
+(mort);;;;;;
+Narrator : ;;;;;;

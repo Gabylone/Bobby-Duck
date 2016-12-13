@@ -20,7 +20,7 @@ public class CrewMember {
 
 	private int health = 0;
 	private int xp = 0;
-	private int stepToNextLevel = 10;
+	private int stepToNextLevel = 100;
 
 	private int daysOnBoard = 0;
 
@@ -34,7 +34,7 @@ public class CrewMember {
 	private int stepsToCold = 4;
 
 	private int currentHunger = 0;
-	private int stepsToHunger = 4;
+	private int stepsToHunger = 1;
 
 	private int maxState = 100;
 
@@ -60,12 +60,11 @@ public class CrewMember {
 
 	#region health
 	public void GetHit (int damage) {
+		float damageTaken = ( ((float)damage) / ((float)ConstitutionDice) );
+		damageTaken *= 10;
 
-		float consti = Random.Range (ConstitutionDice, ConstitutionDice + 1.5f);
-		float damageTaken = (damage/ConstitutionDice)*10;
-
-		damageTaken = Mathf.Clamp ( damageTaken , Random.Range (1 , 3) , 100 );
 		damageTaken = Mathf.CeilToInt (damageTaken);
+		damageTaken = Mathf.Clamp ( damageTaken , 1 , 100 );
 
 		string smallText = damage + " / " + ConstitutionDice;
 		string bigText = damageTaken.ToString ();
@@ -116,6 +115,8 @@ public class CrewMember {
 	#region states
 	public void AddToStates () {
 
+		AddXP (1);
+
 		CurrentHunger += StepsToHunger;
 
 		if ( CurrentHunger >= maxState ) {
@@ -130,9 +131,6 @@ public class CrewMember {
 				return;
 			}
 		}
-
-//		if ( MapManager.Instance.PosY > 0 )
-//			CurrentCold += StepsToCold;
 
 		if ( CurrentCold >= maxState ) {
 			Health -= StepsToCold;

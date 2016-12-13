@@ -41,6 +41,8 @@ public class StoryFunctions : MonoBehaviour {
 		float chance = float.Parse ( cellParams );
 		int randomDecal = Random.value * 100f < chance ? 0 : 1;
 
+		Debug.Log ("random chance : " + randomDecal);
+
 		StoryReader.Instance.NextCell ();
 
 		int decal = StoryLoader.Instance.SaveDecal > -1 ? StoryLoader.Instance.SaveDecal : randomDecal;
@@ -90,23 +92,6 @@ public class StoryFunctions : MonoBehaviour {
 		return tmp;
 	}
 
-	void NewCharacter() {
-
-		StoryReader.Instance.NextCell ();
-
-		Crew islandCrew = GetCrew (1);
-
-		if (islandCrew.MemberIDs.Count == 0) {
-			StoryReader.Instance.SetDecal (1);
-		} else {
-			Crews.enemyCrew.setCrew (islandCrew);
-			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-		}
-
-		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.MoveDuration);
-
-	}
-
 	void NewCrew () {
 
 		StoryReader.Instance.NextCell ();
@@ -123,15 +108,26 @@ public class StoryFunctions : MonoBehaviour {
 		Crew islandCrew = GetCrew (amount);
 
 		if (islandCrew.MemberIDs.Count == 0) {
+			
 			StoryReader.Instance.SetDecal (1);
+
 		} else {
+
 			Crews.enemyCrew.setCrew (islandCrew);
-			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+
+			if (islandCrew.hostile) {
+				DialogueManager.Instance.SetDialogue ("Le revoilà !", Crews.enemyCrew.captain);
+				StoryReader.Instance.SetDecal (2);
+			} else {
+				Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+			}
+
 		}
 
 		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.MoveDuration);
 
 	}
+
 	void AddMember () {
 
 		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.MemberCapacity) {
@@ -324,6 +320,7 @@ public class StoryFunctions : MonoBehaviour {
 
 	#region end
 	void LaunchCombat () {
+		Crews.enemyCrew.ManagedCrew.hostile = true;
 		CombatManager.Instance.StartCombat ();
 	}
 	void Leave () {
@@ -399,7 +396,6 @@ public class StoryFunctions : MonoBehaviour {
 				categories [index] = ItemCategory.Shoes;
 				break;
 			case "Misc":
-				Debug.Log ("!!! je suis donc bien passé par là");
 				categories [index] = ItemCategory.Misc;
 				break;
 			}
@@ -594,3 +590,18 @@ public class StoryFunctions : MonoBehaviour {
 		}
 	}
 }
+
+//
+//
+//STORIES :
+//- rajouter hangar
+//- rajouter forêt
+//- rajouter juste indice
+//
+//- petite casino
+//- petite grotte argent.
+//- petite ferme randol loot
+//
+//- bandits seulement nuit
+//
+//- librairie qui parle de bobdy

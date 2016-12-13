@@ -9,6 +9,9 @@ public class PlayerLoot : MonoBehaviour {
 	private int selectedMember = 0;
 
 	[SerializeField]
+	private UIButton inventoryButton;
+
+	[SerializeField]
 	private CategoryContent inventoryCategoryContent;
 	[SerializeField]
 	private CategoryContent tradeCategoryContent;
@@ -77,6 +80,18 @@ public class PlayerLoot : MonoBehaviour {
 
 			targetMember.Health += lootUI.SelectedItem.value;
 			targetMember.CurrentHunger -= (lootUI.SelectedItem.value * 3);
+
+			if (CombatManager.Instance.Fighting) {
+
+				inventoryButton.Opened = false;
+
+				Close ();
+
+				CombatManager.Instance.ChangeState (CombatManager.States.StartTurn);
+				CardManager.Instance.UpdateCards ();
+
+			}
+			
 
 			UpdateMembers ();
 			break;
@@ -205,6 +220,7 @@ public class PlayerLoot : MonoBehaviour {
 			if (i == SelectedMemberIndex)
 				decal += 100;
 		}
+
 	}
 	#endregion
 
@@ -238,6 +254,12 @@ public class PlayerLoot : MonoBehaviour {
 	public CategoryContent TradeCategoryContent {
 		get {
 			return tradeCategoryContent;
+		}
+	}
+
+	public UIButton InventoryButton {
+		get {
+			return inventoryButton;
 		}
 	}
 }
