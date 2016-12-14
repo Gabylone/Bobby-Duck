@@ -238,7 +238,7 @@ public class MemberID {
 		nameID 			= Random.Range (0, CrewCreator.Instance.Names.Length);
 
 		if (Crews.playerCrew.CrewMembers.Count > 0)
-			lvl = Random.Range ( Crews.playerCrew.captain.Level -1 , Crews.playerCrew.captain.Level + 1 );
+			lvl = Random.Range ( Crews.playerCrew.captain.Level -1 , Crews.playerCrew.captain.Level + 2 );
 		else
 			lvl = 1;
 

@@ -15,6 +15,18 @@ public class StoryFunctions : MonoBehaviour {
 
 	public void Read ( string content ) {
 
+		if (content.Length == 0) {
+			Debug.LogError ("cell is empty");
+			Leave ();
+			return;
+		}
+
+		if ( content[0] == '[' ) {
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.UpdateStory ();
+			return;
+		}
+
 		foreach ( string functionName in functionNames ) {
 
 			if ( content.Contains (functionName) ){
@@ -39,9 +51,13 @@ public class StoryFunctions : MonoBehaviour {
 	void RandomPercent () {
 
 		float chance = float.Parse ( cellParams );
-		int randomDecal = Random.value * 100f < chance ? 0 : 1;
 
-		Debug.Log ("random chance : " + randomDecal);
+		float value = Random.value * 100;
+
+		Debug.Log ("random chance : " + chance);
+		Debug.Log ("random value :  " + value);
+
+		int randomDecal = value < chance ? 0 : 1;
 
 		StoryReader.Instance.NextCell ();
 
@@ -447,6 +463,21 @@ public class StoryFunctions : MonoBehaviour {
 
 	}
 
+	void Mark () {
+
+		string markName = cellParams.Remove (0, 2);
+
+		Story.Mark mark = StoryReader.Instance.CurrentStory.marks.Find ( x => x.name == markName);
+
+		StoryReader.Instance.Decal = mark.x;
+		StoryReader.Instance.Index = mark.y;
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+
+
+	}
+
 	void CheckFirstVisit () {
 
 		StoryReader.Instance.NextCell ();
@@ -538,7 +569,8 @@ public class StoryFunctions : MonoBehaviour {
 		string directionPhrase = NavigationManager.Instance.getDirName (dir);
 
 		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
-			DialogueManager.Instance.ShowNarrator (directionPhrase);
+			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.playerCrew.captain);
+//			DialogueManager.Instance.ShowNarrator (directionPhrase);
 		} else {
 			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.enemyCrew.captain);
@@ -591,10 +623,9 @@ public class StoryFunctions : MonoBehaviour {
 	}
 }
 
-//
-//
+
+
 //STORIES :
-//- rajouter hangar
 //- rajouter forêt
 //- rajouter juste indice
 //

@@ -1,20 +1,33 @@
-Nom;Fréquence %;;;;;
-Hangar;0;;;;;
-Narrator : Le bateau est accosté sur une minuscule île, la plage est jonchée de bateau de toute taille, certains sont mêmes des carcasses. Il y a une vielle cabane au bout d'un petit chemin.;;;;;;
-SetChoices2;;;;;;
-Choice : Repartir;Choice : Vers la cabane;;;;;
-OtherSpeak : On s'en va !;Fade;;;;;
-Leave;NewCrew1;;;;;
-;OtherSpeak : Bonjour !;;;;;
-;SetChoice4;;;;;
-;Choice : Qu'est-ce que vous vendez ?;Choice : Occupez vous de mon bateau !;Choice : Bobby Dick ?;;Choice : ( attaquer );
-;;OtherSpeak : Avec plaisir !;RandomPercent40;;RandomPercent50;
-;;BoatUpgrades;OtherSpeak : Encore un…;OtherSpeak : Non ça me dis rien !;OtherSpeak : Non, non.;
-;;;GiveDirection;GoToB/9;OtherSpeak : Prenez ça, laissez moi, svp.;
-;;;GoToB/9;;LootMisc/Food;
-;;;;;OtherSpeak : Je n'ai rien d'autre…;
-;;;;;SetChoice2;
-;;;;;Choice : Merci beaucoup.;Choice : Tout de même, je te crotte.
-;;;;;GoToB/9;LaunchCombat
-(mort);;;;;;
-Narrator : ;;;;;;
+Nom;Fréquence %;;;;;;;;;;
+Hangar;0;;;;;;;;;;
+Narrator : Le bateau est accosté sur une minuscule île, la plage est jonchée de bateau de toute taille, certains sont mêmes des carcasses. Il y a une vielle cabane au bout d'un petit chemin.;;;;;;;;;;;
+[debut];;;;;;;;;;;
+SetChoices2;;;;;;;;;;;
+Choice : Repartir;Choice : Vers la cabane;;;;;;;;;;
+PlayerSpeak : On s'en va !;Fade;;;;;;;;;;
+Leave;NewCrew1;;;;;;;;;;
+;OtherSpeak : Bonjour !;;;;;;;Mark=>Charpentier Mort;Mark=>Combat Charpentier;;
+;[conversation];;;;;;;;;;
+;SetChoices4;;;;;;;;;;
+;Choice : Qu'est-ce que vous vendez ?;Choice : Occupez vous de mon bateau !;Choice : Bobby Dick ?;;Choice : ( attaquer );;;;;;
+;OtherSpeak : Je fais des merveilles avec les bateaux;OtherSpeak : Avec plaisir !;RandomPercent40;;RandomPercent50;;;;;;
+;Mark=>conversation;BoatUpgrades;OtherSpeak : Encore un…;OtherSpeak : Non ça me dis rien !;OtherSpeak : Non, non.;;[Combat Charpentier];;;;
+;;Mark=>conversation;GiveDirection;Mark=>conversation;OtherSpeak : Prenez ça, laissez moi, svp.;;OtherSpeak : Enculé de pirate !;;;;
+;;;Mark=>conversation;;LootMisc/Food;;LaunchCombat;;;;
+;;;;;OtherSpeak : Je n'ai rien d'autre…;;Mark=>Charpentier Mort;;;;
+;;;;;SetChoices2;;;;;;
+;;;;;Choice : Merci beaucoup.;Choice : Tout de même, je te crotte.;;;;;
+;;;;;Mark=>conversation;OtherSpeak : Très bien…;;;;;
+[Charpentier Mort];;;;;;LaunchCombat;;;;;
+Narrator : Le charpentier est mort sur son seuil. La porte de sa cabane est grande ouverte.;;;;;;Mark=>Charpentier Mort;;;;;
+SetChoices2;;;;;;;;;;;
+Choice : Repartir;Choice : Rentrer dans la cabane;;;;;;;;;;
+Leave;Fade;;;;;;;;;;
+;RandomPercent29;;;;;;;;;;
+;OtherSpeak : Totalement vide !;;[Fouiller Maison];;;;;;;;
+;OtherSpeak : Juste de la paille pour dormir…;;RandomRange3;;;;;;;;
+;[Cabane Vide];;Narrator : Il y a un petit peu de paille pour dormir, et un petit garde manger près de la port.;;;Narrator : Il y a un petit peu de paille pour dormir, et un râtelier d'arme.;;;Narrator : Il y a un petit peu de paille pour dormir, et un petit coffre rempli de tout et de rien.;;
+;SetChoices2;;SetChoices2;;;SetChoices2;;;SetChoices2;;
+;Choice : Dormir;Choice : Sortir;Choice : Dormir;Choice : Sortir;Choice : Fouiller;Choice : Dormir;Choice : Sortir;Choice : Fouiller;Choice : Dormir;Choice : Sortir;Choice : Fouiller
+;SetWeatherDay;Fade;SetWeatherDay;Fade;LootMisc/Food;SetWeatherDay;Fade;LootWeapons;SetWeatherDay;Fade;LootMisc
+;Mark=>Cabane Vide;Mark=>Charpentier Mort;Mark=>Fouiller Maison;Mark=>Charpentier Mort;Mark=>Fouiller Maison;Mark=>Fouiller Maison;Mark=>Charpentier Mort;Mark=>Fouiller Maison;Mark=>Fouiller Maison;Mark=>Charpentier Mort;Mark=>Fouiller Maison
