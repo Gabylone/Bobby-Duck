@@ -198,8 +198,6 @@ public class CrewCreator : MonoBehaviour {
 	}
 }
 
-
-
 public class MemberID {
 
 		// name
@@ -253,9 +251,9 @@ public class MemberID {
 		// il a 35% de chance d'être noir
 		bodyColorID = Random.value < 0.35f ? 0 : 1;
 
-		hairColorID 	= Random.Range ( 0 , CrewCreator.Instance.HairColors.Length );
-		hairSpriteID 	= Random.Range (-1 , CrewCreator.Instance.HairSprites.Length	);
-		beardSpriteID 	= Random.Range (-1 , CrewCreator.Instance.BeardSprites.Length	);
+		hairColorID 	= Random.Range ( 0 , CrewCreator.Instance.HairColors.Length  );
+		hairSpriteID 	= Random.Range (-1 , CrewCreator.Instance.HairSprites.Length );
+		beardSpriteID 	= Random.Range (-1 , CrewCreator.Instance.BeardSprites.Length);
 
 		clothSpriteID 	= Random.Range ( 0 , CrewCreator.Instance.ClothesSprites.Length	);
 		clothColor 		= Random.ColorHSV();

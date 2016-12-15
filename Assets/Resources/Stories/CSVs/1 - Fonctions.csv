@@ -5,6 +5,8 @@ SwitchStory;SwitchStoryNomDeLHistoire/A/1 ( fallback coords );;
 GoTo;retourne au decal X , ligne Y;;
 Fade;Fade;;
 CheckFirstVisit;retourne au decal X , ligne Y;;
+RandomRedoPercent;;;
+RandomRedoRange;;;
 RandomPercent;X pourcent de chance;;
 RandomRange;choisit entre X possibilités;;
 NewCrew;crée un équipage aléatoire;;

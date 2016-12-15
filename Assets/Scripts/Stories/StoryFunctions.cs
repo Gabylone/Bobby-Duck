@@ -54,9 +54,6 @@ public class StoryFunctions : MonoBehaviour {
 
 		float value = Random.value * 100;
 
-		Debug.Log ("random chance : " + chance);
-		Debug.Log ("random value :  " + value);
-
 		int randomDecal = value < chance ? 0 : 1;
 
 		StoryReader.Instance.NextCell ();
@@ -80,6 +77,33 @@ public class StoryFunctions : MonoBehaviour {
 		StoryLoader.Instance.SaveDecal = decal;
 
 		StoryReader.Instance.SetDecal (decal);
+
+		StoryReader.Instance.UpdateStory ();
+
+
+	}
+	void RandomRedoPercent () {
+
+		float chance = float.Parse ( cellParams );
+
+		float value = Random.value * 100;
+
+		int decal = value < chance ? 0 : 1;
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.SetDecal (decal);
+
+		StoryReader.Instance.UpdateStory ();
+
+	}
+	void RandomRedoRange () {
+
+		int range = int.Parse (cellParams);
+		int randomDecal = Random.Range (0, range);
+
+		StoryReader.Instance.NextCell ();
+
+		StoryReader.Instance.SetDecal (randomDecal);
 
 		StoryReader.Instance.UpdateStory ();
 
@@ -394,33 +418,44 @@ public class StoryFunctions : MonoBehaviour {
 
 		foreach ( string cellPart in cellParts ) {
 
-			switch (cellPart) {
-
-			case "All":
-				categories = ItemLoader.allCategories;
-				break;
-			case "Food":
-				categories [index] = ItemCategory.Provisions;
-				break;
-			case "Weapons":
-				categories [index] = ItemCategory.Weapon;
-				break;
-			case "Clothes":
-				categories [index] = ItemCategory.Clothes;
-				break;
-			case "Shoes":
-				categories [index] = ItemCategory.Shoes;
-				break;
-			case "Misc":
-				categories [index] = ItemCategory.Misc;
-				break;
-			}
+			categories [index] = getLootCategoryFromString(cellPart);
 
 			++index;
 		}
 
 		return categories;
 	}
+
+	public ItemCategory getLootCategoryFromString ( string arg ) {
+
+		switch (arg) {
+
+		case "All":
+			return ItemLoader.allCategories;
+			break;
+		case "Food":
+			return ItemCategory.Provisions;
+			break;
+		case "Weapons":
+			return ItemCategory.Weapon;
+			break;
+		case "Clothes":
+			return ItemCategory.Clothes;
+			break;
+		case "Shoes":
+			return ItemCategory.Shoes;
+			break;
+		case "Misc":
+			return ItemCategory.Misc;
+			break;
+		}
+
+		Debug.LogError ("getLootCategoryFromString : couldn't find category in : " + arg)
+
+		return ItemCategory.Misc;
+
+	}
+
 	void RemoveFromInventory () {
 		Debug.Log ("remove something from inventory");
 
@@ -428,7 +463,16 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.Wait (0.5f);
 	}
 	void AddToInventory () {
-		Debug.Log ("add something from inventory");
+
+		string itemName = cellParams.Split ('<')[1];
+
+		Debug.Log ("Found name : " + itemName);
+
+		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/'));
+
+		Item item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
+
+		Debug.Log ( "try to add ; " + item.name + " to inventory" );
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (0.5f);
@@ -624,12 +668,10 @@ public class StoryFunctions : MonoBehaviour {
 }
 
 
-
 //STORIES :
 //- rajouter forêt
 //- rajouter juste indice
 //
-//- petite casino
 //- petite grotte argent.
 //- petite ferme randol loot
 //

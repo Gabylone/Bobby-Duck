@@ -1,0 +1,46 @@
+Nom histoire;Fréquence %;;;;;;;;;;
+Ferme;0;;;;;;;;;;
+Narrator : La plage directement sur une terre verte et humide. Derrière des champs de tournesols se tient une petite ferme.;;;;;;;;;;;
+[debut];;;;;;;;;;;
+SetChoices3;;;;;;;;;;;
+Choice : Lever l'ancre;Choice : Vers la ferme;;;;;;;;;;
+PlayerSpeak : On s'en va !;Fade;;;;;;;;;;
+Leave;[choix ferme];;;;;;;;;;
+;RandomRange2;;;;;;;;;;
+;Mark=>ferme détruite;Mark=>ferme normale;;;;;;;;;
+;;;;;;;;;;;
+[ferme détruite];;;;;;;;[ferme normale];;;
+Narrator : La ferme n'est plus qu'un amât de poutre carbonisée et de cendre. L'air sent encore la fumée. Au seuil de la porte, un tas de papier brûlé. Un petit chemin parsemé de traces de pas mène sur une autre plage.;;;;;;;;Narrator : C'est une petite ferme, entourée de champs. Une jeune fille ramasse des graines de tournesol près de la porte. Un chemin mène vers la plage, un autre vers derrière la maison.;;;
+SetChoices4;;;;;;;;SetChoices3;;;
+Choice : ( fouiller les restes );;Choice : ( regarder les papiers );;Choice : ( retourner au bateau );Choice : ( suivre traces de pas );;;Choice : ( aller voir jeune fille );Choice : ( retourner plage );Choice : ( suivre chemin );
+RandomPercent50;;RandomPercent30;;Fade;Fade;;;Mark=>rencontre fermière;Mark=>début;Mark=>plage2;
+PlayerSpeak : Des babioles…;PlayerSpeak : Rien à sauver.;PlayerSpeak : Tiens tiens ! ça parle de Bobby…;PlayerSpeak : Le peu lisible n'est que factures et recettes de cuisines.;Mark=>début;Mark=>plage2;;;;;;
+LootMisc;Mark=>ferme détruite;PlayerSpeak : Quelqu'un sait quelques chose.;Mark=>ferme détruite;;;;;;;;
+Mark=>ferme détruite;;GilveDirectionToClue;;;;;;;;;
+;;Mark=>ferme détruite;;;;;;;;;
+;;;;;;;;;;;
+;;;;;;;;[rencontre fermière];;;
+[plage2];;;;;;;;NewCrew;;;
+RandomPercent50;;;;;;;;OtherSpeak : Bonjour !;Mark=>fermière morte;Mark=>combat fermière;
+Narrator : La plage est vide. Seule la voile d'un bateau, pirate il semble, se déssine à l'horizon. Il partent…;;NewCrew;;;;;;[discussion fermière];;;
+GiveDirectionToClue;;Narrator : Un groupe de pirates ! Ils s'appretent à monter dans leur petit bateau.;Mark=>pirates morts;Mark=>combat pirate;;;;SetChoices4;;;
+SetChoices2;;OtherSpeak : Vous n'aurez jamais le trésor avant nous !;;;;;;Choice : Quelque chose à vendre ?;Choice : ( retourner ferme );Choice : Bobby dick ?;Choice : ( retourner au bateau )
+Choice : Revenir à la ferme.;Choice : Fouiller la plage.;[discussion pirates];;;;;;RandomPercent20;Mark=>ferme normale;RandomPercent40;Mark=>début
+Fade;RandomPercent25;SetChoices3;;;;;;OtherSpeak : Je n'en ai que assez pour ma famille ! Désolé.;;OtherSpeak : Je vois des mats passer par là.;
+Mark=>ferme détruite;OtherSpeak : Oh !;Choice : Je ne cherche pas d'ennuis !;;Choice : Je vais t'encrouter !;Choice : Où est le trésor !?;;;SetChoices2;;OtherSpeak : Ils doivent chercher ce dont vous parlez.;
+;OtherSpeak : Un petit crabe..;RandomPercent40;;Mark=>combat pirate;RandomPercent40;;;Choice : Ce n'est rien.;Choice : ( attaquer );OtherSpeak : Ils partent…;
+;AddToInventory<Crabe>/Food;OtherSpeak : Alors tournez les talonts !;OtherSpeak : Vous venez d'en trouver !;;GiveDirectionToClue;OtherSpeak : Si vous croyez qu'on va vous dire !!;;Mark=>discussion fermière;[combat fermière];GiveDirectionToClue;
+;Mark=>plage2;Fade;[combat pirates];;OtherSpeak : Mais vous ne le trouverez jamais.;Mark=>discussion pirates;;;OtherSpeak : Dieu tout puissant !;Mark=>discussion fermière;
+;;Mark=>choix ferme;LaunchCombat;;OtherSpeak : Vous n'avez pas la carrure.;;;;LaunchCombat;;
+;;;Fade;;Mark=>discussion pirates;;;;[fermière morte];;
+[pirates morts];;;Mark=>pirates morts;;;;;;Narrator : Le cadavre de la fermière est étalé au beau milieu des plantes dont elle s'occupait. La porte de la maison est grande ouverte. Un chemin mène vers la plage, un autre s'aventure derrière la maison.;;
+Narrator : Les cadavres des pirates sont étalés sur la plage. Leur bateau est toujours accosté.;;;;;;;;;SetChoices3;;
+SetChoices3;;;;;;;;;Choice : Retourner sur la plage.;Choice : ( fouiller maison );Choice : ( suivre chemin )
+Choice : Retourner à la ferme;Choice : Fouiller le bateau.;;;Choice : Prendre leur bateau.;;;;;Fade;Mark=>maison;Mark=>plage2
+Fade;RandomPercent50;;;PlayerSpeak : il est minuscule et inutilisable !;;;;;Mark=>début;;
+Mark=>choix ferme;RandomPercent40;;PlayerSpeak : Il est totalement vide;Mark=>pirates morts;;;;;;;
+;PlayerSpeak : Leur garde manger est bien fourni;PlayerSpeak : Des armes et des babioles.;Mark=>pirates morts;;;;;;[maison];;
+;LootFood;LootWeapons/Misc;;;;;;;Fade;;
+;Mark=>pirates morts;Mark=>pirates morts;;;;;;;Narrator : La maison est totalement vide.;;
+;;;;;;;;;Fade;;
+;;;;;;;;;Mark=>fermière morte;;
