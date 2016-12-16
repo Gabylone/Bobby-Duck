@@ -259,7 +259,7 @@ public class CombatManager : MonoBehaviour {
 	private void StartTurn_Start () {
 
 		if (firstTurn) {
-			AttackingCrew = getMember (Crews.Side.Player).SpeedDice >= getMember (Crews.Side.Enemy).SpeedDice ? Crews.Side.Player : Crews.Side.Enemy;
+			AttackingCrew = getMember (Crews.Side.Player).Dexterity >= getMember (Crews.Side.Enemy).Dexterity ? Crews.Side.Player : Crews.Side.Enemy;
 			firstTurn = false;
 		} else {
 			AttackingCrew = AttackingCrew == Crews.Side.Player ? Crews.Side.Enemy : Crews.Side.Player;
@@ -303,8 +303,7 @@ public class CombatManager : MonoBehaviour {
 
 		DiceManager.Instance.ThrowDirection = AttackingCrew == Crews.Side.Player ? 1 : -1;
 
-		DiceManager.Instance.ThrowDice (currentDiceType,getMember(AttackingCrew).getDiceValues[(int)currentDiceType+1]);
-
+		DiceManager.Instance.ThrowDice (currentDiceType,getMember(AttackingCrew).Attack);
 
 		// animation
 		getMember(AttackingCrew).Icon.Animator.SetTrigger ("Attack");
@@ -324,12 +323,12 @@ public class CombatManager : MonoBehaviour {
 
 			// success //
 
-		int attack = getMember (attackingCrew).AttackDice;
+		int attack = getMember (attackingCrew).Attack;
 
 		switch ( currentDiceType ) {
 		case DiceTypes.Attack :
 
-			switch ( DiceManager.Instance.CurrentThrow.Result (getMember(DefendingCrew).ConstitutionDice) ) {
+			switch ( DiceManager.Instance.CurrentThrow.Result (getMember(DefendingCrew).Defense) ) {
 
 			case Throw.Results.CritFailure:
 
@@ -385,7 +384,7 @@ public class CombatManager : MonoBehaviour {
 			break;
 		case DiceTypes.Speed :
 
-			switch ( DiceManager.Instance.CurrentThrow.Result (getMember(DefendingCrew).SpeedDice) ) {
+			switch ( DiceManager.Instance.CurrentThrow.Result (getMember(DefendingCrew).Dexterity) ) {
 				
 			case Throw.Results.CritFailure:
 				

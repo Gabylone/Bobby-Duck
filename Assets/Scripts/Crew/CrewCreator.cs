@@ -78,7 +78,6 @@ public class CrewCreator : MonoBehaviour {
 
 	public CrewMember NewMember (MemberID memberID) {
 
-
 		CrewMember crewMember = new CrewMember (
 
 			memberID,
@@ -209,9 +208,10 @@ public class MemberID {
 	public int maxHP 	= 0;
 
 		// stats
-	public int attack 	= 0;
-	public int constitution = 0;
-	public int speed = 0;
+	public int str = 0;
+	public int dex = 0;
+	public int cha = 0;
+	public int con = 0;
 
 		// icon index
 	public int bodyColorID = 0;
@@ -243,9 +243,10 @@ public class MemberID {
 
 		maxHP 			= CrewCreator.Instance.StartHealth;
 
-		attack 			= lvl;
-		constitution 	= lvl;
-		speed 			= lvl;
+		str = lvl;
+     	dex = lvl;
+     	cha = lvl;
+		con = lvl;
 
 		// il a 35% de chance d'être noir
 		bodyColorID 	= Random.value < 0.35f ? 0 : 1;
@@ -261,7 +262,7 @@ public class MemberID {
 
 		weaponID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Weapon, lvl);
 		clothesID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Clothes, lvl);
-		shoesID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Shoes, lvl);
+//		shoesID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Shoes, lvl);
 
 	}
 

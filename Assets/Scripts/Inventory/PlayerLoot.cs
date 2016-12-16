@@ -97,7 +97,7 @@ public class PlayerLoot : MonoBehaviour {
 			break;
 		case ItemCategory.Weapon:
 		case ItemCategory.Clothes:
-		case ItemCategory.Shoes:
+//		case ItemCategory.Shoes:
 
 			if (!targetMember.CheckLevel (lootUI.SelectedItem.level))
 				return;
@@ -110,9 +110,9 @@ public class PlayerLoot : MonoBehaviour {
 			case ItemCategory.Clothes:
 				part = CrewMember.EquipmentPart.Clothes;
 				break;
-			case ItemCategory.Shoes:
-				part = CrewMember.EquipmentPart.Shoes;
-				break;
+//			case ItemCategory.Shoes:
+//				part = CrewMember.EquipmentPart.Shoes;
+//				break;
 			}
 
 			if (targetMember.GetEquipment(part) != null)

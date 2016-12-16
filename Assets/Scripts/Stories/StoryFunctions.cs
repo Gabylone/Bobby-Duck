@@ -438,9 +438,9 @@ public class StoryFunctions : MonoBehaviour {
 		case "Clothes":
 			return ItemCategory.Clothes;
 			break;
-		case "Shoes":
-			return ItemCategory.Shoes;
-			break;
+//		case "Shoes":
+//			return ItemCategory.Shoes;
+//			break;
 		case "Misc":
 			return ItemCategory.Misc;
 			break;

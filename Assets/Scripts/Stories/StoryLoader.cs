@@ -8,11 +8,11 @@ public class StoryLoader : MonoBehaviour {
 	public static StoryLoader Instance;
 	StoryFunctions storyFunction;
 
-	List<Story> stories = new List<Story> ();
-	List<Story> clueStories = new List<Story> ();
+	List<Story> stories 		= new List<Story> ();
+	List<Story> clueStories 	= new List<Story> ();
 	List<Story> treasureStories = new List<Story> ();
-	List<Story> homeStories = new List<Story> ();
-	List<int> storyPercents = new List<int> ();
+	List<Story> homeStories 	= new List<Story> ();
+	List<int> storyPercents 	= new List<int> ();
 
 	List<List<string>> content = new List<List<string>>();
 

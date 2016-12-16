@@ -144,8 +144,6 @@ public class OtherLoot : MonoBehaviour {
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
 		}
-		
-
 	}
 
 }

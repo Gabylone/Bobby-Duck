@@ -41,11 +41,16 @@ public class CardManager : MonoBehaviour {
 		combatCards [(int)attackingCrew].HideCard ();
 	}
 	public void UpdateCards () {
+
+		if (!CombatManager.Instance.Fighting)
+			return;
+		
 		for (int i = 0; i < 2; ++i)
 			combatCards [i].UpdateMember (CombatManager.Instance.Members[i]);
 
 		for ( int i = 0; i < 2; i++ )
 			combatCards[i].UpdateMember (CombatManager.Instance.Members[i]);
+
 	}
 	#endregion
 

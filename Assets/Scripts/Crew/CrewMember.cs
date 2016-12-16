@@ -19,6 +19,10 @@ public class CrewMember {
 	}
 
 	private int health = 0;
+
+		// level
+	bool leveledUp = false;
+
 	private int xp = 0;
 	private int stepToNextLevel = 100;
 
@@ -38,6 +42,7 @@ public class CrewMember {
 
 	private int maxState = 100;
 
+
 	private void Init () {
 
 		// health
@@ -54,19 +59,18 @@ public class CrewMember {
 		// equipment
 		SetEquipment (EquipmentPart.Weapon, 	ItemLoader.Instance.getItem (ItemCategory.Weapon, memberID.weaponID));
 		SetEquipment (EquipmentPart.Clothes, 	ItemLoader.Instance.getItem (ItemCategory.Clothes, memberID.clothesID));
-		SetEquipment (EquipmentPart.Shoes, 		ItemLoader.Instance.getItem (ItemCategory.Shoes, memberID.shoesID));
 
 	}
 
 	#region health
 	public void GetHit (int damage) {
-		float damageTaken = ( ((float)damage) / ((float)ConstitutionDice) );
+		float damageTaken = ( ((float)damage) / ((float)Defense) );
 		damageTaken *= 10;
 
 		damageTaken = Mathf.CeilToInt (damageTaken);
 		damageTaken = Mathf.Clamp ( damageTaken , 1 , 100 );
 
-		string smallText = damage + " / " + ConstitutionDice;
+		string smallText = damage + " / " + Defense;
 		string bigText = damageTaken.ToString ();
 
 		info.DisplayInfo (smallText, bigText , Color.red);
@@ -94,8 +98,9 @@ public class CrewMember {
 			++Level;
 			xp = stepToNextLevel - xp;
 
-			MaxHealth += 20;
 			health = MaxHealth;
+
+			leveledUp = true;
 		}
 	}
 	public bool CheckLevel ( int lvl ) {
@@ -172,45 +177,60 @@ public class CrewMember {
 			memberID.lvl = value;
 		}
 	}
+	#endregion
 
-	public int AttackDice {
+	#region stats
+	public int Attack {
 		get {
-			return memberID.attack;
+			return memberID.str + GetEquipment (EquipmentPart.Weapon).value;
+		}
+	}
+
+
+	public int Defense {
+		get {
+			return memberID.con + GetEquipment(EquipmentPart.Clothes).value;
+		}
+	}
+
+	public int Strenght {
+		get {
+			return memberID.str;
 		}
 		set {
-			memberID.attack = value;
+			memberID.str = value;
 		}
 	}
 
-	public int SpeedDice {
+	public int Dexterity {
 		get {
-			return memberID.speed;
+			return memberID.dex;
 		}
 		set {
-			memberID.speed = value;
+			memberID.dex = value;
 		}
 	}
 
-	public int ConstitutionDice {
+	public int Charisma {
 		get {
-			return memberID.constitution;
+			return memberID.cha;
 		}
 		set {
-			memberID.constitution = value;
+			memberID.cha = value;
 		}
 	}
 
-	public int[] getDiceValues {
+	public int Constitution {
 		get {
-			return new int[] {
-				Health,
-				AttackDice,
-				SpeedDice,
-				ConstitutionDice
-			};
+			return memberID.con;
+		}
+		set {
+			memberID.con = value;
 		}
 	}
+	#endregion
 
+	#region icon
 	public GameObject IconObj {
 		get {
 			return iconObj;
@@ -253,7 +273,7 @@ public class CrewMember {
 	#region properties
 	public int MaxHealth {
 		get {
-			return memberID.maxHP;
+			return memberID.maxHP + (memberID.con*10);
 		}
 		set {
 			memberID.maxHP = value;
@@ -277,17 +297,17 @@ public class CrewMember {
 	public enum EquipmentPart {
 		Weapon,
 		Clothes,
-		Shoes
 	}
 	public void SetRandomEquipment () {
 
-		ItemCategory[] equipmentCategories = new ItemCategory[3] {
+		const int l = 2;
+
+		ItemCategory[] equipmentCategories = new ItemCategory[l] {
 			ItemCategory.Weapon,
-			ItemCategory.Clothes,
-			ItemCategory.Shoes
+			ItemCategory.Clothes
 		};
 
-		for (int i = 0; i < 3; ++i) {
+		for (int i = 0; i < l; ++i) {
 
 			Item equipmentItem = ItemLoader.Instance.getRandomItem (equipmentCategories [i]);
 			SetEquipment ((EquipmentPart)i, equipmentItem);
@@ -298,14 +318,7 @@ public class CrewMember {
 		
 		equipment [(int)part] = item;
 
-		if (item.category == ItemCategory.Weapon)
-			AttackDice = item.value;
-
-		if (item.category == ItemCategory.Clothes)
-			ConstitutionDice = item.value;
-
-		if (item.category == ItemCategory.Shoes)
-			SpeedDice = item.value;
+		CardManager.Instance.UpdateCards ();
 		
 	}
 	public Item GetEquipment ( EquipmentPart part ) {
@@ -320,7 +333,6 @@ public class CrewMember {
 			equipment = value;
 		}
 	}
-
 	#endregion
 
 	#region states properties
@@ -370,6 +382,7 @@ public class CrewMember {
 	}
 	#endregion
 
+	#region level
 	public int Xp {
 		get {
 			return xp;
@@ -381,4 +394,14 @@ public class CrewMember {
 			return stepToNextLevel;
 		}
 	}
+
+	public bool LeveledUp {
+		get {
+			return leveledUp;
+		}
+		set {
+			leveledUp = value;
+		}
+	}
+	#endregion
 }

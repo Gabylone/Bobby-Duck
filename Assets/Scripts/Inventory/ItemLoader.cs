@@ -5,7 +5,6 @@ public enum ItemCategory {
 	Provisions,
 	Weapon,
 	Clothes,
-	Shoes,
 	Misc,
 }
 
