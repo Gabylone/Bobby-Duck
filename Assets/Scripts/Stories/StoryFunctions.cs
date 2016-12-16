@@ -429,10 +429,6 @@ public class StoryFunctions : MonoBehaviour {
 	public ItemCategory getLootCategoryFromString ( string arg ) {
 
 		switch (arg) {
-
-		case "All":
-			return ItemLoader.allCategories;
-			break;
 		case "Food":
 			return ItemCategory.Provisions;
 			break;
@@ -450,7 +446,7 @@ public class StoryFunctions : MonoBehaviour {
 			break;
 		}
 
-		Debug.LogError ("getLootCategoryFromString : couldn't find category in : " + arg)
+		Debug.LogError ("getLootCategoryFromString : couldn't find category in : " + arg);
 
 		return ItemCategory.Misc;
 
@@ -468,7 +464,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		Debug.Log ("Found name : " + itemName);
 
-		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/'));
+		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 
 		Item item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
 

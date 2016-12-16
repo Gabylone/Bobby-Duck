@@ -147,7 +147,6 @@ public class CrewCreator : MonoBehaviour {
 		icon.GetComponent<CrewIcon> ().FaceObj.transform.localScale = scale;
 		icon.GetComponent<CrewIcon> ().BodyObj.transform.localScale = scale;
 
-
 		return icon;
 	}
 	#endregion
@@ -249,7 +248,7 @@ public class MemberID {
 		speed 			= lvl;
 
 		// il a 35% de chance d'être noir
-		bodyColorID = Random.value < 0.35f ? 0 : 1;
+		bodyColorID 	= Random.value < 0.35f ? 0 : 1;
 
 		hairColorID 	= Random.Range ( 0 , CrewCreator.Instance.HairColors.Length  );
 		hairSpriteID 	= Random.Range (-1 , CrewCreator.Instance.HairSprites.Length );
