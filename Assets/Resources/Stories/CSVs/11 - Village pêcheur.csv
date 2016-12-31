@@ -2,28 +2,28 @@ Nom;Fréquence %;;;;;;;;;;;;;;;;;;;;;;;;;
 Village pêcheur;9;;;;;;;;;;;;;;;;;;;;;;;;;
 Narrator : Après avoir évité une vingtaine de bateau de pêche, le bateau accoste dans un petit port. L'air empeste le poisson.;;;;;;;;;;;;;;;;;;;;;;;;;;
 SetChoices3;;;;;;;;;;;;;;;;;;;;;;;;;;
-Choice : Aller voir les pêcheurs;Choice : Repartir;;;;Choice : Entrer dans le village;;;;;;;;;;;;;;;;;;;;;
-NewCharacter;PlayerSpeak : Ça pue on s'casse.;;;;Fade;;;;;;;;;;;;;;;;;;;;;
-PlayerSpeak : Bonjour pêcheur !;Leave;;;;CheckDay;;;;;;;;;;;;;;;;;;;;;
+Choice : Aller voir les pêcheurs;;;Choice : Repartir;;Choice : Entrer dans le village;;;;;;;;;;;;;;;;;;;;;
+NewCrew1;;;PlayerSpeak : Ça pue on s'casse.;;Fade;;;;;;;;;;;;;;;;;;;;;
+PlayerSpeak : Bonjour pêcheur !;;;Leave;;CheckDay;;;;;;;;;;;;;;;;;;;;;
 OtherSpeak : Salut à toi;;;;;Narrator : Le village est petit mais vivant, c'est un jour de marché. Des hommes déplacent des caisses de poissons pendant que des femmes le cuisine et le vend. Une petite rue s'ouvre vers la gauche;;;;;;;;;;;;;;;;;;;;;
 SetChoices3;;;;;SetChoices3;;;;;;;;;;;;;;;;;;;;;
 Choice : (Revenir aux quais);Choice : Bobby Dick, ça te dit quelque chose ?;Choice : Tu AS du poisson, ou autre, à me vendre non ?;;;Choice : Retourner sur les quais;Choice : Parler aux poissoniers;;;;;Choice : S'aventurer dans le village;;;;;;;;;;;;;;;
-HideOther;OtherSpeak : Oui, certains clients en parlent. Ils partent…;RandomPercent65;;;Fade;NewCharacter;;;;;RandomRange3;;;;;;;;;;;;;;;
+HideOther;OtherSpeak : Oui, certains clients en parlent. Ils partent…;RandomPercent65;;;Fade;NewCrew1;;;;;RandomRange3;;;;;;;;;;;;;;;
 GoToA/4;GiveDirectionToClue;OtherSpeak : Rien aujourd'hui;OtherSpeak : Et comment !;;GoToA/4;OtherSpeak : Hé ho !;;;;;Narrator : La rue mène sur un impasse et la chaleur d'une taverne.;;Narrator : La rue mène sur un impasse et sur la chaleur d'une taverne. Une petite boutique est ouverte à gauche;;;;;;;Narrator : La rue mène sur un impasse et sur la chaleur d'une taverne. Des coups de marteaux et de scie sortent d’un grand hangar vers la droite.;;;;;;
 ;GoToA/9;OtherSpeak : La période est sèche.;TradeFood;;;OtherSpeak : Qu'est-ce que je peux faire ?;;;;;SetChoices2;;SetChoices3;;;;;;;SetChoices3;;;;;;
-;;GoToA/9;PlayerSpeak : Merci bien !;;;SetChoices3;;Choice : Rien !;Choice : Bobby Dick, ça vous parle ?;;Choice : Entrons;Choice : Revenons en arrière;Choice : Entrons dans la taverne;Choice : Revenons en arrière;Choice : Rentrer dans boutique;;;;;Choice : Entrons dans la taverne;Choice : Revenons en arrière;Choice : Entrer dans hangar;;;;
-;;;OtherSpeak : Au plaisir;;;Choice : Me vendre à manger.;;OtherSpeak : A la prochaine !;RandomPercent40;;GoToA/22;Fade;GoToA/22;Fade;Fade;;;;;GoToA/22;Fade;Fade;;;;
-;;;GoToA/9;;;RandomPercent40;;HideOther;OtherSpeak : Bien sûr, un ami m'en a parlé, il habite…;OtherSpeak : Non, rien;;GoToF/9;;GoToF/9;NewCharacter;;;;;;GoToF/9;NewCharacter;;;;
-;;;;;;TradeFood;OtherSpeak : Vous arrivez au mauvais moment, on en a plus du tout.;GoToF/9;GiveDirectionToClue;GoToG/14;;;;;OtherSpeak : Coucou !;;;;;;;OtherSpeak : Bien le bonjour !;;;;
-;;;;;;GoToG/14;GoToG/14;;GoToG/14;;;;;;SetChoices4;;;;;;;SetChoices4;;;;
-;;;;;;;;;;;;;;;Choice : Qu’est-ce que vous vendez ici ?;Choice : Le trésor de Bobby Dick, ça vous parle ?;;Choice : Montrez moi votre marchandise;Choice : Sortir de la boutique;;;Choice : Qu’est-ce que vous vendez ici ?;Choice : Le trésor de Bobby Dick, ça vous parle ?;;Choice : J’ai besoin de quelques changements sur bateau.;Choice : Sortir du hangar
+;;GoToA/9;PlayerSpeak : Merci bien !;;;SetChoices3;;;;;Choice : Entrons;Choice : Revenons en arrière;Choice : Entrons dans la taverne;Choice : Revenons en arrière;Choice : Rentrer dans boutique;;;;;Choice : Entrons dans la taverne;Choice : Revenons en arrière;Choice : Entrer dans hangar;;;;
+;;;OtherSpeak : Au plaisir;;;Choice : Me vendre à manger.;;Choice : Rien !;Choice : Bobby Dick, ça vous parle ?;;GoToA/22;Fade;GoToA/22;Fade;Fade;;;;;GoToA/22;Fade;Fade;;;;
+;;;GoToA/9;;;RandomPercent40;;OtherSpeak : A la prochaine !;RandomPercent40;;;GoToF/9;;GoToF/9;NewCrew1;;;;;;GoToF/9;NewCrew1;;;;
+;;;;;;TradeFood;OtherSpeak : Vous arrivez au mauvais moment, on en a plus du tout.;HideOther;OtherSpeak : Bien sûr, un ami m'en a parlé, il habite…;OtherSpeak : Non, rien;;;;;OtherSpeak : Coucou !;;;;;;;OtherSpeak : Bien le bonjour !;;;;
+;;;;;;GoToG/14;GoToG/14;GoToF/9;GiveDirectionToClue;GoToG/14;;;;;SetChoices4;;;;;;;SetChoices4;;;;
+;;;;;;;;;GoToG/14;;;;;;Choice : Qu’est-ce que vous vendez ici ?;Choice : Le trésor de Bobby Dick, ça vous parle ?;;Choice : Montrez moi votre marchandise;Choice : Sortir de la boutique;;;Choice : Qu’est-ce que vous vendez ici ?;Choice : Le trésor de Bobby Dick, ça vous parle ?;;Choice : J’ai besoin de quelques changements sur bateau.;Choice : Sortir du hangar
 ;;;;;;;;;;;;;;;OtherSpeak : Des bricoles, des choses, des machins quoi.;RandomPercent30;;TradeMisc;HideOther;;;OtherSpeak : Je fais des merveilles avec votre bâteau ! ;RandomPercent30;;BoatUpgrades;HideOther
 ;;;;;;;;;;;;;;;GoToP/18;OtherSpeak : Mon fils navigue à sa recherche.;OtherSpeak : Rien du tout.;GoToP/18;Fade;;;GoToP/18;OtherSpeak : Mon femme est allée chercher mon fils, qui est à sa recherche;OtherSpeak : Rien du tout.;GoToP/18;Fade
 Fade;;;;;;;;;;;;;;;;GiveDirectionToClue;GoToP/18;;GoToN/12;;;;GiveDirectionToClue;GoToP/18;;GoToU/12
 Narrator : La taverne est grande mais il y a peu de client.;;;;;;;;;;;;;;;;GoToP/18;;;;;;;GoToP/18;;;
 NewCrew;;;;;;;;;;;;;;;;;;;;;;;;;;
-OtherSpeak : Qu'est-ce que je peux faire pour vous ?;GoToA/44;;;;;;;;;;;;;;;;;;;;;;;;;
-SetChoices4;;;;;;;;;;;;;;;;;;;;;;;;;;
+OtherSpeak : Qu'est-ce que je peux faire pour vous ?;GoToA/44;OtherSpeak : Vous ?! Dégagez d'ici !;;;;;;;;;;;;;;;;;;;;;;;;
+SetChoices4;;GoToA/43;;;;;;;;;;;;;;;;;;;;;;;;
 Choice : Des chambres pour mes hommes !;;;Choice : On a faim !;Choice : (autre);Choice : Ça ira pour aujourdh'ui;;SetChoices3;;;;;;;;;;;;;;;;;;;
 OtherSpeak : Ça sera 10 pièces d'or;;;OtherSpeak : Regardez voir ce que j'ai;GoToH/27;OtherSpeak : Bon bah à la prochaine !;;Choice : C'est quoi les nouvelles de la région ?;;Choice : (attaquer);Choice : (autre);;;;;;;;;;;;;;;;
 SetChoices2;;;TradeFood;;HideOther;;RandomPercent40;;GoToA/42;GoToA/26;;;;;;;;;;;;;;;;

@@ -27,6 +27,17 @@ public class InventoryCard : Card {
 
 	private int memberIndex = 0;
 
+	private CrewMember currentMember;
+
+	[SerializeField]
+	private Image strenghtImage;
+	[SerializeField]
+	private Image dexterityImage;
+	[SerializeField]
+	private Image charismaImage;
+	[SerializeField]
+	private Image constitutionImage;
+
 	void Start () {
 		
 		itemButtons = itemParent.GetComponentsInChildren<ItemButton> ();
@@ -34,7 +45,6 @@ public class InventoryCard : Card {
 		Init ();
 
 		initScale = backGroundTransform.sizeDelta.y;
-
 
 		int a = 0;
 		foreach ( Transform statTransform in stats_Transforms ) {
@@ -47,12 +57,34 @@ public class InventoryCard : Card {
 	}
 
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.O))
-			Deployed = !Deployed;
+		
 	}
 
 	public void Select () {
 		PlayerLoot.Instance.SelectedMemberIndex = MemberIndex;
+	}
+
+	public override void UpdateMember (CrewMember member)
+	{
+		currentMember = member;
+
+		base.UpdateMember (member);
+
+		strenghtImage.GetComponentInChildren<Text> ().text 		= member.Strenght.ToString();
+		dexterityImage.GetComponentInChildren<Text> ().text 	= member.Dexterity.ToString();
+		charismaImage.GetComponentInChildren<Text> ().text 		= member.Charisma.ToString();
+		constitutionImage.GetComponentInChildren<Text> ().text 	= member.Constitution.ToString();
+
+		strenghtImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LeveledUp);
+		dexterityImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LeveledUp);
+		charismaImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LeveledUp);
+		constitutionImage.GetComponentInChildren<Animator> ().SetBool 	("Warning" , member.LeveledUp);
+
+		strenghtImage.GetComponentInChildren<Button> ().interactable 		= member.LeveledUp;
+		dexterityImage.GetComponentInChildren<Button> ().interactable 		= member.LeveledUp;
+		charismaImage.GetComponentInChildren<Button> ().interactable 		= member.LeveledUp;
+		constitutionImage.GetComponentInChildren<Button> ().interactable 	= member.LeveledUp;
+
 	}
 
 	public void Deploy () {
@@ -67,19 +99,22 @@ public class InventoryCard : Card {
 
 		int a = 0;
 		foreach (ItemButton itemButton in itemButtons) {
-			stats_Transforms [a].transform.position = stats_DeployedAnchors [a].position;
 
 			if ( crewMember.Equipment [a] != null ) {
+				
 				itemButton.Name = crewMember.Equipment [a].name;
 				itemButton.Param = crewMember.Equipment [a].value;
 				itemButton.Price = crewMember.Equipment [a].price;
 				itemButton.Price = crewMember.Equipment [a].level;
+
 			} else {
+				
 				itemButton.Name = "";
 				itemButton.Param = 0;
 				itemButton.Price = 0;
 				itemButton.Weight = 0;
 				itemButton.Level = 0;
+
 			}
 
 			itemButton.Enabled = crewMember.Equipment [a] != null;
@@ -97,7 +132,6 @@ public class InventoryCard : Card {
 		int a = 0;
 		foreach (ItemButton itemButton in itemButtons) {
 
-			stats_Transforms [a].transform.localPosition = stats_InitPos[a];
 
 			itemButton.Enabled = false;
 
@@ -137,5 +171,28 @@ public class InventoryCard : Card {
 		set {
 			memberIndex = value;
 		}
+	}
+
+	public void LevelUpStat ( int i ) {
+
+		switch (i) {
+		case 0:
+			++currentMember.MemberID.str;
+			break;
+		case 1:
+			++currentMember.MemberID.dex;
+			break;
+		case 2:
+			++currentMember.MemberID.cha;
+			break;
+		case 3:
+			++currentMember.MemberID.con;
+			break;
+		}
+
+		currentMember.LeveledUp = false;
+
+		UpdateMember (currentMember);
+
 	}
 }

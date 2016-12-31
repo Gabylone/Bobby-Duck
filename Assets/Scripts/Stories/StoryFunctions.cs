@@ -15,6 +15,18 @@ public class StoryFunctions : MonoBehaviour {
 
 	public void Read ( string content ) {
 
+		if (content.Length == 0) {
+			Debug.LogError ("cell is empty");
+			Leave ();
+			return;
+		}
+
+		if ( content[0] == '[' ) {
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.UpdateStory ();
+			return;
+		}
+
 		foreach ( string functionName in functionNames ) {
 
 			if ( content.Contains (functionName) ){
@@ -39,7 +51,10 @@ public class StoryFunctions : MonoBehaviour {
 	void RandomPercent () {
 
 		float chance = float.Parse ( cellParams );
-		int randomDecal = Random.value * 100f < chance ? 0 : 1;
+
+		float value = Random.value * 100;
+
+		int randomDecal = value < chance ? 0 : 1;
 
 		StoryReader.Instance.NextCell ();
 
@@ -62,6 +77,33 @@ public class StoryFunctions : MonoBehaviour {
 		StoryLoader.Instance.SaveDecal = decal;
 
 		StoryReader.Instance.SetDecal (decal);
+
+		StoryReader.Instance.UpdateStory ();
+
+
+	}
+	void RandomRedoPercent () {
+
+		float chance = float.Parse ( cellParams );
+
+		float value = Random.value * 100;
+
+		int decal = value < chance ? 0 : 1;
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.SetDecal (decal);
+
+		StoryReader.Instance.UpdateStory ();
+
+	}
+	void RandomRedoRange () {
+
+		int range = int.Parse (cellParams);
+		int randomDecal = Random.Range (0, range);
+
+		StoryReader.Instance.NextCell ();
+
+		StoryReader.Instance.SetDecal (randomDecal);
 
 		StoryReader.Instance.UpdateStory ();
 
@@ -90,23 +132,6 @@ public class StoryFunctions : MonoBehaviour {
 		return tmp;
 	}
 
-	void NewCharacter() {
-
-		StoryReader.Instance.NextCell ();
-
-		Crew islandCrew = GetCrew (1);
-
-		if (islandCrew.MemberIDs.Count == 0) {
-			StoryReader.Instance.SetDecal (1);
-		} else {
-			Crews.enemyCrew.setCrew (islandCrew);
-			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-		}
-
-		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.MoveDuration);
-
-	}
-
 	void NewCrew () {
 
 		StoryReader.Instance.NextCell ();
@@ -123,15 +148,26 @@ public class StoryFunctions : MonoBehaviour {
 		Crew islandCrew = GetCrew (amount);
 
 		if (islandCrew.MemberIDs.Count == 0) {
+			
 			StoryReader.Instance.SetDecal (1);
+
 		} else {
+
 			Crews.enemyCrew.setCrew (islandCrew);
-			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+
+			if (islandCrew.hostile) {
+				DialogueManager.Instance.SetDialogue ("Le revoilà !", Crews.enemyCrew.captain);
+				StoryReader.Instance.SetDecal (2);
+			} else {
+				Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+			}
+
 		}
 
 		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.MoveDuration);
 
 	}
+
 	void AddMember () {
 
 		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.MemberCapacity) {
@@ -324,6 +360,7 @@ public class StoryFunctions : MonoBehaviour {
 
 	#region end
 	void LaunchCombat () {
+		Crews.enemyCrew.ManagedCrew.hostile = true;
 		CombatManager.Instance.StartCombat ();
 	}
 	void Leave () {
@@ -381,34 +418,40 @@ public class StoryFunctions : MonoBehaviour {
 
 		foreach ( string cellPart in cellParts ) {
 
-			switch (cellPart) {
-
-			case "All":
-				categories = ItemLoader.allCategories;
-				break;
-			case "Food":
-				categories [index] = ItemCategory.Provisions;
-				break;
-			case "Weapons":
-				categories [index] = ItemCategory.Weapon;
-				break;
-			case "Clothes":
-				categories [index] = ItemCategory.Clothes;
-				break;
-			case "Shoes":
-				categories [index] = ItemCategory.Shoes;
-				break;
-			case "Misc":
-				Debug.Log ("!!! je suis donc bien passé par là");
-				categories [index] = ItemCategory.Misc;
-				break;
-			}
+			categories [index] = getLootCategoryFromString(cellPart);
 
 			++index;
 		}
 
 		return categories;
 	}
+
+	public ItemCategory getLootCategoryFromString ( string arg ) {
+
+		switch (arg) {
+		case "Food":
+			return ItemCategory.Provisions;
+			break;
+		case "Weapons":
+			return ItemCategory.Weapon;
+			break;
+		case "Clothes":
+			return ItemCategory.Clothes;
+			break;
+//		case "Shoes":
+//			return ItemCategory.Shoes;
+//			break;
+		case "Misc":
+			return ItemCategory.Misc;
+			break;
+		}
+
+		Debug.LogError ("getLootCategoryFromString : couldn't find category in : " + arg);
+
+		return ItemCategory.Misc;
+
+	}
+
 	void RemoveFromInventory () {
 		Debug.Log ("remove something from inventory");
 
@@ -416,7 +459,16 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.Wait (0.5f);
 	}
 	void AddToInventory () {
-		Debug.Log ("add something from inventory");
+
+		string itemName = cellParams.Split ('<')[1];
+
+		Debug.Log ("Found name : " + itemName);
+
+		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
+
+		Item item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
+
+		Debug.Log ( "try to add ; " + item.name + " to inventory" );
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (0.5f);
@@ -448,6 +500,21 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.Index = newIndex;
 
 		StoryReader.Instance.UpdateStory ();
+
+	}
+
+	void Mark () {
+
+		string markName = cellParams.Remove (0, 2);
+
+		Story.Mark mark = StoryReader.Instance.CurrentStory.marks.Find ( x => x.name == markName);
+
+		StoryReader.Instance.Decal = mark.x;
+		StoryReader.Instance.Index = mark.y;
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+
 
 	}
 
@@ -542,7 +609,8 @@ public class StoryFunctions : MonoBehaviour {
 		string directionPhrase = NavigationManager.Instance.getDirName (dir);
 
 		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
-			DialogueManager.Instance.ShowNarrator (directionPhrase);
+			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.playerCrew.captain);
+//			DialogueManager.Instance.ShowNarrator (directionPhrase);
 		} else {
 			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.enemyCrew.captain);
@@ -594,3 +662,15 @@ public class StoryFunctions : MonoBehaviour {
 		}
 	}
 }
+
+
+//STORIES :
+//- rajouter forêt
+//- rajouter juste indice
+//
+//- petite grotte argent.
+//- petite ferme randol loot
+//
+//- bandits seulement nuit
+//
+//- librairie qui parle de bobdy

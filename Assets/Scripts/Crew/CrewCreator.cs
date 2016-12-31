@@ -31,7 +31,8 @@ public class CrewCreator : MonoBehaviour {
 
 
 	private string[] names = new string[51] {
-		"Jean", "Eric", "Nathan", "Jacques", "Benoit", "Jeremy", "Flo", "Bertrand", "Vladimir", "Dimitri", "Jean-Jacques", "Gérard", "Nestor", "Etienne", "Leon", "Henry", "David", "Esteban", "Louis", "Carles", "Victor", "Michel", "Gabriel", "Pierre", "André", "Fred", "Cassius", "César", "Paul", "Martin", "Claude", "Levis", "Alex", "Olivier", "Mustafa", "Nicolas", "Chris", "Oleg", "Emile", "Richard", "Romulus", "Rufus", "Stan", "Charles", "Quincy", "Antoine", "Virgile", "Boromir", "Archibald", "Eddy", "Kenneth"};
+		"Jean", "Eric", "Nathan", "Jacques", "Benoit", "Jeremy", "Flo", "Bertrand", "Vladimir", "Dimitri", "Jean-Jacques", "Gérard", "Nestor", "Etienne", "Leon", "Henry", "David", "Esteban", "Louis", "Carles", "Victor", "Michel", "Gabriel", "Pierre", "André", "Fred", "Cassius", "César", "Paul", "Martin", "Claude", "Levis", "Alex", "Olivier", "Mustafa", "Nicolas", "Chris", "Oleg", "Emile", "Richard", "Romulus", "Rufus", "Stan", "Charles", "Quincy", "Antoine", "Virgile", "Boromir", "Archibald", "Eddy", "Kenneth"
+	};
 
 	[SerializeField]
 	private int startHealth = 10;
@@ -76,7 +77,6 @@ public class CrewCreator : MonoBehaviour {
 	}
 
 	public CrewMember NewMember (MemberID memberID) {
-
 
 		CrewMember crewMember = new CrewMember (
 
@@ -146,7 +146,6 @@ public class CrewCreator : MonoBehaviour {
 		icon.GetComponent<CrewIcon> ().FaceObj.transform.localScale = scale;
 		icon.GetComponent<CrewIcon> ().BodyObj.transform.localScale = scale;
 
-
 		return icon;
 	}
 	#endregion
@@ -197,8 +196,6 @@ public class CrewCreator : MonoBehaviour {
 	}
 }
 
-
-
 public class MemberID {
 
 		// name
@@ -211,9 +208,10 @@ public class MemberID {
 	public int maxHP 	= 0;
 
 		// stats
-	public int attack 	= 0;
-	public int constitution = 0;
-	public int speed = 0;
+	public int str = 0;
+	public int dex = 0;
+	public int cha = 0;
+	public int con = 0;
 
 		// icon index
 	public int bodyColorID = 0;
@@ -237,7 +235,7 @@ public class MemberID {
 		nameID 			= Random.Range (0, CrewCreator.Instance.Names.Length);
 
 		if (Crews.playerCrew.CrewMembers.Count > 0)
-			lvl = Random.Range ( Crews.playerCrew.captain.Level -1 , Crews.playerCrew.captain.Level + 1 );
+			lvl = Random.Range ( Crews.playerCrew.captain.Level -1 , Crews.playerCrew.captain.Level + 2 );
 		else
 			lvl = 1;
 
@@ -245,16 +243,17 @@ public class MemberID {
 
 		maxHP 			= CrewCreator.Instance.StartHealth;
 
-		attack 			= lvl;
-		constitution 	= lvl;
-		speed 			= lvl;
+		str = lvl;
+     	dex = lvl;
+     	cha = lvl;
+		con = lvl;
 
 		// il a 35% de chance d'être noir
-		bodyColorID = Random.value < 0.35f ? 0 : 1;
+		bodyColorID 	= Random.value < 0.35f ? 0 : 1;
 
-		hairColorID 	= Random.Range ( 0 , CrewCreator.Instance.HairColors.Length );
-		hairSpriteID 	= Random.Range (-1 , CrewCreator.Instance.HairSprites.Length	);
-		beardSpriteID 	= Random.Range (-1 , CrewCreator.Instance.BeardSprites.Length	);
+		hairColorID 	= Random.Range ( 0 , CrewCreator.Instance.HairColors.Length  );
+		hairSpriteID 	= Random.Range (-1 , CrewCreator.Instance.HairSprites.Length );
+		beardSpriteID 	= Random.Range (-1 , CrewCreator.Instance.BeardSprites.Length);
 
 		clothSpriteID 	= Random.Range ( 0 , CrewCreator.Instance.ClothesSprites.Length	);
 		clothColor 		= Random.ColorHSV();
@@ -263,13 +262,19 @@ public class MemberID {
 
 		weaponID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Weapon, lvl);
 		clothesID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Clothes, lvl);
-		shoesID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Shoes, lvl);
+//		shoesID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Shoes, lvl);
 
 	}
 
 }
 
 public class Crew {
+
+	public bool hostile = false;
+
+	public int InitCount = 0;
+
+	public int Value = 0;
 
 	public int row = 0;
 	public int col = 0;
@@ -281,9 +286,16 @@ public class Crew {
 		row = r;
 		col = c;
 
+		InitCount = amount;
+
+
 		amount = Mathf.Clamp ( amount , 1, amount );
 		for (int i = 0; i < amount; ++i)
 			memberIDs.Add (new MemberID ());
+
+		foreach (MemberID mID in MemberIDs)
+			Value += mID.lvl;
+
 	}
 
 	public void Add ( MemberID id ) {

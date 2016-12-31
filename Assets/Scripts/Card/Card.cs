@@ -29,13 +29,13 @@ public class Card : MonoBehaviour {
 
 	[Header("Dice")]
 	[SerializeField]
-	private Image heart;
+	private Text heartText;
 	[SerializeField]
-	private Image attackDice;
+	private Image heartImage;
 	[SerializeField]
-	private Image speedDice;
+	private Text attackText;
 	[SerializeField]
-	private Image constDice;
+	private Text defenseText;
 
 	[Header("Card Bounds")]
 	[SerializeField]
@@ -63,13 +63,14 @@ public class Card : MonoBehaviour {
 		HideCard ();
 	}
 
-	public void UpdateMember ( CrewMember member ) {
+	public virtual void UpdateMember ( CrewMember member ) {
 
 		ResetCard ();
 
 		cardObject.SetActive (true);
 
 			// general info
+		Debug.Log (member.MemberName);
 		name_Text.text = member.MemberName;
 
 			// INFO
@@ -78,29 +79,19 @@ public class Card : MonoBehaviour {
 		lvl_Image.fillAmount = ((float)member.Xp / (float)member.StepToNextLevel);
 
 		// STATS & Equipment
-		Image[] images = new Image[4]{
-			heart,
-			attackDice,
-			speedDice,
-			constDice,
-		};
 
-		int a = 0;
-		foreach ( Image dice in images ) {
-			dice.GetComponentInChildren<Text>().text = member.getDiceValues[a].ToString ();
-			++a;
-		}
+		heartImage.fillAmount = (float)member.Health / (float)member.MaxHealth;
+		heartText.text = member.Health.ToString ();
 
-		images [0].fillAmount = (float)member.Health / (float)member.MaxHealth;
+		attackText.text = member.Attack.ToString ();
+		defenseText.text = member.Defense.ToString ();
 
 			// STATES
 		float[] values = new float[2] { member.CurrentHunger, member.CurrentCold };
 
-		for (int i = 0; i < stateFeedbacks.Length ; ++i ) {
-			stateFeedbacks [i].fillAmount = values[i] / member.MaxState;
-			stateWarnings[i].enabled = values[i] >= member.MaxState;
-			stateAnimators[i].SetBool ("Warning",values[i] >= member.MaxState);
-		}
+		stateFeedbacks [0].fillAmount = values[0] / member.MaxState;
+		stateWarnings[0].enabled = values[0] >= member.MaxState;
+		stateAnimators[0].SetBool ("Warning",values[0] >= member.MaxState);
 	}
 
 	public void PlaceCard (Vector3 pos) {
@@ -125,13 +116,6 @@ public class Card : MonoBehaviour {
 	private void ResetCard () {
 		name_Text.text = "";
 		lvl_Text.text = "";
-
-		Image[] images = new Image[4] {
-			heart,
-			attackDice,
-			speedDice,
-			constDice,
-		};
 
 		if (memberIcon != null) { 
 			Destroy (memberIcon);

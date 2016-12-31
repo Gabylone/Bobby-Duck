@@ -1,0 +1,41 @@
+Nom histoire;Fréquence %;;;;;;
+Grotte;0;;;;;;
+Narrator : L'île n'a aucune plage. La côte mène directement à un petit bois.;;;;;;;
+[debut];;;;;;;
+SetChoices3;;;;;;;
+Choice : ( passer la nuit ici );Choice : ( partir );Choice : (entrer dans bois);;;;;
+SetWeatherDay;PlayerSpeak : Tayo !;Fade;;;;;
+Mark=>début;Leave;Mark=>bois;;;;;
+;;;;;;;
+;;;;;;;
+;Choice : ( partir );;;;;;
+[bois];;;;[porte jour];;;
+CheckDay;;;;Narrator : La porte est solidement enfoncée dans un énorme rocher. Elle est entourée de symboles et de dessins.;;;
+Mark=>bois jour;Mark=>bois nuit;;;[devant porte jour];;;
+;;;;SetChoices3;;;
+[bois jour];;;;Choice : ( ouvrir la porte );Choice : ( revenir dans le bois );Choice : ( observer autour de la porte );
+Narrator : Les oiseaux chantent, les branches dansent paisiblement et l'atmosphère est calme. Une petite porte apparaît derrière les fougères.;;;;PlayerSpeak : YAH ! ça ne s'ouvre pas.;Mark=>bois jour;PlayerSpeak : Hmmmm;
+SetChoices3;;;;Mark=>devant porte jour;;PlayerSpeak : On dirait des étoiles… Et la lune…;
+Choice : ( aller vers la porte );Choice : ( s'aventurer dans la forêt );Choice : ( revenir sur la plage );;;;Mark=>devant porte jour;
+Fade;Fade;Fade;;;;;
+Mark=>porte;Mark=>forêt;Mark=>début;;;;;
+;;;;[porte nuit];;;
+[bois nuit];;;;Narrator : La porte est solidement enfoncée dans un énorme rocher. Un ronronnement discret émane de derrière.;;;
+Narrator : Dans le bois résonne un silence de mort. Seul les branches se froissent de temps à autres, et quelques hullulements.;;;;[devant porte nuit];;;
+SetChoices3;;;;SetChoices3;;;
+Choice : ( aller vers la porte );Choice : ( s'aventurer dans la forêt );Choice : ( revenir sur la plage );;Choice : ( ouvrir la porte );;Choice : ( revenir dans le bois );Choice : ( observer autour de la porte )
+Fade;Fade;Fade;;Narrator : A peine le capitaine touche la porte, qu'elle s'ouvre grandement, et calmement. Elle donne sur un escalier descandant. On n'en voit pas le fond.;;Mark=>bois nuit;PlayerSpeak : Hmmmm
+Mark=>porte;Mark=>forêt;Mark=>début;;SetChoices2;;;PlayerSpeak : Rien de spécial.
+;;;;Choice : ( revenir dans le bois );Choice : ( entrer );;Mark=>devant porte nuit
+[forêt];;;;Fade;Fade;;
+RandomPercent40;;;;Mark=>bois nuit;Mark=>grotte;;
+PlayerSpeak : Une caisse de nourriture !;PlayerSpeak : Rien.;;;;;;
+LootFood;Fade;;;[grotte];;;
+Fade;Mark=>bois nuit;;;Narrator : Tout est sombre. Mais, au fond, un coffre apparaît, dans toute sa brillance.;;;
+Mark=>bois nuit;;;;SetChoices2;;;
+;;;;Choice : ( ouvrir );;;Choice : ( partir )
+;;;;RandomRange3;;;Fade
+;;;;PlayerSpeak : Wow !;PlayerSpeak : Wew !;PlayerSpeak : Waw !;Mark=>porte nuit
+;;;;AddGold700;LootClothes/Shoes;LootWeapons;
+;;;;PlayerSpeak : ça fait beaucoup d'argent.;Mark=>grotte;PlayerSpeak : Armés jusqu'aux dents on est !;
+;;;;Mark=>grotte;;Mark=>grotte;

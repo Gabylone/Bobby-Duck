@@ -8,11 +8,11 @@ public class StoryLoader : MonoBehaviour {
 	public static StoryLoader Instance;
 	StoryFunctions storyFunction;
 
-	List<Story> stories = new List<Story> ();
-	List<Story> clueStories = new List<Story> ();
+	List<Story> stories 		= new List<Story> ();
+	List<Story> clueStories 	= new List<Story> ();
 	List<Story> treasureStories = new List<Story> ();
-	List<Story> homeStories = new List<Story> ();
-	List<int> storyPercents = new List<int> ();
+	List<Story> homeStories 	= new List<Story> ();
+	List<int> storyPercents 	= new List<int> ();
 
 	List<List<string>> content = new List<List<string>>();
 
@@ -68,6 +68,7 @@ public class StoryLoader : MonoBehaviour {
 				newStory.freq = int.Parse (rowContent [1]);
 
 				foreach (string cellContent in rowContent) {
+
 					newStory.content.Add (new List<string> ());
 					newStory.contentDecal.Add (new List<int> ());
 				}
@@ -75,6 +76,13 @@ public class StoryLoader : MonoBehaviour {
 			else
 			{
 				foreach (string cellContent in rowContent) {
+
+					if ( cellContent.Length > 0 && cellContent[0] == '[' ) {
+						string markName = cellContent.Remove (0, 1).Remove (cellContent.IndexOf (']')-1);
+						newStory.marks.Add (new Story.Mark (markName, collumnIndex, (rowIndex-2)));
+
+
+					}
 
 					newStory.content [collumnIndex].Add (cellContent);
 					newStory.contentDecal [collumnIndex].Add (-1);
@@ -102,7 +110,6 @@ public class StoryLoader : MonoBehaviour {
 			homeStories.Add (newStory);
 			return;
 		}
-
 		stories.Add (newStory);
 		storyPercents.Add (newStory.freq);
 	}
@@ -227,6 +234,19 @@ public class Story {
 
 	public List<List<string>> content = new List<List<string>>();
 	public List<List<int>> contentDecal = new List<List<int>>();
+	public List<Mark> marks = new List<Mark> ();
+
+	public struct Mark {
+		public string name;
+		public int x, y;
+
+		public Mark ( string n, int p1 , int p2 ) {
+			name = n;
+			x = p1;
+			y = p2;
+		}
+
+	}
 
 	public Story (
 		int _storyID,

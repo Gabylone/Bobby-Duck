@@ -1,19 +1,19 @@
 Nom;Fréquence %;;;;;;;;;;;;
-Ile Taverne;9;;;;;;;;;;;;
+Ile Taverne;11;;;;;;;;;;;;
 Narrator : De la fumée monte dans le ciel et une odeur merveilleuse flotte dans l'air. C'est une taverne.;;;;;;;;;;;;;
 SetChoices2;;;;;;;;;;;;;
-Choice : Reprenons la mer;Choice : Entrons;;;;;;;;;;;;
+Choice : Reprenons la mer;Choice : Entrons;;;Narrator : Des bandits voient ;;;;;;;;;
 Leave;Fade;;;;;;;;;;;;
-;NewCrew;;;;;;;;;;;;
-;OtherSpeak : Qu'est-ce que je peux faire pour vous ?;GoToB/27;;;;;;;;;;;
-;SetChoices4;;;;;;;;;;;;
-;Choice : Des chambres pour mes hommes !;;;Choice : On a faim !;Choice : (autre);Choice : Ça ira pour aujourdh'ui;;SetChoices3;;;;;
+;NewCrew2;;;;;;;;;;;;
+;OtherSpeak : Qu'est-ce que je peux faire pour vous ?;GoToB/27;OtherSpeak : Comment osez vous remettre les pieds dans mon auberge !?;;;;;;;;;;
+;SetChoices4;;GoToB/26;;;;;;;;;;
+;Choice : Des chambres pour mes hommes !;;;Choice : On a faim !;Choice : (autre);Choice : Ça ira pour aujourdh'ui;;SetChoices4;;;;;
 ;OtherSpeak : Ça sera 10 pièces d'or;;;OtherSpeak : Regardez voir ce que j'ai;GoToI/10;OtherSpeak : Bon bah à la prochaine !;;Choice : C'est quoi les nouvelles de la région ?;;Choice : (attaquer);Choice : Bobby Dick, ça vous parle ?;;Choice : (autre)
 ;SetChoices2;;;TradeFood;;HideOther;;RandomPercent40;;GoToB/25;RandomPercent50;;GoToB/9
 ;Choice : Tenez !;;Choice : Je n'ai pas assez…;GoToB/8;;Fade;;OtherSpeak : Qu'est-ce que j'en sais moi ?;GiveTip;;OtherSpeak : Non pas du tout.;OtherSpeak : Bien sûr ! Tous les alcooliques ici en parlent.;
-;CheckGold10;;OtherSpeak : C'est rien mon bon monsieur;;;GoToA/3;;GoToB/8;GoToB/8;;GoToB/25;OtherSpeak : Il viennent…;
+;CheckGold10;;OtherSpeak : C'est rien mon bon monsieur;;;GoToA/3;;GoToI/10;GoToB/8;;GoToI/10;OtherSpeak : Il viennent…;
 ;RemoveGold10;OtherSpeak : Désolé mon bon m'sieur mais c'est pas assez;GoToB/8;;;;;;;;;GiveDirectionToClue;
-;OtherSpeak : Prenez le dortoir à gauche en haut des escaliers !;GoToB/8;;;;;;;;;;GoToB/25;
+;OtherSpeak : Prenez le dortoir à gauche en haut des escaliers !;GoToB/8;;;;;;;;;;GoToI/10;
 ;OtherSpeak : Bonne nuit;;;;;;;;;;;;
 ;HideOther;;;;;;;;;;;;
 ;RandomPercent5;;;;;;;;;;;;
