@@ -1,5 +1,5 @@
 Nom;Fréquence %;;;;;;;;;;;;
-Ile Taverne;11;;;;;;;;;;;;
+Ile Taverne;8;;;;;;;;;;;;
 Narrator : De la fumée monte dans le ciel et une odeur merveilleuse flotte dans l'air. C'est une taverne.;;;;;;;;;;;;;
 SetChoices2;;;;;;;;;;;;;
 Choice : Reprenons la mer;Choice : Entrons;;;Narrator : Des bandits voient ;;;;;;;;;

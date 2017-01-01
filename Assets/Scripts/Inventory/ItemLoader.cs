@@ -123,6 +123,13 @@ public class ItemLoader : MonoBehaviour {
 
 			int itemType = (int)cat;
 
+			if (itemType >= items_MaxPerLoot.Length) {
+
+				Debug.LogError ("je sais pas exactement ce qu'est le probleme : catégorie ; " + cat.ToString ());
+
+				itemType = 0;
+			}
+
 			int itemAmount = Random.Range (1, items_MaxPerLoot [itemType]+1);
 
 			randomItems [itemType] = new Item[itemAmount];

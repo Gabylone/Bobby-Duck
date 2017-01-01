@@ -1,5 +1,5 @@
 Nom;Fréquence %;;;;;;;;;;;;;;;;;;;;;;;;;
-Village pêcheur;9;;;;;;;;;;;;;;;;;;;;;;;;;
+Village pêcheur;6;;;;;;;;;;;;;;;;;;;;;;;;;
 Narrator : Après avoir évité une vingtaine de bateau de pêche, le bateau accoste dans un petit port. L'air empeste le poisson.;;;;;;;;;;;;;;;;;;;;;;;;;;
 SetChoices3;;;;;;;;;;;;;;;;;;;;;;;;;;
 Choice : Aller voir les pêcheurs;;;Choice : Repartir;;Choice : Entrer dans le village;;;;;;;;;;;;;;;;;;;;;

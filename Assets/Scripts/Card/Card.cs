@@ -70,7 +70,6 @@ public class Card : MonoBehaviour {
 		cardObject.SetActive (true);
 
 			// general info
-		Debug.Log (member.MemberName);
 		name_Text.text = member.MemberName;
 
 			// INFO
