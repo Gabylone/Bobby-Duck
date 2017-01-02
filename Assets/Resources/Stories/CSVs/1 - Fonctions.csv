@@ -37,3 +37,4 @@ GiveDirectionToClue;donne la direction vers l'indice le plus près;;
 SetWeather;lance la pluie;;
 CheckDay;se décale si c'est la nuit;;
 Mark;va à la marque donnée;;
+CheckCharisma;se décale si le charisme du capitain est inférieur ou égal à l'autre;;

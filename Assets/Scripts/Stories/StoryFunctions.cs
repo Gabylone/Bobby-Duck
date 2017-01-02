@@ -16,7 +16,7 @@ public class StoryFunctions : MonoBehaviour {
 	public void Read ( string content ) {
 
 		if (content.Length == 0) {
-			Debug.LogError ("cell is empty");
+			Debug.LogError ("cell is empty at index : " + StoryReader.Instance.Index + " and decal " + StoryReader.Instance.Decal);
 			Leave ();
 			return;
 		}
@@ -207,6 +207,16 @@ public class StoryFunctions : MonoBehaviour {
 	}
 	#endregion
 
+	#region stats
+	void CheckCharisma () {
+
+		int decal = Crews.playerCrew.captain.Charisma > Crews.enemyCrew.captain.Charisma ? 0 : 1;
+		StoryReader.Instance.SetDecal (decal);
+		StoryReader.Instance.UpdateStory ();
+
+	}
+	#endregion
+
 	#region hide & show
 	void HideAll () {
 		Crews.enemyCrew.Hide ();
@@ -340,7 +350,7 @@ public class StoryFunctions : MonoBehaviour {
 
 	void GiveTip ()  {
 
-		string[] tips = new string[6] {
+		string[] tips = new string[10] {
 
 			"Un grand vide sépare le nord du sud",
 			"Mieux vaut bien se préparer pour aller du nord au sud !",
@@ -348,6 +358,10 @@ public class StoryFunctions : MonoBehaviour {
 			"Une bonne longue vue règle les problemes de vision la nuit",
 			"Une bonne longue vue règle les problemes de vision les jours de pluie",
 			"C'est en discutant avec les gens que vous saurez où chercher le trésor.",
+			"le charme du capitaine est important, il permet de se sortir de situations coquasses",
+			"La dextérité détermine si un membre attaque en premier, et ses chances d'esquiver.",
+			"Vous êtes à l'étroit sur votre navire ? Aggrandissez le pont dans un hangar",
+			"Aggrandissez le cargo dans un hangar.Vous pouvez porter plus de choses."
 
 		};
 
@@ -596,7 +610,7 @@ public class StoryFunctions : MonoBehaviour {
 			DialogueManager.Instance.ShowNarrator (formula);
 		} else {
 			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-			DialogueManager.Instance.SetDialogue (getFormula(), Crews.enemyCrew.captain);
+			DialogueManager.Instance.SetDialogue (formula, Crews.enemyCrew.captain);
 
 		}
 
@@ -623,7 +637,7 @@ public class StoryFunctions : MonoBehaviour {
 		
 		int clueIndex = ClueManager.Instance.ClueIndex;
 
-		string clue = ClueManager.Instance.Clues[clueIndex];
+		string clue = "";
 
 		bool clueAlreadyFound = false;
 
@@ -644,6 +658,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		if ( clueAlreadyFound == false ) {
 			Debug.Log ("first time gave clue");
+			clue = ClueManager.Instance.Clues[clueIndex];
 			ClueManager.Instance.ClueIndex += 1;
 		}
 

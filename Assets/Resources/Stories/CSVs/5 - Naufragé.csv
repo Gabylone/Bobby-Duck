@@ -1,29 +1,39 @@
-Nom;Fréquence %;;;;;;;;
-Naufragé;10;;;;;;;;
-Narrator : L'île est immense, mais une gigantesque colonne de fumée tourne au dessus d'elle.;;;;;;;;;
-SetChoices2;;;;;;;;;
-Choice : Repartir;Choice : Accoster sur l'île;;;;;;;;
-PlayerSpeak : On a rien à faire ici !;Fade;;;;;;;;
-Leave;NewCrew1;;;;;;;;
-;Narrator : Un homme barbus est au bord de la plage. Il vous fait des signes.;Narrator : La plage est vide.;OtherSpeak : Oh non encore vous !;;;;;;
-;PlayerSpeak : Tout va bien ?;GoToA/22;OtherSpeak : Je vous en pris laissez moi en vie;;;;;;
-;OtherSpeak : 3 ans que je suis coincé ici !;;GoToE/16;;;;;;
-;OtherSpeak : Emmenez moi avec vous, je vous en prie !;;;;;;;;
-;SetChoices3;;;;;;;;
-;Choice : Monte !;;;Choice : Donne nous tout ce que tu as ou on te croque la bite.;;;Choice : Désolé mon gars, pas assez de place à bord;;
-;OtherSpeak : Merci m'sieur !;;;RandomRange2;;;RandomPercent40;;
-;AddMember;;;OtherSpeak : Mais je n'ai absolument rien !;GoToE/18;;OtherSpeak : Donnez moi au moins quelque chose à manger;;OtherSpeak : Enculé ! 
-;GoToA/22;;;SetChoices2;;;SetChoices2;;LaunchCombat
-;;;;Choice : Rien à foutre;;Choice : Mon couillon t'es en vaine : On s'en va.;Choice : Tiens.;Choice : Non continue à manger des noix de coco.;GoToA/22
-;;;;RandomPercent30;;OtherSpeak : …;RemoveFromInv;OtherSpeak : Vous êtes sans coeur !;
-;;;;OtherSpeak : Tenez…;OtherSpeak : Faudra passer sur mon cadavre ! ;Leave;OtherSpeak : Merci…;GoToA/22;
-;;;;LootMisc;LaunchCombat;;Leave;;
-;;;;Conclude;GoToA/22;;;;
-Narrator : L'île est grande mais déserte. Il n'y a qu'un petit bois au bout de la plage;;;;;;;;;
-HideOther;;;;;;;;;
-SetChoices4;;;;;;;;;
-Choice : On lève l'ancre !;Choice : On va rester ici pour la nuit;Choice : (Chercher de la nourriture);;Choice : (Retourner voir naufragé);;;;;
-Leave;SetWeatherDay;RandomPercent75;;GoToB/6;;;;;
-;Narrator : Le bateau est sur une petite île. L'air est frais et matinal.;PlayerSpeak : Il n'y a rien de comestible ici !;PlayerSpeak : Bingo !;;;;;;
-;GoToA/24;GoToA/24;LootFood;;;;;;
-;;;GoToA/24;;;;;;
+Nom;Fréquence %;;;;;;;
+Naufragé;10;;;;;;;
+[debut];;;;;;;;
+Narrator : L'île est immense, mais une gigantesque colonne de fumée tourne au dessus d'elle.;;;;;;;;
+SetChoices2;;;;;;;;
+Choice : Repartir;Choice : Accoster sur l'île;;;;;;;
+PlayerSpeak : On a rien à faire ici !;Fade;;;;;;;
+Leave;Mark=>naugragé;;;;;;;
+;;;;;;;;
+;;;;;;;;
+[naufragé];;;;;;;;
+NewCrew1;;;;;;;;
+Narrator : Un homme barbu est au bord de la plage. Il vous fait des signes.;Narrator : La plage est vide.;OtherSpeak : Oh non encore vous !;;;;;;
+PlayerSpeak : Tout va bien ?;Mark=>plage déserte;OtherSpeak : Je vous en pris laissez moi en vie;;;;;;
+OtherSpeak : 3 ans que je suis coincé ici !;;Mark=>combat dialogue;;;;;;
+OtherSpeak : Emmenez moi avec vous, je vous en prie !;;;;;;;;
+SetChoices3;;;;;;;;
+Choice : Monte !;;;Choice : Donne nous tout ce que tu as ou on te croque la bite.;;;Choice : Désolé mon gars, pas assez de place à bord;;
+OtherSpeak : Merci m'sieur !;;;RandomRange2;;;RandomPercent40;;
+AddMember;;;OtherSpeak : Mais je n'ai absolument rien !;Mark=>combat naufragé;;OtherSpeak : Donnez moi au moins quelque chose à manger;;OtherSpeak : Enculé ! 
+Mark=>plage déserte;;;[combat dialogue];;;SetChoices2;;Mark=>combat naufragé
+;;;SetChoices2;;;Choice : Tiens.;Choice : Non continue à manger des noix de coco.;
+;;;Choice : Rien à foutre;;Choice : Mon couillon t'es en vaine : On s'en va.;RemoveFromInv;OtherSpeak : Vous êtes sans coeur !;
+;;;RandomPercent30;;OtherSpeak : …;OtherSpeak : Merci…;Mark=>plage déserte;
+;;;OtherSpeak : Tenez…;OtherSpeak : Faudra passer sur mon cadavre ! ;Leave;Leave;;
+;;;LootMisc;[combat naufragé];;;;
+;;;Mark=>debut;LaunchCombat;;;;
+;;;;Mark=>plage déserte;;;;
+;;;;;;;;
+;;;;;;;;
+[plage déserte];;;;;;;;
+HideOther;;;;;;;;
+Narrator : L'île est grande mais déserte. Il n'y a qu'un petit bois au bout de la plage;;;;;;;;
+SetChoices4;;;;;;;;
+Choice : On lève l'ancre !;;Choice : (Chercher de la nourriture);;Choice : (Retourner voir naufragé);;;;
+Leave;Choice : On va rester ici pour la nuit;RandomPercent65;;GoToB/6;;;;
+;SetWeatherDay;PlayerSpeak : Il n'y a rien de comestible ici !;PlayerSpeak : Bingo !;;;;;
+;Narrator : Le bateau est sur une petite île. L'air est frais et matinal.;GoToA/24;LootFood;;;;;
+;GoToA/24;;GoToA/24;;;;;

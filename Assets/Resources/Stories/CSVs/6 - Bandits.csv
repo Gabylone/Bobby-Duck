@@ -1,15 +1,33 @@
-Nom;Fréquence %;;;
-Bandits;6;;;
-Narrator : L'équipage accoste sur une petite île.;;;;
-NewCrew;;;;
-Narrator : Quelques hommes s'avancent;Narrator : Le sol est jonché de corps de bandits;;;OtherSpeak : Alors ? Tu nous as oubliés ?
-OtherSpeak : Oyé !;SetChoices2;;;GoToA/8
-PlayerSpeak : Ahoi !;Choice : Partir;Choice : Rester pour la nuit;;
-OtherSpeak : C'est simple : 30 pièces d'or ou c'est fini !;Leave;SetWeatherDay;;
-SetChoices3;;GoToB/6;;
-Choice : Tenez…;;Choice : Plutôt mourir !;Choice : Je n'ai pas assez;
-CheckGold30;;LaunchCombat;OtherSpeak : Tanpis Pour vous !;
-RemoveGold30;OtherSpeak : Vous vous foutez de moi ?;Leave;LaunchCombat;
-OtherSpeak : C'est très bien ça…;OtherSpeak : Déglingez les, les gars !;;Leave;
-OtherSpeak : A la prochaine;LaunchCombat;;;
-Leave;Leave;;;
+Nom;Fréquence %;;
+Bandits;6;;
+[debut];;;
+Narrator : L'équipage accoste sur une petite île.;;;
+NewCrew;;;
+Narrator : Quelques hommes s'avancent;Mark=>bandits morts;OtherSpeak : Alors ? Tu nous as oubliés ?;
+OtherSpeak : Oyé !;;Mark=>chantage;
+PlayerSpeak : Ahoi !;;;
+Mark=>chantage;;;
+;;;
+;;;
+;;;
+;;;
+;;;
+;;;
+;;;
+[chantage];;;
+OtherSpeak : C'est simple : 30 pièces d'or ou c'est fini !;;;
+SetChoices3;;;
+Choice : Tenez…;;Choice : Plutôt mourir !;Choice : Je n'ai pas assez
+CheckGold30;;LaunchCombat;OtherSpeak : Tanpis Pour vous !
+RemoveGold30;OtherSpeak : Vous vous foutez de moi ?;Mark=>bandits morts;LaunchCombat
+OtherSpeak : C'est très bien ça…;OtherSpeak : Déglingez les, les gars !;;Mark=>bandits morts
+OtherSpeak : A la prochaine;LaunchCombat;;
+Leave;Mark=>bandits morts;;
+;;;
+;;;
+[bandits morts];;;
+Narrator : Le sol est jonché de corps de bandits;;;
+SetChoices2;;;
+Choice : Partir;Choice : Rester pour la nuit;;
+Leave;SetWeatherDay;;
+;Mark=>bandits morts;;

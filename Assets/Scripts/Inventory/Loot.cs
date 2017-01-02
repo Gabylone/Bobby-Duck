@@ -8,7 +8,6 @@ public class Loot {
 	public int row = 0;
 	public int col = 0;
 
-
 	private Item[][] loot = new Item[4][];
 
 	public Item[][] getLoot {
@@ -43,6 +42,7 @@ public class Loot {
 
 		int lenght = 0;
 		for (int i = 0; i < categories.Length; ++i) {
+			Debug.Log ((int)categories[i]);
 			lenght += loot [(int)categories [i]].Length;
 		}
 

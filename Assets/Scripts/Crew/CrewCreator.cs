@@ -31,7 +31,7 @@ public class CrewCreator : MonoBehaviour {
 
 
 	private string[] names = new string[51] {
-		"Jean", "Eric", "Nathan", "Jacques", "Benoit", "Jeremy", "Flo", "Bertrand", "Vladimir", "Dimitri", "Jean-Jacques", "Gérard", "Nestor", "Etienne", "Leon", "Henry", "David", "Esteban", "Louis", "Carles", "Victor", "Michel", "Gabriel", "Pierre", "André", "Fred", "Cassius", "César", "Paul", "Martin", "Claude", "Levis", "Alex", "Olivier", "Mustafa", "Nicolas", "Chris", "Oleg", "Emile", "Richard", "Romulus", "Rufus", "Stan", "Charles", "Quincy", "Antoine", "Virgile", "Boromir", "Archibald", "Eddy", "Kenneth"
+		"Jean","Eric", "Nathan", "Jacques", "Benoit", "Jeremy", "Flo", "Bertrand", "Vladimir", "Dimitri", "Jean-Jacques", "Gérard", "Nestor", "Etienne", "Leon", "Henry", "David", "Esteban", "Louis", "Carles", "Victor", "Michel", "Gabriel", "Pierre", "André", "Fred", "Cassius", "César", "Paul", "Martin", "Claude", "Levis", "Alex", "Olivier", "Mustafa", "Nicolas", "Chris", "Oleg", "Emile", "Richard", "Romulus", "Rufus", "Stan", "Charles", "Quincy", "Antoine", "Virgile", "Boromir", "Archibald", "Eddy", "Kenneth"
 	};
 
 	[SerializeField]
@@ -43,12 +43,22 @@ public class CrewCreator : MonoBehaviour {
 	[Header("Sprites")]
 	[SerializeField]
 	private Sprite[] faceSprites;
+
+	[Header("Hair")]
 	[SerializeField]
 	private Sprite[] hairSprites;
+	public int[] femaleHairID 	= new int[0];
+	public int[] maleHairID 	= new int[0];
+
+	[Header("Beard")]
 	[SerializeField]
 	private Sprite[] beardSprites;
+
+	[Header("Clothe")]
 	[SerializeField]
 	private Sprite[] clothesSprites;
+	public int[] femaleClothesID 	= new int[0];
+	public int[] maleClothesID 	= new int[0];
 
 	[Header ("Colors")]
 	[SerializeField] private Color lightBrown;
@@ -64,7 +74,6 @@ public class CrewCreator : MonoBehaviour {
 		Color.gray,
 		Color.gray,
 	};
-
 	#endregion
 
 	void Awake () {
@@ -73,7 +82,16 @@ public class CrewCreator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+	}
+
+	void Update () {
+		if (Input.GetKeyDown (KeyCode.L)) {
+			Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
+			string directionPhrase = NavigationManager.Instance.getDirName (dir);
+
+			Debug.Log (directionPhrase);
+		}
+
 	}
 
 	public CrewMember NewMember (MemberID memberID) {
@@ -201,6 +219,8 @@ public class MemberID {
 		// name
 	public int nameID 	= 0;
 
+	public bool male = false;
+
 		// lvl
 	public int lvl 		= 0;
 
@@ -208,10 +228,10 @@ public class MemberID {
 	public int maxHP 	= 0;
 
 		// stats
-	public int str = 0;
-	public int dex = 0;
-	public int cha = 0;
-	public int con = 0;
+	public int str = 1;
+	public int dex = 1;
+	public int cha = 1;
+	public int con = 1;
 
 		// icon index
 	public int bodyColorID = 0;
@@ -234,35 +254,66 @@ public class MemberID {
 
 		nameID 			= Random.Range (0, CrewCreator.Instance.Names.Length);
 
-		if (Crews.playerCrew.CrewMembers.Count > 0)
-			lvl = Random.Range ( Crews.playerCrew.captain.Level -1 , Crews.playerCrew.captain.Level + 2 );
-		else
+		male = Random.value < 0.65f;
+
+		if (Crews.playerCrew.CrewMembers.Count > 0) {
+			lvl = Random.Range (Crews.playerCrew.captain.Level - 1, Crews.playerCrew.captain.Level + 2);
+			Debug.Log ("random level given : " + lvl);
+		} else {
 			lvl = 1;
+			Debug.Log ("level 1");
+		}
 
 		lvl = Mathf.Clamp ( lvl , 1 , 10 );
 
 		maxHP 			= CrewCreator.Instance.StartHealth;
 
-		str = lvl;
-     	dex = lvl;
-     	cha = lvl;
-		con = lvl;
+		int stats = lvl - 1;
+
+		while ( stats > 0 )  {
+
+			switch (Random.Range (0, 4)) {
+			case 0:
+				++str;
+				break;
+			case 1:
+				++dex;
+				break;
+			case 2:
+				++cha;
+				break;
+			case 3:
+				++con;
+				break;
+			}
+
+			--stats;
+		}
 
 		// il a 35% de chance d'être noir
 		bodyColorID 	= Random.value < 0.35f ? 0 : 1;
 
 		hairColorID 	= Random.Range ( 0 , CrewCreator.Instance.HairColors.Length  );
-		hairSpriteID 	= Random.Range (-1 , CrewCreator.Instance.HairSprites.Length );
-		beardSpriteID 	= Random.Range (-1 , CrewCreator.Instance.BeardSprites.Length);
+		int[] hairIDs 	= male ? CrewCreator.Instance.maleHairID : CrewCreator.Instance.femaleHairID;
+		if (male) {
 
-		clothSpriteID 	= Random.Range ( 0 , CrewCreator.Instance.ClothesSprites.Length	);
+			hairSpriteID = Random.Range (-1, hairIDs.Length);
+			if (hairSpriteID > -1)
+				hairSpriteID = hairIDs [hairSpriteID];
+		} else {
+			hairSpriteID = hairIDs [Random.Range (0, hairIDs.Length)];
+		}
+
+		beardSpriteID 	= male ? Random.Range (-1 , CrewCreator.Instance.BeardSprites.Length) : -1;
+
+		int[] clothIDs 	= male ? CrewCreator.Instance.maleClothesID : CrewCreator.Instance.femaleClothesID;
+		clothSpriteID 	= clothIDs [Random.Range (0, clothIDs.Length)];
 		clothColor 		= Random.ColorHSV();
 
 		voiceID 		= Random.Range ( 0 , DialogueManager.Instance.SpeakSounds.Length );
 
 		weaponID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Weapon, lvl);
 		clothesID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Clothes, lvl);
-//		shoesID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Shoes, lvl);
 
 	}
 

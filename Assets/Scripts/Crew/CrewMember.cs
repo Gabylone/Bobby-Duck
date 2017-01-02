@@ -122,7 +122,7 @@ public class CrewMember {
 
 		AddXP (1);
 
-		CurrentHunger += StepsToHunger;
+//		CurrentHunger += StepsToHunger;
 
 		if ( CurrentHunger >= maxState ) {
 
@@ -137,15 +137,15 @@ public class CrewMember {
 			}
 		}
 
-		if ( CurrentCold >= maxState ) {
-			Health -= StepsToCold;
-			if ( health == 0 )
-			{
-				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + MemberName + " meurt d'un froid mordant");
-				Kill ();
-				return;
-			}
-		}
+//		if ( CurrentCold >= maxState ) {
+//			Health -= StepsToCold;
+//			if ( health == 0 )
+//			{
+//				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + MemberName + " meurt d'un froid mordant");
+//				Kill ();
+//				return;
+//			}
+//		}
 
 		++daysOnBoard;
 

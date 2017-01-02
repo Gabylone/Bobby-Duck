@@ -7,5 +7,5 @@ Leave;PlayerSpeak : C'est chez moi !;;
 ;[choix];;
 ;SetChoices3;;
 ;Choice : Reprendre le large;Choice : Regarder dans coffre;Choice : Dormir
-;PlayerSpeak : Hop !;LootFoodMisc;SetWeatherDay
+;PlayerSpeak : Hop !;LootFood;SetWeatherDay
 ;Leave;Mark=>choix;Mark=>choix
