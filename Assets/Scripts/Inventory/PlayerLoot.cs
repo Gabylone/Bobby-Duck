@@ -110,9 +110,6 @@ public class PlayerLoot : MonoBehaviour {
 			case ItemCategory.Clothes:
 				part = CrewMember.EquipmentPart.Clothes;
 				break;
-//			case ItemCategory.Shoes:
-//				part = CrewMember.EquipmentPart.Shoes;
-//				break;
 			}
 
 			if (targetMember.GetEquipment(part) != null)
@@ -129,7 +126,7 @@ public class PlayerLoot : MonoBehaviour {
 
 		LootManager.Instance.PlayerLoot.RemoveItem ( lootUI.SelectedItem);
 		lootUI.UpdateLootUI ();
-		PlayerLoot.Instance.UpdateMembers();
+		UpdateMembers();
 
 	}
 	#endregion

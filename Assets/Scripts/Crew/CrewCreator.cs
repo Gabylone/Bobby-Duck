@@ -30,8 +30,12 @@ public class CrewCreator : MonoBehaviour {
 	private GameObject memberPrefab;
 
 
-	private string[] names = new string[51] {
-		"Jean","Eric", "Nathan", "Jacques", "Benoit", "Jeremy", "Flo", "Bertrand", "Vladimir", "Dimitri", "Jean-Jacques", "Gérard", "Nestor", "Etienne", "Leon", "Henry", "David", "Esteban", "Louis", "Carles", "Victor", "Michel", "Gabriel", "Pierre", "André", "Fred", "Cassius", "César", "Paul", "Martin", "Claude", "Levis", "Alex", "Olivier", "Mustafa", "Nicolas", "Chris", "Oleg", "Emile", "Richard", "Romulus", "Rufus", "Stan", "Charles", "Quincy", "Antoine", "Virgile", "Boromir", "Archibald", "Eddy", "Kenneth"
+	private string[] maleNames = new string[51] {
+		"Jean","Eric", "Nathan", "Jacques", "Benoit", "Jeremy", "Jerome", "Bertrand", "Vladimir", "Dimitri", "Jean-Jacques", "Gérard", "Nestor", "Etienne", "Leon", "Henry", "David", "Esteban", "Louis", "Carles", "Victor", "Michel", "Gabriel", "Pierre", "André", "Fred", "Cassius", "César", "Paul", "Martin", "Claude", "Levis", "Alex", "Olivier", "Mustafa", "Nicolas", "Chris", "Oleg", "Emile", "Richard", "Romulus", "Rufus", "Stan", "Charles", "Quincy", "Antoine", "Virgile", "Boromir", "Archibald", "Eddy", "Kenneth"
+	};
+
+	private string[] femaleNames = new string[51] {
+		"Jeanne","Erica", "Nathalie", "Jacquelines", "Barbara", "Ella", "Flo", "Laura", "Natasha", "Irene", "Yvonne", "Gérarde", "Nelly", "Elisa", "Adele", "Henriette", "Alice", "Esteban", "Louise", "Carla", "Victoria", "Michelle", "Gabrielle", "Sarah", "Andréa", "Marion", "Valentine", "Cléopatre", "Pauline", "Martine", "Claudette", "Nina", "Alexandra", "Clementine", "Julia", "Olivia", "Christine", "Rose", "Emilia", "Agathe", "Lily", "Claire", "Yasmine", "Charlotte", "Scarlett", "Marina", "Virginie", "Anaïs", "Tatiana", "Cécile", "Marianne"
 	};
 
 	[SerializeField]
@@ -85,12 +89,6 @@ public class CrewCreator : MonoBehaviour {
 	}
 
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.L)) {
-			Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
-			string directionPhrase = NavigationManager.Instance.getDirName (dir);
-
-			Debug.Log (directionPhrase);
-		}
 
 	}
 
@@ -113,7 +111,7 @@ public class CrewCreator : MonoBehaviour {
 	}
 
 	#region icons
-	public GameObject NewIcon(MemberID memberID) {
+	public GameObject NewIcon (MemberID memberID) {
 
 		GameObject icon = Instantiate (memberPrefab) as GameObject;
 
@@ -201,9 +199,15 @@ public class CrewCreator : MonoBehaviour {
 		}
 	}
 
-	public string[] Names {
+	public string[] MaleNames {
 		get {
-			return names;
+			return maleNames;
+		}
+	}
+
+	public string[] FemaleNames {
+		get {
+			return femaleNames;
 		}
 	}
 
@@ -252,16 +256,15 @@ public class MemberID {
 
 	public MemberID () {
 
-		nameID 			= Random.Range (0, CrewCreator.Instance.Names.Length);
-
 		male = Random.value < 0.65f;
+
+		nameID 			= Random.Range (0, male ? CrewCreator.Instance.MaleNames.Length : CrewCreator.Instance.FemaleNames.Length );
 
 		if (Crews.playerCrew.CrewMembers.Count > 0) {
 			lvl = Random.Range (Crews.playerCrew.captain.Level - 1, Crews.playerCrew.captain.Level + 2);
 			Debug.Log ("random level given : " + lvl);
 		} else {
 			lvl = 1;
-			Debug.Log ("level 1");
 		}
 
 		lvl = Mathf.Clamp ( lvl , 1 , 10 );

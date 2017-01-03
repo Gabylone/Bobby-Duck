@@ -8,12 +8,12 @@ PlayerSpeak : Hop !;SetWeatherDay;SetWeatherDay;;;
 Leave;Mark=>debut;PlayerSpeaker : Nous y voilà;;;
 ;;[entree foret];;;
 ;;SetChoices3;;;
-;;Choice : Retourner à plage;Choice : Camper à l'orée de la forêt.;;Choice : Entrer dans la forêt.
-;;SetWeatherNight;SetChoices2;;Fade
-;;PlayerSpeak : Deux jours de marche pour rien…;Choice : Jusqu'à la nuit;Choice : Jusqu'au lendemain;Mark=>foret
-;;Mark=>debut;SetWeatherNight;SetWeatherDay;
-;;;Mark=>entree foret;Mark=>entree foret;
-[foret];;;;;
+;;Choice : Retourner à plage;Choice : Entrer dans la forêt.;Choice : Camper à l'orée de la forêt.;
+;;SetWeatherNight;Fade;SetChoices2;
+;;PlayerSpeak : Deux jours de marche pour rien…;Mark=>caca;Choice : Jusqu'à la nuit;Choice : Jusqu'au lendemain
+;;Mark=>debut;;SetWeatherNight;SetWeatherDay
+;;;;Mark=>entree foret;Mark=>entree foret
+[caca];;;;;
 Narrator : La fôrêt est sombre et dense. Mais une pierre gigantesque vous bloque le chemin.;;;;;
 Narrator : Une voix d'outre tombe s'élève de derrière les arbres.;;;;;
 Narrator : « Récitez les deux formules »;;;;;
@@ -22,7 +22,7 @@ CheckClues;;;;;
 Fade;;Fade;Fade;;
 PlayerSpeak : Il ne s'est rien passé !;;Narrator : Un grondement immense résonne dans la forêt.;Narrator : Gagné !;;
 [next];;PlayerSpeak : Je crois qu'on est sur la bonne piste !;Fade;;
-SetChoices2;;mark=>next;Leave;;
+SetChoices2;;Mark=>next;Leave;;
 Choice : Sortir de la forêt;Choice : Réessayer;;;;
 Narrator : Sans trop de mal, l'équipage retrouve l'entrée de la forêt.;Mark=>indices;;;;
 Mark=>entree foret;;;;;

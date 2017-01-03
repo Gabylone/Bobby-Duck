@@ -80,7 +80,6 @@ public class StoryFunctions : MonoBehaviour {
 
 		StoryReader.Instance.UpdateStory ();
 
-
 	}
 	void RandomRedoPercent () {
 
@@ -211,6 +210,9 @@ public class StoryFunctions : MonoBehaviour {
 	void CheckCharisma () {
 
 		int decal = Crews.playerCrew.captain.Charisma > Crews.enemyCrew.captain.Charisma ? 0 : 1;
+
+		StoryReader.Instance.NextCell ();
+
 		StoryReader.Instance.SetDecal (decal);
 		StoryReader.Instance.UpdateStory ();
 
@@ -476,13 +478,17 @@ public class StoryFunctions : MonoBehaviour {
 
 		string itemName = cellParams.Split ('<')[1];
 
-		Debug.Log ("Found name : " + itemName);
+		itemName = itemName.Remove (itemName.Length - 6);
+
+//		Debug.Log ("Found name : " + itemName );
 
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 
+//		Debug.Log ("Found cat : " + targetCat);
+
 		Item item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
 
-		Debug.Log ( "try to add ; " + item.name + " to inventory" );
+		LootManager.Instance.PlayerLoot.AddItem (item);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (0.5f);
@@ -677,15 +683,3 @@ public class StoryFunctions : MonoBehaviour {
 		}
 	}
 }
-
-
-//STORIES :
-//- rajouter forêt
-//- rajouter juste indice
-//
-//- petite grotte argent.
-//- petite ferme randol loot
-//
-//- bandits seulement nuit
-//
-//- librairie qui parle de bobdy

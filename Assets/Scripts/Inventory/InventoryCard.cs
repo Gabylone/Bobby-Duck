@@ -75,15 +75,15 @@ public class InventoryCard : Card {
 		charismaImage.GetComponentInChildren<Text> ().text 		= member.Charisma.ToString();
 		constitutionImage.GetComponentInChildren<Text> ().text 	= member.Constitution.ToString();
 
-		strenghtImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LeveledUp);
-		dexterityImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LeveledUp);
-		charismaImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LeveledUp);
-		constitutionImage.GetComponentInChildren<Animator> ().SetBool 	("Warning" , member.LeveledUp);
+		strenghtImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LevelsUp > 0);
+		dexterityImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LevelsUp > 0);
+		charismaImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LevelsUp > 0);
+		constitutionImage.GetComponentInChildren<Animator> ().SetBool 	("Warning" , member.LevelsUp > 0);
 
-		strenghtImage.GetComponentInChildren<Button> ().interactable 		= member.LeveledUp;
-		dexterityImage.GetComponentInChildren<Button> ().interactable 		= member.LeveledUp;
-		charismaImage.GetComponentInChildren<Button> ().interactable 		= member.LeveledUp;
-		constitutionImage.GetComponentInChildren<Button> ().interactable 	= member.LeveledUp;
+		strenghtImage.GetComponentInChildren<Button> ().interactable 		= member.LevelsUp > 0;
+		dexterityImage.GetComponentInChildren<Button> ().interactable 		= member.LevelsUp > 0;
+		charismaImage.GetComponentInChildren<Button> ().interactable 		= member.LevelsUp > 0;
+		constitutionImage.GetComponentInChildren<Button> ().interactable 	= member.LevelsUp > 0;
 
 	}
 
@@ -148,6 +148,8 @@ public class InventoryCard : Card {
 		PlayerLoot.Instance.SelectedMember.Equipment [i] = null;
 		PlayerLoot.Instance.SelectedCard.Deploy ();
 		PlayerLoot.Instance.LootUI.UpdateLootUI ();
+
+		UpdateMember (currentMember);
 	}
 
 	public bool Deployed {
@@ -190,7 +192,7 @@ public class InventoryCard : Card {
 			break;
 		}
 
-		currentMember.LeveledUp = false;
+		--currentMember.LevelsUp;
 
 		UpdateMember (currentMember);
 

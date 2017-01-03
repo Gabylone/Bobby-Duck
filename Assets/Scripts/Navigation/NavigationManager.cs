@@ -35,6 +35,7 @@ public class NavigationManager : MonoBehaviour {
 
 		Invoke ("MoveDelay", Transitions.Instance.ScreenTransition.Duration);
 
+
 	}
 	public void Move ( Directions dir ) {
 
@@ -62,6 +63,13 @@ public class NavigationManager : MonoBehaviour {
 		Transitions.Instance.ScreenTransition.Switch ();
 
 		WeatherManager.Instance.UpdateWeather ();
+//
+//		///
+//
+//		Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
+//		string directionPhrase = NavigationManager.Instance.getDirName (dir);
+//
+//		Debug.Log (directionPhrase);
 
 	}
 	#endregion

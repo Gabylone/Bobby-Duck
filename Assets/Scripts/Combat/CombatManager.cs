@@ -78,6 +78,9 @@ public class CombatManager : MonoBehaviour {
 			updateState ();
 			timeInState += Time.deltaTime;
 		}
+
+		if (Input.GetKeyDown (KeyCode.K))
+			WinFight ();
 	}
 
 	public void StartCombat () {

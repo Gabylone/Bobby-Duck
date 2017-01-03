@@ -1,14 +1,21 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Inventory\Loot.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Stories\StoryFunctions.cs">
     <Files>
-      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="93" Column="4" />
-      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="398" Column="15" />
-      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="223" Column="32" />
-      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="660" Column="39" />
-      <File FileName="Assets\Scripts\Inventory\Loot.cs" Line="48" Column="3" />
-      <File FileName="Assets\Scripts\Inventory\InventoryCard.cs" Line="78" Column="50" />
-      <File FileName="Assets\Scripts\Treasure\ClueManager.cs" Line="126" Column="2" />
+      <File FileName="Assets\Scripts\Inventory\LootManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Stories\StoryTest.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="120" Column="43" />
+      <File FileName="Assets\Scripts\Crew\CrewManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\InventoryCard.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\PlayerLoot.cs" Line="67" Column="27" />
+      <File FileName="Assets\Scripts\Inventory\OtherLoot.cs" Line="64" Column="66" />
+      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="113" Column="3" NotebookId="1" />
+      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="626" Column="26" NotebookId="1" />
+      <File FileName="Assets\Scripts\Navigation\NavigationManager.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\Inventory\Loot.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\Stories\StoryReader.cs" Line="1" Column="1" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

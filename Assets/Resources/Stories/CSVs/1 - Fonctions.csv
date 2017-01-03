@@ -27,6 +27,7 @@ GiveTip;gives random tip ( one dialogue);;
 CheckGold;vérifie si le joueur a X argent;;
 RemoveGold;enlève X argent au joueur;;
 AddGold;enlève X argent au joueur;;
+AddToInventory;;;
 Loot;crée un loot, toutes catégories confondues;;
 Trade;crée un loot de nourriture;;
 BoatUpgrades;;;

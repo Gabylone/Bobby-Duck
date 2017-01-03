@@ -42,7 +42,6 @@ public class Loot {
 
 		int lenght = 0;
 		for (int i = 0; i < categories.Length; ++i) {
-			Debug.Log ((int)categories[i]);
 			lenght += loot [(int)categories [i]].Length;
 		}
 

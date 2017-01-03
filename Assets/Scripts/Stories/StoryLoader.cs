@@ -110,6 +110,7 @@ public class StoryLoader : MonoBehaviour {
 			homeStories.Add (newStory);
 			return;
 		}
+
 		stories.Add (newStory);
 		storyPercents.Add (newStory.freq);
 	}
@@ -221,6 +222,12 @@ public class StoryLoader : MonoBehaviour {
 			int storyIndex = Percentage.getRandomIndex (storyPercents.ToArray());
 			Debug.Log ("index chosen from % : " + storyIndex);
 			return Stories [storyIndex];
+		}
+	}
+
+	public List<Story> TreasureStories {
+		get {
+			return treasureStories;
 		}
 	}
 }

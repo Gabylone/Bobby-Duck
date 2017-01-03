@@ -21,7 +21,7 @@ public class CrewMember {
 	private int health = 0;
 
 		// level
-	bool leveledUp = false;
+	int levelsUp = 0;
 
 	private int xp = 0;
 	private int stepToNextLevel = 100;
@@ -100,7 +100,7 @@ public class CrewMember {
 
 			health = MaxHealth;
 
-			leveledUp = true;
+			++levelsUp;
 		}
 	}
 	public bool CheckLevel ( int lvl ) {
@@ -122,7 +122,7 @@ public class CrewMember {
 
 		AddXP (1);
 
-//		CurrentHunger += StepsToHunger;
+		CurrentHunger += StepsToHunger;
 
 		if ( CurrentHunger >= maxState ) {
 
@@ -136,16 +136,6 @@ public class CrewMember {
 				return;
 			}
 		}
-
-//		if ( CurrentCold >= maxState ) {
-//			Health -= StepsToCold;
-//			if ( health == 0 )
-//			{
-//				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + MemberName + " meurt d'un froid mordant");
-//				Kill ();
-//				return;
-//			}
-//		}
 
 		++daysOnBoard;
 
@@ -164,7 +154,7 @@ public class CrewMember {
 
 	public string MemberName {
 		get {
-			return CrewCreator.Instance.Names[memberID.nameID];
+			return Male ? CrewCreator.Instance.MaleNames [memberID.nameID] : CrewCreator.Instance.FemaleNames [memberID.nameID];
 		}
 	}
 
@@ -177,19 +167,31 @@ public class CrewMember {
 			memberID.lvl = value;
 		}
 	}
+
+	public bool Male {
+		get { return memberID.male; }
+	}
 	#endregion
 
 	#region stats
 	public int Attack {
 		get {
-			return memberID.str + GetEquipment (EquipmentPart.Weapon).value;
+
+			if (GetEquipment (EquipmentPart.Weapon) != null)
+				return Strenght + GetEquipment (EquipmentPart.Weapon).value;
+
+			return Strenght;
 		}
 	}
 
 
 	public int Defense {
 		get {
-			return memberID.con + GetEquipment(EquipmentPart.Clothes).value;
+
+			if (GetEquipment (EquipmentPart.Clothes) != null)
+				return Constitution + GetEquipment (EquipmentPart.Clothes).value;
+
+			return Constitution;
 		}
 	}
 
@@ -395,12 +397,12 @@ public class CrewMember {
 		}
 	}
 
-	public bool LeveledUp {
+	public int LevelsUp {
 		get {
-			return leveledUp;
+			return levelsUp;
 		}
 		set {
-			leveledUp = value;
+			levelsUp = value;
 		}
 	}
 	#endregion

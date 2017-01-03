@@ -23,6 +23,8 @@ public class StoryTest : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Return) ) {
 
 			StoryLoader.Instance.CurrentIslandStory = StoryLoader.Instance.Stories [storyID];
+//			StoryLoader.Instance.CurrentIslandStory = StoryLoader.Instance.TreasureStories[0];
+
 			IslandManager.Instance.Enter ();
 
 		}
