@@ -1,5 +1,5 @@
 Nom;Fréquence %;;;;;
-Forgeron;4;;;;;
+Forgeron;3;;;;;
 [debut];;;;;;
 Narrator : Le bateau est accosté sur une plage d'herbe. Elle est composée de quelques plates collines. Pas très loin, une maisonnette est surplombée d'une gigantesque cheminée, qui crache une colonne de fumée noire.;;;;;;
 SetChoices2;;;;;;
@@ -10,7 +10,7 @@ Leave;Fade;;;;;
 ;;;;;;
 [maison forgeron];;;;;;
 Narrator : Le capitaine arrive devant une petite maison de briques rouges. ;;;;;;
-NewCrew1;;;;;;
+NewCrew1/M;;;;;;
 OtherSpeak : Bonjour !;Mark=>forgeron mort;OtherSpeak : Tu oses revenir…;;;;
 Mark=>discussion forgeron;;LaunchCombat;;;;
 ;;Mark=>combat forgeron;;;;
@@ -19,7 +19,7 @@ SetChoices3;;;;;;
 Choice : Héla ! Tu vends des armes ?;;Choice : ( partir );Choice : (attaquer sauvagement);;;
 RandomPercent8;;HideOther;[combat forgeron];;;
 OtherSpeak : Pas à des gens comme toi !;OtherSpeak : Avec plaisir !;Fade;OtherSpeak : Tu te frottes à la mauvaise personne !;;;
-Mark=>discussion forgeron;TradeWeapons/Clothes/Shoes;Mark=>discussion forgeron;LaunchCombat;;;
+Mark=>discussion forgeron;TradeWeapons/Clothes;Mark=>discussion forgeron;LaunchCombat;;;
 ;Mark=>discussion forgeron;;Mark=>forgeron mort;;;
 ;;;;;;
 ;;;;;;
@@ -28,7 +28,7 @@ Mark=>discussion forgeron;TradeWeapons/Clothes/Shoes;Mark=>discussion forgeron;L
 Narrator : Le forgeron est mort, mais sa forge continu de brûler. Derrière la forge se trouve toute sorte de métaux.;;;;;;
 SetChoices3;;;;;;
 Choice : Entrer dans maison;;;Choice : ( regarder derrière forge );;;Choice : ( partir )
-NewCrew1;;;RandomRange3;;;Fade
+NewCrew1/F;;;RandomRange3;;;Fade
 OtherSpeak : !;Mark=>femme mort;Mark=>combat femme;PlayerSpeak : Que des bouts de métal et de la rouille !;PlayerSpeak : Tout plein de choses, mais pas d'armes !;PlayerSpeak : Bingo !;Mark=>debut
 OtherSpeak : Qu'est-ce que vous faites chez moi ?!;;;Mark=>forgeron mort;LootMisc;LootWeapons;
 Mark=>choix femme;;;;Mark=>forgeron mort;Mark=>forgeron mort;

@@ -111,6 +111,17 @@ public class ItemLoader : MonoBehaviour {
 	}
 
 	#region random items
+	int mult = 1;
+
+	public int Mult {
+		get {
+			return mult;
+		}
+		set {
+			mult = value;
+		}
+	}
+
 	public Item[][] getRandomLoot ( ItemCategory[] categories ) {
 
 		Item[][] randomItems = new Item[categoryAmount][];
@@ -130,11 +141,15 @@ public class ItemLoader : MonoBehaviour {
 				itemType = 0;
 			}
 
-			int itemAmount = Random.Range (1, items_MaxPerLoot [itemType]+1);
+			int itemAmount = Random.Range (1, items_MaxPerLoot [itemType]+1) * mult;
+
+			if ( mult > 1 )
+				mult = 1;
 
 			randomItems [itemType] = new Item[itemAmount];
 
 			int maxLevel = 1;
+
 			if ( Crews.playerCrew != null )
 				maxLevel = Crews.playerCrew.captain.Level + Random.Range (-1, 2);
 			

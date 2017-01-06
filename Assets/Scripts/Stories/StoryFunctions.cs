@@ -111,7 +111,7 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region character & crew
-	Crew GetCrew (int amount) {
+	Crew GetCrew (CrewParams crewParams) {
 		
 		int row = StoryReader.Instance.Decal;
 		int col = StoryReader.Instance.Index;
@@ -120,7 +120,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		if (tmp == null) {
 
-			Crew newCrew = new Crew (amount, row, col);
+			Crew newCrew = new Crew (crewParams, row, col);
 
 			MapManager.Instance.CurrentIsland.Crews.Add (newCrew);
 
@@ -137,14 +137,28 @@ public class StoryFunctions : MonoBehaviour {
 
 		int l = Crews.playerCrew.CrewMembers.Count;
 
-		int amount = 0;
+		CrewParams crewParams = new CrewParams ();
+
 		if ( cellParams.Length > 0 ) {
-			amount = int.Parse(cellParams);
+
+			if (cellParams.Contains ("/")) {
+			
+				string[] parms = cellParams.Split ('/');
+
+				crewParams.amount = int.Parse (parms[0]);
+				crewParams.overideGenre = true;
+				crewParams.male = parms[1][0] == 'M';
+
+			} else {
+				crewParams.amount = int.Parse (cellParams);
+
+			}
+
 		} else {
-			amount = Random.Range ( l-1 , l+2 );
+			crewParams.amount = Random.Range ( l-1 , l+2 );
 		}
 
-		Crew islandCrew = GetCrew (amount);
+		Crew islandCrew = GetCrew (crewParams);
 
 		if (islandCrew.MemberIDs.Count == 0) {
 			
@@ -202,19 +216,6 @@ public class StoryFunctions : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (0.5f);
-
-	}
-	#endregion
-
-	#region stats
-	void CheckCharisma () {
-
-		int decal = Crews.playerCrew.captain.Charisma > Crews.enemyCrew.captain.Charisma ? 0 : 1;
-
-		StoryReader.Instance.NextCell ();
-
-		StoryReader.Instance.SetDecal (decal);
-		StoryReader.Instance.UpdateStory ();
 
 	}
 	#endregion
@@ -311,6 +312,8 @@ public class StoryFunctions : MonoBehaviour {
 
 	void SetChoices () {
 
+		DiscussionManager.Instance.ResetColors ();
+
 		// get amount
 		int amount = int.Parse (cellParams);
 
@@ -322,6 +325,7 @@ public class StoryFunctions : MonoBehaviour {
 		int tmpDecal = StoryReader.Instance.Decal;
 		int a = amount;
 
+		int index = 0;
 		while ( a > 0 ) {
 
 			if ( StoryLoader.Instance.ReadDecal (tmpDecal).Length > 0 ) {
@@ -330,9 +334,25 @@ public class StoryFunctions : MonoBehaviour {
 
 				choice = choice.Remove (0, 9);
 
+				int i = 0;
+
+				string[] stats = new string[] { "(str)", "(dex)", "(cha)", "(con)" };
+				foreach ( string stat in stats ) {
+
+					if ( choice.Contains ( stat ) ) {
+
+						DiscussionManager.Instance.TaintChoice (index, i);
+
+					}
+
+					++i;
+
+				}
+
 				choices [amount - a] = choice;
 
 				--a;
+				++index;
 			}
 
 			++tmpDecal;
@@ -405,14 +425,14 @@ public class StoryFunctions : MonoBehaviour {
 		GoldManager.Instance.RemoveGold (amount);
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait ( 1f );
+		StoryReader.Instance.Wait ( 0.5f );
 	}
 	void AddGold () {
 		int amount = int.Parse (cellParams);
 		GoldManager.Instance.AddGold (amount);
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait ( 1f );
+		StoryReader.Instance.Wait (0.5f);
 	}
 	#endregion
 
@@ -422,6 +442,9 @@ public class StoryFunctions : MonoBehaviour {
 		OtherLoot.Instance.StartLooting ();
 	}
 	void Trade() {
+
+		ItemLoader.Instance.Mult = 3;
+
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(getLootCategories()));
 		OtherLoot.Instance.StartTrade ();
 	}
@@ -469,10 +492,25 @@ public class StoryFunctions : MonoBehaviour {
 	}
 
 	void RemoveFromInventory () {
-		Debug.Log ("remove something from inventory");
 
+		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (0.5f);
+
+		if ( LootManager.Instance.PlayerLoot.getLoot[(int)targetCat].Length == 0 ) {
+			
+			StoryReader.Instance.SetDecal (1);
+
+		} else {
+
+			Item item = LootManager.Instance.PlayerLoot.getLoot [(int)targetCat] [0];
+
+			LootManager.Instance.PlayerLoot.RemoveItem (item);
+
+			Debug.Log ("removed item : " + item.name);
+
+		}
+
+		StoryReader.Instance.UpdateStory ();
 	}
 	void AddToInventory () {
 
@@ -480,19 +518,14 @@ public class StoryFunctions : MonoBehaviour {
 
 		itemName = itemName.Remove (itemName.Length - 6);
 
-//		Debug.Log ("Found name : " + itemName );
-
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
-
-//		Debug.Log ("Found cat : " + targetCat);
 
 		Item item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
 
 		LootManager.Instance.PlayerLoot.AddItem (item);
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (0.5f);
-		//
+		StoryReader.Instance.UpdateStory ();
 	}
 	#endregion
 
@@ -628,12 +661,10 @@ public class StoryFunctions : MonoBehaviour {
 		Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
 		string directionPhrase = NavigationManager.Instance.getDirName (dir);
 
-		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
-			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.playerCrew.captain);
-//			DialogueManager.Instance.ShowNarrator (directionPhrase);
-		} else {
-			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+		if ( cellParams.Length == 0 ) {
 			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.enemyCrew.captain);
+		} else {
+			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.playerCrew.captain);
 		}
 
 		StoryReader.Instance.WaitForInput ();
@@ -672,6 +703,67 @@ public class StoryFunctions : MonoBehaviour {
 
 		return clue;
 	}
+	#endregion
+
+	#region dice
+	private void CheckStat () {
+
+		StartCoroutine (CheckStat_Coroutine ());
+
+	}
+
+	IEnumerator CheckStat_Coroutine () {
+
+		DiceManager.Instance.ThrowDirection = 1;
+
+		switch ( cellParams ) {
+		case "SRT":
+			DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.Strenght);
+			break;
+		case "DEX" :
+			DiceManager.Instance.ThrowDice (DiceTypes.DEX, Crews.playerCrew.captain.Dexterity);
+			break;
+		case "CHA" :
+			DiceManager.Instance.ThrowDice (DiceTypes.CHA, Crews.playerCrew.captain.Charisma);
+			break;
+		case "CON" :
+			DiceManager.Instance.ThrowDice (DiceTypes.CON, Crews.playerCrew.captain.Constitution);
+			break;
+		}
+
+
+		yield return new WaitForSeconds ( DiceManager.Instance.settlingDuration + DiceManager.Instance.ThrowDuration);
+
+		int captainHighest = DiceManager.Instance.getHighestThrow;
+
+		DiceManager.Instance.ThrowDirection = -1;
+
+		switch ( cellParams ) {
+		case "SRT":
+			DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.enemyCrew.captain.Strenght);
+			break;
+		case "DEX" :
+			DiceManager.Instance.ThrowDice (DiceTypes.DEX, Crews.enemyCrew.captain.Dexterity);
+			break;
+		case "CHA" :
+			DiceManager.Instance.ThrowDice (DiceTypes.CHA, Crews.enemyCrew.captain.Charisma);
+			break;
+		case "CON" :
+			DiceManager.Instance.ThrowDice (DiceTypes.CON, Crews.enemyCrew.captain.Constitution);
+			break;
+		}
+
+		yield return new WaitForSeconds ( DiceManager.Instance.settlingDuration + DiceManager.Instance.ThrowDuration);
+
+		int otherHighest = DiceManager.Instance.getHighestThrow;
+
+		StoryReader.Instance.NextCell ();
+
+		StoryReader.Instance.SetDecal (otherHighest > captainHighest ? 0 : 1);
+
+		StoryReader.Instance.UpdateStory ();
+	}
+
 	#endregion
 
 	public string[] FunctionNames {

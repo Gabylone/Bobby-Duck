@@ -254,15 +254,19 @@ public class MemberID {
 	public int clothesID = 0;
 	public int shoesID = 0;
 
-	public MemberID () {
+	public MemberID (CrewParams crewParams) {
 
-		male = Random.value < 0.65f;
+		if (crewParams.overideGenre) {
+			male = crewParams.male;
+		} else {
+			male = Random.value < 0.65f;
+		}
 
-		nameID 			= Random.Range (0, male ? CrewCreator.Instance.MaleNames.Length : CrewCreator.Instance.FemaleNames.Length );
+		nameID 	= Random.Range (0, male ? CrewCreator.Instance.MaleNames.Length : CrewCreator.Instance.FemaleNames.Length );
 
 		if (Crews.playerCrew.CrewMembers.Count > 0) {
 			lvl = Random.Range (Crews.playerCrew.captain.Level - 1, Crews.playerCrew.captain.Level + 2);
-			Debug.Log ("random level given : " + lvl);
+//			Debug.Log ("random level given : " + lvl);
 		} else {
 			lvl = 1;
 		}
@@ -322,6 +326,25 @@ public class MemberID {
 
 }
 
+public struct CrewParams {
+	public int amount;
+
+	public bool overideGenre;
+	public bool male;
+
+	public CrewParams (
+		int _amount,
+		bool _overideGenre = false,
+		bool _male = false
+	)
+	{
+		amount = _amount;
+		overideGenre = _overideGenre;
+		male = _male;
+	}
+
+}
+
 public class Crew {
 
 	public bool hostile = false;
@@ -335,18 +358,22 @@ public class Crew {
 
 	List<MemberID> memberIDs = new List<MemberID>();
 
-	public Crew (int amount, int r , int c) {
+	public Crew (CrewParams crewParams, int r , int c) {
 
 		row = r;
 		col = c;
 
-		InitCount = amount;
+		InitCount = crewParams.amount;
 
+		InitCount = Mathf.Clamp ( InitCount , 1, InitCount );
+		for (int i = 0; i < InitCount; ++i) {
+			MemberID id = new MemberID (crewParams);
+			if (crewParams.overideGenre) {
+				id.male = crewParams.male;
+			}
 
-		amount = Mathf.Clamp ( amount , 1, amount );
-		for (int i = 0; i < amount; ++i)
-			memberIDs.Add (new MemberID ());
-
+			memberIDs.Add (id);
+		}
 		foreach (MemberID mID in MemberIDs)
 			Value += mID.lvl;
 

@@ -11,7 +11,7 @@ Leave;Fade;;;;;
 Narrator : Après quelques heures de marche, l'équipage arrive au sommet. Une petite chaumière surplombe le rocher.;;;;;;
 SetChoices2;;;;;;
 Choice : Redescendre;Choice : Toquer;;;;;
-PlayerSpeak : J'ai le vertige, on s'casse.;NewCrew1;;;;;
+PlayerSpeak : J'ai le vertige, on s'casse.;NewCrew1/F;;;;;
 Fade;OtherSpeak : Hélà !;;;;Narrator : La maison est vide. Seul le corps de l'habitant est étendu  à l'entrée;OtherSpeak : Comment osez vous revenir !?
 Mark=>debut;PlayerSpeak : Bonjour !;;;;Leave;LaunchCombat
 ;[discussion vielle];;;;;Leave

@@ -1,5 +1,5 @@
 Nom;Fréquence %;;;;;;;;;;;;;;
-Village pêcheur;6;;;;;;;;;;;;;;
+Village pêcheur;7;;;;;;;;;;;;;;
 [debut];;;;;;;;;;;;;;;
 Narrator : Après avoir évité une vingtaine de bateau de pêche, le bateau est accosté dans un petit port. L'air empeste le poisson.;;;;;;;;;;;;;;;
 SetChoices3;;;;;;;;;;;;;;;
@@ -24,7 +24,7 @@ Mark=>choix village;Mark=>choix village;;;;;;;;;;;;;;
 [choix village];;;;;;;;;;;;;;;
 SetChoices3;;;;;;;;;;;;;;;
 Choice : Retourner sur les quais;Choice : S'aventurer dans le village;Choice : Parler aux poissoniers;;;;;;;;;;;;;
-Fade;Fade;NewCrew1;;;;;;;;;;;;;
+Fade;Fade;NewCrew4;;;;;;;;;;;;;
 Mark=>debut;Mark=>rue;OtherSpeak : Hé ho !;;;;;;;;;;;;;
 ;;OtherSpeak : Qu'est-ce que je peux faire ?;;;;;;;;;;;;;
 ;;[choix poissoniers];;;;;;;;;;;;;
@@ -46,8 +46,8 @@ Mark=>taverne;Fade;Mark=>taverne;Fade;Fade;;;;;Mark=>taverne;Fade;Fade;;;;
 ;;;;[choix boutique];;;;;;;[choix hangar];;;;
 ;;;;SetChoices4;;;;;;;SetChoices4;;;;
 ;;;;Choice : Qu’est-ce que vous vendez ici ?;Choice : Le trésor de Bobby Dick, ça vous parle ?;;Choice : Montrez moi votre marchandise;Choice : Sortir de la boutique;;;Choice : Qu’est-ce que vous vendez ici ?;Choice : Le trésor de Bobby Dick, ça vous parle ?;;Choice : J’ai besoin de quelques changements sur bateau.;Choice : Sortir du hangar
-;;;;OtherSpeak : Des bricoles, des choses, des machins quoi.;RandomPercent30;;TradeMisc;HideOther;;;OtherSpeak : Je fais des merveilles avec votre bâteau ! ;RandomPercent30;;BoatUpgrades;HideOther
-;;;;Mark=>choix boutique;OtherSpeak : Mon fils navigue à sa recherche.;OtherSpeak : Rien du tout.;Mark=>choix boutique;Fade;;;Mark=>choix hangar;OtherSpeak : Mon femme est allée chercher mon fils, qui est à sa recherche;OtherSpeak : Rien du tout.;Mark=>choix hangar;Fade
+;;;;OtherSpeak : Des bricoles, des choses, des machins quoi.;RandomPercent30;;TradeMisc;HideOther;;;OtherSpeak : Je fais des merveilles avec votre bâteau ! ;RandomPercent40;;BoatUpgrades;HideOther
+;;;;Mark=>choix boutique;OtherSpeak : Mon fils navigue à sa recherche.;OtherSpeak : Rien du tout.;Mark=>choix boutique;Fade;;;Mark=>choix hangar;OtherSpeak : Oui et non :;OtherSpeak : Rien du tout.;Mark=>choix hangar;Fade
 ;;;;;GiveDirectionToClue;Mark=>choix boutique;;Mark=>rue;;;;GiveDirectionToClue;Mark=>choix hangar;;Mark=>rue
 ;;;;;Mark=>choix boutique;;;;;;;Mark=>choix hangar;;;
 ;;;;;;;;;;;;;;;

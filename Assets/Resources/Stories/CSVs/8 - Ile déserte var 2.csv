@@ -1,10 +1,10 @@
 Nom;Fréquence %;;
-Ile déserte var 2;13;;
+Ile déserte var 2;12;;
 Narrator : Le bateau accoste sur une petite île. Quelques arbustes ont poussés au bout de la plage;;;
 [debut];;;
 SetChoices3;;;
 Choice : On lève l'ancre !;Choice : On va rester ici pour la nuit;Choice : (Chercher de la nourriture);
-Leave;SetWeatherDay;RandomPercent50;
+Leave;SetWeatherDay;RandomPercent35;
 ;Narrator : Le bateau est sur une petite île. L'air est frais et matinal.;PlayerSpeak : Bingo !;PlayerSpeak : Il n'y a rien de comestible ici !
 ;Mark=>debut;LootFood;Mark=>debut
 ;;Mark=>debut;

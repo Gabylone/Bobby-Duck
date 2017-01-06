@@ -1,12 +1,12 @@
 Nom histoire;Fréquence %;;;;;;;
-Grotte;4;;;;;;;
+Grotte;3;;;;;;;
 Narrator : L'île n'a aucune plage. La côte mène directement à un petit bois.;;;;;;;;
 [debut];;;;;;;;
 SetChoices3;;;;;;;;
 Choice : (faire un campement);;Choice : (partir);Choice : (entrer dans bois);;;;;
 SetChoices2;;PlayerSpeak : Tayo !;Fade;;;;;
 Choice : (jusqu'à la nuit);Choice : (jusqu'au jour);Leave;Mark=>bois;;;;;PlayerSpeak : caca bug
-Parrsser;;;;;;;;
+SetWeatherNight;SetWeatherDay;;;;;;;
 Mark=>début;Mark=>début;;;;;;;
 ;;;;;;;;
 [bois];;;;;;;;
@@ -40,7 +40,7 @@ SetChoices2;;;;;;;;
 Choice : ( ouvrir );;;Choice : ( partir );;;;;
 RandomRange3;;;Fade;;;;;
 PlayerSpeak : Wow !;PlayerSpeak : Wew !;PlayerSpeak : Waw !;Mark=>porte nuit;;;;;
-AddGold700;LootClothes/Shoes;LootWeapons;;;;;;
+AddGold700;LootClothes;LootWeapons;;;;;;
 PlayerSpeak : ça fait beaucoup d'argent.;Mark=>grotte;PlayerSpeak : Armés jusqu'aux dents on est !;;;;;;
 Mark=>grotte;;Mark=>grotte;;;;;;
 ;;;;;;;;

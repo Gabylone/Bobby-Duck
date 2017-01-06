@@ -1,5 +1,5 @@
 Nom histoire;Fréquence %;;;;
-Casino;4;;;;
+Casino;3;;;;
 Narrator : L'île est assez grande. Une musique émane de derrière des dunes de sable. Un chemin y mène.;;;;;ceci juste pour le bug de merde
 [debut];;;;;Choice : ( fouiller la salle )
 SetChoices2;;;;;Narrator : il n'y a pas gra

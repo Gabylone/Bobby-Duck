@@ -11,6 +11,13 @@ public class CombatManager : MonoBehaviour {
 	Crews.Side defendingCrew;
 	Crews.Side targetCrew;
 
+	public enum ActionType {
+
+		Attacking,
+		Fleeing,
+
+	}
+
 	// stsates
 	public enum States {
 		None,
@@ -19,7 +26,7 @@ public class CombatManager : MonoBehaviour {
 		MemberChoice,
 		MemberLerp,
 		StartTurn,
-		DiceThrow,
+		Action,
 		Results,
 		MemberReturn,
 	}
@@ -32,26 +39,27 @@ public class CombatManager : MonoBehaviour {
 
 	private CrewMember[] members = new CrewMember[2];
 
-	DiceTypes currentDiceType;
+	ActionType actionType;
 
 	public delegate void UpdateState();
 	UpdateState updateState;
 
 	[Header("States Duration")]
-	[SerializeField]
-	private float crewPlacement_Duration = 1f;
-
-	[SerializeField]
-	private float memberPlacement_Duration = 1f;
-
-	[SerializeField]
-	private float resultsDuration = 1f;
+	[SerializeField] private float crewPlacement_Duration = 1f;
+	[SerializeField] private float memberPlacement_Duration = 1f;
+	[SerializeField] private float resultsDuration = 1f;
+	[SerializeField] private float actionDuration = 0.5f;
 
 	private float timeInState = 0f;
 
 	bool choosingMember = false;
 
 	int enemeyCount = 0;
+
+	[Header("Chances")]
+	[SerializeField] private float maxDodgeChance = 43f;
+	[SerializeField] private float maxEscapechance = 86f;
+	[SerializeField] private float maxCriticalChance = 35f;
 
 	[Header("Sounds")]
 	[SerializeField] private AudioClip escapeSound;
@@ -270,20 +278,16 @@ public class CombatManager : MonoBehaviour {
 
 		if ( AttackingCrew == Crews.Side.Player )
 		{
-			DiceManager.Instance.ShowFeedbackDice ();
+			ShowFeedbackDice ();
 
 			PlayerLoot.Instance.InventoryButton.Locked = false;
 
 		}
 		else
 		{
-			if (getMember(Crews.Side.Enemy).Health == 1 && Crews.enemyCrew.CrewMembers.Count > 1 ) {
-				currentDiceType = DiceTypes.Speed;
-			} else {
-				currentDiceType = DiceTypes.Attack;
-			}
+			actionType = ActionType.Attacking;
 
-			ChangeState (States.DiceThrow);
+			ChangeState (States.Action);
 		}
 	}
 	private void StartTurn_Update () {
@@ -293,30 +297,29 @@ public class CombatManager : MonoBehaviour {
 		//
 	}
 	public void ChooseDie (int i) {
-		DiceManager.Instance.HideFeedbackDice ();
+		HideFeedbackDice ();
 
-		currentDiceType = (DiceTypes)i;
+		actionType = (ActionType)i;
 
-		ChangeState (States.DiceThrow);
+		ChangeState (States.Action);
 	}
 	#endregion
 
-	#region DiceThrow
-	private void DiceThrow_Start () {
-
-		DiceManager.Instance.ThrowDirection = AttackingCrew == Crews.Side.Player ? 1 : -1;
-
-		DiceManager.Instance.ThrowDice (currentDiceType,getMember(AttackingCrew).Attack);
+	#region Action
+	private void Action_Start () {
 
 		// animation
-		getMember(AttackingCrew).Icon.Animator.SetTrigger ("Attack");
+		if (actionType == ActionType.Attacking) {
+			getMember (AttackingCrew).Icon.Animator.SetTrigger ("Attack");
+		}
 	}
-	private void DiceThrow_Update () {
+
+	private void Action_Update () {
 		
-		if ( !DiceManager.Instance.Throwing )
+		if ( timeInState > actionDuration )
 			ChangeState (States.Results);
 	}
-	private void DiceThrow_Exit () {
+	private void Action_Exit () {
 		
 	}
 	#endregion
@@ -324,104 +327,82 @@ public class CombatManager : MonoBehaviour {
 	#region Results
 	private void Results_Start () {
 
-			// success //
-
-		int attack = getMember (attackingCrew).Attack;
-
-		switch ( currentDiceType ) {
-		case DiceTypes.Attack :
-
-			switch ( DiceManager.Instance.CurrentThrow.Result (getMember(DefendingCrew).Defense) ) {
-
-			case Throw.Results.CritFailure:
-
-				DialogueManager.Instance.SetDialogue ("Merde !", getMember(AttackingCrew));
-				getMember (AttackingCrew).Info.DisplayInfo ("Fail","",Color.grey);
-				//
-				break;
-
-			case Throw.Results.Failure :
-				DialogueManager.Instance.SetDialogue ("Raté !", getMember(AttackingCrew));
-				getMember (AttackingCrew).Info.DisplayInfo ("Fail","",Color.grey);
-				//
-				break;
-
-			case Throw.Results.Success:
-
-				SoundManager.Instance.PlaySound (hitSound);
-
-				DialogueManager.Instance.SetDialogue ("Aïe !", getMember (DefendingCrew));
-
-//				float damage = Random.Range (attack, attack * 1.5f);
-
-//				getMember(DefendingCrew).GetHit (Mathf.CeilToInt(attack));
-				getMember(DefendingCrew).GetHit (attack);
-
-//				getMember (AttackingCrew).Info.DisplayInfo ("SUCESS","!",Color.magenta);
-
-				if (getMember(DefendingCrew).Health == 0) {
-					SetTargetCrew (DefendingCrew);
-					ChangeState (States.MemberReturn);
-				}
-				break;
-
-			case Throw.Results.CritSuccess:
-
-				SoundManager.Instance.PlaySound (hitSound);
-				SoundManager.Instance.PlaySound (hurtSound);
-
-				DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", getMember (DefendingCrew));
-
-				float criticalDamage = attack * 1.5f;
-
-				getMember (DefendingCrew).GetHit (Mathf.CeilToInt(criticalDamage));
-				getMember (AttackingCrew).Info.DisplayInfo ("CRITICAL","!",Color.magenta);
-
-				if (getMember(DefendingCrew).Health == 0) {
-					SetTargetCrew (DefendingCrew);
-					ChangeState (States.MemberReturn);
-				}
-				break;
-			}
-
+		switch (actionType) {
+		case ActionType.Attacking:
+			Attack ();
 			break;
-		case DiceTypes.Speed :
-
-			switch ( DiceManager.Instance.CurrentThrow.Result (getMember(DefendingCrew).Dexterity) ) {
-				
-			case Throw.Results.CritFailure:
-				
-				DialogueManager.Instance.SetDialogue ("Merde !", getMember(AttackingCrew));
-				//
-				break;
-				
-			case Throw.Results.Failure :
-				DialogueManager.Instance.SetDialogue ("Raté !", getMember(AttackingCrew));
-				//
-				break;
-				
-			case Throw.Results.Success:
-				SoundManager.Instance.PlaySound (escapeSound);
-
-				DialogueManager.Instance.SetDialogue ("A la prochaine !", getMember(AttackingCrew));
-				SetTargetCrew (AttackingCrew);
-				ChangeState(States.MemberReturn);
-				//
-				break;
-				
-			case Throw.Results.CritSuccess:
-				SoundManager.Instance.PlaySound (escapeSound);
-
-				DialogueManager.Instance.SetDialogue ("Tchao !", getMember (AttackingCrew));
-				SetTargetCrew (AttackingCrew);
-				ChangeState(States.MemberReturn);
-				//
-				break;
-			}
-
+		case ActionType.Fleeing:
+			RunAway ();
 			break;
 		}
 	}
+
+	private void RunAway () {
+		float escapeChance = (maxEscapechance * getMember(attackingCrew).Dexterity) / 10;
+		if (Random.value * 100 < escapeChance) {
+			
+			SoundManager.Instance.PlaySound (escapeSound);
+			
+			DialogueManager.Instance.SetDialogue ("A la prochaine !", getMember (AttackingCrew));
+
+			SetTargetCrew (AttackingCrew);
+			ChangeState (States.MemberReturn);
+
+			getMember (AttackingCrew).Info.DisplayInfo ("ESCAPE","!",Color.magenta);
+
+
+		} else {
+			
+			DialogueManager.Instance.SetDialogue ("Raté !", getMember (AttackingCrew));
+
+		}
+
+	
+	}
+
+	private void Attack () {
+
+		int attack = getMember (attackingCrew).Attack;
+
+		// escape //
+		float dodgeChance = (maxDodgeChance * getMember (defendingCrew).Dexterity) / 10f;
+		if ( Random.value * 100 < dodgeChance ) {
+
+			DialogueManager.Instance.SetDialogue ("Raté !", getMember(AttackingCrew));
+			getMember (AttackingCrew).Info.DisplayInfo ("Fail","",Color.grey);
+
+			return;
+		}
+
+		float damage = Random.Range (attack, attack * 1.5f);
+
+		// critical
+		float critChance = (maxCriticalChance * getMember (AttackingCrew).Dexterity) / 10f;
+		if ( Random.value * 100f < critChance ) {
+
+			damage *= 1.6f;
+
+			SoundManager.Instance.PlaySound (hurtSound);
+			DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", getMember (DefendingCrew));
+
+			getMember (AttackingCrew).Info.DisplayInfo ("CRITICAL","!",Color.magenta);
+
+		} else {
+
+			SoundManager.Instance.PlaySound (hitSound);
+			DialogueManager.Instance.SetDialogue ("Aïe !", getMember (DefendingCrew));
+
+		}
+
+		getMember(DefendingCrew).GetHit (attack);
+
+		if (getMember(DefendingCrew).Health == 0) {
+			SetTargetCrew (DefendingCrew);
+			ChangeState (States.MemberReturn);
+		}
+
+	}
+
 	private void Results_Update () {
 		if ( timeInState > resultsDuration ) {
 			ChangeState (States.StartTurn);
@@ -445,7 +426,7 @@ public class CombatManager : MonoBehaviour {
 
 			if (getMember (targetCrew).Health == 0) {
 				getMember (targetCrew).Kill ();
-				getMember (AttackingCrew).AddXP (getMember (targetCrew).Level * 10);
+				getMember (AttackingCrew).AddXP (getMember (targetCrew).Level * 25);
 
 				if (Crews.getCrew (targetCrew).CrewMembers.Count == 0) {
 					WinFight ();
@@ -519,9 +500,9 @@ public class CombatManager : MonoBehaviour {
 			updateState = StartTurn_Update;
 			StartTurn_Start ();
 			break;
-		case States.DiceThrow:
-			updateState = DiceThrow_Update;
-			DiceThrow_Start ();
+		case States.Action:
+			updateState = Action_Update;
+			Action_Start ();
 			break;
 		case States.Results:
 			updateState = Results_Update;
@@ -550,8 +531,8 @@ public class CombatManager : MonoBehaviour {
 		case States.StartTurn:
 			StartTurn_Exit ();
 			break;
-		case States.DiceThrow:
-			DiceThrow_Exit ();
+		case States.Action:
+			Action_Exit ();
 			break;
 		case States.Results:
 			Results_Exit ();
@@ -635,6 +616,15 @@ public class CombatManager : MonoBehaviour {
 	}
 	#endregion
 
+	[SerializeField]
+	private GameObject feedbackDice;
+
+	private void ShowFeedbackDice () {
+		feedbackDice.SetActive (true);
+	}
+	private void HideFeedbackDice () {
+		feedbackDice.SetActive (false);
+	}
 
 	public bool Fighting {
 		get {

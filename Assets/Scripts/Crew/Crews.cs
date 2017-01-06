@@ -24,14 +24,10 @@ public class Crews : MonoBehaviour {
 		crews [0] 	= GetComponentsInChildren<CrewManager> () [0];	
 		crews [1] 	= GetComponentsInChildren<CrewManager> () [1];
 
-		Crew playerCrew = new Crew (1,0,0);
+		CrewParams crewParams = new CrewParams (1, false, false);
+		Crew playerCrew = new Crew (crewParams,0,0);
 		crews [0].setCrew (playerCrew);
 		crews [0].UpdateCrew (PlacingType.Map);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
 	public static CrewManager getCrew ( Crews.Side attackingCrew ) {

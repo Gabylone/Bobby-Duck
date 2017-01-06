@@ -1,5 +1,5 @@
 Nom;Fréquence %;;;;;;;;
-Caserne;4;;;;;;;;
+Caserne;3;;;;;;;;
 [debut];;;;;;;;;
 Narrator : Une odeur d'acier résonne dans l'air. Cette île est une caserne militaire.;;;;;;;;;
 SetChoices2;;;;;;;;;
@@ -23,8 +23,8 @@ Mark=>combat garde;OtherSpeak : A la prochaine !;RandomPercent29;;;;;;;
 ;;Mark=>pas rentrer;Mark=>caserne;;;;;;
 [pas rentrer];;;;;;;;;
 SetChoices3;;;;;;;;;
-Choice : ( attaquer );Choice : ( séduction );;Choice : Pas de problèmes !;;;;;;
-Mark=>combat garde;CheckCharisma;;OtherSpeak : Ouais c'est ça !;;;;;;
+Choice : ( attaquer );Choice : (cha);;Choice : Pas de problèmes !;;;;;;
+Mark=>combat garde;CheckStatCHA;;OtherSpeak : Ouais c'est ça !;;;;;;
 ;OtherSpeak : Bon, entrez…;OtherSpeak : Vous vous foutez de moi ?!;Leave;;;;;;
 ;Mark=>caserne;OtherSpeak : Cassez vous !;;;;;;;
 ;;Mark=>pas rentrer;;;;;;;
@@ -61,8 +61,8 @@ Choice : Non rien;Choice : Vous vous plaisez ici ?;;;;;;Choice : Ça vous pa
 OtherSpeak : Ok…;RandomRange3;;;;;;RandomPercent40;;
 Mark=>choix soldats;OtherSpeak : C'est le paradis !;OtherSpeak : Bof…;;;OtherSpeak : Je n'ai qu'un rêve, c'est de partir.;;OtherSpeak : On a coulé un bateau pirate qui en parlait.;OtherSpeak : Non, rien du tout…;
 ;PlayerSpeak : Ah…;SetChoices2;;;SetChoices2;;OtherSpeak : Ils allaient…;Mark=>choix soldats;
-;Mark=>choix soldats;Choice : Rejoins nous;;Choice : C'est dommage !;Choice : Rejoins nous !;Choice : C'est dommage !;GiveDirectionToClue;;
-;;CheckCharisma;;OtherSpeak : Mouais…;OtherSpeak : Avec plaisir !;OtherSpeak : Ouais…;OtherSpeak : Je crois;;
+;Mark=>choix soldats;Choice : (cha);;Choice : C'est dommage !;Choice : Rejoins nous !;Choice : C'est dommage !;GiveDirectionToClue;;
+;;CheckStatCHA;;OtherSpeak : Mouais…;OtherSpeak : Avec plaisir !;OtherSpeak : Ouais…;OtherSpeak : Je crois;;
 ;;OtherSpeak : Vraiment bof là…;OtherSpeak : Allez pourquoi pas;Mark=>choix soldats;AddMember;Mark=>choix soldats;SetChoices2;;
 ;;PlayerSpeak : Tanpis pour toi !;PlayerSpeak : Bienvenue !;;Mark=>choix soldats;;Choice : Merci !;Choice : Viens donc le chercher avec nous !;
 ;;Mark=>choix soldats;AddMember;;;;Mark=>choix soldats;RandomPercent85;

@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public enum DiceTypes {
-	Attack,
-	Speed,
-	Const,
+	STR,
+	DEX,
+	CHA,
+	CON,
 }
 
 public class DiceManager : MonoBehaviour {
@@ -71,8 +72,6 @@ public class DiceManager : MonoBehaviour {
 			++a;
 		}
 
-		throwDirection = 1;
-
 		InitDice ();
 		ResetDice ();
 	}
@@ -92,16 +91,15 @@ public class DiceManager : MonoBehaviour {
 
 		ResetDice ();
 
-		currentThrow = new Throw (1, type);
-//		currentThrow = new Throw (diceAmount, type);
+		throwing = true;
+
+		currentThrow = new Throw (diceAmount, type);
 
 		ChangeState (states.throwing);
 
 	}
 	
 	private void Throwing_Start () {
-
-		throwing = true;
 		
 		PaintDice (currentThrow.diceType);
 		
@@ -111,74 +109,46 @@ public class DiceManager : MonoBehaviour {
 	}
 	private void Throwing_Update () {
 		if ( timeInState > throwDuration) {
-			ChangeState (states.settling);
+			ChangeState (states.showingHighest);
 		}
 	}
 	private void Throwing_Exit () {
 		
 
 	}
-	#endregion
 
-	#region settling
-	private void Settling_Start () {
-		for (int i = 0; i < currentThrow.diceAmount ; ++i) {
-			diceClass[i].Settle ();
-		}
-	}
-	private void Settling_Update () {
-		if (timeInState > settlingDuration) {
-			CheckResults ();
-		}
-	}
-	private void Settling_Exit () {
+	int highestThrow = 0;
 
-
-	}
-	public void CheckResults () {
-
-		for ( int i = 0; i < currentThrow.diceAmount; ++i) {
-			currentThrow.Add (diceClass [i].result);
+	public int getHighestThrow {
+		get {
+			return highestThrow;
 		}
 
-		bool criticalFailure = false;
-		bool criticalSuccess = false;
-		
-		foreach (int result in currentThrow.results) {
-			
-			if (result == 1)
-				criticalFailure = true;
-			
-			if (result == 6)
-				criticalSuccess = true;
-			
-		}
-
-		ChangeState (states.showingHighest);
-
-		/*if (criticalFailure || criticalSuccess) {
-			ChangeState (states.removingCriticals);
-		} else {
-			ChangeState (states.showingHighest);
-		}*/
-	}
-	#endregion
-
-	#region removing criticals
-	private void RemovingCriticals_Start () {
-		//
-	}
-	private void RemovingCriticals_Update () {
-		//
-	}
-	private void RemovingCriticals_Exit () {
-		//
 	}
 	#endregion
 
 	#region showing highest
 	private void ShowingHighest_Start () {
+		
 		throwing = false;
+
+		int highestResult = diceClass[0].result;
+		highestThrow = 0;
+
+		int a = 0;
+
+		foreach ( Dice die in diceClass ) {
+
+			if (die.result > highestResult) {
+				highestThrow = a;
+				highestResult = die.result;
+			}
+
+			++a;
+		}
+
+		diceClass[highestThrow].Settle ();
+
 		//
 	}
 	private void ShowingHighest_Update () {
@@ -187,6 +157,7 @@ public class DiceManager : MonoBehaviour {
 		}
 	}
 	private void ShowingHighest_Exit () {
+
 		ResetDice ();
 	}
 	#endregion
@@ -200,18 +171,11 @@ public class DiceManager : MonoBehaviour {
 		case states.throwing :
 			Throwing_Exit ();
 			break;
-		case states.settling :
-			Settling_Exit();
-			break;
-		case states.removingCriticals :
-			RemovingCriticals_Exit();
-			break;
 		case states.showingHighest :
 			ShowingHighest_Exit ();
 			break;
 		case states.none :
 			// nothing
-
 			break;
 		}
 
@@ -219,14 +183,6 @@ public class DiceManager : MonoBehaviour {
 		case states.throwing :
 			updateState = Throwing_Update;
 			Throwing_Start ();
-			break;
-		case states.settling :
-			updateState = Settling_Update;
-			Settling_Start ();
-			break;
-		case states.removingCriticals :
-			updateState = RemovingCriticals_Update;
-			RemovingCriticals_Start ();
 			break;
 		case states.showingHighest :
 			updateState = ShowingHighest_Update;
@@ -260,15 +216,6 @@ public class DiceManager : MonoBehaviour {
 		set {
 			throwing = value;
 		}
-	}
-	#endregion
-
-	#region feedback
-	public void ShowFeedbackDice () {
-		feedbackDice.SetActive (true);
-	}
-	public void HideFeedbackDice () {
-		feedbackDice.SetActive (false);
 	}
 	#endregion
 

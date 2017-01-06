@@ -183,7 +183,7 @@ public class StoryLoader : MonoBehaviour {
 			if (MapManager.Instance.PosX == IslandManager.Instance.TreasureIslandXPos &&
 				MapManager.Instance.PosY == IslandManager.Instance.TreasureIslandYPos ) {
 
-				Debug.Log ("treasure island");
+//				Debug.Log ("treasure island");
 
 				if (treasureStories.Count == 0)
 					Debug.LogError ("no treasure stories");
@@ -195,7 +195,7 @@ public class StoryLoader : MonoBehaviour {
 			if (MapManager.Instance.PosX == IslandManager.Instance.HomeIslandXPos &&
 				MapManager.Instance.PosY == IslandManager.Instance.HomeIslandYPos ) {
 
-				Debug.Log ("home island");
+//				Debug.Log ("home island");
 
 				if (homeStories.Count == 0)
 					Debug.LogError ("no home stories");
@@ -220,7 +220,7 @@ public class StoryLoader : MonoBehaviour {
 
 			// set random story
 			int storyIndex = Percentage.getRandomIndex (storyPercents.ToArray());
-			Debug.Log ("index chosen from % : " + storyIndex);
+//			Debug.Log ("index chosen from % : " + storyIndex);
 			return Stories [storyIndex];
 		}
 	}
@@ -246,6 +246,8 @@ public class Story {
 	public struct Mark {
 		public string name;
 		public int x, y;
+
+//		bool switched = false;
 
 		public Mark ( string n, int p1 , int p2 ) {
 			name = n;

@@ -90,7 +90,7 @@ public class Card : MonoBehaviour {
 
 		stateFeedbacks [0].fillAmount = values[0] / member.MaxState;
 		stateWarnings[0].enabled = values[0] >= member.MaxState;
-		stateAnimators[0].SetBool ("Warning",values[0] >= member.MaxState);
+//		stateAnimators[0].SetBool ("Warning",values[0] >= member.MaxState);
 	}
 
 	public void PlaceCard (Vector3 pos) {
