@@ -157,9 +157,16 @@ public class CrewCreator : MonoBehaviour {
 		}
 	}
 
+	#region sprites
 	public Sprite[] HairSprites {
 		get {
 			return hairSprites;
+		}
+	}
+
+	public Sprite[] BodySprites {
+		get {
+			return bodySprites;
 		}
 	}
 
@@ -198,6 +205,7 @@ public class CrewCreator : MonoBehaviour {
 			return startHealth;
 		}
 	}
+	#endregion
 }
 
 public class MemberID {

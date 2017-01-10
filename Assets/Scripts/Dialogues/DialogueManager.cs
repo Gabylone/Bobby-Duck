@@ -15,6 +15,8 @@ public class DialogueManager : MonoBehaviour {
 	[SerializeField] private RectTransform bubble_Image;
 	[SerializeField] private Text bubble_Text;
 
+	private Transform target;
+
 	private bool DisplayingText = false;
 
 	[Header("Parameters")]
@@ -48,19 +50,22 @@ public class DialogueManager : MonoBehaviour {
 
 	#region set dialogue
 	public void SetDialogue (string[] phrases, CrewMember crewMember) {
+		talkingMember = crewMember;
+		SetDialogue (phrases, crewMember.Icon.GetTransform);
+	}
+	public void SetDialogue (string[] phrases, Transform _target) {
 		DialogueTexts = phrases;
 
-		talkingMember = crewMember;
+		target = _target;
 
 		StartDialogue ();
 	}
+
 	public void SetDialogue (string phrase, CrewMember crewMember) {
-
-		DialogueTexts = new string[1]{ phrase };
-
-		talkingMember = crewMember;
-
-		StartDialogue ();
+		SetDialogue (new string[1]{ phrase }, crewMember);
+	}
+	public void SetDialogue (string phrase, Transform _target) {
+		SetDialogue (new string[1]{ phrase }, _target);
 	}
 
 	public string[] DialogueTexts {
@@ -83,7 +88,8 @@ public class DialogueManager : MonoBehaviour {
 
 		UpdateBubblePosition ();
 
-		SoundManager.Instance.PlaySound ( speakSounds[talkingMember.MemberID.voiceID] );
+		if ( talkingMember != null )
+			SoundManager.Instance.PlaySound ( speakSounds[talkingMember.MemberID.voiceID] );
 	}
 
 	private void UpdateDialogue () {
@@ -149,13 +155,13 @@ public class DialogueManager : MonoBehaviour {
 
 	private void UpdateBubblePosition ()
 	{
-		if (talkingMember.Icon.GetTransform == null) {
+		if (target == null) {
 			EndDialogue ();
 			return;
 		}
 
 		// get viewport position of target object
-				Vector3 pos = Camera.main.WorldToViewportPoint (talkingMember.Icon.GetTransform.position);
+				Vector3 pos = Camera.main.WorldToViewportPoint (target.position);
 
 			// clamp bubble
 		pos.x = Mathf.Clamp (pos.x, bubbleBounds.x, 1 - bubbleBounds.x);

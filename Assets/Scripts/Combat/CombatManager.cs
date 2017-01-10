@@ -63,8 +63,10 @@ public class CombatManager : MonoBehaviour {
 
 	[Header("Sounds")]
 	[SerializeField] private AudioClip escapeSound;
-	[SerializeField] private AudioClip hitSound;
-	[SerializeField] private AudioClip hurtSound;
+
+	[Header("Fighter Objects")]
+	[SerializeField] private GameObject playerFighter;
+	[SerializeField] private GameObject enemyFighter;
 
 	bool fighting = false;
 
@@ -230,13 +232,11 @@ public class CombatManager : MonoBehaviour {
 	#region MemberLerp
 	private void MemberLerp_Start () {
 		
-		Vector3 targetPos = Crews.getCrew (targetCrew).CrewAnchors [(int)Crews.PlacingType.SoloCombat].position;
 
-		getMember (targetCrew).Icon.MoveToPoint ( Crews.PlacingType.SoloCombat , memberPlacement_Duration );
-		
-		CardManager.Instance.ShowFightingCard (targetCrew);
-		
-		DialogueManager.Instance.SetDialogue ("A l'abordage !", getMember (targetCrew));
+//		DialogueManager.Instance.SetDialogue ("A l'abordage !", getMember (targetCrew));
+
+
+
 		
 	}
 	private void MemberLerp_Update () {
@@ -269,25 +269,15 @@ public class CombatManager : MonoBehaviour {
 	#region StartTurn
 	private void StartTurn_Start () {
 
-		if (firstTurn) {
-			AttackingCrew = getMember (Crews.Side.Player).Dexterity >= getMember (Crews.Side.Enemy).Dexterity ? Crews.Side.Player : Crews.Side.Enemy;
-			firstTurn = false;
+		getMember (targetCrew).Icon.HideFace ();
+
+		CardManager.Instance.ShowFightingCard (targetCrew);
+		if (targetCrew == Crews.Side.Enemy) {
+			enemyFighter.SetActive (true);
+			enemyFighter.GetComponent<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
 		} else {
-			AttackingCrew = AttackingCrew == Crews.Side.Player ? Crews.Side.Enemy : Crews.Side.Player;
-		}
-
-		if ( AttackingCrew == Crews.Side.Player )
-		{
-			ShowFeedbackDice ();
-
-			PlayerLoot.Instance.InventoryButton.Locked = false;
-
-		}
-		else
-		{
-			actionType = ActionType.Attacking;
-
-			ChangeState (States.Action);
+			playerFighter.SetActive (true);
+			playerFighter.GetComponent<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
 		}
 	}
 	private void StartTurn_Update () {
@@ -369,33 +359,6 @@ public class CombatManager : MonoBehaviour {
 			return;
 		}
 
-		float damage = Random.Range (attack, attack * 1.5f);
-
-		// critical
-		float critChance = (maxCriticalChance * getMember (AttackingCrew).Dexterity) / 10f;
-		if ( Random.value * 100f < critChance ) {
-
-			damage *= 1.6f;
-
-			SoundManager.Instance.PlaySound (hurtSound);
-			DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", getMember (DefendingCrew));
-
-			getMember (AttackingCrew).Info.DisplayInfo ("CRITICAL","!",Color.magenta);
-
-		} else {
-
-			SoundManager.Instance.PlaySound (hitSound);
-			DialogueManager.Instance.SetDialogue ("Aïe !", getMember (DefendingCrew));
-
-		}
-
-		getMember(DefendingCrew).GetHit (attack);
-
-		if (getMember(DefendingCrew).Health == 0) {
-			SetTargetCrew (DefendingCrew);
-			ChangeState (States.MemberReturn);
-		}
-
 	}
 
 	private void Results_Update () {
@@ -410,17 +373,21 @@ public class CombatManager : MonoBehaviour {
 
 	#region MemberReturn
 	private void MemberReturn_Start () {
-//		getMember (targetCrew).Icon.HideBody ();
-		getMember (targetCrew).Icon.MoveToPoint (Crews.PlacingType.Combat, memberPlacement_Duration);
+		getMember (targetCrew).Icon.ShowFace ();
 
 		CardManager.Instance.HideFightingCard (targetCrew);
+
+		if (targetCrew == Crews.Side.Player)
+			playerFighter.SetActive (false);
+		else
+			enemyFighter.SetActive (false);
 	}
 	private void MemberReturn_Update () {
 
 		if (timeInState >= memberPlacement_Duration) {
 
-			if (getMember (targetCrew).Health == 0) {
-				getMember (targetCrew).Kill ();
+			if (getMember (DefendingCrew).Health == 0) {
+				getMember (DefendingCrew).Kill ();
 				getMember (AttackingCrew).AddXP (getMember (targetCrew).Level * 25);
 
 				if (Crews.getCrew (targetCrew).CrewMembers.Count == 0) {

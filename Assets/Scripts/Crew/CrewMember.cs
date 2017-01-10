@@ -62,7 +62,7 @@ public class CrewMember {
 	}
 
 	#region health
-	public void GetHit (int damage) {
+	public void GetHit (float damage) {
 		float damageTaken = ( ((float)damage) / ((float)Defense) );
 		damageTaken *= 10;
 

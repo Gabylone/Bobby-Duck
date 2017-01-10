@@ -1,11 +1,14 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Crew\CrewCreator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Combat\CombatManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="138" Column="52" />
-      <File FileName="Assets\Scripts\Crew\CrewIcon.cs" Line="284" Column="2" />
-      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="313" Column="3" />
-      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="76" Column="1" />
+      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="179" Column="34" />
+      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="274" Column="54" />
+      <File FileName="Assets\Scripts\Dialogues\DialogueManager.cs" Line="54" Column="25" />
+      <File FileName="Assets\Scripts\FightIA.cs" Line="57" Column="29" />
+      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="259" Column="46" />
+      <File FileName="Assets\Fight_LoadSprites.cs" Line="23" Column="3" NotebookId="1" />
+      <File FileName="Assets\Scripts\Humanoid.cs" Line="74" Column="1" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
