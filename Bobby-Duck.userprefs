@@ -2,12 +2,10 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Crew\CrewCreator.cs">
     <Files>
-      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="456" Column="17" />
-      <File FileName="Assets\Scripts\Inventory\LootManager.cs" Line="70" Column="34" />
-      <File FileName="Assets\Scripts\Inventory\Loot.cs" Line="33" Column="39" NotebookId="1" />
-      <File FileName="Assets\Scripts\Inventory\ItemLoader.cs" Line="95" Column="1" NotebookId="1" />
-      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="223" Column="40" NotebookId="1" />
-      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="291" Column="11" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="138" Column="52" />
+      <File FileName="Assets\Scripts\Crew\CrewIcon.cs" Line="284" Column="2" />
+      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="313" Column="3" />
+      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="76" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -54,6 +54,9 @@ public class CrewCreator : MonoBehaviour {
 	public int[] femaleHairID 	= new int[0];
 	public int[] maleHairID 	= new int[0];
 
+	[SerializeField]
+	private Sprite[] bodySprites;
+
 	[Header("Beard")]
 	[SerializeField]
 	private Sprite[] beardSprites;
@@ -113,56 +116,35 @@ public class CrewCreator : MonoBehaviour {
 	#region icons
 	public GameObject NewIcon (MemberID memberID) {
 
-		GameObject icon = Instantiate (memberPrefab) as GameObject;
+		GameObject iconObj = Instantiate (memberPrefab) as GameObject;
+		CrewIcon icon = iconObj.GetComponent<CrewIcon> ();
 
-		icon.transform.SetParent (crewParent);
+			// set object transform
+		iconObj.transform.SetParent (crewParent);
+		iconObj.transform.localScale = Vector3.one;
+		iconObj.transform.localPosition = Vector2.zero;
 
-		icon.transform.localScale = Vector3.one;
+		Vector3 scale = new Vector3 ( TargetSide == Crews.Side.Enemy ? 1 : -1 , 1 , 1);
 
-		icon.transform.localPosition = Vector2.zero;
+		icon.ControllerTransform.transform.localScale = scale;
 
-		Image[] images = icon.GetComponentsInChildren<Image> ();
+		icon.HideBody ();
 
-		// body
-		Color bodyColor = memberID.bodyColorID == 1 ? darkSkin : beige;
+		// appearence
 
-		images[(int)Parts.Face].color = bodyColor;
-		images[(int)Parts.Body].color = bodyColor;
-
-		int beardIndex = memberID.beardSpriteID;
-		if (beardIndex > -1)
-			images[(int)Parts.Beard].sprite = beardSprites [beardIndex];
-		else
-			images[(int)Parts.Beard].enabled = false;
-		images[(int)Parts.Beard].color = hairColors [memberID.hairColorID];
-
+			// hair
 		int hearIndex = memberID.hairSpriteID;
 		if (hearIndex > -1)
-			images[(int)Parts.Hair].sprite = hairSprites [hearIndex];
+			icon.HairImage.sprite = hairSprites [hearIndex];
 		else
-			images[(int)Parts.Hair].enabled = false;
-		images[(int)Parts.Hair].color = hairColors [memberID.hairColorID];
+			icon.HairImage.enabled = false;
+		icon.HairImage.color = hairColors [memberID.hairColorID];
 
-		// clothes ( needs to be an int from set of color )
-		Color clothesColor = memberID.clothColor;
-		images[(int)Parts.Clothes].sprite = clothesSprites[memberID.clothSpriteID];
-		images[(int)Parts.Clothes].color 	= clothesColor;
+			// body
+		icon.BodyImage.sprite = bodySprites[memberID.male ? 0:1];
 
-		images[(int)Parts.LeftFoot].color = clothesColor;
-		images[(int)Parts.RightFoot].color 	= clothesColor;
 
-		images[(int)Parts.LeftArm].color = bodyColor;
-		images[(int)Parts.RightArm].color = bodyColor;
-
-		images[(int)Parts.Sword].color 	= Color.grey;
-
-		icon.GetComponent<CrewIcon> ().HideBody ();
-		Vector3 scale = new Vector3 ( TargetSide == Crews.Side.Player ? 1 : -1 , 1 , 1);
-
-		icon.GetComponent<CrewIcon> ().FaceObj.transform.localScale = scale;
-		icon.GetComponent<CrewIcon> ().BodyObj.transform.localScale = scale;
-
-		return icon;
+		return iconObj;
 	}
 	#endregion
 

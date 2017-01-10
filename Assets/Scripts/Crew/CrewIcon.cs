@@ -9,12 +9,14 @@ public class CrewIcon : MonoBehaviour {
 		// components
 	[Header ("Components")]
 	[SerializeField]
+	private GameObject controllerTransform;
+
+	[SerializeField]
 	private GameObject faceObj;
 
 	[SerializeField]
 	private GameObject bodyObj;
 
-	private Animator animator;
 	private CrewMember member;
 	private Transform _transform;
 
@@ -47,11 +49,9 @@ public class CrewIcon : MonoBehaviour {
 	private float placementDecal = 1f;
 	Crews.PlacingType currentPlacingType;
 	Crews.PlacingType previousPlacingType;
-	
 
 	void Awake () {
 		_transform = transform;
-		animator = GetComponent<Animator> ();
 	}
 
 	void Update () {
@@ -235,12 +235,6 @@ public class CrewIcon : MonoBehaviour {
 			return moveDuration;
 		}
 	}
-
-	public Animator Animator {
-		get {
-			return animator;
-		}
-	}
 	#endregion
 
 
@@ -265,6 +259,34 @@ public class CrewIcon : MonoBehaviour {
 	public GameObject FaceObj {
 		get {
 			return faceObj;
+		}
+	}
+
+	#region body parts
+	[Header("BobyParts")]
+	[SerializeField]
+	private Image hairImage;
+
+	public Image HairImage {
+		get {
+			return hairImage;
+		}
+	}
+
+	[SerializeField]
+	private Image bodyImage;
+
+	public Image BodyImage {
+		get {
+			return bodyImage;
+		}
+	}
+
+	#endregion
+
+	public GameObject ControllerTransform {
+		get {
+			return controllerTransform;
 		}
 	}
 }

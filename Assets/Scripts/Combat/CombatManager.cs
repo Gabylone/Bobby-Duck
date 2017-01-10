@@ -243,7 +243,7 @@ public class CombatManager : MonoBehaviour {
 		
 		if ( timeInState > memberPlacement_Duration ) {
 
-			getMember(targetCrew).Icon.ShowBody ();
+//			getMember(targetCrew).Icon.ShowBody ();
 			getMember(targetCrew).Icon.Overable = false;
 
 			if ( firstTurn ) {
@@ -307,13 +307,8 @@ public class CombatManager : MonoBehaviour {
 
 	#region Action
 	private void Action_Start () {
-
-		// animation
-		if (actionType == ActionType.Attacking) {
-			getMember (AttackingCrew).Icon.Animator.SetTrigger ("Attack");
-		}
+		
 	}
-
 	private void Action_Update () {
 		
 		if ( timeInState > actionDuration )
@@ -415,7 +410,7 @@ public class CombatManager : MonoBehaviour {
 
 	#region MemberReturn
 	private void MemberReturn_Start () {
-		getMember (targetCrew).Icon.HideBody ();
+//		getMember (targetCrew).Icon.HideBody ();
 		getMember (targetCrew).Icon.MoveToPoint (Crews.PlacingType.Combat, memberPlacement_Duration);
 
 		CardManager.Instance.HideFightingCard (targetCrew);

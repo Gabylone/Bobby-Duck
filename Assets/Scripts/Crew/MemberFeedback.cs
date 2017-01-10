@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class CrewInfo : MonoBehaviour {
+public class MemberFeedback : MonoBehaviour {
 
 	[Header("Info")]
 	[SerializeField] private Transform infoTransform;

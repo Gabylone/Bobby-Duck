@@ -149,7 +149,7 @@ public class PlayerLoot : MonoBehaviour {
 
 			Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (inventoryCards[i].IconAnchor);
 			Crews.playerCrew.CrewMembers[i].Icon.GetTransform.localPosition = Vector3.zero;
-			Crews.playerCrew.CrewMembers[i].Icon.HideBody ();
+//			Crews.playerCrew.CrewMembers[i].Icon.HideBody ();
 			Crews.playerCrew.CrewMembers[i].Icon.Overable = false;
 		}
 

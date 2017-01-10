@@ -31,7 +31,7 @@ public class CrewMember {
 	private Item[] equipment = new Item[3];
 
 	private CrewIcon icon;
-	private CrewInfo info;
+	private MemberFeedback info;
 	private GameObject iconObj;
 
 	private int currentCold = 0;
@@ -49,7 +49,7 @@ public class CrewMember {
 
 		// icon
 		icon = iconObj.GetComponent<CrewIcon> ();
-		info = iconObj.GetComponent<CrewInfo> ();
+		info = iconObj.GetComponent<MemberFeedback> ();
 
 		// side
 		if (side == Crews.Side.Enemy)
@@ -73,7 +73,6 @@ public class CrewMember {
 		string bigText = damageTaken.ToString ();
 
 		info.DisplayInfo (smallText, bigText , Color.red);
-		Icon.Animator.SetTrigger ("GetHit");
 
 		Health -= (int)damageTaken;
 
@@ -287,7 +286,7 @@ public class CrewMember {
 		}
 	}
 
-	public CrewInfo Info {
+	public MemberFeedback Info {
 		get {
 			return info;
 		}
