@@ -15,6 +15,6 @@ OtherSpeak : Salut voyageur !;;;;;
 SetChoices4;;;;;
 Choice : Qu'est-ce que vous vendez ?;Choice : Montrez moi votre marchandise;Choice : Le trésor de Bobby Dick ?;;Choice : (partir);
 OtherSpeak : Comme le panneau l'indique.;TradeClothes;RandomPercent20;;OtherSpeak : Au revoir !;
-OtherSpeak : Des vêtements, protections en tout genre.;Mark=>choix;OtherSpeak : Ça n'intéresse que les pirates…;OtherSpeak : Ça ne me dit rien.;Fade;
-Mark=>choix;;GiveDirectionToClue;Mark=>choix;Mark=>debut;caca
-;;Mark=>choix;;;
+OtherSpeak : Des vêtements, protections en tout genre.;Mark=>choix;OtherSpeak : Ça n'intéresse que les pirates…;OtherSpeak : Ça ne me dit rien.;HideOther;
+Mark=>choix;;GiveDirectionToClue;Mark=>choix;Fade;caca
+;;Mark=>choix;;Mark=>debut;

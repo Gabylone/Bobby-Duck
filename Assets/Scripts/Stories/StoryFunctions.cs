@@ -173,6 +173,7 @@ public class StoryFunctions : MonoBehaviour {
 				StoryReader.Instance.SetDecal (2);
 			} else {
 				Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+				Crews.enemyCrew.captain.Icon.ShowBody ();
 			}
 
 		}

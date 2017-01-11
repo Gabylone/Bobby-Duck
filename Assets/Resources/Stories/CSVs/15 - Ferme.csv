@@ -13,7 +13,7 @@ Leave;[choix ferme];;;;;;;;
 Narrator : La ferme n'est plus qu'un amât de poutre carbonisée et de cendre. L'air sent encore la fumée. Au seuil de la porte, un tas de papier brûlé. Un petit chemin parsemé de traces de pas mène sur une autre plage.;;;;;;NewCrew1/F;;;Narrator : C'est une petite caca
 [choix];;;;;;Narrator : C'est une petite ferme, entourée de champs. Une jeune fille ramasse des graines de tournesol près de la porte. Un chemin mène vers la plage, un autre vers derrière la maison.;Mark=>fermière morte;Mark=>combat fermière;Mark=>ferme normale
 SetChoices4;;;;;;SetChoices3;;;
-Choice : ( fouiller les restes );;Choice : ( regarder les papiers );;Choice : ( retourner au bateau );Choice : ( suivre traces de pas );Choice : ( aller voir jeune fille );Choice : ( retourner plage );Choice : ( suivre chemin );
+Choice : (fouiller les restes);;Choice : (regarder les papiers);;Choice : (retourner au bateau);Choice : (suivre traces de pas);Choice : (aller voir jeune fille);Choice : (retourner plage);Choice : (suivre chemin);
 RandomPercent50;;RandomPercent30;;Fade;Fade;Mark=>rencontre fermière;Mark=>début;Mark=>plage2;
 PlayerSpeak : Des babioles…;PlayerSpeak : Rien à sauver.;PlayerSpeak : Tiens tiens ! ça parle de Bobby…;PlayerSpeak : Le peu lisible n'est que factures et recettes de cuisines.;Mark=>début;Mark=>plage2;;;;
 LootMisc;Mark=>ferme détruite;PlayerSpeak : Quelqu'un sait quelques chose…;Mark=>ferme détruite;;;;;;
@@ -78,7 +78,7 @@ OtherSpeak : Bonjour !;;;;;;;;;
 Mark=>discussion fermière;;;;;;;;;
 [discussion fermière];;;;;[autre];;;;
 SetChoices4;;;;;SetChoices3;;;;
-Choice : Quelque chose à vendre ?;;Choice : ( retourner ferme );Choice : ( retourner au bateau );Choice : (autre);Choice : Bobby dick ?;;Choice : (attaquer);Choice : (autre);
+Choice : Quelque chose à vendre ?;;Choice : (retourner ferme);Choice : (retourner au bateau);Choice : (autre);Choice : Bobby dick ?;;Choice : (attaquer);Choice : (autre);
 RandomPercent20;;Mark=>ferme normale;HideOther;Mark=>autre;RandomPercent40;;Mark=>combat fermière;Mark=>discussion fermière;
 OtherSpeak : Je n'en ai que assez pour ma famille ! Désolé.;;;Fade;;OtherSpeak : Je vois des mats passer par là.;OtherSpeak : Non ça ne me dit rien;;;
 SetChoices2;;;Mark=>début;;OtherSpeak : Ils doivent chercher ce dont vous parlez.;Mark=>autre;;;
@@ -92,7 +92,7 @@ LaunchCombat;;;;;;;;;
 [fermière morte];;;;;;;;;
 Narrator : Le cadavre de la fermière est étalé au beau milieu des plantes dont elle s'occupait. La porte de la maison est grande ouverte. Un chemin mène vers la plage, un autre s'aventure derrière la maison.;;;;;;;;;
 SetChoices3;;;;;;;;;
-Choice : Retourner sur la plage.;Choice : ( fouiller maison );Choice : ( suivre chemin );;;;;;;
+Choice : Retourner sur la plage.;Choice : (fouiller maison);Choice : (suivre chemin);;;;;;;
 Fade;Mark=>maison;Mark=>plage2;;;;;;;
 Mark=>début;;;;;;;;;
 ;;;;;;;;;

@@ -16,7 +16,7 @@ Mark=>discussion forgeron;;LaunchCombat;;;;
 ;;Mark=>combat forgeron;;;;
 [discussion forgeron];;;;;;
 SetChoices3;;;;;;
-Choice : Héla ! Tu vends des armes ?;;Choice : ( partir );Choice : (attaquer sauvagement);;;
+Choice : Héla ! Tu vends des armes ?;;Choice : (partir);Choice : (attaquer sauvagement);;;
 RandomPercent8;;HideOther;[combat forgeron];;;
 OtherSpeak : Pas à des gens comme toi !;OtherSpeak : Avec plaisir !;Fade;OtherSpeak : Tu te frottes à la mauvaise personne !;;;
 Mark=>discussion forgeron;TradeWeapons/Clothes;Mark=>discussion forgeron;LaunchCombat;;;
@@ -27,7 +27,7 @@ Mark=>discussion forgeron;TradeWeapons/Clothes;Mark=>discussion forgeron;LaunchC
 [forgeron mort];;;;;;
 Narrator : Le forgeron est mort, mais sa forge continu de brûler. Derrière la forge se trouve toute sorte de métaux.;;;;;;
 SetChoices3;;;;;;
-Choice : Entrer dans maison;;;Choice : ( regarder derrière forge );;;Choice : ( partir )
+Choice : Entrer dans maison;;;Choice : (regarder derrière forge);;;Choice : (partir)
 NewCrew1/F;;;RandomRange3;;;Fade
 OtherSpeak : !;Mark=>femme mort;Mark=>combat femme;PlayerSpeak : Que des bouts de métal et de la rouille !;PlayerSpeak : Tout plein de choses, mais pas d'armes !;PlayerSpeak : Bingo !;Mark=>debut
 OtherSpeak : Qu'est-ce que vous faites chez moi ?!;;;Mark=>forgeron mort;LootMisc;LootWeapons;
@@ -63,7 +63,7 @@ Mark=>femme mort;;;;;;
 Narrator : Le cadavre de la femme git au beau milieu du salon. La maison est vide.;;;;;;
 [fouiller];;;;;;
 SetChoices3;;;;;;
-Choice : ( fouiller cuisine );;Choice : ( fouiller bureau );;Choice : ( sortir );;
+Choice : (fouiller cuisine);;Choice : (fouiller bureau);;Choice : (sortir);;
 RandomRange2;;RandomRange2;;Fade;;
 PlayerSpeak : Ils ont TOUT mangé !;PlayerSpeak : Miam !;PlayerSpeak : Juste quelques patrons et des lettres…;PlayerSpeak : Il y a une sorte de carte….;Mark=>forgeron mort;;
 Mark=>fouiller;LootFood;Mark=>fouiller;GiveDirectionToClue;;;

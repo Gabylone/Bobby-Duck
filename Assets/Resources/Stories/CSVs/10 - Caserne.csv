@@ -17,13 +17,13 @@ Mark=>choix garde;Choice : Entrer;Choice : Repartir;;;;;;;
 ;;;;;;;;;
 [choix garde];;;;;;;;;
 SetChoices3;;;;;;;;;
-Choice : ( attaquer );Choice : Nan rien !;Choice : Je cherche armes et sustentements !;;;;;;;
+Choice : (attaquer);Choice : Nan rien !;Choice : Je cherche armes et sustentements !;;;;;;;
 Mark=>combat garde;OtherSpeak : A la prochaine !;RandomPercent29;;;;;;;
 ;Leave;OtherSpeak : Eh bien tu peux aller te faire voir…;OtherSpeak : Entre !;;;;;;
 ;;Mark=>pas rentrer;Mark=>caserne;;;;;;
 [pas rentrer];;;;;;;;;
 SetChoices3;;;;;;;;;
-Choice : ( attaquer );Choice : (cha);;Choice : Pas de problèmes !;;;;;;
+Choice : (attaquer);Choice : (cha);;Choice : Pas de problèmes !;;;;;;
 Mark=>combat garde;CheckStatCHA;;OtherSpeak : Ouais c'est ça !;;;;;;
 ;OtherSpeak : Bon, entrez…;OtherSpeak : Vous vous foutez de moi ?!;Leave;;;;;;
 ;Mark=>caserne;OtherSpeak : Cassez vous !;;;;;;;
@@ -45,7 +45,7 @@ Mark=>combat soldats;;;;;;;;;
 NewCrew3;;;;;;;;;
 Narrator : Le campement n'est pas très grand. Un feu de joie brûle fort et quelques soldats boivent autour.;Mark=>caserne vide;;;;;;;;
 SetChoices3;;;;;;;;;
-Choice : ( retourner à l'entrée );Choice : ( parler aux soldats );;Choice : Je veux parler à votre chef !;;;;;;
+Choice : (retourner à l'entrée);Choice : (parler aux soldats);;Choice : Je veux parler à votre chef !;;;;;;
 Fade;PlayerSpeak : Ahoi !;;RandomPercent75;;;;;;
 Mark=>debut;RandomPercent30;;OtherSpeak : Suis moi !;OtherSpeak : On en a pas.;;;;;
 ;OtherSpeak : On est occupé !;OtherSpeak : Oui ?;Fade;Mark=>caserne;;;;;
@@ -57,7 +57,7 @@ Mark=>debut;RandomPercent30;;OtherSpeak : Suis moi !;OtherSpeak : On en a pas
 ;;;;;;;;;
 [choix soldats];;;;;;;;;
 SetChoices4;;;;;;;;;
-Choice : Non rien;Choice : Vous vous plaisez ici ?;;;;;;Choice : Ça vous parle, Bobby Dick ?;;Choice : Vous êtes un pd ( attaquer )
+Choice : Non rien;Choice : Vous vous plaisez ici ?;;;;;;Choice : Ça vous parle, Bobby Dick ?;;Choice : Vous êtes un pd (attaquer)
 OtherSpeak : Ok…;RandomRange3;;;;;;RandomPercent40;;
 Mark=>choix soldats;OtherSpeak : C'est le paradis !;OtherSpeak : Bof…;;;OtherSpeak : Je n'ai qu'un rêve, c'est de partir.;;OtherSpeak : On a coulé un bateau pirate qui en parlait.;OtherSpeak : Non, rien du tout…;
 ;PlayerSpeak : Ah…;SetChoices2;;;SetChoices2;;OtherSpeak : Ils allaient…;Mark=>choix soldats;

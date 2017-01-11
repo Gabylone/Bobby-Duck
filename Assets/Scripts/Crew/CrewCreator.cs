@@ -122,7 +122,7 @@ public class CrewCreator : MonoBehaviour {
 			// set object transform
 		iconObj.transform.SetParent (crewParent);
 		iconObj.transform.localScale = Vector3.one;
-		iconObj.transform.localPosition = Vector2.zero;
+		iconObj.transform.position = Crews.getCrew (targetSide).CrewAnchors [(int)Crews.PlacingType.Hidden].position;
 
 		Vector3 scale = new Vector3 ( TargetSide == Crews.Side.Enemy ? 1 : -1 , 1 , 1);
 

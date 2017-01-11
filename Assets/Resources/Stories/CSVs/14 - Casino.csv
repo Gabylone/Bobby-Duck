@@ -1,7 +1,7 @@
 Nom histoire;Fréquence %;;;;
 Casino;3;;;;
 Narrator : L'île est assez grande. Une musique émane de derrière des dunes de sable. Un chemin y mène.;;;;;ceci juste pour le bug de merde
-[debut];;;;;Choice : ( fouiller la salle )
+[debut];;;;;Choice : (fouiller la salle)
 SetChoices2;;;;;Narrator : il n'y a pas gra
 Choice : Lever l'ancre;Choice : Vers la grange;;;;AddToInventory<Jeu de carte>/Misc
 PlayerSpeak : On s'en va !;Fade;;;;Mark=>salleVide
@@ -24,7 +24,7 @@ Mark=>salleVide;;;Mark=>debut;;
 [salleVide];;;;;
 Narrator : La salle est vide. Le serveur et les musiciens se sont enfuit pendant le combat.;;;;;
 SetChoices3;;;;;
-Choice : ( fouiller comptoir );;;Choice : Revenir au bateau;Choice : ( fouiller la salle );
+Choice : (fouiller comptoir);;;Choice : Revenir au bateau;Choice : (fouiller la salle);
 RandomPercent30;;;Fade;Narrator : Il n'y a pas grands choses, a part le jeu de carte posé sur l'une des tables.;
 PlayerSpeak : Bingo !;PlayerSpeak : Rien du tout…;;Mark=>debut;AddToInventory<Jeu de carte>/Misc;
 LootFood;Mark=>salleVide;;;Mark=>salleVide;

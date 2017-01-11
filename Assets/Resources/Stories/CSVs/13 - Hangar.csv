@@ -10,7 +10,7 @@ Leave;NewCrew1;;;;;;;;;;
 ;OtherSpeak : Je fais des merveilles avec les bateaux;;;;;;;;;;
 ;[conversation];;;;;;;;;;
 ;SetChoices4;;;;;;;;;;
-;Choice : (retourner sur la plage);Choice : Occupez vous de mon bateau !;Choice : Bobby Dick ?;;Choice : ( attaquer );;;;;;
+;Choice : (retourner sur la plage);Choice : Occupez vous de mon bateau !;Choice : Bobby Dick ?;;Choice : (attaquer);;;;;;
 ;Mark=>debut;OtherSpeak : Avec plaisir !;RandomPercent40;;RandomPercent50;;;;;;
 ;;BoatUpgrades;OtherSpeak : Oui;OtherSpeak : Non ça me dis rien !;OtherSpeak : Non, non.;Mark=>Combat Charpentier;;;;;
 ;;Mark=>conversation;GiveDirectionToClue;Mark=>conversation;OtherSpeak : Prenez ça, laissez moi, svp.;;;;;;

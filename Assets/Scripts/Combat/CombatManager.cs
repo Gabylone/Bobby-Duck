@@ -73,6 +73,23 @@ public class CombatManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject chooseMemberFeedback;
 
+	[SerializeField]
+	private MemberFeedback playerFeedback;
+	[SerializeField]
+	private MemberFeedback enemyFeedback;
+
+	public MemberFeedback PlayerFeedback {
+		get {
+			return playerFeedback;
+		}
+	}
+
+	public MemberFeedback EnemyFeedback {
+		get {
+			return enemyFeedback;
+		}
+	}
+
 	void Awake () {
 		Instance = this;
 	}
@@ -231,32 +248,62 @@ public class CombatManager : MonoBehaviour {
 
 	#region MemberLerp
 	private void MemberLerp_Start () {
-		
 
-//		DialogueManager.Instance.SetDialogue ("A l'abordage !", getMember (targetCrew));
+		DialogueManager.Instance.SetDialogue ("A l'abordage !", getMember (targetCrew));
 
+//		getMember(targetCrew).Icon.ShowBody ();
+		getMember(targetCrew).Icon.Overable = false;
+		getMember (targetCrew).Icon.HideFace ();
 
+		if ( firstTurn ) {
+			
+			if ( targetCrew == Crews.Side.Player ) {
+				
+				SetTargetCrew (Crews.Side.Enemy);
+				ShowEnemyFighter ();
 
-		
-	}
-	private void MemberLerp_Update () {
-		
-		if ( timeInState > memberPlacement_Duration ) {
+				ChangeState (States.MemberLerp);
 
-//			getMember(targetCrew).Icon.ShowBody ();
-			getMember(targetCrew).Icon.Overable = false;
-
-			if ( firstTurn ) {
-				if ( targetCrew == Crews.Side.Player ) {
-					SetTargetCrew (Crews.Side.Enemy);
-					ChangeState (States.MemberLerp);
-				} else {
-					SetTargetCrew(Crews.Side.Player);
-					ChangeState (States.StartTurn);
-				}
 			} else {
+				
+				SetTargetCrew(Crews.Side.Player);
+				ShowPlayerFighter ();
+
 				ChangeState (States.StartTurn);
 			}
+
+		} else {
+			
+			ChangeState (States.StartTurn);
+
+		}
+		
+	}
+
+	private void ShowPlayerFighter () {
+		
+		getMember (targetCrew).Icon.HideFace ();
+		CardManager.Instance.ShowFightingCard (targetCrew);
+
+		playerFighter.SetActive (true);
+		playerFighter.GetComponent<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
+		playerFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
+	}
+
+	private void ShowEnemyFighter () {
+
+		getMember (targetCrew).Icon.HideFace ();
+		CardManager.Instance.ShowFightingCard (targetCrew);
+
+		enemyFighter.SetActive (true);
+		enemyFighter.GetComponent<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
+		enemyFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
+	}
+
+	private void MemberLerp_Update () {
+//		
+		if ( timeInState > memberPlacement_Duration ) {
+
 
 		}
 	}
@@ -269,16 +316,7 @@ public class CombatManager : MonoBehaviour {
 	#region StartTurn
 	private void StartTurn_Start () {
 
-		getMember (targetCrew).Icon.HideFace ();
 
-		CardManager.Instance.ShowFightingCard (targetCrew);
-		if (targetCrew == Crews.Side.Enemy) {
-			enemyFighter.SetActive (true);
-			enemyFighter.GetComponent<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
-		} else {
-			playerFighter.SetActive (true);
-			playerFighter.GetComponent<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
-		}
 	}
 	private void StartTurn_Update () {
 		
@@ -333,7 +371,7 @@ public class CombatManager : MonoBehaviour {
 			SetTargetCrew (AttackingCrew);
 			ChangeState (States.MemberReturn);
 
-			getMember (AttackingCrew).Info.DisplayInfo ("ESCAPE","!",Color.magenta);
+//			getMember (AttackingCrew).Info.DisplayInfo ("ESCAPE","!",Color.magenta);
 
 
 		} else {
@@ -354,7 +392,7 @@ public class CombatManager : MonoBehaviour {
 		if ( Random.value * 100 < dodgeChance ) {
 
 			DialogueManager.Instance.SetDialogue ("Raté !", getMember(AttackingCrew));
-			getMember (AttackingCrew).Info.DisplayInfo ("Fail","",Color.grey);
+//			getMember (AttackingCrew).Info.DisplayInfo ("Fail","",Color.grey);
 
 			return;
 		}
@@ -381,24 +419,26 @@ public class CombatManager : MonoBehaviour {
 			playerFighter.SetActive (false);
 		else
 			enemyFighter.SetActive (false);
-	}
-	private void MemberReturn_Update () {
 
-		if (timeInState >= memberPlacement_Duration) {
+		if (getMember (DefendingCrew).Health == 0) {
+			getMember (DefendingCrew).Kill ();
+			getMember (AttackingCrew).AddXP (getMember (targetCrew).Level * 25);
 
-			if (getMember (DefendingCrew).Health == 0) {
-				getMember (DefendingCrew).Kill ();
-				getMember (AttackingCrew).AddXP (getMember (targetCrew).Level * 25);
-
-				if (Crews.getCrew (targetCrew).CrewMembers.Count == 0) {
-					WinFight ();
-					return;
-				}
-
+			if (Crews.getCrew (targetCrew).CrewMembers.Count == 0) {
+				WinFight ();
+				return;
 			}
 
-			ChangeState (States.MemberChoice);
 		}
+
+		ChangeState (States.MemberChoice);
+	}
+	private void MemberReturn_Update () {
+//
+//		if (timeInState >= memberPlacement_Duration) {
+//
+//
+//		}
 
 	}
 	private void MemberReturn_Exit () {
@@ -408,6 +448,10 @@ public class CombatManager : MonoBehaviour {
 
 	#region fight end
 	private void ExitFight () {
+
+		getMember (Crews.Side.Player).Icon.ShowFace ();
+		playerFighter.SetActive (false);
+
 		CardManager.Instance.HideFightingCard (Crews.Side.Enemy);
 		CardManager.Instance.HideFightingCard (Crews.Side.Player);
 

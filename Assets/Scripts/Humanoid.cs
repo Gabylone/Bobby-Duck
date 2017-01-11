@@ -23,7 +23,8 @@ public class Humanoid : MonoBehaviour {
 	private Transform bodyTransform;
 	private Animator animator;
 	private CrewMember crewMember;
-	private MemberFeedback feedback;
+//	[SerializeField]
+//	private MemberFeedback feedback;
 	[SerializeField]
 	private Transform dialogueAnchor;
 
@@ -276,8 +277,6 @@ public class Humanoid : MonoBehaviour {
 					SoundManager.Instance.PlaySound (hurtSound);
 					DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", dialogueAnchor);
 
-					feedback.DisplayInfo ("CRITICAL","!",Color.magenta);
-
 				} else {
 
 					SoundManager.Instance.PlaySound (hitSound);
@@ -285,22 +284,24 @@ public class Humanoid : MonoBehaviour {
 
 				}
 
-				crewMember.GetHit (dam);
+				if (Guard_Active) {
+					dam /= 4;
+					ChangeState (states.blocked);
+				} else {
+					ChangeState (states.getHit);
+				}
 
 				other.GetComponentInParent<Humanoid> ().ChangeState (states.blocked);
+				crewMember.GetHit (dam);
 
 				if (crewMember.Health == 0) {
-					CombatManager.Instance.SetTargetCrew (CombatManager.Instance.DefendingCrew);
+					
+					CombatManager.Instance.SetTargetCrew(crewMember.Side);
+					CombatManager.Instance.DefendingCrew = crewMember.Side;
+					CombatManager.Instance.AttackingCrew = crewMember.Side == Crews.Side.Player ? Crews.Side.Enemy : Crews.Side.Player;
 					CombatManager.Instance.ChangeState (CombatManager.States.MemberReturn);
-				} else {
-					if (Guard_Active) {
-						dam /= 4;
-						ChangeState (states.blocked);
-					} else {
-						ChangeState (states.getHit);
-					}
+
 				}
-				return;
 
 			}
 		}

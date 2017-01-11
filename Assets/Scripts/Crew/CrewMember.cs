@@ -49,7 +49,6 @@ public class CrewMember {
 
 		// icon
 		icon = iconObj.GetComponent<CrewIcon> ();
-		info = iconObj.GetComponent<MemberFeedback> ();
 
 		// side
 		if (side == Crews.Side.Enemy)
@@ -72,9 +71,13 @@ public class CrewMember {
 		string smallText = damage + " / " + Defense;
 		string bigText = damageTaken.ToString ();
 
-		info.DisplayInfo (smallText, bigText , Color.red);
-
 		Health -= (int)damageTaken;
+
+		if (side == Crews.Side.Player)
+			CombatManager.Instance.PlayerFeedback.DisplayInfo (smallText, bigText, Color.red);
+		else
+			CombatManager.Instance.EnemyFeedback.DisplayInfo (smallText, bigText, Color.red);
+
 
 		CardManager.Instance.UpdateCards ();
 

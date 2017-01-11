@@ -32,6 +32,9 @@ public class UIButton : MonoBehaviour {
 	bool opened = false;
 
 	void Start () {
+
+		menu.gameObject.SetActive (true);
+
 		buttonScale = button.sizeDelta;
 		menuScale = menu.sizeDelta;
 
@@ -62,7 +65,7 @@ public class UIButton : MonoBehaviour {
 			foreach ( Image image in button.GetComponentsInChildren<Image>() )
 				image.color = Color.Lerp (Color.clear, Color.white, 1-l);
 
-			if (timer >= duration ){ 
+			if (timer >= duration ){
 				lerping = false;
 
 				if (opened)

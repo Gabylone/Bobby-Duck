@@ -16,7 +16,7 @@ Fade;OtherSpeak : Hélà !;;;;Narrator : La maison est vide. Seul le corps de
 Mark=>debut;PlayerSpeak : Bonjour !;;;;Leave;LaunchCombat
 ;[discussion vielle];;;;;Leave
 ;SetChoices3;;;;;
-;Choice : On va y aller…;Choice : ( demander nourriture );;Choice : Bobby Dick, ça vous parle ?;;
+;Choice : On va y aller…;Choice : (demander nourriture);;Choice : Bobby Dick, ça vous parle ?;;
 ;OtherSpeak : OK merci !;RandomRange2;;OtherSpeak : Oui.;;
 ;HideOther;OtherSpeak : Je vais voir dans mon garde manger.;OtherSpeak : J'en ai assez peu pour moi même, désolé.;OtherSpeak : Mon fils est lui aussi parti à sa recherche.;;
 ;Narrator : L'équipage est au sommet. Une petite chaumière surplombe le rocher.;TradeFood;Mark=>discussion vielle;OtherSpeak : Il n'avait qu'un mot à la bouche.;;
