@@ -47,8 +47,10 @@
   <ItemGroup>
      <Compile Include="Assets\Fight_LoadSprites.cs" />
      <Compile Include="Assets\FollowFighter.cs" />
+     <Compile Include="Assets\MenuManager.cs" />
      <Compile Include="Assets\NameGeneration.cs" />
      <Compile Include="Assets\Percentage.cs" />
+     <Compile Include="Assets\ScriptSave\GuyTest.cs" />
      <Compile Include="Assets\Scripts\Card\Card.cs" />
      <Compile Include="Assets\Scripts\Card\CardManager.cs" />
      <Compile Include="Assets\Scripts\Combat\CombatManager.cs" />
@@ -62,11 +64,11 @@
      <Compile Include="Assets\Scripts\Dialogues\DiscussionManager.cs" />
      <Compile Include="Assets\Scripts\Dice\Dice.cs" />
      <Compile Include="Assets\Scripts\Dice\DiceManager.cs" />
-     <Compile Include="Assets\Scripts\FightIA.cs" />
-     <Compile Include="Assets\Scripts\FightPlayer.cs" />
+     <Compile Include="Assets\Scripts\Fight\FightIA.cs" />
+     <Compile Include="Assets\Scripts\Fight\FightPlayer.cs" />
+     <Compile Include="Assets\Scripts\Fight\Humanoid.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Gold\GoldManager.cs" />
-     <Compile Include="Assets\Scripts\Humanoid.cs" />
      <Compile Include="Assets\Scripts\Inventory\InventoryCard.cs" />
      <Compile Include="Assets\Scripts\Inventory\Item.cs" />
      <Compile Include="Assets\Scripts\Inventory\ItemButton.cs" />
@@ -87,6 +89,9 @@
      <Compile Include="Assets\Scripts\Navigation\NavigationManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\WeatherManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\Wheel.cs" />
+     <Compile Include="Assets\Scripts\Save\SaveManager.cs" />
+     <Compile Include="Assets\Scripts\Save\SaveMenu.cs" />
+     <Compile Include="Assets\Scripts\Save\SaveTool.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
      <Compile Include="Assets\Scripts\StateMachine.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryFunctions.cs" />
@@ -99,9 +104,12 @@
      <Compile Include="Assets\Scripts\Treasure\ClueManager.cs" />
      <None Include="Assets\Tout Doux.txt" />
      <None Include="Assets\func macro.txt" />
+     <None Include="Assets\GameSaveData3.xml" />
      <None Include="Assets\5 déc.txt" />
      <None Include="Assets\Liste features.txt" />
      <None Include="Assets\frfr.txt" />
+     <None Include="Assets\GameSaveData2.xml" />
+     <None Include="Assets\GameSaveData1.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

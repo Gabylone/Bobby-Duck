@@ -28,6 +28,8 @@ public class Crews : MonoBehaviour {
 		Crew playerCrew = new Crew (crewParams,0,0);
 		crews [0].setCrew (playerCrew);
 		crews [0].UpdateCrew (PlacingType.Map);
+
+		SaveManager.Instance.CurrentData.guyName = Crews.playerCrew.captain.MemberName;
 	}
 
 	public static CrewManager getCrew ( Crews.Side attackingCrew ) {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<GameData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <guyName>Leon</guyName>
+  <guyColor>
+    <r>0</r>
+    <g>0</g>
+    <b>0</b>
+    <a>1</a>
+  </guyColor>
+</GameData>
