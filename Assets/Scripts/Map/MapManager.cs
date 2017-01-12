@@ -45,7 +45,6 @@ public class MapManager : MonoBehaviour {
 
 	public void UpdateImage () {
 
-
 		int shipRange = NavigationManager.Instance.ShipRange;
 
 		for (int x = -shipRange; x <= shipRange; ++x ) {
@@ -53,13 +52,17 @@ public class MapManager : MonoBehaviour {
 			for (int y = -shipRange; y <= shipRange; ++y ) {
 
 				if (x == 0 && y == 0) {
+					
 					mapImage.UpdatePixel (posX + x, posY + y, Color.red);
+
 				} else {
 
 					if (posX + x < mapImage.TextureScale && posX + x >= 0 &&
 					    posY + y < mapImage.TextureScale && posY + y >= 0) {
 
 						mapImage.UpdatePixel (posX + x, posY + y);
+
+
 					}
 				}
 

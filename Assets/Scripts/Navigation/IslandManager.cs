@@ -114,14 +114,13 @@ public class IslandManager : MonoBehaviour {
 			islandImage = value;
 		}
 	}
+
 	public void SetIsland () {
 
 		islandImage.gameObject.SetActive ( MapManager.Instance.NearIsland );
 		if ( MapManager.Instance.NearIsland )
 			islandImage.transform.localPosition = MapManager.Instance.CurrentIsland.Position;
-
 	}
-
 
 	#region key islands
 	public int TreasureIslandXPos {

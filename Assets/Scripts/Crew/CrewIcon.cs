@@ -45,8 +45,7 @@ public class CrewIcon : MonoBehaviour {
 	[Header("decals")]
 	[SerializeField]
 	private float overingDecal = 2f;
-	[SerializeField]
-	private float placementDecal = 1f;
+	private float placementDecal = 1.3f;
 	Crews.PlacingType currentPlacingType;
 	Crews.PlacingType previousPlacingType;
 
@@ -128,7 +127,7 @@ public class CrewIcon : MonoBehaviour {
 		float decal = 0f;
 
 		if (placingType == Crews.PlacingType.Combat || placingType == Crews.PlacingType.Map) {
-			decal = member.GetIndex;
+			decal = member.GetIndex * placementDecal;
 		}
 
 		moveDuration = duration;
@@ -265,7 +264,13 @@ public class CrewIcon : MonoBehaviour {
 	#region body parts
 	[Header("BobyParts")]
 	[SerializeField]
+	private Image bodyImage;
+	[SerializeField]
 	private Image hairImage;
+	[SerializeField]
+	private Image eyesImage;
+	[SerializeField]
+	private Image eyebrowsImage;
 
 	public Image HairImage {
 		get {
@@ -273,8 +278,17 @@ public class CrewIcon : MonoBehaviour {
 		}
 	}
 
-	[SerializeField]
-	private Image bodyImage;
+	public Image EyesImage {
+		get {
+			return eyesImage;
+		}
+	}
+
+	public Image EyebrowsImage {
+		get {
+			return eyebrowsImage;
+		}
+	}
 
 	public Image BodyImage {
 		get {

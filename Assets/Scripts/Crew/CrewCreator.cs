@@ -61,6 +61,12 @@ public class CrewCreator : MonoBehaviour {
 	[SerializeField]
 	private Sprite[] beardSprites;
 
+	[Header("Eyes")]
+	[SerializeField]
+	private Sprite[] eyesSprites;
+	[SerializeField]
+	private Sprite[] eyebrowsSprites;
+
 	[Header("Clothe")]
 	[SerializeField]
 	private Sprite[] clothesSprites;
@@ -140,6 +146,15 @@ public class CrewCreator : MonoBehaviour {
 			icon.HairImage.enabled = false;
 		icon.HairImage.color = hairColors [memberID.hairColorID];
 
+		// eyes
+		int eyesIndex = memberID.eyeSpriteID;
+		icon.EyesImage.sprite = eyesSprites [memberID.eyeSpriteID];
+
+		// eyebrows
+		int eyebrowsIndex = memberID.eyebrowsSpriteID;
+		icon.EyebrowsImage.sprite = eyebrowsSprites [memberID.eyebrowsSpriteID];
+		icon.EyebrowsImage.color = hairColors [memberID.hairColorID];
+
 			// body
 		icon.BodyImage.sprite = bodySprites[memberID.male ? 0:1];
 
@@ -179,6 +194,18 @@ public class CrewCreator : MonoBehaviour {
 	public Sprite[] ClothesSprites {
 		get {
 			return clothesSprites;
+		}
+	}
+
+	public Sprite[] EyesSprites {
+		get {
+			return eyesSprites;
+		}
+	}
+
+	public Sprite[] EyebrowsSprites {
+		get {
+			return eyebrowsSprites;
 		}
 	}
 
@@ -231,6 +258,8 @@ public class MemberID {
 	public int bodyColorID = 0;
 
 	public int hairSpriteID = 0;
+	public int eyeSpriteID = 0;
+	public int eyebrowsSpriteID = 0;
 	public int hairColorID 	= 0;
 	public int beardSpriteID = 0;
 
@@ -302,6 +331,8 @@ public class MemberID {
 		}
 
 		beardSpriteID 	= male ? Random.Range (-1 , CrewCreator.Instance.BeardSprites.Length) : -1;
+		eyeSpriteID 	= Random.Range (0 , CrewCreator.Instance.EyesSprites.Length);
+		eyebrowsSpriteID 	= Random.Range (0 , CrewCreator.Instance.EyebrowsSprites.Length);
 
 		int[] clothIDs 	= male ? CrewCreator.Instance.maleClothesID : CrewCreator.Instance.femaleClothesID;
 		clothSpriteID 	= clothIDs [Random.Range (0, clothIDs.Length)];

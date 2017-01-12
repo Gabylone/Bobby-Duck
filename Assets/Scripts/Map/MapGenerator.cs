@@ -44,7 +44,7 @@ public class MapGenerator : MonoBehaviour {
 		islandIds = new int[mapImage.TextureScale, mapImage.TextureScale];
 		for ( int x = 0; x < mapImage.TextureScale; ++x ) {
 			for ( int y = 0; y < mapImage.TextureScale; ++y )
-				islandIds [x, y] = -1;
+				islandIds [x, y] = -2;
 		}
 
 		StartCoroutine (GenerateIslandsCoroutine ());
@@ -58,7 +58,6 @@ public class MapGenerator : MonoBehaviour {
 		int islandID = 0;
 
 		#region clues & treasure island
-			// CLUES
 		for ( int i = 0; i < ClueManager.Instance.ClueAmount; ++i)
         {
             
@@ -100,12 +99,12 @@ public class MapGenerator : MonoBehaviour {
 				if ( isInNoMansSea == false ) {
 					int x = Random.Range ( 0, mapImage.TextureScale );
 
-					if (islandIds[x,y] == -1) {
+					if (islandIds[x,y] < 0) {
 						
 						islandIds 	[x, y] 	= islandID;
 
 						Vector2 islandPos = new Vector2(Random.Range (-islandRange.x,islandRange.x) , Random.Range(-islandRange.y ,islandRange.y) );
-						islandDatas.Add ( new IslandData( islandPos) );
+						islandDatas.Add ( new IslandData(islandPos) );
 
 						++islandID;
 					}

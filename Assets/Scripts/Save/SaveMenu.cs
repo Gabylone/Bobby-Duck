@@ -108,7 +108,7 @@ public class SaveMenu : MonoBehaviour {
 
 				GameData gameLoad = SaveTool.Instance.Load (index+1);
 
-				saveButtons [index].GetComponentInChildren<Text> ().text = gameLoad.guyName;
+//				saveButtons [index].GetComponentInChildren<Text> ().text = gameLoad.guyName;
 				saveButtons [index].GetComponentInChildren<Text> ().color = Color.black;
 				saveButtons[index].image.color = Color.white;
 				saveButtons[index].interactable = true;

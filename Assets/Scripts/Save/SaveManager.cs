@@ -39,12 +39,11 @@ public class SaveManager : MonoBehaviour
 [System.Serializable]
 public class GameData
 {
-	public string guyName;
-	public Color guyColor;
+	public Crew playerCrew;
 
 	public GameData()
 	{
-		guyName = "aucune";
-		guyColor = Color.black;
+//		guyName = "aucune";
+//		guyColor = Color.black;
 	}
 }

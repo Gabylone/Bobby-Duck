@@ -63,8 +63,8 @@ public class NavigationManager : MonoBehaviour {
 		Transitions.Instance.ScreenTransition.Switch ();
 
 		WeatherManager.Instance.UpdateWeather ();
-//
-//		///
+
+//		/// debug pour tout le temps savoir ou est le trésor
 //
 //		Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
 //		string directionPhrase = NavigationManager.Instance.getDirName (dir);

@@ -38,10 +38,29 @@ public class MapImage : MonoBehaviour {
 
 		for ( int x = 0; x < textureScale ; ++x ) {
 			for (int y = 0; y < textureScale; ++y ) {
-				if ( revealMap )
-					texture.SetPixel (x, y, MapGenerator.Instance.IslandIds[x,y] > -1 ? Color.yellow : Color.blue);
-				else
+				if (revealMap) {
+					texture.SetPixel (x, y, MapGenerator.Instance.IslandIds [x, y] > -1 ? Color.yellow : Color.blue);
+				} else {
+
+					int id = MapGenerator.Instance.IslandIds [x, y];
+
+					Color color = Color.magenta;
+
+					if (id == -2) {
+						color = undiscoveredColor;
+					} else if (id == -1) {
+						color = discoveredColor;
+					} else {
+//						Debug.Log ("island data l : " + mapGenerator.IslandDatas.Count);
+//						Debug.Log ("machin index: " + mapGenerator.IslandIds [x, y]);
+						if ( mapGenerator.IslandIds [x, y] < mapGenerator.IslandDatas.Count ) {
+//							Debug.LogError ("CACA INDEX : " + mapGenerator.IslandIds [x, y] + " / L : " + mapGenerator.IslandDatas.Count);
+							color = mapGenerator.IslandDatas[mapGenerator.IslandIds [x, y]].visited ? visitedIslandColor : unvisitedIslandColor;
+						}
+					}
+
 					texture.SetPixel (x, y, undiscoveredColor);
+				}
 			}
 		}
 //
@@ -58,8 +77,15 @@ public class MapImage : MonoBehaviour {
 		if ( color == default(Color) ) {
 			color = discoveredColor;
 			if ( mapGenerator.IslandIds [x, y] > -1 ) {
+				
 				color = mapGenerator.IslandDatas[mapGenerator.IslandIds [x, y]].visited ? visitedIslandColor : unvisitedIslandColor;
+
+			} else if (MapGenerator.Instance.IslandIds [x, y] == -2) {
+				
+				MapGenerator.Instance.IslandIds [x, y] = -1;
+
 			}
+
 		}
 
 		Texture2D texture = (Texture2D)targetImage.mainTexture;

@@ -286,7 +286,7 @@ public class CombatManager : MonoBehaviour {
 		CardManager.Instance.ShowFightingCard (targetCrew);
 
 		playerFighter.SetActive (true);
-		playerFighter.GetComponent<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
+		playerFighter.GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
 		playerFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
 	}
 
@@ -296,7 +296,7 @@ public class CombatManager : MonoBehaviour {
 		CardManager.Instance.ShowFightingCard (targetCrew);
 
 		enemyFighter.SetActive (true);
-		enemyFighter.GetComponent<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
+		enemyFighter.GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
 		enemyFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
 	}
 

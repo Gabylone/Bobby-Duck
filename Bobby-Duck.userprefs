@@ -1,14 +1,10 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Save\SaveMenu.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Save\SaveManager.cs">
     <Files>
-      <File FileName="Assets\Fight_LoadSprites.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Crew\CrewManager.cs" Line="10" Column="4" />
-      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="33" Column="2" />
-      <File FileName="Assets\MenuManager.cs" Line="26" Column="22" />
-      <File FileName="Assets\Scripts\Crew\Crews.cs" Line="40" Column="8" />
-      <File FileName="Assets\Scripts\Save\SaveMenu.cs" Line="43" Column="1" />
+      <File FileName="Assets\Scripts\Save\SaveManager.cs" Line="24" Column="24" />
+      <File FileName="Assets\Scripts\Crew\Crews.cs" Line="30" Column="42" />
+      <File FileName="Assets\Scripts\Save\SaveMenu.cs" Line="111" Column="73" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
