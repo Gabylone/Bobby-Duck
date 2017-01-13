@@ -27,27 +27,9 @@ public class SaveMenu : MonoBehaviour {
 
 	bool opened = false;
 
-	public bool Opened {
-		get {
-			return opened;
-		}
-		set {
-			opened = value;
-
-			saveGroup.SetActive (value);
-
-			confirmed = false;
-
-			if ( value == true )
-				UpdateButtons ();
-		}
-	}
-
 	void Start()
 	{
 		Opened = false;
-
-		UpdateButtons ();
 	}
 
 	#region save action
@@ -83,8 +65,8 @@ public class SaveMenu : MonoBehaviour {
 
 	}
 	private void Save (int index) {
-		SaveTool.Instance.Save (index);
-//		saving = false;
+		
+		SaveManager.Instance.SaveGame (index);
 		confirmed = false;
 		saveFeedback.SetActive (false);
 
@@ -98,8 +80,6 @@ public class SaveMenu : MonoBehaviour {
 	#region buttons
 	public void UpdateButtons ()
 	{
-		
-
 		int index = 0;
 
 		foreach (Button button in saveButtons) {
@@ -108,7 +88,8 @@ public class SaveMenu : MonoBehaviour {
 
 				GameData gameLoad = SaveTool.Instance.Load (index+1);
 
-//				saveButtons [index].GetComponentInChildren<Text> ().text = gameLoad.guyName;
+				string captainName = gameLoad.playerCrew.MemberIDs[0].male ? CrewCreator.Instance.MaleNames [gameLoad.playerCrew.MemberIDs [0].nameID] : CrewCreator.Instance.FemaleNames [gameLoad.playerCrew.MemberIDs [0].nameID];
+				saveButtons [index].GetComponentInChildren<Text> ().text = captainName;
 				saveButtons [index].GetComponentInChildren<Text> ().color = Color.black;
 				saveButtons[index].image.color = Color.white;
 				saveButtons[index].interactable = true;
@@ -120,11 +101,26 @@ public class SaveMenu : MonoBehaviour {
 				saveButtons[index].image.color = Color.black;
 				saveButtons[index].interactable = saving;
 
-
-
 			}
 
 			++index;
+		}
+	}
+
+
+	public bool Opened {
+		get {
+			return opened;
+		}
+		set {
+			opened = value;
+
+			saveGroup.SetActive (value);
+
+			confirmed = false;
+
+			if ( value == true )
+				UpdateButtons ();
 		}
 	}
 	#endregion

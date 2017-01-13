@@ -32,7 +32,6 @@ public class CrewManager : MonoBehaviour {
 	public void HideCrew () {
 		foreach (CrewMember member in crewMembers) {
 			member.Icon.MoveToPoint (Crews.PlacingType.Hidden);
-
 		}
 	}
 	public void ShowCrew () {

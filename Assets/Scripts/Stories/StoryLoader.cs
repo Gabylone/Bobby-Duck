@@ -257,6 +257,11 @@ public class Story {
 
 	}
 
+	public Story ()
+	{
+		
+	}
+
 	public Story (
 		int _storyID,
 		string _name

@@ -19,11 +19,17 @@ public class MapGenerator : MonoBehaviour {
 		get {
 			return islandIds;
 		}
+		set {
+			islandIds = value;
+		}
 	}
 
 	public List<IslandData> IslandDatas {
 		get {
 			return islandDatas;
+		}
+		set {
+			islandDatas = value;
 		}
 	}
 
@@ -35,6 +41,10 @@ public class MapGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Instance = this;
+
+		SaveManager.Instance.saveData += SaveIslandsData;
+		SaveManager.Instance.loadData += LoadIslandsData;
+
 	}
 
 	public void GenerateIslands () {
@@ -153,5 +163,45 @@ public class MapGenerator : MonoBehaviour {
 			return Random.value > 0.5f ? Mathf.RoundToInt(y1) : Mathf.RoundToInt(y2);
 		}
 	}
+
+	#region load & save
+	void LoadIslandsData () {
+
+		BytesTools.FromBytes (IslandIds, SaveManager.Instance.CurrentData.islandIDs);
+		IslandDatas = SaveManager.Instance.CurrentData.islandsData;
+
+		IslandManager.Instance.HomeIslandXPos = SaveManager.Instance.CurrentData.homeIslandXPos;
+		IslandManager.Instance.HomeIslandYPos = SaveManager.Instance.CurrentData.homeIslandYPos;
+
+		IslandManager.Instance.TreasureIslandXPos = SaveManager.Instance.CurrentData.treasureIslandXPos;
+		IslandManager.Instance.TreasureIslandYPos = SaveManager.Instance.CurrentData.treasureIslandYPos;
+
+		IslandManager.Instance.ClueIslandsXPos = SaveManager.Instance.CurrentData.clueIslandsXPos;
+		IslandManager.Instance.ClueIslandsYPos = SaveManager.Instance.CurrentData.clueIslandsYPos;
+
+		IslandManager.Instance.SetIsland ();
+		mapImage.InitImage ();
+		MapManager.Instance.UpdateImage ();
+
+	}
+
+	void SaveIslandsData () {
+
+		SaveManager.Instance.CurrentData.islandIDs = BytesTools.ToBytes(IslandIds);
+
+		SaveManager.Instance.CurrentData.islandsData = IslandDatas;
+
+		SaveManager.Instance.CurrentData.homeIslandXPos = IslandManager.Instance.HomeIslandXPos;
+		SaveManager.Instance.CurrentData.homeIslandYPos = IslandManager.Instance.HomeIslandYPos;
+
+		SaveManager.Instance.CurrentData.treasureIslandXPos = IslandManager.Instance.TreasureIslandXPos;
+		SaveManager.Instance.CurrentData.treasureIslandYPos = IslandManager.Instance.TreasureIslandYPos;
+
+		SaveManager.Instance.CurrentData.clueIslandsXPos = IslandManager.Instance.ClueIslandsXPos;
+		SaveManager.Instance.CurrentData.clueIslandsYPos = IslandManager.Instance.ClueIslandsYPos;
+
+	}
+	#endregion
+
 
 }

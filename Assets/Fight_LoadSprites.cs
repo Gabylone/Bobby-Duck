@@ -11,6 +11,10 @@ public class Fight_LoadSprites : MonoBehaviour {
 	private SpriteRenderer eyesSprite;
 	[SerializeField]
 	private SpriteRenderer eyebrowsSprite;
+	[SerializeField]
+	private SpriteRenderer noseSprite;
+	[SerializeField]
+	private SpriteRenderer mouthSprite;
 
 	public void UpdateSprites ( MemberID memberID ) {
 
@@ -23,6 +27,12 @@ public class Fight_LoadSprites : MonoBehaviour {
 
 		eyesSprite.sprite = CrewCreator.Instance.EyesSprites [memberID.eyeSpriteID];
 		eyebrowsSprite.sprite = CrewCreator.Instance.EyebrowsSprites [memberID.eyebrowsSpriteID];
+		eyebrowsSprite.color = CrewCreator.Instance.HairColors [memberID.hairColorID];
+
+		noseSprite.sprite = CrewCreator.Instance.NoseSprites [memberID.noseSpriteID];
+		noseSprite.color = CrewCreator.Instance.HairColors [memberID.hairColorID];
+
+		mouthSprite.sprite = CrewCreator.Instance.MouthSprites [memberID.mouthSpriteID];
 
 		// body
 		bodySprite.sprite = CrewCreator.Instance.BodySprites[memberID.male ? 0:1];

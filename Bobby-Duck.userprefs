@@ -1,10 +1,16 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Save\SaveManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Fight_LoadSprites.cs">
     <Files>
-      <File FileName="Assets\Scripts\Save\SaveManager.cs" Line="24" Column="24" />
-      <File FileName="Assets\Scripts\Crew\Crews.cs" Line="30" Column="42" />
-      <File FileName="Assets\Scripts\Save\SaveMenu.cs" Line="111" Column="73" />
+      <File FileName="Assets\Scripts\Save\SaveTool.cs" Line="62" Column="6" />
+      <File FileName="Assets\Scripts\Save\SaveMenu.cs" Line="32" Column="18" />
+      <File FileName="Assets\Scripts\Save\SaveManager.cs" Line="80" Column="3" />
+      <File FileName="Assets\Scripts\Map\MapImage.cs" Line="78" Column="29" NotebookId="1" />
+      <File FileName="Assets\Scripts\Map\MapGenerator.cs" Line="142" Column="10" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="177" Column="10" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\CrewIcon.cs" Line="256" Column="3" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\Crews.cs" Line="27" Column="44" NotebookId="1" />
+      <File FileName="Assets\Fight_LoadSprites.cs" Line="35" Column="14" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

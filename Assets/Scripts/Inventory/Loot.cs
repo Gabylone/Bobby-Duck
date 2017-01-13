@@ -16,6 +16,11 @@ public class Loot {
 		}
 	}
 
+	public Loot()
+	{
+		
+	}
+
 	public Loot(int _row, int _col, ItemCategory[] categories)
 	{
 		row = _row;

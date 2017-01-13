@@ -264,6 +264,8 @@ public class CrewIcon : MonoBehaviour {
 	#region body parts
 	[Header("BobyParts")]
 	[SerializeField]
+	private Image faceImage;
+	[SerializeField]
 	private Image bodyImage;
 	[SerializeField]
 	private Image hairImage;
@@ -271,6 +273,16 @@ public class CrewIcon : MonoBehaviour {
 	private Image eyesImage;
 	[SerializeField]
 	private Image eyebrowsImage;
+	[SerializeField]
+	private Image mouthImage;
+	[SerializeField]
+	private Image noseImage;
+
+	public Image FaceImage {
+		get {
+			return faceImage;
+		}
+	}
 
 	public Image HairImage {
 		get {
@@ -287,6 +299,18 @@ public class CrewIcon : MonoBehaviour {
 	public Image EyebrowsImage {
 		get {
 			return eyebrowsImage;
+		}
+	}
+
+	public Image MouthImage {
+		get {
+			return mouthImage;
+		}
+	}
+
+	public Image NoseImage {
+		get {
+			return noseImage;
 		}
 	}
 

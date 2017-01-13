@@ -192,6 +192,11 @@ public class IslandData {
 
 	public bool visited = false;
 
+	public IslandData ()
+	{
+		
+	}
+
 	public IslandData ( Vector2 pos )
 	{
 		position = pos;
