@@ -75,10 +75,10 @@ public class InventoryCard : Card {
 		charismaImage.GetComponentInChildren<Text> ().text 		= member.Charisma.ToString();
 		constitutionImage.GetComponentInChildren<Text> ().text 	= member.Constitution.ToString();
 
-		strenghtImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LevelsUp > 0);
-		dexterityImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LevelsUp > 0);
-		charismaImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LevelsUp > 0);
-		constitutionImage.GetComponentInChildren<Animator> ().SetBool 	("Warning" , member.LevelsUp > 0);
+//		strenghtImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LevelsUp > 0);
+//		dexterityImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LevelsUp > 0);
+//		charismaImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LevelsUp > 0);
+//		constitutionImage.GetComponentInChildren<Animator> ().SetBool 	("Warning" , member.LevelsUp > 0);
 
 		strenghtImage.GetComponentInChildren<Button> ().interactable 		= member.LevelsUp > 0;
 		dexterityImage.GetComponentInChildren<Button> ().interactable 		= member.LevelsUp > 0;

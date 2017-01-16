@@ -77,6 +77,28 @@ public class WeatherManager : MonoBehaviour {
 		SoundManager.Instance.PlayAmbiance (ambiantClip);
 	}
 
+	public void SaveWeather () {
+
+		SaveManager.Instance.CurrentData.raining = Raining;
+		SaveManager.Instance.CurrentData.night = IsNight;
+		SaveManager.Instance.CurrentData.currentNight = currentNight;
+		SaveManager.Instance.CurrentData.currentRain = currentRain;
+
+	}
+
+	public void LoadWeather () {
+
+		Raining = SaveManager.Instance.CurrentData.raining;
+		IsNight = SaveManager.Instance.CurrentData.night;
+		currentNight = SaveManager.Instance.CurrentData.currentNight;
+		currentRain = SaveManager.Instance.CurrentData.currentRain;
+
+		UpdateWeather ();
+
+		PlaySound ();
+
+	}
+
 	public bool IsNight {
 		get {
 			return isNight;

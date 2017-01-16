@@ -266,6 +266,8 @@ public class CrewIcon : MonoBehaviour {
 	[SerializeField]
 	private Image faceImage;
 	[SerializeField]
+	private Image beardImage;
+	[SerializeField]
 	private Image bodyImage;
 	[SerializeField]
 	private Image hairImage;
@@ -281,6 +283,12 @@ public class CrewIcon : MonoBehaviour {
 	public Image FaceImage {
 		get {
 			return faceImage;
+		}
+	}
+
+	public Image BeardImage {
+		get {
+			return beardImage;
 		}
 	}
 

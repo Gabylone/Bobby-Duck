@@ -29,7 +29,7 @@ public class GoldManager : MonoBehaviour {
 	}
 
 	void Start () {
-		AddGold (startValue);
+		GoldAmount = startValue;
 	}
 
 	void Update () {
@@ -40,16 +40,6 @@ public class GoldManager : MonoBehaviour {
 				HideFeedback ();
 			}
 		}
-	}
-	
-	public void AddGold ( int i ) {
-		GoldAmount +=i;
-		UpdateUI ();
-	}
-
-	public void RemoveGold ( int i ) {
-		GoldAmount -= i; 
-		UpdateUI ();
 	}
 
 	public bool CheckGold ( float amount ) {
@@ -90,6 +80,7 @@ public class GoldManager : MonoBehaviour {
 		}
 		set {
 			goldAmount = Mathf.Clamp (value, 0 , value );
+			UpdateUI ();
 		}
 	}
 

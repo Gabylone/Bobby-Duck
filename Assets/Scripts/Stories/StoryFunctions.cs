@@ -423,14 +423,14 @@ public class StoryFunctions : MonoBehaviour {
 	}
 	void RemoveGold () {
 		int amount = int.Parse (cellParams);
-		GoldManager.Instance.RemoveGold (amount);
+		GoldManager.Instance.GoldAmount -= amount;
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait ( 0.5f );
 	}
 	void AddGold () {
 		int amount = int.Parse (cellParams);
-		GoldManager.Instance.AddGold (amount);
+		GoldManager.Instance.GoldAmount += amount;
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (0.5f);

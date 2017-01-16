@@ -18,11 +18,16 @@ public class GameManager : MonoBehaviour {
 
 		Instance = this;
 
+		LoadGame ();
+	}
+
+	public void LoadGame () {
+
 		itemLoader.Init ();
 		lootManager.Init ();
-		ClueManager.Instance.Init ();
-		IslandManager.Instance.Init ();
 		MapManager.Instance.Init ();
+		ClueManager.Instance.Init ();
+
 	}
 
 	public void GameOver () {

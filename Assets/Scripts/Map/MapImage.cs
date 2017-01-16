@@ -49,24 +49,23 @@ public class MapImage : MonoBehaviour {
 
 					int id = MapGenerator.Instance.IslandIds [x, y];
 
-					if ( id == -1 ) {
-						Debug.Log ("discovereds");
-					}
+					Color color = undiscoveredColor;
 
-					Color color = Color.magenta;
-
-					if (id == -2) {
-						color = undiscoveredColor;
-					} else if (id == -1) {
-						Debug.Log ("vraiment discovered");
-						color = discoveredColor;
-					} else {
-						if ( mapGenerator.IslandIds [x, y] < mapGenerator.IslandDatas.Count ) {
-							color = mapGenerator.IslandDatas[mapGenerator.IslandIds [x, y]].visited ? visitedIslandColor : unvisitedIslandColor;
+					if (id > -2) {
+						if (id == -1) {
+							color = discoveredColor;
+						} else {
+							if (mapGenerator.IslandIds [x, y] < mapGenerator.IslandDatas.Count) {
+								if (mapGenerator.IslandDatas [mapGenerator.IslandIds [x, y]].visited) {
+									color = visitedIslandColor;
+								} else if (mapGenerator.IslandDatas [mapGenerator.IslandIds [x, y]].seen) {
+									color = unvisitedIslandColor;
+								}
+							}
 						}
 					}
 
-					texture.SetPixel (x, y, undiscoveredColor);
+					texture.SetPixel (x, y, color);
 				}
 			}
 		}
@@ -86,6 +85,7 @@ public class MapImage : MonoBehaviour {
 			if ( mapGenerator.IslandIds [x, y] > -1 ) {
 				
 				color = mapGenerator.IslandDatas[mapGenerator.IslandIds [x, y]].visited ? visitedIslandColor : unvisitedIslandColor;
+				mapGenerator.IslandDatas [mapGenerator.IslandIds [x, y]].seen = true;
 
 			} else if (MapGenerator.Instance.IslandIds [x, y] == -2) {
 

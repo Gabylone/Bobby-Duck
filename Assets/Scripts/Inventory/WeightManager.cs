@@ -39,16 +39,6 @@ public class WeightManager : MonoBehaviour {
 	}
 
 	#region weight control
-	public void AddWeight (int amount) {
-		currentWeight += amount;
-	
-		UpdateDisplay ();
-	}
-	public void RemoveWeight (int amount) {
-		currentWeight -= amount;
-
-		UpdateDisplay ();
-	}
 	public bool CheckWeight ( int amount ) {
 
 		if ( currentWeight + amount > currentCapacity ) {
@@ -89,6 +79,7 @@ public class WeightManager : MonoBehaviour {
 		}
 		set {
 			currentWeight = value;
+			UpdateDisplay ();
 		}
 	}
 
@@ -98,6 +89,7 @@ public class WeightManager : MonoBehaviour {
 		}
 		set {
 			currentCapacity = value;
+			UpdateDisplay ();
 		}
 	}
 

@@ -50,7 +50,9 @@ public class CrewCreator : MonoBehaviour {
 
 	[Header("Hair")]
 	[SerializeField]
-	private Sprite[] hairSprites;
+	private Sprite[] hairSprites_Male;
+	[SerializeField]
+	private Sprite[] hairSprites_Female;
 	public int[] femaleHairID 	= new int[0];
 	public int[] maleHairID 	= new int[0];
 
@@ -98,14 +100,6 @@ public class CrewCreator : MonoBehaviour {
 		Instance = this;
 	}
 
-	// Use this for initialization
-	void Start () {
-	}
-
-	void Update () {
-
-	}
-
 	public CrewMember NewMember (MemberID memberID) {
 
 		CrewMember crewMember = new CrewMember (
@@ -147,12 +141,18 @@ public class CrewCreator : MonoBehaviour {
 		icon.FaceImage.color = beige;
 
 			// hair
-		int hearIndex = memberID.hairSpriteID;
-		if (hearIndex > -1)
-			icon.HairImage.sprite = hairSprites [hearIndex];
-		else
+		if (memberID.hairSpriteID > -1) {
+			icon.HairImage.sprite = memberID.male ? HairSprites_Male [memberID.hairSpriteID] : HairSprites_Female [memberID.hairSpriteID];
+		} else {
 			icon.HairImage.enabled = false;
+		}
 		icon.HairImage.color = hairColors [memberID.hairColorID];
+
+		if (memberID.beardSpriteID > -1)
+			icon.BeardImage.sprite = beardSprites [memberID.beardSpriteID];
+		else
+			icon.BeardImage.enabled = false;
+		icon.BeardImage.color = hairColors [memberID.hairColorID];
 
 		// eyes
 		icon.EyesImage.sprite = eyesSprites [memberID.eyeSpriteID];
@@ -184,9 +184,14 @@ public class CrewCreator : MonoBehaviour {
 	}
 
 	#region sprites
-	public Sprite[] HairSprites {
+	public Sprite[] HairSprites_Male {
 		get {
-			return hairSprites;
+			return hairSprites_Male;
+		}
+	}
+	public Sprite[] HairSprites_Female {
+		get {
+			return hairSprites_Female;
 		}
 	}
 
@@ -225,7 +230,6 @@ public class CrewCreator : MonoBehaviour {
 			return hairColors;
 		}
 	}
-
 
 	public Sprite[] MouthSprites {
 		get {
@@ -352,17 +356,13 @@ public class MemberID {
 		bodyColorID 	= Random.value < 0.35f ? 0 : 1;
 
 		hairColorID 	= Random.Range ( 0 , CrewCreator.Instance.HairColors.Length  );
-		int[] hairIDs 	= male ? CrewCreator.Instance.maleHairID : CrewCreator.Instance.femaleHairID;
 		if (male) {
-
-			hairSpriteID = Random.Range (-1, hairIDs.Length);
-			if (hairSpriteID > -1)
-				hairSpriteID = hairIDs [hairSpriteID];
+			hairSpriteID = Random.value > 0.2f ? Random.Range (0, CrewCreator.Instance.HairSprites_Male.Length) : -1;
 		} else {
-			hairSpriteID = hairIDs [Random.Range (0, hairIDs.Length)];
+			hairSpriteID = Random.Range (0, CrewCreator.Instance.HairSprites_Female.Length);
 		}
 
-		beardSpriteID 	= male ? Random.Range (-1 , CrewCreator.Instance.BeardSprites.Length) : -1;
+		beardSpriteID 	= male ? (Random.value > 0.2f ? Random.Range (0 , CrewCreator.Instance.BeardSprites.Length) : -1) : -1;
 		eyeSpriteID 	= Random.Range (0 , CrewCreator.Instance.EyesSprites.Length);
 		eyebrowsSpriteID 	= Random.Range (0 , CrewCreator.Instance.EyebrowsSprites.Length);
 		noseSpriteID 	= Random.Range (0 , CrewCreator.Instance.NoseSprites.Length);

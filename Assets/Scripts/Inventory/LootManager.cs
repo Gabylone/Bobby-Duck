@@ -17,12 +17,12 @@ public class LootManager : MonoBehaviour {
 		Instance = this;
 
 		ItemCategory[] categories = new ItemCategory[1] {ItemCategory.Provisions};
-		playerLoot = new Loot (0,0,categories);
+		setLoot (Crews.Side.Player, new Loot (0,0,categories));
 
 		Item[] items = playerLoot.getCategory (ItemLoader.allCategories);
 
 		foreach ( Item item in items ) {
-			WeightManager.Instance.AddWeight ( item.weight );
+			WeightManager.Instance.CurrentWeight += item.weight;
 		}
 	}
 
@@ -62,7 +62,12 @@ public class LootManager : MonoBehaviour {
 	}
 
 	public void setLoot ( Crews.Side side , Loot targetLoot) {
-		otherLoot = targetLoot;
+		if (side == Crews.Side.Player) {
+			playerLoot = targetLoot;
+
+		} else {
+			otherLoot = targetLoot;
+		}
 	}
 
 	public CategoryContent DefaultCategoryContent {

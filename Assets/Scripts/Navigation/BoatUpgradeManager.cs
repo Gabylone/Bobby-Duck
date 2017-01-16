@@ -80,7 +80,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 			break;
 		}
 
-		GoldManager.Instance.RemoveGold ( (int)upgradePrices[i] );
+		GoldManager.Instance.GoldAmount -= (int)upgradePrices[i];
 
 		SoundManager.Instance.PlaySound (upgradeSound);
 

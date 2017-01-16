@@ -15,35 +15,90 @@ public class SaveManager : MonoBehaviour
 
 	void Awake () {
 		Instance = this;
-
-
 	}
 
 	void Start () {
 		currentData = new GameData ();
 	}
 
-
 	#region action
 	public void LoadGame (int index) {
+
 		currentData = SaveTool.Instance.Load (index);
+
+		StartCoroutine (LoadGameCoroutine ());
+	}
+
+	IEnumerator LoadGameCoroutine () {
 
 		Transitions.Instance.ScreenTransition.Switch ();
 
-		Invoke ("LoadGameDelay" , 1);
-	}
+		yield return new WaitForEndOfFrame ();
 
-	private void LoadGameDelay () {
-		if (loadData != null)
-			loadData ();
+		// player crew
+		Crews.Instance.LoadPlayerCrew ();
+
+		yield return new WaitForEndOfFrame ();
+
+		// boat position
+		MapManager.Instance.LoadBoatPosition ();
+
+		yield return new WaitForEndOfFrame ();
+
+		// island ids
+		// island datas
+		// special island positions
+		MapGenerator.Instance.LoadIslandsData ();
+
+		yield return new WaitForEndOfFrame ();
+
+		// player loot
+		LootManager.Instance.setLoot (Crews.Side.Player, currentData.playerLoot);
+
+		yield return new WaitForEndOfFrame ();
+
+		// weight
+		WeightManager.Instance.CurrentWeight = currentData.playerWeight;
+
+		yield return new WaitForEndOfFrame ();
+
+		// gold
+		GoldManager.Instance.GoldAmount = CurrentData.playerGold;
+
+		yield return new WaitForEndOfFrame ();
+
+		WeatherManager.Instance.LoadWeather ();
 
 		Transitions.Instance.ScreenTransition.Switch ();
 
 	}
 	public void SaveGame (int index) {
 
-		if (saveData != null)
-			saveData ();
+		// player crew
+		Crews.Instance.SavePlayerCrew ();
+
+		// boat position
+		MapManager.Instance.SaveBoatPosition ();
+
+		// island ids
+		// island datas
+		// special island positions
+		MapGenerator.Instance.SaveIslandsData ();
+
+		// player loot
+		currentData.playerLoot = LootManager.Instance.getLoot (Crews.Side.Player);
+
+		foreach ( Item[] items in currentData.playerLoot.getLoot ) {
+			foreach (Item item in items)
+				Debug.Log (item.name);
+		}
+
+		// weight
+		currentData.playerWeight = WeightManager.Instance.CurrentWeight;
+		// gold
+		CurrentData.playerGold = GoldManager.Instance.GoldAmount;
+
+		WeatherManager.Instance.SaveWeather ();
 
 		SaveTool.Instance.Save (index);
 	}
@@ -76,8 +131,22 @@ public class GameData
 	public int homeIslandXPos = 0;
 	public int homeIslandYPos = 0;
 
+	public int boatPosX = 0;
+	public int boatPosY = 0;
+
+	public Loot playerLoot;
+
+	public int playerWeight = 0;
+	public int playerGold = 0;
+
+	public bool raining = false;
+	public int currentRain = 0;
+
+	public bool night = false;
+	public int currentNight = 0;
+
 	public GameData()
 	{
-		
+		// islands ids
 	}
 }

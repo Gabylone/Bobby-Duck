@@ -21,6 +21,12 @@ public class Crews : MonoBehaviour {
 	public static CrewManager[] crews = new CrewManager[2];
 
 	void Awake () {
+		Instance = this;
+
+		Init ();
+	}
+
+	private void Init () {
 		crews [0] 	= GetComponentsInChildren<CrewManager> () [0];	
 		crews [1] 	= GetComponentsInChildren<CrewManager> () [1];
 
@@ -28,12 +34,7 @@ public class Crews : MonoBehaviour {
 		Crew playerCrew = new Crew (crewParams,0,0);
 		crews [0].setCrew (playerCrew);
 		crews [0].UpdateCrew (PlacingType.Map);
-
-		SaveManager.Instance.saveData += SavePlayerCrew;
-		SaveManager.Instance.loadData += LoadPlayerCrew;
 	}
-
-
 
 	public static CrewManager getCrew ( Crews.Side attackingCrew ) {
 		return crews [(int)attackingCrew];
@@ -51,11 +52,11 @@ public class Crews : MonoBehaviour {
 		}
 	}
 
-	void SavePlayerCrew () {
+	public void SavePlayerCrew () {
 		SaveManager.Instance.CurrentData.playerCrew = playerCrew.ManagedCrew;
 	}
 
-	void LoadPlayerCrew () {
+	public void LoadPlayerCrew () {
 		playerCrew.ManagedCrew = SaveManager.Instance.CurrentData.playerCrew;
 
 		crews [0].setCrew (playerCrew.ManagedCrew);

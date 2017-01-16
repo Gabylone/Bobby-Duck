@@ -51,24 +51,19 @@ public class MapManager : MonoBehaviour {
 
 			for (int y = -shipRange; y <= shipRange; ++y ) {
 
-				if (x == 0 && y == 0) {
-					
-					mapImage.UpdatePixel (posX + x, posY + y, Color.red);
+				if (posX + x < mapImage.TextureScale && posX + x >= 0 &&
+					posY + y < mapImage.TextureScale && posY + y >= 0) {
 
-				} else {
-
-					if (posX + x < mapImage.TextureScale && posX + x >= 0 &&
-					    posY + y < mapImage.TextureScale && posY + y >= 0) {
-
-						mapImage.UpdatePixel (posX + x, posY + y);
+					mapImage.UpdatePixel (posX + x, posY + y);
 
 
-					}
 				}
 
 			}
 
 		}
+
+		mapImage.UpdatePixel (posX , posY , Color.red);
 
 		mapImage.TargetImage.transform.localPosition = new Vector2 (200 - (posX* 2) , -(posY* 2));
 
@@ -118,5 +113,15 @@ public class MapManager : MonoBehaviour {
 		get {
 			return mapButton;
 		}
+	}
+
+	public void SaveBoatPosition () {
+		SaveManager.Instance.CurrentData.boatPosX = PosX;
+		SaveManager.Instance.CurrentData.boatPosY = PosY;
+	}
+
+	public void LoadBoatPosition () {
+		PosX = SaveManager.Instance.CurrentData.boatPosX;
+     	PosY = SaveManager.Instance.CurrentData.boatPosY;
 	}
 }

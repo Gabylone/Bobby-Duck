@@ -59,9 +59,7 @@ public class OtherLoot : MonoBehaviour {
 
 		SoundManager.Instance.PlaySound (sellSound);
 
-		GoldManager.Instance.AddGold (playerLootUI.SelectedItem.price);
-
-		WeightManager.Instance.RemoveWeight (playerLootUI.SelectedItem.weight);
+		GoldManager.Instance.GoldAmount += playerLootUI.SelectedItem.price;
 
 		LootManager.Instance.OtherLoot.AddItem (playerLootUI.SelectedItem);
 		LootManager.Instance.PlayerLoot.RemoveItem (playerLootUI.SelectedItem);
@@ -79,9 +77,7 @@ public class OtherLoot : MonoBehaviour {
 		if (!WeightManager.Instance.CheckWeight (otherLootUI.SelectedItem.weight))
 			return;
 
-		WeightManager.Instance.AddWeight (otherLootUI.SelectedItem.weight);
-
-		GoldManager.Instance.RemoveGold (otherLootUI.SelectedItem.price);
+		GoldManager.Instance.GoldAmount -= otherLootUI.SelectedItem.price;
 
 		LootManager.Instance.PlayerLoot.AddItem (otherLootUI.SelectedItem);
 		LootManager.Instance.OtherLoot.RemoveItem (otherLootUI.SelectedItem);
@@ -110,7 +106,6 @@ public class OtherLoot : MonoBehaviour {
 
 		if (!WeightManager.Instance.CheckWeight (otherLootUI.SelectedItem.weight))
 			return;
-		WeightManager.Instance.AddWeight (otherLootUI.SelectedItem.weight);
 
 		LootManager.Instance.PlayerLoot.AddItem (otherLootUI.SelectedItem);
 		LootManager.Instance.OtherLoot.RemoveItem (otherLootUI.SelectedItem);

@@ -465,7 +465,7 @@ public class CombatManager : MonoBehaviour {
 		int po = Crews.enemyCrew.ManagedCrew.Value * (int)Random.Range ( 10 , 15 );
 		string phrase = "Il avait " + po + " pièces d'or";
 
-		GoldManager.Instance.AddGold (po);
+		GoldManager.Instance.GoldAmount += po;
 
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(ItemLoader.allCategories));
 		OtherLoot.Instance.StartLooting ();

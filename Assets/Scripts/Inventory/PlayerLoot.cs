@@ -49,7 +49,7 @@ public class PlayerLoot : MonoBehaviour {
 	private void Init () {
 
 		// init crew cards
-		inventoryCards = inventoryCardsParent.GetComponentsInChildren<InventoryCard>();
+		inventoryCards = inventoryCardsParent.GetComponentsInChildren<InventoryCard>(true);
 
 		// set indexes
 		int a = 0;

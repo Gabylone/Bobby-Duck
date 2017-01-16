@@ -2,13 +2,13 @@
 using System.Collections;
 using System;
 
+[System.Serializable]
 public class Loot {
 
 	public int id = 0;
 	public int row = 0;
 	public int col = 0;
-
-	private Item[][] loot = new Item[4][];
+	public Item[][] loot = new Item[4][];
 
 	public Item[][] getLoot {
 		get {
@@ -104,6 +104,8 @@ public class Loot {
 		newItems [newItems.Length - 1] = newItem;
 
 		loot [(int)newItem.category] = newItems;
+
+		WeightManager.Instance.CurrentWeight += newItem.weight;
 	}
 
 	public void RemoveItem ( Item itemToRemove ) {
@@ -124,6 +126,9 @@ public class Loot {
 		}
 
 		loot [(int)category] = newItems;
+
+		WeightManager.Instance.CurrentWeight -= itemToRemove.weight;
+
 	}
 	#endregion
 

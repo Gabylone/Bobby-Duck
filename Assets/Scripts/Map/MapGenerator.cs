@@ -41,10 +41,6 @@ public class MapGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Instance = this;
-
-		SaveManager.Instance.saveData += SaveIslandsData;
-		SaveManager.Instance.loadData += LoadIslandsData;
-
 	}
 
 	public void GenerateIslands () {
@@ -68,6 +64,10 @@ public class MapGenerator : MonoBehaviour {
 		int islandID = 0;
 
 		#region clues & treasure island
+
+		IslandManager.Instance.ClueIslandsXPos = new int[ClueManager.Instance.ClueAmount];
+		IslandManager.Instance.ClueIslandsYPos = new int[ClueManager.Instance.ClueAmount];
+
 		for ( int i = 0; i < ClueManager.Instance.ClueAmount; ++i)
         {
             
@@ -165,7 +165,7 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	#region load & save
-	void LoadIslandsData () {
+	public void LoadIslandsData () {
 
 		BytesTools.FromBytes (IslandIds, SaveManager.Instance.CurrentData.islandIDs);
 		IslandDatas = SaveManager.Instance.CurrentData.islandsData;
@@ -185,7 +185,7 @@ public class MapGenerator : MonoBehaviour {
 
 	}
 
-	void SaveIslandsData () {
+	public void SaveIslandsData () {
 
 		SaveManager.Instance.CurrentData.islandIDs = BytesTools.ToBytes(IslandIds);
 

@@ -15,6 +15,10 @@ public class Item {
 
 	public ItemCategory category;
 		
+	public Item () {
+		//
+	}
+
 	public Item (
 
 		int _id,

@@ -33,13 +33,6 @@ public class IslandManager : MonoBehaviour {
 		Instance = this;
 	}
 
-	public void Init () {
-
-		clueIslandsXPos = new int[ClueManager.Instance.ClueAmount];
-		clueIslandsYPos = new int[ClueManager.Instance.ClueAmount];
-
-	}
-
 	void Update () {
 		if ( Input.GetKeyDown (KeyCode.Q) )
 			Leave ();
@@ -191,6 +184,7 @@ public class IslandData {
 	private Vector2 position;
 
 	public bool visited = false;
+	public bool seen = false;
 
 	public IslandData ()
 	{
