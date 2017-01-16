@@ -37,7 +37,7 @@ public class Fight_LoadSprites : MonoBehaviour {
 		eyebrowsSprite.color = CrewCreator.Instance.HairColors [memberID.hairColorID];
 
 		noseSprite.sprite = CrewCreator.Instance.NoseSprites [memberID.noseSpriteID];
-		noseSprite.color = CrewCreator.Instance.HairColors [memberID.hairColorID];
+//		noseSprite.color = CrewCreator.Instance.HairColors [memberID.bodyColorID];
 
 		mouthSprite.sprite = CrewCreator.Instance.MouthSprites [memberID.mouthSpriteID];
 

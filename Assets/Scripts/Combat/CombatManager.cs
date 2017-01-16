@@ -67,6 +67,7 @@ public class CombatManager : MonoBehaviour {
 	[Header("Fighter Objects")]
 	[SerializeField] private GameObject playerFighter;
 	[SerializeField] private GameObject enemyFighter;
+	[SerializeField] private Vector3 fighters_InitPos = new Vector3 (3.5f , -0.7f , 0f);
 
 	bool fighting = false;
 
@@ -286,6 +287,7 @@ public class CombatManager : MonoBehaviour {
 		CardManager.Instance.ShowFightingCard (targetCrew);
 
 		playerFighter.SetActive (true);
+		playerFighter.transform.position = new Vector3 ( -fighters_InitPos.x , fighters_InitPos.y , 0f );
 		playerFighter.GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
 		playerFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
 	}
@@ -296,6 +298,7 @@ public class CombatManager : MonoBehaviour {
 		CardManager.Instance.ShowFightingCard (targetCrew);
 
 		enemyFighter.SetActive (true);
+		playerFighter.transform.position = new Vector3 ( fighters_InitPos.x , fighters_InitPos.y , 0f );
 		enemyFighter.GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
 		enemyFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
 	}

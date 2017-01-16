@@ -2,14 +2,18 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Save\SaveManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\Inventory\LootManager.cs" Line="66" Column="28" />
-      <File FileName="Assets\Scripts\Inventory\LootUI.cs" Line="127" Column="54" />
-      <File FileName="Assets\Scripts\Inventory\Loot.cs" Line="13" Column="10" />
-      <File FileName="Assets\Scripts\Inventory\Item.cs" Line="21" Column="2" />
-      <File FileName="Assets\Scripts\Navigation\WeatherManager.cs" Line="98" Column="16" />
-      <File FileName="Assets\Scripts\Save\SaveManager.cs" Line="72" Column="44" NotebookId="1" />
-      <File FileName="Assets\Scripts\Inventory\WeightManager.cs" Line="41" Column="24" NotebookId="1" />
-      <File FileName="Assets\Scripts\Gold\GoldManager.cs" Line="84" Column="4" NotebookId="1" />
+      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="71" Column="2" />
+      <File FileName="Assets\Scripts\Inventory\LootManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\LootUI.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\Loot.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\Item.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Navigation\WeatherManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Save\SaveManager.cs" Line="95" Column="3" NotebookId="1" />
+      <File FileName="Assets\Scripts\Inventory\WeightManager.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\Gold\GoldManager.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\Fight\Humanoid.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Fight_LoadSprites.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\Fight\FightIA.cs" Line="1" Column="1" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
