@@ -16,6 +16,8 @@ public class FightIA : Humanoid {
 	private Vector2 hitRateRange = new Vector2 (1.5f , 4f);
 	private float currentHitRange = 2f;
 
+	int hitCount = 0;
+
 	[SerializeField]
 	private float chanceOfGuarding = 0.4f;
 	[SerializeField]
@@ -39,7 +41,7 @@ public class FightIA : Humanoid {
 	{
 		base.move_Start ();
 
-		currentHitRange = Random.Range (hitRateRange.x, hitRateRange.y);
+		currentHitRange = Random.Range (hitRateRange.x, hitRateRange.y) - (hitCount/3);
 	}
 	public override void move_Update ()
 	{
@@ -97,17 +99,25 @@ public class FightIA : Humanoid {
 		base.hit_Start();
 		currentHitRange = Random.Range (hitRateRange.x, hitRateRange.y);
 
+		hitCount = 0;
+
 	}
 	public override void hit_Exit ()
 	{
 		base.hit_Exit ();
-
+//
 //		if (Random.value < 0.4f)
 //			ChangeState (states.hit);
 	}
 	#endregion
 
 	#region get hit
+	public override void getHit_Start ()
+	{
+		base.getHit_Start ();
+
+		++hitCount;
+	}
 	public override void getHit_Exit ()
 	{
 		base.getHit_Exit ();

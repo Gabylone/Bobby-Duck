@@ -107,7 +107,6 @@
      <None Include="Assets\Liste features.txt" />
      <None Include="Assets\frfr.txt" />
      <None Include="Assets\GameSaveData1.xml" />
-     <None Include="Assets\GameSaveData2.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

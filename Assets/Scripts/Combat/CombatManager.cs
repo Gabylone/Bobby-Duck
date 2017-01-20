@@ -437,11 +437,6 @@ public class CombatManager : MonoBehaviour {
 		ChangeState (States.MemberChoice);
 	}
 	private void MemberReturn_Update () {
-//
-//		if (timeInState >= memberPlacement_Duration) {
-//
-//
-//		}
 
 	}
 	private void MemberReturn_Exit () {
@@ -451,6 +446,8 @@ public class CombatManager : MonoBehaviour {
 
 	#region fight end
 	private void ExitFight () {
+
+		PlayerLoot.Instance.InventoryButton.Locked = false;
 
 		getMember (Crews.Side.Player).Icon.ShowFace ();
 		playerFighter.SetActive (false);

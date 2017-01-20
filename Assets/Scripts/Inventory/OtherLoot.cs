@@ -67,7 +67,6 @@ public class OtherLoot : MonoBehaviour {
 		playerLootUI.UpdateLootUI ();
 		otherLootUI.UpdateLootUI ();
 
-
 	}
 	public void BuyItem () {
 

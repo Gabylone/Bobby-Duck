@@ -16,14 +16,13 @@ public class LootManager : MonoBehaviour {
 		
 		Instance = this;
 
-		ItemCategory[] categories = new ItemCategory[1] {ItemCategory.Provisions};
-		setLoot (Crews.Side.Player, new Loot (0,0,categories));
+		Loot playerLoot = new Loot (0, 0);
+		playerLoot.Randomize (ItemCategory.Provisions);
 
-		Item[] items = playerLoot.getCategory (ItemLoader.allCategories);
+		setLoot (Crews.Side.Player, playerLoot);
 
-		foreach ( Item item in items ) {
-			WeightManager.Instance.CurrentWeight += item.weight;
-		}
+		WeightManager.Instance.UpdateDisplay ();
+
 	}
 
 	public Loot PlayerLoot {
@@ -51,7 +50,10 @@ public class LootManager : MonoBehaviour {
 
 		if (tmpLoot == null) {
 
-			Loot newLoot = new Loot (row , col, categories);
+			Loot newLoot = new Loot (row , col);
+
+			newLoot.Randomize (categories);
+
 			MapManager.Instance.CurrentIsland.Loots.Add (newLoot);
 
 			return newLoot;
@@ -63,10 +65,13 @@ public class LootManager : MonoBehaviour {
 
 	public void setLoot ( Crews.Side side , Loot targetLoot) {
 		if (side == Crews.Side.Player) {
+			
 			playerLoot = targetLoot;
 
 		} else {
+			
 			otherLoot = targetLoot;
+
 		}
 	}
 

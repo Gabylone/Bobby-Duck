@@ -79,7 +79,7 @@ public class PlayerLoot : MonoBehaviour {
 			SoundManager.Instance.PlaySound (eatSound);
 
 			targetMember.Health += lootUI.SelectedItem.value;
-			targetMember.CurrentHunger -= (lootUI.SelectedItem.value * 3);
+			targetMember.CurrentHunger -= (lootUI.SelectedItem.value * 2);
 
 			if (CombatManager.Instance.Fighting) {
 

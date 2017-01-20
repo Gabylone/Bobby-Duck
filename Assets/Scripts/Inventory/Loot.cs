@@ -10,6 +10,8 @@ public class Loot {
 	public int col = 0;
 	public Item[][] loot = new Item[4][];
 
+	public int weight = 0;
+
 	public Item[][] getLoot {
 		get {
 			return loot;
@@ -21,21 +23,26 @@ public class Loot {
 		
 	}
 
-	public Loot(int _row, int _col, ItemCategory[] categories)
+	public Loot(int _row, int _col)
 	{
 		row = _row;
 		col = _col;
 
-		Randomize (categories);
+		loot = new Item[4][];
+		for (int i= 0; i < loot.Length; ++i )
+			loot[i] = new Item[0];
 	}
 
 	public void Randomize ( ItemCategory category ) {
-		ItemCategory[] cat = new ItemCategory [1] { category };
-		loot = ItemLoader.Instance.getRandomLoot (cat);
+		ItemCategory[] cats = new ItemCategory [1] { category };
+		Randomize (cats);
 	}
 
 	public void Randomize ( ItemCategory[] categories ) {
-		loot = ItemLoader.Instance.getRandomLoot (categories);
+		foreach ( Item[] items in ItemLoader.Instance.getRandomLoot (categories) ) {
+			foreach ( Item item in items )
+				AddItem (item);
+		}
 	}
 
 	#region loot handling
@@ -59,7 +66,6 @@ public class Loot {
 			for (int i = 0; i < loot[(int)itemType].Length; ++i ) {
 				
 				items [index] = loot [(int)itemType] [i];
-//				Debug.Log (items[index].name);
 				++index;
 			}
 
@@ -105,7 +111,8 @@ public class Loot {
 
 		loot [(int)newItem.category] = newItems;
 
-		WeightManager.Instance.CurrentWeight += newItem.weight;
+		weight += newItem.weight;
+		WeightManager.Instance.UpdateDisplay ();
 	}
 
 	public void RemoveItem ( Item itemToRemove ) {
@@ -127,7 +134,8 @@ public class Loot {
 
 		loot [(int)category] = newItems;
 
-		WeightManager.Instance.CurrentWeight -= itemToRemove.weight;
+		weight -= itemToRemove.weight;
+		WeightManager.Instance.UpdateDisplay ();
 
 	}
 	#endregion

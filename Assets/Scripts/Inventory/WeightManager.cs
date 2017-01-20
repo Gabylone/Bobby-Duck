@@ -6,7 +6,6 @@ public class WeightManager : MonoBehaviour {
 
 	public static WeightManager Instance;
 
-	private int currentWeight = 0;
 	private int currentCapacity = 100;
 
 	[SerializeField]
@@ -41,7 +40,7 @@ public class WeightManager : MonoBehaviour {
 	#region weight control
 	public bool CheckWeight ( int amount ) {
 
-		if ( currentWeight + amount > currentCapacity ) {
+		if ( CurrentWeight + amount > currentCapacity ) {
 			SoundManager.Instance.PlaySound ( noRoomSound );
 			DisplayFeedback ();
 			return false;
@@ -51,7 +50,7 @@ public class WeightManager : MonoBehaviour {
 
 	}
 	public void UpdateDisplay () {
-		weightText.text = currentWeight.ToString () + " / " + CurrentCapacity.ToString ();
+		weightText.text = CurrentWeight.ToString () + " / " + CurrentCapacity.ToString ();
 	}
 	#endregion
 
@@ -75,11 +74,10 @@ public class WeightManager : MonoBehaviour {
 	#region properties
 	public int CurrentWeight {
 		get {
-			return currentWeight;
-		}
-		set {
-			currentWeight = value;
-			UpdateDisplay ();
+			if ( LootManager.Instance.PlayerLoot != null )
+				return LootManager.Instance.PlayerLoot.weight;
+
+			else return 0;
 		}
 	}
 

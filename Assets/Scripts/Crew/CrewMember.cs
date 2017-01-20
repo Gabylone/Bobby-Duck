@@ -38,9 +38,8 @@ public class CrewMember {
 	private int stepsToCold = 4;
 
 	private int currentHunger = 0;
-	private int stepsToHunger = 3;
-
-	private int maxState = 30;
+	private int stepsToHunger = 1;
+	private int maxState = 15;
 
 	private void Init () {
 
@@ -98,8 +97,6 @@ public class CrewMember {
 		if ( xp >= stepToNextLevel ) {
 			++Level;
 			xp = stepToNextLevel - xp;
-
-			health = MaxHealth;
 
 			++levelsUp;
 		}

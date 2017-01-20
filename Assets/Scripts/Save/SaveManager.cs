@@ -57,11 +57,6 @@ public class SaveManager : MonoBehaviour
 
 		yield return new WaitForEndOfFrame ();
 
-		// weight
-		WeightManager.Instance.CurrentWeight = currentData.playerWeight;
-
-		yield return new WaitForEndOfFrame ();
-
 		// gold
 		GoldManager.Instance.GoldAmount = CurrentData.playerGold;
 
@@ -88,13 +83,6 @@ public class SaveManager : MonoBehaviour
 		// player loot
 		currentData.playerLoot = LootManager.Instance.getLoot (Crews.Side.Player);
 
-		foreach ( Item[] items in currentData.playerLoot.getLoot ) {
-			foreach (Item item in items)
-				Debug.Log (item.name);
-		}
-
-		// weight
-		currentData.playerWeight = WeightManager.Instance.CurrentWeight;
 		// gold
 		CurrentData.playerGold = GoldManager.Instance.GoldAmount;
 
