@@ -1,14 +1,14 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Fight\Humanoid.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Crew\CrewIcon.cs">
     <Files>
-      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="258" Column="3" />
-      <File FileName="Assets\Scripts\Inventory\LootManager.cs" Line="12" Column="22" />
-      <File FileName="Assets\Scripts\Inventory\LootUI.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="97" Column="33" />
-      <File FileName="Assets\Scripts\Inventory\PlayerLoot.cs" Line="56" Column="29" />
-      <File FileName="Assets\Scripts\Fight\FightIA.cs" Line="123" Column="23" />
-      <File FileName="Assets\Scripts\Fight\Humanoid.cs" Line="13" Column="26" />
+      <File FileName="Assets\NavigationTrigger.cs" Line="20" Column="2" />
+      <File FileName="Assets\Scripts\Navigation\IslandManager.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\Navigation\NavigationManager.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\CrewMember.cs" Line="140" Column="15" NotebookId="1" />
+      <File FileName="Assets\Scripts\Card\CardManager.cs" Line="25" Column="37" NotebookId="1" />
+      <File FileName="Assets\Scripts\Card\Card.cs" Line="92" Column="20" NotebookId="1" />
+      <File FileName="Assets\Scripts\Crew\CrewIcon.cs" Line="95" Column="2" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

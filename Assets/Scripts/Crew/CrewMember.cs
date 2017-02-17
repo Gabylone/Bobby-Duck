@@ -7,7 +7,7 @@ public class CrewMember {
 	private Crews.Side side;
 	private MemberID memberID;
 
-	public CrewMember (MemberID _memberID, Crews.Side _side,GameObject _iconObj )
+	public CrewMember (MemberID _memberID, Crews.Side _side, GameObject _iconObj )
 	{
 		memberID = _memberID;
 
@@ -136,6 +136,8 @@ public class CrewMember {
 		}
 
 		++daysOnBoard;
+
+		Icon.UpdateIcon ();
 
 	}
 	#endregion

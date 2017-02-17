@@ -24,6 +24,9 @@ public class IslandManager : MonoBehaviour {
 	[SerializeField] private int homeIslandXPos = 0;
 	[SerializeField] private int homeIslandYPos = 0;
 
+	[SerializeField]
+	private GameObject navigationTriggers;
+
 	[SerializeField] private Vector3 decal = Vector3.zero;
 
 //	[SerializeField]
@@ -45,6 +48,9 @@ public class IslandManager : MonoBehaviour {
 		
 		MapManager.Instance.MapButton.Opened = false;
 		MapManager.Instance.MapButton.Locked = true;
+
+		navigationTriggers.SetActive (false);
+		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 
 		StartCoroutine (EnterCoroutine ());
 	}
@@ -82,6 +88,7 @@ public class IslandManager : MonoBehaviour {
 		Transitions.Instance.ActionTransition.Switch();
 
 		MapManager.Instance.MapButton.Locked = false;
+		navigationTriggers.SetActive (true);
 
 		Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
 

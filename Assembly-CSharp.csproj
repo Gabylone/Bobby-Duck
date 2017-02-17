@@ -49,6 +49,7 @@
      <Compile Include="Assets\FollowFighter.cs" />
      <Compile Include="Assets\MenuManager.cs" />
      <Compile Include="Assets\NameGeneration.cs" />
+     <Compile Include="Assets\NavigationTrigger.cs" />
      <Compile Include="Assets\Percentage.cs" />
      <Compile Include="Assets\Scripts\Card\Card.cs" />
      <Compile Include="Assets\Scripts\Card\CardManager.cs" />

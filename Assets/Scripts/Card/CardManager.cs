@@ -21,6 +21,7 @@ public class CardManager : MonoBehaviour {
 
 	#region overing cards
 	public void ShowOvering ( CrewMember member ) {
+		
 		overingCard.UpdateMember (member);
 		Vector3 targetPos = member.IconObj.transform.position;
 		if ( member.IconObj.transform.position.x > 0 )

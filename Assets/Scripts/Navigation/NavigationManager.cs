@@ -22,6 +22,9 @@ public class NavigationManager : MonoBehaviour {
 
 	private int shipRange = 1;
 
+	[SerializeField]
+	private Image flagImage;
+
 	void Awake () {
 		Instance = this;
 	}
@@ -34,7 +37,6 @@ public class NavigationManager : MonoBehaviour {
 		Transitions.Instance.ScreenTransition.Switch ();
 
 		Invoke ("MoveDelay", Transitions.Instance.ScreenTransition.Duration);
-
 
 	}
 	public void Move ( Directions dir ) {
@@ -71,6 +73,18 @@ public class NavigationManager : MonoBehaviour {
 //
 //		Debug.Log (directionPhrase);
 
+	}
+	#endregion
+
+	#region triggers
+	public Texture2D[] arrowTextures;
+	public Vector2 hotSpot = Vector2.zero;
+
+	public void CursorEnters (int texID) {
+		Cursor.SetCursor(arrowTextures[texID], hotSpot, CursorMode.Auto);
+	}
+	public void CursorExits (int texID) {
+		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 	}
 	#endregion
 

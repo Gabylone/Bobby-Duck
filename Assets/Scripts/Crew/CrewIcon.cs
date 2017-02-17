@@ -28,6 +28,11 @@ public class CrewIcon : MonoBehaviour {
 	private bool pointerOver = false;
 	private bool overable = true;
 
+	[Header("States")]
+	[SerializeField]
+	private Image hungerImage;
+	[SerializeField]
+	private GameObject hungerObject;
 
 	[Header("Lerping")]
 	[SerializeField]
@@ -46,11 +51,16 @@ public class CrewIcon : MonoBehaviour {
 	[SerializeField]
 	private float overingDecal = 2f;
 	private float placementDecal = 1.3f;
+
 	Crews.PlacingType currentPlacingType;
 	Crews.PlacingType previousPlacingType;
 
 	void Awake () {
 		_transform = transform;
+	}
+
+	void Start () {
+		UpdateIcon ();
 	}
 
 	void Update () {
@@ -73,6 +83,16 @@ public class CrewIcon : MonoBehaviour {
 			timer += Time.deltaTime;
 
 	}
+
+	public void UpdateIcon () {
+
+
+		float f = ((float)member.CurrentHunger / (float)member.MaxState);
+		hungerImage.fillAmount = f;
+
+		hungerObject.SetActive (f>0.65f);
+	}
+
 	#region selection
 	public void OnPointerEnter() {
 
@@ -81,6 +101,8 @@ public class CrewIcon : MonoBehaviour {
 
 		pointerOver = true;
 		scaleLerp = true;
+
+		hungerObject.SetActive (false);
 
 		CardManager.Instance.ShowOvering (member);
 	}
@@ -92,6 +114,8 @@ public class CrewIcon : MonoBehaviour {
 
 		pointerOver = false;
 		scaleLerp = true;
+
+		UpdateIcon ();
 
 		CardManager.Instance.HideOvering ();
 	}
@@ -111,7 +135,6 @@ public class CrewIcon : MonoBehaviour {
 	#endregion
 
 	#region movement
-
 	public void MoveToPoint ( Vector3 pos , float duration = 0.5f ) {
 		
 		targetPos = pos;
