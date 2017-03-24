@@ -107,8 +107,10 @@ public class CombatManager : MonoBehaviour {
 			timeInState += Time.deltaTime;
 		}
 
-		if (Input.GetKeyDown (KeyCode.K))
-			WinFight ();
+		if (Input.GetKeyDown (KeyCode.K)) {
+//			WinFight ();
+			enemyFighter.GetComponent<Humanoid>().GetHit (playerFighter.GetComponent<Humanoid>());
+		}
 	}
 
 	public void StartCombat () {
@@ -183,7 +185,9 @@ public class CombatManager : MonoBehaviour {
 		}
 	}
 	private void MemberChoice_Enemy () {
-		
+
+		Debug.Log ("choosing enemy member");
+
 		int newIndex = Random.Range (0, Crews.enemyCrew.CrewMembers.Count);
 
 		if (firstTurn == false) {
@@ -200,16 +204,20 @@ public class CombatManager : MonoBehaviour {
 		setMember (Crews.Side.Enemy, Crews.enemyCrew.CrewMembers [newIndex]); 
 
 		if (firstTurn) {
+
 				// player chooses member
 			SetTargetCrew (Crews.Side.Player);
 			ChangeState (States.MemberChoice);
 		} else {
+
 				// lerp enemy player
 			ChangeState (States.MemberLerp);
 		}
 	}
 	private void MemberChoice_Player () {
-		
+
+		Debug.Log("choosing playe rmember");
+
 		ChoosingMember = true;
 
 	}
@@ -256,25 +264,38 @@ public class CombatManager : MonoBehaviour {
 		getMember(targetCrew).Icon.Overable = false;
 		getMember (targetCrew).Icon.HideFace ();
 
+
 		if ( firstTurn ) {
-			
+
+			Debug.Log ("premier tour");
+
 			if ( targetCrew == Crews.Side.Player ) {
 				
-				SetTargetCrew (Crews.Side.Enemy);
-				ShowEnemyFighter ();
+				ShowPlayerFighter ();
 
+				SetTargetCrew (Crews.Side.Enemy);
 				ChangeState (States.MemberLerp);
 
 			} else {
 				
-				SetTargetCrew(Crews.Side.Player);
-				ShowPlayerFighter ();
+				ShowEnemyFighter ();
 
+				SetTargetCrew(Crews.Side.Player);
 				ChangeState (States.StartTurn);
+
+				firstTurn = false;
 			}
 
 		} else {
-			
+
+			Debug.Log ("oui et non");
+
+			if ( targetCrew == Crews.Side.Player ) {
+				ShowPlayerFighter ();
+			} else {
+				ShowEnemyFighter ();
+			}
+
 			ChangeState (States.StartTurn);
 
 		}
@@ -298,7 +319,7 @@ public class CombatManager : MonoBehaviour {
 		CardManager.Instance.ShowFightingCard (targetCrew);
 
 		enemyFighter.SetActive (true);
-		playerFighter.transform.position = new Vector3 ( fighters_InitPos.x , fighters_InitPos.y , 0f );
+		enemyFighter.transform.position = new Vector3 ( fighters_InitPos.x , fighters_InitPos.y , 0f );
 		enemyFighter.GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
 		enemyFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
 	}
@@ -414,24 +435,21 @@ public class CombatManager : MonoBehaviour {
 
 	#region MemberReturn
 	private void MemberReturn_Start () {
+		
 		getMember (targetCrew).Icon.ShowFace ();
 
 		CardManager.Instance.HideFightingCard (targetCrew);
 
-		if (targetCrew == Crews.Side.Player)
+		if (targetCrew == Crews.Side.Player) {
 			playerFighter.SetActive (false);
-		else
+		} else {
 			enemyFighter.SetActive (false);
+		}
 
 		if (getMember (DefendingCrew).Health == 0) {
+			
 			getMember (DefendingCrew).Kill ();
 			getMember (AttackingCrew).AddXP (getMember (targetCrew).Level * 25);
-
-			if (Crews.getCrew (targetCrew).CrewMembers.Count == 0) {
-				WinFight ();
-				return;
-			}
-
 		}
 
 		ChangeState (States.MemberChoice);
@@ -450,6 +468,7 @@ public class CombatManager : MonoBehaviour {
 		PlayerLoot.Instance.InventoryButton.Locked = false;
 
 		getMember (Crews.Side.Player).Icon.ShowFace ();
+
 		playerFighter.SetActive (false);
 
 		CardManager.Instance.HideFightingCard (Crews.Side.Enemy);
@@ -460,7 +479,7 @@ public class CombatManager : MonoBehaviour {
 		Crews.enemyCrew.Hide ();
 		updateState = null;;
 	}
-	private void WinFight () {
+	public void WinFight () {
 
 		int po = Crews.enemyCrew.ManagedCrew.Value * (int)Random.Range ( 10 , 15 );
 		string phrase = "Il avait " + po + " pièces d'or";
@@ -566,6 +585,8 @@ public class CombatManager : MonoBehaviour {
 	}
 
 	public CrewMember getMember (Crews.Side side) {
+		if (members [(int)side] == null)
+			return Crews.getCrew (side).captain;
 		return members[(int)side];
 	}
 

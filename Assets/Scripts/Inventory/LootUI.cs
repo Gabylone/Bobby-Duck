@@ -151,7 +151,7 @@ public class LootUI : MonoBehaviour {
 			categoryButtons [i].gameObject.SetActive ( i < CategoryContent.amount );
 
 			if ( i < categoryContent.amount ) {
-				categoryButtons [i].GetComponentInChildren<Text> ().text = CategoryContent.names[i];
+//				categoryButtons [i].GetComponentInChildren<Text> ().text = CategoryContent.names[i];
 				categoryButtons [i].image.color = CategoryContent.colors[i];
 			}
 

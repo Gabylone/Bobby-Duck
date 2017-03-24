@@ -5,12 +5,14 @@ public class FightPlayer : Humanoid {
 
 	FightIA lastIAFight;
 
-	void Start () {
-		Init ();
+	public override void Start ()
+	{
+		base.Start ();
 	}
 
-	void Update () {
-		UpdateStateMachine ();
+	public override void Update ()
+	{
+		base.Update ();
 	}
 
 	#region hit

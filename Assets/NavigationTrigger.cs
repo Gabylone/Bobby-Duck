@@ -4,7 +4,6 @@ using System.Collections;
 public class NavigationTrigger : MonoBehaviour {
 
 	public int texID = 0;
-	public Texture2D[] arrowTextures;
 
 	public void OnMouseEnter() {
 		NavigationManager.Instance.CursorEnters (texID);

@@ -96,6 +96,8 @@ public class CrewManager : MonoBehaviour {
 		if ( CrewMembers.Count == 0 ) {
 			if ( side == Crews.Side.Player ) {
 				GameManager.Instance.GameOver ();
+			} else {
+				CombatManager.Instance.WinFight ();
 			}
 		}
 	}

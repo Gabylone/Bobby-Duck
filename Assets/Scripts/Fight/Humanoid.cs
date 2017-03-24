@@ -76,7 +76,7 @@ public class Humanoid : MonoBehaviour {
 	[SerializeField] private AudioClip hurtSound;
 
 	// Use this for initialization
-	public void Init () {
+	public virtual void Start () {
 		
 		animator = GetComponentInChildren<Animator> ();
 
@@ -86,7 +86,7 @@ public class Humanoid : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	public void UpdateStateMachine () {
+	public virtual void Update () {
 		updateState ();
 
 		timeInState += Time.deltaTime;
@@ -100,7 +100,6 @@ public class Humanoid : MonoBehaviour {
 	}
 	public virtual void move_Update () {
 		
-
 	}
 	public virtual void move_Exit () {
 		animator.SetFloat ("move", 0);
@@ -114,6 +113,7 @@ public class Humanoid : MonoBehaviour {
 	#endregion
 
 	#region hit
+	bool hitting = false;
 	public virtual void hit_Start () {
 
 		animator.speed = 1 + crewMember.Dexterity / 10;
@@ -121,18 +121,25 @@ public class Humanoid : MonoBehaviour {
 		animator.SetTrigger ( "hit" );
 //		animator.SetInteger ("hitType", 1);
 		animator.SetInteger ("hitType", Random.Range (0,2));
+
+		hitting = false;
+
+		weaponCollider.enabled = false;
 	}
+
 
 	public virtual void hit_Update () {
 
-		if (timeInState > hit_TimeToEnableCollider / 1 + crewMember.Dexterity / 10) {
+//		float f = hit_TimeToEnableCollider / 1 + crewMember.Dexterity / 10;
+		float f = hit_TimeToEnableCollider;
 
-			if (timeInState > (hit_TimeToDisableCollider / 1 + crewMember.Dexterity / 10)) {
-				weaponCollider.enabled = false;
-			} else {
-				transform.Translate (Direction * hitSpeed * Time.deltaTime);
-				weaponCollider.enabled = true;
-			}
+		if ( timeInState > f ) {
+			hitting = true;
+			weaponCollider.enabled = true;
+		}
+
+		if ( hitting ) {
+			transform.Translate (Direction * hitSpeed * Time.deltaTime);
 		}
 
 		if ( timeInState > hit_Duration / 1 + crewMember.Dexterity / 10)
@@ -140,6 +147,7 @@ public class Humanoid : MonoBehaviour {
 
 	}
 	public virtual void hit_Exit () {
+
 		weaponCollider.enabled = false;
 
 		animator.speed = 1f;
@@ -217,6 +225,10 @@ public class Humanoid : MonoBehaviour {
 
 		timeInState = 0f;
 
+		ExitState ();
+		EnterState ();
+	}
+	private void EnterState () {
 		switch (currentState) {
 		case states.move:
 			updateState = move_Update;
@@ -239,7 +251,8 @@ public class Humanoid : MonoBehaviour {
 			blocked_Start ();
 			break;
 		}
-
+	}
+	private void ExitState () {
 		switch (previousState) {
 		case states.move:
 			move_Exit ();
@@ -257,7 +270,6 @@ public class Humanoid : MonoBehaviour {
 			blocked_Exit ();
 			break;
 		}
-
 	}
 	#endregion
 
@@ -265,45 +277,53 @@ public class Humanoid : MonoBehaviour {
 		
 		if ( other.tag == hitTag) {
 
-			if ( currentState != states.getHit ) {
-
-				float dam = other.GetComponentInParent<Humanoid> ().CrewMember.Attack;
-
-				float critChance = (35f * CrewMember.Dexterity) / 10f;
-				if ( Random.value * 100f < critChance ) {
-
-					dam *= 1.6f;
-
-					SoundManager.Instance.PlaySound (hurtSound);
-					DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", dialogueAnchor);
-
-				} else {
-
-					SoundManager.Instance.PlaySound (hitSound);
-					DialogueManager.Instance.SetDialogue ("Aïe !", dialogueAnchor);
-
-				}
-
-				if (Guard_Active) {
-					dam /= 4;
-					ChangeState (states.blocked);
-				} else {
-					ChangeState (states.getHit);
-				}
-
-				other.GetComponentInParent<Humanoid> ().ChangeState (states.blocked);
-				crewMember.GetHit (dam);
-
-				if (crewMember.Health == 0) {
-					
-					CombatManager.Instance.SetTargetCrew(crewMember.Side);
-					CombatManager.Instance.DefendingCrew = crewMember.Side;
-					CombatManager.Instance.AttackingCrew = crewMember.Side == Crews.Side.Player ? Crews.Side.Enemy : Crews.Side.Player;
-					CombatManager.Instance.ChangeState (CombatManager.States.MemberReturn);
-
-				}
-
+			if ( currentState == states.getHit ) {
+				Debug.Log ("didn't touch parce que déjà en get hit");
+				return;
 			}
+
+			GetHit (other.GetComponentInParent<Humanoid>());
+		}
+	}
+
+	public void GetHit (Humanoid otherHum) {
+		
+		float dam = otherHum.CrewMember.Attack;
+
+		float critChance = (35f * CrewMember.Dexterity) / 10f;
+		if ( Random.value * 100f < critChance ) {
+
+			dam *= 1.6f;
+
+			SoundManager.Instance.PlaySound (hurtSound);
+			DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", dialogueAnchor);
+
+		} else {
+
+			SoundManager.Instance.PlaySound (hitSound);
+			DialogueManager.Instance.SetDialogue ("Aïe !", dialogueAnchor);
+
+		}
+
+		if (Guard_Active) {
+			dam /= 4;
+			ChangeState (states.blocked);
+		} else {
+			ChangeState (states.getHit);
+		}
+
+		otherHum.ChangeState (states.blocked);
+		crewMember.GetHit (dam);
+
+		if (crewMember.Health == 0) {
+
+			CombatManager.Instance.SetTargetCrew(crewMember.Side);
+
+			CombatManager.Instance.DefendingCrew = crewMember.Side;
+			CombatManager.Instance.AttackingCrew = crewMember.Side == Crews.Side.Player ? Crews.Side.Enemy: Crews.Side.Player;
+
+			CombatManager.Instance.ChangeState (CombatManager.States.MemberReturn);
+
 		}
 	}
 

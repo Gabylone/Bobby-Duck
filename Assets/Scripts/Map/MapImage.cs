@@ -107,10 +107,13 @@ public class MapImage : MonoBehaviour {
 
 	}
 
+	[SerializeField]
+	private float maxImagePosition = 250f;
+
 	public void UpdateImagePosition () {
-		int x = (300 * MapManager.Instance.PosX) / textureScale;
-		int y = (300 * MapManager.Instance.PosY) / textureScale;
-		targetImage.transform.localPosition = new Vector2 (300 - x , (textureScale- y) );
+		float x = (maxImagePosition * MapManager.Instance.PosX) / textureScale;
+		float y = (maxImagePosition * MapManager.Instance.PosY) / textureScale;
+		targetImage.transform.localPosition = new Vector2 (-x , (maxImagePosition - y) );
 	}
 
 	#region properties

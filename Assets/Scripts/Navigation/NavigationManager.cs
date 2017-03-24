@@ -81,10 +81,10 @@ public class NavigationManager : MonoBehaviour {
 	public Vector2 hotSpot = Vector2.zero;
 
 	public void CursorEnters (int texID) {
-		Cursor.SetCursor(arrowTextures[texID], hotSpot, CursorMode.Auto);
+		Cursor.SetCursor(arrowTextures[texID], hotSpot, CursorMode.ForceSoftware);
 	}
 	public void CursorExits (int texID) {
-		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+		Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
 	}
 	#endregion
 

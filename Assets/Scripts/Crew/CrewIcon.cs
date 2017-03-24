@@ -86,11 +86,14 @@ public class CrewIcon : MonoBehaviour {
 
 	public void UpdateIcon () {
 
+		if (currentPlacingType == Crews.PlacingType.Map) {
+			float f = ((float)member.CurrentHunger / (float)member.MaxState);
+			hungerImage.fillAmount = f;
 
-		float f = ((float)member.CurrentHunger / (float)member.MaxState);
-		hungerImage.fillAmount = f;
-
-		hungerObject.SetActive (f>0.65f);
+			hungerObject.SetActive (f > 0.65f);
+		} else {
+			hungerObject.SetActive (false);
+		}
 	}
 
 	#region selection
@@ -201,9 +204,11 @@ public class CrewIcon : MonoBehaviour {
 	}
 	public void ShowBody () {
 		bodyObj.SetActive (true);
+
 	}
 	public void HideFace () {
 		faceObj.SetActive (false);
+
 	}
 	public void ShowFace () {
 		faceObj.SetActive (true);

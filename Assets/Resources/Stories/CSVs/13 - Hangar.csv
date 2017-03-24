@@ -35,8 +35,8 @@ SetChoices2;;;;;;;;;;;
 Choice : Repartir;Choice : Rentrer dans la cabane;;;;;;;;;;
 Leave;Fade;;;;;;;;;;
 ;RandomPercent29;;;;;;;;;;
-;OtherSpeak : Totalement vide !;;[Fouiller Maison];;;;;;;;
-;OtherSpeak : Juste de la paille pour dormir…;;RandomRange3;;;;;;;;
+;PlayerSpeak : Totalement vide !;;[Fouiller Maison];;;;;;;;
+;PlayerSpeak : Juste de la paille pour dormir…;;RandomRange3;;;;;;;;
 ;[Cabane Vide];;Narrator : Il y a un petit peu de paille pour dormir, et un petit garde manger près de la port.;;;Narrator : Il y a un petit peu de paille pour dormir, et un râtelier d'arme.;;;Narrator : Il y a un petit peu de paille pour dormir, et un petit coffre rempli de tout et de rien.;;
 ;SetChoices2;;SetChoices3;;;SetChoices3;;;SetChoices3;;
 ;Choice : Dormir;Choice : Sortir;Choice : Dormir;Choice : Sortir;Choice : Fouiller;Choice : Dormir;Choice : Sortir;Choice : Fouiller;Choice : Dormir;Choice : Sortir;Choice : Fouiller

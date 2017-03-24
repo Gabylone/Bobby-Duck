@@ -26,14 +26,14 @@ public class FightIA : Humanoid {
 	[SerializeField]
 	private float stopBuffer = 0.2f;
 
-	// Use this for initialization
-	void Start () {
-		Init ();
+	public override void Start ()
+	{
+		base.Start ();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		UpdateStateMachine ();
+	public override void Update ()
+	{
+		base.Update ();
 	}
 
 	#region move

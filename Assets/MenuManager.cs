@@ -26,7 +26,11 @@ public class MenuManager : MonoBehaviour {
 		saveMenu.Opened = !saveMenu.Opened;
 	}
 	public void QuitButton () {
+
+
+
 		Application.Quit ();	
 	}
+
 	#endregion
 }

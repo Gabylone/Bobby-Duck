@@ -56,7 +56,6 @@ public class MapManager : MonoBehaviour {
 
 					mapImage.UpdatePixel (posX + x, posY + y);
 
-
 				}
 
 			}
@@ -65,7 +64,7 @@ public class MapManager : MonoBehaviour {
 
 		mapImage.UpdatePixel (posX , posY , Color.red);
 
-		mapImage.TargetImage.transform.localPosition = new Vector2 (200 - (posX* 2) , -(posY* 2));
+		mapImage.UpdateImagePosition ();
 
 
 	}

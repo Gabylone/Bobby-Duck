@@ -12,16 +12,10 @@ public class SaveMenu : MonoBehaviour {
 	[SerializeField]
 	private GameObject saveFeedback;
 
+	int currentSocket = -1;
+
 		// saving
 	private bool saving = false;
-	public bool Saving {
-		get {
-			return saving;
-		}
-		set {
-			saving = value;
-		}
-	}
 
 	bool confirmed = false;
 
@@ -123,5 +117,23 @@ public class SaveMenu : MonoBehaviour {
 				UpdateButtons ();
 		}
 	}
+
+	public bool Saving {
+		get {
+			return saving;
+		}
+		set {
+			saving = value;
+		}
+	}
 	#endregion
+
+	public int CurrentSocket {
+		get {
+			return currentSocket;
+		}
+		set {
+			currentSocket = value;
+		}
+	}
 }

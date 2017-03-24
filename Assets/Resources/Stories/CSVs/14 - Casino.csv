@@ -11,8 +11,8 @@ Leave;Narrator : La musique est très forte. Des rires et des insultes sortent 
 ;Fade;Fade;;;
 ;Mark=>debut;Mark=>entrée casino;;;
 [entrée casino];;;;;
-NewCrew5;Mark=>salleVide;Mark=>combatSalle;;;
-Narrator : L'ambiance est joviale. Des gens sont assis à des tables, ils jouent aux cartes. Un serveur se tient derrière le comptoir.;;;;;
+NewCrew5;;;;;
+Narrator : L'ambiance est joviale. Des gens sont assis à des tables, ils jouent aux cartes. Un serveur se tient derrière le comptoir.;Mark=>salleVide;Mark=>combatSalle;;;
 [choix salle];;;;;
 SetChoices4;;;;;
 Choice : (attaquer tout le monde);Choice : Je peux jouer ?!;Choice : (aller vers le comptoir);Choice : (sortir);;
