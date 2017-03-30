@@ -33,6 +33,12 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
+	public int NoManSeaScale {
+		get {
+			return noManSeaScale;
+		}
+	}
+
 	[SerializeField]
 	private int loadLimit = 1000;
 

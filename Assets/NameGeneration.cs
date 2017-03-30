@@ -9,11 +9,6 @@ public class NameGeneration : MonoBehaviour {
 		Instance = this;
 	}
 
-	void Update () {
-		if (Input.GetKeyDown (KeyCode.I))
-			Debug.Log (randomWord);
-	}
-
 	private char[] vowels = new char[6] {
 		'a','e','y','u','i','o'
 	};

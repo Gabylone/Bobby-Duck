@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Humanoid : MonoBehaviour {
 
 	public enum states {
+		none,
+
 		move,
 		hit,
 		getHit,
@@ -46,8 +49,10 @@ public class Humanoid : MonoBehaviour {
 	[SerializeField]
 	private BoxCollider2D weaponCollider;
 	[SerializeField]
-	private string hitTag = "Weapon";
+	private GameObject impactEffect;
 
+	[SerializeField]
+	private string hitTag = "Weapon";
 
 	[Header ("Get Hit")]
 	[SerializeField]
@@ -67,7 +72,22 @@ public class Humanoid : MonoBehaviour {
 	private bool guard_Active = false;
 	[SerializeField]
 	private GameObject guard_Feedback;
+	[SerializeField]
+	private Image guard_Image;
 
+	[SerializeField]
+	private float guard_RechargeSpeed = 1f;
+
+	bool guard_Tired = false;
+	[SerializeField]
+	private float guard_ChargeToRest = 0.3f;
+
+	[SerializeField]
+	private float guard_DecreaseSpeed = 2f;
+
+	private float guard_CurrentCharge = 1f;
+
+	[Header("Bounds")]
 	[SerializeField]
 	private float limitX = 4f;
 
@@ -83,15 +103,25 @@ public class Humanoid : MonoBehaviour {
 		ChangeState (states.move);
 
 		weaponCollider.enabled = false;
+
+		gameObject.SetActive (false);
+
+		Guard_Active = false;
+
 	}
 
 	// Update is called once per frame
 	public virtual void Update () {
-		updateState ();
+
+		if ( updateState != null )
+			updateState ();
 
 		timeInState += Time.deltaTime;
 
 		ClampPos ();
+
+		if (Input.GetKeyDown (KeyCode.H))
+			ChangeState (states.none);
 	}
 
 	#region move
@@ -99,7 +129,14 @@ public class Humanoid : MonoBehaviour {
 		
 	}
 	public virtual void move_Update () {
-		
+		Guard_CurrentCharge += guard_RechargeSpeed * Time.deltaTime;
+
+		if ( Guard_Tired ) {
+			guard_Feedback.SetActive (true);
+			if ( guard_CurrentCharge >= guard_ChargeToRest ) {
+				Guard_Tired = false;
+			}
+		}
 	}
 	public virtual void move_Exit () {
 		animator.SetFloat ("move", 0);
@@ -119,7 +156,6 @@ public class Humanoid : MonoBehaviour {
 		animator.speed = 1 + crewMember.Dexterity / 10;
 
 		animator.SetTrigger ( "hit" );
-//		animator.SetInteger ("hitType", 1);
 		animator.SetInteger ("hitType", Random.Range (0,2));
 
 		hitting = false;
@@ -182,14 +218,26 @@ public class Humanoid : MonoBehaviour {
 
 	public virtual void guard_Update () {
 		if (TimeInState > guard_TimeToEffective) {
+
+			if ( Guard_Tired ) {
+				ChangeState (states.move);
+				return;
+			}
+
 			Guard_Active = true;
-			guard_Feedback.SetActive (true);
+
+			Guard_CurrentCharge -= guard_DecreaseSpeed * Time.deltaTime;
+
+			if ( Guard_CurrentCharge <= 0.01f ) {
+				Guard_Tired = true;
+				ChangeState (states.move);
+			}
 		}
+
 	}
 	public virtual void guard_Exit () {
 		animator.SetBool ( "guard" , false);
 		Guard_Active = false;
-		guard_Feedback.SetActive (false);
 
 	}
 	#endregion
@@ -203,7 +251,11 @@ public class Humanoid : MonoBehaviour {
 	}
 
 	public virtual void blocked_Update () {
-		
+
+		if ( timeInState > 1f ) {
+			animator.speed = 1f;
+		}
+
 		if (timeInState < getHit_TimetoStop)
 			transform.Translate (-Direction * speed * Time.deltaTime);
 
@@ -230,6 +282,11 @@ public class Humanoid : MonoBehaviour {
 	}
 	private void EnterState () {
 		switch (currentState) {
+
+		case states.none:
+			updateState = null;
+			break;
+
 		case states.move:
 			updateState = move_Update;
 			move_Start();
@@ -254,6 +311,11 @@ public class Humanoid : MonoBehaviour {
 	}
 	private void ExitState () {
 		switch (previousState) {
+
+		case states.none:
+				//
+			break;
+
 		case states.move:
 			move_Exit ();
 			break;
@@ -298,19 +360,38 @@ public class Humanoid : MonoBehaviour {
 			SoundManager.Instance.PlaySound (hurtSound);
 			DialogueManager.Instance.SetDialogue ("Aie PUTAIN !", dialogueAnchor);
 
+
+			impactEffect.transform.localScale = Vector3.one * 2f;
+
 		} else {
 
 			SoundManager.Instance.PlaySound (hitSound);
-			DialogueManager.Instance.SetDialogue ("Aïe !", dialogueAnchor);
+//			DialogueManager.Instance.SetDialogue ("Aïe !", dialogueAnchor);
+
+			impactEffect.transform.localScale = Vector3.one * 0.75f;
 
 		}
 
 		if (Guard_Active) {
 			dam /= 4;
 			ChangeState (states.blocked);
+
+			impactEffect.GetComponent<SpriteRenderer> ().color = Color.grey;
 		} else {
 			ChangeState (states.getHit);
+
+			impactEffect.GetComponent<SpriteRenderer> ().color = Color.red;
 		}
+
+			// collision effect
+
+		impactEffect.SetActive (false);
+		impactEffect.SetActive (true);
+
+		impactEffect.transform.position = otherHum.WeaponCollider.transform.position;
+
+
+			// set other state
 
 		otherHum.ChangeState (states.blocked);
 		crewMember.GetHit (dam);
@@ -366,6 +447,8 @@ public class Humanoid : MonoBehaviour {
 		}
 		set {
 			guard_Active = value;
+
+			guard_Feedback.SetActive (value && !guard_Tired);
 		}
 	}
 
@@ -375,6 +458,44 @@ public class Humanoid : MonoBehaviour {
 		}
 		set {
 			crewMember = value;
+		}
+	}
+
+	public BoxCollider2D WeaponCollider {
+		get {
+			return weaponCollider;
+		}
+	}
+
+	public float Guard_CurrentCharge {
+		get {
+			return guard_CurrentCharge;
+		}
+		set {
+
+			value = Mathf.Clamp01 (value);
+
+			guard_CurrentCharge = value;
+
+			guard_Image.fillAmount = Guard_CurrentCharge;
+
+		}
+	}
+
+	public bool Guard_Tired {
+		get {
+			return guard_Tired;
+		}
+		set {
+			guard_Tired = value;
+
+			guard_Image.color = value ? Color.red : Color.white;
+
+			if (value)
+				print ("tired");
+
+			guard_Feedback.SetActive (value);
+
 		}
 	}
 

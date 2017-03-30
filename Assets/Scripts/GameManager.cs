@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -28,6 +29,10 @@ public class GameManager : MonoBehaviour {
 		MapManager.Instance.Init ();
 		ClueManager.Instance.Init ();
 
+	}
+
+	public void Restart () {
+		SceneManager.LoadScene ("Main");
 	}
 
 	public void GameOver () {

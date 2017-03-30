@@ -36,7 +36,7 @@ public class CardManager : MonoBehaviour {
 
 	#region fighting cards
 	public void ShowFightingCard ( Crews.Side attackingCrew ) {
-		combatCards [(int)attackingCrew].UpdateMember (CombatManager.Instance.Members[(int)attackingCrew]);
+		combatCards [(int)attackingCrew].UpdateMember (CombatManager.Instance.getMember(attackingCrew));
 	}
 	public void HideFightingCard ( Crews.Side attackingCrew ) {
 		combatCards [(int)attackingCrew].HideCard ();

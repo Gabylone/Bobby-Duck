@@ -71,6 +71,9 @@ public class CombatManager : MonoBehaviour {
 
 	bool fighting = false;
 
+	public bool fightWon = false;
+	public bool fightLost = false;
+
 	[SerializeField]
 	private GameObject chooseMemberFeedback;
 
@@ -108,8 +111,10 @@ public class CombatManager : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown (KeyCode.K)) {
-//			WinFight ();
 			enemyFighter.GetComponent<Humanoid>().GetHit (playerFighter.GetComponent<Humanoid>());
+		}
+		if (Input.GetKeyDown (KeyCode.L)) {
+			playerFighter.GetComponent<Humanoid>().GetHit (playerFighter.GetComponent<Humanoid>());
 		}
 	}
 
@@ -186,8 +191,6 @@ public class CombatManager : MonoBehaviour {
 	}
 	private void MemberChoice_Enemy () {
 
-		Debug.Log ("choosing enemy member");
-
 		int newIndex = Random.Range (0, Crews.enemyCrew.CrewMembers.Count);
 
 		if (firstTurn == false) {
@@ -204,7 +207,6 @@ public class CombatManager : MonoBehaviour {
 		setMember (Crews.Side.Enemy, Crews.enemyCrew.CrewMembers [newIndex]); 
 
 		if (firstTurn) {
-
 				// player chooses member
 			SetTargetCrew (Crews.Side.Player);
 			ChangeState (States.MemberChoice);
@@ -216,8 +218,6 @@ public class CombatManager : MonoBehaviour {
 	}
 	private void MemberChoice_Player () {
 
-		Debug.Log("choosing playe rmember");
-
 		ChoosingMember = true;
 
 	}
@@ -225,6 +225,12 @@ public class CombatManager : MonoBehaviour {
 
 	}
 	private void MemberChoice_Exit () {
+
+//		if (getMember (Crews.Side.Enemy) != null)
+//			ShowEnemyFighter ();
+//
+//		if (getMember (Crews.Side.Player) != null)
+//			ShowPlayerFighter();
 
 	}
 	public void SetPlayerMember ( CrewMember member ) {
@@ -267,19 +273,20 @@ public class CombatManager : MonoBehaviour {
 
 		if ( firstTurn ) {
 
-			Debug.Log ("premier tour");
 
 			if ( targetCrew == Crews.Side.Player ) {
 				
 				ShowPlayerFighter ();
 
+				// SKIP TO ENEMY
 				SetTargetCrew (Crews.Side.Enemy);
 				ChangeState (States.MemberLerp);
 
 			} else {
 				
 				ShowEnemyFighter ();
-
+					
+				// START TURN
 				SetTargetCrew(Crews.Side.Player);
 				ChangeState (States.StartTurn);
 
@@ -287,8 +294,6 @@ public class CombatManager : MonoBehaviour {
 			}
 
 		} else {
-
-			Debug.Log ("oui et non");
 
 			if ( targetCrew == Crews.Side.Player ) {
 				ShowPlayerFighter ();
@@ -300,28 +305,6 @@ public class CombatManager : MonoBehaviour {
 
 		}
 		
-	}
-
-	private void ShowPlayerFighter () {
-		
-		getMember (targetCrew).Icon.HideFace ();
-		CardManager.Instance.ShowFightingCard (targetCrew);
-
-		playerFighter.SetActive (true);
-		playerFighter.transform.position = new Vector3 ( -fighters_InitPos.x , fighters_InitPos.y , 0f );
-		playerFighter.GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
-		playerFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
-	}
-
-	private void ShowEnemyFighter () {
-
-		getMember (targetCrew).Icon.HideFace ();
-		CardManager.Instance.ShowFightingCard (targetCrew);
-
-		enemyFighter.SetActive (true);
-		enemyFighter.transform.position = new Vector3 ( fighters_InitPos.x , fighters_InitPos.y , 0f );
-		enemyFighter.GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
-		enemyFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
 	}
 
 	private void MemberLerp_Update () {
@@ -336,17 +319,59 @@ public class CombatManager : MonoBehaviour {
 	}
 	#endregion
 
+	#region fighters
+	private void ShowPlayerFighter () {
+
+		getMember (targetCrew).Icon.HideFace ();
+		CardManager.Instance.ShowFightingCard (targetCrew);
+
+		playerFighter.SetActive (true);
+		playerFighter.transform.position = new Vector3 ( -fighters_InitPos.x , fighters_InitPos.y , 0f );
+		playerFighter.GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
+		playerFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
+
+		playerFighter.GetComponent<Humanoid> ().ChangeState (Humanoid.states.none);
+
+	}
+
+	private void ShowEnemyFighter () {
+
+		getMember (targetCrew).Icon.HideFace ();
+		CardManager.Instance.ShowFightingCard (targetCrew);
+
+		enemyFighter.SetActive (true);
+		enemyFighter.transform.position = new Vector3 ( fighters_InitPos.x , fighters_InitPos.y , 0f );
+		enemyFighter.GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
+		enemyFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
+
+		enemyFighter.GetComponent<Humanoid> ().ChangeState (Humanoid.states.none);
+
+	}
+
+	public void StartFighters () {
+		playerFighter.GetComponent<Humanoid> ().ChangeState (Humanoid.states.move);
+		enemyFighter.GetComponent<Humanoid> ().ChangeState 	(Humanoid.states.move);
+	}
+
+	private void HideFighters () {
+		enemyFighter.SetActive (false);
+		playerFighter.SetActive (false);
+	}
+	#endregion
 
 	#region StartTurn
+	bool started = false;
 	private void StartTurn_Start () {
-
 
 	}
 	private void StartTurn_Update () {
-		
+		if (timeInState > 1.5f&&!started) {
+			started = true;
+			StartFighters ();
+		}
 	}
 	private void StartTurn_Exit () {
-		//
+		started = false;
 	}
 	public void ChooseDie (int i) {
 		HideFeedbackDice ();
@@ -354,6 +379,8 @@ public class CombatManager : MonoBehaviour {
 		actionType = (ActionType)i;
 
 		ChangeState (States.Action);
+
+
 	}
 	#endregion
 
@@ -446,16 +473,31 @@ public class CombatManager : MonoBehaviour {
 			enemyFighter.SetActive (false);
 		}
 
+		playerFighter.transform.position = new Vector3 ( -fighters_InitPos.x , fighters_InitPos.y , 0f );
+		playerFighter.GetComponent<Humanoid> ().ChangeState (Humanoid.states.none);
+
+		enemyFighter.transform.position = new Vector3 ( fighters_InitPos.x , fighters_InitPos.y , 0f );
+		enemyFighter.GetComponent<Humanoid> ().ChangeState (Humanoid.states.none);
+
 		if (getMember (DefendingCrew).Health == 0) {
-			
 			getMember (DefendingCrew).Kill ();
 			getMember (AttackingCrew).AddXP (getMember (targetCrew).Level * 25);
 		}
 
-		ChangeState (States.MemberChoice);
 	}
 	private void MemberReturn_Update () {
-
+		if (timeInState > 2f) {
+			if (fightWon) {
+				WinFight ();
+				fightWon = false;
+			} else if (fightLost) {
+				GameManager.Instance.GameOver ();
+				HideFighters ();
+				fightLost = false;
+			} else {
+				ChangeState (States.MemberChoice);
+			}
+		}
 	}
 	private void MemberReturn_Exit () {
 		

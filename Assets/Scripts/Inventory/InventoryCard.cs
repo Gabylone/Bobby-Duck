@@ -68,6 +68,8 @@ public class InventoryCard : Card {
 	{
 		currentMember = member;
 
+		member.Icon.HideBody ();
+
 		base.UpdateMember (member);
 
 		strenghtImage.GetComponentInChildren<Text> ().text 		= member.Strenght.ToString();
@@ -105,7 +107,8 @@ public class InventoryCard : Card {
 				itemButton.Name = crewMember.Equipment [a].name;
 				itemButton.Param = crewMember.Equipment [a].value;
 				itemButton.Price = crewMember.Equipment [a].price;
-				itemButton.Price = crewMember.Equipment [a].level;
+				itemButton.Level = crewMember.Equipment [a].level;
+				itemButton.Weight = crewMember.Equipment [a].weight;
 
 			} else {
 				

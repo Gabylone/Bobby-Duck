@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ActionGroup.cs" />
      <Compile Include="Assets\Fight_LoadSprites.cs" />
      <Compile Include="Assets\FollowFighter.cs" />
      <Compile Include="Assets\MenuManager.cs" />
@@ -102,13 +103,15 @@
      <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
      <Compile Include="Assets\Scripts\Transition\UIButton.cs" />
      <Compile Include="Assets\Scripts\Treasure\ClueManager.cs" />
+     <Compile Include="Assets\UI_Target.cs" />
+     <Compile Include="Assets\WeaponCollider.cs" />
      <None Include="Assets\Tout Doux.txt" />
      <None Include="Assets\func macro.txt" />
      <None Include="Assets\5 déc.txt" />
      <None Include="Assets\Liste features.txt" />
      <None Include="Assets\frfr.txt" />
+     <None Include="Assets\GameSaveData2.xml" />
      <None Include="Assets\GameSaveData1.xml" />
-     <None Include="Assets\Bugs.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

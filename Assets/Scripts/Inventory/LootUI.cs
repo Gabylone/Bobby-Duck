@@ -22,9 +22,6 @@ public class LootUI : MonoBehaviour {
 	private int currentPage 	= 0;
 	private int maxPage 		= 0;
 
-	[Header("Action Button")]
-	[SerializeField] private GameObject actionButtonObj;
-	[SerializeField] private string[] actionButtonTexts;
 	private int selectionIndex = 0;
 
 	[Header("Categories")]
@@ -102,7 +99,8 @@ public class LootUI : MonoBehaviour {
 	}
 	#endregion
 
-
+	[SerializeField]
+	private ActionGroup actionGroup;
 
 	#region category navigation
 	public void SwitchCategory ( int cat ) {
@@ -116,6 +114,14 @@ public class LootUI : MonoBehaviour {
 		currentPage = 0;
 
 		UpdateLootUI ();
+
+		SetActionButtons ();
+	}
+
+	private void SetActionButtons (){ 
+
+
+
 	}
 
 	public void UpdateLootUI () {
@@ -144,11 +150,23 @@ public class LootUI : MonoBehaviour {
 		}
 	}
 
+	[SerializeField]
+	private Sprite[] categorySprites;
+
 	private void UpdateCategoryButtons () {
 		
 		for (int i = 0; i < categoryButtons.Length; ++i ) {
 
-			categoryButtons [i].gameObject.SetActive ( i < CategoryContent.amount );
+			categoryButtons [i].gameObject.SetActive ( i < CategoryContent.itemCategories.Length );
+
+			Sprite sprite;
+
+			if (categoryContent.itemCategories [0].categories.Length > 1)
+				sprite = categorySprites [(int)ItemCategory.Misc];
+			else
+				sprite = categorySprites [(int)CategoryContent.itemCategories [i].categories [0]];
+
+			categoryButtons [i].GetComponentsInChildren<Image> () [1].sprite = sprite;
 
 			if ( i < categoryContent.amount ) {
 //				categoryButtons [i].GetComponentInChildren<Text> ().text = CategoryContent.names[i];
@@ -184,19 +202,23 @@ public class LootUI : MonoBehaviour {
 	#endregion
 
 	#region action button
-	public void UpdateActionButton (int index) {
+	public void UpdateActionButton (int itemIndex) {
 
-		actionButtonObj.SetActive (CategoryContent.interactable[currentCat] && SelectedItems.Length > 0);
+		PlayerLoot.Instance.LootUI.CategoryContent = PlayerLoot.Instance.TradeCategoryContent;
 
-		Vector3 targetPos = actionButtonObj.transform.position;
+			// set group active
+//		actionGroup.game.SetActive (CategoryContent.interactable[currentCat] && SelectedItems.Length > 0);
+			
+			// set group position
+		Vector3 targetPos = actionGroup.transform.position;
+		targetPos.y = itemButtons [itemIndex].transform.position.y;
+		actionGroup.transform.position = targetPos;
 
-		targetPos.y = itemButtons [index].transform.position.y;
+			//
+		actionGroup.UpdateButtons (CategoryContent.catButtonType[currentCat].buttonTypes [0], CategoryContent.catButtonType[currentCat].buttonTypes [1]);
 
-		actionButtonObj.transform.position = targetPos;
-
-		actionButtonObj.GetComponentInChildren<Text> ().text = CategoryContent.actionNames [currentCat];
-
-		selectionIndex = index;
+			// set group index
+		selectionIndex = itemIndex;
 
 	}
 	#endregion
@@ -251,15 +273,6 @@ public class LootUI : MonoBehaviour {
 		}
 	}
 
-	public string[] ActionButtonTexts {
-		get {
-			return actionButtonTexts;
-		}
-		set {
-			actionButtonTexts = value;
-		}
-	}
-
 	public Item[] SelectedItems {
 		get {
 			return selectedItems;
@@ -281,7 +294,8 @@ public class CategoryContent {
 	public Color[] colors;
 	public bool[] interactable;
 
-	public string[] actionNames;
+	public CategoryButtonType[] catButtonType;
+
 
 }
 
@@ -295,6 +309,20 @@ public class Categories {
 		}
 		set {
 			categories [i] = value;
+		}
+	}
+}
+
+[System.Serializable]
+public class CategoryButtonType {
+	public ActionGroup.ButtonType[] buttonTypes = new ActionGroup.ButtonType[2];
+
+	public ActionGroup.ButtonType this [int i] {
+		get {
+			return buttonTypes [i];
+		}
+		set {
+			buttonTypes [i] = value;
 		}
 	}
 }

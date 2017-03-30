@@ -121,8 +121,8 @@ public class DialogueManager : MonoBehaviour {
 
 	#region narrator
 	public void ShowNarrator (string text) {
+		
 		narratorObj.SetActive (true);
-
 
 		if ( text.Contains ("CAPITAINE") ) {
 			text = text.Replace ( "CAPITAINE" , Crews.playerCrew.captain.MemberName );
@@ -161,7 +161,7 @@ public class DialogueManager : MonoBehaviour {
 		}
 
 		// get viewport position of target object
-				Vector3 pos = Camera.main.WorldToViewportPoint (target.position);
+		Vector3 pos = Camera.main.WorldToViewportPoint (target.position);
 
 			// clamp bubble
 		pos.x = Mathf.Clamp (pos.x, bubbleBounds.x, 1 - bubbleBounds.x);
@@ -190,7 +190,6 @@ public class DialogueManager : MonoBehaviour {
 
 		// straighten text
 		bubble_Text.transform.position = bubble_Image.transform.position;
-
 
 	}
 

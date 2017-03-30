@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class MenuManager : MonoBehaviour {
@@ -6,9 +7,21 @@ public class MenuManager : MonoBehaviour {
 	[SerializeField]
 	private SaveMenu saveMenu;
 
+	private UIButton uiButton;
+
+	[SerializeField]
+	private GameObject quitFeedback;
+
+	bool quit_Confirmed = false;
+
+	void Awake () {
+		DontDestroyOnLoad (gameObject);
+		DontDestroyOnLoad (saveMenu.gameObject);
+	}
+
 	// Use this for initialization
 	void Start () {
-	
+		uiButton = GetComponent<UIButton> ();
 	}
 	
 	// Update is called once per frame
@@ -16,7 +29,25 @@ public class MenuManager : MonoBehaviour {
 	
 	}
 
+	public void Open () {
+		uiButton.Opened = true;
+	}
+
+	public void Close () {
+		uiButton.Opened = false;
+
+		saveMenu.Opened = false;
+
+		quitFeedback.SetActive (false);
+
+		quit_Confirmed = false;
+
+	}
+
 	#region buttons
+	public void NewGameButton () {
+		SceneManager.LoadScene ("Main");
+	}
 	public void SaveButton () {
 		saveMenu.Saving = true;
 		saveMenu.Opened = !saveMenu.Opened;
@@ -26,11 +57,13 @@ public class MenuManager : MonoBehaviour {
 		saveMenu.Opened = !saveMenu.Opened;
 	}
 	public void QuitButton () {
-
-
-
-		Application.Quit ();	
+		
+		if (quit_Confirmed) {
+			Application.Quit ();
+		} else {
+			quit_Confirmed = true;
+			quitFeedback.SetActive (true);
+		}
 	}
-
 	#endregion
 }

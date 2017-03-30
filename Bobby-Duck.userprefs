@@ -1,15 +1,12 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Navigation\NavigationManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Stories\StoryFunctions.cs">
     <Files>
-      <File FileName="Assets\Scripts\Map\MapImage.cs" Line="81" Column="20" />
-      <File FileName="Assets\Scripts\Map\MapManager.cs" Line="69" Column="1" />
-      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="453" Column="1" />
-      <File FileName="Assets\Scripts\Card\Card.cs" Line="53" Column="32" />
-      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="405" Column="3" />
-      <File FileName="Assets\Scripts\Crew\CrewIcon.cs" Line="202" Column="27" />
-      <File FileName="Assets\NavigationTrigger.cs" Line="9" Column="37" />
-      <File FileName="Assets\Scripts\Navigation\NavigationManager.cs" Line="87" Column="64" />
+      <File FileName="Assets\MenuManager.cs" Line="62" Column="1" />
+      <File FileName="Assets\Scripts\Crew\CrewCreator.cs" Line="317" Column="9" />
+      <File FileName="Assets\Scripts\Map\MapImage.cs" Line="120" Column="10" />
+      <File FileName="Assets\Scripts\Crew\Crews.cs" Line="34" Column="44" />
+      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="540" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -22,9 +22,11 @@ public class OtherLoot : MonoBehaviour {
 	private string[] playerPreviousLootActions;
 
 	[Header("Sounds")]
-	[SerializeField] private AudioClip sellSound;
 	[SerializeField] private AudioClip equipSound;
 	[SerializeField] private AudioClip lootSound;
+
+	[SerializeField]
+	private ActionGroup actionGroup;
 
 	bool trading = false;
 
@@ -35,7 +37,9 @@ public class OtherLoot : MonoBehaviour {
 	#region trade
 	public void StartTrade () {
 
-		buttonObj.SetActive (false);
+		PlayerLoot.Instance.Open ();
+		PlayerLoot.Instance.InventoryButton.Locked = true;
+		PlayerLoot.Instance.CloseButton.SetActive (false);
 
 			// player loot ui
 		playerLootUI.CategoryContent = PlayerLoot.Instance.TradeCategoryContent;
@@ -54,22 +58,26 @@ public class OtherLoot : MonoBehaviour {
 			return trading;
 		}
 	}
+	#endregion
 
-	public void SellItem ( ItemCategory category , int index ) {
+	#region looting
+	public void StartLooting () {
 
-		SoundManager.Instance.PlaySound (sellSound);
+		SoundManager.Instance.PlaySound (lootSound);
 
-		GoldManager.Instance.GoldAmount += playerLootUI.SelectedItem.price;
+		buttonObj.SetActive (false);
 
-		LootManager.Instance.OtherLoot.AddItem (playerLootUI.SelectedItem);
-		LootManager.Instance.PlayerLoot.RemoveItem (playerLootUI.SelectedItem);
-
-		playerLootUI.UpdateLootUI ();
-		otherLootUI.UpdateLootUI ();
+		otherLootUI.CategoryContent = category_OtherLootContent;
+		otherLootUI.Visible = true;
+		otherLootUI.UpdateActionButton(0);
+//
+//		PlayerLoot.Instance.ActionGroup.UpdateButtons (ActionGroup.ButtonType.Throw);
+//		actionGroup.UpdateButtons (ActionGroup.ButtonType.PickUp);
 
 	}
-	public void BuyItem () {
+	#endregion
 
+	public void Buy () {
 		if (!GoldManager.Instance.CheckGold (otherLootUI.SelectedItem.price))
 			return;
 
@@ -83,24 +91,9 @@ public class OtherLoot : MonoBehaviour {
 
 		playerLootUI.UpdateLootUI ();
 		otherLootUI.UpdateLootUI ();
-
 	}
-	#endregion
 
-	#region looting
-	public void StartLooting () {
-
-		SoundManager.Instance.PlaySound (lootSound);
-
-		buttonObj.SetActive (false);
-
-		otherLootUI.CategoryContent = category_OtherLootContent;
-		otherLootUI.Visible = true;
-		otherLootUI.UpdateActionButton(0);
-
-	}
-	public void PickUpItem () {
-
+	public void PickUp () {
 		SoundManager.Instance.PlaySound (equipSound);
 
 		if (!WeightManager.Instance.CheckWeight (otherLootUI.SelectedItem.weight))
@@ -109,18 +102,8 @@ public class OtherLoot : MonoBehaviour {
 		LootManager.Instance.PlayerLoot.AddItem (otherLootUI.SelectedItem);
 		LootManager.Instance.OtherLoot.RemoveItem (otherLootUI.SelectedItem);
 
-
 		playerLootUI.UpdateLootUI ();
 		otherLootUI.UpdateLootUI ();
-	}
-	#endregion
-
-	public void Action () {
-		if ( trading ) {
-			BuyItem ();
-		} else {
-			PickUpItem ();
-		}
 	}
 
 	public void Close () {
@@ -128,16 +111,20 @@ public class OtherLoot : MonoBehaviour {
 		buttonObj.SetActive (true);
 
 		otherLootUI.Visible = false;
-
-		otherLootUI.Visible = false;
 		playerLootUI.Visible = false;
 
 		trading = false;
+
+		PlayerLoot.Instance.InventoryButton.Locked = false;
+		PlayerLoot.Instance.CloseButton.SetActive (true);
+		PlayerLoot.Instance.InventoryButton.Opened = false;
+		PlayerLoot.Instance.Close ();
 
 		if ( IslandManager.Instance.OnIsland ) {
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
 		}
+
 	}
 
 }

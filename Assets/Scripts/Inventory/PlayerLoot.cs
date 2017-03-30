@@ -10,6 +10,14 @@ public class PlayerLoot : MonoBehaviour {
 
 	[SerializeField]
 	private UIButton inventoryButton;
+	[SerializeField]
+	private GameObject closeButton;
+
+	public GameObject CloseButton {
+		get {
+			return closeButton;
+		}
+	}
 
 	[SerializeField]
 	private CategoryContent inventoryCategoryContent;
@@ -22,6 +30,8 @@ public class PlayerLoot : MonoBehaviour {
 	[Header("LootUI")]
 	[SerializeField]
 	private LootUI lootUI;
+	[SerializeField]
+	private LootUI otherLootUI;
 
 	[Header("Card")]
 	[SerializeField]
@@ -35,6 +45,10 @@ public class PlayerLoot : MonoBehaviour {
 	[Header("Sounds")]
 	[SerializeField] private AudioClip eatSound;
 	[SerializeField] private AudioClip equipSound;
+	[SerializeField] private AudioClip sellSound;
+
+	[SerializeField]
+	private ActionGroup actionGroup;
 
 	bool opened = false;
 
@@ -62,87 +76,130 @@ public class PlayerLoot : MonoBehaviour {
 	}
 
 	#region button action
-	public void Action () {
-		if (OtherLoot.Instance.Trading) {
-			OtherLoot.Instance.SellItem ( lootUI.SelectedItem.category ,lootUI.ItemIndex);
-		} else {
-			UseItem ();
-		}
+
+	public void Eat () {
+
+		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
+
+		SoundManager.Instance.PlaySound (eatSound);
+
+		targetMember.Health += lootUI.SelectedItem.value;
+
+		int foodHealth = (int)(lootUI.SelectedItem.value * 1.5f);
+		targetMember.CurrentHunger -= foodHealth;
+
+
+			// ça c'est pour faire en sorte qu'il puisse prendre qu'un bouffe par tour.
+
+//		if (CombatManager.Instance.Fighting) {
+//
+//			inventoryButton.Opened = false;
+//
+//			Close ();
+//
+//			CombatManager.Instance.ChangeState (CombatManager.States.StartTurn);
+//			CardManager.Instance.UpdateCards ();
+//
+//			UpdateMembers ();
+//		}
+
+		RemoveSelectedItem ();
+
 	}
+
+	public void Equip () {
+
+		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
+
+		if (!targetMember.CheckLevel (lootUI.SelectedItem.level))
+			return;
+
+		CrewMember.EquipmentPart part = CrewMember.EquipmentPart.Clothes;
+		switch (lootUI.SelectedItem.category) {
+		case ItemCategory.Weapon:
+			part = CrewMember.EquipmentPart.Weapon;
+			break;
+		case ItemCategory.Clothes:
+			part = CrewMember.EquipmentPart.Clothes;
+			break;
+		}
+
+		if (targetMember.GetEquipment(part) != null)
+			LootManager.Instance.PlayerLoot.AddItem (targetMember.GetEquipment(part) );
+
+		targetMember.SetEquipment (part, lootUI.SelectedItem);
+
+		PlayerLoot.Instance.SelectedCard.Deploy ();
+
+		SoundManager.Instance.PlaySound (equipSound);
+
+		RemoveSelectedItem ();
+	}
+
+	public void Throw () {
+
+		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
+
+		SoundManager.Instance.PlaySound (equipSound);
+
+		RemoveSelectedItem ();
+	}
+
+	public void Sell () {
+
+		SoundManager.Instance.PlaySound (sellSound);
+
+		GoldManager.Instance.GoldAmount += lootUI.SelectedItem.price;
+
+		LootManager.Instance.OtherLoot.AddItem (lootUI.SelectedItem);
+		LootManager.Instance.PlayerLoot.RemoveItem (lootUI.SelectedItem);
+
+		lootUI.UpdateLootUI ();
+		otherLootUI.UpdateLootUI ();
+
+	}
+
+	private void RemoveSelectedItem () {
+		LootManager.Instance.PlayerLoot.RemoveItem (lootUI.SelectedItem);
+		lootUI.UpdateLootUI ();
+		UpdateMembers ();
+	}
+
 	public void UseItem () {
 
 		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
 
 		switch (lootUI.SelectedItem.category) {
 		case ItemCategory.Provisions:
-
-			SoundManager.Instance.PlaySound (eatSound);
-
-			targetMember.Health += lootUI.SelectedItem.value;
-			targetMember.CurrentHunger -= (lootUI.SelectedItem.value * 2);
-
-			if (CombatManager.Instance.Fighting) {
-
-				inventoryButton.Opened = false;
-
-				Close ();
-
-				CombatManager.Instance.ChangeState (CombatManager.States.StartTurn);
-				CardManager.Instance.UpdateCards ();
-
-			}
 			
-
-			UpdateMembers ();
 			break;
 		case ItemCategory.Weapon:
 		case ItemCategory.Clothes:
-//		case ItemCategory.Shoes:
-
-			if (!targetMember.CheckLevel (lootUI.SelectedItem.level))
-				return;
-
-			CrewMember.EquipmentPart part = CrewMember.EquipmentPart.Clothes;
-			switch (lootUI.SelectedItem.category) {
-			case ItemCategory.Weapon:
-				part = CrewMember.EquipmentPart.Weapon;
-				break;
-			case ItemCategory.Clothes:
-				part = CrewMember.EquipmentPart.Clothes;
-				break;
-			}
-
-			if (targetMember.GetEquipment(part) != null)
-				LootManager.Instance.PlayerLoot.AddItem (targetMember.GetEquipment(part) );
-
-			targetMember.SetEquipment (part, lootUI.SelectedItem);
-
-			PlayerLoot.Instance.SelectedCard.Deploy ();
-
-			SoundManager.Instance.PlaySound (equipSound);
 
 			break;
 		}
-
-		LootManager.Instance.PlayerLoot.RemoveItem ( lootUI.SelectedItem);
-		lootUI.UpdateLootUI ();
-		UpdateMembers();
 
 	}
 	#endregion
 
 	#region crew navigator
 	public void Switch () {
+
+		lootUI.CategoryContent = inventoryCategoryContent;
+
+
 		if (opened)
 			Close ();
 		else
 			Open ();
 	}
-	private void Open () {
+	public void Open () {
 
 			// Members
 		UpdateMembers ();
 		SelectedMemberIndex = 0;
+
+		inventoryButton.Opened = true;
 
 			// set icons
 		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
@@ -155,16 +212,19 @@ public class PlayerLoot : MonoBehaviour {
 
 			// loot
 		opened = true;
-		lootUI.CategoryContent = inventoryCategoryContent;
 		lootUI.Visible = true;
 
 	}
 
-	private void Close () {
+	public void Close () {
 
 		opened = false;
 		lootUI.Visible = false;
-		
+
+		inventoryButton.Opened = false;
+
+		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
+
 		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
 			
 			Crews.playerCrew.CrewMembers[i].Icon.MoveToPoint (Crews.playerCrew.CrewMembers[i].Icon.CurrentPlacingType, 0.2f);
@@ -257,6 +317,12 @@ public class PlayerLoot : MonoBehaviour {
 	public UIButton InventoryButton {
 		get {
 			return inventoryButton;
+		}
+	}
+
+	public ActionGroup ActionGroup {
+		get {
+			return actionGroup;
 		}
 	}
 }

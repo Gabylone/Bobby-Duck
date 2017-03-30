@@ -34,8 +34,13 @@ public class Transition : MonoBehaviour {
 
 			targetImage.color = Color.Lerp ( Color.clear , targetColor , l );
 
-			if (timer >= duration)
+			if (timer >= duration) {
+				
+				if (!isFaded)
+					transitionCanvas.SetActive (false);
+				
 				lerping = false;
+			}
 
 		}
 	}

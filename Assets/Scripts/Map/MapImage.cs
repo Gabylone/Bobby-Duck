@@ -4,6 +4,8 @@ using System.Collections;
 
 public class MapImage : MonoBehaviour {
 
+	public static MapImage Instance;
+
 	private MapGenerator mapGenerator;
 
 	[Header("General")]
@@ -29,6 +31,13 @@ public class MapImage : MonoBehaviour {
 
 	[SerializeField]
 	private int textureScale = 100;
+
+	[SerializeField]
+	private float maxImagePosition = 250f;
+
+	void Awake() {
+		Instance = this;
+	}
 
 	public void InitImage () {
 
@@ -107,10 +116,8 @@ public class MapImage : MonoBehaviour {
 
 	}
 
-	[SerializeField]
-	private float maxImagePosition = 250f;
-
 	public void UpdateImagePosition () {
+		return;
 		float x = (maxImagePosition * MapManager.Instance.PosX) / textureScale;
 		float y = (maxImagePosition * MapManager.Instance.PosY) / textureScale;
 		targetImage.transform.localPosition = new Vector2 (-x , (maxImagePosition - y) );

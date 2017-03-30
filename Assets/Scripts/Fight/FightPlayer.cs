@@ -63,11 +63,14 @@ public class FightPlayer : Humanoid {
 	#endregion
 
 	#region collision
+
 	public override void OnTriggerEnter2D (Collider2D other)
 	{
 		base.OnTriggerEnter2D (other);
 
 		lastIAFight = other.GetComponentInParent<FightIA> ();
+
+
 	}
 	#endregion
 

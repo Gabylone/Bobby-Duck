@@ -38,7 +38,10 @@ public class CrewMember {
 	private int stepsToCold = 4;
 
 	private int currentHunger = 0;
+
 	private int stepsToHunger = 1;
+	private int hungerDamage = 5;
+
 	private int maxState = 15;
 
 	private void Init () {
@@ -48,6 +51,7 @@ public class CrewMember {
 
 		// icon
 		icon = iconObj.GetComponent<CrewIcon> ();
+		icon.Member = this;
 
 		// side
 		if (side == Crews.Side.Enemy)
@@ -76,7 +80,6 @@ public class CrewMember {
 			CombatManager.Instance.PlayerFeedback.DisplayInfo (smallText, bigText, Color.red);
 		else
 			CombatManager.Instance.EnemyFeedback.DisplayInfo (smallText, bigText, Color.red);
-
 
 		CardManager.Instance.UpdateCards ();
 
@@ -126,7 +129,8 @@ public class CrewMember {
 
 			DialogueManager.Instance.SetDialogue ("J'ai faim !", this);
 
-			Health -= StepsToHunger;
+			Health -= hungerDamage;
+
 			if ( health == 0 )
 			{
 				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
@@ -197,7 +201,7 @@ public class CrewMember {
 
 	public int Strenght {
 		get {
-			return memberID.str;
+			return (memberID.str*5);
 		}
 		set {
 			memberID.str = value;
@@ -206,7 +210,7 @@ public class CrewMember {
 
 	public int Dexterity {
 		get {
-			return memberID.dex;
+			return (memberID.dex*5);
 		}
 		set {
 			memberID.dex = value;
@@ -215,7 +219,7 @@ public class CrewMember {
 
 	public int Charisma {
 		get {
-			return memberID.cha;
+			return (memberID.cha*5);
 		}
 		set {
 			memberID.cha = value;
@@ -224,7 +228,7 @@ public class CrewMember {
 
 	public int Constitution {
 		get {
-			return memberID.con;
+			return (memberID.con*5);
 		}
 		set {
 			memberID.con = value;

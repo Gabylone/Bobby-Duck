@@ -50,4 +50,11 @@ public class BoatManager : MonoBehaviour {
 			return boatLightImage;
 		}
 	}
+
+	void OnTriggerEnter2D ( Collider2D other ) {
+
+		NavigationManager.Instance.CurrentDirection = Directions.None;
+//		if ( other.tag == "Island" ) {
+//		}
+	}
 }

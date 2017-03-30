@@ -137,6 +137,8 @@ public class Loot {
 		weight -= itemToRemove.weight;
 		WeightManager.Instance.UpdateDisplay ();
 
+
+
 	}
 	#endregion
 

@@ -4,6 +4,7 @@ using System.Collections;
 
 public class SaveMenu : MonoBehaviour {
 
+
 	[Header("Buttons")]
 	[SerializeField] private Button[] saveButtons;
 
@@ -17,13 +18,15 @@ public class SaveMenu : MonoBehaviour {
 		// saving
 	private bool saving = false;
 
-	bool confirmed = false;
+	bool save_Confirmed = false;
 
 	bool opened = false;
 
 	void Start()
 	{
 		Opened = false;
+
+		saveGroup.SetActive (false);
 	}
 
 	#region save action
@@ -32,7 +35,7 @@ public class SaveMenu : MonoBehaviour {
 
 		if (saving) {
 
-			if (confirmed) {
+			if (save_Confirmed) {
 				
 				Save (index);
 
@@ -42,7 +45,7 @@ public class SaveMenu : MonoBehaviour {
 
 					saveFeedback.SetActive (true);
 					saveFeedback.GetComponentInChildren<Text> ().text = "Ecraser ?";
-					confirmed = true;
+					save_Confirmed = true;
 
 				} else {
 
@@ -61,7 +64,7 @@ public class SaveMenu : MonoBehaviour {
 	private void Save (int index) {
 		
 		SaveManager.Instance.SaveGame (index);
-		confirmed = false;
+		save_Confirmed = false;
 		saveFeedback.SetActive (false);
 
 		UpdateButtons ();
@@ -111,7 +114,9 @@ public class SaveMenu : MonoBehaviour {
 
 			saveGroup.SetActive (value);
 
-			confirmed = false;
+			save_Confirmed = false;
+
+			saveFeedback.SetActive (false);
 
 			if ( value == true )
 				UpdateButtons ();

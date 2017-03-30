@@ -25,6 +25,9 @@ public class NavigationManager : MonoBehaviour {
 	[SerializeField]
 	private Image flagImage;
 
+	bool isInNoMansSea = false;
+	bool hasBeenWarned = false;
+
 	void Awake () {
 		Instance = this;
 	}
@@ -52,6 +55,9 @@ public class NavigationManager : MonoBehaviour {
 			Crews.playerCrew.CrewMembers[i].AddToStates ();
 		}
 	}
+
+	bool lostOcean_Warned = false;
+
 	private void MoveDelay () {
 
 		BoatManager.Instance.SetBoatPos ();
@@ -65,6 +71,29 @@ public class NavigationManager : MonoBehaviour {
 		Transitions.Instance.ScreenTransition.Switch ();
 
 		WeatherManager.Instance.UpdateWeather ();
+
+		bool isInNoMansSea =
+			MapManager.Instance.PosY > (MapImage.Instance.TextureScale / 2) - (MapGenerator.Instance.NoManSeaScale/2)
+			&& MapManager.Instance.PosY < (MapImage.Instance.TextureScale / 2) + (MapGenerator.Instance.NoManSeaScale/2);
+
+		if (isInNoMansSea ) {
+
+			if (!hasBeenWarned) {
+				DialogueManager.Instance.ShowNarrator ("Le bateau entre dans la Grande Mer... Pas de terres en vue à des lieus d'ici. Mieux vaut être bien préparé, la traversée sera longue.");
+
+				hasBeenWarned = true;
+			}
+
+		} else {
+			if (hasBeenWarned) {
+				DialogueManager.Instance.ShowNarrator ("Le bateau quitte les eaux de la Grande Mer... Déjà les premières îles apparaissent à l'horizon. Ouf...");
+			}
+
+			hasBeenWarned = false;
+
+		}
+
+//		DialogueManager.Instance.SetDialogue ( "Capitaine ! );
 
 //		/// debug pour tout le temps savoir ou est le trésor
 //

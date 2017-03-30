@@ -25,14 +25,9 @@ public class BoatUpgradeManager : MonoBehaviour {
 	[SerializeField]
 	private Button[] upgradeButtons;
 
-	[SerializeField]
-	private UIButton uiButton;
-
 	[Header("Crew")]
 	[SerializeField]
 	private Button[] crewButtons;
-	[SerializeField]
-	private float crewIconScale = 0;
 
 	[Header("Prices")]
 	[SerializeField]
@@ -51,7 +46,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 	public void ShowUpgradeMenu () {
 
-		GetComponent<UIButton> ().Switch ();
+		GetComponent<UIButton> ().Opened = true;
 
 		UpdateCrewImages ();
 		UpdatePrices ();
@@ -59,7 +54,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 	}
 
 	public void CloseUpgradeMenu () {
-		GetComponent<UIButton> ().Switch ();
+		GetComponent<UIButton> ().Opened = false;
 	}
 
 
@@ -136,5 +131,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 			Trading = false;
 		}
+
+		CloseUpgradeMenu ();
 	}
 }

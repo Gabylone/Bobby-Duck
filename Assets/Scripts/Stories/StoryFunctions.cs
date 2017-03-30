@@ -528,6 +528,23 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
 	}
+	void CheckInInventory () {
+
+		string itemName = cellParams.Split ('<')[1];
+
+		itemName = itemName.Remove (itemName.Length - 6);
+
+		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
+
+		LootManager.Instance.PlayerLoot.getCategory (targetCat);
+
+		Item item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
+
+		LootManager.Instance.PlayerLoot.AddItem (item);
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+	}
 	#endregion
 
 	#region story navigation

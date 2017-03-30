@@ -69,10 +69,11 @@ public class FightIA : Humanoid {
 
 					} else {
 
-						if (Random.value < 0.15f)
+						if (Random.value < 0.15f) {
 							ChangeState (states.guard);
-						else
+						} else {
 							ChangeState (states.hit);
+						}
 					}
 
 				} else {
@@ -127,8 +128,8 @@ public class FightIA : Humanoid {
 		if ( r < 0.45f )
 			ChangeState (states.hit);
 
-		if ( r >= 0.45f && r < 0.65f )
-			ChangeState (states.guard);
+//		if ( r >= 0.45f && r < 0.65f )
+//			ChangeState (states.guard);
 	}
 	#endregion
 
