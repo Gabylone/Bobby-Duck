@@ -4,25 +4,33 @@ Bandits;6;;
 Narrator : L'équipage accoste sur une petite île.;;;
 NewCrew;;;
 Narrator : Quelques hommes s'avancent;Mark=>bandits morts;OtherSpeak : Alors ? Tu nous as oubliés ?;
-OtherSpeak : Oyé !;;Mark=>chantage;
+OtherSpeak : Oyé !;;Mark=>payed ?;
 PlayerSpeak : Ahoi !;;;
-Mark=>chantage;;;
+Mark=>payed ?;;;
 ;;;
-;;;
-;;;
-;;;
-;;;
+[payed ?];;;
+Mark=>chantage;Mark=>a payé;;
 ;;;
 ;;;
 [chantage];;;
 OtherSpeak : C'est simple : 30 pièces d'or ou c'est fini !;;;
 SetChoices3;;;
 Choice : Tenez…;;Choice : Plutôt mourir !;Choice : Je n'ai pas assez
-CheckGold30;;LaunchCombat;OtherSpeak : Tanpis Pour vous !
-RemoveGold30;OtherSpeak : Vous vous foutez de moi ?;Mark=>bandits morts;LaunchCombat
-OtherSpeak : C'est très bien ça…;OtherSpeak : Déglingez les, les gars !;;Mark=>bandits morts
-OtherSpeak : A la prochaine;LaunchCombat;;
-Leave;Mark=>bandits morts;;
+Switch=>payed ?;;LaunchCombat;OtherSpeak : Tanpis Pour vous !
+CheckGold30;OtherSpeak : Vous vous foutez de moi ?;Mark=>bandits morts;LaunchCombat
+RemoveGold30;OtherSpeak : Déglingez les, les gars !;;Mark=>bandits morts
+OtherSpeak : C'est très bien ça…;LaunchCombat;;
+OtherSpeak : A la prochaine;Mark=>bandits morts;;
+Leave;;;
+;;;
+[a payé];;;
+OtherSpeak : Qu'est-ce que tu fais là toi.;;;
+OtherSpeak : Tu veux qu'on te prenne plus d'argent ?;;;
+SetChoices2;;;
+Choice : Repartir;Choice : Se battre;;
+Leave;LaunchCombat;;
+;Mark=>bandits morts;;
+;;;
 ;;;
 ;;;
 [bandits morts];;;

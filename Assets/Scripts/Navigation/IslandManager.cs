@@ -36,6 +36,12 @@ public class IslandManager : MonoBehaviour {
 		Instance = this;
 	}
 
+	void Start () {
+		foreach ( Animator animator in navigationTriggers.GetComponentsInChildren<Animator>() ){
+			animator.SetBool ("feedback", true);
+		}
+	}
+
 	void Update () {
 		if ( Input.GetKeyDown (KeyCode.Q) )
 			Leave ();
@@ -53,6 +59,12 @@ public class IslandManager : MonoBehaviour {
 		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 
 		StartCoroutine (EnterCoroutine ());
+	}
+
+	public void DisableTuto () {
+		foreach ( Animator animator in navigationTriggers.GetComponentsInChildren<Animator>() ){
+			animator.SetBool ("feedback", false);
+		}
 	}
 
 	IEnumerator EnterCoroutine () {

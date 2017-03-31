@@ -1,41 +1,37 @@
-Fonctions;Description;écrite ?;Testée ?
-Leave;termine l'histoire mais le joueur peut revenir;;
-Conclude;termine l'histoire mais le joueur ne peut pas revenir;;
-SwitchStory;SwitchStoryNomDeLHistoire/A/1 (fallback coords);;
-GoTo;retourne au decal X , ligne Y;;
-Fade;Fade;;
-CheckFirstVisit;retourne au decal X , ligne Y;;
-RandomRedoPercent;;;
-RandomRedoRange;;;
-RandomPercent;X pourcent de chance;;
-RandomRange;choisit entre X possibilités;;
-NewCrew;crée un équipage aléatoire;;
-ShowAll;;;
-HideAll;;;
-ShowPlayer;;;
-ShowOther;;;
-HidePlayer;;;
-HideOther;cache le personnage;;
-DeleteOther;supprime le personnage;;
-AddMember;Adds the member with which the current player is discussing to the player crew;;
-RemoveMember;Removes a random player, appart from the captain;;
-Narrator;dialogue narrateur;;
-SetChoices;fait apparaître plusieurs bulles de dialogues que le joueur peut choisir X étant le nombre de choix;;
-PlayerSpeak;dialogue pour PNJ;;
-OtherSpeak;dialogue pour PNJ;;
-GiveTip;gives random tip (one dialogue);;
-CheckGold;vérifie si le joueur a X argent;;
-RemoveGold;enlève X argent au joueur;;
-AddGold;enlève X argent au joueur;;
-AddToInventory;;;
-Loot;crée un loot, toutes catégories confondues;;
-Trade;crée un loot de nourriture;;
-BoatUpgrades;;;
-LaunchCombat;lance un combat entre le personnage ou l'équipage non joueur;;
-CheckClues;lance la vérification d'indice pour le trésor ( 0 = mauvais indice, 1 = un indice trouvé, 2 = tous les indices trouvés);;
-GiveClue;;;
-GiveDirectionToClue;donne la direction vers l'indice le plus près;;
-SetWeather;lance la pluie;;
-CheckDay;se décale si c'est la nuit;;
-Mark;va à la marque donnée;;
-CheckStat;se décale si le charisme du capitain est inférieur ou égal à l'autre;;
+Fonctions;Description
+Leave;clos l'histoire, retourne à la navigation
+ChangeStory;lance une histoire au sein d'une histoire. ( ChangeStory=>Nom de l'histoire[noeud ciblé/noeud de retour] ) exemple : ChangeStory=>Taverne[entrée taverne/plage]
+Fade;fondu au noir. Sers de transition entre les lieux par exemple.
+CheckFirstVisit;se décalé si ce n'est pas la première visite du joueur.
+RandomPercent;nombre aléatoire entre 0 et 100. se décale si le nombre est au-delà de X ( RandomRedoPercent10 = 90 % de chance de se décaler )
+RandomRange;choisit aléatoirement entre X décalage. ( RandomRedoRangeX ).
+RandomRedoPercent;pareil que RandomPercent. Mais le décalage change à chaque fois, l'aléatoire n'est pas conservé.
+RandomRedoRange;pareil que RandomRange. Mais le décalage change à chaque fois, l'aléatoire n'est pas conservé.
+NewCrew;crée un équipage aléatoire ( NewCrew ou NewCrewX ou NewCrew X/M ) X étant la taille de l'équipage et M le sexe (M/F)
+ShowPlayer;Fait apparaître l'équipage joueur
+ShowOther;Fait apparaître l'équipage adverse
+HidePlayer;Cache l'équipage joueur
+HideOther;Cache l'équipage adverse
+AddMember;Ajoute le membre adverse parlant dans l'équipage joueur.
+RemoveMember;Tue un membre aléatoire de l'équipage joueur.
+Narrator;Fait apparaître le cadre narrateur avec du texte ( ex : Narrator : L'île et froide et triste )
+SetChoices;fait apparaître plusieurs bulles de dialogues que le joueur peut choisir X étant le nombre de choix ( SetChoisesX )
+PlayerSpeak;Fait parler le capitaine de l'équipage joueur ( PlayerSpeak : Oyé matelot ! )
+OtherSpeak;Fait parler le capitaine de l'équipage adverse ( OtherSpeak : Oyé matelot ! )
+GiveTip;Le personnage adverse donne un conseil aléatoire.
+CheckGold;Se décale si le joueur n'a pas X argent ( CheckGoldX )
+RemoveGold;enlève X argent au joueur ( RemoveGoldX )
+AddGold;ajoute X argent au joueur ( AddGoldX )
+AddToInventory;Ajoute un objet spécifique à l'inventaire.
+Loot;crée un butin ramassable ( LootCategorie ou LootCategorie/AutreCategorie ) exemple : LootWeapon/Food
+Trade;crée un butin de marchand ( TradeCategorie ou TradeCategorie/AutreCategorie ) exemple : TradeWeapon/Food
+BoatUpgrades;Ouvre la fenetre des améliorations bateaux
+LaunchCombat;lance un combat avec l'équipage adverse
+CheckClues;lance la vérification d'indice pour le trésor ( décalage : 0 = mauvais indice, 1 = un indice trouvé, 2 = tous les indices trouvés)
+GiveClue;Donne une formule pour le trésor
+GiveDirectionToClue;donne la direction vers le donneur de formule le plus près
+SetWeather;Change la météo ( SetWeatherDay / SetWeatherNight / SetWeatherRain )
+CheckDay;se décale si c'est la nuit
+Mark;va au nœud donné ( Mark=>Noeud ) exemple Mark=>discussion pirate
+Switch;renverse un nœud.
+CheckStat;se décale si le charisme une certaine statistique est inférieur ou égale à celle du capitaine adverse ( CheckStatSTR, CHA, CON, ou DEX )

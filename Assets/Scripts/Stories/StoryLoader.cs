@@ -128,9 +128,42 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 
+	#region second story
+	bool secondStory_Active = false;
+	private Story secondStory;
+
+	public bool SecondStory_Active {
+		get {
+			return secondStory_Active;
+		}
+		set {
+			secondStory_Active = value;
+		}
+	}
+
+	public Story SecondStory {
+		get {
+			return secondStory;
+		}
+		set {
+			secondStory = value;
+
+			secondStory_Active = true;
+		}
+	}
+
+	#endregion
+
 	#region properties
 	public string GetContent {
 		get {
+
+			if (SecondStory_Active) {
+				return SecondStory.content
+					[StoryReader.Instance.Decal]
+					[StoryReader.Instance.Index];
+			}
+
 			return CurrentIslandStory.content
 				[StoryReader.Instance.Decal]
 				[StoryReader.Instance.Index];
@@ -146,7 +179,7 @@ public class StoryLoader : MonoBehaviour {
 	}
 	public string ReadDecal (int decal) {
 
-		return CurrentIslandStory.content
+		return StoryReader.Instance.CurrentStory.content
 			[decal]
 			[StoryReader.Instance.Index]; 
 
@@ -163,6 +196,7 @@ public class StoryLoader : MonoBehaviour {
 
 	public Story CurrentIslandStory {
 		get {
+
 			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
 			return MapGenerator.Instance.IslandDatas [id].Story;
 		}
@@ -244,15 +278,17 @@ public class Story {
 	public List<Mark> marks = new List<Mark> ();
 
 	public struct Mark {
+		
 		public string name;
 		public int x, y;
 
-//		bool switched = false;
+		public bool switched;
 
 		public Mark ( string n, int p1 , int p2 ) {
 			name = n;
 			x = p1;
 			y = p2;
+			switched = false;
 		}
 
 	}

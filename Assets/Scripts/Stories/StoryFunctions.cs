@@ -74,8 +74,8 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.NextCell ();
 
 		int decal = StoryLoader.Instance.SaveDecal > -1 ? StoryLoader.Instance.SaveDecal : randomDecal;
-		StoryLoader.Instance.SaveDecal = decal;
 
+		StoryLoader.Instance.SaveDecal = decal;
 		StoryReader.Instance.SetDecal (decal);
 
 		StoryReader.Instance.UpdateStory ();
@@ -213,7 +213,7 @@ public class StoryFunctions : MonoBehaviour {
 		int removeIndex = Random.Range (0,Crews.playerCrew.CrewMembers.Count);
 		CrewMember memberToRemove = Crews.playerCrew.CrewMembers [removeIndex];
 
-		Crews.playerCrew.RemoveMember (memberToRemove);
+		memberToRemove.Kill ();
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (0.5f);
@@ -222,20 +222,6 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region hide & show
-	void HideAll () {
-		Crews.enemyCrew.Hide ();
-		Crews.playerCrew.Hide ();
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (1f);
-	}
-	void ShowAll () {
-		Crews.playerCrew.ShowCrew ();
-		Crews.enemyCrew.ShowCrew ();
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (1f);
-	}
 	void HidePlayer() {
 		Crews.playerCrew.Hide ();
 
@@ -256,12 +242,6 @@ public class StoryFunctions : MonoBehaviour {
 	}
 	void ShowOther() {
 		Crews.enemyCrew.ShowCrew ();
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (1f);
-	}
-	void DeleteOther () {
-		Crews.enemyCrew.DeleteCrew ();
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (1f);
@@ -401,9 +381,24 @@ public class StoryFunctions : MonoBehaviour {
 		CombatManager.Instance.StartCombat ();
 	}
 	void Leave () {
-		IslandManager.Instance.Leave ();
-	}
-	void Conclude () {
+
+		if ( StoryLoader.Instance.SecondStory_Active ) {
+
+			print ("back to initial story");
+
+			StoryLoader.Instance.SecondStory_Active = false;
+
+			Story.Mark mark = StoryReader.Instance.CurrentStory.marks.Find ( x => x.name == secondStory_FallbackMark);
+			StoryReader.Instance.Decal = mark.x;
+			StoryReader.Instance.Index = mark.y;
+
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.UpdateStory ();
+
+			return;
+
+		}
+
 		IslandManager.Instance.Leave ();
 	}
 	#endregion
@@ -478,9 +473,6 @@ public class StoryFunctions : MonoBehaviour {
 		case "Clothes":
 			return ItemCategory.Clothes;
 			break;
-//		case "Shoes":
-//			return ItemCategory.Shoes;
-//			break;
 		case "Misc":
 			return ItemCategory.Misc;
 			break;
@@ -536,11 +528,12 @@ public class StoryFunctions : MonoBehaviour {
 
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 
-		LootManager.Instance.PlayerLoot.getCategory (targetCat);
+		Item item = System.Array.Find (LootManager.Instance.PlayerLoot.getCategory (targetCat), x => x.name == itemName);
 
-		Item item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
+		if (item == null)
+			StoryReader.Instance.SetDecal (1);
 
-		LootManager.Instance.PlayerLoot.AddItem (item);
+//		LootManager.Instance.PlayerLoot.AddItem (item);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
@@ -548,37 +541,56 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region story navigation
-	void GoTo () {
+	string secondStory_FallbackMark = "";
+	void ChangeStory () {
 
-		string[] coords = cellParams.Split ('/');
+			// get story name
+		string storyName = cellParams.Remove (0, 2);
+		storyName = storyName.Remove (storyName.IndexOf ('['));
 
-		string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		print ("STORY NAME : " + storyName);
 
-		int a = 0;
+			// extract nodes
+		string nodes = cellParams.Remove (0,cellParams.IndexOf ('[')+1);
+		print ("nodes : " + nodes);
 
-		char targetChar = coords [0] [0];
+			// set nodes
+		string targetNode = nodes.Split ('/') [0];
+		secondStory_FallbackMark = nodes.Split ('/') [1].TrimEnd(']');
 
-		foreach (char c in alphabet) {
-			if (c == targetChar) {
-				break;
-			}
-			a++;
+		print ("target node : " + targetNode);
+		print ("fallback node : " + secondStory_FallbackMark);
+
+			// get second story
+		Story secondStory = StoryLoader.Instance.Stories.Find ( x => x.name == storyName);
+		if (secondStory == null) {
+			Debug.LogError ("pas trouvé second story : " + storyName);
+			return;
 		}
 
-		int newIndex = int.Parse (coords [1]) - 3;
+			// assign second story
+		StoryLoader.Instance.SecondStory = secondStory;
 
-		StoryReader.Instance.Decal = a;
-		StoryReader.Instance.Index = newIndex;
+		Story.Mark mark = StoryReader.Instance.CurrentStory.marks.Find ( x => x.name == targetNode);
+		StoryReader.Instance.Decal = mark.x;
+		StoryReader.Instance.Index = mark.y;
 
+			// procede
+		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
 
 	}
 
 	void Mark () {
-
+		
 		string markName = cellParams.Remove (0, 2);
 
 		Story.Mark mark = StoryReader.Instance.CurrentStory.marks.Find ( x => x.name == markName);
+
+		if (mark.switched) {
+			StoryReader.Instance.SetDecal (1);
+		}
+		print (mark.name + " switching ? ? " + mark.switched);
 
 		StoryReader.Instance.Decal = mark.x;
 		StoryReader.Instance.Index = mark.y;
@@ -586,6 +598,22 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
 
+	}
+
+	void Switch () {
+
+		print ("switching");
+
+		string markName = cellParams.Remove (0, 2);
+
+		Story.Mark mark = StoryReader.Instance.CurrentStory.marks.Find ( x => x.name == markName);
+
+		mark.switched = true;
+
+		print (mark.name + " switched ? " + mark.switched);
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
 
 	}
 

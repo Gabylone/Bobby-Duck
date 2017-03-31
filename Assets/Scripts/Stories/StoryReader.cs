@@ -6,6 +6,7 @@ public class StoryReader : MonoBehaviour {
 
 	public static StoryReader Instance;
 
+		// the story being read.
 	private Story currentStory;
 
 	private int index = 0;
@@ -15,9 +16,8 @@ public class StoryReader : MonoBehaviour {
 	bool waitToNextCell = false;
 	float timer = 0f;
 
-	bool fallBackStory = false;
-	int fallBackCoordX = 0;
-	int fallBackCoordY = 0;
+	[SerializeField]
+	private GameObject inputButton;
 
 	[SerializeField]
 	private AudioClip pressInputButton;
@@ -25,31 +25,14 @@ public class StoryReader : MonoBehaviour {
 	void Awake () {
 		Instance = this;
 	}
-
-	// Use this for initialization
-	void Start () {
-	
-	}
 	
 	// Update is called once per frame
 	void Update () {
-
-		if ( waitToNextCell ) {
-			timer -= Time.deltaTime;
-
-			if (timer <= 0) {
-
-				waitToNextCell = false;
-				UpdateStory ();
-			}
-		}
-
+		if ( waitToNextCell )
+			WaitForNextCell_Update ();
 	}
 
 	#region wait for input
-	[SerializeField]
-	private GameObject inputButton;
-
 	public void WaitForInput () {
 		waitForInput = true;
 
@@ -67,12 +50,25 @@ public class StoryReader : MonoBehaviour {
 		NextCell ();
 		UpdateStory ();
 	}
-	#endregion
 
 	public void Wait ( float duration ) {
 		waitToNextCell = true;
 		timer = duration;
 	}
+
+	private void WaitForNextCell_Update () {
+
+		timer -= Time.deltaTime;
+
+		if (timer <= 0) {
+
+			waitToNextCell = false;
+			UpdateStory ();
+		}
+	}
+	#endregion
+
+
 
 	#region navigation
 	public void SetStory ( Story newStory ) {
@@ -115,6 +111,10 @@ public class StoryReader : MonoBehaviour {
 	#region properties
 	public Story CurrentStory {
 		get {
+
+			if (StoryLoader.Instance.SecondStory_Active)
+				return StoryLoader.Instance.SecondStory;
+
 			return currentStory;
 		}
 		set {
@@ -137,35 +137,6 @@ public class StoryReader : MonoBehaviour {
 		}
 		set {
 			decal = value;
-		}
-	}
-	#endregion
-
-	#region fall back story
-	public bool FallBackStory {
-		get {
-			return fallBackStory;
-		}
-		set {
-			fallBackStory = value;
-		}
-	}
-
-	public int FallBackCoordX {
-		get {
-			return fallBackCoordX;
-		}
-		set {
-			fallBackCoordX = value;
-		}
-	}
-
-	public int FallBackCoordY {
-		get {
-			return fallBackCoordY;
-		}
-		set {
-			fallBackCoordY = value;
 		}
 	}
 	#endregion

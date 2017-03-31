@@ -41,6 +41,11 @@ public class NavigationManager : MonoBehaviour {
 
 		Invoke ("MoveDelay", Transitions.Instance.ScreenTransition.Duration);
 
+		if (!hasShownTuto) {
+			hasShownTuto = true;
+			IslandManager.Instance.DisableTuto ();
+		}
+
 	}
 	public void Move ( Directions dir ) {
 
@@ -106,6 +111,8 @@ public class NavigationManager : MonoBehaviour {
 	#endregion
 
 	#region triggers
+	bool hasShownTuto = false;
+
 	public Texture2D[] arrowTextures;
 	public Vector2 hotSpot = Vector2.zero;
 
