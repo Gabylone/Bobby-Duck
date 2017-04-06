@@ -388,7 +388,7 @@ public class StoryFunctions : MonoBehaviour {
 
 			StoryLoader.Instance.SecondStory_Active = false;
 
-			Story.Mark mark = StoryReader.Instance.CurrentStory.marks.Find ( x => x.name == secondStory_FallbackMark);
+			Mark mark = StoryLoader.Instance.CurrentIslandStory.marks.Find ( x => x.name == secondStory_FallbackMark);
 			StoryReader.Instance.Decal = mark.x;
 			StoryReader.Instance.Index = mark.y;
 
@@ -571,7 +571,7 @@ public class StoryFunctions : MonoBehaviour {
 			// assign second story
 		StoryLoader.Instance.SecondStory = secondStory;
 
-		Story.Mark mark = StoryReader.Instance.CurrentStory.marks.Find ( x => x.name == targetNode);
+		Mark mark = StoryLoader.Instance.CurrentIslandStory.marks.Find ( x => x.name == targetNode);
 		StoryReader.Instance.Decal = mark.x;
 		StoryReader.Instance.Index = mark.y;
 
@@ -585,32 +585,34 @@ public class StoryFunctions : MonoBehaviour {
 		
 		string markName = cellParams.Remove (0, 2);
 
-		Story.Mark mark = StoryReader.Instance.CurrentStory.marks.Find ( x => x.name == markName);
-
-		if (mark.switched) {
-			StoryReader.Instance.SetDecal (1);
-		}
-		print (mark.name + " switching ? ? " + mark.switched);
+		Mark mark = StoryLoader.Instance.CurrentIslandStory.marks.Find ( x => x.name == markName);
+		print ("SWITCH ? " + mark.switched);
 
 		StoryReader.Instance.Decal = mark.x;
 		StoryReader.Instance.Index = mark.y;
 
 		StoryReader.Instance.NextCell ();
+
+		if (mark.switched) {
+			StoryReader.Instance.SetDecal (1);
+		}
+
 		StoryReader.Instance.UpdateStory ();
 
 	}
 
 	void Switch () {
 
-		print ("switching");
-
 		string markName = cellParams.Remove (0, 2);
 
-		Story.Mark mark = StoryReader.Instance.CurrentStory.marks.Find ( x => x.name == markName);
+
+		Mark mark = StoryLoader.Instance.CurrentIslandStory.marks.Find ( x => x.name == markName);
+
+		int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
 
 		mark.switched = true;
 
-		print (mark.name + " switched ? " + mark.switched);
+		MapGenerator.Instance.IslandDatas [id].Story.marks [0].switched = true;
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();

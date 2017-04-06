@@ -13,33 +13,16 @@ public class NavigationTrigger : MonoBehaviour {
 		animator = GetComponentInParent<Animator> ();
 
 	}
-	public void OnMouseEnter() {
 
-		if ( !Application.isMobilePlatform ) {
-//			animator.SetBool ("feedback", true);
-		}
-
-//		NavigationManager.Instance.CursorEnters (texID);
-
-//		Cursor.SetCursor(arrowTextures[texID], hotSpot, CursorMode.Auto);
-	}
 	public void OnMouseExit() {
 		if ( !Application.isMobilePlatform ) {
 			animator.SetBool ("feedback", false);
-
 		}
-
-//		NavigationManager.Instance.CursorExits (texID);
-//		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 	}
 
 	public void OnMouseDown() {
 		NavigationManager.Instance.Move (texID);
 		animator.SetTrigger ("press");
-	}
-
-	void Update () {
-		//
 	}
 
 	public bool EnableFeedback {

@@ -9,20 +9,12 @@ public class MapGenerator : MonoBehaviour {
 	[SerializeField]
 	private Vector2 islandRange = new Vector2( 350 , 160 );
 
-	private List<IslandData> islandDatas = new List<IslandData>();
-	private int[,] islandIds;
-
 	[SerializeField]
 	private int noManSeaScale = 3;
 
-	public int[,] IslandIds {
-		get {
-			return islandIds;
-		}
-		set {
-			islandIds = value;
-		}
-	}
+	[SerializeField]
+	private List<IslandData> islandDatas = new List<IslandData>();
+	private int[,] islandIds;
 
 	public List<IslandData> IslandDatas {
 		get {
@@ -30,6 +22,15 @@ public class MapGenerator : MonoBehaviour {
 		}
 		set {
 			islandDatas = value;
+		}
+	}
+
+	public int[,] IslandIds {
+		get {
+			return islandIds;
+		}
+		set {
+			islandIds = value;
 		}
 	}
 
@@ -120,7 +121,7 @@ public class MapGenerator : MonoBehaviour {
 						islandIds 	[x, y] 	= islandID;
 
 						Vector2 islandPos = new Vector2(Random.Range (-islandRange.x,islandRange.x) , Random.Range(-islandRange.y ,islandRange.y) );
-						islandDatas.Add ( new IslandData(islandPos) );
+						IslandDatas.Add ( new IslandData(islandPos) );
 
 						++islandID;
 					}
@@ -140,16 +141,14 @@ public class MapGenerator : MonoBehaviour {
 		yield return new WaitForEndOfFrame ();
 
 		IslandManager.Instance.SetIsland ();
-		StoryLoader.Instance.CurrentIslandStory = StoryLoader.Instance.Stories[1];
+
+			// assigner l'histoire de la maison
+		StoryLoader.Instance.CurrentIsland.Story = StoryLoader.Instance.RandomStory;
 
 		mapImage.InitImage ();
 		MapManager.Instance.UpdateImage ();
 
 		IslandManager.Instance.Enter ();
-
-		StoryLoader.Instance.CurrentIslandStory = null;
-
-
 		#endregion
 
 	}

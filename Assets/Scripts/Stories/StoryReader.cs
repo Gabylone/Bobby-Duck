@@ -109,18 +109,6 @@ public class StoryReader : MonoBehaviour {
 	#endregion
 
 	#region properties
-	public Story CurrentStory {
-		get {
-
-			if (StoryLoader.Instance.SecondStory_Active)
-				return StoryLoader.Instance.SecondStory;
-
-			return currentStory;
-		}
-		set {
-			currentStory = value;
-		}
-	}
 
 	public int Index {
 		get {

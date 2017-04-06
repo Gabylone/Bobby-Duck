@@ -7,6 +7,10 @@ public class IslandManager : MonoBehaviour {
 
 	public static IslandManager Instance;
 
+	[SerializeField]
+	private List<IslandData> islandDatas = new List<IslandData>();
+
+
 	[Header("Island")]
 	[SerializeField] private Image islandImage;
 
@@ -29,8 +33,6 @@ public class IslandManager : MonoBehaviour {
 
 	[SerializeField] private Vector3 decal = Vector3.zero;
 
-//	[SerializeField]
-//	private bool playIntroduction = false;
 
 	void Awake() {
 		Instance = this;
@@ -79,8 +81,10 @@ public class IslandManager : MonoBehaviour {
 
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion, Transitions.Instance.ActionTransition.Duration);
 
-		if ( StoryLoader.Instance.CurrentIslandStory == null )
+		if (StoryLoader.Instance.CurrentIslandStory == null) {
+			print ("histoire nulle : j'en prends unen nouvelle");
 			StoryLoader.Instance.CurrentIslandStory = StoryLoader.Instance.RandomStory;
+		}
 
 		StoryReader.Instance.SetStory (StoryLoader.Instance.CurrentIslandStory);
 
@@ -134,7 +138,16 @@ public class IslandManager : MonoBehaviour {
 			islandImage.transform.localPosition = MapManager.Instance.CurrentIsland.Position;
 	}
 
-	#region key islands
+	#region properties
+	public List<IslandData> IslandDatas {
+		get {
+			return islandDatas;
+		}
+		set {
+			islandDatas = value;
+		}
+	}
+
 	public int TreasureIslandXPos {
 		get {
 			return treasureIslandXPos;
@@ -192,8 +205,10 @@ public class IslandManager : MonoBehaviour {
 }
 
 #region island date
+[System.Serializable]
 public class IslandData {
 
+	[SerializeField]
 	private Story story;
 
 	private List<Loot> loots = new List<Loot>();

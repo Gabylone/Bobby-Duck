@@ -79,7 +79,7 @@ public class StoryLoader : MonoBehaviour {
 
 					if ( cellContent.Length > 0 && cellContent[0] == '[' ) {
 						string markName = cellContent.Remove (0, 1).Remove (cellContent.IndexOf (']')-1);
-						newStory.marks.Add (new Story.Mark (markName, collumnIndex, (rowIndex-2)));
+						newStory.marks.Add (new Mark (markName, collumnIndex, (rowIndex-2)));
 
 
 					}
@@ -158,13 +158,28 @@ public class StoryLoader : MonoBehaviour {
 	public string GetContent {
 		get {
 
-			if (SecondStory_Active) {
-				return SecondStory.content
-					[StoryReader.Instance.Decal]
-					[StoryReader.Instance.Index];
+			Story targetStory = secondStory_Active ? SecondStory : CurrentIslandStory;
+
+			if ( StoryReader.Instance.Decal >= targetStory.content.Count ) {
+
+				Debug.LogError ("DECAL is outside of story << " + targetStory.name + " >> content : DECAL : " + StoryReader.Instance.Decal + " /// COUNT : " + targetStory.content.Count);
+
+				return targetStory.content
+				[0]
+				[0];
+
 			}
 
-			return CurrentIslandStory.content
+			if ( StoryReader.Instance.Index >= targetStory.content [StoryReader.Instance.Decal].Count ) {
+
+				Debug.LogError ("INDEX is outside of story content : INDEX : " + StoryReader.Instance.Index + " /// COUNT : " + targetStory.content[StoryReader.Instance.Decal].Count);
+
+				return targetStory.content
+				[StoryReader.Instance.Decal]
+				[0]; 
+			}
+
+			return targetStory.content
 				[StoryReader.Instance.Decal]
 				[StoryReader.Instance.Index];
 		}
@@ -179,7 +194,7 @@ public class StoryLoader : MonoBehaviour {
 	}
 	public string ReadDecal (int decal) {
 
-		return StoryReader.Instance.CurrentStory.content
+		return CurrentIsland.Story.content
 			[decal]
 			[StoryReader.Instance.Index]; 
 
@@ -196,13 +211,23 @@ public class StoryLoader : MonoBehaviour {
 
 	public Story CurrentIslandStory {
 		get {
-
 			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
 			return MapGenerator.Instance.IslandDatas [id].Story;
 		}
 		set {
 			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
 			MapGenerator.Instance.IslandDatas [id].Story = value;
+		}
+	}
+	public IslandData CurrentIsland {
+		get {
+
+			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
+			return MapGenerator.Instance.IslandDatas [id];
+		}
+		set {
+			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
+			MapGenerator.Instance.IslandDatas [id] = value;
 		}
 	}
 
@@ -277,22 +302,6 @@ public class Story {
 	public List<List<int>> contentDecal = new List<List<int>>();
 	public List<Mark> marks = new List<Mark> ();
 
-	public struct Mark {
-		
-		public string name;
-		public int x, y;
-
-		public bool switched;
-
-		public Mark ( string n, int p1 , int p2 ) {
-			name = n;
-			x = p1;
-			y = p2;
-			switched = false;
-		}
-
-	}
-
 	public Story ()
 	{
 		
@@ -305,6 +314,23 @@ public class Story {
 	{
 		storyID = _storyID;
 		name = _name;
+	}
+
+}
+
+[System.Serializable]
+public class Mark {
+
+	public string name;
+	public int x, y;
+
+	public bool switched;
+
+	public Mark ( string n, int p1 , int p2 ) {
+		name = n;
+		x = p1;
+		y = p2;
+		switched = false;
 	}
 
 }
