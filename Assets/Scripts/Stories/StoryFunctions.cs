@@ -22,7 +22,9 @@ public class StoryFunctions : MonoBehaviour {
 	public void Read ( string content ) {
 
 		if (content.Length == 0) {
-			Debug.LogError ("cell is empty at index : " + StoryReader.Instance.Index + " and decal " + StoryReader.Instance.Decal);
+			Debug.LogError ("cell is empty on story " + IslandManager.Instance.CurrentIsland.Story.name + "" +
+				"\n at row : " + (StoryReader.Instance.Index+2) + "" +
+				"\n and collumn : " + StoryReader.Instance.Decal);
 			Leave ();
 			return;
 		}
@@ -297,41 +299,42 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region story navigation
-	string secondStory_FallbackMark = "";
 	void ChangeStory () {
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-
 
 			// get story name
 		string storyName = cellParams.Remove (0, 2);
 		storyName = storyName.Remove (storyName.IndexOf ('['));
 
-		print ("STORY NAME : " + storyName);
-
 			// extract nodes
 		string nodes = cellParams.Remove (0,cellParams.IndexOf ('[')+1);
-		print ("nodes : " + nodes);
 
 			// set nodes
 		string targetNode = nodes.Split ('/') [0];
-		secondStory_FallbackMark = nodes.Split ('/') [1].TrimEnd(']');
-
-		print ("target node : " + targetNode);
-		print ("fallback node : " + secondStory_FallbackMark);
+		string fallbackNode = nodes.Split ('/') [1].TrimEnd(']');
 
 			// get second story
 		Story secondStory = StoryLoader.Instance.Stories.Find ( x => x.name == storyName);
+
 		if (secondStory == null) {
 			Debug.LogError ("pas trouvé second story : " + storyName);
 			return;
+		} else {
+			print ("SECOND STORY name : " + secondStory.name);
 		}
 
 			// assign second story
-//		StoryLoader.Instance.SecondStory = secondStory;
+			// is the story already in the island ?
 
-		Mark mark = IslandManager.Instance.CurrentIsland.Story.marks.Find ( x => x.name == targetNode);
+		++IslandManager.Instance.StoryLayer;
+		secondStory.fallbackNode = fallbackNode;
+
+		if ( IslandManager.Instance.StoryLayer >= IslandManager.Instance.CurrentIsland.Stories.Count ) {
+			IslandManager.Instance.CurrentIsland.Stories.Add (secondStory);
+		}
+
+		print ("l'histoire trouvée : " + secondStory.name);
+
+		Node mark = IslandManager.Instance.CurrentIsland.Story.nodes.Find ( x => x.name == targetNode);
 		StoryReader.Instance.Decal = mark.x;
 		StoryReader.Instance.Index = mark.y;
 
@@ -341,11 +344,11 @@ public class StoryFunctions : MonoBehaviour {
 
 	}
 
-	void Mark () {
+	void Node () {
 		
 		string markName = cellParams.Remove (0, 2);
 
-		Mark mark = IslandManager.Instance.CurrentIsland.Story.marks.Find ( x => x.name == markName);
+		Node mark = IslandManager.Instance.CurrentIsland.Story.nodes.Find ( x => x.name == markName);
 
 		StoryReader.Instance.Decal = mark.x;
 		StoryReader.Instance.Index = mark.y;
@@ -365,13 +368,13 @@ public class StoryFunctions : MonoBehaviour {
 		string markName = cellParams.Remove (0, 2);
 
 
-		Mark mark = IslandManager.Instance.CurrentIsland.Story.marks.Find ( x => x.name == markName);
+		Node mark = IslandManager.Instance.CurrentIsland.Story.nodes.Find ( x => x.name == markName);
 
 		int id = IslandManager.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
 
 		mark.switched = true;
 
-		IslandManager.Instance.IslandDatas [id].Story.marks [0].switched = true;
+		IslandManager.Instance.IslandDatas [id].Story.nodes [0].switched = true;
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();

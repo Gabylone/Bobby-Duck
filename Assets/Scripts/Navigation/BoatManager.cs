@@ -20,18 +20,18 @@ public class BoatManager : MonoBehaviour {
 		Instance = this;
 	}
 	
-	void Update () {
-
-		if ( (boatTransform.position.x < -0.5f || boatTransform.position.x > 0.5f) ||
-			(boatTransform.position.y < -0.5f || boatTransform.position.y > 0.5f) ) {
-			{
-				if (IslandManager.Instance.OnIsland == false) {
-					Vector2 getDir = NavigationManager.Instance.getDir (NavigationManager.Instance.CurrentDirection);
-					boatTransform.Translate (getDir * boatSpeed * Time.deltaTime, Space.World);
-				}
-			}
-		}
-	}
+//	void Update () {
+//		if ( (boatTransform.position.x < -0.5f || boatTransform.position.x > 0.5f) ||
+//			(boatTransform.position.y < -0.5f || boatTransform.position.y > 0.5f) ) {
+//			{
+//				
+//				if (IslandManager.Instance.OnIsland == false) {
+//					Vector2 getDir = NavigationManager.Instance.getDir (NavigationManager.Instance.CurrentDirection);
+//					boatTransform.Translate (getDir * boatSpeed * Time.deltaTime, Space.World);
+//				}
+//			}
+//		}
+//	}
 
 	public Transform BoatTransform {
 		get {

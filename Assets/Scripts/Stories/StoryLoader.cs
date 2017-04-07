@@ -64,7 +64,17 @@ public class StoryLoader : MonoBehaviour {
 			{
 				newStory.storyID = currentFile;
 				newStory.name = rowContent [0];
-				newStory.freq = int.Parse (rowContent [1]);
+//				newStory.freq = int.TryParse (rowContent [1],);
+
+				int frequence = 0;
+
+				bool canParse = int.TryParse (rowContent [1], out frequence);
+
+				if ( canParse== false){ 
+					print ("ne peut pas parse la freq dans : " + newStory.name);
+				}
+
+				newStory.freq = frequence;
 
 				foreach (string cellContent in rowContent) {
 
@@ -78,7 +88,7 @@ public class StoryLoader : MonoBehaviour {
 
 					if ( cellContent.Length > 0 && cellContent[0] == '[' ) {
 						string markName = cellContent.Remove (0, 1).Remove (cellContent.IndexOf (']')-1);
-						newStory.marks.Add (new Mark (markName, collumnIndex, (rowIndex-2)));
+						newStory.nodes.Add (new Node (markName, collumnIndex, (rowIndex-2)));
 
 
 					}
@@ -127,35 +137,6 @@ public class StoryLoader : MonoBehaviour {
 	}
 
 	#region properties
-	public string GetContent {
-		get {
-
-			Story targetStory = IslandManager.Instance.CurrentIsland.Story;
-
-			if ( StoryReader.Instance.Decal >= targetStory.content.Count ) {
-
-				Debug.LogError ("DECAL is outside of story << " + targetStory.name + " >> content : DECAL : " + StoryReader.Instance.Decal + " /// COUNT : " + targetStory.content.Count);
-
-				return targetStory.content
-				[0]
-				[0];
-
-			}
-
-			if ( StoryReader.Instance.Index >= targetStory.content [StoryReader.Instance.Decal].Count ) {
-
-				Debug.LogError ("INDEX is outside of story content : INDEX : " + StoryReader.Instance.Index + " /// COUNT : " + targetStory.content[StoryReader.Instance.Decal].Count);
-
-				return targetStory.content
-				[StoryReader.Instance.Decal]
-				[0]; 
-			}
-
-			return targetStory.content
-				[StoryReader.Instance.Decal]
-				[StoryReader.Instance.Index];
-		}
-	}
 	public List<Story> Stories {
 		get {
 			return stories;
@@ -224,48 +205,4 @@ public class StoryLoader : MonoBehaviour {
 			return treasureStories;
 		}
 	}
-}
-
-[System.Serializable]
-public class Story {
-
-	public int 		storyID 	= 0;
-	public string 	name 		= "";
-	public int 		freq 		= 0;
-
-	public List<List<string>> content = new List<List<string>>();
-	public List<List<int>> contentDecal = new List<List<int>>();
-	public List<Mark> marks = new List<Mark> ();
-
-	public Story ()
-	{
-		
-	}
-
-	public Story (
-		int _storyID,
-		string _name
-	)
-	{
-		storyID = _storyID;
-		name = _name;
-	}
-
-}
-
-[System.Serializable]
-public class Mark {
-
-	public string name;
-	public int x, y;
-
-	public bool switched;
-
-	public Mark ( string n, int p1 , int p2 ) {
-		name = n;
-		x = p1;
-		y = p2;
-		switched = false;
-	}
-
 }

@@ -123,6 +123,7 @@ public class NavigationManager : MonoBehaviour {
 				range--;
 			
 			return Mathf.Clamp (range,0,10);
+
 		}
 		set {
 			shipRange = value;
@@ -130,6 +131,17 @@ public class NavigationManager : MonoBehaviour {
 	}
 
 	#region tools
+
+
+	public Directions getDirectionFromVector ( Vector2 dir ) {
+
+		for (int i = 0; i < 8; ++i ) {
+			if ( Vector2.Angle ( NavigationManager.Instance.getDir( (Directions)i ) , dir ) < 22f ) {
+				return (Directions)i;
+			}
+		}
+		return Directions.None;
+	}
 	public Directions getDirectionToPoint ( Vector2 point ) {
 
 		Vector2 boatPos = new Vector2 (MapManager.Instance.PosX, MapManager.Instance.PosY);

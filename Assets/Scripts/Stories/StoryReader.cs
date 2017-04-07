@@ -7,35 +7,118 @@ public class StoryReader : MonoBehaviour {
 	public static StoryReader Instance;
 
 		// the story being read.
-	private Story currentStory;
-
 	private int index = 0;
 	private int decal = 0;
 
-	bool waitForInput = false;
-	bool waitToNextCell = false;
-	float timer = 0f;
-
+	[Header("Input")]
 	[SerializeField]
 	private GameObject inputButton;
 
+	private bool waitForInput = false;
+	private bool waitToNextCell = false;
+	float timer = 0f;
+
 	[SerializeField]
 	private AudioClip pressInputButton;
+
+
 
 	void Awake () {
 		Instance = this;
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		if ( waitToNextCell )
 			WaitForNextCell_Update ();
 	}
 
-	#region wait for input
+	#region navigation
+	public void Reset () {
+		index = 0;
+		decal = 0;
+	}
+	public void UpdateStory () {
+
+		string content = GetContent;
+
+		if ( content == null) {
+			Debug.LogError ( " no function at index : " + index.ToString () + " / decal : " + decal.ToString () );
+		}
+
+		StoryFunctions.Instance.Read ( content );
+
+	}
+	public void NextCell () {
+		++index;
+	}
+
+	public string GetContent {
+		get {
+			Story targetStory = IslandManager.Instance.CurrentIsland.Story;
+
+			if ( Decal >= targetStory.content.Count ) {
+
+				Debug.LogError ("DECAL is outside of story << " + targetStory.name + " >> content : DECAL : " + Decal + " /// COUNT : " + targetStory.content.Count);
+
+				return targetStory.content
+					[0]
+					[0];
+
+			}
+
+			if ( Index >= targetStory.content [Decal].Count ) {
+
+				Debug.LogError ("INDEX is outside of story content : INDEX : " + Index + " /// COUNT : " + targetStory.content[Decal].Count);
+
+				return targetStory.content
+					[Decal]
+					[0]; 
+			}
+
+			return targetStory.content
+				[Decal]
+				[Index];
+		}
+	}
+	#endregion
+
+	#region decal
+	public void SetDecal ( int steps ) {
+
+		while (steps > 0) {
+
+			++decal;
+			string content = GetContent;
+
+			if (content.Length > 0) {
+				--steps;
+			}
+		}
+
+	}
+
+	public int SaveDecal {
+		get {
+			return IslandManager.Instance.CurrentIsland.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index];
+		}
+		set {
+			IslandManager.Instance.CurrentIsland.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index] = value;
+		}
+	}
+
+
+	public string ReadDecal (int decal) {
+
+		return IslandManager.Instance.CurrentIsland.Story.content
+			[decal]
+			[StoryReader.Instance.Index]; 
+
+	}
+	#endregion
+
+	#region input
 	public void WaitForInput () {
 		waitForInput = true;
-
 		inputButton.SetActive (true);
 	}
 	public void PressInput () {
@@ -70,62 +153,6 @@ public class StoryReader : MonoBehaviour {
 
 
 
-	#region navigation
-	public void SetStory ( Story newStory ) {
-
-		currentStory = newStory;
-
-		index = 0;
-		decal = 0;
-	}
-	public void UpdateStory () {
-
-		if ( StoryLoader.Instance.GetContent == null) {
-			Debug.LogError ( " no function at index : " + index.ToString () + " / decal : " + decal.ToString () );
-		}
-
-		StoryFunctions.Instance.Read ( StoryLoader.Instance.GetContent );
-
-	}
-	public void NextCell () {
-		++index;
-	}
-	#endregion
-
-	#region decal
-	public void SetDecal ( int steps ) {
-
-		while (steps > 0) {
-
-			++decal;
-			string content = StoryLoader.Instance.GetContent;
-
-			if (content.Length > 0) {
-				--steps;
-			}
-		}
-
-	}
-
-	public int SaveDecal {
-		get {
-			return IslandManager.Instance.CurrentIsland.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index];
-		}
-		set {
-			IslandManager.Instance.CurrentIsland.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index] = value;
-		}
-	}
-
-
-	public string ReadDecal (int decal) {
-
-		return IslandManager.Instance.CurrentIsland.Story.content
-			[decal]
-			[StoryReader.Instance.Index]; 
-
-	}
-	#endregion
-
 	#region properties
 
 	public int Index {
@@ -146,4 +173,6 @@ public class StoryReader : MonoBehaviour {
 		}
 	}
 	#endregion
+
+
 }

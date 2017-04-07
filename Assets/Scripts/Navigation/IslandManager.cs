@@ -18,6 +18,9 @@ public class IslandManager : MonoBehaviour {
 
 	private bool onIsland = false;
 
+		// STORY LAYERS
+	private int storyLayer = 0;
+
 	[Header("Clue")]
 	private int[] clueIslandsXPos;
 	private int[] clueIslandsYPos;
@@ -29,9 +32,6 @@ public class IslandManager : MonoBehaviour {
 	[Header("Home")]
 	private int homeIslandXPos = 0;
 	private int homeIslandYPos = 0;
-
-	// STORY //
-	private string secondStory_FallbackMark = "";
 
 	[SerializeField] private Vector3 boat_DecalToIsland = Vector3.zero;
 
@@ -72,6 +72,7 @@ public class IslandManager : MonoBehaviour {
 		Transitions.Instance.ScreenTransition.Switch ();
 
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
+
 		BoatManager.Instance.BoatTransform.position = IslandManager.Instance.IslandImage.transform.position + boat_DecalToIsland;
 
 		Transitions.Instance.ActionTransition.Switch();
@@ -83,8 +84,7 @@ public class IslandManager : MonoBehaviour {
 			IslandManager.Instance.CurrentIsland.Story = StoryLoader.Instance.RandomStory;
 		}
 
-		StoryReader.Instance.SetStory (IslandManager.Instance.CurrentIsland.Story);
-
+		StoryReader.Instance.Reset ();
 		onIsland = true;
 
 		yield return new WaitForSeconds (Transitions.Instance.ActionTransition.Duration);
@@ -98,16 +98,21 @@ public class IslandManager : MonoBehaviour {
 	#region leave island
 	public void Leave () {
 
-		if ( false ) {
-//		if ( StoryLoader.Instance.SecondStory_Active ) {
+		// une ile a UNE histoire. une histoire a DES histoire.
 
-			print ("back to initial story");
+		if ( StoryLayer > 0 ) {
 
-//			StoryLoader.Instance.SecondStory_Active = false;
+			print ("back to previous story");
 
-			Mark mark = IslandManager.Instance.CurrentIsland.Story.marks.Find ( x => x.name == secondStory_FallbackMark);
-			StoryReader.Instance.Decal = mark.x;
-			StoryReader.Instance.Index = mark.y;
+			string fallbackNode = CurrentIsland.Story.fallbackNode;
+
+			print ("fallback node : " + fallbackNode);
+
+			--StoryLayer;
+
+			Node node = IslandManager.Instance.CurrentIsland.Story.nodes.Find ( x => x.name == fallbackNode);
+			StoryReader.Instance.Decal = node.x;
+			StoryReader.Instance.Index = node.y;
 
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
@@ -164,6 +169,14 @@ public class IslandManager : MonoBehaviour {
 	#endregion
 
 	#region properties
+	public int StoryLayer {
+		get {
+			return storyLayer;
+		}
+		set {
+			storyLayer = value;
+		}
+	}
 	public List<IslandData> IslandDatas {
 		get {
 			return islandDatas;

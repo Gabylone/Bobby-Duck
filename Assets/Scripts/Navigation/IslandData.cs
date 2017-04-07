@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class IslandData {
 
 	[SerializeField]
-	private Story story;
+	private List<Story> stories = new List<Story> ();
 
 	private List<Loot> loots = new List<Loot>();
 	private List<Crew> crews = new List<Crew>();
@@ -33,12 +33,31 @@ public class IslandData {
 		}
 	}
 
-	public Story Story {
+	public List<Story> Stories {
 		get {
-			return story;
+			return stories;
 		}
 		set {
-			story = value;
+			stories = value;
+		}
+	}
+
+	public Story Story {
+		get {
+			if (stories.Count == 0)
+				return null;
+			return stories[IslandManager.Instance.StoryLayer];
+		}
+		set {
+			if (stories.Count > 0) {
+				Debug.LogError ("Là t'essaye d'ajouter l'histoire " + value.name + " mais y'en a déjà une");
+				stories [0] = value;
+			}
+
+
+			Debug.Log ("t'ajoute l'histoire : " + value.name);
+//			print 
+			stories.Add (value);
 		}
 	}
 

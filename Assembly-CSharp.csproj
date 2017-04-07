@@ -97,6 +97,8 @@
      <Compile Include="Assets\Scripts\Save\SaveMenu.cs" />
      <Compile Include="Assets\Scripts\Save\SaveTool.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\Stories\Node.cs" />
+     <Compile Include="Assets\Scripts\Stories\Story.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryFunctions.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryFunctions\RandomManager.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryLoader.cs" />
