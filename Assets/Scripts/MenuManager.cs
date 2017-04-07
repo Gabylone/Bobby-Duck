@@ -6,7 +6,7 @@ public class MenuManager : MonoBehaviour {
 
 	[SerializeField]
 	private SaveMenu saveMenu;
-
+	[SerializeField]
 	private UIButton uiButton;
 
 	[SerializeField]
@@ -17,11 +17,6 @@ public class MenuManager : MonoBehaviour {
 	void Awake () {
 		DontDestroyOnLoad (gameObject);
 		DontDestroyOnLoad (saveMenu.gameObject);
-	}
-
-	// Use this for initialization
-	void Start () {
-		uiButton = GetComponent<UIButton> ();
 	}
 	
 	// Update is called once per frame

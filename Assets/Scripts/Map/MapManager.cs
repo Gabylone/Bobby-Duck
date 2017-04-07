@@ -5,10 +5,13 @@ public class MapManager : MonoBehaviour {
 
 	public static MapManager Instance;
 
+	[SerializeField]
 	private MapImage mapImage;
 
+	[SerializeField]
 	private UIButton mapButton;
 
+	[SerializeField]
 	private MapGenerator mapGenerator;
 
 	private int posX = 0;
@@ -20,10 +23,6 @@ public class MapManager : MonoBehaviour {
 
 	// Use this for initialization
 	public void Init () {
-
-		mapImage = GetComponent<MapImage> ();
-		mapGenerator = GetComponent<MapGenerator> ();
-		mapButton = GetComponent<UIButton> ();
 
 			// init boat pos
 		posX = Random.Range (0, (int)(mapImage.TextureScale));
@@ -93,17 +92,17 @@ public class MapManager : MonoBehaviour {
 	}
 	public bool NearIsland {
 		get {
-			return MapGenerator.Instance.IslandIds [posX, posY] > -1;
+			return IslandManager.Instance.IslandIds [posX, posY] > -1;
 		}
 	}
 	public int IslandID {
 		get {
-			return MapGenerator.Instance.IslandIds [posX, posY]; 
+			return IslandManager.Instance.IslandIds [posX, posY]; 
 		}
 	}
 	public IslandData CurrentIsland {
 		get {
-			return MapGenerator.Instance.IslandDatas [IslandID];
+			return IslandManager.Instance.IslandDatas [IslandID];
 		}
 	}
 	#endregion

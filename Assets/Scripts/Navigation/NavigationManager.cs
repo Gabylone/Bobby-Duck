@@ -22,14 +22,20 @@ public class NavigationManager : MonoBehaviour {
 
 	private int shipRange = 1;
 
-	[SerializeField]
-	private Image flagImage;
+	private bool isInNoMansSea = false;
+	private bool hasBeenWarned = false;
 
-	bool isInNoMansSea = false;
-	bool hasBeenWarned = false;
+	[SerializeField]
+	private GameObject navigationTriggers;
 
 	void Awake () {
 		Instance = this;
+	}
+
+	void Start () {
+		foreach ( Animator animator in navigationTriggers.GetComponentsInChildren<Animator>() ){
+			animator.SetBool ("feedback", true);
+		}
 	}
 
 	#region movement
@@ -41,11 +47,6 @@ public class NavigationManager : MonoBehaviour {
 
 		Invoke ("MoveDelay", Transitions.Instance.ScreenTransition.Duration);
 
-		if (!hasShownTuto) {
-			hasShownTuto = true;
-			IslandManager.Instance.DisableTuto ();
-		}
-
 	}
 	public void Move ( Directions dir ) {
 
@@ -55,13 +56,7 @@ public class NavigationManager : MonoBehaviour {
 
 		Invoke ("MoveDelay", Transitions.Instance.ScreenTransition.Duration);
 	}
-	public void UpdateTime () {
-		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
-			Crews.playerCrew.CrewMembers[i].AddToStates ();
-		}
-	}
 
-	bool lostOcean_Warned = false;
 
 	private void MoveDelay () {
 
@@ -71,7 +66,7 @@ public class NavigationManager : MonoBehaviour {
 
 		UpdateTime ();
 
-		IslandManager.Instance.SetIsland ();
+		IslandManager.Instance.UpdateIslandPosition ();
 
 		Transitions.Instance.ScreenTransition.Switch ();
 
@@ -110,19 +105,12 @@ public class NavigationManager : MonoBehaviour {
 	}
 	#endregion
 
-	#region triggers
-	bool hasShownTuto = false;
 
-	public Texture2D[] arrowTextures;
-	public Vector2 hotSpot = Vector2.zero;
-
-	public void CursorEnters (int texID) {
-		Cursor.SetCursor(arrowTextures[texID], hotSpot, CursorMode.ForceSoftware);
+	public void UpdateTime () {
+		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
+			Crews.playerCrew.CrewMembers[i].AddToStates ();
+		}
 	}
-	public void CursorExits (int texID) {
-		Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
-	}
-	#endregion
 
 	public int ShipRange {
 		get {
@@ -218,6 +206,12 @@ public class NavigationManager : MonoBehaviour {
 		}
 		set {
 			currentDirection = value;
+		}
+	}
+
+	public GameObject NavigationTriggers {
+		get {
+			return navigationTriggers;
 		}
 	}
 }

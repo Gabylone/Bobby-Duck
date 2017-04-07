@@ -1,13 +1,9 @@
-Nom histoire;Fréquence %;;;
-Bois;5;;;
-[arrivée île];;;;
-Narrator : L'île est assez grande, mais un petit bois empêche de voir plus loin que la plage.;;;;
-SetChoices2;;;;
-Choice : avancer;;;;
-RandomRange5;;;;
-Mark=>centre de la forêt-rien;Mark=>centre de la forêt-1;Mark=>centre de la forêt-2;Mark=>centre de la forêt-3;Mark=>centre de la forêt-4
-;;;;
-;;;;
-[centre de la forêt-rien];[centre de la forêt-1];[centre de la forêt-2];[centre de la forêt-3];[centre de la forêt-4]
-Narrator : Il y a rien;Narrator : Il y a un chemin;Narrator : Il y a deux chemins;Narrator : Il y a trois chemins;Narrator : Il y a quatre chemins
-Leave;Leave;Leave;Leave;Leave
+Nom histoire;Fréquence %
+Epave;12
+Narrator : L'île est petite et boisée.;
+SetChoices2;
+Choice : Repartir;Choice : Avancer
+Leave;Mark=>milieu foret
+;
+[milieu foret];
+Node=>;

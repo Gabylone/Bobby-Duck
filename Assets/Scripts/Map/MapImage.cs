@@ -52,11 +52,11 @@ public class MapImage : MonoBehaviour {
 
 				if (revealMap) {
 					
-					texture.SetPixel (x, y, MapGenerator.Instance.IslandIds [x, y] > -1 ? Color.yellow : Color.blue);
+					texture.SetPixel (x, y, IslandManager.Instance.IslandIds [x, y] > -1 ? Color.yellow : Color.blue);
 
 				} else {
 
-					int id = MapGenerator.Instance.IslandIds [x, y];
+					int id = IslandManager.Instance.IslandIds [x, y];
 
 					Color color = undiscoveredColor;
 
@@ -64,10 +64,10 @@ public class MapImage : MonoBehaviour {
 						if (id == -1) {
 							color = discoveredColor;
 						} else {
-							if (mapGenerator.IslandIds [x, y] < mapGenerator.IslandDatas.Count) {
-								if (mapGenerator.IslandDatas [mapGenerator.IslandIds [x, y]].visited) {
+							if (IslandManager.Instance.IslandIds [x, y] < IslandManager.Instance.IslandDatas.Count) {
+								if (IslandManager.Instance.IslandDatas [IslandManager.Instance.IslandIds [x, y]].visited) {
 									color = visitedIslandColor;
-								} else if (mapGenerator.IslandDatas [mapGenerator.IslandIds [x, y]].seen) {
+								} else if (IslandManager.Instance.IslandDatas [IslandManager.Instance.IslandIds [x, y]].seen) {
 									color = unvisitedIslandColor;
 								}
 							}
@@ -91,14 +91,14 @@ public class MapImage : MonoBehaviour {
 
 		if ( color == default(Color) ) {
 			color = discoveredColor;
-			if ( mapGenerator.IslandIds [x, y] > -1 ) {
+			if ( IslandManager.Instance.IslandIds [x, y] > -1 ) {
 				
-				color = mapGenerator.IslandDatas[mapGenerator.IslandIds [x, y]].visited ? visitedIslandColor : unvisitedIslandColor;
-				mapGenerator.IslandDatas [mapGenerator.IslandIds [x, y]].seen = true;
+				color = IslandManager.Instance.IslandDatas[IslandManager.Instance.IslandIds [x, y]].visited ? visitedIslandColor : unvisitedIslandColor;
+				IslandManager.Instance.IslandDatas [IslandManager.Instance.IslandIds [x, y]].seen = true;
 
-			} else if (MapGenerator.Instance.IslandIds [x, y] == -2) {
+			} else if (IslandManager.Instance.IslandIds [x, y] == -2) {
 
-				MapGenerator.Instance.IslandIds [x, y] = -1;
+				IslandManager.Instance.IslandIds [x, y] = -1;
 
 			}
 

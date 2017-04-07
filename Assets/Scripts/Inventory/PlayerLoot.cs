@@ -72,7 +72,7 @@ public class PlayerLoot : MonoBehaviour {
 			++a;
 		}
 
-		cardOrigin = inventoryCards [0].GetTransform.localPosition;
+		cardOrigin = inventoryCards [0].transform.localPosition;
 	}
 
 	#region button action

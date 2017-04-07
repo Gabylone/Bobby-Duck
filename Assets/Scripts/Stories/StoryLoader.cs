@@ -6,15 +6,12 @@ using System.Collections.Generic;
 public class StoryLoader : MonoBehaviour {
 
 	public static StoryLoader Instance;
-	StoryFunctions storyFunction;
 
-	List<Story> stories 		= new List<Story> ();
-	List<Story> clueStories 	= new List<Story> ();
-	List<Story> treasureStories = new List<Story> ();
-	List<Story> homeStories 	= new List<Story> ();
-	List<int> storyPercents 	= new List<int> ();
-
-	List<List<string>> content = new List<List<string>>();
+	private List<Story> stories 		= new List<Story> ();
+	private List<Story> clueStories 	= new List<Story> ();
+	private List<Story> treasureStories = new List<Story> ();
+	private List<Story> homeStories 	= new List<Story> ();
+	private List<int> storyPercents 	= new List<int> ();
 
 	[SerializeField]
 	private string pathToCSVs = "Stories/CSVs";
@@ -24,11 +21,13 @@ public class StoryLoader : MonoBehaviour {
 	[SerializeField]
 	private Text storyVisualizer;
 
+	[SerializeField]
+	private StoryFunctions storyFunctions;
+
 	void Awake () {
 		
 		Instance = this;
 
-		storyFunction = GetComponent<StoryFunctions> ();
 		storyFiles = new TextAsset[Resources.LoadAll ("Stories/CSVs", typeof(TextAsset)).Length];
 
 		int index = 0;
@@ -119,46 +118,19 @@ public class StoryLoader : MonoBehaviour {
 		
 		string[] rows = storyFiles[currentFile].text.Split ( '\n' );
 
-		storyFunction.FunctionNames = new string[rows.Length-1];
+		storyFunctions.FunctionNames = new string[rows.Length-1];
 
-		for (int row = 0; row < storyFunction.FunctionNames.Length; ++row ) {
-
-			storyFunction.FunctionNames [row] = rows [row].Split (';') [0];
+		for (int row = 0; row < storyFunctions.FunctionNames.Length; ++row ) {
+			storyFunctions.FunctionNames [row] = rows [row].Split (';') [0];
 
 		}
 	}
-
-	#region second story
-	bool secondStory_Active = false;
-	private Story secondStory;
-
-	public bool SecondStory_Active {
-		get {
-			return secondStory_Active;
-		}
-		set {
-			secondStory_Active = value;
-		}
-	}
-
-	public Story SecondStory {
-		get {
-			return secondStory;
-		}
-		set {
-			secondStory = value;
-
-			secondStory_Active = true;
-		}
-	}
-
-	#endregion
 
 	#region properties
 	public string GetContent {
 		get {
 
-			Story targetStory = secondStory_Active ? SecondStory : CurrentIslandStory;
+			Story targetStory = IslandManager.Instance.CurrentIsland.Story;
 
 			if ( StoryReader.Instance.Decal >= targetStory.content.Count ) {
 
@@ -184,21 +156,6 @@ public class StoryLoader : MonoBehaviour {
 				[StoryReader.Instance.Index];
 		}
 	}
-	public int SaveDecal {
-		get {
-			return CurrentIslandStory.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index];
-		}
-		set {
-			CurrentIslandStory.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index] = value;
-		}
-	}
-	public string ReadDecal (int decal) {
-
-		return CurrentIsland.Story.content
-			[decal]
-			[StoryReader.Instance.Index]; 
-
-	}
 	public List<Story> Stories {
 		get {
 			return stories;
@@ -208,28 +165,6 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 	#endregion
-
-	public Story CurrentIslandStory {
-		get {
-			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
-			return MapGenerator.Instance.IslandDatas [id].Story;
-		}
-		set {
-			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
-			MapGenerator.Instance.IslandDatas [id].Story = value;
-		}
-	}
-	public IslandData CurrentIsland {
-		get {
-
-			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
-			return MapGenerator.Instance.IslandDatas [id];
-		}
-		set {
-			int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
-			MapGenerator.Instance.IslandDatas [id] = value;
-		}
-	}
 
 	public Story RandomStory {
 

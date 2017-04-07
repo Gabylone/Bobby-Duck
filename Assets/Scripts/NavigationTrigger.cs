@@ -7,11 +7,15 @@ public class NavigationTrigger : MonoBehaviour {
 
 	Animator animator;
 
-	bool shownTuto = false;
-
 	void Start () {
 		animator = GetComponentInParent<Animator> ();
 
+	}
+
+	public void OnMouseEnter() {
+		if ( !Application.isMobilePlatform ) {
+			animator.SetBool ("feedback", true);
+		}
 	}
 
 	public void OnMouseExit() {
@@ -31,8 +35,6 @@ public class NavigationTrigger : MonoBehaviour {
 		}
 		set {
 			animator.enabled = value;
-
-			animator.SetTrigger ("feedback");
 		}
 	}
 

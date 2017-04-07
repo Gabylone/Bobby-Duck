@@ -7,43 +7,17 @@ public class MapGenerator : MonoBehaviour {
 	public static MapGenerator Instance;
 
 	[SerializeField]
+	private MapImage mapImage;
+
+	[SerializeField]
 	private Vector2 islandRange = new Vector2( 350 , 160 );
 
 	[SerializeField]
 	private int noManSeaScale = 3;
 
 	[SerializeField]
-	private List<IslandData> islandDatas = new List<IslandData>();
-	private int[,] islandIds;
-
-	public List<IslandData> IslandDatas {
-		get {
-			return islandDatas;
-		}
-		set {
-			islandDatas = value;
-		}
-	}
-
-	public int[,] IslandIds {
-		get {
-			return islandIds;
-		}
-		set {
-			islandIds = value;
-		}
-	}
-
-	public int NoManSeaScale {
-		get {
-			return noManSeaScale;
-		}
-	}
-
-	[SerializeField]
 	private int loadLimit = 1000;
 
-	MapImage mapImage;
 
 	// Use this for initialization
 	void Start () {
@@ -52,12 +26,11 @@ public class MapGenerator : MonoBehaviour {
 
 	public void GenerateIslands () {
 
-		mapImage = GetComponent<MapImage> ();
+		IslandManager.Instance.IslandIds = new int[mapImage.TextureScale, mapImage.TextureScale];
 
-		islandIds = new int[mapImage.TextureScale, mapImage.TextureScale];
 		for ( int x = 0; x < mapImage.TextureScale; ++x ) {
 			for ( int y = 0; y < mapImage.TextureScale; ++y )
-				islandIds [x, y] = -2;
+				IslandManager.Instance.IslandIds [x, y] = -2;
 		}
 
 		StartCoroutine (GenerateIslandsCoroutine ());
@@ -81,7 +54,7 @@ public class MapGenerator : MonoBehaviour {
 			IslandManager.Instance.ClueIslandsXPos[i] = RandomX;
 			IslandManager.Instance.ClueIslandsYPos[i] = RandomY;
 
-			islandIds 	[IslandManager.Instance.ClueIslandsXPos[i], IslandManager.Instance.ClueIslandsYPos[i]] 	= islandID;
+			IslandManager.Instance.IslandIds 	[IslandManager.Instance.ClueIslandsXPos[i], IslandManager.Instance.ClueIslandsYPos[i]] 	= islandID;
 			++islandID;
 
         }
@@ -90,7 +63,7 @@ public class MapGenerator : MonoBehaviour {
 		IslandManager.Instance.TreasureIslandXPos = RandomX;
 		IslandManager.Instance.TreasureIslandYPos = RandomY;
 
-		islandIds 	[IslandManager.Instance.TreasureIslandXPos, IslandManager.Instance.TreasureIslandYPos] 	= islandID;
+		IslandManager.Instance.IslandIds 	[IslandManager.Instance.TreasureIslandXPos, IslandManager.Instance.TreasureIslandYPos] 	= islandID;
 		++islandID;
 
 			// HOME
@@ -100,7 +73,7 @@ public class MapGenerator : MonoBehaviour {
 		MapManager.Instance.PosX = IslandManager.Instance.HomeIslandXPos;
 		MapManager.Instance.PosY = IslandManager.Instance.HomeIslandYPos;
 
-		islandIds 	[IslandManager.Instance.HomeIslandXPos, IslandManager.Instance.HomeIslandYPos] 	= islandID;
+		IslandManager.Instance.IslandIds 	[IslandManager.Instance.HomeIslandXPos, IslandManager.Instance.HomeIslandYPos] 	= islandID;
 		++islandID;
 		#endregion
 
@@ -116,12 +89,12 @@ public class MapGenerator : MonoBehaviour {
 				if ( isInNoMansSea == false ) {
 					int x = Random.Range ( 0, mapImage.TextureScale );
 
-					if (islandIds[x,y] < 0) {
+					if (IslandManager.Instance.IslandIds[x,y] < 0) {
 						
-						islandIds 	[x, y] 	= islandID;
+						IslandManager.Instance.IslandIds 	[x, y] 	= islandID;
 
 						Vector2 islandPos = new Vector2(Random.Range (-islandRange.x,islandRange.x) , Random.Range(-islandRange.y ,islandRange.y) );
-						IslandDatas.Add ( new IslandData(islandPos) );
+						IslandManager.Instance.IslandDatas.Add ( new IslandData(islandPos) );
 
 						++islandID;
 					}
@@ -140,10 +113,10 @@ public class MapGenerator : MonoBehaviour {
 
 		yield return new WaitForEndOfFrame ();
 
-		IslandManager.Instance.SetIsland ();
+		IslandManager.Instance.UpdateIslandPosition ();
 
 			// assigner l'histoire de la maison
-		StoryLoader.Instance.CurrentIsland.Story = StoryLoader.Instance.RandomStory;
+		IslandManager.Instance.CurrentIsland.Story = StoryLoader.Instance.RandomStory;
 
 		mapImage.InitImage ();
 		MapManager.Instance.UpdateImage ();
@@ -172,8 +145,8 @@ public class MapGenerator : MonoBehaviour {
 	#region load & save
 	public void LoadIslandsData () {
 
-		BytesTools.FromBytes (IslandIds, SaveManager.Instance.CurrentData.islandIDs);
-		IslandDatas = SaveManager.Instance.CurrentData.islandsData;
+		BytesTools.FromBytes (IslandManager.Instance.IslandIds, SaveManager.Instance.CurrentData.islandIDs);
+		IslandManager.Instance.IslandDatas = SaveManager.Instance.CurrentData.islandsData;
 
 		IslandManager.Instance.HomeIslandXPos = SaveManager.Instance.CurrentData.homeIslandXPos;
 		IslandManager.Instance.HomeIslandYPos = SaveManager.Instance.CurrentData.homeIslandYPos;
@@ -184,7 +157,7 @@ public class MapGenerator : MonoBehaviour {
 		IslandManager.Instance.ClueIslandsXPos = SaveManager.Instance.CurrentData.clueIslandsXPos;
 		IslandManager.Instance.ClueIslandsYPos = SaveManager.Instance.CurrentData.clueIslandsYPos;
 
-		IslandManager.Instance.SetIsland ();
+		IslandManager.Instance.UpdateIslandPosition ();
 		mapImage.InitImage ();
 		MapManager.Instance.UpdateImage ();
 
@@ -192,9 +165,9 @@ public class MapGenerator : MonoBehaviour {
 
 	public void SaveIslandsData () {
 
-		SaveManager.Instance.CurrentData.islandIDs = BytesTools.ToBytes(IslandIds);
+		SaveManager.Instance.CurrentData.islandIDs = BytesTools.ToBytes(IslandManager.Instance.IslandIds);
 
-		SaveManager.Instance.CurrentData.islandsData = IslandDatas;
+		SaveManager.Instance.CurrentData.islandsData = IslandManager.Instance.IslandDatas;
 
 		SaveManager.Instance.CurrentData.homeIslandXPos = IslandManager.Instance.HomeIslandXPos;
 		SaveManager.Instance.CurrentData.homeIslandYPos = IslandManager.Instance.HomeIslandYPos;
@@ -208,5 +181,10 @@ public class MapGenerator : MonoBehaviour {
 	}
 	#endregion
 
+	public int NoManSeaScale {
+		get {
+			return noManSeaScale;
+		}
+	}
 
 }

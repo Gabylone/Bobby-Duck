@@ -40,13 +40,16 @@ public class BoatUpgradeManager : MonoBehaviour {
 	[Header("Sounds")]
 	[SerializeField] private AudioClip upgradeSound;
 
+	[SerializeField]
+	private UIButton upgradeUIButton;
+
 	void Start () {
 		Trading = false;
 	}
 
 	public void ShowUpgradeMenu () {
 
-		GetComponent<UIButton> ().Opened = true;
+		upgradeUIButton.Opened = true;
 
 		UpdateCrewImages ();
 		UpdatePrices ();
@@ -54,7 +57,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 	}
 
 	public void CloseUpgradeMenu () {
-		GetComponent<UIButton> ().Opened = false;
+		upgradeUIButton.Opened = false;
 	}
 
 

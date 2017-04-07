@@ -7,6 +7,12 @@ public class StoryFunctions : MonoBehaviour {
 
 	string cellParams = "";
 
+	public string CellParams {
+		get {
+			return cellParams;
+		}
+	}
+
 	private string[] functionNames;
 
 	void Awake () {
@@ -48,199 +54,53 @@ public class StoryFunctions : MonoBehaviour {
 	}
 
 	#region random
-	void RandomPercent () {
-
-		float chance = float.Parse ( cellParams );
-
-		float value = Random.value * 100;
-
-		int randomDecal = value < chance ? 0 : 1;
-
-		StoryReader.Instance.NextCell ();
-
-		int decal = StoryLoader.Instance.SaveDecal > -1 ? StoryLoader.Instance.SaveDecal : randomDecal;
-		StoryLoader.Instance.SaveDecal = decal;
-
-		StoryReader.Instance.SetDecal (decal);
-
-		StoryReader.Instance.UpdateStory ();
-
+	private void RandomPercent () {
+		RandomManager.Instance.RandomPercent (cellParams);
 	}
-	void RandomRange () {
-
-		int range = int.Parse (cellParams);
-		int randomDecal = Random.Range (0, range);
-
-		StoryReader.Instance.NextCell ();
-
-		int decal = StoryLoader.Instance.SaveDecal > -1 ? StoryLoader.Instance.SaveDecal : randomDecal;
-
-		StoryLoader.Instance.SaveDecal = decal;
-		StoryReader.Instance.SetDecal (decal);
-
-		StoryReader.Instance.UpdateStory ();
-
+	private void RandomRange () {
+		RandomManager.Instance.RandomRange (cellParams);
 	}
-	void RandomRedoPercent () {
-
-		float chance = float.Parse ( cellParams );
-
-		float value = Random.value * 100;
-
-		int decal = value < chance ? 0 : 1;
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.SetDecal (decal);
-
-		StoryReader.Instance.UpdateStory ();
-
+	private void RandomRedoPercent () {
+		RandomManager.Instance.RandomRedoPercent (cellParams);
 	}
-	void RandomRedoRange () {
-
-		int range = int.Parse (cellParams);
-		int randomDecal = Random.Range (0, range);
-
-		StoryReader.Instance.NextCell ();
-
-		StoryReader.Instance.SetDecal (randomDecal);
-
-		StoryReader.Instance.UpdateStory ();
-
-
+	private void RandomRedoRange () {
+		RandomManager.Instance.RandomRedoRange (cellParams);
 	}
 	#endregion
 
 	#region character & crew
-	Crew GetCrew (CrewParams crewParams) {
-		
-		int row = StoryReader.Instance.Decal;
-		int col = StoryReader.Instance.Index;
-
-		var tmp = MapManager.Instance.CurrentIsland.Crews.Find (x => x.col == col && x.row == row);
-
-		if (tmp == null) {
-
-			Crew newCrew = new Crew (crewParams, row, col);
-
-			MapManager.Instance.CurrentIsland.Crews.Add (newCrew);
-
-			return newCrew;
-
-		}
-
-		return tmp;
+	private void NewCrew () {
+		Crews.Instance.CreateNewCrew ();
 	}
 
-	void NewCrew () {
-
-		StoryReader.Instance.NextCell ();
-
-		int l = Crews.playerCrew.CrewMembers.Count;
-
-		CrewParams crewParams = new CrewParams ();
-
-		if ( cellParams.Length > 0 ) {
-
-			if (cellParams.Contains ("/")) {
-			
-				string[] parms = cellParams.Split ('/');
-
-				crewParams.amount = int.Parse (parms[0]);
-				crewParams.overideGenre = true;
-				crewParams.male = parms[1][0] == 'M';
-
-			} else {
-				crewParams.amount = int.Parse (cellParams);
-
-			}
-
-		} else {
-			crewParams.amount = Random.Range ( l-1 , l+2 );
-		}
-
-		Crew islandCrew = GetCrew (crewParams);
-
-		if (islandCrew.MemberIDs.Count == 0) {
-			
-			StoryReader.Instance.SetDecal (1);
-
-		} else {
-
-			Crews.enemyCrew.setCrew (islandCrew);
-
-			if (islandCrew.hostile) {
-				DialogueManager.Instance.SetDialogue ("Le revoilà !", Crews.enemyCrew.captain);
-				StoryReader.Instance.SetDecal (2);
-			} else {
-				Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-				Crews.enemyCrew.captain.Icon.ShowBody ();
-			}
-
-		}
-
-		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.MoveDuration);
-
+	private void AddMember () {
+		Crews.Instance.AddMemberToCrew ();
 	}
-
-	void AddMember () {
-
-		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.MemberCapacity) {
-
-			string phrase = "Oh non, le bateau est trop petit";
-			DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain);
-
-			StoryReader.Instance.WaitForInput ();
-
-		} else {
-
-			CrewMember targetMember = Crews.enemyCrew.captain;
-
-			CrewCreator.Instance.TargetSide = Crews.Side.Player;
-			CrewMember newMember = CrewCreator.Instance.NewMember (Crews.enemyCrew.captain.MemberID);
-			Crews.playerCrew.AddMember (newMember);
-			Crews.enemyCrew.RemoveMember (targetMember);
-
-			newMember.Icon.MoveToPoint (Crews.PlacingType.Map);
-
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.Wait (0.5f);
-		
-		}
-
-	}
-	void RemoveMember () {
-
-		int removeIndex = Random.Range (0,Crews.playerCrew.CrewMembers.Count);
-		CrewMember memberToRemove = Crews.playerCrew.CrewMembers [removeIndex];
-
-		memberToRemove.Kill ();
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (0.5f);
-
+	private void RemoveMember () {
+		Crews.Instance.RemoveMemberFromCrew ();
 	}
 	#endregion
 
 	#region hide & show
-	void HidePlayer() {
+	private void HidePlayer() {
 		Crews.playerCrew.Hide ();
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (1f);
 	}
-	void ShowPlayer () {
+	private void ShowPlayer () {
 		Crews.playerCrew.ShowCrew ();
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (1f);
 	}
-	void HideOther () {
+	private void HideOther () {
 		Crews.enemyCrew.Hide ();
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (1f);
 	}
-	void ShowOther() {
+	private void ShowOther() {
 		Crews.enemyCrew.ShowCrew ();
 
 		StoryReader.Instance.NextCell ();
@@ -249,23 +109,19 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region boatUpgrades
-	void BoatUpgrades () {
+	private void BoatUpgrades () {
 		BoatUpgradeManager.Instance.ShowUpgradeMenu ();
 		BoatUpgradeManager.Instance.Trading = true;
 	}
 	#endregion
 
 	#region dialogue
-	void Narrator () {
-
+	private void Narrator () {
 		string phrase = cellParams.Remove (0,2);
-
 		DialogueManager.Instance.ShowNarrator (phrase);
-
 		StoryReader.Instance.WaitForInput ();
-
 	}
-	void OtherSpeak () {
+	private void OtherSpeak () {
 
 		string phrase = cellParams.Remove (0,2);
 
@@ -282,7 +138,7 @@ public class StoryFunctions : MonoBehaviour {
 
 	}
 
-	void PlayerSpeak () {
+	private void PlayerSpeak () {
 		
 		string phrase = cellParams.Remove (0,2);
 
@@ -291,87 +147,12 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.WaitForInput ();
 	}
 
-	void SetChoices () {
-
-		DiscussionManager.Instance.ResetColors ();
-
-		// get amount
-		int amount = int.Parse (cellParams);
-
-		// get bubble content
-		StoryReader.Instance.NextCell ();
-
-		string[] choices = new string[amount];
-
-		int tmpDecal = StoryReader.Instance.Decal;
-		int a = amount;
-
-		int index = 0;
-		while ( a > 0 ) {
-
-			if ( StoryLoader.Instance.ReadDecal (tmpDecal).Length > 0 ) {
-
-				string choice = StoryLoader.Instance.ReadDecal (tmpDecal);
-
-				choice = choice.Remove (0, 9);
-
-				int i = 0;
-
-				string[] stats = new string[] { "(str)", "(dex)", "(cha)", "(con)" };
-				foreach ( string stat in stats ) {
-
-					if ( choice.Contains ( stat ) ) {
-
-						DiscussionManager.Instance.TaintChoice (index, i);
-
-					}
-
-					++i;
-
-				}
-
-				choices [amount - a] = choice;
-
-				--a;
-				++index;
-			}
-
-			++tmpDecal;
-
-			if ( tmpDecal > 60 ) {
-				Debug.LogError ("set choice reached limit");
-				break;
-			}
-
-			if (a <= 0)
-				break;
-		}
-
-		DiscussionManager.Instance.SetChoices (amount, choices);
-
+	private void SetChoices () {
+		DiscussionManager.Instance.GetChoices ();
 	}
 
-	void GiveTip ()  {
-
-		string[] tips = new string[10] {
-
-			"Un grand vide sépare le nord du sud",
-			"Mieux vaut bien se préparer pour aller du nord au sud !",
-			"Les pirates se déplacent librement sur les mers",
-			"Une bonne longue vue règle les problemes de vision la nuit",
-			"Une bonne longue vue règle les problemes de vision les jours de pluie",
-			"C'est en discutant avec les gens que vous saurez où chercher le trésor.",
-			"le charme du capitaine est important, il permet de se sortir de situations coquasses",
-			"La dextérité détermine si un membre attaque en premier, et ses chances d'esquiver.",
-			"Vous êtes à l'étroit sur votre navire ? Aggrandissez le pont dans un hangar",
-			"Aggrandissez le cargo dans un hangar.Vous pouvez porter plus de choses."
-
-		};
-
-		DialogueManager.Instance.SetDialogue (tips[Random.Range (0,tips.Length)], Crews.enemyCrew.captain);
-
-		StoryReader.Instance.WaitForInput ();
-
+	private void GiveTip ()  {
+		DiscussionManager.Instance.GiveTip ();
 	}
 	#endregion
 
@@ -381,23 +162,7 @@ public class StoryFunctions : MonoBehaviour {
 		CombatManager.Instance.StartCombat ();
 	}
 	void Leave () {
-
-		if ( StoryLoader.Instance.SecondStory_Active ) {
-
-			print ("back to initial story");
-
-			StoryLoader.Instance.SecondStory_Active = false;
-
-			Mark mark = StoryLoader.Instance.CurrentIslandStory.marks.Find ( x => x.name == secondStory_FallbackMark);
-			StoryReader.Instance.Decal = mark.x;
-			StoryReader.Instance.Index = mark.y;
-
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.UpdateStory ();
-
-			return;
-
-		}
+		
 
 		IslandManager.Instance.Leave ();
 	}
@@ -405,16 +170,7 @@ public class StoryFunctions : MonoBehaviour {
 
 	#region gold
 	void CheckGold () {
-		int amount = int.Parse (cellParams);
-
-		if (GoldManager.Instance.CheckGold (amount)) {
-			StoryReader.Instance.NextCell ();
-		} else {
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.SetDecal (1);
-		}
-
-		StoryReader.Instance.UpdateStory ();
+		GoldManager.Instance.SetGoldDecal ();
 	}
 	void RemoveGold () {
 		int amount = int.Parse (cellParams);
@@ -544,6 +300,10 @@ public class StoryFunctions : MonoBehaviour {
 	string secondStory_FallbackMark = "";
 	void ChangeStory () {
 
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+
+
 			// get story name
 		string storyName = cellParams.Remove (0, 2);
 		storyName = storyName.Remove (storyName.IndexOf ('['));
@@ -569,9 +329,9 @@ public class StoryFunctions : MonoBehaviour {
 		}
 
 			// assign second story
-		StoryLoader.Instance.SecondStory = secondStory;
+//		StoryLoader.Instance.SecondStory = secondStory;
 
-		Mark mark = StoryLoader.Instance.CurrentIslandStory.marks.Find ( x => x.name == targetNode);
+		Mark mark = IslandManager.Instance.CurrentIsland.Story.marks.Find ( x => x.name == targetNode);
 		StoryReader.Instance.Decal = mark.x;
 		StoryReader.Instance.Index = mark.y;
 
@@ -585,8 +345,7 @@ public class StoryFunctions : MonoBehaviour {
 		
 		string markName = cellParams.Remove (0, 2);
 
-		Mark mark = StoryLoader.Instance.CurrentIslandStory.marks.Find ( x => x.name == markName);
-		print ("SWITCH ? " + mark.switched);
+		Mark mark = IslandManager.Instance.CurrentIsland.Story.marks.Find ( x => x.name == markName);
 
 		StoryReader.Instance.Decal = mark.x;
 		StoryReader.Instance.Index = mark.y;
@@ -606,13 +365,13 @@ public class StoryFunctions : MonoBehaviour {
 		string markName = cellParams.Remove (0, 2);
 
 
-		Mark mark = StoryLoader.Instance.CurrentIslandStory.marks.Find ( x => x.name == markName);
+		Mark mark = IslandManager.Instance.CurrentIsland.Story.marks.Find ( x => x.name == markName);
 
-		int id = MapGenerator.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
+		int id = IslandManager.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
 
 		mark.switched = true;
 
-		MapGenerator.Instance.IslandDatas [id].Story.marks [0].switched = true;
+		IslandManager.Instance.IslandDatas [id].Story.marks [0].switched = true;
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();

@@ -45,16 +45,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ActionGroup.cs" />
-     <Compile Include="Assets\Fight_LoadSprites.cs" />
-     <Compile Include="Assets\FollowFighter.cs" />
-     <Compile Include="Assets\MenuManager.cs" />
-     <Compile Include="Assets\NameGeneration.cs" />
-     <Compile Include="Assets\NavigationTrigger.cs" />
-     <Compile Include="Assets\Percentage.cs" />
      <Compile Include="Assets\Scripts\Card\Card.cs" />
      <Compile Include="Assets\Scripts\Card\CardManager.cs" />
      <Compile Include="Assets\Scripts\Combat\CombatManager.cs" />
+     <Compile Include="Assets\Scripts\Combat\Fight_LoadSprites.cs" />
+     <Compile Include="Assets\Scripts\Combat\FollowFighter.cs" />
+     <Compile Include="Assets\Scripts\Combat\StateMachine.cs" />
      <Compile Include="Assets\Scripts\Crew\CrewCreator.cs" />
      <Compile Include="Assets\Scripts\Crew\CrewIcon.cs" />
      <Compile Include="Assets\Scripts\Crew\CrewManager.cs" />
@@ -68,8 +64,10 @@
      <Compile Include="Assets\Scripts\Fight\FightIA.cs" />
      <Compile Include="Assets\Scripts\Fight\FightPlayer.cs" />
      <Compile Include="Assets\Scripts\Fight\Humanoid.cs" />
+     <Compile Include="Assets\Scripts\Fight\WeaponCollider.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Gold\GoldManager.cs" />
+     <Compile Include="Assets\Scripts\Inventory\ActionGroup.cs" />
      <Compile Include="Assets\Scripts\Inventory\InventoryCard.cs" />
      <Compile Include="Assets\Scripts\Inventory\Item.cs" />
      <Compile Include="Assets\Scripts\Inventory\ItemButton.cs" />
@@ -83,19 +81,24 @@
      <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
      <Compile Include="Assets\Scripts\Map\MapImage.cs" />
      <Compile Include="Assets\Scripts\Map\MapManager.cs" />
+     <Compile Include="Assets\Scripts\MenuManager.cs" />
+     <Compile Include="Assets\Scripts\NameGeneration.cs" />
      <Compile Include="Assets\Scripts\Navigation\BoatLight.cs" />
      <Compile Include="Assets\Scripts\Navigation\BoatManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\BoatUpgradeManager.cs" />
+     <Compile Include="Assets\Scripts\Navigation\IslandData.cs" />
      <Compile Include="Assets\Scripts\Navigation\IslandManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\NavigationManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\WeatherManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\Wheel.cs" />
+     <Compile Include="Assets\Scripts\NavigationTrigger.cs" />
+     <Compile Include="Assets\Scripts\Percentage.cs" />
      <Compile Include="Assets\Scripts\Save\SaveManager.cs" />
      <Compile Include="Assets\Scripts\Save\SaveMenu.cs" />
      <Compile Include="Assets\Scripts\Save\SaveTool.cs" />
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
-     <Compile Include="Assets\Scripts\StateMachine.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryFunctions.cs" />
+     <Compile Include="Assets\Scripts\Stories\StoryFunctions\RandomManager.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryLoader.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryReader.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryTest.cs" />
@@ -103,13 +106,8 @@
      <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
      <Compile Include="Assets\Scripts\Transition\UIButton.cs" />
      <Compile Include="Assets\Scripts\Treasure\ClueManager.cs" />
-     <Compile Include="Assets\UI_Target.cs" />
-     <Compile Include="Assets\WeaponCollider.cs" />
-     <None Include="Assets\Tout Doux.txt" />
-     <None Include="Assets\func macro.txt" />
-     <None Include="Assets\5 déc.txt" />
-     <None Include="Assets\Liste features.txt" />
-     <None Include="Assets\frfr.txt" />
+     <Compile Include="Assets\Scripts\UI_Target.cs" />
+     <None Include="Assets\Liste feature.txt" />
      <None Include="Assets\GameSaveData2.xml" />
      <None Include="Assets\GameSaveData1.xml" />
  <Reference Include="UnityEngine.UI">

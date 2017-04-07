@@ -8,6 +8,8 @@ public class StoryTest : MonoBehaviour {
 
 	public int storyID = 0;
 
+	public string storyName = "Maison";
+
 	public int X1 = 0;
 	public int Y1 = 0;
 	public int X2 = 0;
@@ -22,8 +24,8 @@ public class StoryTest : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.Return) ) {
 
-			StoryLoader.Instance.CurrentIslandStory = StoryLoader.Instance.Stories [storyID];
-//			StoryLoader.Instance.CurrentIslandStory = StoryLoader.Instance.TreasureStories[0];
+			IslandManager.Instance.CurrentIsland.Story = StoryLoader.Instance.Stories.Find (x => x.name == storyName);
+//			IslandManager.Instance.CurrentIsland.Story.Story = StoryLoader.Instance.TreasureStories[0];
 
 			IslandManager.Instance.Enter ();
 

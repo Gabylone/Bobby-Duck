@@ -204,7 +204,7 @@ public class LootUI : MonoBehaviour {
 	#region action button
 	public void UpdateActionButton (int itemIndex) {
 
-		PlayerLoot.Instance.LootUI.CategoryContent = PlayerLoot.Instance.TradeCategoryContent;
+//		PlayerLoot.Instance.LootUI.CategoryContent = PlayerLoot.Instance.TradeCategoryContent;
 
 			// set group active
 //		actionGroup.game.SetActive (CategoryContent.interactable[currentCat] && SelectedItems.Length > 0);

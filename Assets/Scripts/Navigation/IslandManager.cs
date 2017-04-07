@@ -7,41 +7,37 @@ public class IslandManager : MonoBehaviour {
 
 	public static IslandManager Instance;
 
-	[SerializeField]
-	private List<IslandData> islandDatas = new List<IslandData>();
-
-
 	[Header("Island")]
 	[SerializeField] private Image islandImage;
 
-	bool onIsland = false;
-
-	[Header("Clue")]
-	[SerializeField] private int[] clueIslandsXPos;
-	[SerializeField] private int[] clueIslandsYPos;
-
-	[Header("Treasure")]
-	[SerializeField] private int treasureIslandXPos = 0;
-	[SerializeField] private int treasureIslandYPos = 0;
-
-	[Header("Home")]
-	[SerializeField] private int homeIslandXPos = 0;
-	[SerializeField] private int homeIslandYPos = 0;
+	[SerializeField]
+	private List<IslandData> islandDatas = new List<IslandData>();
 
 	[SerializeField]
-	private GameObject navigationTriggers;
+	private int[,] islandIds;
 
-	[SerializeField] private Vector3 decal = Vector3.zero;
+	private bool onIsland = false;
+
+	[Header("Clue")]
+	private int[] clueIslandsXPos;
+	private int[] clueIslandsYPos;
+
+	[Header("Treasure")]
+	private int treasureIslandXPos = 0;
+	private int treasureIslandYPos = 0;
+
+	[Header("Home")]
+	private int homeIslandXPos = 0;
+	private int homeIslandYPos = 0;
+
+	// STORY //
+	private string secondStory_FallbackMark = "";
+
+	[SerializeField] private Vector3 boat_DecalToIsland = Vector3.zero;
 
 
 	void Awake() {
 		Instance = this;
-	}
-
-	void Start () {
-		foreach ( Animator animator in navigationTriggers.GetComponentsInChildren<Animator>() ){
-			animator.SetBool ("feedback", true);
-		}
 	}
 
 	void Update () {
@@ -49,6 +45,15 @@ public class IslandManager : MonoBehaviour {
 			Leave ();
 	}
 
+	#region island image
+	public void UpdateIslandPosition () {
+		islandImage.gameObject.SetActive ( MapManager.Instance.NearIsland );
+		if ( MapManager.Instance.NearIsland )
+			islandImage.transform.localPosition = MapManager.Instance.CurrentIsland.Position;
+	}
+	#endregion
+
+	#region enter island
 	public void Enter (){
 		
 		if (OnIsland)
@@ -57,16 +62,9 @@ public class IslandManager : MonoBehaviour {
 		MapManager.Instance.MapButton.Opened = false;
 		MapManager.Instance.MapButton.Locked = true;
 
-		navigationTriggers.SetActive (false);
-		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+		NavigationManager.Instance.NavigationTriggers.SetActive (false);
 
 		StartCoroutine (EnterCoroutine ());
-	}
-
-	public void DisableTuto () {
-		foreach ( Animator animator in navigationTriggers.GetComponentsInChildren<Animator>() ){
-			animator.SetBool ("feedback", false);
-		}
 	}
 
 	IEnumerator EnterCoroutine () {
@@ -74,19 +72,18 @@ public class IslandManager : MonoBehaviour {
 		Transitions.Instance.ScreenTransition.Switch ();
 
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
-		BoatManager.Instance.BoatTransform.position = IslandManager.Instance.IslandImage.transform.position + decal;
+		BoatManager.Instance.BoatTransform.position = IslandManager.Instance.IslandImage.transform.position + boat_DecalToIsland;
 
 		Transitions.Instance.ActionTransition.Switch();
 		Transitions.Instance.ScreenTransition.Switch ();
 
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion, Transitions.Instance.ActionTransition.Duration);
 
-		if (StoryLoader.Instance.CurrentIslandStory == null) {
-			print ("histoire nulle : j'en prends unen nouvelle");
-			StoryLoader.Instance.CurrentIslandStory = StoryLoader.Instance.RandomStory;
+		if (IslandManager.Instance.CurrentIsland.Story == null) {
+			IslandManager.Instance.CurrentIsland.Story = StoryLoader.Instance.RandomStory;
 		}
 
-		StoryReader.Instance.SetStory (StoryLoader.Instance.CurrentIslandStory);
+		StoryReader.Instance.SetStory (IslandManager.Instance.CurrentIsland.Story);
 
 		onIsland = true;
 
@@ -96,15 +93,35 @@ public class IslandManager : MonoBehaviour {
 
 		StoryReader.Instance.UpdateStory ();
 	}
+	#endregion
 
+	#region leave island
 	public void Leave () {
+
+		if ( false ) {
+//		if ( StoryLoader.Instance.SecondStory_Active ) {
+
+			print ("back to initial story");
+
+//			StoryLoader.Instance.SecondStory_Active = false;
+
+			Mark mark = IslandManager.Instance.CurrentIsland.Story.marks.Find ( x => x.name == secondStory_FallbackMark);
+			StoryReader.Instance.Decal = mark.x;
+			StoryReader.Instance.Index = mark.y;
+
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.UpdateStory ();
+
+			return;
+
+		}
 
 		onIsland = false;
 
 		Transitions.Instance.ActionTransition.Switch();
 
 		MapManager.Instance.MapButton.Locked = false;
-		navigationTriggers.SetActive (true);
+		NavigationManager.Instance.NavigationTriggers.SetActive (true);
 
 		Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
 
@@ -115,7 +132,9 @@ public class IslandManager : MonoBehaviour {
 		SoundManager.Instance.AmbianceSource.volume = SoundManager.Instance.AmbianceSource.volume * 2;
 		WeatherManager.Instance.PlaySound ();
 	}
+	#endregion
 
+	#region propeties
 	public bool OnIsland {
 		get {
 			return onIsland;
@@ -131,12 +150,18 @@ public class IslandManager : MonoBehaviour {
 		}
 	}
 
-	public void SetIsland () {
+	public IslandData CurrentIsland {
+		get {
 
-		islandImage.gameObject.SetActive ( MapManager.Instance.NearIsland );
-		if ( MapManager.Instance.NearIsland )
-			islandImage.transform.localPosition = MapManager.Instance.CurrentIsland.Position;
+			int id = IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
+			return IslandDatas [id];
+		}
+		set {
+			int id = IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
+			IslandDatas [id] = value;
+		}
 	}
+	#endregion
 
 	#region properties
 	public List<IslandData> IslandDatas {
@@ -145,6 +170,14 @@ public class IslandManager : MonoBehaviour {
 		}
 		set {
 			islandDatas = value;
+		}
+	}
+	public int[,] IslandIds {
+		get {
+			return islandIds;
+		}
+		set {
+			islandIds = value;
 		}
 	}
 
@@ -203,64 +236,3 @@ public class IslandManager : MonoBehaviour {
 	}
 	#endregion
 }
-
-#region island date
-[System.Serializable]
-public class IslandData {
-
-	[SerializeField]
-	private Story story;
-
-	private List<Loot> loots = new List<Loot>();
-	private List<Crew> crews = new List<Crew>();
-
-	private bool gaveClue = false;
-	private Vector2 position;
-
-	public bool visited = false;
-	public bool seen = false;
-
-	public IslandData ()
-	{
-		
-	}
-
-	public IslandData ( Vector2 pos )
-	{
-		position = pos;
-	}
-
-	public Vector2 Position {
-		get {
-			return position;
-		}
-	}
-
-	public Story Story {
-		get {
-			return story;
-		}
-		set {
-			story = value;
-		}
-	}
-
-	public List<Loot> Loots {
-		get {
-			return loots;
-		}
-		set {
-			loots = value;
-		}
-	}
-
-	public List<Crew> Crews {
-		get {
-			return crews;
-		}
-		set {
-			crews = value;
-		}
-	}
-}
-#endregion

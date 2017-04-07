@@ -42,7 +42,21 @@ public class GoldManager : MonoBehaviour {
 		}
 	}
 
+	public void SetGoldDecal () {
+		int amount = int.Parse (StoryFunctions.Instance.CellParams);
+
+		if (GoldManager.Instance.CheckGold (amount)) {
+			StoryReader.Instance.NextCell ();
+		} else {
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.SetDecal (1);
+		}
+
+		StoryReader.Instance.UpdateStory ();
+	}
+
 	public bool CheckGold ( float amount ) {
+		
 		if ( amount > GoldAmount ) {
 			SoundManager.Instance.PlaySound (noGoldSound);
 			DisplayFeedback ();

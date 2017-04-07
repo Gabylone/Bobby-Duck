@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class CrewManager : MonoBehaviour {
 
+		// managed crew
 	Crew managedCrew;
 
 	Crews.PlacingType previousPlacingType = Crews.PlacingType.Map;

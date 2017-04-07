@@ -106,6 +106,24 @@ public class StoryReader : MonoBehaviour {
 		}
 
 	}
+
+	public int SaveDecal {
+		get {
+			return IslandManager.Instance.CurrentIsland.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index];
+		}
+		set {
+			IslandManager.Instance.CurrentIsland.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index] = value;
+		}
+	}
+
+
+	public string ReadDecal (int decal) {
+
+		return IslandManager.Instance.CurrentIsland.Story.content
+			[decal]
+			[StoryReader.Instance.Index]; 
+
+	}
 	#endregion
 
 	#region properties
