@@ -1,9 +1,0 @@
-Nom histoire;Fréquence %
-Epave;12
-Narrator : L'île est petite et boisée.;
-SetChoices2;
-Choice : Repartir;Choice : Avancer
-Leave;Mark=>milieu foret
-;
-[milieu foret];
-Node=>;

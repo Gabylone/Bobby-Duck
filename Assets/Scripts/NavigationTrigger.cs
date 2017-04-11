@@ -7,26 +7,36 @@ public class NavigationTrigger : MonoBehaviour {
 
 	Animator animator;
 
-	void Start () {
-		animator = GetComponentInParent<Animator> ();
+//	void Start () {
+//		animator = GetComponentInParent<Animator> ();
+//
+//	}
+//
+//	public void OnMouseEnter() {
+//		if ( !Application.isMobilePlatform ) {
+//			animator.SetBool ("feedback", true);
+//		}
+//	}
+//
+//	public void OnMouseExit() {
+//		if ( !Application.isMobilePlatform ) {
+//			animator.SetBool ("feedback", false);
+//		}
+//	}
+//
+//	public void OnMouseDown() {
+//		NavigationManager.Instance.Move (texID);
+//		animator.SetTrigger ("press");
+//	}
+//
+	void OnTriggerEnter2D ( Collider2D other ) {
 
-	}
+		if (other.tag == "Player") {
 
-	public void OnMouseEnter() {
-		if ( !Application.isMobilePlatform ) {
-			animator.SetBool ("feedback", true);
+			NavigationManager.Instance.Move (texID);
+
 		}
-	}
 
-	public void OnMouseExit() {
-		if ( !Application.isMobilePlatform ) {
-			animator.SetBool ("feedback", false);
-		}
-	}
-
-	public void OnMouseDown() {
-		NavigationManager.Instance.Move (texID);
-		animator.SetTrigger ("press");
 	}
 
 	public bool EnableFeedback {

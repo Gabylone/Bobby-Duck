@@ -32,6 +32,6 @@ GiveClue;Donne une formule pour le trésor;;
 GiveDirectionToClue;donne la direction vers le donneur de formule le plus près;;
 SetWeather;Change la météo ( SetWeatherDay / SetWeatherNight / SetWeatherRain );;
 CheckDay;se décale si c'est la nuit;;
-Mark;va au nœud donné ( Mark=>Noeud ) exemple Mark=>discussion pirate;;
+Node;va au nœud donné ( Node=>Noeud ) exemple Node=>discussion pirate;;
 Switch;renverse un nœud.;;
 CheckStat;se décale si le charisme une certaine statistique est inférieur ou égale à celle du capitaine adverse ( CheckStatSTR, CHA, CON, ou DEX );;

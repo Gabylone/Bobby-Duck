@@ -4,13 +4,13 @@ using System.Collections;
 
 public class Wheel : MonoBehaviour {
 
-	[SerializeField]
-	private float rotSpeed = 10f;
-
 	bool opened = false;
 
+	[Header("Wheel")]
 	[SerializeField]
-	private Transform boatTransform;
+	private Transform wheelTransform;
+	[SerializeField]
+	private float wheelRotSpeed = 10f;
 
 	[SerializeField]
 	private float boatSpeed = 0.3f;
@@ -26,52 +26,79 @@ public class Wheel : MonoBehaviour {
 
 	bool turned = false;
 
+	[Header("Boat Mesh")]
+	[SerializeField]
+	private Transform boatMesh;
+	private float boatCurrentAngle = 0f;
+	[SerializeField]
+	private float boatRotationSpeed = 50f;
 
 	void Start () {
-		initPos = transform.localPosition;	
+		initPos = wheelTransform.localPosition;	
 
 		Opened = false;
 	}
 
+	Vector3 GetDir() {
+
+		Vector3 dir = (Input.mousePosition - Camera.main.WorldToScreenPoint (wheelTransform.position)).normalized;
+		dir.z = 0f;
+
+		return dir;
+	}
+
 	void Update () {
-		
+
 		if (opened) {
-			Vector3 dir = (Input.mousePosition - Camera.main.WorldToScreenPoint (transform.position));
-			dir.z = 0f;
+
+			Vector3 dir = GetDir ();
 
 			if (!turned) {
-				transform.up = dir;
+				wheelTransform.up = dir;
 
 				turned = true;
 			} else {
-				transform.up = Vector3.MoveTowards (transform.up, dir, rotSpeed * Time.deltaTime);
+				wheelTransform.up = Vector3.MoveTowards (wheelTransform.up, dir, wheelRotSpeed * Time.deltaTime);
 			}
 
-			currentDirection = transform.up;
+			currentDirection = wheelTransform.up;
+
+			UpdateBoatRotation ();
 
 			if ( Input.GetMouseButtonUp (0) ) {
 				
 				Opened = false;
 
-				Directions targetDirection = NavigationManager.Instance.getDirectionFromVector (dir);
-				NavigationManager.Instance.Move (targetDirection);
-
 				turned = false;
 
 			}
 
-			boatTransform.Translate (currentDirection * boatSpeed * 2 * Time.deltaTime, Space.World);
+			BoatManager.Instance.BoatTransform.Translate (currentDirection * boatSpeed * 2 * Time.deltaTime, Space.World);
 
 		} else {
-			transform.up = Vector3.MoveTowards (transform.up, Vector3.up, rotSpeed * Time.deltaTime);
+			wheelTransform.up = Vector3.MoveTowards (wheelTransform.up, Vector3.up, boatRotationSpeed * Time.deltaTime);
 
 			if (IslandManager.Instance.OnIsland == false) {
-				boatTransform.Translate (currentDirection * boatSpeed * Time.deltaTime, Space.World);
+				BoatManager.Instance.BoatTransform.Translate (currentDirection * boatSpeed * Time.deltaTime, Space.World);
 			}
 
 		}
 //
 	}
+
+	private void UpdateBoatRotation () {
+		// BOAT ROTATION
+		float targetAngle = Vector3.Angle (currentDirection, Vector3.up);
+
+		if (Vector3.Dot (Vector3.right, currentDirection) < 0)
+			targetAngle = -targetAngle;
+		
+		boatCurrentAngle = Mathf.MoveTowards (boatCurrentAngle, targetAngle, boatRotationSpeed * Time.deltaTime);
+
+		boatMesh.localRotation = Quaternion.Euler (0, targetAngle, 0);
+	}
+
+	float previousAngle;
 
 	public void OnMouseEnter() {
 	}
@@ -92,9 +119,9 @@ public class Wheel : MonoBehaviour {
 
 			arrowObj.SetActive (value);
 
-			transform.localScale = opened ? Vector3.one * 1.3f : Vector3.one;
+			wheelTransform.localScale = opened ? Vector3.one * 1.3f : Vector3.one;
 
-//			transform.localPosition = opened ? targetPos : initPos;
+//			wheelTransform.localPosition = opened ? targetPos : initPos;
 		}
 	}
 }

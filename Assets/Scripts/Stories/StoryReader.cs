@@ -32,11 +32,14 @@ public class StoryReader : MonoBehaviour {
 			WaitForNextCell_Update ();
 	}
 
-	#region navigation
+	#region story flow
 	public void Reset () {
 		index = 0;
 		decal = 0;
 	}
+	#endregion
+
+	#region navigation
 	public void UpdateStory () {
 
 		string content = GetContent;
@@ -51,34 +54,59 @@ public class StoryReader : MonoBehaviour {
 	public void NextCell () {
 		++index;
 	}
+	#endregion
 
-	public string GetContent {
-		get {
-			Story targetStory = IslandManager.Instance.CurrentIsland.Story;
+	#region node & switch
+	public void Node () {
 
-			if ( Decal >= targetStory.content.Count ) {
+		string text = StoryFunctions.Instance.CellParams;
+		string nodeName = text.Remove (0, 2);
+		Node node = GetNodeFromText (nodeName);
 
-				Debug.LogError ("DECAL is outside of story << " + targetStory.name + " >> content : DECAL : " + Decal + " /// COUNT : " + targetStory.content.Count);
 
-				return targetStory.content
-					[0]
-					[0];
+		GoToNode (node);
 
-			}
+	}
 
-			if ( Index >= targetStory.content [Decal].Count ) {
+	public void GoToNode (Node node) {
 
-				Debug.LogError ("INDEX is outside of story content : INDEX : " + Index + " /// COUNT : " + targetStory.content[Decal].Count);
+		StoryReader.Instance.Decal = node.x;
+		StoryReader.Instance.Index = node.y;
 
-				return targetStory.content
-					[Decal]
-					[0]; 
-			}
+		StoryReader.Instance.NextCell ();
 
-			return targetStory.content
-				[Decal]
-				[Index];
+		if (node.switched) {
+			StoryReader.Instance.SetDecal (1);
 		}
+
+		StoryReader.Instance.UpdateStory ();
+
+	}
+
+	public void Switch () {
+
+		string text = StoryFunctions.Instance.CellParams;
+
+		string nodeName = text.Remove (0, 2);
+
+		Node node = GetNodeFromText (nodeName);
+
+		node.switched = true;
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+
+	}
+
+	public Node GetNodeFromText ( string text ) {
+		Node node = IslandManager.Instance.CurrentIsland.Story.nodes.Find ( x => x.name == text);
+
+		if ( node == null ) {
+			Debug.LogError ("couldn't find node " + text + " // story : " + IslandManager.Instance.CurrentIsland.Story.name);
+			return null;
+		}
+
+		return node;
 	}
 	#endregion
 
@@ -106,7 +134,6 @@ public class StoryReader : MonoBehaviour {
 		}
 	}
 
-
 	public string ReadDecal (int decal) {
 
 		return IslandManager.Instance.CurrentIsland.Story.content
@@ -116,7 +143,7 @@ public class StoryReader : MonoBehaviour {
 	}
 	#endregion
 
-	#region input
+	#region input & wait
 	public void WaitForInput () {
 		waitForInput = true;
 		inputButton.SetActive (true);
@@ -151,10 +178,49 @@ public class StoryReader : MonoBehaviour {
 	}
 	#endregion
 
+	#region story management
+	public void ChangeStory () {
 
+		string text = StoryFunctions.Instance.CellParams;
+
+		string storyName = text.Remove (0, 2);
+		storyName = storyName.Remove (storyName.IndexOf ('['));
+
+		// extract nodes
+		string nodes = text.Remove (0,text.IndexOf ('[')+1);
+
+		// set nodes
+		string targetNode = nodes.Split ('/') [0];
+		string fallbackNode = nodes.Split ('/') [1].TrimEnd(']');
+
+		// get second story
+		Story secondStory = StoryLoader.Instance.Stories.Find ( x => x.name == storyName);
+
+		secondStory.name = "";
+
+		if (secondStory == null) {
+			Debug.LogError ("pas trouvé second story : " + storyName);
+			return;
+		}
+
+		int storyIndex = IslandManager.Instance.CurrentIsland.Stories.FindIndex (x => x.name == secondStory.name);
+
+			// is the story already in the island ?
+		if (storyIndex < 0 ) {
+			IslandManager.Instance.CurrentIsland.Stories.Add (secondStory);
+			storyIndex = IslandManager.Instance.CurrentIsland.Stories.Count - 1;
+			secondStory.fallbackStory = IslandManager.Instance.CurrentIsland.Story.name;
+			secondStory.fallbackNode = fallbackNode;
+		}
+
+		IslandManager.Instance.StoryLayer = storyIndex;
+
+		Node node = GetNodeFromText (targetNode);
+		GoToNode (node);
+	}
+	#endregion
 
 	#region properties
-
 	public int Index {
 		get {
 			return index;
@@ -170,6 +236,37 @@ public class StoryReader : MonoBehaviour {
 		}
 		set {
 			decal = value;
+		}
+	}
+
+
+
+	public string GetContent {
+		get {
+			Story targetStory = IslandManager.Instance.CurrentIsland.Story;
+
+			if ( Decal >= targetStory.content.Count ) {
+
+				Debug.LogError ("DECAL is outside of story << " + targetStory.name + " >> content : DECAL : " + Decal + " /// COUNT : " + targetStory.content.Count);
+
+				return targetStory.content
+					[0]
+					[0];
+
+			}
+
+			if ( Index >= targetStory.content [Decal].Count ) {
+
+				Debug.LogError ("INDEX is outside of story content : INDEX : " + Index + " /// COUNT : " + targetStory.content[Decal].Count);
+
+				return targetStory.content
+					[Decal]
+					[0]; 
+			}
+
+			return targetStory.content
+				[Decal]
+				[Index];
 		}
 	}
 	#endregion

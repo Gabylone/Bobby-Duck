@@ -62,7 +62,7 @@ public class WeatherManager : MonoBehaviour {
 		if (currentNight == r2)
 			IsNight = !IsNight;
 
-		BoatManager.Instance.BoatLightImage.gameObject.SetActive (Raining || IsNight);
+//		BoatManager.Instance.BoatLightImage.gameObject.SetActive (Raining || IsNight);
 	}
 	public void PlaySound () {
 

@@ -299,89 +299,17 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region story navigation
-	void ChangeStory () {
-
-			// get story name
-		string storyName = cellParams.Remove (0, 2);
-		storyName = storyName.Remove (storyName.IndexOf ('['));
-
-			// extract nodes
-		string nodes = cellParams.Remove (0,cellParams.IndexOf ('[')+1);
-
-			// set nodes
-		string targetNode = nodes.Split ('/') [0];
-		string fallbackNode = nodes.Split ('/') [1].TrimEnd(']');
-
-			// get second story
-		Story secondStory = StoryLoader.Instance.Stories.Find ( x => x.name == storyName);
-
-		if (secondStory == null) {
-			Debug.LogError ("pas trouvé second story : " + storyName);
-			return;
-		} else {
-			print ("SECOND STORY name : " + secondStory.name);
-		}
-
-			// assign second story
-			// is the story already in the island ?
-
-		++IslandManager.Instance.StoryLayer;
-		secondStory.fallbackNode = fallbackNode;
-
-		if ( IslandManager.Instance.StoryLayer >= IslandManager.Instance.CurrentIsland.Stories.Count ) {
-			IslandManager.Instance.CurrentIsland.Stories.Add (secondStory);
-		}
-
-		print ("l'histoire trouvée : " + secondStory.name);
-
-		Node mark = IslandManager.Instance.CurrentIsland.Story.nodes.Find ( x => x.name == targetNode);
-		StoryReader.Instance.Decal = mark.x;
-		StoryReader.Instance.Index = mark.y;
-
-			// procede
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-
+	private void ChangeStory () {
+		StoryReader.Instance.ChangeStory ();
+	}
+	private void Node () {
+		StoryReader.Instance.Node ();
+	}
+	private void Switch () {
+		StoryReader.Instance.Switch ();
 	}
 
-	void Node () {
-		
-		string markName = cellParams.Remove (0, 2);
-
-		Node mark = IslandManager.Instance.CurrentIsland.Story.nodes.Find ( x => x.name == markName);
-
-		StoryReader.Instance.Decal = mark.x;
-		StoryReader.Instance.Index = mark.y;
-
-		StoryReader.Instance.NextCell ();
-
-		if (mark.switched) {
-			StoryReader.Instance.SetDecal (1);
-		}
-
-		StoryReader.Instance.UpdateStory ();
-
-	}
-
-	void Switch () {
-
-		string markName = cellParams.Remove (0, 2);
-
-
-		Node mark = IslandManager.Instance.CurrentIsland.Story.nodes.Find ( x => x.name == markName);
-
-		int id = IslandManager.Instance.IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
-
-		mark.switched = true;
-
-		IslandManager.Instance.IslandDatas [id].Story.nodes [0].switched = true;
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-
-	}
-
-	void CheckFirstVisit () {
+	private void CheckFirstVisit () {
 
 		StoryReader.Instance.NextCell ();
 
@@ -394,6 +322,13 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region weather
+	void ChangeTimeOfDay () {
+		if ( WeatherManager.Instance.IsNight )
+			StartCoroutine (SetWeatherCoroutine ("Day"));
+		else
+			StartCoroutine (SetWeatherCoroutine ("Night"));
+
+	}
 	void SetWeather() {
 		StartCoroutine (SetWeatherCoroutine (cellParams));
 	}

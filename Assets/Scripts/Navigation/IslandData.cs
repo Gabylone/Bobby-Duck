@@ -54,8 +54,6 @@ public class IslandData {
 				stories [0] = value;
 			}
 
-
-			Debug.Log ("t'ajoute l'histoire : " + value.name);
 //			print 
 			stories.Add (value);
 		}

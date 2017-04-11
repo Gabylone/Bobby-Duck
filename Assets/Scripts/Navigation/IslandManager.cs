@@ -19,6 +19,7 @@ public class IslandManager : MonoBehaviour {
 	private bool onIsland = false;
 
 		// STORY LAYERS
+	private int previousLayer = 0;
 	private int storyLayer = 0;
 
 	[Header("Clue")]
@@ -73,7 +74,10 @@ public class IslandManager : MonoBehaviour {
 
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
 
-		BoatManager.Instance.BoatTransform.position = IslandManager.Instance.IslandImage.transform.position + boat_DecalToIsland;
+		Vector3 targetPos = IslandManager.Instance.IslandImage.transform.position + boat_DecalToIsland;
+		targetPos.z = BoatManager.Instance.BoatTransform.position.z;
+
+		BoatManager.Instance.BoatTransform.position = targetPos;
 
 		Transitions.Instance.ActionTransition.Switch();
 		Transitions.Instance.ScreenTransition.Switch ();
@@ -99,28 +103,26 @@ public class IslandManager : MonoBehaviour {
 	public void Leave () {
 
 		// une ile a UNE histoire. une histoire a DES histoire.
-
 		if ( StoryLayer > 0 ) {
-
-			print ("back to previous story");
-
 			string fallbackNode = CurrentIsland.Story.fallbackNode;
 
-			print ("fallback node : " + fallbackNode);
+			StoryLayer = CurrentIsland.Stories.FindIndex (x => x.name == CurrentIsland.Story.fallbackStory);
+			if (StoryLayer<0) {
+				Debug.LogError ("pas trouvé de fall back story");
+				return;
+			}
 
-			--StoryLayer;
+//			StoryLayer = CurrentIsland.Story.fallbackStory;
 
-			Node node = IslandManager.Instance.CurrentIsland.Story.nodes.Find ( x => x.name == fallbackNode);
-			StoryReader.Instance.Decal = node.x;
-			StoryReader.Instance.Index = node.y;
+			print ("target layer : " + storyLayer);
 
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.UpdateStory ();
+			Node node = StoryReader.Instance.GetNodeFromText (fallbackNode);
+			StoryReader.Instance.GoToNode (node);
 
 			return;
 
 		}
-
+		
 		onIsland = false;
 
 		Transitions.Instance.ActionTransition.Switch();
@@ -169,11 +171,20 @@ public class IslandManager : MonoBehaviour {
 	#endregion
 
 	#region properties
+	public int PreviousLayer {
+		get {
+			return previousLayer;
+		}
+		set {
+			previousLayer = value;
+		}
+	}
 	public int StoryLayer {
 		get {
 			return storyLayer;
 		}
 		set {
+			PreviousLayer = storyLayer;
 			storyLayer = value;
 		}
 	}

@@ -1,8 +1,0 @@
-Nom;Fréquence / 5
-HistoireTest1;10
-Narrator : Je suis au début de l'histoire Test 2;
-[debut];
-PlayerSpeak : Me voilà dans la grotte !;
-SetChoices1;
-Choice : retourner dans la taverne;
-Leave;

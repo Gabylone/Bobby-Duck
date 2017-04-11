@@ -19,19 +19,6 @@ public class BoatManager : MonoBehaviour {
 	void Awake () {
 		Instance = this;
 	}
-	
-//	void Update () {
-//		if ( (boatTransform.position.x < -0.5f || boatTransform.position.x > 0.5f) ||
-//			(boatTransform.position.y < -0.5f || boatTransform.position.y > 0.5f) ) {
-//			{
-//				
-//				if (IslandManager.Instance.OnIsland == false) {
-//					Vector2 getDir = NavigationManager.Instance.getDir (NavigationManager.Instance.CurrentDirection);
-//					boatTransform.Translate (getDir * boatSpeed * Time.deltaTime, Space.World);
-//				}
-//			}
-//		}
-//	}
 
 	public Transform BoatTransform {
 		get {
@@ -41,8 +28,7 @@ public class BoatManager : MonoBehaviour {
 
 	public void SetBoatPos () {
 		Vector2 getDir =NavigationManager.Instance.getDir(NavigationManager.Instance.CurrentDirection);
-		boatTransform.localPosition = new Vector2(-getDir.x * boatBounds.x, -getDir.y * boatBounds.y);
-
+		BoatTransform.localPosition = new Vector2(-getDir.x * boatBounds.x, -getDir.y * boatBounds.y);
 	}
 
 	public Image BoatLightImage {
