@@ -76,6 +76,7 @@ public class Wheel : MonoBehaviour {
 			BoatManager.Instance.BoatTransform.Translate (currentDirection * boatSpeed * 2 * Time.deltaTime, Space.World);
 
 		} else {
+			
 			wheelTransform.up = Vector3.MoveTowards (wheelTransform.up, Vector3.up, boatRotationSpeed * Time.deltaTime);
 
 			if (IslandManager.Instance.OnIsland == false) {
@@ -83,7 +84,6 @@ public class Wheel : MonoBehaviour {
 			}
 
 		}
-//
 	}
 
 	private void UpdateBoatRotation () {

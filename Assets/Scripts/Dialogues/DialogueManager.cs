@@ -48,24 +48,18 @@ public class DialogueManager : MonoBehaviour {
 
 	}
 
-	#region set dialogue
-	public void SetDialogue (string[] phrases, CrewMember crewMember) {
-		talkingMember = crewMember;
-		SetDialogue (phrases, crewMember.Icon.GetTransform);
+	#region set dialoguex
+	public void SetDialogue (string phrase, CrewMember crewMember) {
+		phrase = CheckForKeyWords (phrase);
+		SetDialogue (phrase, crewMember.Icon.GetTransform);
 	}
-	public void SetDialogue (string[] phrases, Transform _target) {
-		DialogueTexts = phrases;
+	public void SetDialogue (string phrase, Transform _target) {
+		
+		DialogueTexts = new string[1] {phrase};
 
 		target = _target;
 
 		StartDialogue ();
-	}
-
-	public void SetDialogue (string phrase, CrewMember crewMember) {
-		SetDialogue (new string[1]{ phrase }, crewMember);
-	}
-	public void SetDialogue (string phrase, Transform _target) {
-		SetDialogue (new string[1]{ phrase }, _target);
 	}
 
 	public string[] DialogueTexts {
@@ -119,20 +113,54 @@ public class DialogueManager : MonoBehaviour {
 	}
 	#endregion
 
-	#region narrator
-	public void ShowNarrator (string text) {
-		
-		narratorObj.SetActive (true);
+	#region key words
+
+	string lastItemName = "";
+
+	public string LastItemName {
+		get {
+			return lastItemName;
+		}
+		set {
+			lastItemName = value;
+		}
+	}
+
+	public string CheckForKeyWords ( string text ) {
 
 		if ( text.Contains ("CAPITAINE") ) {
 			text = text.Replace ( "CAPITAINE" , Crews.playerCrew.captain.MemberName );
 		}
 
 		if ( text.Contains ("OTHERNAME") ) {
-			text= text.Replace ( "OTHERNAME" , Crews.enemyCrew.captain.MemberName );
+			text = text.Replace ( "OTHERNAME" , Crews.enemyCrew.captain.MemberName );
 		}
 
-		narratorText.text = text;
+		if ( text.Contains ("LASTITEM") ) {
+
+			if ( lastItemName.Length < 1 ) {
+				text = text.Replace ( "LASTITEM" , "une babiole" );
+			} else {
+				text = text.Replace ( "LASTITEM" , lastItemName );
+				lastItemName = "";
+			}
+
+		}
+
+		if ( text.Contains ("DIRECTIONTOBOBBY") ) {
+			text = text.Replace ( "DIRECTIONTOBOBBY" , lastItemName );
+		}
+
+		return text;
+	}
+	#endregion
+
+	#region narrator
+	public void ShowNarrator (string text) {
+		
+		narratorObj.SetActive (true);
+
+		narratorText.text = CheckForKeyWords (text);
 
 		if ( !IslandManager.Instance.OnIsland ) {
 			Invoke ("HideNarrator" , 2.5f );

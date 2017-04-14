@@ -254,24 +254,41 @@ public class StoryFunctions : MonoBehaviour {
 		} else {
 
 			Item item = LootManager.Instance.PlayerLoot.getLoot [(int)targetCat] [0];
+			if (CellParams.Contains ("<")) {
+				string itemName = cellParams.Split ('<') [1];
+				itemName = itemName.Remove (itemName.Length - 6);
+				item = System.Array.Find (LootManager.Instance.PlayerLoot.getLoot [(int)targetCat], x => x.name == itemName);
+				if (item == null) {
+					StoryReader.Instance.SetDecal (1);
+					StoryReader.Instance.UpdateStory ();
+					return;
+				}
+			}
+
+			DialogueManager.Instance.LastItemName = item.name;
 
 			LootManager.Instance.PlayerLoot.RemoveItem (item);
-
-			Debug.Log ("removed item : " + item.name);
 
 		}
 
 		StoryReader.Instance.UpdateStory ();
 	}
+
 	void AddToInventory () {
-
-		string itemName = cellParams.Split ('<')[1];
-
-		itemName = itemName.Remove (itemName.Length - 6);
 
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 
-		Item item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
+		Item item = null;
+
+		if (cellParams.Contains ("<")) {
+			string itemName = cellParams.Split ('<') [1];
+			itemName = itemName.Remove (itemName.Length - 6);
+			item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
+		} else {
+			item = ItemLoader.Instance.getRandomItem (targetCat);
+		}
+
+		DialogueManager.Instance.LastItemName = item.name;
 
 		LootManager.Instance.PlayerLoot.AddItem (item);
 
@@ -290,8 +307,8 @@ public class StoryFunctions : MonoBehaviour {
 
 		if (item == null)
 			StoryReader.Instance.SetDecal (1);
-
-//		LootManager.Instance.PlayerLoot.AddItem (item);
+		else
+			DialogueManager.Instance.LastItemName = item.name;
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
@@ -403,16 +420,20 @@ public class StoryFunctions : MonoBehaviour {
 	}
 	void GiveDirectionToClue () {
 
-		Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
-		string directionPhrase = NavigationManager.Instance.getDirName (dir);
-
 		if ( cellParams.Length == 0 ) {
-			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.enemyCrew.captain);
+			DialogueManager.Instance.SetDialogue (getDirectionToFormula (), Crews.enemyCrew.captain);
 		} else {
-			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.playerCrew.captain);
+			DialogueManager.Instance.SetDialogue (getDirectionToFormula (), Crews.playerCrew.captain);
 		}
 
 		StoryReader.Instance.WaitForInput ();
+	}
+
+	string getDirectionToFormula () {
+		Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
+		string directionPhrase = NavigationManager.Instance.getDirName (dir);
+
+		return directionPhrase;
 	}
 
 	string getFormula () {
@@ -480,27 +501,34 @@ public class StoryFunctions : MonoBehaviour {
 		yield return new WaitForSeconds ( DiceManager.Instance.settlingDuration + DiceManager.Instance.ThrowDuration);
 
 		int captainHighest = DiceManager.Instance.getHighestThrow;
+		int otherHighest = 0;
 
-		DiceManager.Instance.ThrowDirection = -1;
+		if (CombatManager.Instance.Fighting) {
 
-		switch ( cellParams ) {
-		case "SRT":
-			DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.enemyCrew.captain.Strenght);
-			break;
-		case "DEX" :
-			DiceManager.Instance.ThrowDice (DiceTypes.DEX, Crews.enemyCrew.captain.Dexterity);
-			break;
-		case "CHA" :
-			DiceManager.Instance.ThrowDice (DiceTypes.CHA, Crews.enemyCrew.captain.Charisma);
-			break;
-		case "CON" :
-			DiceManager.Instance.ThrowDice (DiceTypes.CON, Crews.enemyCrew.captain.Constitution);
-			break;
+			DiceManager.Instance.ThrowDirection = -1;
+
+			switch (cellParams) {
+			case "SRT":
+				DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.enemyCrew.captain.Strenght);
+				break;
+			case "DEX":
+				DiceManager.Instance.ThrowDice (DiceTypes.DEX, Crews.enemyCrew.captain.Dexterity);
+				break;
+			case "CHA":
+				DiceManager.Instance.ThrowDice (DiceTypes.CHA, Crews.enemyCrew.captain.Charisma);
+				break;
+			case "CON":
+				DiceManager.Instance.ThrowDice (DiceTypes.CON, Crews.enemyCrew.captain.Constitution);
+				break;
+			}
+
+			yield return new WaitForSeconds (DiceManager.Instance.settlingDuration + DiceManager.Instance.ThrowDuration);
+
+			otherHighest = DiceManager.Instance.getHighestThrow;
+
+		} else {
+			otherHighest = 5;
 		}
-
-		yield return new WaitForSeconds ( DiceManager.Instance.settlingDuration + DiceManager.Instance.ThrowDuration);
-
-		int otherHighest = DiceManager.Instance.getHighestThrow;
 
 		StoryReader.Instance.NextCell ();
 

@@ -3,9 +3,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.20506</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
     <ProjectGuid>{732211AA-2DC6-792B-7407-8D3C9F536B6B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -34,91 +33,91 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.XML" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Island.cs" />
-     <Compile Include="Assets\Scripts\Card\Card.cs" />
-     <Compile Include="Assets\Scripts\Card\CardManager.cs" />
-     <Compile Include="Assets\Scripts\Combat\CombatManager.cs" />
-     <Compile Include="Assets\Scripts\Combat\Fight_LoadSprites.cs" />
-     <Compile Include="Assets\Scripts\Combat\FollowFighter.cs" />
-     <Compile Include="Assets\Scripts\Combat\StateMachine.cs" />
-     <Compile Include="Assets\Scripts\Crew\CrewCreator.cs" />
-     <Compile Include="Assets\Scripts\Crew\CrewIcon.cs" />
-     <Compile Include="Assets\Scripts\Crew\CrewManager.cs" />
-     <Compile Include="Assets\Scripts\Crew\CrewMember.cs" />
-     <Compile Include="Assets\Scripts\Crew\Crews.cs" />
-     <Compile Include="Assets\Scripts\Crew\MemberFeedback.cs" />
-     <Compile Include="Assets\Scripts\Dialogues\DialogueManager.cs" />
-     <Compile Include="Assets\Scripts\Dialogues\DiscussionManager.cs" />
-     <Compile Include="Assets\Scripts\Dice\Dice.cs" />
-     <Compile Include="Assets\Scripts\Dice\DiceManager.cs" />
-     <Compile Include="Assets\Scripts\Fight\FightIA.cs" />
-     <Compile Include="Assets\Scripts\Fight\FightPlayer.cs" />
-     <Compile Include="Assets\Scripts\Fight\Humanoid.cs" />
-     <Compile Include="Assets\Scripts\Fight\WeaponCollider.cs" />
-     <Compile Include="Assets\Scripts\GameManager.cs" />
-     <Compile Include="Assets\Scripts\Gold\GoldManager.cs" />
-     <Compile Include="Assets\Scripts\Inventory\ActionGroup.cs" />
-     <Compile Include="Assets\Scripts\Inventory\InventoryCard.cs" />
-     <Compile Include="Assets\Scripts\Inventory\Item.cs" />
-     <Compile Include="Assets\Scripts\Inventory\ItemButton.cs" />
-     <Compile Include="Assets\Scripts\Inventory\ItemLoader.cs" />
-     <Compile Include="Assets\Scripts\Inventory\Loot.cs" />
-     <Compile Include="Assets\Scripts\Inventory\LootManager.cs" />
-     <Compile Include="Assets\Scripts\Inventory\LootUI.cs" />
-     <Compile Include="Assets\Scripts\Inventory\OtherLoot.cs" />
-     <Compile Include="Assets\Scripts\Inventory\PlayerLoot.cs" />
-     <Compile Include="Assets\Scripts\Inventory\WeightManager.cs" />
-     <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
-     <Compile Include="Assets\Scripts\Map\MapImage.cs" />
-     <Compile Include="Assets\Scripts\Map\MapManager.cs" />
-     <Compile Include="Assets\Scripts\MenuManager.cs" />
-     <Compile Include="Assets\Scripts\NameGeneration.cs" />
-     <Compile Include="Assets\Scripts\Navigation\BoatLight.cs" />
-     <Compile Include="Assets\Scripts\Navigation\BoatManager.cs" />
-     <Compile Include="Assets\Scripts\Navigation\BoatUpgradeManager.cs" />
-     <Compile Include="Assets\Scripts\Navigation\IslandData.cs" />
-     <Compile Include="Assets\Scripts\Navigation\IslandManager.cs" />
-     <Compile Include="Assets\Scripts\Navigation\NavigationManager.cs" />
-     <Compile Include="Assets\Scripts\Navigation\WeatherManager.cs" />
-     <Compile Include="Assets\Scripts\Navigation\Wheel.cs" />
-     <Compile Include="Assets\Scripts\NavigationTrigger.cs" />
-     <Compile Include="Assets\Scripts\Percentage.cs" />
-     <Compile Include="Assets\Scripts\Save\SaveManager.cs" />
-     <Compile Include="Assets\Scripts\Save\SaveMenu.cs" />
-     <Compile Include="Assets\Scripts\Save\SaveTool.cs" />
-     <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
-     <Compile Include="Assets\Scripts\Stories\Node.cs" />
-     <Compile Include="Assets\Scripts\Stories\Story.cs" />
-     <Compile Include="Assets\Scripts\Stories\StoryFunctions.cs" />
-     <Compile Include="Assets\Scripts\Stories\StoryFunctions\RandomManager.cs" />
-     <Compile Include="Assets\Scripts\Stories\StoryLoader.cs" />
-     <Compile Include="Assets\Scripts\Stories\StoryReader.cs" />
-     <Compile Include="Assets\Scripts\Stories\StoryTest.cs" />
-     <Compile Include="Assets\Scripts\Transition\Transition.cs" />
-     <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
-     <Compile Include="Assets\Scripts\Transition\UIButton.cs" />
-     <Compile Include="Assets\Scripts\Treasure\ClueManager.cs" />
-     <Compile Include="Assets\Scripts\UI_Target.cs" />
-     <None Include="Assets\Liste feature.txt" />
-     <None Include="Assets\GameSaveData2.xml" />
-     <None Include="Assets\GameSaveData1.xml" />
- <Reference Include="UnityEngine.UI">
- <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Networking">
- <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
+    <Compile Include="Assets\Island.cs" />
+    <Compile Include="Assets\Scripts\Card\Card.cs" />
+    <Compile Include="Assets\Scripts\Card\CardManager.cs" />
+    <Compile Include="Assets\Scripts\Combat\CombatManager.cs" />
+    <Compile Include="Assets\Scripts\Combat\Fight_LoadSprites.cs" />
+    <Compile Include="Assets\Scripts\Combat\FollowFighter.cs" />
+    <Compile Include="Assets\Scripts\Combat\StateMachine.cs" />
+    <Compile Include="Assets\Scripts\Crew\CrewCreator.cs" />
+    <Compile Include="Assets\Scripts\Crew\CrewIcon.cs" />
+    <Compile Include="Assets\Scripts\Crew\CrewManager.cs" />
+    <Compile Include="Assets\Scripts\Crew\CrewMember.cs" />
+    <Compile Include="Assets\Scripts\Crew\Crews.cs" />
+    <Compile Include="Assets\Scripts\Crew\MemberFeedback.cs" />
+    <Compile Include="Assets\Scripts\Dialogues\DialogueManager.cs" />
+    <Compile Include="Assets\Scripts\Dialogues\DiscussionManager.cs" />
+    <Compile Include="Assets\Scripts\Dice\Dice.cs" />
+    <Compile Include="Assets\Scripts\Dice\DiceManager.cs" />
+    <Compile Include="Assets\Scripts\Fight\FightIA.cs" />
+    <Compile Include="Assets\Scripts\Fight\FightPlayer.cs" />
+    <Compile Include="Assets\Scripts\Fight\Humanoid.cs" />
+    <Compile Include="Assets\Scripts\Fight\WeaponCollider.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Gold\GoldManager.cs" />
+    <Compile Include="Assets\Scripts\Inventory\ActionGroup.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryCard.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Item.cs" />
+    <Compile Include="Assets\Scripts\Inventory\ItemButton.cs" />
+    <Compile Include="Assets\Scripts\Inventory\ItemLoader.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Loot.cs" />
+    <Compile Include="Assets\Scripts\Inventory\LootManager.cs" />
+    <Compile Include="Assets\Scripts\Inventory\LootUI.cs" />
+    <Compile Include="Assets\Scripts\Inventory\OtherLoot.cs" />
+    <Compile Include="Assets\Scripts\Inventory\PlayerLoot.cs" />
+    <Compile Include="Assets\Scripts\Inventory\WeightManager.cs" />
+    <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
+    <Compile Include="Assets\Scripts\Map\MapImage.cs" />
+    <Compile Include="Assets\Scripts\Map\MapManager.cs" />
+    <Compile Include="Assets\Scripts\MenuManager.cs" />
+    <Compile Include="Assets\Scripts\NameGeneration.cs" />
+    <Compile Include="Assets\Scripts\Navigation\BoatLight.cs" />
+    <Compile Include="Assets\Scripts\Navigation\BoatManager.cs" />
+    <Compile Include="Assets\Scripts\Navigation\BoatUpgradeManager.cs" />
+    <Compile Include="Assets\Scripts\Navigation\IslandData.cs" />
+    <Compile Include="Assets\Scripts\Navigation\IslandManager.cs" />
+    <Compile Include="Assets\Scripts\Navigation\NavigationManager.cs" />
+    <Compile Include="Assets\Scripts\Navigation\WeatherManager.cs" />
+    <Compile Include="Assets\Scripts\Navigation\Wheel.cs" />
+    <Compile Include="Assets\Scripts\NavigationTrigger.cs" />
+    <Compile Include="Assets\Scripts\Percentage.cs" />
+    <Compile Include="Assets\Scripts\Save\SaveManager.cs" />
+    <Compile Include="Assets\Scripts\Save\SaveMenu.cs" />
+    <Compile Include="Assets\Scripts\Save\SaveTool.cs" />
+    <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
+    <Compile Include="Assets\Scripts\Stories\Node.cs" />
+    <Compile Include="Assets\Scripts\Stories\Story.cs" />
+    <Compile Include="Assets\Scripts\Stories\StoryFunctions.cs" />
+    <Compile Include="Assets\Scripts\Stories\StoryFunctions\RandomManager.cs" />
+    <Compile Include="Assets\Scripts\Stories\StoryLoader.cs" />
+    <Compile Include="Assets\Scripts\Stories\StoryReader.cs" />
+    <Compile Include="Assets\Scripts\Stories\StoryTest.cs" />
+    <Compile Include="Assets\Scripts\Transition\Transition.cs" />
+    <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
+    <Compile Include="Assets\Scripts\Transition\UIButton.cs" />
+    <Compile Include="Assets\Scripts\Treasure\ClueManager.cs" />
+    <Compile Include="Assets\Scripts\UI_Target.cs" />
+    <None Include="Assets\Liste feature.txt" />
+    <None Include="Assets\GameSaveData2.xml" />
+    <None Include="Assets\GameSaveData1.xml" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\UnityExtensions\Unity\Networking\UnityEngine.Networking.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -128,5 +127,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
+  <ItemGroup>
+    <Folder Include="Assets\Scripts\Dialogues\" />
+  </ItemGroup>
 </Project>

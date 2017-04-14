@@ -26,7 +26,6 @@ public class ClueManager : MonoBehaviour {
 	}
 
 	public void Init () {
-
 		// randomize clues
 		for (int i = 0; i < clues.Length; ++i )
 			clues[i] = NameGeneration.Instance.randomWord.ToUpper ();
@@ -38,19 +37,9 @@ public class ClueManager : MonoBehaviour {
 		
 	}
 
-	public int ClueAmount {
-		get {
-			return clueAmount;
-		}
-		set {
-			clueAmount = value;
-		}
-	}
-
+	#region clues
 	public void StartClue () {
-
 		clueBubble.SetActive (true);
-
 		StoryReader.Instance.NextCell ();
 	}
 
@@ -99,6 +88,71 @@ public class ClueManager : MonoBehaviour {
 		}
 	}
 
+	public void GiveClue() {
+
+		string formula = getFormula ();
+
+		Debug.Log (formula);
+
+		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
+			DialogueManager.Instance.ShowNarrator (formula);
+		} else {
+			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+			DialogueManager.Instance.SetDialogue (formula, Crews.enemyCrew.captain);
+
+		}
+
+		StoryReader.Instance.WaitForInput ();
+
+	}
+	public void GiveDirectionToClue () {
+
+		Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
+		string directionPhrase = NavigationManager.Instance.getDirName (dir);
+
+		if ( StoryFunctions.Instance.CellParams.Length == 0 ) {
+			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.enemyCrew.captain);
+		} else {
+			DialogueManager.Instance.SetDialogue (directionPhrase, Crews.playerCrew.captain);
+		}
+
+		StoryReader.Instance.WaitForInput ();
+	}
+
+	string getFormula () {
+
+		int clueIndex = ClueManager.Instance.ClueIndex;
+
+		string clue = "";
+
+		bool clueAlreadyFound = false;
+
+		int a = 0;
+
+		foreach ( int i in ClueManager.Instance.ClueIslands ) {
+
+			if ( i == MapManager.Instance.IslandID ) {
+				Debug.Log ("already found clue in island");
+				clue = ClueManager.Instance.Clues [a];
+				clueIndex = a;
+				clueAlreadyFound = true;
+			}
+
+			++a;
+
+		}
+
+		if ( clueAlreadyFound == false ) {
+			Debug.Log ("first time gave clue");
+			clue = ClueManager.Instance.Clues[clueIndex];
+			ClueManager.Instance.ClueIndex += 1;
+		}
+
+		ClueManager.Instance.ClueIslands [clueIndex] = MapManager.Instance.IslandID;
+
+		return clue;
+	}
+
 	public Vector2 GetNextClueIslandPos {
 		get {
 			if ( clueIndex == clues.Length ) 
@@ -129,6 +183,15 @@ public class ClueManager : MonoBehaviour {
 		}
 		set {
 			clueIndex = Mathf.Clamp (value, 0, clues.Length);
+		}
+	}
+
+	public int ClueAmount {
+		get {
+			return clueAmount;
+		}
+		set {
+			clueAmount = value;
 		}
 	}
 }
