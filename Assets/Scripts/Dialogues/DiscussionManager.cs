@@ -97,6 +97,7 @@ public class DiscussionManager : MonoBehaviour {
 					if ( choice.Contains ( stat ) ) {
 
 						DiscussionManager.Instance.TaintChoice (index, i);
+						choice = choice.Replace (stat, "");
 
 					}
 

@@ -398,84 +398,14 @@ public class StoryFunctions : MonoBehaviour {
 	#endregion
 
 	#region clues
-	void CheckClues () {
+	private void CheckClues () {
 		ClueManager.Instance.StartClue ();
-	}
-	void GiveClue() {
-
-		string formula = getFormula ();
-
-		Debug.Log (formula);
-
-		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
-			DialogueManager.Instance.ShowNarrator (formula);
-		} else {
-			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-			DialogueManager.Instance.SetDialogue (formula, Crews.enemyCrew.captain);
-
-		}
-
-		StoryReader.Instance.WaitForInput ();
-
-	}
-	void GiveDirectionToClue () {
-
-		if ( cellParams.Length == 0 ) {
-			DialogueManager.Instance.SetDialogue (getDirectionToFormula (), Crews.enemyCrew.captain);
-		} else {
-			DialogueManager.Instance.SetDialogue (getDirectionToFormula (), Crews.playerCrew.captain);
-		}
-
-		StoryReader.Instance.WaitForInput ();
-	}
-
-	string getDirectionToFormula () {
-		Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
-		string directionPhrase = NavigationManager.Instance.getDirName (dir);
-
-		return directionPhrase;
-	}
-
-	string getFormula () {
-		
-		int clueIndex = ClueManager.Instance.ClueIndex;
-
-		string clue = "";
-
-		bool clueAlreadyFound = false;
-
-		int a = 0;
-
-		foreach ( int i in ClueManager.Instance.ClueIslands ) {
-
-			if ( i == MapManager.Instance.IslandID ) {
-				Debug.Log ("already found clue in island");
-				clue = ClueManager.Instance.Clues [a];
-				clueIndex = a;
-				clueAlreadyFound = true;
-			}
-
-			++a;
-
-		}
-
-		if ( clueAlreadyFound == false ) {
-			Debug.Log ("first time gave clue");
-			clue = ClueManager.Instance.Clues[clueIndex];
-			ClueManager.Instance.ClueIndex += 1;
-		}
-
-		ClueManager.Instance.ClueIslands [clueIndex] = MapManager.Instance.IslandID;
-
-		return clue;
 	}
 	#endregion
 
 	#region dice
 	private void CheckStat () {
-
 		StartCoroutine (CheckStat_Coroutine ());
-
 	}
 
 	IEnumerator CheckStat_Coroutine () {

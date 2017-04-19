@@ -147,8 +147,20 @@ public class DialogueManager : MonoBehaviour {
 
 		}
 
-		if ( text.Contains ("DIRECTIONTOBOBBY") ) {
-			text = text.Replace ( "DIRECTIONTOBOBBY" , lastItemName );
+		if ( text.Contains ("DIRECTIONTOFORMULA") ) {
+			text = text.Replace ( "DIRECTIONTOBOBBY" , ClueManager.Instance.getDirectionToFormula () );
+		}
+
+		if ( text.Contains ("FORMULA") ) {
+			text = text.Replace ( "FORMULA" , ClueManager.Instance.getFormula () );
+		}
+
+		if ( text.Contains ("RANDOMFEMALENAME") ) {
+			text = text.Replace ( "RANDOMFEMALENAME" , CrewCreator.Instance.FemaleNames[Random.Range (0,CrewCreator.Instance.FemaleNames.Length)]);
+		}
+
+		if ( text.Contains ("RANDOMMALENAME") ) {
+			text = text.Replace ( "RANDOMMALENAME" , CrewCreator.Instance.MaleNames[Random.Range (0,CrewCreator.Instance.MaleNames.Length)]);
 		}
 
 		return text;
