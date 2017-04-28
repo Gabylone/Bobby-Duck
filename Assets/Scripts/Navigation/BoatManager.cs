@@ -30,17 +30,4 @@ public class BoatManager : MonoBehaviour {
 		Vector2 getDir =NavigationManager.Instance.getDir(NavigationManager.Instance.CurrentDirection);
 		BoatTransform.localPosition = new Vector2(-getDir.x * boatBounds.x, -getDir.y * boatBounds.y);
 	}
-
-	public Image BoatLightImage {
-		get {
-			return boatLightImage;
-		}
-	}
-
-	void OnTriggerEnter2D ( Collider2D other ) {
-
-		NavigationManager.Instance.CurrentDirection = Directions.None;
-//		if ( other.tag == "Island" ) {
-//		}
-	}
 }

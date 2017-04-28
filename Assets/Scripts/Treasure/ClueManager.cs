@@ -37,7 +37,6 @@ public class ClueManager : MonoBehaviour {
 		
 	}
 
-	#region clues
 	public void StartClue () {
 		clueBubble.SetActive (true);
 		StoryReader.Instance.NextCell ();

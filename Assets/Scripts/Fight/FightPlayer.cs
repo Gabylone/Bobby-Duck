@@ -32,9 +32,9 @@ public class FightPlayer : Humanoid {
 	{
 		base.move_Update ();
 
-		Animator.SetFloat ("move" , Input.GetAxis ("Horizontal") != 0 ? 1 : 0);
+		Animator.SetFloat ("move" , InputManager.Instance.GetHorizontalAxis() != 0 ? 1 : 0);
 
-		transform.Translate ( Direction * Input.GetAxis ("Horizontal") * Speed * Time.deltaTime);
+		transform.Translate ( Direction * InputManager.Instance.GetHorizontalAxis() * Speed * Time.deltaTime);
 
 		if (Input.GetKeyDown (KeyCode.D))
 			ChangeState (states.hit);

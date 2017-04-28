@@ -1,0 +1,21 @@
+Nom histoire;Fréquence %;;;;
+Marchand d'armes;4;;;;
+Narrator : L'île est petite, plate et verte. ;;;;;
+[debut];;;;;
+Narrator : Sur la plage un panneau indique une direction : « Vendeur d'armes tout genre »;;;;;
+SetChoices2;;;;;
+Choice : (suivre panneau);Choice : (repartir);;;;
+Node=>marchand;Leave;;;;
+;;;;;
+;;;;;
+;;;;;
+[marchand];;;;;
+NewCrew1;;;;;
+OtherSpeak : Salut voyageur !;;;;;
+[choix];;;;;
+SetChoices4;;;;;
+Choice : Qu'est-ce que vous vendez ?;Choice : Montrez moi votre marchandise;Choice : Le trésor de Bobby Dick ?;;Choice : (partir);
+OtherSpeak : Comme le panneau l'indique.;TradeWeapons;RandomPercent20;;OtherSpeak : Au revoir !;
+OtherSpeak : Des armes et objets coupants en tout genre.;Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;HideOther;
+Node=>choix;;Node=>choix;Node=>choix;Fade;caca
+;;;;Node=>debut;

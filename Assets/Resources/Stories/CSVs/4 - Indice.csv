@@ -20,5 +20,5 @@ Node=>debut;PlayerSpeak : Bonjour !;;;;Leave;LaunchCombat
 ;OtherSpeak : OK merci !;RandomRange2;;OtherSpeak : Oui.;;
 ;HideOther;OtherSpeak : Je vais voir dans mon garde manger.;OtherSpeak : J'en ai assez peu pour moi même, désolé.;OtherSpeak : Mon fils est lui aussi parti à sa recherche.;;
 ;Narrator : L'équipage est au sommet. Une petite chaumière surplombe le rocher.;TradeFood;Node=>discussion vielle;OtherSpeak : Il n'avait qu'un mot à la bouche.;;
-;Node=>maison;PlayerSpeak : Mille merci !;;GiveClue;;
+;Node=>maison;PlayerSpeak : Mille merci !;;GiveFormula;;
 ;;Node=>discussion vielle;;Node=>discussion vielle;;
