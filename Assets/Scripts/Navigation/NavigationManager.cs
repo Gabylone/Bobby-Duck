@@ -25,8 +25,34 @@ public class NavigationManager : MonoBehaviour {
 	private bool isInNoMansSea = false;
 	private bool hasBeenWarned = false;
 
+	private bool moving = false;
+
 	[SerializeField]
 	private GameObject navigationTriggers;
+
+	/// <summary>
+	/// Navigation system.
+	/// </summary>
+	public enum NavigationSystem
+	{
+		Wheel,
+		Flag
+	}
+
+	[SerializeField]
+	private NavigationSystem navigationSystem;
+
+	[SerializeField]
+	private WheelControl wheelControl;
+
+	[SerializeField]
+	private FlagControl flagControl;
+
+	[SerializeField]
+	private Vector2 boatBounds = new Vector2 ( 290f , 125f );
+
+	[SerializeField]
+	private Boat playerBoat;
 
 	void Awake () {
 		Instance = this;
@@ -36,10 +62,22 @@ public class NavigationManager : MonoBehaviour {
 		foreach ( Animator animator in navigationTriggers.GetComponentsInChildren<Animator>() ){
 			animator.SetBool ("feedback", true);
 		}
+
+			// get boat control
+		wheelControl.WheelTransform.gameObject.SetActive (navigationSystem == NavigationSystem.Wheel);
+		flagControl.FlagImage.gameObject.SetActive (navigationSystem == NavigationSystem.Flag);
+
+		wheelControl.gameObject.SetActive (navigationSystem == NavigationSystem.Wheel);
+		flagControl.gameObject.SetActive (navigationSystem == NavigationSystem.Flag);
 	}
 
 	#region movement
 	public void Move ( int dir ) {
+
+		if (moving)
+			return;
+		
+		moving = true;
 
 		currentDirection = (Directions)dir;
 
@@ -48,19 +86,10 @@ public class NavigationManager : MonoBehaviour {
 		Invoke ("MoveDelay", Transitions.Instance.ScreenTransition.Duration);
 
 	}
-	public void Move ( Directions dir ) {
-
-		currentDirection = dir;
-
-		Transitions.Instance.ScreenTransition.Switch ();
-
-		Invoke ("MoveDelay", Transitions.Instance.ScreenTransition.Duration);
-	}
-
 
 	private void MoveDelay () {
 
-		BoatManager.Instance.SetBoatPos ();
+		playerBoat.SetBoatPos ();
 
 		MapManager.Instance.SetNewPos (getDir (currentDirection));
 
@@ -102,6 +131,7 @@ public class NavigationManager : MonoBehaviour {
 //
 //		Debug.Log (directionPhrase);
 
+		moving = false;
 	}
 	#endregion
 
@@ -224,6 +254,12 @@ public class NavigationManager : MonoBehaviour {
 	public GameObject NavigationTriggers {
 		get {
 			return navigationTriggers;
+		}
+	}
+
+	public Vector2 BoatBounds {
+		get {
+			return boatBounds;
 		}
 	}
 }

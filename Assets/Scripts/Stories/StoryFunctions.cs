@@ -150,11 +150,11 @@ public class StoryFunctions : MonoBehaviour {
 	}
 
 	private void SetChoices () {
-		DiscussionManager.Instance.GetChoices ();
+		ChoiceManager.Instance.GetChoices ();
 	}
 
 	private void GiveTip ()  {
-		DiscussionManager.Instance.GiveTip ();
+		ChoiceManager.Instance.GiveTip ();
 	}
 	#endregion
 

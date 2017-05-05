@@ -20,6 +20,8 @@ public class Crews : MonoBehaviour {
 
 	public static CrewManager[] crews = new CrewManager[2];
 
+	public int startMemberAmount = 1;
+
 	void Awake () {
 		Instance = this;
 		Init ();
@@ -30,7 +32,7 @@ public class Crews : MonoBehaviour {
 		crews [0] = GetComponentsInChildren<CrewManager> () [0];
 		crews [1] = GetComponentsInChildren<CrewManager> () [1];
 
-		CrewParams crewParams = new CrewParams (1, false, false);
+		CrewParams crewParams = new CrewParams (startMemberAmount, false, false);
 		Crew playerCrew = new Crew (crewParams,0,0);
 		crews [0].setCrew (playerCrew);
 		crews [0].UpdateCrew (PlacingType.Map);

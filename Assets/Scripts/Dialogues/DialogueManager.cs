@@ -148,7 +148,7 @@ public class DialogueManager : MonoBehaviour {
 		}
 
 		if ( text.Contains ("DIRECTIONTOFORMULA") ) {
-			text = text.Replace ( "DIRECTIONTOBOBBY" , ClueManager.Instance.getDirectionToFormula () );
+			text = text.Replace ( "DIRECTIONTOFORMULA" , ClueManager.Instance.getDirectionToFormula () );
 		}
 
 		if ( text.Contains ("FORMULA") ) {

@@ -45,7 +45,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\FlagControl.cs" />
      <Compile Include="Assets\Island.cs" />
+     <Compile Include="Assets\Scripts\Boat\Boat.cs" />
+     <Compile Include="Assets\Scripts\Boat\BoatLight.cs" />
+     <Compile Include="Assets\Scripts\Boat\BoatUpgradeManager.cs" />
      <Compile Include="Assets\Scripts\Card\Card.cs" />
      <Compile Include="Assets\Scripts\Card\CardManager.cs" />
      <Compile Include="Assets\Scripts\Combat\CombatManager.cs" />
@@ -58,8 +62,8 @@
      <Compile Include="Assets\Scripts\Crew\CrewMember.cs" />
      <Compile Include="Assets\Scripts\Crew\Crews.cs" />
      <Compile Include="Assets\Scripts\Crew\MemberFeedback.cs" />
+     <Compile Include="Assets\Scripts\Dialogues\ChoiceManager.cs" />
      <Compile Include="Assets\Scripts\Dialogues\DialogueManager.cs" />
-     <Compile Include="Assets\Scripts\Dialogues\DiscussionManager.cs" />
      <Compile Include="Assets\Scripts\Dice\Dice.cs" />
      <Compile Include="Assets\Scripts\Dice\DiceManager.cs" />
      <Compile Include="Assets\Scripts\Fight\FightIA.cs" />
@@ -81,21 +85,15 @@
      <Compile Include="Assets\Scripts\Inventory\OtherLoot.cs" />
      <Compile Include="Assets\Scripts\Inventory\PlayerLoot.cs" />
      <Compile Include="Assets\Scripts\Inventory\WeightManager.cs" />
+     <Compile Include="Assets\Scripts\Island\IslandData.cs" />
+     <Compile Include="Assets\Scripts\Island\IslandManager.cs" />
      <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
      <Compile Include="Assets\Scripts\Map\MapImage.cs" />
      <Compile Include="Assets\Scripts\Map\MapManager.cs" />
+     <Compile Include="Assets\Scripts\Map\WeatherManager.cs" />
      <Compile Include="Assets\Scripts\MenuManager.cs" />
-     <Compile Include="Assets\Scripts\NameGeneration.cs" />
-     <Compile Include="Assets\Scripts\Navigation\Boat.cs" />
-     <Compile Include="Assets\Scripts\Navigation\BoatLight.cs" />
-     <Compile Include="Assets\Scripts\Navigation\BoatManager.cs" />
-     <Compile Include="Assets\Scripts\Navigation\BoatUpgradeManager.cs" />
-     <Compile Include="Assets\Scripts\Navigation\IslandData.cs" />
-     <Compile Include="Assets\Scripts\Navigation\IslandManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\NavigationManager.cs" />
-     <Compile Include="Assets\Scripts\Navigation\WeatherManager.cs" />
-     <Compile Include="Assets\Scripts\NavigationTrigger.cs" />
-     <Compile Include="Assets\Scripts\Percentage.cs" />
+     <Compile Include="Assets\Scripts\Navigation\NavigationTrigger.cs" />
      <Compile Include="Assets\Scripts\Save\SaveManager.cs" />
      <Compile Include="Assets\Scripts\Save\SaveMenu.cs" />
      <Compile Include="Assets\Scripts\Save\SaveTool.cs" />
@@ -103,15 +101,18 @@
      <Compile Include="Assets\Scripts\Stories\Node.cs" />
      <Compile Include="Assets\Scripts\Stories\Story.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryFunctions.cs" />
-     <Compile Include="Assets\Scripts\Stories\StoryFunctions\RandomManager.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryLoader.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryReader.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryTest.cs" />
+     <Compile Include="Assets\Scripts\Tools\NameGeneration.cs" />
+     <Compile Include="Assets\Scripts\Tools\Percentage.cs" />
+     <Compile Include="Assets\Scripts\Tools\RandomManager.cs" />
+     <Compile Include="Assets\Scripts\Tools\UI_Target.cs" />
      <Compile Include="Assets\Scripts\Transition\Transition.cs" />
      <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
      <Compile Include="Assets\Scripts\Transition\UIButton.cs" />
      <Compile Include="Assets\Scripts\Treasure\ClueManager.cs" />
-     <Compile Include="Assets\Scripts\UI_Target.cs" />
+     <Compile Include="Assets\WheelControl.cs" />
      <None Include="Assets\Liste feature.txt" />
      <None Include="Assets\GameSaveData2.xml" />
      <None Include="Assets\GameSaveData1.xml" />

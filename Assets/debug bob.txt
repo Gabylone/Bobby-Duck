@@ -1,0 +1,16 @@
+
+HISTOIRES :
+- bordel
+- remettre plus d'histoires dans les bois. 
+
+APRES HISTOIRES
+- petit trail sympa sur bateau
+- centrer carte sur bateau
+- seuls les dialogues hors des iles disparraissnet auto.
+- les choix viennent un peu trop tard après le fade.
+- NewCrew => ne pas placer les membres
+- bouton ile : tout le temps
+- rajouter vitesse du bateau dans upgrades
+- inverser boutons vendre et achter
+
+- CONTROLES TABLETTES

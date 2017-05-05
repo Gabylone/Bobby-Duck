@@ -13,7 +13,10 @@ public class WeightManager : MonoBehaviour {
 	[SerializeField]
 	private Image weightImage;
 	[SerializeField]
-	private Text weightText;
+	private Text currentWeightText;
+
+	[SerializeField]
+	private Text maxWeightText;
 
 	bool displayingFeedback = false;
 	float timer = 0f;
@@ -50,7 +53,8 @@ public class WeightManager : MonoBehaviour {
 
 	}
 	public void UpdateDisplay () {
-		weightText.text = CurrentWeight.ToString () + " / " + CurrentCapacity.ToString ();
+		currentWeightText.text = CurrentWeight.ToString ();
+		maxWeightText.text = CurrentCapacity.ToString ();
 	}
 	#endregion
 
@@ -60,14 +64,14 @@ public class WeightManager : MonoBehaviour {
 		timer = 0f;
 
 		weightImage.color = Color.red;
-		weightText.color = Color.red;
+		currentWeightText.color = Color.red;
 	}
 
 	public void HideFeedback () {
 		displayingFeedback = false;
 
 		weightImage.color = Color.white;
-		weightText.color = Color.white;
+		currentWeightText.color = Color.white;
 	}
 	#endregion
 

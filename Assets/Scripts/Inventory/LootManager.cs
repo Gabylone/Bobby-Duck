@@ -74,10 +74,4 @@ public class LootManager : MonoBehaviour {
 
 		}
 	}
-
-	public CategoryContent DefaultCategoryContent {
-		get {
-			return defaultCategoryContent;
-		}
-	}
 }

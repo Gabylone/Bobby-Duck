@@ -1,11 +1,11 @@
 Nom;Fréquence %;;;;;
 Epave;7;;;;;
 Narrator : L'île est minuscule. Un petit bâteau s'est échoué sur les rocher qui l'entoure.;;;;;;
-[debut];;;;;;
+[début];;;;;;
 SetChoices3;;;;;;
 Choice : (passer la nuit ici);;Choice : (partir);Choice : (fouiller l'épave);;;
 Narrator : L'île est trop petite pour pouvoir y installer un campement.;;PlayerSpeak : Tayo !;Fade;;;
-Node=>début;SetWeatherDay;Leave;Node=>épave;;;
+Node=>début;;Leave;Node=>épave;;;
 ;Node=>début;;;;;
 ;;;;;;
 [épave];;;;;;prout

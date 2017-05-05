@@ -140,8 +140,12 @@ public class LootUI : MonoBehaviour {
 
 	public CategoryContent CategoryContent {
 		get {
-			if (categoryContent == null)
-				categoryContent = LootManager.Instance.DefaultCategoryContent;
+
+			if (categoryContent == null) {
+				Debug.LogError ("pas de category content");
+				return null;
+			}
+
 			return categoryContent;
 		}
 		set {
@@ -205,6 +209,14 @@ public class LootUI : MonoBehaviour {
 	public void UpdateActionButton (int itemIndex) {
 
 			// set group active
+
+		if ( currentCat >= CategoryContent.interactable.Length ) {
+
+			Debug.LogError ("Y AUN TRUC QUI VA PAS DANS L INVENTAIRE ET LES CATEGORIES");
+			Debug.LogError ("CURRENT CAT : " + currentCat);
+			Debug.LogError ("LONGUEUR DE LA LISTE : " + CategoryContent.interactable.Length);
+
+		}
 		actionGroup.gameObject.SetActive (CategoryContent.interactable[currentCat] && SelectedItems.Length > 0);
 			
 			// set group position

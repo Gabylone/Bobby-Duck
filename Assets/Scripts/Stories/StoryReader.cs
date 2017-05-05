@@ -105,7 +105,6 @@ public class StoryReader : MonoBehaviour {
 			Debug.LogError ("couldn't find node " + text + " // story : " + IslandManager.Instance.CurrentIsland.Story.name);
 			return null;
 		}
-
 		return node;
 	}
 	#endregion
@@ -195,8 +194,6 @@ public class StoryReader : MonoBehaviour {
 
 		// get second story
 		Story secondStory = StoryLoader.Instance.Stories.Find ( x => x.name == storyName);
-
-		secondStory.name = "";
 
 		if (secondStory == null) {
 			Debug.LogError ("pas trouvé second story : " + storyName);

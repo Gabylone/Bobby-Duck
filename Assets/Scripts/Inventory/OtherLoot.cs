@@ -37,14 +37,14 @@ public class OtherLoot : MonoBehaviour {
 	#region trade
 	public void StartTrade () {
 
-		PlayerLoot.Instance.Open ();
-		PlayerLoot.Instance.InventoryButton.Locked = true;
-		PlayerLoot.Instance.CloseButton.SetActive (false);
-
 			// player loot ui
 		playerLootUI.CategoryContent = PlayerLoot.Instance.TradeCategoryContent;
 		playerLootUI.Visible = true;
 		playerLootUI.UpdateActionButton (0);
+
+		PlayerLoot.Instance.Opened = true;
+		PlayerLoot.Instance.InventoryButton.Locked = true;
+		PlayerLoot.Instance.CloseButton.SetActive (false);
 
 		otherLootUI.CategoryContent = category_TradeContent;
 		otherLootUI.Visible = true;
@@ -106,6 +106,7 @@ public class OtherLoot : MonoBehaviour {
 		otherLootUI.UpdateLootUI ();
 	}
 
+	#region open / close
 	public void Close () {
 		
 		buttonObj.SetActive (true);
@@ -118,7 +119,7 @@ public class OtherLoot : MonoBehaviour {
 		PlayerLoot.Instance.InventoryButton.Locked = false;
 		PlayerLoot.Instance.CloseButton.SetActive (true);
 		PlayerLoot.Instance.InventoryButton.Opened = false;
-		PlayerLoot.Instance.Close ();
+		PlayerLoot.Instance.Opened = false;
 
 		if ( IslandManager.Instance.OnIsland ) {
 			StoryReader.Instance.NextCell ();
@@ -126,5 +127,6 @@ public class OtherLoot : MonoBehaviour {
 		}
 
 	}
+	#endregion
 
 }
