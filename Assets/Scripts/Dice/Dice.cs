@@ -28,17 +28,15 @@ public class Dice : MonoBehaviour {
 
 	private float timer = 0f;
 
-	private bool stopped = false;
-
 	private int throwDirection = 1;
 
-	bool settling = false;
-	Quaternion initRot = Quaternion.identity;
-	Quaternion targetRot = Quaternion.identity;
-	float settleDuration = 0.5f;
+	private bool settling = false;
+	private Quaternion initRot = Quaternion.identity;
+	private Quaternion targetRot = Quaternion.identity;
+	private float settleDuration = 0.5f;
 
-	Vector3 initPos;
-	bool thrown = false;
+	private Vector3 initPos;
+	private bool thrown = false;
 
 	// Use this for initialization
 	public void Init () {

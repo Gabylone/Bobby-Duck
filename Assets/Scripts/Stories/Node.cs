@@ -6,6 +6,10 @@ public class Node {
 
 	public bool switched;
 
+	public Node () {
+		
+	}
+
 	public Node ( string n, int p1 , int p2 ) {
 		name = n;
 		x = p1;

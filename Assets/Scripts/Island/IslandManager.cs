@@ -40,8 +40,10 @@ public class IslandManager : MonoBehaviour {
 	}
 
 	void Update () {
-		if ( Input.GetKeyDown (KeyCode.Q) )
+		if (Input.GetKeyDown (KeyCode.Q)) {
+			print ("quittage de force");
 			Leave ();
+		}
 	}
 
 	#region island image

@@ -62,8 +62,6 @@ public class StoryReader : MonoBehaviour {
 		string text = StoryFunctions.Instance.CellParams;
 		string nodeName = text.Remove (0, 2);
 		Node node = GetNodeFromText (nodeName);
-
-
 		GoToNode (node);
 
 	}
@@ -197,6 +195,7 @@ public class StoryReader : MonoBehaviour {
 
 		if (secondStory == null) {
 			Debug.LogError ("pas trouvé second story : " + storyName);
+			IslandManager.Instance.Leave ();
 			return;
 		}
 

@@ -37,7 +37,7 @@ public class WheelControl : MonoBehaviour {
 
 		if (wheel_Opened) {
 
-			Vector3 dir = (Input.mousePosition - Camera.main.WorldToScreenPoint (wheelTransform.position)).normalized;
+			Vector3 dir = (InputManager.Instance.GetInputPosition () - Camera.main.WorldToScreenPoint (wheelTransform.position)).normalized;
 			dir.z = 0f;
 
 			playerBoat.TargetDirection = dir;

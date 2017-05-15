@@ -53,6 +53,8 @@ public class StoryFunctions : MonoBehaviour {
 			"index : " + StoryReader.Instance.Index + "\n" +
 			"qui contient : " + content);
 
+		Leave ();
+
 	}
 
 	#region random
@@ -164,8 +166,7 @@ public class StoryFunctions : MonoBehaviour {
 		CombatManager.Instance.StartCombat ();
 	}
 	void Leave () {
-		
-
+//		print ("quitter par
 		IslandManager.Instance.Leave ();
 	}
 	#endregion
@@ -296,6 +297,7 @@ public class StoryFunctions : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 	}
 	void CheckInInventory () {
+		StoryReader.Instance.NextCell ();
 
 		string itemName = cellParams.Split ('<')[1];
 
@@ -305,12 +307,14 @@ public class StoryFunctions : MonoBehaviour {
 
 		Item item = System.Array.Find (LootManager.Instance.PlayerLoot.getCategory (targetCat), x => x.name == itemName);
 
-		if (item == null)
+		if (item == null) {
 			StoryReader.Instance.SetDecal (1);
-		else
+			print ("il l'a pas");
+		} else {
 			DialogueManager.Instance.LastItemName = item.name;
+			print ("il l'a");
+		}
 
-		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
 	}
 	#endregion
@@ -412,25 +416,29 @@ public class StoryFunctions : MonoBehaviour {
 
 		DiceManager.Instance.ThrowDirection = 1;
 
-		switch ( cellParams ) {
-		case "SRT":
+		switch (cellParams) {
+		case "STR":
 			DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.Strenght);
 			break;
-		case "DEX" :
+		case "DEX":
 			DiceManager.Instance.ThrowDice (DiceTypes.DEX, Crews.playerCrew.captain.Dexterity);
 			break;
-		case "CHA" :
+		case "CHA":
 			DiceManager.Instance.ThrowDice (DiceTypes.CHA, Crews.playerCrew.captain.Charisma);
 			break;
-		case "CON" :
+		case "CON":
 			DiceManager.Instance.ThrowDice (DiceTypes.CON, Crews.playerCrew.captain.Constitution);
+			break;
+		default:
+			Debug.LogError ("PAS DE Dé " + CellParams + " : lancé de force");
+			DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.Strenght);
 			break;
 		}
 
 
 		yield return new WaitForSeconds ( DiceManager.Instance.settlingDuration + DiceManager.Instance.ThrowDuration);
 
-		int captainHighest = DiceManager.Instance.getHighestThrow;
+		int captainHighest = DiceManager.Instance.HighestResult;
 		int otherHighest = 0;
 
 		if (CombatManager.Instance.Fighting) {
@@ -438,7 +446,7 @@ public class StoryFunctions : MonoBehaviour {
 			DiceManager.Instance.ThrowDirection = -1;
 
 			switch (cellParams) {
-			case "SRT":
+			case "STR":
 				DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.enemyCrew.captain.Strenght);
 				break;
 			case "DEX":
@@ -450,11 +458,15 @@ public class StoryFunctions : MonoBehaviour {
 			case "CON":
 				DiceManager.Instance.ThrowDice (DiceTypes.CON, Crews.enemyCrew.captain.Constitution);
 				break;
+			default:
+				Debug.LogError ("PAS DE Dé " + CellParams + " : lancé de force");
+				DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.Strenght);
+				break;
 			}
 
 			yield return new WaitForSeconds (DiceManager.Instance.settlingDuration + DiceManager.Instance.ThrowDuration);
 
-			otherHighest = DiceManager.Instance.getHighestThrow;
+			otherHighest = DiceManager.Instance.HighestResult;
 
 		} else {
 			otherHighest = 5;
@@ -462,11 +474,32 @@ public class StoryFunctions : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 
-		StoryReader.Instance.SetDecal (otherHighest > captainHighest ? 0 : 1);
+		StoryReader.Instance.SetDecal (captainHighest >= otherHighest ? 0 : 1);
 
 		StoryReader.Instance.UpdateStory ();
 	}
 
+	#endregion
+
+	#region health
+	private void AddHealth () {
+		int health = int.Parse ( cellParams );
+		Crews.getCrew (Crews.Side.Player).captain.Health += health;
+
+		CardManager.Instance.ShowOvering (Crews.getCrew (Crews.Side.Player).captain);
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+	}
+	private void RemoveHealth () {
+		int health = int.Parse ( cellParams );
+		Crews.getCrew (Crews.Side.Player).captain.Health -= health;
+
+		CardManager.Instance.ShowOvering (Crews.getCrew (Crews.Side.Player).captain);
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+	}
 	#endregion
 
 	public string[] FunctionNames {

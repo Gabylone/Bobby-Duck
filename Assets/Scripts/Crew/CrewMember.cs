@@ -153,6 +153,11 @@ public class CrewMember {
 		}
 		set {
 			health = Mathf.Clamp (value , 0 , MaxHealth);
+
+			if (health <= 0)
+				Kill ();
+
+
 		}
 	}
 
@@ -181,10 +186,12 @@ public class CrewMember {
 	public int Attack {
 		get {
 
-			if (GetEquipment (EquipmentPart.Weapon) != null)
-				return Strenght + GetEquipment (EquipmentPart.Weapon).value;
+			int i = Strenght * 5;
 
-			return Strenght;
+			if (GetEquipment (EquipmentPart.Weapon) != null)
+				return i + GetEquipment (EquipmentPart.Weapon).value;
+
+			return i;
 		}
 	}
 
@@ -192,16 +199,18 @@ public class CrewMember {
 	public int Defense {
 		get {
 
-			if (GetEquipment (EquipmentPart.Clothes) != null)
-				return Constitution + GetEquipment (EquipmentPart.Clothes).value;
+			int i = Constitution * 5;
 
-			return Constitution;
+			if (GetEquipment (EquipmentPart.Clothes) != null)
+				return i + GetEquipment (EquipmentPart.Clothes).value;
+
+			return i;
 		}
 	}
 
 	public int Strenght {
 		get {
-			return (memberID.str*5);
+			return memberID.str;
 		}
 		set {
 			memberID.str = value;
@@ -210,7 +219,7 @@ public class CrewMember {
 
 	public int Dexterity {
 		get {
-			return (memberID.dex*5);
+			return memberID.dex;
 		}
 		set {
 			memberID.dex = value;
@@ -219,7 +228,7 @@ public class CrewMember {
 
 	public int Charisma {
 		get {
-			return (memberID.cha*5);
+			return memberID.cha;
 		}
 		set {
 			memberID.cha = value;
@@ -228,7 +237,7 @@ public class CrewMember {
 
 	public int Constitution {
 		get {
-			return (memberID.con*5);
+			return memberID.con;
 		}
 		set {
 			memberID.con = value;

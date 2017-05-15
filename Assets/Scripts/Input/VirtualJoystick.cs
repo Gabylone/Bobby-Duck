@@ -27,7 +27,7 @@ public class VirtualJoystick : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if ( !touchingScreen ) {
+		if ( !TouchingScreen ) {
 
 			if (InputManager.Instance.OnInputDown (0,screenPart)) {
 				TouchingScreen = true;

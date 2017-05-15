@@ -82,6 +82,8 @@ public class CombatManager : MonoBehaviour {
 	[SerializeField]
 	private MemberFeedback enemyFeedback;
 
+	public VirtualJoystick virtualJoystick;
+
 	public MemberFeedback PlayerFeedback {
 		get {
 			return playerFeedback;
@@ -125,6 +127,8 @@ public class CombatManager : MonoBehaviour {
 		ChangeState (States.CombatStart);
 
 		fighting = true;
+
+		virtualJoystick.gameObject.SetActive (true);
 	}
 
 	#region CombatStart
@@ -134,6 +138,7 @@ public class CombatManager : MonoBehaviour {
 		firstTurn = true;
 
 		SetTargetCrew(Crews.Side.Player);
+
 
 			// create enemy crew
 		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
@@ -519,6 +524,10 @@ public class CombatManager : MonoBehaviour {
 		fighting = false;
 
 		Crews.enemyCrew.Hide ();
+
+		virtualJoystick.gameObject.SetActive (false);
+
+
 		updateState = null;;
 	}
 	public void WinFight () {

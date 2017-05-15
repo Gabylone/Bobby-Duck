@@ -33,13 +33,7 @@ public class DiceManager : MonoBehaviour {
 
 		// STATES
 
-	[Header ("Elements")]
-	[SerializeField]
-	private GameObject feedbackDice;
-
 	[Header("Dice")]
-	[SerializeField]
-	private GameObject[] diceObjects;
 	//[SerializeField]
 	public float settlingDuration = 0.5f;
 
@@ -48,11 +42,14 @@ public class DiceManager : MonoBehaviour {
 
 	[SerializeField]
 	private float throwDuration;
-	int throwDirection = 1;
+	private int throwDirection = 1;
 
-	private Dice[] diceClass;
+	[SerializeField]
+	private Dice[] dices;
 
-	Throw currentThrow;
+	private Throw currentThrow;
+
+	private int highestResult = 0;
 
 	private bool throwing = false;
 	float timer = 0f;
@@ -63,15 +60,6 @@ public class DiceManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-		diceClass = new Dice[diceObjects.Length];
-
-		int a = 0;
-		foreach ( GameObject obj in diceObjects ) {
-			diceClass [a] = obj.GetComponent<Dice> ();
-			++a;
-		}
-
 		InitDice ();
 		ResetDice ();
 	}
@@ -85,6 +73,19 @@ public class DiceManager : MonoBehaviour {
 
 		}
 	}
+
+	#region init
+	private void InitDice () {
+		foreach ( Dice die in dices) {
+			die.Init ();
+		}
+	}
+	private void ResetDice () {
+		foreach ( Dice die in dices) {
+			die.Reset ();
+		}
+	}
+	#endregion
 
 	#region throwing
 	public void ThrowDice (DiceTypes type, int diceAmount) {
@@ -104,7 +105,7 @@ public class DiceManager : MonoBehaviour {
 		PaintDice (currentThrow.diceType);
 		
 		for (int i = 0; i < currentThrow.diceAmount ; ++i) {
-			diceClass[i].Throw ();
+			dices[i].Throw ();
 		}
 	}
 	private void Throwing_Update () {
@@ -116,15 +117,6 @@ public class DiceManager : MonoBehaviour {
 		
 
 	}
-
-	int highestThrow = 0;
-
-	public int getHighestThrow {
-		get {
-			return highestThrow;
-		}
-
-	}
 	#endregion
 
 	#region showing highest
@@ -132,23 +124,21 @@ public class DiceManager : MonoBehaviour {
 		
 		throwing = false;
 
-		int highestResult = diceClass[0].result;
-		highestThrow = 0;
+		int highestThrowIndex = 0;
 
 		int a = 0;
 
-		foreach ( Dice die in diceClass ) {
-
-			if (die.result > highestResult) {
-				highestThrow = a;
-				highestResult = die.result;
+		for (int diceIndex = 0; diceIndex < CurrentThrow.diceAmount; diceIndex++) {
+			if (dices[diceIndex].result > highestResult) {
+				highestThrowIndex = a;
 			}
 
 			++a;
 		}
 
-		diceClass[highestThrow].Settle ();
+		highestResult = dices [highestThrowIndex].result;
 
+		dices[highestThrowIndex].Settle ();
 		//
 	}
 	private void ShowingHighest_Update () {
@@ -161,6 +151,60 @@ public class DiceManager : MonoBehaviour {
 		ResetDice ();
 	}
 	#endregion
+
+	#region paint dice
+	public Color DiceColors (DiceTypes type) {
+		return diceColors [(int)type];
+	}
+
+	private void PaintDice ( DiceTypes type ) {
+		foreach ( Dice dice in dices ) {
+			dice.Paint (type);
+		}
+	}
+	#endregion
+
+	#region properties
+	public float ThrowDuration {
+		get {
+			return throwDuration;
+		}
+	}
+
+	public int ThrowDirection {
+		get {
+			return throwDirection;
+		}
+		set {
+			throwDirection = value;
+		}
+	}
+
+	public Throw CurrentThrow {
+		get {
+			return currentThrow;
+		}
+		set {
+			currentThrow = value;
+		}
+	}
+
+	public bool Throwing {
+		get {
+			return throwing;
+		}
+		set {
+			throwing = value;
+		}
+	}
+	public int HighestResult {
+		get {
+			return highestResult;
+		}
+
+	}
+	#endregion
+
 
 	#region states
 	public void ChangeState ( states newState ) {
@@ -198,80 +242,11 @@ public class DiceManager : MonoBehaviour {
 	}
 	#endregion
 
-	#region throw
-	private void ResetDice () {
-		foreach ( Dice die in diceClass) {
-			die.Reset ();
-		}
-	}
-	private void InitDice () {
-		foreach ( Dice die in diceClass) {
-			die.Init ();
-		}
-	}
-	public bool Throwing {
-		get {
-			return throwing;
-		}
-		set {
-			throwing = value;
-		}
-	}
-	#endregion
-
-	#region paint dice
-	public Color DiceColors (DiceTypes type) {
-		return diceColors [(int)type];
-	}
-
-	private void PaintDice ( DiceTypes type ) {
-		foreach ( Dice dice in diceClass ) {
-			dice.Paint (type);
-		}
-	}
-	#endregion
-
-	#region properties
-	public float ThrowDuration {
-		get {
-			return throwDuration;
-		}
-	}
-
-	public int ThrowDirection {
-		get {
-			return throwDirection;
-		}
-		set {
-			throwDirection = value;
-		}
-	}
-
-	public Throw CurrentThrow {
-		get {
-			return currentThrow;
-		}
-		set {
-			currentThrow = value;
-		}
-	}
-	#endregion
 }
 
 
 
 public class Throw {
-
-	public enum Results {
-		CritFailure,
-		Failure,
-		Success,
-		CritSuccess,
-	}
-
-	public Results s;
-
-	public List<int> results = new List<int>();
 
 	public int diceAmount = 0;
 
@@ -279,45 +254,9 @@ public class Throw {
 
 	public int highestResult = 0;
 
-	private Dice[] dice;
-
 	public Throw ( int _amount , DiceTypes type ) {
 		diceAmount = _amount;
 		diceType = type;
-	}
-
-	public void Add ( Dice dice ) {
-		
-		if (dice.result > highestResult) {
-			
-			highestResult = dice.result;
-		}
-
-
-
-		results.Add ( dice.result );
-
-	}
-
-	public void Add ( int i ) {
-		results.Add ( i );
-
-		if (i > highestResult)
-			highestResult = i;
-	}
-
-	public Results Result ( int valueToCompare ) {
-
-		if ( highestResult == 6 )
-			return Results.CritSuccess;
-//
-//		if (highestResult > valueToCompare)
-//			return Results.Success;
-
-		if (highestResult == 1)
-			return Results.Failure;
-
-		return Results.Success;
 	}
 
 }

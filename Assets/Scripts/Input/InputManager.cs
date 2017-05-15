@@ -14,9 +14,23 @@ public class InputManager : MonoBehaviour {
 	[SerializeField]
 	private VirtualJoystick virtualJoystick;
 
+	public bool mobileTest = false;
+
 	void Awake () {
 		Instance = this;
 	}
+
+//	void Update () {
+//		if ( OnInputDown (0,ScreenPart.Left) ) {
+//			print ("touch left");
+//		}
+//		if ( OnInputDown (0,ScreenPart.Right) ) {
+//			print ("touch right");
+//		}
+//		if ( OnInputDown (0,ScreenPart.Any) ) {
+//			print ("touch any");
+//		}
+//	}
 
 	#region get touch & click
 	/// <summary>
@@ -26,37 +40,17 @@ public class InputManager : MonoBehaviour {
 		return OnInputDown (0,ScreenPart.Any);
 	}
 	public bool OnInputDown (int id, ScreenPart screenPart) {
-		if (Application.isMobilePlatform) {
-			if ( screenPart == ScreenPart.Any ) {
-				print ("pas sensé petre ici");
-				return Input.GetTouch (id).phase == TouchPhase.Began;
 
-				//
-			} else {
-				if (screenPart == ScreenPart.Left) {
+		bool rightSideOfScreen = GetInputPosition ().x > 0;
+		if (screenPart == ScreenPart.Left)
+			rightSideOfScreen = GetInputPosition ().x <= Screen.width / 2;
+		if (screenPart == ScreenPart.Right)
+			rightSideOfScreen = GetInputPosition ().x > Screen.width / 2;
 
-					if (GetInputPosition ().x < Screen.width / 2) {
-						print ("POS : " + GetInputPosition ().x);
-						print ("SCREEN : " + Screen.width);
-						return Input.GetTouch (id).phase == TouchPhase.Began;
-					}
-
-					return false;
-				}
-				if (screenPart == ScreenPart.Right) {
-
-					if (GetInputPosition ().x >= Screen.width / 2) {
-						return Input.GetTouch (id).phase == TouchPhase.Began;
-					}
-					return false;
-
-				}
-				return false;
-
-			}
-		}
+		if (OnMobile)
+			return Input.GetTouch (id).phase == TouchPhase.Began && rightSideOfScreen;
 		else
-			return Input.GetMouseButtonDown (id);
+			return Input.GetMouseButtonDown (id) && rightSideOfScreen;
 	}
 
 	/// <summary>
@@ -66,33 +60,17 @@ public class InputManager : MonoBehaviour {
 		return OnInputStay (0,ScreenPart.Any);
 	}
 	public bool OnInputStay (int id, ScreenPart screenPart) {
-		if (Application.isMobilePlatform) {
-			if ( screenPart == ScreenPart.Any ) {
-				return Input.GetTouch (id).phase == TouchPhase.Moved || Input.GetTouch (id).phase == TouchPhase.Stationary;
-				//
-			} else {
-				if (screenPart == ScreenPart.Left) {
 
-					if (GetInputPosition ().x < Screen.width / 2) {
-						return Input.GetTouch (id).phase == TouchPhase.Moved || Input.GetTouch (id).phase == TouchPhase.Stationary;
-					}
+		bool rightSideOfScreen = GetInputPosition ().x > 0;
+		if (screenPart == ScreenPart.Left)
+			rightSideOfScreen = GetInputPosition ().x <= Screen.width / 2;
+		if (screenPart == ScreenPart.Right)
+			rightSideOfScreen = GetInputPosition ().x > Screen.width / 2;
 
-					return false;
-				}
-				if (screenPart == ScreenPart.Right) {
-
-					if (GetInputPosition ().x >= Screen.width / 2) {
-						return Input.GetTouch (id).phase == TouchPhase.Moved || Input.GetTouch (id).phase == TouchPhase.Stationary;
-					}
-					return false;
-
-				}
-				return false;
-
-			}
-		}
+		if (OnMobile)
+			return (Input.GetTouch (id).phase == TouchPhase.Stationary || Input.GetTouch (id).phase == TouchPhase.Moved) && rightSideOfScreen;
 		else
-			return Input.GetMouseButton (id);
+			return Input.GetMouseButton (id) && rightSideOfScreen;
 	}
 
 	/// <summary>
@@ -102,33 +80,17 @@ public class InputManager : MonoBehaviour {
 		return OnInputExit (0,ScreenPart.Any);
 	}
 	public bool OnInputExit (int id, ScreenPart screenPart) {
-		if (Application.isMobilePlatform) {
-			if ( screenPart == ScreenPart.Any ) {
-				return Input.GetTouch (id).phase == TouchPhase.Ended;
-				//
-			} else {
-				if (screenPart == ScreenPart.Left) {
 
-					if (GetInputPosition ().x < Screen.width / 2) {
-						return Input.GetTouch (id).phase == TouchPhase.Ended;
-					}
+		bool rightSideOfScreen = GetInputPosition ().x > 0;
+		if (screenPart == ScreenPart.Left)
+			rightSideOfScreen = GetInputPosition ().x <= Screen.width / 2;
+		if (screenPart == ScreenPart.Right)
+			rightSideOfScreen = GetInputPosition ().x > Screen.width / 2;
 
-					return false;
-				}
-				if (screenPart == ScreenPart.Right) {
-
-					if (GetInputPosition ().x >= Screen.width / 2) {
-						return Input.GetTouch (id).phase == TouchPhase.Ended;
-					}
-					return false;
-
-				}
-				return false;
-
-			}
-		}
+		if (OnMobile)
+			return (Input.GetTouch (id).phase == TouchPhase.Ended) && rightSideOfScreen;
 		else
-			return Input.GetMouseButtonUp (id);
+			return Input.GetMouseButtonUp (id) && rightSideOfScreen;
 	}
 
 	/// <summary>
@@ -139,10 +101,11 @@ public class InputManager : MonoBehaviour {
 		return GetInputPosition (0);
 	}
 	public Vector3 GetInputPosition (int id) {
-		if (Application.isMobilePlatform)
+		if (OnMobile) {
 			return Input.GetTouch (id).position;
-		else
+		} else {
 			return Input.mousePosition;
+		}
 	}
 	#endregion
 
@@ -154,7 +117,7 @@ public class InputManager : MonoBehaviour {
 	/// <returns>The horizontal axis.</returns>
 	public float GetHorizontalAxis () {
 
-		if (Application.isMobilePlatform) {
+		if (OnMobile || mobileTest) {
 			return virtualJoystick.GetHorizontalAxis ();
 		} else {
 			return Input.GetAxis ("Horizontal");
@@ -168,7 +131,7 @@ public class InputManager : MonoBehaviour {
 	/// <returns>The vertical axis.</returns>
 	public float GetVerticalAxis () {
 
-		if (Application.isMobilePlatform) {
+		if (OnMobile || mobileTest) {
 			return virtualJoystick.GetVerticalAxis();
 		} else {
 			return Input.GetAxis ("Vertical");
@@ -176,4 +139,10 @@ public class InputManager : MonoBehaviour {
 
 	}
 	#endregion
+
+	public bool OnMobile {
+		get {
+			return Application.isMobilePlatform;
+		}
+	}
 }

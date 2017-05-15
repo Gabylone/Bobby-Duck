@@ -16,10 +16,10 @@ public class StoryLoader : MonoBehaviour {
 	[SerializeField]
 	private string pathToCSVs = "Stories/CSVs";
 	private TextAsset[] storyFiles;
+	[SerializeField]
+	private TextAsset functionFile;
 	private int currentFile = 1;
 
-	[SerializeField]
-	private Text storyVisualizer;
 
 	[SerializeField]
 	private StoryFunctions storyFunctions;
@@ -28,6 +28,23 @@ public class StoryLoader : MonoBehaviour {
 		
 		Instance = this;
 
+		LoadFunctions ();
+		LoadStories ();
+	}
+
+	public void LoadStories ()
+	{
+
+		print ("loading stories");
+
+		GetFiles ();
+		LoadSheets ();
+	}
+
+	private void GetFiles ()
+	{
+		currentFile = 1;
+
 		storyFiles = new TextAsset[Resources.LoadAll ("Stories/CSVs", typeof(TextAsset)).Length];
 
 		int index = 0;
@@ -35,19 +52,25 @@ public class StoryLoader : MonoBehaviour {
 			storyFiles[index] = textAsset;
 			++index;
 		}
+	}
+
+	private void LoadSheets ()
+	{
+		stories.Clear ();
+		clueStories.Clear ();
+		treasureStories.Clear ();
+		homeStories.Clear ();
+		storyPercents.Clear ();
 
 		for (int i = 1; i < storyFiles.Length; ++i ) {
-			if (currentFile == 1) {
-				LoadFunctions ();
-			} else {
-				LoadStories ();
-			}
+
+			LoadSheet ();
 
 			++currentFile;
 		}
 	}
 
-	void LoadStories ()
+	private void LoadSheet ()
 	{
 		string[] rows = storyFiles[currentFile].text.Split ('\n');
 
@@ -124,9 +147,9 @@ public class StoryLoader : MonoBehaviour {
 		storyPercents.Add (newStory.freq);
 	}
 
-	void LoadFunctions () {
+	private void LoadFunctions () {
 		
-		string[] rows = storyFiles[currentFile].text.Split ( '\n' );
+		string[] rows = functionFile.text.Split ( '\n' );
 
 		storyFunctions.FunctionNames = new string[rows.Length-1];
 

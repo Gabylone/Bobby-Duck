@@ -36,7 +36,7 @@ public class FightPlayer : Humanoid {
 
 		transform.Translate ( Direction * InputManager.Instance.GetHorizontalAxis() * Speed * Time.deltaTime);
 
-		if (Input.GetKeyDown (KeyCode.D))
+		if (PressHit())
 			ChangeState (states.hit);
 
 //		if (Input.GetKeyDown (KeyCode.F))
@@ -45,9 +45,27 @@ public class FightPlayer : Humanoid {
 //		if (Input.GetKeyDown (KeyCode.G))
 //			ChangeState (states.getHit);
 
-		if (Input.GetKeyDown (KeyCode.DownArrow))
+		if (PressGuard ())
 			ChangeState (states.guard);
 		
+	}
+	#endregion
+
+	#region input
+	private bool PressHit () {
+		if ( InputManager.Instance.OnMobile ) {
+			return InputManager.Instance.OnInputDown (0, InputManager.ScreenPart.Right);
+		} else {
+			return Input.GetKeyDown (KeyCode.D);
+		}
+	}
+	public bool PressGuard () {
+		return InputManager.Instance.GetVerticalAxis () < -0.7f;
+//		if ( InputManager.Instance.OnMobile ) {
+//			
+//		} else {
+//			return Input.GetKeyDown (KeyCode.DownArrow);
+//		}
 	}
 	#endregion
 
@@ -55,8 +73,9 @@ public class FightPlayer : Humanoid {
 	public override void guard_Update ()
 	{
 		base.guard_Update ();
+		return ;
 
-		if (Input.GetKeyUp (KeyCode.DownArrow))
+		if (InputManager.Instance.GetVerticalAxis () > -0.3f)
 			ChangeState (states.move);
 
 	}

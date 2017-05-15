@@ -3,17 +3,26 @@ using System.Collections;
 
 public class StoryTest : MonoBehaviour {
 
+	public static StoryTest Instance;
+
 	int lign = 0;
 	int decal = 0;
 
 	public int storyID = 0;
 
+	public bool launchStoryOnStart;
+
 	public string storyName = "Maison";
+	public string nodeName = "";
 
 	public int X1 = 0;
 	public int Y1 = 0;
 	public int X2 = 0;
 	public int Y2 = 0;
+
+	void Awake () {
+		Instance = this;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +31,7 @@ public class StoryTest : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
 		if (Input.GetKeyDown(KeyCode.Return) ) {
 
 			IslandManager.Instance.CurrentIsland.Story = StoryLoader.Instance.Stories.Find (x => x.name == storyName);
@@ -29,6 +39,15 @@ public class StoryTest : MonoBehaviour {
 
 			IslandManager.Instance.Enter ();
 
+		}
+
+		if (Input.GetKeyDown (KeyCode.PageUp)) {
+			Node node = StoryReader.Instance.GetNodeFromText (nodeName);
+			StoryReader.Instance.GoToNode (node);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Insert) ) {
+			StoryLoader.Instance.LoadStories ();
 		}
 	}
 
