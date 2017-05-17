@@ -108,6 +108,8 @@ public class Humanoid : MonoBehaviour {
 
 		Guard_Active = false;
 
+		limitX = Screen.width / 2;
+
 	}
 
 	// Update is called once per frame
@@ -142,10 +144,10 @@ public class Humanoid : MonoBehaviour {
 		animator.SetFloat ("move", 0);
 	}
 	public void ClampPos () {
-		Vector3 pos = transform.position;
+		Vector3 pos = transform.localPosition;
 		pos.x = Mathf.Clamp (pos.x, -limitX , limitX);
 
-		transform.position = pos;
+		transform.localPosition = pos;
 	}
 	#endregion
 

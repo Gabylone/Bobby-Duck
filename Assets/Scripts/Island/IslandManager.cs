@@ -159,11 +159,6 @@ public class IslandManager : MonoBehaviour {
 
 			int id = IslandIds [MapManager.Instance.PosX, MapManager.Instance.PosY];
 
-			if ( id >= islandIds.Length ) {
-				Debug.LogError ("island ID out of range /// ID : " + id + " / LENGHT : " + IslandIds.Length);
-				return IslandDatas[0];
-			}
-
 			return IslandDatas [id];
 		}
 		set {

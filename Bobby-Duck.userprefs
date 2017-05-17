@@ -2,14 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Fight\FightPlayer.cs">
     <Files>
-      <File FileName="Assets\Scripts\Input\InputManager.cs" Line="123" Column="14" />
-      <File FileName="Assets\Scripts\Input\VirtualJoystick.cs" Line="78" Column="2" />
-      <File FileName="Assets\WheelControl.cs" Line="40" Column="19" />
-      <File FileName="Assets\Scripts\Tools\RandomManager.cs" Line="34" Column="9" />
-      <File FileName="Assets\Scripts\Stories\StoryTest.cs" Line="25" Column="7" />
-      <File FileName="Assets\Scripts\Island\IslandManager.cs" Line="43" Column="8" />
-      <File FileName="Assets\Scripts\Fight\Humanoid.cs" Line="123" Column="7" />
-      <File FileName="Assets\Scripts\Fight\FightPlayer.cs" Line="68" Column="6" />
+      <File FileName="Assets\Scripts\Fight\Humanoid.cs" Line="175" Column="19" />
+      <File FileName="Assets\Scripts\Fight\FightPlayer.cs" Line="40" Column="32" />
+      <File FileName="Assets\Scripts\Input\InputManager.cs" Line="139" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

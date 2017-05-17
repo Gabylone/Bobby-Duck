@@ -94,7 +94,7 @@ public class StoryLoader : MonoBehaviour {
 				bool canParse = int.TryParse (rowContent [1], out frequence);
 
 				if ( canParse== false){ 
-					print ("ne peut pas parse la freq dans : " + newStory.name);
+					print ("ne peut pas parse la freq dans : " + newStory.name + " TRY PARSE : " + rowContent[1]);
 				}
 
 				newStory.freq = frequence;
@@ -181,10 +181,9 @@ public class StoryLoader : MonoBehaviour {
 			if (MapManager.Instance.PosX == IslandManager.Instance.TreasureIslandXPos &&
 				MapManager.Instance.PosY == IslandManager.Instance.TreasureIslandYPos ) {
 
-//				Debug.Log ("treasure island");
-
 				if (treasureStories.Count == 0)
 					Debug.LogError ("no treasure stories");
+				
 				return treasureStories [Random.Range (0, treasureStories.Count)];
 
 			}
@@ -192,8 +191,6 @@ public class StoryLoader : MonoBehaviour {
 				// check for home island
 			if (MapManager.Instance.PosX == IslandManager.Instance.HomeIslandXPos &&
 				MapManager.Instance.PosY == IslandManager.Instance.HomeIslandYPos ) {
-
-//				Debug.Log ("home island");
 
 				if (homeStories.Count == 0)
 					Debug.LogError ("no home stories");

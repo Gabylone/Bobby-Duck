@@ -20,6 +20,9 @@ public class FlagControl : MonoBehaviour {
 	[SerializeField]
 	private Boat playerBoat;
 
+	[SerializeField]
+	private Vector3 decalToIsland = Vector3.zero;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -27,7 +30,11 @@ public class FlagControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		UpdateFlagPosition ();
+		if (IslandManager.Instance.OnIsland == false) {
+			UpdateFlagPosition ();
+		} else {
+			playerBoat.TargetSpeed = 0f;
+		}
 	}
 
 	private void UpdateFlagPosition () {
@@ -51,16 +58,37 @@ public class FlagControl : MonoBehaviour {
 
 		playerBoat.TargetSpeed = (distance_BoatToFlag - distanceToStop) * boatSpeed;
 
-		if (distance_BoatToFlag < distanceToStop) {
-			playerBoat.TargetSpeed = 0f;
-			if  (flagIsNearIsland )
-				IslandManager.Instance.Enter ();
-		}
-
 		playerBoat.TargetDirection = (flagImage.transform.position - playerBoat.GetTransform.position).normalized;
 
 		flagImage.color = flagIsNearIsland ? Color.red : Color.blue;
 		flagImage.enabled = !(distance_BoatToFlag < distanceToStop);
+
+		if (flagIsNearIsland) {
+			Vector3 pos = Camera.main.WorldToViewportPoint (islandPos + decalToIsland);
+
+			if ( distance_BoatToFlag < distanceToStop * 1.5f ) {
+				
+				IslandManager.Instance.Enter ();
+
+				// move flag to prevent reentering on leave island
+				if (islandPos.x < 0) {
+					pos = Camera.main.WorldToViewportPoint (islandPos + Vector3.left * distanceToTriggerIsland * 1.5f);
+				} else {
+					pos = Camera.main.WorldToViewportPoint (islandPos + Vector3.right * distanceToTriggerIsland * 1.5f);
+				}
+				flagImage.color = Color.blue;
+
+			}
+
+			flagImage.rectTransform.anchorMin = pos;
+			flagImage.rectTransform.anchorMax = pos;
+		}
+
+		if (distance_BoatToFlag < distanceToStop) {
+			
+			playerBoat.TargetSpeed = 0f;
+
+		}
 	}
 
 	private void PlaceFlagOnScreen () {

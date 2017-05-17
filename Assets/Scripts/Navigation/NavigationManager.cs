@@ -122,6 +122,16 @@ public class NavigationManager : MonoBehaviour {
 
 		}
 
+		// replace flag
+		if ( navigationSystem == NavigationSystem.Flag ) {
+
+			Vector3 pos = Camera.main.ScreenToViewportPoint (new Vector2 (Screen.width/2 ,Screen.height/2));
+
+			flagControl.FlagImage.rectTransform.anchorMin = pos;
+			flagControl.FlagImage.rectTransform.anchorMax = pos;
+
+		}
+
 //		DialogueManager.Instance.SetDialogue ( "Capitaine ! );
 
 //		/// debug pour tout le temps savoir ou est le trésor
@@ -260,6 +270,33 @@ public class NavigationManager : MonoBehaviour {
 	public Vector2 BoatBounds {
 		get {
 			return boatBounds;
+		}
+	}
+
+	public NavigationSystem CurrentNavigationSystem {
+		get {
+			return navigationSystem;
+		}
+		set {
+			navigationSystem = value;
+		}
+	}
+
+	public WheelControl WheelControl {
+		get {
+			return wheelControl;
+		}
+		set {
+			wheelControl = value;
+		}
+	}
+
+	public FlagControl FlagControl {
+		get {
+			return flagControl;
+		}
+		set {
+			flagControl = value;
 		}
 	}
 }

@@ -28,11 +28,16 @@ public class FightPlayer : Humanoid {
 	#endregion
 
 	#region move
+
+	public float deadAxis = 0.1f;
 	public override void move_Update ()
 	{
 		base.move_Update ();
 
-		Animator.SetFloat ("move" , InputManager.Instance.GetHorizontalAxis() != 0 ? 1 : 0);
+		bool pressingX = InputManager.Instance.GetHorizontalAxis () > 0.1f || InputManager.Instance.GetHorizontalAxis () < -0.1f;
+		bool pressingY = InputManager.Instance.GetVerticalAxis () > 0.1f || InputManager.Instance.GetVerticalAxis() < -0.1f;
+
+		Animator.SetFloat ("move" , (pressingX || pressingY) ? 1 : 0);
 
 		transform.Translate ( Direction * InputManager.Instance.GetHorizontalAxis() * Speed * Time.deltaTime);
 
@@ -53,7 +58,7 @@ public class FightPlayer : Humanoid {
 
 	#region input
 	private bool PressHit () {
-		if ( InputManager.Instance.OnMobile ) {
+		if ( InputManager.Instance.OnMobile || InputManager.Instance.mobileTest) {
 			return InputManager.Instance.OnInputDown (0, InputManager.ScreenPart.Right);
 		} else {
 			return Input.GetKeyDown (KeyCode.D);
@@ -73,7 +78,6 @@ public class FightPlayer : Humanoid {
 	public override void guard_Update ()
 	{
 		base.guard_Update ();
-		return ;
 
 		if (InputManager.Instance.GetVerticalAxis () > -0.3f)
 			ChangeState (states.move);

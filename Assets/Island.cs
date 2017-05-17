@@ -11,15 +11,17 @@ public class Island : MonoBehaviour {
 	[SerializeField]
 	private float decal = 0f;
 
-	Canvas canvas;
+	private Canvas canvas;
 
 	[SerializeField]
 	private float distanceToTrigger = 1f;
 
+	[SerializeField]
+	private Vector3 flagDecal;
+
 	// Use this for initialization
 	void Start () {
 		island = transform;
-
 		canvas = GetComponentInParent<Canvas> ();
 	}
 	
@@ -29,6 +31,7 @@ public class Island : MonoBehaviour {
 	}
 
 	public void OnMouseEnter () {
+
 		if ( Vector3.Distance ( boat.position, transform.position ) < distanceToTrigger && IslandManager.Instance.OnIsland == false){
 			transform.localScale = Vector3.one * 1.2f;
 		}
@@ -39,10 +42,22 @@ public class Island : MonoBehaviour {
 	}
 
 	public void OnMouseDown () {
-		if (Vector3.Distance (boat.position, transform.position) < distanceToTrigger) {
-			transform.localScale = Vector3.one;
+		
+	
+		if (NavigationManager.Instance.CurrentNavigationSystem == NavigationManager.NavigationSystem.Flag) {
 
-			IslandManager.Instance.Enter ();
+			Vector3 pos = Camera.main.WorldToViewportPoint (transform.position + flagDecal);
+
+			NavigationManager.Instance.FlagControl.FlagImage.rectTransform.anchorMin = pos;
+			NavigationManager.Instance.FlagControl.FlagImage.rectTransform.anchorMax = pos;
+		} else {
+			if (Vector3.Distance (boat.position, transform.position) < distanceToTrigger) {
+				transform.localScale = Vector3.one;
+
+				IslandManager.Instance.Enter ();
+
+			}
+
 		}
 	}
 
