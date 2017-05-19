@@ -1,0 +1,42 @@
+Nom;Fréquence %;;
+Bandits;4;bandits;
+[debut];;;
+Narrator : L'équipage accoste sur une petite île.;;;
+[arrivée bandits];;;
+NewCrew;;;
+Narrator : Quelques hommes s'avancent;Node=>bandits morts;OtherSpeak : Alors ? Tu nous as oubliés ?;
+OtherSpeak : Oyé !;;Node=>payed ?;
+PlayerSpeak : Ahoi !;;;
+Node=>payed ?;;;
+;;;
+[payed ?];;;
+Node=>chantage;Node=>a payé;;
+;;;
+;;;
+[chantage];;;
+OtherSpeak : C'est simple : 30 pièces d'or ou c'est fini !;;;
+SetChoices3;;;
+Choice : Tenez…;;Choice : Plutôt mourir !;Choice : Je n'ai pas assez
+Switch=>payed ?;;LaunchCombat;OtherSpeak : Tanpis Pour vous !
+CheckGold30;OtherSpeak : Vous vous foutez de moi ?;Node=>bandits morts;LaunchCombat
+RemoveGold30;OtherSpeak : Déglingez les, les gars !;;Node=>bandits morts
+OtherSpeak : C'est très bien ça…;LaunchCombat;;
+OtherSpeak : A la prochaine;Node=>bandits morts;;
+Leave;;;
+;;;
+[a payé];;;
+OtherSpeak : Qu'est-ce que tu fais là toi.;;;
+OtherSpeak : Tu veux qu'on te prenne plus d'argent ?;;;
+SetChoices2;;;
+Choice : Repartir;Choice : Se battre;;
+Leave;LaunchCombat;;
+;Node=>bandits morts;;
+;;;
+;;;
+;;;
+[bandits morts];;;
+Narrator : Le sol est jonché de corps de bandits;;;
+SetChoices2;;;
+Choice : Partir;Choice : Rester pour la nuit;;
+Leave;ChangeTimeOfDay;;
+;Node=>bandits morts;;

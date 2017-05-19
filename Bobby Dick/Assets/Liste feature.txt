@@ -1,0 +1,18 @@
+*FEATURES A VENIR*
+
+- croiser des bateaux qui se déplacent librement sur la map
+( pirates, marchands, soldats etc... )
+
+- Talents spéciaux personnages ?
+
+- création personnage
+- création bâteau
+
+- quetes
+
+- pouvoir passer la souris sur certain pixels de la map pour voir si le contenu de lîle.
+
+/* ----------------------------------- */
+- tu peux pas mourir quand ta faim et ton sommeil son à zéro.
+Mais tu es beaucoup moins efficace.
+

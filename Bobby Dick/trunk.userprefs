@@ -1,0 +1,15 @@
+﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Map\MapManager.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Map\MapImage.cs" Line="95" Column="6" />
+      <File FileName="Assets\Scripts\Map\Chunk.cs" Line="32" Column="4" />
+      <File FileName="Assets\Scripts\Boat\BoatInfo.cs" Line="46" Column="5" />
+      <File FileName="Assets\Scripts\Map\MapManager.cs" Line="53" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
