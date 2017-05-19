@@ -11,7 +11,7 @@ public class StoryLoader : MonoBehaviour {
 	private List<Story> clueStories 	= new List<Story> ();
 	private List<Story> treasureStories = new List<Story> ();
 	private List<Story> homeStories 	= new List<Story> ();
-	private List<int> storyPercents 	= new List<int> ();
+	private List<float> storyPercents 	= new List<float> ();
 
 	[SerializeField]
 	private string pathToCSVs = "Stories/CSVs";
@@ -32,6 +32,7 @@ public class StoryLoader : MonoBehaviour {
 		LoadStories ();
 	}
 
+
 	public void LoadStories ()
 	{
 
@@ -39,6 +40,8 @@ public class StoryLoader : MonoBehaviour {
 
 		GetFiles ();
 		LoadSheets ();
+
+		SetFreq ();
 	}
 
 	private void GetFiles ()
@@ -89,9 +92,10 @@ public class StoryLoader : MonoBehaviour {
 				newStory.name = rowContent [0];
 //				newStory.freq = int.TryParse (rowContent [1],);
 
-				int frequence = 0;
+				float frequence = 0;
 
-				bool canParse = int.TryParse (rowContent [1], out frequence);
+//				System.Globalization.NumberStyles n = ;
+				bool canParse = float.TryParse (rowContent [1] ,out frequence);
 
 				if ( canParse== false){ 
 					print ("ne peut pas parse la freq dans : " + newStory.name + " TRY PARSE : " + rowContent[1]);
@@ -170,59 +174,65 @@ public class StoryLoader : MonoBehaviour {
 	}
 	#endregion
 
-	public Story RandomStory {
+	public Story RandomStory (int x , int y) {
 
-		// IDEE : Pick story: 
-		// chaque catégorie à un range ( et la fréquence s'applque au trésor et aux indices )
+			// check if treasure island
+		if (x == MapData.Instance.treasureIslandXPos &&
+			y == MapData.Instance.treasureIslandXPos ) {
 
-		get {
+			if (treasureStories.Count == 0)
+				Debug.LogError ("no treasure stories");
+			
+			return treasureStories [Random.Range (0, treasureStories.Count)];
 
-				// check if treasure island
-			if (MapManager.Instance.PosX == IslandManager.Instance.TreasureIslandXPos &&
-				MapManager.Instance.PosY == IslandManager.Instance.TreasureIslandYPos ) {
-
-				if (treasureStories.Count == 0)
-					Debug.LogError ("no treasure stories");
-				
-				return treasureStories [Random.Range (0, treasureStories.Count)];
-
-			}
-
-				// check for home island
-			if (MapManager.Instance.PosX == IslandManager.Instance.HomeIslandXPos &&
-				MapManager.Instance.PosY == IslandManager.Instance.HomeIslandYPos ) {
-
-				if (homeStories.Count == 0)
-					Debug.LogError ("no home stories");
-				
-				return homeStories [Random.Range (0,homeStories.Count)];
-
-			}
-
-			// check if clue island
-			for( int i = 0; i < ClueManager.Instance.ClueAmount ; ++i ) {
-
-				if (MapManager.Instance.PosX == IslandManager.Instance.ClueIslandsXPos[i] &&
-					MapManager.Instance.PosY == IslandManager.Instance.ClueIslandsYPos[i] ) {
-
-					if (clueStories.Count == 0)
-						Debug.LogError ("no clue stories");
-					
-					return clueStories[Random.Range (0,clueStories.Count)];
-
-				}
-			}
-
-			// set random story
-			int storyIndex = Percentage.getRandomIndex (storyPercents.ToArray());
-//			Debug.Log ("index chosen from % : " + storyIndex);
-			return Stories [storyIndex];
 		}
+
+			// check for home island
+		if (x == MapData.Instance.homeIslandXPos &&
+			y == MapData.Instance.homeIslandYPos ) {
+
+			if (homeStories.Count == 0)
+				Debug.LogError ("no home stories");
+			
+			return homeStories [Random.Range (0,homeStories.Count)];
+
+		}
+
+		// check if clue island
+		for( int i = 0; i < ClueManager.Instance.ClueAmount ; ++i ) {
+
+			if (x == MapData.Instance.clueIslandsXPos[i] &&
+				y == MapData.Instance.clueIslandsYPos[i] ) {
+
+				if (clueStories.Count == 0)
+					Debug.LogError ("no clue stories");
+				
+				return clueStories[Random.Range (0,clueStories.Count)];
+
+			}
+		}
+
+		// set random story
+		int storyIndex = Percentage.getRandomIndex (storyPercents.ToArray());
+
+//			Debug.Log ("index chosen from % : " + storyIndex);
+		return Stories [storyIndex];
 	}
 
 	public List<Story> TreasureStories {
 		get {
 			return treasureStories;
+		}
+	}
+
+	List <int> frequencies = new List<int>();
+
+	void SetFreq ()
+	{
+		
+
+		foreach (var story in Stories) {
+			
 		}
 	}
 }

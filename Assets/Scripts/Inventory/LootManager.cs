@@ -12,9 +12,11 @@ public class LootManager : MonoBehaviour {
 	private Loot playerLoot;
 	private Loot otherLoot;
 
-	public void Init () {
-		
+	void Awake (){
 		Instance = this;
+	}
+
+	public void Init () {
 
 		Loot playerLoot = new Loot (0, 0);
 		playerLoot.Randomize (ItemCategory.Provisions);
@@ -46,7 +48,7 @@ public class LootManager : MonoBehaviour {
 		int row = StoryReader.Instance.Decal;
 		int col = StoryReader.Instance.Index;
 
-		var tmpLoot = MapManager.Instance.CurrentIsland.Loots.Find (x => x.col == col && x.row == row);
+		var tmpLoot = MapData.Instance.currentChunk.IslandData.Loots.Find (x => x.col == col && x.row == row);
 
 		if (tmpLoot == null) {
 
@@ -54,7 +56,7 @@ public class LootManager : MonoBehaviour {
 
 			newLoot.Randomize (categories);
 
-			MapManager.Instance.CurrentIsland.Loots.Add (newLoot);
+			MapData.Instance.currentChunk.IslandData.Loots.Add (newLoot);
 
 			return newLoot;
 

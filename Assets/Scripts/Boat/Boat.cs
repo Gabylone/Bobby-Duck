@@ -4,6 +4,12 @@ using System.Collections;
 
 public class Boat : MonoBehaviour {
 
+	[SerializeField]
+	private BoatInfo boatInfo;
+
+	[SerializeField]
+	private Vector2 boatBounds = new Vector2(290f , 125f);
+
 	[Space]
 	[Header ("Boat Elements")]
 	[SerializeField]
@@ -39,9 +45,10 @@ public class Boat : MonoBehaviour {
 
 
 	void Start () {
-
 		getTransform = GetComponent<Transform> ();
+		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
 
+		BoatInfo = PlayerBoatInfo.Instance;
 	}
 
 	void Update () {
@@ -83,14 +90,10 @@ public class Boat : MonoBehaviour {
 	}
 	#endregion
 
-	#region wheel
-
-	#endregion
-
 	#region map position 
-	public void SetBoatPos () {
-		Vector2 getDir =NavigationManager.Instance.getDir(NavigationManager.Instance.CurrentDirection);
-		transform.localPosition = new Vector2(-getDir.x * NavigationManager.Instance.BoatBounds.x, -getDir.y * NavigationManager.Instance.BoatBounds.y);
+	public void UpdatePositionOnScreen () {
+		Vector2 getDir = NavigationManager.Instance.getDir(boatInfo.currentDirection);
+		transform.localPosition = new Vector2(-getDir.x * boatBounds.x, -getDir.y * boatBounds.y);
 	}
 
 	#endregion
@@ -123,6 +126,15 @@ public class Boat : MonoBehaviour {
 	public float MaxSpeed {
 		get {
 			return maxSpeed;
+		}
+	}
+
+	public BoatInfo BoatInfo {
+		get {
+			return boatInfo;
+		}
+		set {
+			boatInfo = value;
 		}
 	}
 	#endregion

@@ -4,13 +4,14 @@ using System.Collections;
 
 public class Transition : MonoBehaviour {
 
-	bool lerping = false;
+		// lerp
+	private bool lerping = false;
 
-	float timer = 0f;
+	private float timer = 0f;
 	[SerializeField]
 	private float duration = 1f;
 
-	bool isFaded = false;
+	private bool fade = false;
 
 	[SerializeField]
 	private Image targetImage;
@@ -27,36 +28,12 @@ public class Transition : MonoBehaviour {
 
 	void Update () {
 		if ( lerping ) {
-
-			timer += Time.deltaTime;
-
-			float l = isFaded ? (timer / duration) : 1-(timer / duration);
-
-			targetImage.color = Color.Lerp ( Color.clear , targetColor , l );
-
-			if (timer >= duration) {
-				
-				if (!isFaded)
-					transitionCanvas.SetActive (false);
-				
-				lerping = false;
-			}
-
+			UpdateLerp ();
 		}
 	}
 
 	public void Switch () {
-		transitionCanvas.SetActive (true);
-
-		timer = 0f;
-
-		isFaded = !isFaded;
-		lerping = true;
-	}
-
-	public void QuickSwitch () {
-		targetImage.color = isFaded ? Color.clear : Color.black;
-		isFaded = !isFaded;
+		Fade = !Fade;
 	}
 
 	public float Duration {
@@ -74,6 +51,37 @@ public class Transition : MonoBehaviour {
 		}
 		set {
 			targetColor = value;
+		}
+	}
+
+	private void UpdateLerp () {
+
+		float l = timer / duration;
+
+		targetImage.color = Color.Lerp (Color.clear, targetColor, fade ? l : 1 - l);
+
+		timer += Time.deltaTime;
+		if (timer >= duration) {
+
+			transitionCanvas.SetActive (fade);
+
+			lerping = false;
+		}
+	}
+
+
+	public bool Fade {
+		get {
+			return fade;
+		}
+		set {
+			fade = value;
+
+			lerping = true;
+
+			timer = 0f;
+
+			transitionCanvas.SetActive (true);
 		}
 	}
 }

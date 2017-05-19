@@ -12,9 +12,6 @@ public class OtherLoot : MonoBehaviour {
 	private LootUI otherLootUI;
 
 	[SerializeField]
-	private GameObject buttonObj;
-
-	[SerializeField]
 	private CategoryContent category_TradeContent;
 	[SerializeField]
 	private CategoryContent category_OtherLootContent;
@@ -65,8 +62,6 @@ public class OtherLoot : MonoBehaviour {
 
 		SoundManager.Instance.PlaySound (lootSound);
 
-		buttonObj.SetActive (false);
-
 		otherLootUI.CategoryContent = category_OtherLootContent;
 		otherLootUI.Visible = true;
 		otherLootUI.UpdateActionButton(0);
@@ -109,8 +104,6 @@ public class OtherLoot : MonoBehaviour {
 	#region open / close
 	public void Close () {
 		
-		buttonObj.SetActive (true);
-
 		otherLootUI.Visible = false;
 		playerLootUI.Visible = false;
 

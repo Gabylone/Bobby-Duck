@@ -79,7 +79,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 			WeightManager.Instance.CurrentCapacity *= 2;
 			break;
 		case UpgradeType.Longview:
-			NavigationManager.Instance.ShipRange++;
+			PlayerBoatInfo.Instance.ShipRange++;
 			break;
 		}
 

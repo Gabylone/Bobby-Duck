@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Percentage : MonoBehaviour {
 
-	public static int getRandomIndex ( int[] percents ) {
-
+	public static int getRandomIndex ( float[] percents ) {
 		float chance = Random.value * 100f;
 
 		float prevPercent = 0f;
@@ -20,7 +20,7 @@ public class Percentage : MonoBehaviour {
 			prevPercent += percents [i];
 		}
 
-		Debug.LogError ("index out of percentage");
-		return 0;
+//		Debug.LogError ("index out of percentage");
+		return percents.Length -1;
 	}
 }

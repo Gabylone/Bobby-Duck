@@ -22,7 +22,7 @@ public class StoryFunctions : MonoBehaviour {
 	public void Read ( string content ) {
 
 		if (content.Length == 0) {
-			Debug.LogError ("cell is empty on story " + IslandManager.Instance.CurrentIsland.Story.name + "" +
+			Debug.LogError ("cell is empty on story " + MapData.Instance.currentChunk.IslandData.Story.name + "" +
 				"\n at row : " + (StoryReader.Instance.Index+2) + "" +
 				"\n and collumn : " + StoryReader.Instance.Decal);
 			Leave ();
@@ -334,7 +334,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 
-		if ( MapManager.Instance.CurrentIsland.visited == true) {
+		if ( MapData.Instance.currentChunk.state == State.VisitedIsland) {
 			StoryReader.Instance.SetDecal (1);
 		}
 
@@ -372,8 +372,6 @@ public class StoryFunctions : MonoBehaviour {
 			WeatherManager.Instance.Raining = true;
 			break;
 		}
-
-		NavigationManager.Instance.UpdateTime ();
 
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
 

@@ -35,6 +35,13 @@ public class WeatherManager : MonoBehaviour {
 
 	void Start () {
 		PlaySound ();
+
+		NavigationManager.Instance.EnterNewChunk += UpdateWeather;
+	}
+
+	void Update () {
+		if (Input.GetKeyDown (KeyCode.O))
+			IsNight = true;
 	}
 
 	public bool Raining {

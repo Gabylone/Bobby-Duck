@@ -4,6 +4,7 @@ using System.Collections;
 public class FightPlayer : Humanoid {
 
 	FightIA lastIAFight;
+	public float deadAxis = 0.1f;
 
 	public override void Start ()
 	{
@@ -29,7 +30,6 @@ public class FightPlayer : Humanoid {
 
 	#region move
 
-	public float deadAxis = 0.1f;
 	public override void move_Update ()
 	{
 		base.move_Update ();
@@ -59,7 +59,7 @@ public class FightPlayer : Humanoid {
 	#region input
 	private bool PressHit () {
 		if ( InputManager.Instance.OnMobile || InputManager.Instance.mobileTest) {
-			return InputManager.Instance.OnInputDown (0, InputManager.ScreenPart.Right);
+			return InputManager.Instance.OnInputDown (0, InputManager.ScreenPart.Right) || InputManager.Instance.OnInputDown (1, InputManager.ScreenPart.Right);
 		} else {
 			return Input.GetKeyDown (KeyCode.D);
 		}

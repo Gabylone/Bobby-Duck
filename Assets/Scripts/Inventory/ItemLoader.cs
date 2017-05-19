@@ -34,9 +34,12 @@ public class ItemLoader : MonoBehaviour {
 
 	public int levelTest = 1;
 
-	public void Init () {
-		
+	void Awake () {
 		Instance = this;
+	}
+
+
+	public void Init () {
 
 		allCategories = new ItemCategory[categoryAmount];
 

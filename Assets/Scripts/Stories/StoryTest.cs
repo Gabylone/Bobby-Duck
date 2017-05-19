@@ -34,7 +34,7 @@ public class StoryTest : MonoBehaviour {
 		
 		if (Input.GetKeyDown(KeyCode.Return) ) {
 
-			IslandManager.Instance.CurrentIsland.Story = StoryLoader.Instance.Stories.Find (x => x.name == storyName);
+			MapData.Instance.currentChunk.IslandData.Story = StoryLoader.Instance.Stories.Find (x => x.name == storyName);
 //			IslandManager.Instance.CurrentIsland.Story.Story = StoryLoader.Instance.TreasureStories[0];
 
 			IslandManager.Instance.Enter ();

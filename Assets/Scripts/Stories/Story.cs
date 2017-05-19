@@ -5,10 +5,10 @@ using System.Collections.Generic;
 public class Story {
 
 	public string 	name 			= "";
-	public int 		freq 			= 0;
+	public float 	freq 			= 0f;
 	public string 	fallbackNode 	= "";
 	public int 		storyID 		= 0;
-	public string 	fallbackStory 	= "";
+	public string 	fallbackStoryName 	= "";
 
 	public List<List<string>> content 	= new List<List<string>>();
 	public List<List<int>> contentDecal = new List<List<int>>();

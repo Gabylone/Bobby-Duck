@@ -5,6 +5,11 @@ using System.Collections.Generic;
 [System.Serializable]
 public class IslandData {
 
+	public string name = "";
+
+	public int worldPositionX = 0;
+	public int worldPositionY = 0;
+
 	[SerializeField]
 	private List<Story> stories = new List<Story> ();
 
@@ -12,24 +17,34 @@ public class IslandData {
 	private List<Crew> crews = new List<Crew>();
 
 	private bool gaveClue = false;
-	private Vector2 position;
 
-	public bool visited = false;
-	public bool seen = false;
+	private Vector2 appearRange = new Vector2 ( 241f , 125f );
+	private Vector2 positionOnScreen;
+
 
 	public IslandData ()
 	{
 
 	}
 
-	public IslandData ( Vector2 pos )
+	public IslandData (int x , int y)
 	{
-		position = pos;
+		worldPositionX = x;
+		worldPositionY = y;
+
+		Story = StoryLoader.Instance.RandomStory(x,y);
+
+		name = Story.name;
+
+		float islandPosX = Random.Range (-appearRange.x , appearRange.x);
+		float islandPosY = Random.Range (-appearRange.y , appearRange.y);
+
+		positionOnScreen = new Vector2 (islandPosX, islandPosY);
 	}
 
-	public Vector2 Position {
+	public Vector2 PositionOnScreen {
 		get {
-			return position;
+			return positionOnScreen;
 		}
 	}
 
@@ -47,7 +62,7 @@ public class IslandData {
 			if (stories.Count == 0) {
 				return null;
 			}
-			return stories[IslandManager.Instance.StoryLayer];
+			return stories[StoryReader.Instance.CurrentStoryLayer];
 		}
 		set {
 			if (stories.Count > 0) {

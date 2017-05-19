@@ -7,15 +7,9 @@ public class GameManager : MonoBehaviour {
 	public static GameManager Instance;
 
 	[SerializeField]
-	private ItemLoader itemLoader;
-
-	[SerializeField]
-	private LootManager lootManager;
-
-	[SerializeField]
 	private GameObject gameOver_Object;
 
-	void Awake () {
+	void Start () {
 
 		Instance = this;
 
@@ -24,10 +18,16 @@ public class GameManager : MonoBehaviour {
 
 	public void LoadGame () {
 
-		itemLoader.Init ();
-		lootManager.Init ();
-		MapManager.Instance.Init ();
+		MapGenerator.Instance.GenerateIslands ();
+
+		ItemLoader.Instance.Init ();
+		LootManager.Instance.Init ();
 		ClueManager.Instance.Init ();
+
+		Boats.Instance.Init ();
+
+		Crews.Instance.Init ();
+
 
 	}
 

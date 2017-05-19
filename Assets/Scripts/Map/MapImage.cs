@@ -6,8 +6,6 @@ public class MapImage : MonoBehaviour {
 
 	public static MapImage Instance;
 
-	private MapGenerator mapGenerator;
-
 	[Header("General")]
 	[SerializeField]
 	private Image targetImage;
@@ -30,109 +28,135 @@ public class MapImage : MonoBehaviour {
 	private Color boatPositionColor;
 
 	[SerializeField]
-	private int textureScale = 100;
-
-	[SerializeField]
 	private float maxImagePosition = 250f;
 
 	void Awake() {
 		Instance = this;
 	}
 
+	void Start () {
+		NavigationManager.Instance.EnterNewChunk += UpdateBoatSurroundings;
+	}
+
+	#region initialization
 	public void InitImage () {
 
-		mapGenerator = GetComponent<MapGenerator> ();
+		Texture2D texture = new Texture2D (MapGenerator.Instance.MapScale, MapGenerator.Instance.MapScale);
 
-		Texture2D texture = new Texture2D (textureScale, textureScale);
-
-		for ( int x = 0; x < textureScale ; ++x ) {
+		for ( int x = 0; x < MapGenerator.Instance.MapScale ; ++x ) {
 			
-			for (int y = 0; y < textureScale; ++y ) {
+			for (int y = 0; y < MapGenerator.Instance.MapScale; ++y ) {
 
+				Chunk chunk = MapData.Instance.chunks [x, y];
 
 				if (revealMap) {
 					
-					texture.SetPixel (x, y, IslandManager.Instance.IslandIds [x, y] > -1 ? Color.yellow : Color.blue);
+					texture.SetPixel (x, y, (chunk.state == State.UndiscoveredIsland ) ? Color.yellow : Color.blue);
 
 				} else {
-
-					int id = IslandManager.Instance.IslandIds [x, y];
-
-					Color color = undiscoveredColor;
-
-					if (id > -2) {
-						if (id == -1) {
-							color = discoveredColor;
-						} else {
-							if (IslandManager.Instance.IslandIds [x, y] < IslandManager.Instance.IslandDatas.Count) {
-								if (IslandManager.Instance.IslandDatas [IslandManager.Instance.IslandIds [x, y]].visited) {
-									color = visitedIslandColor;
-								} else if (IslandManager.Instance.IslandDatas [IslandManager.Instance.IslandIds [x, y]].seen) {
-									color = unvisitedIslandColor;
-								}
-							}
-						}
-					}
-
-					texture.SetPixel (x, y, color);
+					texture.SetPixel (x, y, getChunkColor (chunk) );
 				}
 			}
 		}
 //
-		texture.filterMode = FilterMode.Point;
+		UpdateTexture (texture);
 
-		texture.Apply ();
-//
-		Sprite sprite = Sprite.Create (texture, new Rect (0, 0, textureScale , textureScale) , Vector2.one * 0.5f );
-		targetImage.sprite = sprite;
+		UpdateBoatSurroundings ();
 	}
+	#endregion
 
-	public void UpdatePixel ( int x , int y, Color color = default(Color)) {
+	#region update boat surroundings
+	public void UpdateBoatSurroundings () {
+		
+		Texture2D texture = (Texture2D)targetImage.mainTexture;
 
-		if ( color == default(Color) ) {
-			color = discoveredColor;
-			if ( IslandManager.Instance.IslandIds [x, y] > -1 ) {
-				
-				color = IslandManager.Instance.IslandDatas[IslandManager.Instance.IslandIds [x, y]].visited ? visitedIslandColor : unvisitedIslandColor;
-				IslandManager.Instance.IslandDatas [IslandManager.Instance.IslandIds [x, y]].seen = true;
+		int shipRange = PlayerBoatInfo.Instance.ShipRange;
 
-			} else if (IslandManager.Instance.IslandIds [x, y] == -2) {
+		int posX = PlayerBoatInfo.Instance.PosX;
+		int posY = PlayerBoatInfo.Instance.PosY;
 
-				IslandManager.Instance.IslandIds [x, y] = -1;
+		int mapScale = MapGenerator.Instance.MapScale;
+
+		Chunk previousChunk = MapData.Instance.chunks [PlayerBoatInfo.Instance.PreviousPosX, PlayerBoatInfo.Instance.PreviousPosY];
+		texture.SetPixel (previousChunk.x, previousChunk.y, getChunkColor (previousChunk));
+
+		for (int x = -shipRange; x <= shipRange; ++x ) {
+
+			for (int y = -shipRange; y <= shipRange; ++y ) {
+
+				int pX = posX + x;
+				int pY = posY + y;
+
+				if (pX < mapScale && pX >= 0 &&
+					pY < mapScale && pY >= 0) {
+
+
+					Chunk chunk = MapData.Instance.chunks [pX, pY];
+
+					Color color = Color.red;
+
+					switch (chunk.state) {
+					case State.UndiscoveredSea:
+						chunk.state = State.DiscoveredSea;
+						break;
+					case State.UndiscoveredIsland:
+						chunk.state = State.DiscoveredIsland;
+						break;
+					}
+
+					texture.SetPixel (pX, pY, getChunkColor (chunk) );
+
+				}
 
 			}
 
 		}
 
-		Texture2D texture = (Texture2D)targetImage.mainTexture;
+		UpdateTexture (texture);
 
-		texture.SetPixel (x, y, color);
+	}
+
+	private Color getChunkColor (Chunk chunk) {
+
+		if ( chunk.x == PlayerBoatInfo.Instance.PosX && chunk.y == PlayerBoatInfo.Instance.PosY  ) {
+			return Color.red;
+		}
+
+		switch (chunk.state) {
+		case State.UndiscoveredSea:
+			return undiscoveredColor;
+			break;
+		case State.DiscoveredSea:
+			return discoveredColor;
+			break;
+		case State.UndiscoveredIsland:
+			return undiscoveredColor;
+			break;
+		case State.DiscoveredIsland:
+			return unvisitedIslandColor;
+			break;
+		case State.VisitedIsland:
+			return visitedIslandColor;
+			break;
+		default:
+			return Color.black;
+			break;
+		}
+	}
+	#endregion
+
+	#region image
+	private void UpdateTexture (Texture2D texture) {
 
 		texture.filterMode = FilterMode.Point;
 
 		texture.Apply ();
 
-		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, textureScale , textureScale) , Vector2.one * 0.5f );
-
+		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, MapGenerator.Instance.MapScale ,  MapGenerator.Instance.MapScale) , Vector2.one * 0.5f );
 	}
-
-	public void UpdateImagePosition () {
-		return;
-		float x = (maxImagePosition * MapManager.Instance.PosX) / textureScale;
-		float y = (maxImagePosition * MapManager.Instance.PosY) / textureScale;
-		targetImage.transform.localPosition = new Vector2 (-x , (maxImagePosition - y) );
-	}
+	#endregion
 
 	#region properties
-	public int TextureScale {
-		get {
-			return textureScale;
-		}
-		set {
-			textureScale = value;
-		}
-	}
-
 	public Image TargetImage {
 		get {
 			return targetImage;

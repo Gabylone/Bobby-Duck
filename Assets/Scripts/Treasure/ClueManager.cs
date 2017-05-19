@@ -9,7 +9,8 @@ public class ClueManager : MonoBehaviour {
 	private int clueIndex = 0;
 	private int clueAmount = 2;
 
-	private int[] clueIslands;
+	private Chunk[] clueChunks;
+
 	private string[] clues = new string[2] {
 		"formule1",
 		"formule2"
@@ -30,10 +31,7 @@ public class ClueManager : MonoBehaviour {
 		for (int i = 0; i < clues.Length; ++i )
 			clues[i] = NameGeneration.Instance.randomWord.ToUpper ();
 
-		clueIslands = new int[clues.Length];
-
-		for (int i = 0; i < clueIslands.Length; ++i)
-			clueIslands [i] = -1;
+		clueChunks = new Chunk[clues.Length];
 		
 	}
 
@@ -96,34 +94,26 @@ public class ClueManager : MonoBehaviour {
 
 	public string getFormula () {
 
-		int index = ClueIndex;
-
-		string clue = "";
-
-		bool clueAlreadyFound = false;
-
-		int a = 0;
-
-		foreach ( int i in ClueManager.Instance.ClueIslands ) {
-
-			if ( i == MapManager.Instance.IslandID ) {
+		for (int index = ClueIndex; clueIndex < Clues.Length; clueIndex++) {
+			
+			if ( MapData.Instance.currentChunk == clueChunks[index] ) {
+				
 				Debug.Log ("already found clue in island");
-				clue = ClueManager.Instance.Clues [a];
-				index = a;
-				clueAlreadyFound = true;
+
+				return Clues [index];
 			}
-
-			++a;
-
 		}
 
-		if ( clueAlreadyFound == false ) {
-			Debug.Log ("first time gave clue");
-			clue = ClueManager.Instance.Clues[index];
-			ClueManager.Instance.ClueIndex += 1;
-		}
+		Debug.Log ("first time gave clue");
 
-		ClueManager.Instance.ClueIslands [index] = MapManager.Instance.IslandID;
+		// set clue phrase
+		string clue = Clues[clueIndex];
+
+		// set clue island
+		clueChunks [ClueIndex] = MapData.Instance.currentChunk;
+
+		// go to next clue
+		++ClueIndex;
 
 		return clue;
 	}
@@ -131,24 +121,15 @@ public class ClueManager : MonoBehaviour {
 	public Vector2 GetNextClueIslandPos {
 		get {
 			if ( clueIndex == clues.Length ) 
-				return new Vector2 ( IslandManager.Instance.TreasureIslandXPos , IslandManager.Instance.TreasureIslandYPos );
+				return new Vector2 ( MapData.Instance.treasureIslandXPos , MapData.Instance.treasureIslandYPos );
 
-			return new Vector2 ( IslandManager.Instance.ClueIslandsXPos[ClueIndex] , IslandManager.Instance.ClueIslandsYPos[ClueIndex] );
+			return new Vector2 ( MapData.Instance.clueIslandsXPos[ClueIndex] , MapData.Instance.clueIslandsYPos[ClueIndex] );
 		}
 	}
 
 	public string[] Clues {
 		get {
 			return clues;
-		}
-	}
-
-	public int[] ClueIslands {
-		get {
-			return clueIslands;
-		}
-		set {
-			clueIslands = value;
 		}
 	}
 

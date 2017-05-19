@@ -41,7 +41,7 @@ public class SaveManager : MonoBehaviour
 		yield return new WaitForEndOfFrame ();
 
 		// boat position
-		MapManager.Instance.LoadBoatPosition ();
+		PlayerBoatInfo.Instance.LoadPosition ();
 
 		yield return new WaitForEndOfFrame ();
 
@@ -73,7 +73,7 @@ public class SaveManager : MonoBehaviour
 		Crews.Instance.SavePlayerCrew ();
 
 		// boat position
-		MapManager.Instance.SaveBoatPosition ();
+		PlayerBoatInfo.Instance.SavePosition ();
 
 		// island ids
 		// island datas
@@ -105,19 +105,11 @@ public class SaveManager : MonoBehaviour
 //[System.Serializable]
 public class GameData
 {
+	// crew
 	public Crew playerCrew;
 
-	public List<IslandData> islandsData = new List<IslandData> ();
-	public byte[] islandIDs;
-
-	public int[] clueIslandsXPos;
-	public int[] clueIslandsYPos;
-
-	public int treasureIslandXPos = 0;
-	public int treasureIslandYPos = 0;
-
-	public int homeIslandXPos = 0;
-	public int homeIslandYPos = 0;
+	// islands
+	public MapData mapData;
 
 	public int boatPosX = 0;
 	public int boatPosY = 0;

@@ -61,6 +61,9 @@ public class CrewMember {
 		SetEquipment (EquipmentPart.Weapon, 	ItemLoader.Instance.getItem (ItemCategory.Weapon, memberID.weaponID));
 		SetEquipment (EquipmentPart.Clothes, 	ItemLoader.Instance.getItem (ItemCategory.Clothes, memberID.clothesID));
 
+		// set state delegate
+		NavigationManager.Instance.EnterNewChunk += AddToStates;
+
 	}
 
 	#region health

@@ -10,7 +10,7 @@ public class MapGenerator : MonoBehaviour {
 	private MapImage mapImage;
 
 	[SerializeField]
-	private Vector2 islandRange = new Vector2( 350 , 160 );
+	private int mapScale = 100;
 
 	[SerializeField]
 	private int noManSeaScale = 3;
@@ -18,166 +18,96 @@ public class MapGenerator : MonoBehaviour {
 	[SerializeField]
 	private int loadLimit = 1000;
 
+	public int islandID;
 
-	// Use this for initialization
-	void Start () {
+	[SerializeField]
+	private MapData mapData;
+
+	void Awake () {
 		Instance = this;
 	}
 
 	public void GenerateIslands () {
-
-		IslandManager.Instance.IslandIds = new int[mapImage.TextureScale, mapImage.TextureScale];
-
-		for ( int x = 0; x < mapImage.TextureScale; ++x ) {
-			for ( int y = 0; y < mapImage.TextureScale; ++y )
-				IslandManager.Instance.IslandIds [x, y] = -2;
-		}
-
 		StartCoroutine (GenerateIslandsCoroutine ());
 	}
 
 	private IEnumerator GenerateIslandsCoroutine () {
+
+		CreateMapData ();
+
+		yield return new WaitForEndOfFrame ();
+
+		mapImage.InitImage ();
+
+		PlayerBoatInfo.Instance.UpdatePosition ();
+
+		IslandManager.Instance.Enter ();
+	}
+
+	#region map data
+	private void CreateMapData () {
 		
-		int currentLoad = 0;
+		mapData = new MapData (MapScale);
 
-		int islandAmount = Mathf.RoundToInt (mapImage.TextureScale / 10);
-		int islandID = 0;
+		for ( int x = 0; x < mapScale; ++x ) {
+			for ( int y = 0; y < mapScale; ++y )
+				MapData.Instance.chunks [x, y].state = State.UndiscoveredSea;
+		}
 
-		#region clues & treasure island
+		int islandAmount = Mathf.RoundToInt (mapScale / 10);
 
-		IslandManager.Instance.ClueIslandsXPos = new int[ClueManager.Instance.ClueAmount];
-		IslandManager.Instance.ClueIslandsYPos = new int[ClueManager.Instance.ClueAmount];
-
-		for ( int i = 0; i < ClueManager.Instance.ClueAmount; ++i)
-        {
-            
-			IslandManager.Instance.ClueIslandsXPos[i] = RandomX;
-			IslandManager.Instance.ClueIslandsYPos[i] = RandomY;
-
-			IslandManager.Instance.IslandIds 	[IslandManager.Instance.ClueIslandsXPos[i], IslandManager.Instance.ClueIslandsYPos[i]] 	= islandID;
-			++islandID;
-
-        }
-
-			// TREASURE
-		IslandManager.Instance.TreasureIslandXPos = RandomX;
-		IslandManager.Instance.TreasureIslandYPos = RandomY;
-
-		IslandManager.Instance.IslandIds 	[IslandManager.Instance.TreasureIslandXPos, IslandManager.Instance.TreasureIslandYPos] 	= islandID;
-		++islandID;
-
-			// HOME
-		IslandManager.Instance.HomeIslandXPos = RandomX;
-		IslandManager.Instance.HomeIslandYPos = RandomY;
-
-		MapManager.Instance.PosX = IslandManager.Instance.HomeIslandXPos;
-		MapManager.Instance.PosY = IslandManager.Instance.HomeIslandYPos;
-
-		IslandManager.Instance.IslandIds 	[IslandManager.Instance.HomeIslandXPos, IslandManager.Instance.HomeIslandYPos] 	= islandID;
-		++islandID;
-		#endregion
-
-		#region island
-		for ( int y = 0; y < mapImage.TextureScale ; ++y ) {
+		for ( int y = 0; y < mapScale ; ++y ) {
 
 			for (int i = 0; i < islandAmount; ++i ) {
 
 				bool isInNoMansSea =
-					y > (mapImage.TextureScale / 2) - (noManSeaScale/2)
-					&& y < (mapImage.TextureScale / 2) + (noManSeaScale/2);
+					y > (mapScale / 2) - (noManSeaScale/2)
+					&& y < (mapScale / 2) + (noManSeaScale/2);
 
 				if ( isInNoMansSea == false ) {
-					int x = Random.Range ( 0, mapImage.TextureScale );
+					int x = Random.Range ( 0, mapScale );
 
-					if (IslandManager.Instance.IslandIds[x,y] < 0) {
-						
-						IslandManager.Instance.IslandIds 	[x, y] 	= islandID;
-
-						Vector2 islandPos = new Vector2(Random.Range (-islandRange.x,islandRange.x) , Random.Range(-islandRange.y ,islandRange.y) );
-						IslandManager.Instance.IslandDatas.Add ( new IslandData(islandPos) );
-
-						++islandID;
+					if (MapData.Instance.chunks[x,y].state == State.UndiscoveredSea) {
+						MapData.Instance.chunks [x, y].IslandData = new IslandData(x,y);
 					}
-				}
-
-				++currentLoad;
-
-				if (currentLoad > loadLimit) {
-					yield return new WaitForEndOfFrame ();
-					currentLoad = 0;
 				}
 			}
 
 
 		}
-
-		yield return new WaitForEndOfFrame ();
-
-		IslandManager.Instance.UpdateIslandPosition ();
-
-			// assigner l'histoire de la maison
-		IslandManager.Instance.CurrentIsland.Story = StoryLoader.Instance.RandomStory;
-
-		mapImage.InitImage ();
-		MapManager.Instance.UpdateImage ();
-
-		IslandManager.Instance.Enter ();
-		#endregion
-
 	}
+	#endregion
 
+	#region tools
 	public int RandomX {
 		get {
-			return Random.Range ( 0, mapImage.TextureScale );
+			return Random.Range ( 0, mapScale );
 		}
 	}
 
 	public int RandomY {
 		get {
 
-			int y1 = Random.Range(0, (mapImage.TextureScale / 2) - (noManSeaScale / 2));
-			int y2 = Random.Range((mapImage.TextureScale / 2) + (noManSeaScale / 2), mapImage.TextureScale);
+			int y1 = Random.Range(0, (mapScale / 2) - (noManSeaScale / 2));
+			int y2 = Random.Range((mapScale / 2) + (noManSeaScale / 2), mapScale);
 
 			return Random.value > 0.5f ? Mathf.RoundToInt(y1) : Mathf.RoundToInt(y2);
 		}
 	}
+	#endregion
 
 	#region load & save
 	public void LoadIslandsData () {
 
-		BytesTools.FromBytes (IslandManager.Instance.IslandIds, SaveManager.Instance.CurrentData.islandIDs);
-		IslandManager.Instance.IslandDatas = SaveManager.Instance.CurrentData.islandsData;
+		MapData.Instance = new MapData ();
+		MapData.Instance = SaveManager.Instance.CurrentData.mapData;
 
-		IslandManager.Instance.HomeIslandXPos = SaveManager.Instance.CurrentData.homeIslandXPos;
-		IslandManager.Instance.HomeIslandYPos = SaveManager.Instance.CurrentData.homeIslandYPos;
-
-		IslandManager.Instance.TreasureIslandXPos = SaveManager.Instance.CurrentData.treasureIslandXPos;
-		IslandManager.Instance.TreasureIslandYPos = SaveManager.Instance.CurrentData.treasureIslandYPos;
-
-		IslandManager.Instance.ClueIslandsXPos = SaveManager.Instance.CurrentData.clueIslandsXPos;
-		IslandManager.Instance.ClueIslandsYPos = SaveManager.Instance.CurrentData.clueIslandsYPos;
-
-		IslandManager.Instance.UpdateIslandPosition ();
 		mapImage.InitImage ();
-		MapManager.Instance.UpdateImage ();
 
 	}
 
 	public void SaveIslandsData () {
-
-		SaveManager.Instance.CurrentData.islandIDs = BytesTools.ToBytes(IslandManager.Instance.IslandIds);
-
-		SaveManager.Instance.CurrentData.islandsData = IslandManager.Instance.IslandDatas;
-
-		SaveManager.Instance.CurrentData.homeIslandXPos = IslandManager.Instance.HomeIslandXPos;
-		SaveManager.Instance.CurrentData.homeIslandYPos = IslandManager.Instance.HomeIslandYPos;
-
-		SaveManager.Instance.CurrentData.treasureIslandXPos = IslandManager.Instance.TreasureIslandXPos;
-		SaveManager.Instance.CurrentData.treasureIslandYPos = IslandManager.Instance.TreasureIslandYPos;
-
-		SaveManager.Instance.CurrentData.clueIslandsXPos = IslandManager.Instance.ClueIslandsXPos;
-		SaveManager.Instance.CurrentData.clueIslandsYPos = IslandManager.Instance.ClueIslandsYPos;
-
+		SaveManager.Instance.CurrentData.mapData = MapData.Instance;
 	}
 	#endregion
 
@@ -187,4 +117,9 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
+	public int MapScale {
+		get {
+			return mapScale;
+		}
+	}
 }

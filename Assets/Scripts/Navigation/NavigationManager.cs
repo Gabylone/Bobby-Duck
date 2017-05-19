@@ -16,16 +16,14 @@ public enum Directions {
 
 public class NavigationManager : MonoBehaviour {
 
+		// singleton
 	public static NavigationManager Instance;
 
-	private Directions currentDirection;
+		// player boat info
+	[SerializeField]
+	private Boat playerBoat;
 
-	private int shipRange = 1;
-
-	private bool isInNoMansSea = false;
-	private bool hasBeenWarned = false;
-
-	private bool moving = false;
+	private bool changingChunk = false;
 
 	[SerializeField]
 	private GameObject navigationTriggers;
@@ -48,22 +46,20 @@ public class NavigationManager : MonoBehaviour {
 	[SerializeField]
 	private FlagControl flagControl;
 
-	[SerializeField]
-	private Vector2 boatBounds = new Vector2 ( 290f , 125f );
-
-	[SerializeField]
-	private Boat playerBoat;
+	public delegate void ChunkEvent ();
+	public ChunkEvent EnterNewChunk;
 
 	void Awake () {
 		Instance = this;
 	}
 
 	void Start () {
-		foreach ( Animator animator in navigationTriggers.GetComponentsInChildren<Animator>() ){
-			animator.SetBool ("feedback", true);
-		}
+		InitPlayerBoatConctrol ();
+	}
 
-			// get boat control
+	private void InitPlayerBoatConctrol ()
+	{
+		// get boat control
 		wheelControl.WheelTransform.gameObject.SetActive (navigationSystem == NavigationSystem.Wheel);
 		flagControl.FlagImage.gameObject.SetActive (navigationSystem == NavigationSystem.Flag);
 
@@ -72,107 +68,24 @@ public class NavigationManager : MonoBehaviour {
 	}
 
 	#region movement
-	public void Move ( int dir ) {
+	public void ChangeChunk ( int newDirection ) {
 
-		if (moving)
+		if (changingChunk)
 			return;
 		
-		moving = true;
+			// set new boat direction
+		PlayerBoatInfo.Instance.currentDirection = (Directions)newDirection;
+		PlayerBoatInfo.Instance.PosX += (int)getDir ((Directions)newDirection).x;
+		PlayerBoatInfo.Instance.PosY += (int)getDir ((Directions)newDirection).y;
 
-		currentDirection = (Directions)dir;
-
-		Transitions.Instance.ScreenTransition.Switch ();
-
-		Invoke ("MoveDelay", Transitions.Instance.ScreenTransition.Duration);
-
-	}
-
-	private void MoveDelay () {
-
-		playerBoat.SetBoatPos ();
-
-		MapManager.Instance.SetNewPos (getDir (currentDirection));
-
-		UpdateTime ();
-
-		IslandManager.Instance.UpdateIslandPosition ();
-
-		Transitions.Instance.ScreenTransition.Switch ();
-
-		WeatherManager.Instance.UpdateWeather ();
-
-		bool isInNoMansSea =
-			MapManager.Instance.PosY > (MapImage.Instance.TextureScale / 2) - (MapGenerator.Instance.NoManSeaScale/2)
-			&& MapManager.Instance.PosY < (MapImage.Instance.TextureScale / 2) + (MapGenerator.Instance.NoManSeaScale/2);
-
-		if (isInNoMansSea ) {
-
-			if (!hasBeenWarned) {
-				DialogueManager.Instance.ShowNarrator ("Le bateau entre dans la Grande Mer... Pas de terres en vue à des lieus d'ici. Mieux vaut être bien préparé, la traversée sera longue.");
-
-				hasBeenWarned = true;
-			}
-
-		} else {
-			if (hasBeenWarned) {
-				DialogueManager.Instance.ShowNarrator ("Le bateau quitte les eaux de la Grande Mer... Déjà les premières îles apparaissent à l'horizon. Ouf...");
-			}
-
-			hasBeenWarned = false;
-
+		if (EnterNewChunk != null) {
+			EnterNewChunk ();
 		}
 
-		// replace flag
-		if ( navigationSystem == NavigationSystem.Flag ) {
-
-			Vector3 pos = Camera.main.ScreenToViewportPoint (new Vector2 (Screen.width/2 ,Screen.height/2));
-
-			flagControl.FlagImage.rectTransform.anchorMin = pos;
-			flagControl.FlagImage.rectTransform.anchorMax = pos;
-
-		}
-
-//		DialogueManager.Instance.SetDialogue ( "Capitaine ! );
-
-//		/// debug pour tout le temps savoir ou est le trésor
-//
-//		Directions dir = NavigationManager.Instance.getDirectionToPoint (ClueManager.Instance.GetNextClueIslandPos);
-//		string directionPhrase = NavigationManager.Instance.getDirName (dir);
-//
-//		Debug.Log (directionPhrase);
-
-		moving = false;
 	}
 	#endregion
 
-
-	public void UpdateTime () {
-		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
-			Crews.playerCrew.CrewMembers[i].AddToStates ();
-		}
-	}
-
-	public int ShipRange {
-		get {
-
-			int range = shipRange;
-
-			if (WeatherManager.Instance.Raining)
-				range--;
-			if (WeatherManager.Instance.IsNight)
-				range--;
-			
-			return Mathf.Clamp (range,0,10);
-
-		}
-		set {
-			shipRange = value;
-		}
-	}
-
 	#region tools
-
-
 	public Directions getDirectionFromVector ( Vector2 dir ) {
 
 		for (int i = 0; i < 8; ++i ) {
@@ -184,7 +97,7 @@ public class NavigationManager : MonoBehaviour {
 	}
 	public Directions getDirectionToPoint ( Vector2 point ) {
 
-		Vector2 boatPos = new Vector2 (MapManager.Instance.PosX, MapManager.Instance.PosY);
+		Vector2 boatPos = new Vector2 (PlayerBoatInfo.Instance.PosX, PlayerBoatInfo.Instance.PosY);
 		Vector2 direction = point - boatPos;
 
 		for (int i = 0; i < 8; ++i ) {
@@ -249,27 +162,12 @@ public class NavigationManager : MonoBehaviour {
 		return Vector2.zero;
 
 	}
-
 	#endregion
 
-	public Directions CurrentDirection {
-		get {
-			return currentDirection;
-		}
-		set {
-			currentDirection = value;
-		}
-	}
-
+	#region properties
 	public GameObject NavigationTriggers {
 		get {
 			return navigationTriggers;
-		}
-	}
-
-	public Vector2 BoatBounds {
-		get {
-			return boatBounds;
 		}
 	}
 
@@ -299,4 +197,5 @@ public class NavigationManager : MonoBehaviour {
 			flagControl = value;
 		}
 	}
+	#endregion
 }
