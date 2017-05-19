@@ -4,11 +4,15 @@ public class OtherBoatInfo : BoatInfo {
 
 	private float changeOfChangeDirection = 10f;
 
+	private Story story;
+
 	public override void Init ()
 	{
 		base.Init ();
 
 		currentDirection = (Directions)Random.Range (0,8);
+
+		story = StoryLoader.Instance.BoatStories [Random.Range (0,StoryLoader.Instance.BoatStories.Count)];
 	}
 
 	public override void UpdatePosition ()
@@ -21,5 +25,7 @@ public class OtherBoatInfo : BoatInfo {
 		if ( Random.value < changeOfChangeDirection ) {
 			currentDirection = (Directions)Random.Range (0,8);
 		}
+
+		Debug.Log ("boats are moving...");
 	}
 }

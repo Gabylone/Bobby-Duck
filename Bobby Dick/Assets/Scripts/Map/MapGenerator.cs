@@ -28,20 +28,7 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	public void GenerateIslands () {
-		StartCoroutine (GenerateIslandsCoroutine ());
-	}
-
-	private IEnumerator GenerateIslandsCoroutine () {
-
 		CreateMapData ();
-
-		yield return new WaitForEndOfFrame ();
-
-		mapImage.InitImage ();
-
-		PlayerBoatInfo.Instance.UpdatePosition ();
-
-		IslandManager.Instance.Enter ();
 	}
 
 	#region map data
@@ -101,8 +88,6 @@ public class MapGenerator : MonoBehaviour {
 
 		MapData.Instance = new MapData ();
 		MapData.Instance = SaveManager.Instance.CurrentData.mapData;
-
-		mapImage.InitImage ();
 
 	}
 

@@ -26,7 +26,6 @@ public class StoryReader : MonoBehaviour {
 			WaitForNextCell_Update ();
 	}
 
-
 	#region story flow
 	public void Reset () {
 		index = 0;
@@ -155,7 +154,7 @@ public class StoryReader : MonoBehaviour {
 
 		if (secondStory == null) {
 			Debug.LogError ("pas trouvé second story : " + storyName);
-			IslandManager.Instance.Leave ();
+			StoryLauncher.Instance.PlayingStory = false;
 			return;
 		}
 
@@ -179,10 +178,11 @@ public class StoryReader : MonoBehaviour {
 		string fallbackNode = MapData.Instance.currentChunk.IslandData.Story.fallbackNode;
 
 		currentStoryLayer = MapData.Instance.currentChunk.IslandData.Stories.FindIndex (x => x.name == MapData.Instance.currentChunk.IslandData.Story.fallbackStoryName);
+
 		if (currentStoryLayer < 0) {
 			Debug.LogError ("pas trouvé de fall back story");
 			currentStoryLayer = 0;
-			IslandManager.Instance.Leave ();
+			StoryLauncher.Instance.PlayingStory = false;
 			return;
 		}
 

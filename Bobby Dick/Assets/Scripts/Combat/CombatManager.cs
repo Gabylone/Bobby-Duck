@@ -261,7 +261,8 @@ public class CombatManager : MonoBehaviour {
 //		StoryReader.Instance.Wait (0.5f);
 
 		ExitFight ();
-		IslandManager.Instance.Leave ();
+
+		StoryLauncher.Instance.PlayingStory = false;
 
 	}
 	#endregion

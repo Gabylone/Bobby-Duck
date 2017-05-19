@@ -114,7 +114,7 @@ public class OtherLoot : MonoBehaviour {
 		PlayerLoot.Instance.InventoryButton.Opened = false;
 		PlayerLoot.Instance.Opened = false;
 
-		if ( IslandManager.Instance.OnIsland ) {
+		if ( StoryLauncher.Instance.PlayingStory ) {
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
 		}

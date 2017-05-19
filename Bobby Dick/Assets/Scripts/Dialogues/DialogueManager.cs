@@ -174,7 +174,7 @@ public class DialogueManager : MonoBehaviour {
 
 		narratorText.text = CheckForKeyWords (text);
 
-		if ( !IslandManager.Instance.OnIsland ) {
+		if ( !StoryLauncher.Instance.PlayingStory ) {
 			Invoke ("HideNarrator" , 2.5f );
 		}
 	}

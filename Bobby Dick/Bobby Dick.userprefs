@@ -1,9 +1,14 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Stories\StoryFunctions.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Stories\StoryLoader.cs">
     <Files>
-      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="67" Column="38" />
-      <File FileName="Assets\StoryTest.cs" Line="12" Column="17" />
+      <File FileName="Assets\Scripts\Boat\Boat.cs" Line="84" Column="3" />
+      <File FileName="Assets\Scripts\Boat\PlayerBoat.cs" Line="18" Column="70" />
+      <File FileName="Assets\Scripts\Boat\EnemyBoat.cs" Line="49" Column="27" />
+      <File FileName="Assets\Scripts\Boat\Boats.cs" Line="28" Column="23" />
+      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="265" Column="47" />
+      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="141" Column="31" />
+      <File FileName="Assets\Scripts\Boat\OtherBoatInfo.cs" Line="15" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

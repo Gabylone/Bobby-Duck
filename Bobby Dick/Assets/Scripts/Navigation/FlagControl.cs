@@ -7,6 +7,7 @@ public class FlagControl : MonoBehaviour {
 	[Header ("Flag")]
 	[SerializeField]
 	private Image flagImage;
+	private RectTransform flagRect;
 	[SerializeField]
 	private float distanceToStop = 1.1f;
 
@@ -20,7 +21,7 @@ public class FlagControl : MonoBehaviour {
 	private Boat playerBoat;
 
 	[SerializeField]
-	private Vector3 decalToIsland = Vector3.zero;
+	private Vector2 decalToIsland = Vector2.zero;
 
 	[SerializeField]
 	private Island island;
@@ -29,13 +30,12 @@ public class FlagControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		flagRect = flagImage.GetComponent<RectTransform> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-		if (updatingPosition && IslandManager.Instance.OnIsland == false) {
+		if (updatingPosition && StoryLauncher.Instance.PlayingStory == false) {
 			PlaceFlagOnScreen ();
 		}
 
@@ -45,49 +45,50 @@ public class FlagControl : MonoBehaviour {
 	}
 
 	public void ResetFlag () {
-		Vector3 pos = Camera.main.ScreenToViewportPoint (new Vector2 (Screen.width/2 ,Screen.height/2));
+		Vector2 pos = Camera.main.ScreenToViewportPoint (new Vector2 (Screen.width/2 ,Screen.height/2));
 
-		flagImage.rectTransform.anchorMin = pos;
-		flagImage.rectTransform.anchorMax = pos;
+		flagRect.anchorMin = pos;
+		flagRect.anchorMax = pos;
 	}
 
 	private void UpdateFlagToIsland () {
 
-			// get island pos
-		Vector3 islandPos = island.transform.position;
-		islandPos.z = flagImage.transform.position.z;
+			// get flat poses
+		Vector2 boatPos 	= (Vector2)playerBoat.GetTransform.position;
+		Vector2 flagPos 	= (Vector2)flagRect.position;
+		Vector2 islandPos 	= (Vector2)island.transform.position;
 
 		// calc distances
-		float distance_BoatToFlag = Vector3.Distance (flagImage.transform.position, playerBoat.GetTransform.position);
-		bool flagIsNearIsland = Vector3.Distance (flagImage.transform.position, islandPos) < distanceToTriggerIsland;
+		float distance_BoatToFlag = Vector2.Distance (flagPos, boatPos);
+		bool flagIsNearIsland = Vector2.Distance (flagPos, islandPos) < distanceToTriggerIsland;
 
 		flagImage.color = flagIsNearIsland ? Color.red : Color.blue;
 		flagImage.enabled = !(distance_BoatToFlag < distanceToStop + 0.3f);
 
 		if (flagIsNearIsland) {
-			Vector3 pos = Camera.main.WorldToViewportPoint (islandPos + decalToIsland);
+			Vector2 pos = Camera.main.WorldToViewportPoint (islandPos + decalToIsland);
 
 			if ( distance_BoatToFlag < distanceToStop * 1.5f ) {
 				
-				IslandManager.Instance.Enter ();
+				StoryLauncher.Instance.PlayingStory = true;
 
 				// move flag to prevent reentering on leave island
 				if (islandPos.x < 0) {
-					pos = Camera.main.WorldToViewportPoint (islandPos + Vector3.left * distanceToTriggerIsland * 1.5f);
+					pos = Camera.main.WorldToViewportPoint (islandPos + Vector2.left * distanceToTriggerIsland * 1.5f);
 				} else {
-					pos = Camera.main.WorldToViewportPoint (islandPos + Vector3.right * distanceToTriggerIsland * 1.5f);
+					pos = Camera.main.WorldToViewportPoint (islandPos + Vector2.right * distanceToTriggerIsland * 1.5f);
 				}
 				flagImage.color = Color.blue;
 
 			}
 
-			flagImage.rectTransform.anchorMin = pos;
-			flagImage.rectTransform.anchorMax = pos;
+			flagRect.anchorMin = pos;
+			flagRect.anchorMax = pos;
 		}
 
 
 		playerBoat.TargetSpeed = (distance_BoatToFlag - distanceToStop) * boatSpeed;
-		playerBoat.TargetDirection = (flagImage.transform.position - playerBoat.GetTransform.position).normalized;
+		playerBoat.TargetDirection = (flagPos - boatPos).normalized;
 
 
 		if (distance_BoatToFlag < distanceToStop) {
@@ -96,10 +97,10 @@ public class FlagControl : MonoBehaviour {
 	}
 
 	private void PlaceFlagOnScreen () {
-		Vector3 pos = Camera.main.ScreenToViewportPoint (InputManager.Instance.GetInputPosition ());
+		Vector2 pos = Camera.main.ScreenToViewportPoint (InputManager.Instance.GetInputPosition ());
 
-		flagImage.rectTransform.anchorMin = pos;
-		flagImage.rectTransform.anchorMax = pos;
+		flagRect.anchorMin = pos;
+		flagRect.anchorMax = pos;
 	}
 
 

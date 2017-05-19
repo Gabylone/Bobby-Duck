@@ -23,16 +23,6 @@ public class BoatInfo {
 
 	}
 
-	public void SavePosition () {
-		SaveManager.Instance.CurrentData.boatPosX = PosX;
-		SaveManager.Instance.CurrentData.boatPosY = PosY;
-	}
-
-	public void LoadPosition () {
-		PosX = SaveManager.Instance.CurrentData.boatPosX;
-		PosY = SaveManager.Instance.CurrentData.boatPosY;
-	}
-
 	public int PosX {
 		get {
 			return posX;
@@ -40,9 +30,10 @@ public class BoatInfo {
 		set {
 
 			if (value <= 0 || value >= MapGenerator.Instance.MapScale - 1) {
+				Debug.Log ("il est en dehors de la zone en " + value);
 				DialogueManager.Instance.ShowNarrator ("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
 			} else {
-				previousPosY = posY;
+				previousPosX = posX;
 			}
 
 			posX = Mathf.Clamp (value , 0, MapGenerator.Instance.MapScale-1);
@@ -57,9 +48,10 @@ public class BoatInfo {
 		set {
 
 			if ( value <= 0 || value >= MapGenerator.Instance.MapScale-1) {
+				Debug.Log ("il est en dehors de la zone en " + value);
 				DialogueManager.Instance.ShowNarrator ("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
 			} else {
-				previousPosX = posX;
+				previousPosY = posY;
 			}
 
 			posY = Mathf.Clamp (value , 0, MapGenerator.Instance.MapScale-1);

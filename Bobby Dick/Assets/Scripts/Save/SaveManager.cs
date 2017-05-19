@@ -41,7 +41,6 @@ public class SaveManager : MonoBehaviour
 		yield return new WaitForEndOfFrame ();
 
 		// boat position
-		PlayerBoatInfo.Instance.LoadPosition ();
 
 		yield return new WaitForEndOfFrame ();
 
@@ -72,8 +71,7 @@ public class SaveManager : MonoBehaviour
 		// player crew
 		Crews.Instance.SavePlayerCrew ();
 
-		// boat position
-		PlayerBoatInfo.Instance.SavePosition ();
+		// save boats
 
 		// island ids
 		// island datas

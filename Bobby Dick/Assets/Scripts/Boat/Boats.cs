@@ -7,26 +7,57 @@ public class Boats : MonoBehaviour {
 
 	private PlayerBoatInfo playerBoatInfo;
 
-	private BoatInfo[] boatInfos;
+	private OtherBoatInfo[] otherBoatInfos;
+
+	[Header("Boats")]
+	[SerializeField]
+	private PlayerBoat playerBoat;
 
 	[SerializeField]
-	private Boat playerBoat;
+	private EnemyBoat otherBoat;
 
-	private int boatAmount = 100;
+	[SerializeField]
+	private int otherBoatAmount = 10;
 
 	void Awake () {
 		Instance = this;
+
 	}
 
 	// Use this for initialization
 	public void Init () {
 
+		NavigationManager.Instance.EnterNewChunk += CheckForBoats;
+
 		playerBoatInfo = new PlayerBoatInfo ();
 		playerBoat.BoatInfo = playerBoatInfo;
 
-		boatInfos = new BoatInfo[boatAmount];
-		for (int i = 0; i < boatInfos.Length; i++) {
-			boatInfos [i] = new BoatInfo ();
+		otherBoatInfos = new OtherBoatInfo[otherBoatAmount];
+		for (int i = 0; i < otherBoatInfos.Length; i++) {
+			otherBoatInfos [i] = new OtherBoatInfo ();
+		}
+	}
+
+	void CheckForBoats ()
+	{
+		foreach ( OtherBoatInfo otherBoatInfo in BoatInfos ) {
+
+			if ( playerBoatInfo.PosX == otherBoatInfo.PosX && playerBoatInfo.PosY == otherBoatInfo.PosY ) {
+
+				otherBoat.UpdatePositionOnScreen ();
+
+				otherBoat.OtherBoatInfo = otherBoatInfo;
+				return;
+			}
+
+		}
+
+		otherBoat.gameObject.SetActive (false);
+	}
+
+	public BoatInfo[] BoatInfos {
+		get {
+			return otherBoatInfos;
 		}
 	}
 }

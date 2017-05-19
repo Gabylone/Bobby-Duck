@@ -24,10 +24,15 @@ public class GameManager : MonoBehaviour {
 		LootManager.Instance.Init ();
 		ClueManager.Instance.Init ();
 
-		Boats.Instance.Init ();
-
 		Crews.Instance.Init ();
 
+		Boats.Instance.Init ();
+
+		MapImage.Instance.InitImage ();
+
+		PlayerBoatInfo.Instance.UpdatePosition ();
+
+		StoryLauncher.Instance.PlayingStory = true;
 
 	}
 

@@ -167,7 +167,7 @@ public class StoryFunctions : MonoBehaviour {
 	}
 	void Leave () {
 //		print ("quitter par
-		IslandManager.Instance.Leave ();
+		StoryLauncher.Instance.PlayingStory = false;
 	}
 	#endregion
 

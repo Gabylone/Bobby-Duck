@@ -14,8 +14,6 @@ public class Island : MonoBehaviour {
 	[SerializeField]
 	private float decal = 0f;
 
-	private Canvas canvas;
-
 	[SerializeField]
 	private float distanceToTrigger = 1f;
 
@@ -26,15 +24,10 @@ public class Island : MonoBehaviour {
 	#region mono
 	void Start () {
 		transform = GetComponent<Transform>();
-		canvas = GetComponentInParent<Canvas> ();
-
 		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
-
 	}
 	
-	void LateUpdate () {
-		UpdateRenderOrder ();
-	}
+
 	#endregion
 
 	#region render
@@ -48,16 +41,12 @@ public class Island : MonoBehaviour {
 		else
 			transform.localPosition = new Vector3 ( 10000f,0,0 );
 	}
-
-	private void UpdateRenderOrder () {
-		canvas.planeDistance = (boat.localPosition.y + decal < transform.localPosition.y ? 12 : 8);
-	}
 	#endregion
 
 	#region input events
 	public void OnMouseEnter () {
 
-		if ( Vector3.Distance ( boat.position, transform.position ) < distanceToTrigger && IslandManager.Instance.OnIsland == false){
+		if ( Vector3.Distance ( boat.position, transform.position ) < distanceToTrigger && StoryLauncher.Instance.PlayingStory == false){
 			transform.localScale = Vector3.one * 1.2f;
 		}
 	}
@@ -78,7 +67,7 @@ public class Island : MonoBehaviour {
 			if (Vector3.Distance (boat.position, transform.position) < distanceToTrigger) {
 				transform.localScale = Vector3.one;
 
-				IslandManager.Instance.Enter ();
+				StoryLauncher.Instance.PlayingStory = true;
 
 			}
 

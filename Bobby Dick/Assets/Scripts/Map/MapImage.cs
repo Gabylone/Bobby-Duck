@@ -35,7 +35,11 @@ public class MapImage : MonoBehaviour {
 	}
 
 	void Start () {
-		NavigationManager.Instance.EnterNewChunk += UpdateBoatSurroundings;
+		if (revealMap)
+			NavigationManager.Instance.EnterNewChunk += InitImage;
+		else
+			NavigationManager.Instance.EnterNewChunk += UpdateBoatSurroundings;
+
 	}
 
 	#region initialization
@@ -50,13 +54,17 @@ public class MapImage : MonoBehaviour {
 				Chunk chunk = MapData.Instance.chunks [x, y];
 
 				if (revealMap) {
-					
+
 					texture.SetPixel (x, y, (chunk.state == State.UndiscoveredIsland ) ? Color.yellow : Color.blue);
 
 				} else {
 					texture.SetPixel (x, y, getChunkColor (chunk) );
 				}
 			}
+		}
+
+		foreach ( BoatInfo boatInfo in Boats.Instance.BoatInfos ) {
+			texture.SetPixel (boatInfo.PosX, boatInfo.PosY, Color.green);
 		}
 //
 		UpdateTexture (texture);

@@ -43,24 +43,23 @@ public class Boat : MonoBehaviour {
 	[SerializeField]
 	private float boat_MeshRotationSpeed = 50f;
 
-
-	void Start () {
+	public virtual void Start () {
 		getTransform = GetComponent<Transform> ();
-		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
 
-		BoatInfo = PlayerBoatInfo.Instance;
+
 	}
 
-	void Update () {
+	public virtual void Update () {
 		UpdateBoatRotation ();
 		UpdateBoatPosition ();
 	}
 
 	#region boat transform
+
 	private void UpdateBoatRotation () {
 
 		float targetAngle = Vector3.Angle (currentDirection, Vector3.up);
-
+//
 		if (Vector3.Dot (Vector3.right, currentDirection) < 0)
 			targetAngle = -targetAngle;
 		
@@ -72,11 +71,6 @@ public class Boat : MonoBehaviour {
 
 			// smooth speed
 		currentSpeed = Mathf.MoveTowards ( currentSpeed, targetSpeed , ( (TargetSpeed<0.1f) ? decceleration  : acceleration ) * Time.deltaTime );
-
-		// smooth speed through direction
-//		float dotToDirection = Vector3.Dot (currentDirection, targetDirection);
-//
-//		currentSpeed *= dotToDirection;
 
 		// clamp speed
 		currentSpeed =  Mathf.Clamp (currentSpeed, 0f, maxSpeed);

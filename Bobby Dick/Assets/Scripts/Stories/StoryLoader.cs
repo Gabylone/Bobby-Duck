@@ -11,6 +11,7 @@ public class StoryLoader : MonoBehaviour {
 	private List<Story> clueStories 	= new List<Story> ();
 	private List<Story> treasureStories = new List<Story> ();
 	private List<Story> homeStories 	= new List<Story> ();
+	private List<Story> boatStories 	= new List<Story> ();
 	private List<float> storyPercents 	= new List<float> ();
 
 	[SerializeField]
@@ -40,8 +41,6 @@ public class StoryLoader : MonoBehaviour {
 
 		GetFiles ();
 		LoadSheets ();
-
-		SetFreq ();
 	}
 
 	private void GetFiles ()
@@ -137,6 +136,12 @@ public class StoryLoader : MonoBehaviour {
 			return;
 		}
 
+		if ( newStory.name.Contains ("Bateau") ) {
+			boatStories.Add (newStory);
+			print ("founr boat story");
+			return;
+		}
+
 		if ( newStory.name.Contains ("Trésor") ) {
 			treasureStories.Add (newStory);
 			return;
@@ -225,14 +230,11 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 
-	List <int> frequencies = new List<int>();
-
-	void SetFreq ()
-	{
-		
-
-		foreach (var story in Stories) {
-			
+	public List<Story> BoatStories {
+		get {
+			return boatStories;
 		}
 	}
+
+
 }
