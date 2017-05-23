@@ -91,7 +91,6 @@
      <Compile Include="Assets\Scripts\Inventory\WeightManager.cs" />
      <Compile Include="Assets\Scripts\Island\Island.cs" />
      <Compile Include="Assets\Scripts\Island\IslandData.cs" />
-     <Compile Include="Assets\Scripts\Island\StoryLauncher.cs" />
      <Compile Include="Assets\Scripts\Map\Chunk.cs" />
      <Compile Include="Assets\Scripts\Map\MapData.cs" />
      <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
@@ -109,7 +108,9 @@
      <Compile Include="Assets\Scripts\Stories\Node.cs" />
      <Compile Include="Assets\Scripts\Stories\Story.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryFunctions.cs" />
+     <Compile Include="Assets\Scripts\Stories\StoryHandler.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryInput.cs" />
+     <Compile Include="Assets\Scripts\Stories\StoryLauncher.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryLoader.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryReader.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryTest.cs" />

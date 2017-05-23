@@ -100,7 +100,7 @@ public class Crews : MonoBehaviour {
 		int row = StoryReader.Instance.Decal;
 		int col = StoryReader.Instance.Index;
 
-		var tmp = MapData.Instance.currentChunk.IslandData.Crews.Find (x => x.col == col && x.row == row);
+		var tmp = StoryReader.Instance.CurrentStoryHandler.Crews.Find (x => x.col == col && x.row == row);
 
 		if (tmp == null) {
 
@@ -108,7 +108,7 @@ public class Crews : MonoBehaviour {
 
 			Crew newCrew = new Crew (crewParams, row, col);
 
-			MapData.Instance.currentChunk.IslandData.Crews.Add (newCrew);
+			StoryReader.Instance.CurrentStoryHandler.Crews.Add (newCrew);
 
 			return newCrew;
 

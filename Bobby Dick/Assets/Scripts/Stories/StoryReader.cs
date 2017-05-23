@@ -15,7 +15,9 @@ public class StoryReader : MonoBehaviour {
 	private int previousStoryLayer = 0;
 
 	private bool waitToNextCell = false;
-	float timer = 0f;
+	private float timer = 0f;
+
+	private StoryHandler currentStoryHandler;
 
 	void Awake () {
 		Instance = this;
@@ -91,10 +93,10 @@ public class StoryReader : MonoBehaviour {
 	}
 
 	public Node GetNodeFromText ( string text ) {
-		Node node = CurrentStory.nodes.Find ( x => x.name == text);
+		Node node = CurrentStoryHandler.Story.nodes.Find ( x => x.name == text);
 
 		if ( node == null ) {
-			Debug.LogError ("couldn't find node " + text + " // story : " + CurrentStory.name);
+			Debug.LogError ("couldn't find node " + text + " // story : " + CurrentStoryHandler.Story.name);
 			return null;
 		}
 		return node;
@@ -118,16 +120,15 @@ public class StoryReader : MonoBehaviour {
 
 	public int SaveDecal {
 		get {
-			return MapData.Instance.currentChunk.IslandData.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index];
+			return CurrentStoryHandler.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index];
 		}
 		set {
-			MapData.Instance.currentChunk.IslandData.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index] = value;
+			CurrentStoryHandler.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index] = value;
 		}
 	}
 
 	public string ReadDecal (int decal) {
-
-		return MapData.Instance.currentChunk.IslandData.Story.content
+		return CurrentStoryHandler.Story.content
 			[decal]
 			[StoryReader.Instance.Index]; 
 
@@ -158,13 +159,13 @@ public class StoryReader : MonoBehaviour {
 			return;
 		}
 
-		int storyIndex = CurrentStories.FindIndex (x => x.name == secondStory.name);
+		int storyIndex = CurrentStoryHandler.Stories.FindIndex (x => x.name == secondStory.name);
 
 			// is the story already in the island ?
 		if (storyIndex < 0 ) {
-			CurrentStories.Add (secondStory);
-			storyIndex = CurrentStories.Count - 1;
-			secondStory.fallbackStoryName = CurrentStory.name;
+			CurrentStoryHandler.Stories.Add (secondStory);
+			storyIndex = CurrentStoryHandler.Stories.Count - 1;
+			secondStory.fallbackStoryName = CurrentStoryHandler.Story.name;
 			secondStory.fallbackNode = fallbackNode;
 		}
 
@@ -175,9 +176,9 @@ public class StoryReader : MonoBehaviour {
 	}
 
 	public void FallBackToPreviousStory () {
-		string fallbackNode = MapData.Instance.currentChunk.IslandData.Story.fallbackNode;
-
-		currentStoryLayer = MapData.Instance.currentChunk.IslandData.Stories.FindIndex (x => x.name == MapData.Instance.currentChunk.IslandData.Story.fallbackStoryName);
+		
+		string fallbackNode = CurrentStoryHandler.Story.fallbackNode;
+		currentStoryLayer = CurrentStoryHandler.Stories.FindIndex (x => x.name == CurrentStoryHandler.Story.fallbackStoryName);
 
 		if (currentStoryLayer < 0) {
 			Debug.LogError ("pas trouvé de fall back story");
@@ -253,53 +254,46 @@ public class StoryReader : MonoBehaviour {
 		}
 	}
 
-
-
 	public string GetContent {
 		get {
-			if ( Decal >= CurrentStory.content.Count ) {
+			if ( Decal >= CurrentStoryHandler.Story.content.Count ) {
 
-				Debug.LogError ("DECAL is outside of story << " + CurrentStory.name + " >> content : DECAL : " + Decal + " /// COUNT : " + CurrentStory.content.Count);
+				Debug.LogError ("DECAL is outside of story << " + CurrentStoryHandler.Story.name + " >> content : DECAL : " + Decal + " /// COUNT : " + CurrentStoryHandler.Story.content.Count);
 
-				return CurrentStory.content
+				return CurrentStoryHandler.Story.content
 					[0]
 					[0];
 
 			}
 
-			if ( Index >= CurrentStory.content [Decal].Count ) {
+			if ( Index >= CurrentStoryHandler.Story.content [Decal].Count ) {
 
-				Debug.LogError ("INDEX is outside of story content : INDEX : " + Index + " /// COUNT : " + CurrentStory.content[Decal].Count);
+				Debug.LogError ("INDEX is outside of story content : INDEX : " + Index + " /// COUNT : " + CurrentStoryHandler.Story.content[Decal].Count);
 
-				return CurrentStory.content
+				return CurrentStoryHandler.Story.content
 					[Decal]
 					[0]; 
 			}
 
-			return CurrentStory.content
+			return CurrentStoryHandler.Story.content
 				[Decal]
 				[Index];
 		}
 	}
 	#endregion
 
-	private Story CurrentStory {
-		get {
-
-			return MapData.Instance.currentChunk.IslandData.Story;
-		}
-	}
-
-	private List<Story> CurrentStories {
-		get {
-			return MapData.Instance.currentChunk.IslandData.Stories;
-		}
-	}
-
-
 	public int CurrentStoryLayer {
 		get {
 			return currentStoryLayer;
+		}
+	}
+
+	public StoryHandler CurrentStoryHandler {
+		get {
+			return currentStoryHandler;
+		}
+		set {
+			currentStoryHandler = value;
 		}
 	}
 }

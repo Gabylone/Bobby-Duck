@@ -68,15 +68,13 @@ public class NavigationManager : MonoBehaviour {
 	}
 
 	#region movement
-	public void ChangeChunk ( int newDirection ) {
+	public void ChangeChunk ( Directions newDirection ) {
 
-		if (changingChunk)
-			return;
-		
+
 			// set new boat direction
-		PlayerBoatInfo.Instance.currentDirection = (Directions)newDirection;
-		PlayerBoatInfo.Instance.PosX += (int)getDir ((Directions)newDirection).x;
-		PlayerBoatInfo.Instance.PosY += (int)getDir ((Directions)newDirection).y;
+		PlayerBoatInfo.Instance.currentDirection = newDirection;
+		PlayerBoatInfo.Instance.PosX += (int)getDir (newDirection).x;
+		PlayerBoatInfo.Instance.PosY += (int)getDir (newDirection).y;
 
 		if (EnterNewChunk != null) {
 			EnterNewChunk ();
@@ -160,6 +158,42 @@ public class NavigationManager : MonoBehaviour {
 		}
 
 		return Vector2.zero;
+
+	}
+	public Directions SwitchDirection ( Directions direction ) {
+
+		switch (direction) {
+		case Directions.North:
+			return Directions.South;
+			break;
+		case Directions.NorthEast:
+			return Directions.SouthWest;
+			break;
+		case Directions.East:
+			return Directions.West;
+			break;
+		case Directions.SouthEast:
+			return Directions.NorthWest;
+			break;
+		case Directions.South:
+			return Directions.North;
+			break;
+		case Directions.SouthWest:
+			return Directions.NorthEast;
+			break;
+		case Directions.West:
+			return Directions.East;
+			break;
+		case Directions.NorthWest:
+			return Directions.SouthEast;
+			break;
+		case Directions.None:
+			return Directions.North;
+			break;
+		default:
+			return Directions.None;
+			break;
+		}
 
 	}
 	#endregion

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Story {
 
+	public float rangeMin = 0f;
+	public float rangeMax = 0f;
+
 	public string 	name 			= "";
 	public float 	freq 			= 0f;
 	public string 	fallbackNode 	= "";

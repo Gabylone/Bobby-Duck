@@ -49,6 +49,7 @@ public class FlagControl : MonoBehaviour {
 
 		flagRect.anchorMin = pos;
 		flagRect.anchorMax = pos;
+
 	}
 
 	private void UpdateFlagToIsland () {
@@ -66,24 +67,28 @@ public class FlagControl : MonoBehaviour {
 		flagImage.enabled = !(distance_BoatToFlag < distanceToStop + 0.3f);
 
 		if (flagIsNearIsland) {
-			Vector2 pos = Camera.main.WorldToViewportPoint (islandPos + decalToIsland);
+			
+			Vector2 pos = islandPos + decalToIsland;
 
-			if ( distance_BoatToFlag < distanceToStop * 1.5f ) {
-				
-				StoryLauncher.Instance.PlayingStory = true;
+			if ( distance_BoatToFlag < distanceToStop ) {
+
+				island.Enter ();
 
 				// move flag to prevent reentering on leave island
 				if (islandPos.x < 0) {
-					pos = Camera.main.WorldToViewportPoint (islandPos + Vector2.left * distanceToTriggerIsland * 1.5f);
+					pos = islandPos + Vector2.left * distanceToTriggerIsland * 1.5f;
 				} else {
-					pos = Camera.main.WorldToViewportPoint (islandPos + Vector2.right * distanceToTriggerIsland * 1.5f);
+					pos = islandPos + Vector2.right * distanceToTriggerIsland * 1.5f;
 				}
+
 				flagImage.color = Color.blue;
+
+
+				playerBoat.GetTransform.position = pos;
 
 			}
 
-			flagRect.anchorMin = pos;
-			flagRect.anchorMax = pos;
+			PlaceFlagOnWorld (pos);
 		}
 
 
@@ -103,6 +108,12 @@ public class FlagControl : MonoBehaviour {
 		flagRect.anchorMax = pos;
 	}
 
+	public void PlaceFlagOnWorld ( Vector3 pos)
+	{
+		Vector2 anchor = Camera.main.WorldToViewportPoint (pos);
+		flagRect.anchorMin = anchor;
+		flagRect.anchorMax = anchor;
+	}
 
 	#region properties
 	public Image FlagImage {

@@ -7,7 +7,18 @@ public class StoryLauncher : MonoBehaviour {
 
 	public static StoryLauncher Instance;
 
+
 	private bool playingStory = false;
+
+	public enum StorySource {
+
+		none,
+
+		island,
+		boat,
+	}
+
+	private StorySource currentStorySource;
 
 	[SerializeField]
 	private UIButton mapButton;
@@ -33,9 +44,32 @@ public class StoryLauncher : MonoBehaviour {
 			if (playingStory == value)
 				return;
 
-			if ( StoryReader.Instance.CurrentStoryLayer > 0 ) {
-				StoryReader.Instance.FallBackToPreviousStory ();
-				return;
+			if (value == true) {
+				// set story
+				StoryReader.Instance.Reset ();
+				StoryReader.Instance.UpdateStory ();
+			} else {
+
+				if ( StoryReader.Instance.CurrentStoryLayer > 0 ) {
+					StoryReader.Instance.FallBackToPreviousStory ();
+					return;
+				}
+
+				switch (CurrentStorySource) {
+				case StorySource.none:
+					// kek
+					break;
+				case StorySource.island:
+					MapData.Instance.currentChunk.state = State.VisitedIsland;
+					break;
+				case StorySource.boat:
+					Boats.Instance.OtherBoat.Leave ();
+					break;
+				default:
+					break;
+				}
+
+				Crews.enemyCrew.Hide ();
 			}
 
 			playingStory = value;
@@ -48,10 +82,6 @@ public class StoryLauncher : MonoBehaviour {
 			Crews.PlacingType pT = playingStory ? Crews.PlacingType.Discussion : Crews.PlacingType.Map;
 			Crews.playerCrew.captain.Icon.MoveToPoint (pT, Transitions.Instance.ActionTransition.Duration);
 
-			// set story
-			StoryReader.Instance.Reset ();
-			StoryReader.Instance.UpdateStory ();
-
 			// lower volume
 			SoundManager.Instance.AmbianceSource.volume = playingStory ? SoundManager.Instance.AmbianceSource.volume / 2 : SoundManager.Instance.AmbianceSource.volume * 2;
 
@@ -60,12 +90,18 @@ public class StoryLauncher : MonoBehaviour {
 			mapButton.Locked = playingStory;
 			mapButton.Opened = false;
 
-			if (playingStory == false) {
-				Crews.enemyCrew.Hide ();
-				MapData.Instance.currentChunk.state = State.VisitedIsland;
-			}
+
 
 		}
 	}
 	#endregion
+
+	public StorySource CurrentStorySource {
+		get {
+			return currentStorySource;
+		}
+		set {
+			currentStorySource = value;
+		}
+	}
 }

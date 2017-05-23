@@ -16,6 +16,8 @@ public class EnemyBoat : Boat {
 	public bool followPlayer = false;
 	private bool reachedPlayer = false;
 
+	private bool visible = false;
+
 	public override void Start ()
 	{
 		base.Start ();
@@ -23,11 +25,13 @@ public class EnemyBoat : Boat {
 	
 	public override void Update ()
 	{
-
-		if (followPlayer && !reachedPlayer) {
-			FollowPlayer ();
-		} else {
-			GoAbout ();
+		if (reachedPlayer == false) {
+			
+			if (followPlayer) {
+				FollowPlayer ();
+			} else {
+				GoAbout ();
+			}
 		}
 
 		base.Update ();
@@ -47,20 +51,31 @@ public class EnemyBoat : Boat {
 		TargetDirection = dir;
 
 		TargetSpeed = boatSpeed;
-
-
 	}
 
 	void OnCollisionEnter2D (Collision2D collider) {
 		if ( collider.gameObject.tag == "Player") {
-
-			reachedPlayer = true;
-
-			TargetSpeed = 0f;
-
-			StoryLauncher.Instance.PlayingStory = true;
-
+			Enter ();
 		}
+	}
+
+	public void Enter () {
+		reachedPlayer = true;
+
+		TargetSpeed = 0f;
+
+		OtherBoatInfo.metPlayer = true;
+
+		StoryReader.Instance.CurrentStoryHandler = OtherBoatInfo.StoryHandler;
+		StoryLauncher.Instance.CurrentStorySource = StoryLauncher.StorySource.boat;
+		StoryLauncher.Instance.PlayingStory = true;
+
+		NavigationManager.Instance.FlagControl.PlaceFlagOnWorld (GetTransform.position);
+	}
+
+	public void Leave () {
+		reachedPlayer = false;
+		followPlayer = false;
 	}
 
 	public OtherBoatInfo OtherBoatInfo {
@@ -69,6 +84,19 @@ public class EnemyBoat : Boat {
 		}
 		set {
 			otherBoatInfo = value;
+		}
+	}
+
+	public bool Visible {
+		get {
+			return visible;
+		}
+		set {
+			visible = value;
+
+			gameObject.SetActive (value);
+
+			reachedPlayer = false;
 		}
 	}
 }

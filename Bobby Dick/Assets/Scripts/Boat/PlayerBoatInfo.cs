@@ -67,4 +67,32 @@ public class PlayerBoatInfo : BoatInfo {
 			shipRange = value;
 		}
 	}
+
+	public override int PosX {
+		get {
+			return base.PosX;
+		}
+		set {
+			
+			if (value < 0 || value > MapGenerator.Instance.MapScale - 1) {
+				DialogueManager.Instance.ShowNarrator ("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
+			}
+
+			base.PosX = value;
+		}
+	}
+
+	public override int PosY {
+		get {
+			return base.PosY;
+		}
+		set {
+
+			if ( value < 0 || value > MapGenerator.Instance.MapScale-1) {
+				DialogueManager.Instance.ShowNarrator ("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
+			}
+
+			base.PosY = value;
+		}
+	}
 }

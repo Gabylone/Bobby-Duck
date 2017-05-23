@@ -34,15 +34,15 @@ public class MapImage : MonoBehaviour {
 		Instance = this;
 	}
 
-	void Start () {
-		if (revealMap)
-			NavigationManager.Instance.EnterNewChunk += InitImage;
-		else
-			NavigationManager.Instance.EnterNewChunk += UpdateBoatSurroundings;
-
-	}
+//	void Update () {
+//		InitImage ();
+//	}
 
 	#region initialization
+	public void Init () {
+		NavigationManager.Instance.EnterNewChunk += UpdateBoatSurroundings;
+	}
+
 	public void InitImage () {
 
 		Texture2D texture = new Texture2D (MapGenerator.Instance.MapScale, MapGenerator.Instance.MapScale);
@@ -58,15 +58,13 @@ public class MapImage : MonoBehaviour {
 					texture.SetPixel (x, y, (chunk.state == State.UndiscoveredIsland ) ? Color.yellow : Color.blue);
 
 				} else {
+
 					texture.SetPixel (x, y, getChunkColor (chunk) );
+
 				}
 			}
 		}
 
-		foreach ( BoatInfo boatInfo in Boats.Instance.BoatInfos ) {
-			texture.SetPixel (boatInfo.PosX, boatInfo.PosY, Color.green);
-		}
-//
 		UpdateTexture (texture);
 
 		UpdateBoatSurroundings ();
@@ -75,7 +73,7 @@ public class MapImage : MonoBehaviour {
 
 	#region update boat surroundings
 	public void UpdateBoatSurroundings () {
-		
+
 		Texture2D texture = (Texture2D)targetImage.mainTexture;
 
 		int shipRange = PlayerBoatInfo.Instance.ShipRange;
@@ -114,21 +112,29 @@ public class MapImage : MonoBehaviour {
 
 					texture.SetPixel (pX, pY, getChunkColor (chunk) );
 
+
 				}
 
 			}
 
 		}
 
+		foreach ( OtherBoatInfo boatInfo in Boats.Instance.OtherBoatInfos ) {
+			if ( boatInfo.PosX <= posX + shipRange && boatInfo.PosX >= posX -shipRange &&
+				boatInfo.PosY <= posY + shipRange && boatInfo.PosY >= posY - shipRange) {
+				texture.SetPixel (boatInfo.PosX, boatInfo.PosY, Color.green);
+			}
+		}
+
+		texture.SetPixel (posX, posY, Color.red);
+
+
 		UpdateTexture (texture);
 
 	}
 
 	private Color getChunkColor (Chunk chunk) {
-
-		if ( chunk.x == PlayerBoatInfo.Instance.PosX && chunk.y == PlayerBoatInfo.Instance.PosY  ) {
-			return Color.red;
-		}
+		
 
 		switch (chunk.state) {
 		case State.UndiscoveredSea:

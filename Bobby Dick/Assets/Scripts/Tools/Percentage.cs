@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Percentage : MonoBehaviour {
 
 	public static int getRandomIndex ( float[] percents ) {
+
 		float chance = Random.value * 100f;
 
 		float prevPercent = 0f;
@@ -14,13 +15,14 @@ public class Percentage : MonoBehaviour {
 			float percent = prevPercent + percents [i];
 
 			if (chance > prevPercent && chance < prevPercent + percents [i]) {
+				print ("i : " + i);
 				return i;
 			}
 
 			prevPercent += percents [i];
 		}
 
-//		Debug.LogError ("index out of percentage");
+		Debug.LogError ("index out of percentage");
 		return percents.Length -1;
 	}
 }

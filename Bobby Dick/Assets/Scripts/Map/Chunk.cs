@@ -34,6 +34,8 @@ public class Chunk
 			islandData = value;
 
 			state = State.UndiscoveredIsland;
+
+
 		}
 	}
 }

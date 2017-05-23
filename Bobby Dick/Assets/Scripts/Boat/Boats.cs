@@ -8,6 +8,7 @@ public class Boats : MonoBehaviour {
 	private PlayerBoatInfo playerBoatInfo;
 
 	private OtherBoatInfo[] otherBoatInfos;
+	private OtherBoatInfo otherBoatInfo;
 
 	[Header("Boats")]
 	[SerializeField]
@@ -19,15 +20,14 @@ public class Boats : MonoBehaviour {
 	[SerializeField]
 	private int otherBoatAmount = 10;
 
+	bool metBoat = false;
+
 	void Awake () {
 		Instance = this;
-
 	}
 
 	// Use this for initialization
 	public void Init () {
-
-		NavigationManager.Instance.EnterNewChunk += CheckForBoats;
 
 		playerBoatInfo = new PlayerBoatInfo ();
 		playerBoat.BoatInfo = playerBoatInfo;
@@ -36,28 +36,52 @@ public class Boats : MonoBehaviour {
 		for (int i = 0; i < otherBoatInfos.Length; i++) {
 			otherBoatInfos [i] = new OtherBoatInfo ();
 		}
+
+		NavigationManager.Instance.EnterNewChunk += HideBoat;
 	}
 
-	void CheckForBoats ()
+	public void ShowBoat (OtherBoatInfo boatInfo)
 	{
-		foreach ( OtherBoatInfo otherBoatInfo in BoatInfos ) {
+		otherBoat.OtherBoatInfo = boatInfo;
+		otherBoatInfo = boatInfo;
 
-			if ( playerBoatInfo.PosX == otherBoatInfo.PosX && playerBoatInfo.PosY == otherBoatInfo.PosY ) {
+		otherBoat.UpdatePositionOnScreen ();
 
-				otherBoat.UpdatePositionOnScreen ();
+		metBoat = true;
 
-				otherBoat.OtherBoatInfo = otherBoatInfo;
-				return;
-			}
+		otherBoat.Visible = true;
 
+	}
+
+	public void HideBoat () {
+
+		if (!metBoat) {
+			otherBoat.OtherBoatInfo = null;
+			otherBoat.Visible = false;
 		}
 
-		otherBoat.gameObject.SetActive (false);
+		metBoat = false;
+
 	}
 
-	public BoatInfo[] BoatInfos {
+	public OtherBoatInfo[] OtherBoatInfos {
 		get {
 			return otherBoatInfos;
+		}
+	}
+
+	public OtherBoatInfo OtherBoatInfo {
+		get {
+			return otherBoatInfo;
+		}
+		set {
+			otherBoatInfo = value;
+		}
+	}
+
+	public EnemyBoat OtherBoat {
+		get {
+			return otherBoat;
 		}
 	}
 }

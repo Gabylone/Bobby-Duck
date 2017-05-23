@@ -48,7 +48,7 @@ public class LootManager : MonoBehaviour {
 		int row = StoryReader.Instance.Decal;
 		int col = StoryReader.Instance.Index;
 
-		var tmpLoot = MapData.Instance.currentChunk.IslandData.Loots.Find (x => x.col == col && x.row == row);
+		var tmpLoot = StoryReader.Instance.CurrentStoryHandler.Loots.Find (x => x.col == col && x.row == row);
 
 		if (tmpLoot == null) {
 
@@ -56,7 +56,7 @@ public class LootManager : MonoBehaviour {
 
 			newLoot.Randomize (categories);
 
-			MapData.Instance.currentChunk.IslandData.Loots.Add (newLoot);
+			StoryReader.Instance.CurrentStoryHandler.Loots.Add (newLoot);
 
 			return newLoot;
 

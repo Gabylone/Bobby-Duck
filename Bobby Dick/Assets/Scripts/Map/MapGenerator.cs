@@ -85,10 +85,8 @@ public class MapGenerator : MonoBehaviour {
 
 	#region load & save
 	public void LoadIslandsData () {
-
 		MapData.Instance = new MapData ();
 		MapData.Instance = SaveManager.Instance.CurrentData.mapData;
-
 	}
 
 	public void SaveIslandsData () {

@@ -4,6 +4,8 @@ using System.Collections;
 
 public class Island : MonoBehaviour {
 
+	public static Island Instance;
+
 	private Transform transform;
 
 	private Image image;
@@ -15,27 +17,40 @@ public class Island : MonoBehaviour {
 	private float decal = 0f;
 
 	[SerializeField]
+	private GameObject group;
+
+	[SerializeField]
 	private float distanceToTrigger = 1f;
 
 	[SerializeField]
 	private Vector3 flagDecal;
 
-
 	#region mono
-	void Start () {
+	void Awake () {
+		Instance = this;
+	}
+
+	public void Init () {
 		transform = GetComponent<Transform>();
 		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
 	}
-	
+	#endregion
 
+	#region story
+	public void Enter () {
+		StoryReader.Instance.CurrentStoryHandler = MapData.Instance.currentChunk.IslandData.StoryHandler;
+		StoryLauncher.Instance.CurrentStorySource = StoryLauncher.StorySource.island;
+		StoryLauncher.Instance.PlayingStory = true;
+	}
 	#endregion
 
 	#region render
 	public void UpdatePositionOnScreen () {
-		
+
 		bool onIslandChunk = MapData.Instance.currentChunk.state == State.DiscoveredIsland || MapData.Instance.currentChunk.state == State.VisitedIsland;
 
-		gameObject.SetActive ( onIslandChunk );
+		group.SetActive ( onIslandChunk );
+
 		if (onIslandChunk)
 			transform.localPosition = MapData.Instance.currentChunk.IslandData.PositionOnScreen;
 		else
@@ -56,22 +71,25 @@ public class Island : MonoBehaviour {
 	}
 
 	public void OnMouseDown () {
-		
-		if (NavigationManager.Instance.CurrentNavigationSystem == NavigationManager.NavigationSystem.Flag) {
 
-			Vector3 pos = Camera.main.WorldToViewportPoint (transform.position + flagDecal);
+		transform.localScale = Vector3.one;
 
-			NavigationManager.Instance.FlagControl.FlagImage.rectTransform.anchorMin = pos;
-			NavigationManager.Instance.FlagControl.FlagImage.rectTransform.anchorMax = pos;
-		} else {
-			if (Vector3.Distance (boat.position, transform.position) < distanceToTrigger) {
-				transform.localScale = Vector3.one;
-
-				StoryLauncher.Instance.PlayingStory = true;
-
-			}
-
-		}
+//
+//		if (NavigationManager.Instance.CurrentNavigationSystem == NavigationManager.NavigationSystem.Flag) {
+//
+//			Vector3 pos = Camera.main.WorldToViewportPoint (transform.position + flagDecal);
+//
+//			NavigationManager.Instance.FlagControl.FlagImage.rectTransform.anchorMin = pos;
+//			NavigationManager.Instance.FlagControl.FlagImage.rectTransform.anchorMax = pos;
+//		} else {
+//			if (Vector3.Distance (boat.position, transform.position) < distanceToTrigger) {
+//				transform.localScale = Vector3.one;
+//
+//				StoryLauncher.Instance.PlayingStory = true;
+//
+//			}
+//
+//		}
 	}
 	#endregion
 }

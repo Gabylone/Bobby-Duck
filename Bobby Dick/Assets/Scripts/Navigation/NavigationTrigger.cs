@@ -11,7 +11,7 @@ public class NavigationTrigger : MonoBehaviour {
 
 		if (other.tag == "Player") {
 
-			NavigationManager.Instance.ChangeChunk (texID);
+			NavigationManager.Instance.ChangeChunk ((Directions)texID);
 
 		}
 

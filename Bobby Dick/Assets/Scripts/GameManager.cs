@@ -29,10 +29,16 @@ public class GameManager : MonoBehaviour {
 		Boats.Instance.Init ();
 
 		MapImage.Instance.InitImage ();
+		MapImage.Instance.Init ();
 
-		PlayerBoatInfo.Instance.UpdatePosition ();
-
+		StoryReader.Instance.CurrentStoryHandler = MapData.Instance.currentChunk.IslandData.StoryHandler;
+		StoryLauncher.Instance.CurrentStorySource = StoryLauncher.StorySource.island;
 		StoryLauncher.Instance.PlayingStory = true;
+
+		NavigationManager.Instance.ChangeChunk (Directions.None);
+
+		Island.Instance.Init ();
+
 
 	}
 

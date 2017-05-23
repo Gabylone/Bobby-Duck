@@ -22,7 +22,7 @@ public class StoryFunctions : MonoBehaviour {
 	public void Read ( string content ) {
 
 		if (content.Length == 0) {
-			Debug.LogError ("cell is empty on story " + MapData.Instance.currentChunk.IslandData.Story.name + "" +
+			Debug.LogError ("cell is empty on story " + StoryReader.Instance.CurrentStoryHandler.Story.name + "" +
 				"\n at row : " + (StoryReader.Instance.Index+2) + "" +
 				"\n and collumn : " + StoryReader.Instance.Decal);
 			Leave ();

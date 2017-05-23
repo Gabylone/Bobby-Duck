@@ -31,13 +31,12 @@ public class StoryLoader : MonoBehaviour {
 
 		LoadFunctions ();
 		LoadStories ();
+
 	}
 
 
 	public void LoadStories ()
 	{
-
-		print ("loading stories");
 
 		GetFiles ();
 		LoadSheets ();
@@ -56,6 +55,8 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 
+	float minFreq = 0f;
+
 	private void LoadSheets ()
 	{
 		stories.Clear ();
@@ -72,8 +73,11 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 
+
+
 	private void LoadSheet ()
 	{
+
 		string[] rows = storyFiles[currentFile].text.Split ('\n');
 
 		int collumnIndex 	= 0;
@@ -91,7 +95,7 @@ public class StoryLoader : MonoBehaviour {
 				newStory.name = rowContent [0];
 //				newStory.freq = int.TryParse (rowContent [1],);
 
-				float frequence = 0;
+				float frequence = 0f;
 
 //				System.Globalization.NumberStyles n = ;
 				bool canParse = float.TryParse (rowContent [1] ,out frequence);
@@ -101,9 +105,12 @@ public class StoryLoader : MonoBehaviour {
 				}
 
 				newStory.freq = frequence;
+				newStory.rangeMin = minFreq;
+				newStory.rangeMax = minFreq + frequence;
+
+				minFreq += frequence;
 
 				foreach (string cellContent in rowContent) {
-
 					newStory.content.Add (new List<string> ());
 					newStory.contentDecal.Add (new List<int> ());
 				}
@@ -138,7 +145,6 @@ public class StoryLoader : MonoBehaviour {
 
 		if ( newStory.name.Contains ("Bateau") ) {
 			boatStories.Add (newStory);
-			print ("founr boat story");
 			return;
 		}
 
@@ -217,11 +223,23 @@ public class StoryLoader : MonoBehaviour {
 			}
 		}
 
-		// set random story
-		int storyIndex = Percentage.getRandomIndex (storyPercents.ToArray());
 
-//			Debug.Log ("index chosen from % : " + storyIndex);
-		return Stories [storyIndex];
+		float random = Random.value * 100f;
+
+		foreach (Story story in stories) {
+			if (random < story.rangeMax && random > story.rangeMin) {
+
+//				print ("RANDOM : " + random);
+//				print ("story range max : " + story.rangeMax);
+//				print ("story range min : " + story.rangeMin);
+//
+//				print (story.name);
+				return story;
+
+			}
+
+		}
+		return Stories [Random.Range (0,stories.Count)];
 	}
 
 	public List<Story> TreasureStories {

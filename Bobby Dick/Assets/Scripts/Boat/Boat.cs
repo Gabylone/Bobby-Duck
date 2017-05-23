@@ -45,8 +45,6 @@ public class Boat : MonoBehaviour {
 
 	public virtual void Start () {
 		getTransform = GetComponent<Transform> ();
-
-
 	}
 
 	public virtual void Update () {
