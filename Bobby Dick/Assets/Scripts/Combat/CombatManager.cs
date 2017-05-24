@@ -326,13 +326,20 @@ public class CombatManager : MonoBehaviour {
 	#endregion
 
 	#region fighters
+
+	[SerializeField]
+	private Transform playerAnchor;
+
+	[SerializeField]
+	private Transform enemyAnchor;
+
 	private void ShowPlayerFighter () {
 
 		getMember (targetCrew).Icon.HideFace ();
 		CardManager.Instance.ShowFightingCard (targetCrew);
 
 		playerFighter.SetActive (true);
-		playerFighter.transform.position = new Vector3 ( -fighters_InitPos.x , fighters_InitPos.y , 0f );
+		playerFighter.transform.position = playerAnchor.position;
 		playerFighter.GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
 		playerFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
 
@@ -346,7 +353,7 @@ public class CombatManager : MonoBehaviour {
 		CardManager.Instance.ShowFightingCard (targetCrew);
 
 		enemyFighter.SetActive (true);
-		enemyFighter.transform.position = new Vector3 ( fighters_InitPos.x , fighters_InitPos.y , 0f );
+		enemyFighter.transform.position = enemyAnchor.position;
 		enemyFighter.GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (getMember (targetCrew).MemberID);
 		enemyFighter.GetComponent<Humanoid> ().CrewMember = getMember (targetCrew);
 
@@ -528,8 +535,7 @@ public class CombatManager : MonoBehaviour {
 
 		virtualJoystick.gameObject.SetActive (false);
 
-
-		updateState = null;;
+		updateState = null;
 	}
 	public void WinFight () {
 

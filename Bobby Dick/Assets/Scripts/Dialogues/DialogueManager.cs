@@ -136,6 +136,10 @@ public class DialogueManager : MonoBehaviour {
 			text = text.Replace ( "OTHERNAME" , Crews.enemyCrew.captain.MemberName );
 		}
 
+		if ( text.Contains ("NOMBATEAU") ) {
+			text = text.Replace ( "NOMBATEAU" , PlayerBoatInfo.Instance.Name);
+		}
+
 		if ( text.Contains ("LASTITEM") ) {
 
 			if ( lastItemName.Length < 1 ) {
@@ -149,6 +153,10 @@ public class DialogueManager : MonoBehaviour {
 
 		if ( text.Contains ("DIRECTIONTOFORMULA") ) {
 			text = text.Replace ( "DIRECTIONTOFORMULA" , ClueManager.Instance.getDirectionToFormula () );
+		}
+
+		if ( text.Contains ("BOUNTY") ) {
+			text = text.Replace ( "BOUNTY" , Karma.Instance.Bounty.ToString () );
 		}
 
 		if ( text.Contains ("FORMULA") ) {
@@ -175,6 +183,7 @@ public class DialogueManager : MonoBehaviour {
 		narratorText.text = CheckForKeyWords (text);
 
 		if ( !StoryLauncher.Instance.PlayingStory ) {
+			print ("lhistoire se lit pas ?");
 			Invoke ("HideNarrator" , 2.5f );
 		}
 	}

@@ -20,10 +20,27 @@ public class Boats : MonoBehaviour {
 	[SerializeField]
 	private int otherBoatAmount = 10;
 
-	bool metBoat = false;
+	[Header("Movement")]
+	[SerializeField]
+	private float chanceOfMoving = 0.1f;
+
+	[SerializeField]
+	private float timeToMove = 7f;
+
+	private float timer = 0f;
+	private bool metBoat = false;
 
 	void Awake () {
 		Instance = this;
+	}
+
+	void Update (){
+		
+		if ( timer >= timeToMove) {
+			MoveBoats ();
+		}
+
+		timer += Time.deltaTime;
 	}
 
 	// Use this for initialization
@@ -38,6 +55,22 @@ public class Boats : MonoBehaviour {
 		}
 
 		NavigationManager.Instance.EnterNewChunk += HideBoat;
+	}
+
+	void MoveBoats ()
+	{
+		foreach ( OtherBoatInfo inf in OtherBoatInfos ) {
+
+			if ( Random.value < chanceOfMoving ) {
+				//
+				inf.UpdatePosition ();
+			}
+
+		}
+
+		MapImage.Instance.UpdateBoatSurroundings ();
+
+		timer = 0f;
 	}
 
 	public void ShowBoat (OtherBoatInfo boatInfo)

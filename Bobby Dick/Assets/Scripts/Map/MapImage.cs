@@ -28,13 +28,18 @@ public class MapImage : MonoBehaviour {
 	private Color boatPositionColor;
 
 	[SerializeField]
+	private UIButton mapButton;
+
+	private bool opened = false;
+
+	[SerializeField]
 	private float maxImagePosition = 250f;
 
 	void Awake() {
 		Instance = this;
 	}
 
-//	void Update () {
+//	void Update () { b
 //		InitImage ();
 //	}
 
@@ -134,7 +139,6 @@ public class MapImage : MonoBehaviour {
 	}
 
 	private Color getChunkColor (Chunk chunk) {
-		
 
 		switch (chunk.state) {
 		case State.UndiscoveredSea:
@@ -177,4 +181,10 @@ public class MapImage : MonoBehaviour {
 		}
 	}
 	#endregion
+
+	public UIButton MapButton {
+		get {
+			return mapButton;
+		}
+	}
 }

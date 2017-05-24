@@ -3,6 +3,8 @@
 [System.Serializable]
 public class BoatInfo {
 
+	public string Name = "bateau";
+
 	private int previousPosX = 0;
 	private int previousPosY = 0;
 

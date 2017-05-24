@@ -37,6 +37,7 @@ public class EnemyBoat : Boat {
 		base.Update ();
 	}
 
+	#region world
 	private void FollowPlayer () {
 		Vector2 boatPos = (Vector2)GetTransform.position;
 		Vector2 playerBoatPos = (Vector2)PlayerBoat.Instance.GetTransform.position;
@@ -58,7 +59,9 @@ public class EnemyBoat : Boat {
 			Enter ();
 		}
 	}
+	#endregion
 
+	#region story
 	public void Enter () {
 		reachedPlayer = true;
 
@@ -77,7 +80,9 @@ public class EnemyBoat : Boat {
 		reachedPlayer = false;
 		followPlayer = false;
 	}
+	#endregion
 
+	#region properties
 	public OtherBoatInfo OtherBoatInfo {
 		get {
 			return otherBoatInfo;
@@ -99,4 +104,5 @@ public class EnemyBoat : Boat {
 			reachedPlayer = false;
 		}
 	}
+	#endregion
 }

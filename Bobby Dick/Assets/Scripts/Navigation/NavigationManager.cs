@@ -41,6 +41,9 @@ public class NavigationManager : MonoBehaviour {
 	private NavigationSystem navigationSystem;
 
 	[SerializeField]
+	private Transform[] anchors;
+
+	[SerializeField]
 	private WheelControl wheelControl;
 
 	[SerializeField]
@@ -232,4 +235,10 @@ public class NavigationManager : MonoBehaviour {
 		}
 	}
 	#endregion
+
+	public Transform[] Anchors {
+		get {
+			return anchors;
+		}
+	}
 }

@@ -36,7 +36,7 @@ public class VirtualJoystick : MonoBehaviour {
 		} else {
 
 			if ( InputManager.Instance.OnInputExit (0,screenPart))  {
-
+				
 				TouchingScreen = false;
 			}
 
@@ -52,14 +52,19 @@ public class VirtualJoystick : MonoBehaviour {
 		set {
 			touchingScreen = value;
 
-			Vector3 pos = Camera.main.ScreenToViewportPoint (InputManager.Instance.GetInputPosition());
+			if (value) {
+				Vector3 pos = Camera.main.ScreenToViewportPoint (InputManager.Instance.GetInputPosition ());
 
-			backGroundTransform.anchorMin = pos;
-			backGroundTransform.anchorMax = pos;
+				backGroundTransform.anchorMin = pos;
+				backGroundTransform.anchorMax = pos;
+
+				pointerTransform.position = backGroundTransform.position;
+			} else {
+				pointerTransform.localPosition = Vector3.zero;
+			}
 
 			backGroundTransform.gameObject.SetActive (value);
 
-			pointerTransform.position = backGroundTransform.position;
 
 		}
 	}
@@ -72,11 +77,19 @@ public class VirtualJoystick : MonoBehaviour {
 
 	}
 
-	public float GetHorizontalAxis () { 
+	public float GetHorizontalAxis () {
+
+		if (!TouchingScreen)
+			return 0f;
+
 		return pointerTransform.localPosition.x / maxInput;
 	}
 
 	public float GetVerticalAxis () { 
+
+		if (!TouchingScreen)
+			return 0f;
+
 		return pointerTransform.localPosition.y / maxInput;
 	}
 }

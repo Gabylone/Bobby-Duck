@@ -93,6 +93,7 @@ public class StoryReader : MonoBehaviour {
 	}
 
 	public Node GetNodeFromText ( string text ) {
+		
 		Node node = CurrentStoryHandler.Story.nodes.Find ( x => x.name == text);
 
 		if ( node == null ) {

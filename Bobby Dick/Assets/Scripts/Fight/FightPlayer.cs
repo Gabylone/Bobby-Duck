@@ -4,7 +4,10 @@ using System.Collections;
 public class FightPlayer : Humanoid {
 
 	FightIA lastIAFight;
-	public float deadAxis = 0.1f;
+	[SerializeField]
+	private float deadAxisX = 0.1f;
+	[SerializeField]
+	private float deadAxisY = 0.1f;
 
 	public override void Start ()
 	{
@@ -34,10 +37,11 @@ public class FightPlayer : Humanoid {
 	{
 		base.move_Update ();
 
-		bool pressingX = InputManager.Instance.GetHorizontalAxis () > 0.1f || InputManager.Instance.GetHorizontalAxis () < -0.1f;
-		bool pressingY = InputManager.Instance.GetVerticalAxis () > 0.1f || InputManager.Instance.GetVerticalAxis() < -0.1f;
+		bool pressingX = InputManager.Instance.GetHorizontalAxis () > deadAxisX|| InputManager.Instance.GetHorizontalAxis () < -deadAxisX;
+//		bool pressingY = InputManager.Instance.GetVerticalAxis () > deadAxis || InputManager.Instance.GetVerticalAxis() < -deadAxis;
 
-		Animator.SetFloat ("move" , (pressingX || pressingY) ? 1 : 0);
+//		Animator.SetFloat ("move" , (pressingX || pressingY) ? 1 : 0);
+		Animator.SetFloat ("move" , (pressingX) ? 1 : 0);
 
 		transform.Translate ( Direction * InputManager.Instance.GetHorizontalAxis() * Speed * Time.deltaTime);
 
@@ -65,7 +69,7 @@ public class FightPlayer : Humanoid {
 		}
 	}
 	public bool PressGuard () {
-		return InputManager.Instance.GetVerticalAxis () < -0.7f;
+		return InputManager.Instance.GetVerticalAxis () < -deadAxisY;
 //		if ( InputManager.Instance.OnMobile ) {
 //			
 //		} else {

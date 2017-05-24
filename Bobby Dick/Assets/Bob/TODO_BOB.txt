@@ -1,0 +1,48 @@
+- centrer carte
+
+- FINIR LES HISTOIRES DE TRESOR
+
+- vérifier sauvegarde
+
+- polish écran séléction perso ( moins gros )
+- fight sprite : cheveu devant bras gauche ( et autres ? )
+- après combat : le capitaine ne revient pas à la discussion
+- en apparaissant, les gens ne vont pas direct à la discuc
+- cacher les boutons inventaires quand vides.
+- réduire temps quand persos bougent
+- Leave = Hide Other
+- add fade à LEave
+- lègère transparence sur carte
+- fin du combat, reviendre à au mileu
+- mettre les dés en layer default
+- la tete se ferme quand FIN COMBAT
+- la tete sdisaparait fermeture menu marchand rammassage
+
+- dialgoues finissent automatiquement seulement quand onveable.
+
+- quand le drapeau touche les triggers ils se transforment en felches.
+
+
+- truc tactiles
+
+- séparer les histoires des iles ( qui ne font que les gérer ) et les histoires
+	- story
+	- story handler
+		- story ID, decal, etc.
+
+- FAIRE LES BATEAU
+
+- RAJOUTER MAX DE DIFFICULTE POUR LE TRESOR
+
+- CHOIX à TIMER ?
+
+- ce sont les quetes qui font monter le karma
+
+- remplacer les bulles qui commencent pas ( par des bulles de pensée et les autres de dialogue à
+
+idées trésor
+le but change tout le temps
+un coup il faut être totalement bon, un autre totalement mauvais.
+un coup il faut être riche, un autre totalement pauvre.
+
+mais toujours beaucoup de combat

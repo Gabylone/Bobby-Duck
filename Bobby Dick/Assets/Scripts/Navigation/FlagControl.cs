@@ -55,9 +55,10 @@ public class FlagControl : MonoBehaviour {
 	private void UpdateFlagToIsland () {
 
 			// get flat poses
-		Vector2 boatPos 	= (Vector2)playerBoat.GetTransform.position;
-		Vector2 flagPos 	= (Vector2)flagRect.position;
-		Vector2 islandPos 	= (Vector2)island.transform.position;
+		Vector2 boatPos 	= (Vector2)playerBoat.GetTransform.localPosition;
+		Vector2 flagPos 	= (Vector2)flagRect.localPosition;
+		Vector2 islandPos 	= (Vector2)island.transform.localPosition;
+		Vector2 islandWorldPos = (Vector2)island.transform.position;
 
 		// calc distances
 		float distance_BoatToFlag = Vector2.Distance (flagPos, boatPos);
@@ -68,23 +69,20 @@ public class FlagControl : MonoBehaviour {
 
 		if (flagIsNearIsland) {
 			
-			Vector2 pos = islandPos + decalToIsland;
+			Vector2 pos = islandWorldPos + decalToIsland;
 
 			if ( distance_BoatToFlag < distanceToStop ) {
 
 				island.Enter ();
 
 				// move flag to prevent reentering on leave island
-				if (islandPos.x < 0) {
-					pos = islandPos + Vector2.left * distanceToTriggerIsland * 1.5f;
+				if (islandWorldPos.x < 0) {
+					pos = islandWorldPos + Vector2.right * 2f;
 				} else {
-					pos = islandPos + Vector2.right * distanceToTriggerIsland * 1.5f;
+					pos = islandWorldPos + Vector2.left *  2f;
 				}
 
 				flagImage.color = Color.blue;
-
-
-				playerBoat.GetTransform.position = pos;
 
 			}
 
@@ -92,9 +90,8 @@ public class FlagControl : MonoBehaviour {
 		}
 
 
-		playerBoat.TargetSpeed = (distance_BoatToFlag - distanceToStop) * boatSpeed;
+		playerBoat.TargetSpeed = boatSpeed;
 		playerBoat.TargetDirection = (flagPos - boatPos).normalized;
-
 
 		if (distance_BoatToFlag < distanceToStop) {
 			playerBoat.TargetSpeed = 0f;
@@ -108,7 +105,7 @@ public class FlagControl : MonoBehaviour {
 		flagRect.anchorMax = pos;
 	}
 
-	public void PlaceFlagOnWorld ( Vector3 pos)
+	public void PlaceFlagOnWorld ( Vector3 pos )
 	{
 		Vector2 anchor = Camera.main.WorldToViewportPoint (pos);
 		flagRect.anchorMin = anchor;

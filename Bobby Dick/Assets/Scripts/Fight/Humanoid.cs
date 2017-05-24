@@ -90,6 +90,10 @@ public class Humanoid : MonoBehaviour {
 	[Header("Bounds")]
 	[SerializeField]
 	private float limitX = 4f;
+	[SerializeField]
+	private Transform leftAnchor;
+	[SerializeField]
+	private Transform rightAnchor;
 
 	[Header("Sounds")]
 	[SerializeField] private AudioClip hitSound;
@@ -107,8 +111,6 @@ public class Humanoid : MonoBehaviour {
 		gameObject.SetActive (false);
 
 		Guard_Active = false;
-
-		limitX = Screen.width / 2;
 
 	}
 
@@ -145,7 +147,7 @@ public class Humanoid : MonoBehaviour {
 	}
 	public void ClampPos () {
 		Vector3 pos = transform.localPosition;
-		pos.x = Mathf.Clamp (pos.x, -limitX , limitX);
+		pos.x = Mathf.Clamp (pos.x, leftAnchor.localPosition.x , rightAnchor.localPosition.x);
 
 		transform.localPosition = pos;
 	}

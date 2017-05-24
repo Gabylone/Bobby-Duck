@@ -17,7 +17,7 @@ public class OtherBoatInfo : BoatInfo {
 		currentDirection = (Directions)Random.Range (0,8);
 
 		storyHandler = new StoryHandler ();
-		storyHandler.Story = StoryLoader.Instance.BoatStories[Random.Range(0,StoryLoader.Instance.BoatStories.Count)];
+		storyHandler.Story = StoryLoader.Instance.getStoryFromPercentage (StoryLoader.Instance.BoatStories);
 
 		PosX = Random.Range ( 0 , MapGenerator.Instance.MapScale );
 		PosY = Random.Range ( 0 , MapGenerator.Instance.MapScale );

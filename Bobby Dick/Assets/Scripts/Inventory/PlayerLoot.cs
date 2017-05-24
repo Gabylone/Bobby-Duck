@@ -243,6 +243,7 @@ public class PlayerLoot : MonoBehaviour {
 		set {
 			opened = value;
 			lootUI.Visible = value;
+			MapImage.Instance.MapButton.Opened = false;
 			inventoryButton.Opened = value;
 
 			UpdateMembers ();
@@ -265,6 +266,8 @@ public class PlayerLoot : MonoBehaviour {
 
 			if ( value == false )
 				BoatUpgradeManager.Instance.CloseUpgradeMenu ();
+
+			Karma.Instance.Visible = value;
 		}
 	}
 

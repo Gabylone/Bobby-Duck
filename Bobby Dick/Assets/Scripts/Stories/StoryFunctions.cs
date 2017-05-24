@@ -30,7 +30,18 @@ public class StoryFunctions : MonoBehaviour {
 		}
 
 		if ( content[0] == '[' ) {
+
+			string nodeName = content.Remove (0, 1);
+			nodeName = nodeName.Remove (nodeName.Length-1);
+
+
+			Node node = StoryReader.Instance.GetNodeFromText (nodeName);
+
 			StoryReader.Instance.NextCell ();
+
+			if (node.switched)
+				StoryReader.Instance.SetDecal (1);
+
 			StoryReader.Instance.UpdateStory ();
 			return;
 		}
@@ -160,6 +171,21 @@ public class StoryFunctions : MonoBehaviour {
 	}
 	#endregion
 
+	#region karma
+	private void CheckKarma () {
+		Karma.Instance.CheckKarma ();
+	}
+	private void AddKarma () {
+		Karma.Instance.AddKarma ();
+	}
+	private void RemoveKarma () {
+		Karma.Instance.RemoveKarma();
+	}private void PayBounty () {
+		Karma.Instance.PayBounty();
+	}
+
+	#endregion
+
 	#region end
 	void LaunchCombat () {
 		Crews.enemyCrew.ManagedCrew.hostile = true;
@@ -285,13 +311,17 @@ public class StoryFunctions : MonoBehaviour {
 			string itemName = cellParams.Split ('<') [1];
 			itemName = itemName.Remove (itemName.Length - 6);
 			item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
+
 		} else {
 			item = ItemLoader.Instance.getRandomItem (targetCat);
 		}
 
-		DialogueManager.Instance.LastItemName = item.name;
 
-		LootManager.Instance.PlayerLoot.AddItem (item);
+		if (item != null) {
+			DialogueManager.Instance.LastItemName = item.name;
+
+			LootManager.Instance.PlayerLoot.AddItem (item);
+		}
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();

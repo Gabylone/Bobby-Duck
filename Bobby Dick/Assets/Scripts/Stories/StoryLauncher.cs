@@ -32,6 +32,11 @@ public class StoryLauncher : MonoBehaviour {
 			print ("quittage de force");
 			PlayingStory = false;
 		}
+
+		if (Input.GetKeyDown (KeyCode.P)) {
+			print ("quittage de force");
+			mapButton.Opened = false;
+		}
 	}
 
 	#region propeties
@@ -44,32 +49,10 @@ public class StoryLauncher : MonoBehaviour {
 			if (playingStory == value)
 				return;
 
-			if (value == true) {
-				// set story
-				StoryReader.Instance.Reset ();
-				StoryReader.Instance.UpdateStory ();
-			} else {
-
-				if ( StoryReader.Instance.CurrentStoryLayer > 0 ) {
-					StoryReader.Instance.FallBackToPreviousStory ();
-					return;
-				}
-
-				switch (CurrentStorySource) {
-				case StorySource.none:
-					// kek
-					break;
-				case StorySource.island:
-					MapData.Instance.currentChunk.state = State.VisitedIsland;
-					break;
-				case StorySource.boat:
-					Boats.Instance.OtherBoat.Leave ();
-					break;
-				default:
-					break;
-				}
-
+			if ( StoryReader.Instance.CurrentStoryLayer > 0 && value == false) {
+				StoryReader.Instance.FallBackToPreviousStory ();
 				Crews.enemyCrew.Hide ();
+				return;
 			}
 
 			playingStory = value;
@@ -87,10 +70,34 @@ public class StoryLauncher : MonoBehaviour {
 
 			WeatherManager.Instance.PlaySound ();
 
-			mapButton.Locked = playingStory;
+
 			mapButton.Opened = false;
+			mapButton.Locked = value;
+//			MapImage.Instance.Opened = false;
 
 
+			if (value == true) {
+				// set story
+				StoryReader.Instance.Reset ();
+				StoryReader.Instance.UpdateStory ();
+			} else {
+				Crews.enemyCrew.Hide ();
+				switch (CurrentStorySource) {
+				case StorySource.none:
+					// kek
+					break;
+				case StorySource.island:
+					MapData.Instance.currentChunk.state = State.VisitedIsland;
+					break;
+				case StorySource.boat:
+					Boats.Instance.OtherBoat.Leave ();
+					break;
+				default:
+					break;
+				}
+
+
+			}
 
 		}
 	}

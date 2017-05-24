@@ -7,23 +7,22 @@ public class StoryLoader : MonoBehaviour {
 
 	public static StoryLoader Instance;
 
-	private List<Story> stories 		= new List<Story> ();
+	private List<Story> islandStories 	= new List<Story> ();
 	private List<Story> clueStories 	= new List<Story> ();
 	private List<Story> treasureStories = new List<Story> ();
 	private List<Story> homeStories 	= new List<Story> ();
 	private List<Story> boatStories 	= new List<Story> ();
-	private List<float> storyPercents 	= new List<float> ();
 
-	[SerializeField]
-	private string pathToCSVs = "Stories/CSVs";
 	private TextAsset[] storyFiles;
 	[SerializeField]
 	private TextAsset functionFile;
-	private int currentFile = 1;
 
+	private float minFreq = 0f;
 
 	[SerializeField]
 	private StoryFunctions storyFunctions;
+
+	int kek = 0;
 
 	void Awake () {
 		
@@ -37,52 +36,45 @@ public class StoryLoader : MonoBehaviour {
 
 	public void LoadStories ()
 	{
-
-		GetFiles ();
-		LoadSheets ();
+		LoadSheets (	islandStories	, 		"Stories/CSVs/IslandStories"	);
+		LoadSheets (	boatStories		, 		"Stories/CSVs/BoatStories"		);
+		LoadSheets (	homeStories		, 		"Stories/CSVs/HomeStories"		);
+		LoadSheets (	clueStories		, 		"Stories/CSVs/ClueStories"		);
+		LoadSheets (	treasureStories	, 		"Stories/CSVs/TreasureStories"	);
 	}
 
-	private void GetFiles ()
-	{
-		currentFile = 1;
 
-		storyFiles = new TextAsset[Resources.LoadAll ("Stories/CSVs", typeof(TextAsset)).Length];
+	private void LoadSheets (List<Story> storyList , string path)
+	{
+		minFreq = 0f;
+
+		GetFiles (path);
+		for (int i = 0; i < storyFiles.Length; ++i )
+			storyList.Add(LoadSheet (i));
+
+		++kek;
+	}
+
+	private void GetFiles (string path)
+	{
+		storyFiles = new TextAsset[Resources.LoadAll (path, typeof(TextAsset)).Length];
 
 		int index = 0;
-		foreach ( TextAsset textAsset in Resources.LoadAll (pathToCSVs, typeof(TextAsset) )) {
+		foreach ( TextAsset textAsset in Resources.LoadAll (path, typeof(TextAsset) )) {
 			storyFiles[index] = textAsset;
 			++index;
 		}
 	}
 
-	float minFreq = 0f;
 
-	private void LoadSheets ()
+	
+	private Story LoadSheet (int index)
 	{
-		stories.Clear ();
-		clueStories.Clear ();
-		treasureStories.Clear ();
-		homeStories.Clear ();
-		storyPercents.Clear ();
-
-		for (int i = 1; i < storyFiles.Length; ++i ) {
-
-			LoadSheet ();
-
-			++currentFile;
-		}
-	}
-
-
-
-	private void LoadSheet ()
-	{
-
-		string[] rows = storyFiles[currentFile].text.Split ('\n');
+		string[] rows = storyFiles[index].text.Split ('\n');
 
 		int collumnIndex 	= 0;
 
-		Story newStory = new Story (0, "name");
+		Story newStory = new Story ("name");
 
 		for (int rowIndex = 1; rowIndex < rows.Length; ++rowIndex ) {
 
@@ -91,24 +83,27 @@ public class StoryLoader : MonoBehaviour {
 			// create story
 			if (rowIndex == 1) 
 			{
-				newStory.storyID = currentFile;
 				newStory.name = rowContent [0];
-//				newStory.freq = int.TryParse (rowContent [1],);
 
 				float frequence = 0f;
 
-//				System.Globalization.NumberStyles n = ;
 				bool canParse = float.TryParse (rowContent [1] ,out frequence);
 
 				if ( canParse== false){ 
 					print ("ne peut pas parse la freq dans : " + newStory.name + " TRY PARSE : " + rowContent[1]);
 				}
 
+				frequence = (frequence/100);
+
+					// set story frequence
 				newStory.freq = frequence;
 				newStory.rangeMin = minFreq;
-				newStory.rangeMax = minFreq + frequence;
+				newStory.rangeMax = minFreq + newStory.freq;
 
-				minFreq += frequence;
+				// story visials
+//				VisualStory (newStory);
+
+				minFreq += newStory.freq;
 
 				foreach (string cellContent in rowContent) {
 					newStory.content.Add (new List<string> ());
@@ -122,8 +117,6 @@ public class StoryLoader : MonoBehaviour {
 					if ( cellContent.Length > 0 && cellContent[0] == '[' ) {
 						string markName = cellContent.Remove (0, 1).Remove (cellContent.IndexOf (']')-1);
 						newStory.nodes.Add (new Node (markName, collumnIndex, (rowIndex-2)));
-
-
 					}
 
 					newStory.content [collumnIndex].Add (cellContent);
@@ -138,28 +131,7 @@ public class StoryLoader : MonoBehaviour {
 
 		}
 
-		if ( newStory.name.Contains ("Indice") ) {
-			clueStories.Add (newStory);
-			return;
-		}
-
-		if ( newStory.name.Contains ("Bateau") ) {
-			boatStories.Add (newStory);
-			return;
-		}
-
-		if ( newStory.name.Contains ("Trésor") ) {
-			treasureStories.Add (newStory);
-			return;
-		}
-
-		if ( newStory.name.Contains ("Maison") ) {
-			homeStories.Add (newStory);
-			return;
-		}
-
-		stories.Add (newStory);
-		storyPercents.Add (newStory.freq);
+		return newStory;
 	}
 
 	private void LoadFunctions () {
@@ -177,10 +149,10 @@ public class StoryLoader : MonoBehaviour {
 	#region properties
 	public List<Story> Stories {
 		get {
-			return stories;
+			return islandStories;
 		}
 		set {
-			stories = value;
+			islandStories = value;
 		}
 	}
 	#endregion
@@ -194,7 +166,7 @@ public class StoryLoader : MonoBehaviour {
 			if (treasureStories.Count == 0)
 				Debug.LogError ("no treasure stories");
 			
-			return treasureStories [Random.Range (0, treasureStories.Count)];
+			return getStoryFromPercentage (treasureStories);
 
 		}
 
@@ -205,7 +177,7 @@ public class StoryLoader : MonoBehaviour {
 			if (homeStories.Count == 0)
 				Debug.LogError ("no home stories");
 			
-			return homeStories [Random.Range (0,homeStories.Count)];
+			return getStoryFromPercentage (homeStories);
 
 		}
 
@@ -218,28 +190,26 @@ public class StoryLoader : MonoBehaviour {
 				if (clueStories.Count == 0)
 					Debug.LogError ("no clue stories");
 				
-				return clueStories[Random.Range (0,clueStories.Count)];
+				return getStoryFromPercentage (clueStories);
 
 			}
 		}
 
+		return getStoryFromPercentage (islandStories);
+
+	}
+
+	public Story getStoryFromPercentage ( List<Story> stories ) {
 
 		float random = Random.value * 100f;
 
 		foreach (Story story in stories) {
 			if (random < story.rangeMax && random > story.rangeMin) {
-
-//				print ("RANDOM : " + random);
-//				print ("story range max : " + story.rangeMax);
-//				print ("story range min : " + story.rangeMin);
-//
-//				print (story.name);
 				return story;
-
 			}
 
 		}
-		return Stories [Random.Range (0,stories.Count)];
+		return stories [Random.Range (0,stories.Count)];
 	}
 
 	public List<Story> TreasureStories {
@@ -255,4 +225,14 @@ public class StoryLoader : MonoBehaviour {
 	}
 
 
+	void VisualStory (Story newStory)
+	{
+		float scale = 1f;
+		//
+		GameObject obj = GameObject.CreatePrimitive (PrimitiveType.Cube);
+		obj.transform.localScale = new Vector3 (newStory.freq, 1f, 1f);
+		obj.transform.position = new Vector3 ( minFreq + (newStory.freq/2), kek , 0f );
+		obj.GetComponent<Renderer> ().material.color = Random.ColorHSV ();
+		obj.name = newStory.name;
+	}
 }

@@ -10,7 +10,6 @@ public class Story {
 	public string 	name 			= "";
 	public float 	freq 			= 0f;
 	public string 	fallbackNode 	= "";
-	public int 		storyID 		= 0;
 	public string 	fallbackStoryName 	= "";
 
 	public List<List<string>> content 	= new List<List<string>>();
@@ -23,11 +22,9 @@ public class Story {
 	}
 
 	public Story (
-		int _storyID,
 		string _name
 	)
 	{
-		storyID = _storyID;
 		name = _name;
 	}
 

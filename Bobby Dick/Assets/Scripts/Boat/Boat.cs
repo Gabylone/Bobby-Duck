@@ -9,6 +9,8 @@ public class Boat : MonoBehaviour {
 
 	[SerializeField]
 	private Vector2 boatBounds = new Vector2(290f , 125f);
+	[SerializeField]
+	private Vector2 boundsBuffer = new Vector2(30f, 30f);
 
 	[Space]
 	[Header ("Boat Elements")]
@@ -85,7 +87,7 @@ public class Boat : MonoBehaviour {
 	#region map position 
 	public void UpdatePositionOnScreen () {
 		Vector2 getDir = NavigationManager.Instance.getDir(boatInfo.currentDirection);
-		transform.localPosition = new Vector2(-getDir.x * boatBounds.x, -getDir.y * boatBounds.y);
+		GetTransform.position = NavigationManager.Instance.Anchors[(int)boatInfo.currentDirection].position;
 	}
 
 	#endregion
