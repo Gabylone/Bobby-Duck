@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour {
 		Instance = this;
 
 		LoadGame ();
+
+		if (Application.isMobilePlatform)
+			Screen.fullScreen = true;
 	}
 
 	public void LoadGame () {

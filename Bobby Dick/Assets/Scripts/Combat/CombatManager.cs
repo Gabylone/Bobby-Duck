@@ -52,9 +52,9 @@ public class CombatManager : MonoBehaviour {
 
 	private float timeInState = 0f;
 
-	bool choosingMember = false;
+	private bool choosingMember = false;
 
-	int enemeyCount = 0;
+	private int enemeyCount = 0;
 
 	[Header("Chances")]
 	[SerializeField] private float maxDodgeChance = 43f;
@@ -128,7 +128,8 @@ public class CombatManager : MonoBehaviour {
 
 		fighting = true;
 
-		virtualJoystick.gameObject.SetActive (true);
+//		if ( Application.isMobilePlatform )
+//			virtualJoystick.gameObject.SetActive (true);
 	}
 
 	#region CombatStart

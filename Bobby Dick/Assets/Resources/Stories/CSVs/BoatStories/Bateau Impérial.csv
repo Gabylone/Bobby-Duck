@@ -6,9 +6,9 @@ Node=>check karma;Node=>bateau vide;OtherSpeak : Revoilà ces manants !;;;;;;;
 ;;Node=>combat;;;[choix];;;;;;[combat];;;;;;;;
 [check karma];;;;;SetChoices4;;;;;;LaunchCombat;;;;;;;;
 CheckKarma;;;;;Choice : Une petite ballade !;Choice : On cherche Bobby Dick !;;Choice : On casse du bateau ! (attaquer);Choice : On a besoin d'aide ! (cha);;RemoveKarma;;;;;;;;
-OtherSpeak : Dites donc ! Vous seriez pas CAPITAINE ?;OtherSpeak : Qu'est-ce que vous faites dans ces mers ?;OtherSpeak : Dites, donc, vous avez pas l'air très commode.;OtherSpeak : Nom de bleu !;;OtherSpeak : Très bien;OtherSpeak : Vous allez pas le trouver ici.;OtherSpeak : C'est pas fini ces bétises de pirate…;OtherSpeak : Manant !;CheckStatCHA;OtherSpeak : Faut prouver que vous la méritez, notre aide.;RemoveKarma;;;;;;;;
-OtherSpeak : Quelqu'un de fiable à ce qu'on dit !;Node=>choix;OtherSpeak : Pas pirate ! Mais pas saint non plus !;OtherSpeak : Votre tête est sur tous les avis de recherches !;;OtherSpeak : Circulez alors.;OtherSpeak : On parle de ces légendes DIRECTIONTOFORMULA;Node=>choix;Node=>combat;Node=>déjà choix;;Node=>bateau vide;;;;;;;;OtherSpeak : je suis un bateau
-OtherSpeak : Est-ce qu'on peut faire quelque chose pour vous ?;;OtherSpeak : Si vous voyez qu'est-ce que je veux dire.;OtherSpeak : Je vous emmène voir le chef.;;Leave;Node=>choix;;;;;;;;;;;;;
+OtherSpeak : Dites donc ! Vous seriez pas CAPITAINE ?;OtherSpeak : Qu'est-ce que vous faites dans ces mers ?;OtherSpeak : Dites, donc, vous avez pas l'air très commode.;OtherSpeak : Nom de bleu !;;OtherSpeak : Très bien;OtherSpeak : Vous allez pas le trouver ici.;OtherSpeak : C'est pas fini ces bétises de pirate…;OtherSpeak : Manant !;CheckStatCHA;;RemoveKarma;;;;;;;;
+OtherSpeak : Quelqu'un de fiable à ce qu'on dit !;Node=>choix;OtherSpeak : Pas pirate ! Mais pas saint non plus !;OtherSpeak : Votre tête est sur tous les avis de recherches !;;OtherSpeak : Circulez alors.;OtherSpeak : On parle de ces légendes DIRECTIONTOFORMULA;Node=>choix;Node=>combat;Node=>déjà choix;OtherSpeak : Faut prouver que vous la méritez, notre aide.;Node=>bateau vide;;;;;;;;OtherSpeak : je suis un bateau
+OtherSpeak : Est-ce qu'on peut faire quelque chose pour vous ?;;OtherSpeak : Si vous voyez qu'est-ce que je veux dire.;OtherSpeak : Je vous emmène voir le chef.;;Leave;Node=>choix;;;;Node=>choix;;;;;;;;;
 Node=>déjà choix;;OtherSpeak : Qu'est-ce que tu veux ?;SetChoices2;;;;;;;;;;;;;;;;
 ;;Node=>choix;Choice : Me touche pas;Choice : OK.;;;;;;;;;;;;;;;
 ;;;OtherSpeak : Tu l'aura voulu.;HideOther;;;;;;;;;;;;;;;

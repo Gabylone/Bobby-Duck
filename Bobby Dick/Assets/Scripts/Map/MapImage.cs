@@ -35,13 +35,12 @@ public class MapImage : MonoBehaviour {
 	[SerializeField]
 	private float maxImagePosition = 250f;
 
+	[SerializeField]
+	private int pixelFactor = 2;
+
 	void Awake() {
 		Instance = this;
 	}
-
-//	void Update () { b
-//		InitImage ();
-//	}
 
 	#region initialization
 	public void Init () {
@@ -51,25 +50,25 @@ public class MapImage : MonoBehaviour {
 	public void InitImage () {
 
 		Texture2D texture = new Texture2D (MapGenerator.Instance.MapScale, MapGenerator.Instance.MapScale);
+//
+		for ( int x = 0; x < MapGenerator.Instance.MapScale; ++x ) {
 
-		for ( int x = 0; x < MapGenerator.Instance.MapScale ; ++x ) {
-			
 			for (int y = 0; y < MapGenerator.Instance.MapScale; ++y ) {
 
 				Chunk chunk = MapData.Instance.chunks [x, y];
 
-				if (revealMap) {
+				Color color = (chunk.state == State.UndiscoveredIsland ) ? Color.yellow : Color.blue;
 
-					texture.SetPixel (x, y, (chunk.state == State.UndiscoveredIsland ) ? Color.yellow : Color.blue);
+				if ( !revealMap )
+					color = getChunkColor (chunk);
 
-				} else {
 
-					texture.SetPixel (x, y, getChunkColor (chunk) );
+				SetPixel (texture,x,y, color);
 
-				}
 			}
-		}
 
+
+		}
 		UpdateTexture (texture);
 
 		UpdateBoatSurroundings ();
@@ -89,7 +88,7 @@ public class MapImage : MonoBehaviour {
 		int mapScale = MapGenerator.Instance.MapScale;
 
 		Chunk previousChunk = MapData.Instance.chunks [PlayerBoatInfo.Instance.PreviousPosX, PlayerBoatInfo.Instance.PreviousPosY];
-		texture.SetPixel (previousChunk.x, previousChunk.y, getChunkColor (previousChunk));
+		SetPixel (texture,previousChunk.x, previousChunk.y, getChunkColor (previousChunk));
 
 		for (int x = -shipRange; x <= shipRange; ++x ) {
 
@@ -115,7 +114,7 @@ public class MapImage : MonoBehaviour {
 						break;
 					}
 
-					texture.SetPixel (pX, pY, getChunkColor (chunk) );
+					SetPixel (texture,pX, pY, getChunkColor (chunk));
 
 
 				}
@@ -127,11 +126,11 @@ public class MapImage : MonoBehaviour {
 		foreach ( OtherBoatInfo boatInfo in Boats.Instance.OtherBoatInfos ) {
 			if ( boatInfo.PosX <= posX + shipRange && boatInfo.PosX >= posX -shipRange &&
 				boatInfo.PosY <= posY + shipRange && boatInfo.PosY >= posY - shipRange) {
-				texture.SetPixel (boatInfo.PosX, boatInfo.PosY, Color.green);
+				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, Color.green);
 			}
 		}
 
-		texture.SetPixel (posX, posY, Color.red);
+		SetPixel (texture,posX, posY, Color.red);
 
 
 		UpdateTexture (texture);
@@ -164,13 +163,23 @@ public class MapImage : MonoBehaviour {
 	#endregion
 
 	#region image
+	private void SetPixel (Texture2D text, int x,int y,Color c) {
+		for (int iX = 0; iX < pixelFactor; iX++) {
+			for (int iY = 0; iY < pixelFactor; iY++) {
+				text.SetPixel ((pixelFactor*x)+iX,(pixelFactor*y)+iY, c);
+			}
+		}
+	}
 	private void UpdateTexture (Texture2D texture) {
 
 		texture.filterMode = FilterMode.Point;
+		texture.anisoLevel = 0;
+		texture.mipMapBias = 0;
+		texture.wrapMode = TextureWrapMode.Clamp;
 
 		texture.Apply ();
 
-		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, MapGenerator.Instance.MapScale ,  MapGenerator.Instance.MapScale) , Vector2.one * 0.5f );
+		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, MapGenerator.Instance.MapScale,  MapGenerator.Instance.MapScale) , Vector2.one * 0.5f );
 	}
 	#endregion
 

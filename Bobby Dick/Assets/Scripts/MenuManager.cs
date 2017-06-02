@@ -52,9 +52,14 @@ public class MenuManager : MonoBehaviour {
 		saveMenu.Opened = !saveMenu.Opened;
 	}
 	public void QuitButton () {
-		
+
+		Screen.fullScreen = false;
+
+		Application.Quit ();
+
 		if (quit_Confirmed) {
-			Application.Quit ();
+
+
 		} else {
 			quit_Confirmed = true;
 			quitFeedback.SetActive (true);
