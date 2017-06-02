@@ -40,7 +40,6 @@ public class CrewIcon : MonoBehaviour {
 
 	float timer = 0f;
 
-	bool choosingMember = false;
 	bool scaleLerp = false;
 	bool moveLerp = false;
 
@@ -125,20 +124,10 @@ public class CrewIcon : MonoBehaviour {
 		CardManager.Instance.HideOvering ();
 	}
 	public void OnPointerDown() {
-
 		if (!overable)
 			return;
-
 		OnPointerExit ();
-
-		if (choosingMember) {
-
-			CombatManager.Instance.SetPlayerMember (Member);
-
-		} else {
-			DialogueManager.Instance.SetDialogue ("Oui ?", member);
-		}
-
+		DialogueManager.Instance.SetDialogue ("Oui ?", member);
 	}
 	#endregion
 
@@ -245,14 +234,6 @@ public class CrewIcon : MonoBehaviour {
 		}
 	}
 
-	public bool ChoosingMember {
-		get {
-			return choosingMember;
-		}
-		set {
-			choosingMember = value;
-		}
-	}
 	public bool Overable {
 		get {
 			return overable;

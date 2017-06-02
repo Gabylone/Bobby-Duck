@@ -46,4 +46,20 @@ public class Fight_LoadSprites : MonoBehaviour {
 
 	}
 
+	public void UpdateOrder (int fighterIndex)
+	{
+		SpriteRenderer[] sprites = new SpriteRenderer[7] {
+			hairSprite,
+			beardSprite,
+			eyesSprite,
+			eyebrowsSprite,
+			noseSprite,
+			mouthSprite,
+			bodySprite,
+		};
+
+		foreach ( SpriteRenderer sprite in sprites ) {
+			sprite.sortingOrder = (fighterIndex * 10) + sprite.sortingOrder;
+		}
+	}
 }

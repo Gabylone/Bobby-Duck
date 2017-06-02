@@ -20,7 +20,6 @@ public class DiceManager : MonoBehaviour {
 
 		throwing,
 		settling,
-		removingCriticals,
 		showingHighest,
 	}
 	private states previousState;
@@ -34,7 +33,7 @@ public class DiceManager : MonoBehaviour {
 		// STATES
 
 	[Header("Dice")]
-	//[SerializeField]
+	[SerializeField]
 	public float settlingDuration = 0.5f;
 
 	[SerializeField]
@@ -88,18 +87,35 @@ public class DiceManager : MonoBehaviour {
 	#endregion
 
 	#region throwing
+	public int QuickThrow (int diceAmount) {
+
+		int result = 0;
+
+		int[] quickDices = new int[diceAmount];
+		for (int i = 0; i < diceAmount; i++) {
+			quickDices [i] = Random.Range (1, 7);
+		}
+
+		for (int diceIndex = 0; diceIndex < diceAmount; diceIndex++) {
+			if (quickDices[diceIndex] > result) {
+				result = quickDices [diceIndex];
+			}
+		}
+
+		return result;
+	}
+
 	public void ThrowDice (DiceTypes type, int diceAmount) {
 
 		ResetDice ();
 
-		throwing = true;
+		Throwing = true;
 
 		currentThrow = new Throw (diceAmount, type);
 
 		ChangeState (states.throwing);
 
 	}
-	
 	private void Throwing_Start () {
 		
 		PaintDice (currentThrow.diceType);
@@ -109,6 +125,12 @@ public class DiceManager : MonoBehaviour {
 		}
 	}
 	private void Throwing_Update () {
+
+		if ( InputManager.Instance.OnInputDown() ) {
+			ChangeState (states.showingHighest);
+			return;
+		}
+
 		if ( timeInState > throwDuration) {
 			ChangeState (states.showingHighest);
 		}
@@ -122,7 +144,7 @@ public class DiceManager : MonoBehaviour {
 	#region showing highest
 	private void ShowingHighest_Start () {
 		
-		throwing = false;
+		Throwing = false;
 
 		int highestThrowIndex = 0;
 
@@ -142,6 +164,11 @@ public class DiceManager : MonoBehaviour {
 		//
 	}
 	private void ShowingHighest_Update () {
+		if ( InputManager.Instance.OnInputDown() ) {
+			ChangeState (states.none);
+			return;
+		}
+
 		if (timeInState > settlingDuration) {
 			ChangeState (states.none);
 		}

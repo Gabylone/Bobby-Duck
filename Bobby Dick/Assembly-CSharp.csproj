@@ -70,9 +70,7 @@
      <Compile Include="Assets\Scripts\Dialogues\DialogueManager.cs" />
      <Compile Include="Assets\Scripts\Dice\Dice.cs" />
      <Compile Include="Assets\Scripts\Dice\DiceManager.cs" />
-     <Compile Include="Assets\Scripts\Fight\FightIA.cs" />
-     <Compile Include="Assets\Scripts\Fight\FightPlayer.cs" />
-     <Compile Include="Assets\Scripts\Fight\Humanoid.cs" />
+     <Compile Include="Assets\Scripts\Fight\Fighter.cs" />
      <Compile Include="Assets\Scripts\Fight\WeaponCollider.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Gold\GoldManager.cs" />

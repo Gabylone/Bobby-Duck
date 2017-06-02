@@ -189,7 +189,7 @@ public class StoryFunctions : MonoBehaviour {
 	#region end
 	void LaunchCombat () {
 		Crews.enemyCrew.ManagedCrew.hostile = true;
-		CombatManager.Instance.StartCombat ();
+		CombatManager.Instance.Fighting = true;
 	}
 	void Leave () {
 //		print ("quitter par

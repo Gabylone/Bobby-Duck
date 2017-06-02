@@ -34,23 +34,11 @@ public class CardManager : MonoBehaviour {
 	#endregion
 
 	#region fighting cards
-	public void ShowFightingCard ( Crews.Side attackingCrew ) {
-		combatCards [(int)attackingCrew].UpdateMember (CombatManager.Instance.getMember(attackingCrew));
+	public void ShowFightingCard ( CrewMember member ) {
+		combatCards [(int)member.Side].UpdateMember (member);
 	}
-	public void HideFightingCard ( Crews.Side attackingCrew ) {
-		combatCards [(int)attackingCrew].HideCard ();
-	}
-	public void UpdateCards () {
-
-		if (!CombatManager.Instance.Fighting)
-			return;
-		
-		for (int i = 0; i < 2; ++i)
-			combatCards [i].UpdateMember (CombatManager.Instance.Members[i]);
-
-		for ( int i = 0; i < 2; i++ )
-			combatCards[i].UpdateMember (CombatManager.Instance.Members[i]);
-
+	public void HideFightingCard ( CrewMember member) {
+		combatCards [(int)member.Side].HideCard ();
 	}
 	#endregion
 

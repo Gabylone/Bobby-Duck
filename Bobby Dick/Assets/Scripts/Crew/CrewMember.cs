@@ -7,6 +7,8 @@ public class CrewMember {
 	private Crews.Side side;
 	private MemberID memberID;
 
+	public int maxStat = 6;
+
 	public CrewMember (MemberID _memberID, Crews.Side _side, GameObject _iconObj )
 	{
 		memberID = _memberID;
@@ -78,13 +80,6 @@ public class CrewMember {
 		string bigText = damageTaken.ToString ();
 
 		Health -= (int)damageTaken;
-
-		if (side == Crews.Side.Player)
-			CombatManager.Instance.PlayerFeedback.DisplayInfo (smallText, bigText, Color.red);
-		else
-			CombatManager.Instance.EnemyFeedback.DisplayInfo (smallText, bigText, Color.red);
-
-		CardManager.Instance.UpdateCards ();
 
 	}
 
@@ -186,6 +181,17 @@ public class CrewMember {
 	#endregion
 
 	#region stats
+	private int currentAttack = 0;
+
+	public int CurrentAttack {
+		get {
+			return currentAttack;
+		}
+		set {
+			currentAttack = value;
+		}
+	}
+
 	public int Attack {
 		get {
 
@@ -197,7 +203,6 @@ public class CrewMember {
 			return i;
 		}
 	}
-
 
 	public int Defense {
 		get {
@@ -333,11 +338,7 @@ public class CrewMember {
 
 	}
 	public void SetEquipment ( EquipmentPart part , Item item ) {
-		
 		equipment [(int)part] = item;
-
-		CardManager.Instance.UpdateCards ();
-		
 	}
 	public Item GetEquipment ( EquipmentPart part ) {
 		return equipment [(int)part];
