@@ -3,63 +3,108 @@ using System.Collections;
 
 public class Fight_LoadSprites : MonoBehaviour {
 
-	[SerializeField]
-	private SpriteRenderer bodySprite;
-	[SerializeField]
-	private SpriteRenderer hairSprite;
-	[SerializeField]
-	private SpriteRenderer eyesSprite;
-	[SerializeField]
-	private SpriteRenderer eyebrowsSprite;
-	[SerializeField]
-	private SpriteRenderer noseSprite;
-	[SerializeField]
-	private SpriteRenderer mouthSprite;
-	[SerializeField]
-	private SpriteRenderer beardSprite;
+	public enum SpriteIndex {
+		body,
+		rightArm,
+		leftArm,
+		weapon,
+		head,
+		eyes,
+		eyebrows,
+		hair,
+		nose,
+		mouth,
+		beard,
+	}
+
+	SpriteRenderer[] allSprites;
+	float fade_Duration;
+	Color[] fade_InitColors;
+	bool fading = false;
+	float timer = 0f;
+
+	public void Init ()
+	{
+		allSprites = GetComponentsInChildren<SpriteRenderer> (true);
+		fade_InitColors = new Color[allSprites.Length];
+		for (int i = 0; i < fade_InitColors.Length; i++) {
+			fade_InitColors [i] = allSprites [i].color;
+		}
+	}
+
+	void Update () {
+		if (fading)
+		Fade_Update ();
+	}
 
 	public void UpdateSprites ( MemberID memberID ) {
 
 		if (memberID.hairSpriteID > -1)
-			hairSprite.sprite = memberID.male ? CrewCreator.Instance.HairSprites_Male [memberID.hairSpriteID] : CrewCreator.Instance.HairSprites_Female [memberID.hairSpriteID];
+			allSprites[(int)SpriteIndex.hair].sprite = memberID.male ? CrewCreator.Instance.HairSprites_Male [memberID.hairSpriteID] : CrewCreator.Instance.HairSprites_Female [memberID.hairSpriteID];
 		else
-			hairSprite.enabled = false;
-		hairSprite.color = CrewCreator.Instance.HairColors [memberID.hairColorID];
+			allSprites[(int)SpriteIndex.hair].enabled = false;
+		allSprites[(int)SpriteIndex.hair].color = CrewCreator.Instance.HairColors [memberID.hairColorID];
 
 		if (memberID.beardSpriteID > -1)
-			beardSprite.sprite = CrewCreator.Instance.BeardSprites [memberID.beardSpriteID];
+			allSprites[(int)SpriteIndex.beard].sprite = CrewCreator.Instance.BeardSprites [memberID.beardSpriteID];
 		else
-			beardSprite.enabled = false;
-		beardSprite.color = CrewCreator.Instance.HairColors [memberID.hairColorID];
+			allSprites[(int)SpriteIndex.beard].enabled = false;
+		allSprites[(int)SpriteIndex.beard].color = CrewCreator.Instance.HairColors [memberID.hairColorID];
 
-		eyesSprite.sprite = CrewCreator.Instance.EyesSprites [memberID.eyeSpriteID];
-		eyebrowsSprite.sprite = CrewCreator.Instance.EyebrowsSprites [memberID.eyebrowsSpriteID];
-		eyebrowsSprite.color = CrewCreator.Instance.HairColors [memberID.hairColorID];
+		allSprites[(int)SpriteIndex.eyes].sprite = CrewCreator.Instance.EyesSprites [memberID.eyeSpriteID];
+		allSprites[(int)SpriteIndex.eyebrows].sprite = CrewCreator.Instance.EyebrowsSprites [memberID.eyebrowsSpriteID];
+		allSprites[(int)SpriteIndex.eyebrows].color = CrewCreator.Instance.HairColors [memberID.hairColorID];
 
-		noseSprite.sprite = CrewCreator.Instance.NoseSprites [memberID.noseSpriteID];
-//		noseSprite.color = CrewCreator.Instance.HairColors [memberID.bodyColorID];
+		allSprites[(int)SpriteIndex.nose].sprite = CrewCreator.Instance.NoseSprites [memberID.noseSpriteID];
 
-		mouthSprite.sprite = CrewCreator.Instance.MouthSprites [memberID.mouthSpriteID];
+		allSprites[(int)SpriteIndex.mouth].sprite = CrewCreator.Instance.MouthSprites [memberID.mouthSpriteID];
 
 		// body
-		bodySprite.sprite = CrewCreator.Instance.BodySprites[memberID.male ? 0:1];
+		allSprites[(int)SpriteIndex.body].sprite = CrewCreator.Instance.BodySprites[memberID.male ? 0:1];
 
 	}
 
+	#region fade
+	public void Fade_Reset () {
+		int a = 0;
+		foreach ( SpriteRenderer sprite in allSprites ) {
+			sprite.color = fade_InitColors [a];
+			++a;
+		}
+
+	}
+	public void Fade_Start (float dur) {
+		fade_Duration = dur;
+
+		fading = true;
+
+		timer = 0f;
+	}
+	void Fade_Update ()
+	{
+		int a = 0;
+		foreach ( SpriteRenderer sprite in allSprites ) {
+			sprite.color = Color.Lerp (fade_InitColors [a], Color.clear, timer / fade_Duration);
+			++a;
+		}
+
+		timer += Time.deltaTime;
+
+		if (timer >= fade_Duration)
+			fading = false;
+	}
+	#endregion
+
 	public void UpdateOrder (int fighterIndex)
 	{
-		SpriteRenderer[] sprites = new SpriteRenderer[7] {
-			hairSprite,
-			beardSprite,
-			eyesSprite,
-			eyebrowsSprite,
-			noseSprite,
-			mouthSprite,
-			bodySprite,
-		};
-
-		foreach ( SpriteRenderer sprite in sprites ) {
-			sprite.sortingOrder = (fighterIndex * 10) + sprite.sortingOrder;
+		if (allSprites != null)
+			print (allSprites);
+		else
+			print ("NOOOO : " + fighterIndex  + " : : :: : " + GetComponentInParent<Fighter>().CrewMember.Side);
+		
+		foreach ( SpriteRenderer sprite in allSprites ) {
+			sprite.sortingOrder += 11 * (fighterIndex+1);
 		}
+
 	}
 }

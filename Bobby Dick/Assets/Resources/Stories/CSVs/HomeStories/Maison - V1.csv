@@ -1,5 +1,5 @@
-Nom;Fréquence / 5;;;;;;;;;
-Maison;100;maison;;;;;;;;
+Nom;Fréquence / 5;Sprite ID;;;;;;;;
+Maison;100;1;;;;;;;;
 CheckFirstVisit;;;;;;;;;;
 Node=>premiere visite;Node=>retour;;;;;;;;;
 ;;;;;;;;;;

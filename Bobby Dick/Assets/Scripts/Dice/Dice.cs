@@ -35,15 +35,13 @@ public class Dice : MonoBehaviour {
 	private Quaternion targetRot = Quaternion.identity;
 	private float settleDuration = 0.5f;
 
-	private Vector3 initPos;
+	public Transform anchor;
 	private bool thrown = false;
 
 	// Use this for initialization
 	public void Init () {
 
-		initPos = transform.position;
-
-		settleDuration = DiceManager.Instance.settlingDuration;
+		settleDuration = DiceManager.Instance.settlingDuration/2;
 	}
 
 	// Update is called once per frame
@@ -60,7 +58,7 @@ public class Dice : MonoBehaviour {
 
 		throwDirection = DiceManager.Instance.ThrowDirection;
 
-		Vector3 pos = initPos;
+		Vector3 pos = anchor.transform.position;
 		pos.x *= throwDirection;
 
 		transform.position = pos;
@@ -77,21 +75,39 @@ public class Dice : MonoBehaviour {
 
 		GetComponent<BoxCollider> ().enabled = true;
 		GetComponent<Rigidbody> ().isKinematic = false;
-		GetComponent<Rigidbody> ().AddForce ( Vector3.right * throwDirection *  Random.Range (minForce , maxForce) );
-		GetComponent<Rigidbody> ().AddTorque ( Vector3.right * throwDirection * Random.Range (minTorque,maxTorque) );
+
+		Vector3 dir = (Vector3.zero - transform.position).normalized;
+
+		GetComponent<Rigidbody> ().AddForce ( dir * throwDirection *  Random.Range (minForce , maxForce) );
+		GetComponent<Rigidbody> ().AddTorque ( dir * throwDirection * Random.Range (minTorque,maxTorque) );
 
 	}
 
 	#region settle
-	public void Settle () {
+	float targetScale;
+
+	public void SettleDown () {
 		settling = true;
 		timer = 0f;
+
+		targetScale = 0f;
 	}
 
+	public void SettleUp() {
+		settling = true;
+		timer = 0f;
+
+		targetScale =  1.5f;
+	}
+	Vector3 initDir = Vector3.zero;
 	private void Settling () {
 		float l = timer / settleDuration;
 
-		transform.localScale = Vector3.Lerp (Vector3.one, Vector3.one * 1.4f, l);
+		transform.localScale = Vector3.Lerp (Vector3.one, Vector3.one * targetScale, l);
+
+		foreach (SpriteRenderer rend in GetComponentsInChildren<SpriteRenderer>() ) {
+			rend.color = Color.Lerp (DiceManager.Instance.DiceColors (currType), Color.clear, l);
+		}
 
 		if (l >= 1) 
 			settling = false;
@@ -125,6 +141,7 @@ public class Dice : MonoBehaviour {
 		}
 	}
 
+
 	public int ThrowDirection {
 		get {
 			return throwDirection;
@@ -136,7 +153,11 @@ public class Dice : MonoBehaviour {
 	#endregion
 
 	#region dice color
+	DiceTypes currType;
 	public void Paint ( DiceTypes type ) {
+
+		currType = type;
+
 		foreach ( SpriteRenderer rend in GetComponentsInChildren<SpriteRenderer>() ) {
 			rend.color = DiceManager.Instance.DiceColors (type);
 		}

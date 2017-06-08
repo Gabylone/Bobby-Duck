@@ -1,5 +1,5 @@
-Nom histoire;Fréquence %;;;;;;;;;;;;;
-Manoir Abandonné;4,69;manoir abandonné;;;;;;;;;;;;
+Nom histoire;Fréquence %;Sprite ID;;;;;;;;;;;;
+Manoir Abandonné;4,69;1;;;;;;;;;;;;
 [debut];;;;;;;;;;;;;;CACA BUG
 Narrator : Au milieu d'une petit plaine se tient une immense baraque. Elle est vielle et dans un piteux état.;;;;;;;;;;;;;;
 [choix porte];;;;;;;;;;;;;;

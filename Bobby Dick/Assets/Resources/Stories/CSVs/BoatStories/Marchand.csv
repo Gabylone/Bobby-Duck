@@ -1,5 +1,5 @@
-Nom;Fréquence / 5;;;;;;;;;;;;;;;;;
-Bateau pirate;26,92;bateau marchand;;;;;;;;;;;;;;;;
+Nom;Fréquence / 5;Boat Type;;;;;;;;;;;;;;;;
+Marchand;26,92;0;;;;;;;;;;;;;;;;
 [debut];;;;;;;;;;;;;;;;;;
 Narrator : Un petit bateau s'approche du NOMBATEAU. Il n'y a pas beaucoup de gens à bord mais ;;;;;;;;;;;;;;;;;;
 NewCrew1;;;;;[bobby];;;[combat];;[bateau vide];;;;;;;;

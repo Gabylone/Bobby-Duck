@@ -9,9 +9,6 @@ public class UI_Target : MonoBehaviour {
 	[SerializeField]
 	private Transform target;
 
-	[SerializeField]
-	private Camera cam;
-
 	// Use this for initialization
 	void Start () {
 		rectTransform = GetComponent<RectTransform> ();
@@ -20,9 +17,6 @@ public class UI_Target : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Vector3 pos = cam.WorldToViewportPoint (target.position);
-
-		rectTransform.anchorMin = pos;
-		rectTransform.anchorMax = pos;
+		rectTransform.position = target.position;
 	}
 }

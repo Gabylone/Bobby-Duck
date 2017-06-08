@@ -17,27 +17,26 @@ public class CombatManager : MonoBehaviour {
 
 	}
 
-	// stsates
+	// stsatesyes ?
 	public enum States {
 		None,
+
 		CombatStart,
-		PlayerCrewPlacement,
-		EnemyCrewPlacement,
 		PlayerMemberChoice,
 		EnemyMemberChoice,
-		PlayerMemberLerp,
-		EnemyMemberLerp,
 		StartTurn,
 		PlayerAction,
 		EnemyAction,
-		Results,
-		MemberReturn,
+		ThrowDice,
+		LaunchAction,
 	}
 	private States previousState = States.None;
 	private States currentState = States.None;
 	public delegate void UpdateState();
 	UpdateState updateState;
 	private float timeInState = 0f;
+
+	private float timeBetweenSteps = 0f;
 
 	/// <summary>
 	/// states
@@ -70,26 +69,15 @@ public class CombatManager : MonoBehaviour {
 	List<Fighter> fighters = new List<Fighter> ();
 
 	[Header("Fighter Objects")]
-	[SerializeField] private Fighter[] initPlayerFighters;
-	[SerializeField] private Fighter[] initEnemyFighters;
+	[SerializeField] private GameObject playerFighters_Parent;
+	[SerializeField] private GameObject enemyFighters_Parent;
+	private Fighter[] initPlayerFighters;
+	private Fighter[] initEnemyFighters;
 
 	List<Fighter> currPlayerFighters = new List<Fighter>();
 	List<Fighter> currEnemyFighters = new List<Fighter>();
 //
 	public Fighter currentFighter { get { return fighters [memberIndex]; } }
-	private Fighter targetFighter;
-
-	public Fighter TargetFighter {
-		get {
-			return targetFighter;
-		}
-		set {
-			targetFighter = value;
-
-			currentFighter.Target = targetFighter.BodyTransform;
-			targetFighter.Target = currentFighter.BodyTransform;
-		}
-	}
 
 	public CrewMember currentMember { get { return fighters [memberIndex].CrewMember; } }
 
@@ -102,14 +90,14 @@ public class CombatManager : MonoBehaviour {
 	private ActionType actionType;
 
 
-
 	void Awake () {
 		Instance = this;
 	}
 
 	// Use this for initialization
 	void Start () {
-		
+		initEnemyFighters = enemyFighters_Parent.GetComponentsInChildren<Fighter> (true);
+		initPlayerFighters = playerFighters_Parent.GetComponentsInChildren<Fighter> (true);
 	}
 
 	// Update is called once per frame
@@ -138,6 +126,9 @@ public class CombatManager : MonoBehaviour {
 			currEnemyFighters.Add (initEnemyFighters [fighterIndex]);
 		}
 
+		foreach (CrewMember member in Crews.enemyCrew.CrewMembers)
+			member.Icon.Overable = true;
+
 		SortFighters ();
 
 		ShowFighters ();
@@ -157,45 +148,45 @@ public class CombatManager : MonoBehaviour {
 
 	#region StartTurn
 	private void StartTurn_Start () {
-		States state = currentMember.Side == Crews.Side.Player ? States.PlayerMemberChoice : States.EnemyMemberChoice;
-		ChangeState (state);
-	}
-	private void StartTurn_Update () {}
-	private void StartTurn_Exit () {}
-	#endregion
 
-	#region Player Member Choice 
-	private void PlayerMemberChoice_Start () {
-		ChoosingEnemyTarget (true);
-	}
-	private void PlayerMemberChoice_Update () {}
-	private void PlayerMemberChoice_Exit () {}
+		if ( currentFighter.SkipNextTurn) {
 
-	public void ChoseTargetMember (Fighter fighter) {
-		ChoosingEnemyTarget (false);
-
-		TargetFighter = fighter;
-
-		ChangeState (States.PlayerAction);
-	}
-	public void ChoosingEnemyTarget ( bool b ) {
-		foreach ( Fighter fighter in fighters ) {
-			if (fighter.CrewMember.Side == Crews.Side.Enemy)
-				fighter.ChooseButton.SetActive (b);
+			currentFighter.CombatFeedback.Display ("Skip\nTurn");
+			return;
 		}
+
+		currentFighter.ChooseButton.SetActive (true);
+		CardManager.Instance.ShowFightingCard (currentFighter.CrewMember);
+
+
+	}
+	private void StartTurn_Update () {
+
+		if (timeInState > timeBetweenSteps) {
+
+			if (currentFighter.SkipNextTurn) {
+				currentFighter.SkipNextTurn = true;
+				NextTurn ();
+				return;
+			}
+
+			States state = currentMember.Side == Crews.Side.Player ? States.PlayerAction : States.EnemyAction;
+//			States state = currentMember.Side == Crews.Side.Player ? States.PlayerMemberChoice : States.EnemyMemberChoice;
+			ChangeState (state);
+		}
+
+	}
+	private void StartTurn_Exit () {}
+	public void NextTurn () {
+
+		currentFighter.ChooseButton.SetActive (false);
+
+		++MemberIndex;
+		ChangeState (States.StartTurn);
 	}
 	#endregion
 
-	#region Enemy Member Choice 
-	private void EnemyMemberChoice_Start () {
-		int randomIndex = Random.Range (0, currPlayerFighters.Count);
-		TargetFighter = currPlayerFighters [randomIndex];
 
-		ChangeState (States.EnemyAction);
-	}
-	private void EnemyMemberChoice_Update () {}
-	private void EnemyMemberChoice_Exit () {}
-	#endregion
 
 	#region PlayerAction
 	private void PlayerAction_Start () {
@@ -210,67 +201,144 @@ public class CombatManager : MonoBehaviour {
 
 		actionType = (ActionType)i;
 
-		Action_ThrowDices ();
+		switch (actionType) {
+		case ActionType.Attacking:
+			ChangeState (States.PlayerMemberChoice);
+			break;
+		case ActionType.Fleeing:
+			ChangeState (States.ThrowDice);
+			break;
+		case ActionType.Guarding:
+			ChangeState (States.ThrowDice);
+			break;
+		case ActionType.Charming:
+			ChangeState (States.PlayerMemberChoice);
+			break;
+		case ActionType.Eating:
+			break;
+		default:
+			throw new System.ArgumentOutOfRangeException ();
+		}
+
 
 	}
 	#endregion
 
 	#region Enemy Action
 	private void EnemyAction_Start () {
+		
 		actionType = Enemy_GetAction ();
-		Action_ThrowDices ();
+
+		switch (actionType) {
+		case ActionType.Attacking:
+			ChangeState (States.EnemyMemberChoice);
+			break;
+		case ActionType.Fleeing:
+			ChangeState (States.ThrowDice);
+			break;
+		case ActionType.Guarding:
+			ChangeState (States.ThrowDice);
+			break;
+		case ActionType.Charming:
+			ChangeState (States.EnemyMemberChoice);
+			break;
+		case ActionType.Eating:
+			break;
+		default:
+			throw new System.ArgumentOutOfRangeException ();
+		}
 	}
 	private void EnemyAction_Update () {}
 	private void EnemyAction_Exit () {}
 
-	ActionType Enemy_GetAction ()
+	private ActionType Enemy_GetAction ()
 	{
 		ActionType tmpType = ActionType.Attacking;
 
-		float maxChanceOfCharisma = 0.45f;
-		float currentChanceOfCharisma = currentMember.Charisma * currentMember.maxStat;
-
-		if ( Random.value < currentChanceOfCharisma ) {
-			tmpType = ActionType.Charming;
-		}
-
-		if ( currentMember.Health <= (float)currentMember.MaxHealth / 4f ) {
-
-			float random = Random.value;
-
-			if ( random <= 0.6f ) {
-
-				tmpType = ActionType.Guarding;
-
-				if ( random <= 0.3f ) {
-					tmpType = ActionType.Fleeing;
-				}
-			}
-		}
+//		float maxChanceOfCharisma = 0.45f;
+//		float currentChanceOfCharisma = currentMember.Charisma * currentMember.maxStat;
+//
+//		if ( Random.value < currentChanceOfCharisma ) {
+//			tmpType = ActionType.Charming;
+//		}
+//
+//		if ( currentMember.Health <= (float)currentMember.MaxHealth / 4f ) {
+//
+//			float random = Random.value;
+//
+//			if ( random <= 0.6f ) {
+//
+//				tmpType = ActionType.Guarding;
+//
+//				if ( random <= 0.3f ) {
+//					tmpType = ActionType.Fleeing;
+//				}
+//			}
+//		}
 
 		return tmpType;
 	}
 
-	private void Action_ThrowDices ()
-	{
-		ChangeState (States.Results);
+	#endregion
+
+	#region Player Member Choice 
+	private void PlayerMemberChoice_Start () {
+		ChoosingEnemyTarget (true);
+	}
+	private void PlayerMemberChoice_Update () {}
+	private void PlayerMemberChoice_Exit () {}
+
+	public void ChoseTargetMember (Fighter fighter) {
+
+		ChoosingEnemyTarget (false);
+
+		currentFighter.TargetFighter = fighter;
+		currentFighter.TargetFighter.TargetFighter = currentFighter;
+
+		CardManager.Instance.ShowFightingCard (fighter.CrewMember);
+
+		ChangeState (States.ThrowDice);
+	}
+	public void ChoosingEnemyTarget ( bool b ) {
+		foreach ( Fighter fighter in fighters ) {
+			if (fighter.CrewMember.Side == Crews.Side.Enemy) {
+				fighter.ChooseButton.SetActive (b);
+				fighter.CrewMember.Icon.Overable = b;
+			}
+		}
 	}
 	#endregion
 
-	#region Results
-	private void Results_Start () {
+	#region Enemy Member Choice 
+	private void EnemyMemberChoice_Start () {
+		
+		int randomIndex = Random.Range (0, currPlayerFighters.Count);
+		currentFighter.TargetFighter = currPlayerFighters [randomIndex];
+		currentFighter.TargetFighter.TargetFighter = currentFighter;
 
+		CardManager.Instance.ShowFightingCard (currPlayerFighters [randomIndex].CrewMember);
+		currPlayerFighters [randomIndex].ChooseButton.SetActive (true);
+
+		ChangeState (States.ThrowDice);
+	}
+	private void EnemyMemberChoice_Update () {}
+	private void EnemyMemberChoice_Exit () {}
+	#endregion
+
+	#region Throw Dice
+	private void ThrowDice_Start () {
 		switch (actionType) {
 		case ActionType.Attacking:
-			DiceManager.Instance.ThrowDice (DiceTypes.STR, currentMember.Strenght);
+			currentFighter.ChangeState (Fighter.states.moveToTarget);
 			break;
 		case ActionType.Fleeing:
 			DiceManager.Instance.ThrowDice (DiceTypes.DEX, currentMember.Dexterity);
 			break;
 		case ActionType.Guarding:
-			DiceManager.Instance.ThrowDice (DiceTypes.CON, currentMember.Constitution);
+//			DiceManager.Instance.ThrowDice (DiceTypes.CON, currentMember.Constitution);
 			break;
 		case ActionType.Charming:
+			currentFighter.Speak ("T'as de beaux yeux");
 			DiceManager.Instance.ThrowDice (DiceTypes.CHA, currentMember.Charisma);
 			break;
 		case ActionType.Eating:
@@ -280,95 +348,161 @@ public class CombatManager : MonoBehaviour {
 		}
 	}
 
-	bool animated = false;
+	private void ThrowDice_Update () {
 
-	private void Results_Update () {
-
-		if (DiceManager.Instance.Throwing == false) {
-
-			if (!animated) {
-
-				switch (actionType) {
-				case ActionType.Attacking:
-
-					float maxAttack = currentMember.Attack * 1.5f;
-					int currentAttack = Mathf.RoundToInt ((maxAttack * DiceManager.Instance.HighestResult) / 6f);
-					if (DiceManager.Instance.HighestResult == 1) {
-						currentAttack = Mathf.RoundToInt (currentMember.Attack * 0.75f);
-					} else if (DiceManager.Instance.HighestResult == 6) {
-						currentAttack = Mathf.RoundToInt (currentMember.Attack * 1.75f);
-					}
-
-					currentMember.CurrentAttack = currentAttack;
-					currentFighter.ChangeState (Fighter.states.hit);
-					break;
-
-				case ActionType.Fleeing:
-					break;
-				case ActionType.Guarding:
-					break;
-				case ActionType.Charming:
-					break;
-				case ActionType.Eating:
-					break;
-				default:
-					throw new System.ArgumentOutOfRangeException ();
-				}
-
-				animated = true;
-
+		if ( DiceManager.Instance.Throwing == false) {
+			
+			switch (actionType) {
+			case ActionType.Attacking:
+				if (currentFighter.ReachedTarget)
+					ChangeState (States.LaunchAction);
+				break;
+			case ActionType.Fleeing:
+					ChangeState (States.LaunchAction);
+				break;
+			case ActionType.Guarding:
+				ChangeState (States.LaunchAction);
+				break;
+			case ActionType.Charming:
+				ChangeState (States.LaunchAction);
+				break;
+			case ActionType.Eating:
+				break;
+			default:
+				throw new System.ArgumentOutOfRangeException ();
 			}
 
+		}
 
-			if (timeInState > resultsDuration) {
-				
-			}
-		} else {
-			timeInState = 0f;
+
+
+
+	}
+	private void ThrowDice_Exit () {
+	}
+	#endregion
+
+	#region Launch Action
+	private void LaunchAction_Start () {
+		switch (actionType) {
+		case ActionType.Attacking:
+			Attack ();
+			break;
+		case ActionType.Fleeing:
+			Flee ();
+			break;
+		case ActionType.Guarding:
+			Guard ();
+			break;
+		case ActionType.Charming:
+			Charm ();
+			break;
+		case ActionType.Eating:
+			break;
+		default:
+			throw new System.ArgumentOutOfRangeException ();
 		}
 	}
-	private void Results_Exit () {
-		animated = false;
+
+	private void LaunchAction_Update () {
+		if ( timeInState > timeBetweenSteps) {
+			NextTurn ();
+		}
 	}
-	public void NextTurn () {
-		++MemberIndex;
-		ChangeState (States.StartTurn);
+	private void LaunchAction_Exit () {
+		CardManager.Instance.HideFightingCards ();
 	}
 	#endregion
 
-	#region attack
+	#region actions
 	private void Attack () {
 
-	}
-	#endregion
+		int diceValue = DiceManager.Instance.QuickThrow (currentFighter.CrewMember.Strenght);
+		float maxAttack = currentMember.Attack * 1.5f;
+		int currentAttack = Mathf.RoundToInt ((maxAttack * diceValue) / 6f);
 
-	#region run away
-	private void RunAway () {
-	
+		if (diceValue == 1) {
+			currentFighter.CombatFeedback.Display ("Crit\nFail",Color.blue);
+			currentAttack = Mathf.RoundToInt (currentMember.Attack * 0.25f);
+		} else if (diceValue == 6) {
+			currentFighter.CombatFeedback.Display ("Crit\nSucc",Color.magenta);
+			currentAttack = Mathf.RoundToInt (currentMember.Attack * 1.75f);
+		}
+
+		currentMember.CurrentAttack = currentAttack;
+		currentFighter.ChangeState (Fighter.states.hit);
+	}
+	private void Flee () {
+
+		if ( DiceManager.Instance.HighestResult >= 5 ) {
+
+			currentFighter.Hide ();
+			DeleteFighter (currentFighter);
+
+			currentFighter.CombatFeedback.Display("Sucess!");
+
+		} if ( DiceManager.Instance.HighestResult == 1 ) {
+			
+			currentFighter.CombatFeedback.Display("Crit\nFail!");
+			currentFighter.SkipNextTurn = true;
+		} else {
+			
+			currentFighter.CombatFeedback.Display("Fail!");
+		}
+
+	}
+
+	void Guard ()
+	{
+		currentFighter.ChangeState (Fighter.states.guard);
+	}
+
+	private void Charm () {
+		if (DiceManager.Instance.HighestResult >= 5) {
+			
+			currentFighter.CombatFeedback.Display ("Succ");
+			currentFighter.TargetFighter.Speak ("Ah, merci, c'est gentil");
+			currentFighter.TargetFighter.SkipNextTurn = true;
+		} else if ( DiceManager.Instance.HighestResult == 1 ) {
+			currentFighter.TargetFighter.Speak ("Il est con ce mec...");
+			currentFighter.CombatFeedback.Display ("Crit\nFail");
+			foreach ( Fighter fighter in currEnemyFighters ) {
+				fighter.SkipNextTurn = false;
+			}
+		} else {
+			currentFighter.TargetFighter.Speak ("Quoi ?");
+			currentFighter.CombatFeedback.Display ("Oups");
+
+		}
 	}
 	#endregion
 
 	#region fight end
-	private void ExitFight () {
-
-
+	public void WinFight ( float delay ) {
+		Invoke("WinFight",delay);
 	}
 	public void WinFight () {
 
 		int po = Crews.enemyCrew.ManagedCrew.Value * (int)Random.Range ( 10 , 15 );
 		string phrase = "Il avait " + po + " pièces d'or";
-		DialogueManager.Instance.SetDialogue (phrase, Crews.playerCrew.captain);
+		DialogueManager.Instance.SetDialogue (phrase, CombatManager.Instance.currPlayerFighters[0].dialogueAnchor);
 
 		GoldManager.Instance.GoldAmount += po;
 
+		CardManager.Instance.HideFightingCards ();
+
+		Invoke ("ShowLoot", 1);
+	}
+
+	void ShowLoot () {
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(ItemLoader.allCategories));
 		OtherLoot.Instance.StartLooting ();
-		Fighting = false;
+
 	}
 
 	public void Escape () {
 
-		DialogueManager.Instance.SetDialogue ("Espece de lache !", targetFighter.CrewMember );
+		DialogueManager.Instance.SetDialogue ("Espece de lache !", currentFighter.TargetFighter.CrewMember );
 
 		SoundManager.Instance.PlaySound (escapeSound);
 
@@ -382,27 +516,33 @@ public class CombatManager : MonoBehaviour {
 	#region fighters
 	private void ShowFighters () {
 
-		Crews.getCrew(Crews.Side.Player).UpdateCrew ( Crews.PlacingType.Hidden );
-		Crews.getCrew(Crews.Side.Enemy).UpdateCrew ( Crews.PlacingType.Hidden );
+		foreach ( Crews.Side side in Crews.Instance.Sides ) {
+			Crews.getCrew(side).UpdateCrew ( Crews.PlacingType.Hidden );
 
-		for (int fighterIndex = 0; fighterIndex < Crews.playerCrew.CrewMembers.Count; fighterIndex++) {
-			initPlayerFighters [fighterIndex].gameObject.SetActive (true);
-			initPlayerFighters [fighterIndex].GetComponentInChildren<Fight_LoadSprites> ().UpdateOrder (fighterIndex);
-			initPlayerFighters [fighterIndex].GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (Crews.playerCrew.CrewMembers [fighterIndex].MemberID);
-			initPlayerFighters [fighterIndex].CrewMember = Crews.playerCrew.CrewMembers [fighterIndex];
-			initPlayerFighters [fighterIndex].ChangeState (Fighter.states.none);
+			Fighter[] fighters = side == Crews.Side.Player ? initPlayerFighters : initEnemyFighters;
+
+			for (int fighterIndex = 0; fighterIndex < Crews.getCrew(side).CrewMembers.Count; fighterIndex++) {
+				fighters [fighterIndex].Init (Crews.getCrew(side).CrewMembers[fighterIndex],fighterIndex);
+			}
 		}
+	}
+	private void HideFighters () {
+		foreach ( Crews.Side side in Crews.Instance.Sides ) {
+			Crews.getCrew(side).UpdateCrew ( Crews.PlacingType.Map );
 
-		for (int fighterIndex = 0; fighterIndex < Crews.enemyCrew.CrewMembers.Count; fighterIndex++) {
-			initEnemyFighters [fighterIndex].gameObject.SetActive (true);
-			initEnemyFighters [fighterIndex].GetComponentInChildren<Fight_LoadSprites> ().UpdateOrder (fighterIndex);
-			initEnemyFighters [fighterIndex].GetComponentInChildren<Fight_LoadSprites> ().UpdateSprites (Crews.enemyCrew.CrewMembers [fighterIndex].MemberID);
-			initEnemyFighters [fighterIndex].CrewMember = Crews.enemyCrew.CrewMembers [fighterIndex];
-			initEnemyFighters [fighterIndex].ChangeState (Fighter.states.none);
+			Fighter[] fighters = side == Crews.Side.Player ? initPlayerFighters : initEnemyFighters;
+
+			for (int fighterIndex = 0; fighterIndex < Crews.getCrew(side).CrewMembers.Count; fighterIndex++) {
+				fighters [fighterIndex].Hide ();
+			}
 		}
 	}
 	public void DeleteFighter (Fighter fighter) {
 		fighters.Remove (fighter);
+		if ( fighter.CrewMember.Side == Crews.Side.Player)
+			currPlayerFighters.Remove (fighter);
+		else
+			currEnemyFighters.Remove (fighter);
 	}
 	#endregion
 
@@ -431,17 +571,27 @@ public class CombatManager : MonoBehaviour {
 			updateState = PlayerAction_Update;
 			PlayerAction_Start ();
 			break;
+		case States.EnemyAction:
+			updateState = EnemyAction_Update;
+			EnemyAction_Start ();
+			break;
 		case States.PlayerMemberChoice:
 			updateState = PlayerMemberChoice_Update;
 			PlayerMemberChoice_Start ();
 			break;
 		case States.EnemyMemberChoice:
 			updateState = EnemyMemberChoice_Update;
-			EnemyMemberChoice_Start ();
+			EnemyMemberChoice_Start();
 			break;
-		case States.Results:
-			updateState = Results_Update;
-			Results_Start ();
+		case States.ThrowDice:
+			updateState = ThrowDice_Update;
+			ThrowDice_Start ();
+			break;
+		case States.LaunchAction:
+			updateState = LaunchAction_Update;
+			LaunchAction_Start ();
+			break;
+		case States.None:
 			break;
 		}
 	}
@@ -450,20 +600,28 @@ public class CombatManager : MonoBehaviour {
 		case States.CombatStart:
 			CombatStart_Exit ();
 			break;
-		case States.PlayerMemberChoice:
-			PlayerMemberChoice_Exit ();
-			break;
 		case States.StartTurn:
 			StartTurn_Exit ();
 			break;
 		case States.PlayerAction:
-			PlayerAction_Exit ();
+			PlayerAction_Exit();
 			break;
 		case States.EnemyAction:
-			EnemyAction_Exit ();
+			EnemyAction_Exit();
 			break;
-		case States.Results:
-			Results_Exit ();
+		case States.PlayerMemberChoice:
+			PlayerMemberChoice_Exit();
+			break;
+		case States.EnemyMemberChoice:
+			EnemyMemberChoice_Exit();
+			break;
+		case States.ThrowDice:
+			ThrowDice_Exit();
+			break;
+		case States.LaunchAction:
+			LaunchAction_Exit();
+			break;
+		case States.None:
 			break;
 		}
 	}
@@ -494,8 +652,9 @@ public class CombatManager : MonoBehaviour {
 
 			} else {
 
-				Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
+				HideFighters ();
 
+				Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
 				Crews.enemyCrew.Hide ();
 
 				updateState = null;

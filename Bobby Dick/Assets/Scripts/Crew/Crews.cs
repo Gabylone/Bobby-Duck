@@ -10,6 +10,9 @@ public class Crews : MonoBehaviour {
 		Enemy,
 	}
 
+	private Side[] sides = new Side[2] {Side.Player,Side.Enemy};
+	public Side[] Sides {get {return sides;}}
+
 	public enum PlacingType {
 		Map,
 		Combat,

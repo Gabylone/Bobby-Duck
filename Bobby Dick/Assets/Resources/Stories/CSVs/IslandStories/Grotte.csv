@@ -1,5 +1,5 @@
-Nom;Fréquence %;;;;;;;
-Grotte;3,13;grotte;;;;;;
+Nom;Fréquence %;Sprite ID;;;;;;
+Grotte;3,13;0;;;;;;
 Narrator : L'île n'a aucune plage. La côte mène directement à un petit bois.;;;;;;;;
 [debut];;;;;;;;
 SetChoices3;;;;;;;;

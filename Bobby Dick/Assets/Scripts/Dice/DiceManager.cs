@@ -71,6 +71,9 @@ public class DiceManager : MonoBehaviour {
 			timeInState += Time.deltaTime;
 
 		}
+
+		if (Input.GetKeyDown (KeyCode.C))
+			ThrowDice (DiceTypes.CHA, 6);
 	}
 
 	#region init
@@ -146,21 +149,31 @@ public class DiceManager : MonoBehaviour {
 		
 		Throwing = false;
 
-		int highestThrowIndex = 0;
+		Dice highestDie = dices [0];
 
-		int a = 0;
+		highestResult = 0;
+
+		int index = 0;
 
 		for (int diceIndex = 0; diceIndex < CurrentThrow.diceAmount; diceIndex++) {
 			if (dices[diceIndex].result > highestResult) {
-				highestThrowIndex = a;
+				highestResult = dices [diceIndex].result;
+				highestDie = dices [diceIndex];
+				index = diceIndex;
 			}
-
-			++a;
 		}
 
-		highestResult = dices [highestThrowIndex].result;
+		highestResult = highestDie.result;
 
-		dices[highestThrowIndex].Settle ();
+		for (int diceIndex = 0; diceIndex < CurrentThrow.diceAmount; diceIndex++) {
+			if (diceIndex != index)
+				dices [diceIndex].SettleDown 
+				();
+		}
+
+
+//		highestDie. ();
+
 		//
 	}
 	private void ShowingHighest_Update () {

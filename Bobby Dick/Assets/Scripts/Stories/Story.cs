@@ -4,6 +4,8 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Story {
 
+	public int spriteID = 0;
+
 	public float rangeMin = 0f;
 	public float rangeMax = 0f;
 

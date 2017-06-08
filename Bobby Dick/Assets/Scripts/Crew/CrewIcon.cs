@@ -54,6 +54,8 @@ public class CrewIcon : MonoBehaviour {
 	Crews.PlacingType currentPlacingType;
 	Crews.PlacingType previousPlacingType;
 
+	public Transform dialogueAnchor;
+
 	void Awake () {
 		_transform = transform;
 	}
@@ -98,7 +100,7 @@ public class CrewIcon : MonoBehaviour {
 	#region selection
 	public void OnPointerEnter() {
 
-		if (!overable)
+		if (!Overable)
 			return;
 
 		pointerOver = true;
@@ -111,7 +113,7 @@ public class CrewIcon : MonoBehaviour {
 
 	public void OnPointerExit () {
 
-		if (!overable)
+		if (!Overable)
 			return;
 
 		pointerOver = false;
@@ -124,7 +126,7 @@ public class CrewIcon : MonoBehaviour {
 		CardManager.Instance.HideOvering ();
 	}
 	public void OnPointerDown() {
-		if (!overable)
+		if (!Overable)
 			return;
 		OnPointerExit ();
 		DialogueManager.Instance.SetDialogue ("Oui ?", member);
@@ -158,7 +160,6 @@ public class CrewIcon : MonoBehaviour {
 	}
 
 	private void MoveStart () {
-//		overable = false;
 		moveLerp = true;
 
 		initPos = GetTransform.position;

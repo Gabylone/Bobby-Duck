@@ -7,6 +7,8 @@ public class IslandData {
 
 	public string name = "";
 
+	public int spriteID = 0;
+
 	public int worldPositionX = 0;
 	public int worldPositionY = 0;
 
@@ -27,6 +29,7 @@ public class IslandData {
 
 		storyHandler = new StoryHandler (x,y);
 		name = storyHandler.Story.name;
+		spriteID = storyHandler.Story.spriteID;
 
 //		Debug.Log ("story name : " + storyHandler.Story.name);
 
@@ -34,6 +37,7 @@ public class IslandData {
 		float islandPosY = Random.Range (-appearRange.y , appearRange.y);
 
 		positionOnScreen = new Vector2 (islandPosX, islandPosY);
+
 
 	}
 

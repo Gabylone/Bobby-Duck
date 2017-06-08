@@ -1,5 +1,5 @@
-Nom;Fréquence %;;
-Bandits;4,69;bandits;
+Nom;Fréquence %;Sprite ID;
+Bandits;4,69;0;
 [debut];;;
 Narrator : L'équipage accoste sur une petite île.;;;
 [arrivée bandits];;;

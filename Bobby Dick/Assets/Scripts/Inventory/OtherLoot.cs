@@ -103,7 +103,11 @@ public class OtherLoot : MonoBehaviour {
 
 	#region open / close
 	public void Close () {
-		
+
+		if ( CombatManager.Instance.Fighting ) {
+			CombatManager.Instance.Fighting = false;
+		}
+
 		otherLootUI.Visible = false;
 		playerLootUI.Visible = false;
 

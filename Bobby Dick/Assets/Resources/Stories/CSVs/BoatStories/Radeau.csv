@@ -1,5 +1,5 @@
-Nom;Fréquence / 5;;;;;
-Bateau pirate;15,38;bateau radeau;;;;
+Nom;Fréquence / 5;Boat Type;;;;
+Radeau;15,38;0;;;;
 [debut];;;;;;
 Narrator : Un miniscule rafiot tape la coque du NOMBATEAU. Une personne maigre appelle à l'aide en direction de CAPITAINE;;;;;;
 SetChoices2;;;;;;

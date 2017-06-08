@@ -1,5 +1,5 @@
-Nom;Fréquence / 5;;;;;;;;;;;;;;;;;;
-Bateau impérial;38,46;bateau impérial;;;;;;;;;;;;;;;;;
+Nom;Fréquence / 5;Boat Type;;;;;;;;;;;;;;;;;
+Impériaux;38,46;0;;;;;;;;;;;;;;;;;
 Narrator : Un grand bateau impérial alpage CAPITAINE. Ses canons sont braqués sur son bateau, et le marin en chef apparaît sur le pont.;;;;;;;;;;;;;;;;;;;
 NewCrew;;;;;;;;;;;;;;;;;;;
 Node=>check karma;Node=>bateau vide;OtherSpeak : Revoilà ces manants !;;;;;;;;;;;;;;;;;

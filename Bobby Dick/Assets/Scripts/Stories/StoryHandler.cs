@@ -42,7 +42,7 @@ public class StoryHandler {
 		set {
 			if (stories.Count > 0) {
 				
-				Debug.LogError ("Là t'essaye d'ajouter l'histoire " + value.name + " mais y'en a déjà une");
+//				Debug.LogError ("Là t'essaye d'ajouter l'histoire " + value.name + " mais y'en a déjà une");
 
 				stories [0] = value;
 				return;

@@ -49,6 +49,10 @@ public class GameManager : MonoBehaviour {
 		SceneManager.LoadScene ("Main");
 	}
 
+	public void GameOver (float delay) {
+		Invoke ("GameOver", delay);
+	}
+
 	public void GameOver () {
 		gameOver_Object.SetActive (true);
 	}

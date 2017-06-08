@@ -105,6 +105,8 @@ public class StoryLoader : MonoBehaviour {
 
 				minFreq += newStory.freq;
 
+				newStory.spriteID = int.Parse (rowContent [2]);
+
 				foreach (string cellContent in rowContent) {
 					newStory.content.Add (new List<string> ());
 					newStory.contentDecal.Add (new List<int> ());

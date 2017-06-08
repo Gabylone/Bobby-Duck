@@ -1,5 +1,5 @@
-Nom;Fréquence %;;
-Ile deserte;15,63;ile déserte;
+Nom;Fréquence %;Sprite ID;
+Ile deserte;15,63;0;
 RandomPercent65;;;
 Node=>ile sans arbuste;Node=>ile avec arbuste;;
 ;;;

@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CombatFeedback.cs" />
      <Compile Include="Assets\Scripts\Boat\Boat.cs" />
      <Compile Include="Assets\Scripts\Boat\BoatInfo.cs" />
      <Compile Include="Assets\Scripts\Boat\BoatLight.cs" />

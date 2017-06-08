@@ -1,5 +1,5 @@
-Nom;Fréquence %;;;;;;;;;;;;;;
-Village pecheur;7,81;village;;;;;;;;;;;;;
+Nom;Fréquence %;Sprite ID;;;;;;;;;;;;;
+Village Pecheur;7,81;1;;;;;;;;;;;;;
 [debut];;;;;;;;;;;;;;;
 Narrator : Après avoir évité une vingtaine de bateau de pêche, le bateau est accosté dans un petit port. L'air empeste le poisson.;;;;;;;;;;;;;;;
 SetChoices3;;;;;;;;;;;;;;;

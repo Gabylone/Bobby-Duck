@@ -1,5 +1,5 @@
-Nom;Fréquence %;;;;;;;;;;
-Taverne;6,25;taverne;;;;;;;;;
+Nom;Fréquence %;Sprite ID;;;;;;;;;
+Taverne;6,25;1;;;;;;;;;
 [debut];;;;;;;;;;;
 Narrator : De la fumée monte dans le ciel et une odeur merveilleuse flotte dans l'air. C'est une taverne.;;;;;;;;;;;
 SetChoices2;;;;;;;;;;;

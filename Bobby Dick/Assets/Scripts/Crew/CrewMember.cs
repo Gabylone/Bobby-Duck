@@ -70,11 +70,12 @@ public class CrewMember {
 
 	#region health
 	public void GetHit (float damage) {
-		float damageTaken = ( ((float)damage) / ((float)Defense) );
-		damageTaken *= 10;
+//		float damageTaken = ( ((float)damage) / ((float)Defense) );
+//		damageTaken *= 10;
+		float damageTaken = damage;
 
 		damageTaken = Mathf.CeilToInt (damageTaken);
-		damageTaken = Mathf.Clamp ( damageTaken , 1 , 100 );
+		damageTaken = Mathf.Clamp ( damageTaken , 1 , 200 );
 
 		string smallText = damage + " / " + Defense;
 		string bigText = damageTaken.ToString ();
@@ -84,9 +85,7 @@ public class CrewMember {
 	}
 
 	public void Kill () {
-
 		Crews.getCrew(side).RemoveMember (this);
-
 	}
 	#endregion
 

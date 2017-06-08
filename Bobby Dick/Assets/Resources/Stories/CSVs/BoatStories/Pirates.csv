@@ -1,5 +1,5 @@
-Nom;Fréquence / 5;;;;
-Bateau pirate;19,23;bateau pirate;;;
+Nom;Fréquence / 5;Boat Type;;;
+Pirates;19,23;0;;;
 [debut];;;;;
 Narrator : Le NOMBATEAU se fait accosté par un bateau par un bateau miteux et fracassé. Un drapeau rouge domine le mat;;;;;
 [arrivée bandits];;;;;

@@ -1,5 +1,5 @@
-Nom;Fréquence %;;;;;
-Forgeron;3,13;forgeron;;;;
+Nom;Fréquence %;Sprite ID;;;;
+Forgeron;3,13;1;;;;
 [debut];;;;;;
 Narrator : Le bateau est accosté sur une plage d'herbe. Elle est composée de quelques plates collines. Pas très loin, une maisonnette est surplombée d'une gigantesque cheminée, qui crache une colonne de fumée noire.;;;;;;
 SetChoices2;;;;;;

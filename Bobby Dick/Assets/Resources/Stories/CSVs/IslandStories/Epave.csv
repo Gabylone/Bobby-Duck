@@ -1,5 +1,5 @@
-Nom;Fréquence %;;;;;;
-Epave;7,81;épave;;;;;
+Nom;Fréquence %;Sprite ID;;;;;
+Epave;7,81;0;;;;;
 Narrator : L'île est minuscule. Un petit bâteau s'est échoué sur les rocher qui l'entoure.;;;;;;;
 [debut];;;;;;;
 SetChoices3;;;;;;;

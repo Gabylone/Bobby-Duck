@@ -25,6 +25,9 @@ public class Island : MonoBehaviour {
 	[SerializeField]
 	private Vector3 flagDecal;
 
+	[SerializeField]
+	private Sprite[] sprites;
+
 	#region mono
 	void Awake () {
 		Instance = this;
@@ -51,10 +54,12 @@ public class Island : MonoBehaviour {
 
 		group.SetActive ( onIslandChunk );
 
-		if (onIslandChunk)
+		if (onIslandChunk) {
 			transform.localPosition = MapData.Instance.currentChunk.IslandData.PositionOnScreen;
-		else
-			transform.localPosition = new Vector3 ( 10000f,0,0 );
+			GetComponentInChildren<SpriteRenderer> ().sprite = sprites [MapData.Instance.currentChunk.IslandData.spriteID];
+		} else {
+			transform.localPosition = new Vector3 (10000f, 0, 0);
+		}
 	}
 	#endregion
 
@@ -92,4 +97,10 @@ public class Island : MonoBehaviour {
 //		}
 	}
 	#endregion
+
+	public Sprite[] Sprites {
+		get {
+			return sprites;
+		}
+	}
 }

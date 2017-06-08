@@ -1,5 +1,5 @@
-Nom;Fréquence / 5;;;;;
-Indice – Vielle dame;100;indice – vielle dame;;;;
+Nom;Fréquence / 5;Sprite ID;;;;
+Vielle Dame;100;1;;;;
 [debut];;;;;;
 Narrator : Un rocher immense sort de l'océan. Un escalier est sculté dans la pierre.;;;;;;
 SetChoices2;;;;;;

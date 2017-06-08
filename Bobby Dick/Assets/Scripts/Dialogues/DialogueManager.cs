@@ -51,7 +51,7 @@ public class DialogueManager : MonoBehaviour {
 	#region set dialoguex
 	public void SetDialogue (string phrase, CrewMember crewMember) {
 		phrase = CheckForKeyWords (phrase);
-		SetDialogue (phrase, crewMember.Icon.GetTransform);
+		SetDialogue (phrase, crewMember.Icon.dialogueAnchor);
 	}
 	public void SetDialogue (string phrase, Transform _target) {
 		
@@ -209,32 +209,22 @@ public class DialogueManager : MonoBehaviour {
 			return;
 		}
 
-		// get viewport position of target object
-		Vector3 pos = Camera.main.WorldToViewportPoint (target.position);
-
-			// clamp bubble
-		pos.x = Mathf.Clamp (pos.x, bubbleBounds.x, 1 - bubbleBounds.x);
-		pos.y = Mathf.Clamp (pos.y, bubbleBounds.y, 1 - bubbleBounds.y);
-
 		// scale
 		Vector3 scale = Vector3.one;
 
-		scale.x = pos.x < 0.5f ? 1 : -1;
-		scale.y = pos.y < 0.5f ? 1 : -1;
-
+		scale.x = target.position.x < 0.5f ? 1 : -1;
 		bubble_Image.localScale = scale;
 
-		// bubble decal
-		Vector3 decal = new Vector3 ( 
-			pos.x > 0.5f ? -speaker_Decal.x : speaker_Decal.x,
-			pos.y > 0.5f ? -speaker_Decal.y : speaker_Decal.y,
-			0);
-
-		pos += decal;
+//		// bubble decal
+//		Vector3 decal = new Vector3 ( 
+//			pos.x > 0.5f ? -speaker_Decal.x : speaker_Decal.x,
+//			pos.y > 0.5f ? -speaker_Decal.y : speaker_Decal.y,
+//			0);
+//
+//		pos += decal;
 
 		// position
-		bubble_Image.anchorMin = pos;
-		bubble_Image.anchorMax = pos;
+		bubble_Image.transform.position = target.position;
 
 
 		// straighten text

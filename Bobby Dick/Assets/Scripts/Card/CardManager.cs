@@ -7,13 +7,10 @@ public class CardManager : MonoBehaviour {
 
 	[Header ("Overing")]
 	[SerializeField]
-	private Card overingCard;
+	private Card[] overingCards;
 
 	[Header("Combat")]
 	[SerializeField] private Card[] combatCards;
-
-	[SerializeField]
-	private Vector3 decal = Vector3.zero;
 
 	void Awake () {
 		Instance = this;
@@ -21,15 +18,18 @@ public class CardManager : MonoBehaviour {
 
 	#region overing cards
 	public void ShowOvering ( CrewMember member ) {
-		overingCard.UpdateMember (member);
-		Vector3 targetPos = member.IconObj.transform.position;
-		if ( member.IconObj.transform.position.x > 0 )
-			targetPos += decal;
 
-		overingCard.PlaceCard (targetPos);
+		Vector3 pos = member.Icon.transform.position;
+		ShowOvering (member, pos);
 	}
+	public void ShowOvering ( CrewMember member, Vector2 pos ) {
+		overingCards[(int)member.Side].UpdateMember (member);
+		overingCards[(int)member.Side].PlaceCard (pos);
+	}
+
 	public void HideOvering () {
-		overingCard.HideCard ();
+		foreach (Card card in overingCards)
+			card.HideCard ();
 	}
 	#endregion
 
@@ -37,15 +37,11 @@ public class CardManager : MonoBehaviour {
 	public void ShowFightingCard ( CrewMember member ) {
 		combatCards [(int)member.Side].UpdateMember (member);
 	}
-	public void HideFightingCard ( CrewMember member) {
-		combatCards [(int)member.Side].HideCard ();
-	}
-	#endregion
-
-	public Card OveringCard {
-		get {
-			return overingCard;
+	public void HideFightingCards () {
+		foreach (var combatCard in combatCards) {
+			combatCard.HideCard ();
 		}
 	}
+	#endregion
 
 }
