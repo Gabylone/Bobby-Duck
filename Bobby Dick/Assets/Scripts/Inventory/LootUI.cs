@@ -52,6 +52,11 @@ public class LootUI : MonoBehaviour {
 		Visible = false;
 	}
 
+	public void Show (CategoryContent _categoryContent) {
+		categoryContent = _categoryContent;
+		Visible = true;
+	}
+
 	public bool Visible {
 		get {
 			return visible;
@@ -136,6 +141,7 @@ public class LootUI : MonoBehaviour {
 		UpdatePages ();
 		UpdateItemButtons ();
 		UpdateActionButton (0);
+		UpdateCategoryButtons ();
 	}
 
 	public CategoryContent CategoryContent {
@@ -148,33 +154,34 @@ public class LootUI : MonoBehaviour {
 
 			return categoryContent;
 		}
-		set {
-			categoryContent = value;
-			UpdateCategoryButtons ();
-		}
 	}
 
 	[SerializeField]
 	private Sprite[] categorySprites;
 
 	private void UpdateCategoryButtons () {
-		
+
 		for (int i = 0; i < categoryButtons.Length; ++i ) {
 
-			categoryButtons [i].gameObject.SetActive ( i < CategoryContent.itemCategories.Length );
+			categoryButtons [i].gameObject.SetActive ( false );
 
-			Sprite sprite;
+			if (i < CategoryContent.itemCategories.Length) {
 
-			if (categoryContent.itemCategories [0].categories.Length > 1)
-				sprite = categorySprites [(int)ItemCategory.Misc];
-			else
-				sprite = categorySprites [(int)CategoryContent.itemCategories [i].categories [0]];
+				categoryButtons [i].gameObject.SetActive ( true );
 
-			categoryButtons [i].GetComponentsInChildren<Image> () [1].sprite = sprite;
+				Sprite sprite;
 
-			if ( i < categoryContent.amount ) {
+				if (CategoryContent.itemCategories [0].categories.Length > 1)
+					sprite = categorySprites [(int)ItemCategory.Misc];
+				else
+					sprite = categorySprites [(int)CategoryContent.itemCategories [i].categories [0]];
+
+				categoryButtons [i].GetComponentsInChildren<Image> () [1].sprite = sprite;
+
+				if (i < CategoryContent.amount) {
 //				categoryButtons [i].GetComponentInChildren<Text> ().text = CategoryContent.names[i];
-				categoryButtons [i].image.color = CategoryContent.colors[i];
+					categoryButtons [i].image.color = CategoryContent.colors [i];
+				}
 			}
 
 		}
@@ -207,8 +214,6 @@ public class LootUI : MonoBehaviour {
 
 	#region action button
 	public void UpdateActionButton (int itemIndex) {
-
-			// set group active
 
 		if ( currentCat >= CategoryContent.interactable.Length ) {
 

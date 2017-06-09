@@ -104,6 +104,7 @@ public class UIButton : MonoBehaviour {
 
 			timer = 0f;
 			lerping = true;
+
 			SoundManager.Instance.PlaySound ( opened ? closeSound : openSound );
 
 			menu.gameObject.SetActive (true);

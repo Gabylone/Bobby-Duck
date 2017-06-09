@@ -17,6 +17,13 @@ public class Fighter : MonoBehaviour {
 		blocked
 	}
 	private states currentState = states.moveToTarget;
+
+	public states CurrentState {
+		get {
+			return currentState;
+		}
+	}
+
 	private states previousState;
 
 	[SerializeField]
@@ -60,6 +67,12 @@ public class Fighter : MonoBehaviour {
 	private float hit_TimeToDisableCollider = 0.6f;
 	[SerializeField]
 	private float hit_TimeToEnableCollider = 0.5f;
+	public float Hit_TimeToEnableCollider {
+		get {
+			return hit_TimeToEnableCollider;
+		}
+	}
+
 	[SerializeField]
 	private float hitSpeed = 1f;
 	[SerializeField]
@@ -224,24 +237,16 @@ public class Fighter : MonoBehaviour {
 
 			// combat flow
 		CombatManager.Instance.DeleteFighter (this);
+
 		CombatManager.Instance.currentMember.AddXP (CrewMember.Level * 25);
 		CrewMember.Kill ();
 
-		if (Crews.getCrew (crewMember.Side).CrewMembers.Count == 0) {
-			if (CrewMember.Side == Crews.Side.Player) {
-				GameManager.Instance.GameOver (1);
-			} else {
-				CombatManager.Instance.WinFight (1);
-			}
-		} else {
-			CombatManager.Instance.NextTurn ();
-		}
+		CombatManager.Instance.NextTurn ();
 
 	}
 	#endregion
 
 	#region move to target
-
 	public Fighter TargetFighter {
 		get {
 			return targetFighter;
@@ -253,19 +258,16 @@ public class Fighter : MonoBehaviour {
 
 	public virtual void MoveToTarget_Start () {
 		ChooseButton.SetActive (false);
+		reachedTarget = false;
 	}
 	public virtual void MoveToTarget_Update () {
 		
-		float distanceToTarget = Vector3.Distance (transform.position, targetFighter.BodyTransform.position);
-
 		Vector2 direction = ((Vector2)targetFighter.BodyTransform.position - (Vector2)transform.position).normalized;
-		if (distanceToTarget > stopDistance) {
+		if (!ReachedTarget) {
 			transform.Translate (direction * Speed * Time.deltaTime);
 		}
 
-		reachedTarget = (distanceToTarget < stopDistance);
-
-		Animator.SetFloat ("move", !ReachedTarget ? 1 : 0);
+		Animator.SetFloat ("move", ReachedTarget ? 0 : 1);
 
 	}
 
@@ -280,7 +282,7 @@ public class Fighter : MonoBehaviour {
 	}
 	public bool ReachedTarget {
 		get {
-			return reachedTarget;
+			return Vector3.Distance (transform.position, targetFighter.BodyTransform.position) < stopDistance;
 		}
 	}
 	#endregion
@@ -290,22 +292,16 @@ public class Fighter : MonoBehaviour {
 	}
 
 	public virtual void MoveBack_Update () {
-		float distanceToTarget = Vector2.Distance (transform.position, initPos);
-
-		Vector2 direction = (initPos - (Vector2)transform.position).normalized;
-		if (distanceToTarget > stopBuffer) {
+		if (!BackToInitPos) {
+			Vector2 direction = (initPos - (Vector2)transform.position).normalized;
 			transform.Translate (direction * Speed * Time.deltaTime);
 		}
-
-		backToInitPos = (distanceToTarget < stopBuffer);
 
 		Animator.SetFloat ("move", 1);
 
 		if (BackToInitPos) {
 			ChangeState (states.none);
 		}
-
-
 	}
 
 	public virtual void MoveBack_Exit () {
@@ -314,7 +310,7 @@ public class Fighter : MonoBehaviour {
 
 	public bool BackToInitPos {
 		get {
-			return backToInitPos;
+			return Vector2.Distance (transform.position, initPos) < stopBuffer;
 		}
 	}
 
@@ -448,12 +444,17 @@ public class Fighter : MonoBehaviour {
 				return;
 			}
 
+			if (targetFighter == null) {
+				print ("pas de target figter");
+				return;
+			}
+			
 			if (other.GetComponentInParent<Fighter>().ID != targetFighter.ID ) {
 				print ("mauvais ID");
 				return;
 			}
 
-			GetHit (other.GetComponentInParent<Fighter>());
+//			GetHit (other.GetComponentInParent<Fighter>());
 		}
 	}
 
@@ -490,9 +491,9 @@ public class Fighter : MonoBehaviour {
 		}
 
 		if (Guard_Active) {
-			dam /= 4;
+			dam = Mathf.Round(dam/5f);
 			ChangeState (states.blocked);
-			impactEffect.GetComponent<SpriteRenderer> ().color = Color.grey;
+			impactEffect.GetComponent<SpriteRenderer> ().color = Color.black;
 		} else {
 			ChangeState (states.getHit);
 			impactEffect.GetComponent<SpriteRenderer> ().color = Color.red;
@@ -509,8 +510,6 @@ public class Fighter : MonoBehaviour {
 		impactEffect.transform.position = otherFighter.WeaponCollider.transform.position;
 
 
-		// set other state
-		//		otherFighter.ChangeState (states.blocked);
 		crewMember.GetHit (dam);
 
 		CardManager.Instance.ShowFightingCard (CrewMember);

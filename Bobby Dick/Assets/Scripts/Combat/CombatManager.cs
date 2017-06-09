@@ -27,8 +27,12 @@ public class CombatManager : MonoBehaviour {
 		StartTurn,
 		PlayerAction,
 		EnemyAction,
-		ThrowDice,
-		LaunchAction,
+
+		Attacking,
+		Fleeing,
+		Guarding,
+		Charming,
+		Eating,
 	}
 	private States previousState = States.None;
 	private States currentState = States.None;
@@ -88,6 +92,8 @@ public class CombatManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject actionFeedback;
 	private ActionType actionType;
+	[SerializeField]
+	private CategoryContent categoryFightContent;
 
 
 	void Awake () {
@@ -179,10 +185,49 @@ public class CombatManager : MonoBehaviour {
 	private void StartTurn_Exit () {}
 	public void NextTurn () {
 
+		print ("next turn");
+
+		CheckMembers ();
+
+		if (currEnemyFighters.Count == 0) {
+			print ("plus de combatants ennemis");
+			return;
+		}
+		if (currPlayerFighters.Count == 0) {
+			print ("plus de combatants joueurs");
+			return;
+		}
+
+		CardManager.Instance.HideFightingCards ();
+
 		currentFighter.ChooseButton.SetActive (false);
+		if (currentFighter.TargetFighter != null)
+			currentFighter.TargetFighter.ChooseButton.SetActive (false);
 
 		++MemberIndex;
 		ChangeState (States.StartTurn);
+	}
+
+	void CheckMembers ()
+	{
+		if ( currPlayerFighters.Count == 0 ) {
+			if (Crews.getCrew (Crews.Side.Player).CrewMembers.Count == 0) {
+				GameManager.Instance.GameOver (1);
+			} else {
+				Escape ();
+			}
+			return;
+		}
+
+		if ( currEnemyFighters.Count == 0 ) {
+			if (Crews.getCrew (Crews.Side.Enemy).CrewMembers.Count == 0) {
+				CombatManager.Instance.WinFight (1);
+				GameManager.Instance.GameOver (1);
+			} else {
+				Escape ();
+			}
+			return;
+		}
 	}
 	#endregion
 
@@ -206,15 +251,17 @@ public class CombatManager : MonoBehaviour {
 			ChangeState (States.PlayerMemberChoice);
 			break;
 		case ActionType.Fleeing:
-			ChangeState (States.ThrowDice);
+			StartAction ();
 			break;
 		case ActionType.Guarding:
-			ChangeState (States.ThrowDice);
+			StartAction ();
 			break;
 		case ActionType.Charming:
 			ChangeState (States.PlayerMemberChoice);
 			break;
 		case ActionType.Eating:
+			PlayerLoot.Instance.Open (categoryFightContent);
+			PlayerLoot.Instance.CrewGroup.SetActive (false);
 			break;
 		default:
 			throw new System.ArgumentOutOfRangeException ();
@@ -234,10 +281,10 @@ public class CombatManager : MonoBehaviour {
 			ChangeState (States.EnemyMemberChoice);
 			break;
 		case ActionType.Fleeing:
-			ChangeState (States.ThrowDice);
+			StartAction ();
 			break;
 		case ActionType.Guarding:
-			ChangeState (States.ThrowDice);
+			StartAction ();
 			break;
 		case ActionType.Charming:
 			ChangeState (States.EnemyMemberChoice);
@@ -297,7 +344,7 @@ public class CombatManager : MonoBehaviour {
 
 		CardManager.Instance.ShowFightingCard (fighter.CrewMember);
 
-		ChangeState (States.ThrowDice);
+		StartAction ();
 	}
 	public void ChoosingEnemyTarget ( bool b ) {
 		foreach ( Fighter fighter in fighters ) {
@@ -319,102 +366,61 @@ public class CombatManager : MonoBehaviour {
 		CardManager.Instance.ShowFightingCard (currPlayerFighters [randomIndex].CrewMember);
 		currPlayerFighters [randomIndex].ChooseButton.SetActive (true);
 
-		ChangeState (States.ThrowDice);
+		StartAction ();
 	}
 	private void EnemyMemberChoice_Update () {}
 	private void EnemyMemberChoice_Exit () {}
 	#endregion
 
 	#region Throw Dice
-	private void ThrowDice_Start () {
+	private void StartAction () {
 		switch (actionType) {
 		case ActionType.Attacking:
-			currentFighter.ChangeState (Fighter.states.moveToTarget);
+			ChangeState (States.Attacking);
 			break;
 		case ActionType.Fleeing:
-			DiceManager.Instance.ThrowDice (DiceTypes.DEX, currentMember.Dexterity);
+			ChangeState (States.Fleeing);
 			break;
 		case ActionType.Guarding:
-//			DiceManager.Instance.ThrowDice (DiceTypes.CON, currentMember.Constitution);
+			ChangeState (States.Guarding);
 			break;
 		case ActionType.Charming:
-			currentFighter.Speak ("T'as de beaux yeux");
-			DiceManager.Instance.ThrowDice (DiceTypes.CHA, currentMember.Charisma);
+			ChangeState (States.Charming);
 			break;
 		case ActionType.Eating:
+			
 			break;
 		default:
 			throw new System.ArgumentOutOfRangeException ();
 		}
 	}
+	#endregion
 
-	private void ThrowDice_Update () {
+	#region attacking
+	private void Attacking_Start () {
+		currentFighter.ChangeState (Fighter.states.moveToTarget);
+	}
+	private void Attacking_Update () {
 
-		if ( DiceManager.Instance.Throwing == false) {
+		if (currentFighter.CurrentState != Fighter.states.hit) {
 			
-			switch (actionType) {
-			case ActionType.Attacking:
-				if (currentFighter.ReachedTarget)
-					ChangeState (States.LaunchAction);
-				break;
-			case ActionType.Fleeing:
-					ChangeState (States.LaunchAction);
-				break;
-			case ActionType.Guarding:
-				ChangeState (States.LaunchAction);
-				break;
-			case ActionType.Charming:
-				ChangeState (States.LaunchAction);
-				break;
-			case ActionType.Eating:
-				break;
-			default:
-				throw new System.ArgumentOutOfRangeException ();
+			if (currentFighter.ReachedTarget && currentFighter.TargetFighter.BackToInitPos) {
+				Attack ();
+				timeInState = 0f;
+			}
+
+		} else {
+
+			if (timeInState > currentFighter.Hit_TimeToEnableCollider) {
+				currentFighter.TargetFighter.GetHit (currentFighter);
+				NextTurn ();
 			}
 
 		}
-
-
-
-
 	}
-	private void ThrowDice_Exit () {
+	private void Attacking_Exit () {
+		//
 	}
-	#endregion
-
-	#region Launch Action
-	private void LaunchAction_Start () {
-		switch (actionType) {
-		case ActionType.Attacking:
-			Attack ();
-			break;
-		case ActionType.Fleeing:
-			Flee ();
-			break;
-		case ActionType.Guarding:
-			Guard ();
-			break;
-		case ActionType.Charming:
-			Charm ();
-			break;
-		case ActionType.Eating:
-			break;
-		default:
-			throw new System.ArgumentOutOfRangeException ();
-		}
-	}
-
-	private void LaunchAction_Update () {
-		if ( timeInState > timeBetweenSteps) {
-			NextTurn ();
-		}
-	}
-	private void LaunchAction_Exit () {
-		CardManager.Instance.HideFightingCards ();
-	}
-	#endregion
-
-	#region actions
 	private void Attack () {
 
 		int diceValue = DiceManager.Instance.QuickThrow (currentFighter.CrewMember.Strenght);
@@ -431,6 +437,21 @@ public class CombatManager : MonoBehaviour {
 
 		currentMember.CurrentAttack = currentAttack;
 		currentFighter.ChangeState (Fighter.states.hit);
+	}
+	#endregion
+
+	#region fleeing
+	private void Fleeing_Start () {
+		DiceManager.Instance.ThrowDice (DiceTypes.DEX, currentMember.Dexterity);
+	}
+	private void Fleeing_Update () {
+		if (DiceManager.Instance.Throwing == false) {
+			Flee ();
+			NextTurn ();
+		}
+	}
+	private void Fleeing_Exit () {
+		//
 	}
 	private void Flee () {
 
@@ -451,29 +472,75 @@ public class CombatManager : MonoBehaviour {
 		}
 
 	}
+	#endregion
 
-	void Guard ()
+	#region guarding
+	private void Guarding_Start () {
+		Guard ();
+		NextTurn ();
+	}
+	private void Guarding_Update () {
+		//
+	}
+	private void Guarding_Exit () {
+		//
+	}
+	private void Guard ()
 	{
 		currentFighter.ChangeState (Fighter.states.guard);
 	}
+	#endregion
 
+	#region charming
+	private void Charming_Start () {
+		currentFighter.Speak ("T'as de beaux yeux");
+		DiceManager.Instance.ThrowDice (DiceTypes.CHA, currentMember.Charisma);
+	}
+	private void Charming_Update () {
+		if (DiceManager.Instance.Throwing == false) {
+			Charm ();
+			NextTurn ();
+		}
+	}
+	private void Charming_Exit () {
+		//
+	}
 	private void Charm () {
 		if (DiceManager.Instance.HighestResult >= 5) {
 			
 			currentFighter.CombatFeedback.Display ("Succ");
 			currentFighter.TargetFighter.Speak ("Ah, merci, c'est gentil");
 			currentFighter.TargetFighter.SkipNextTurn = true;
+
 		} else if ( DiceManager.Instance.HighestResult == 1 ) {
+			
 			currentFighter.TargetFighter.Speak ("Il est con ce mec...");
 			currentFighter.CombatFeedback.Display ("Crit\nFail");
 			foreach ( Fighter fighter in currEnemyFighters ) {
 				fighter.SkipNextTurn = false;
 			}
+
 		} else {
+			
 			currentFighter.TargetFighter.Speak ("Quoi ?");
 			currentFighter.CombatFeedback.Display ("Oups");
 
 		}
+	}
+	#endregion
+
+	#region eating
+	private void Eating_Start () {
+		//
+	}
+	private void Eating_Update () {
+		//
+	}
+	private void Eating_Exit () {
+		//
+	}
+	private void Eat () {
+		
 	}
 	#endregion
 
@@ -583,14 +650,31 @@ public class CombatManager : MonoBehaviour {
 			updateState = EnemyMemberChoice_Update;
 			EnemyMemberChoice_Start();
 			break;
-		case States.ThrowDice:
-			updateState = ThrowDice_Update;
-			ThrowDice_Start ();
+
+
+			// action
+		case States.Attacking:
+			updateState = Attacking_Update;
+			Attacking_Start ();
 			break;
-		case States.LaunchAction:
-			updateState = LaunchAction_Update;
-			LaunchAction_Start ();
+		case States.Fleeing:
+			updateState = Fleeing_Update;
+			Fleeing_Start ();
 			break;
+		case States.Guarding:
+			updateState = Guarding_Update;
+			Guarding_Start ();
+			break;
+		case States.Charming:
+			updateState = Charming_Update;
+			Charming_Start ();
+			break;
+		case States.Eating:
+			updateState = Eating_Update;
+			Eating_Start ();
+			break;
+			//
+
 		case States.None:
 			break;
 		}
@@ -615,12 +699,25 @@ public class CombatManager : MonoBehaviour {
 		case States.EnemyMemberChoice:
 			EnemyMemberChoice_Exit();
 			break;
-		case States.ThrowDice:
-			ThrowDice_Exit();
+
+			// actions
+		case States.Attacking:
+			Attacking_Exit ();
 			break;
-		case States.LaunchAction:
-			LaunchAction_Exit();
+		case States.Fleeing:
+			Fleeing_Exit ();
 			break;
+		case States.Guarding:
+			Guarding_Exit ();
+			break;
+		case States.Charming:
+			Charming_Exit ();
+			break;
+		case States.Eating:
+			Eating_Exit ();
+			break;
+			//
+
 		case States.None:
 			break;
 		}
@@ -644,7 +741,7 @@ public class CombatManager : MonoBehaviour {
 		set {
 			fighting = value;
 
-			PlayerLoot.Instance.InventoryButton.Locked = fighting;
+			PlayerLoot.Instance.InventoryButton.SetActive (!value);
 
 			if (fighting) {
 				

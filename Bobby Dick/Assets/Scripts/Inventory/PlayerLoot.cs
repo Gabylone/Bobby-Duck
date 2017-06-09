@@ -8,10 +8,26 @@ public class PlayerLoot : MonoBehaviour {
 
 	private int selectedMember = 0;
 
+	[Header("Groups")]
 	[SerializeField]
-	private UIButton inventoryButton;
+	private GameObject inventoryButton;
+
+	public GameObject InventoryButton {
+		get {
+			return inventoryButton;
+		}
+	}
+
 	[SerializeField]
 	private GameObject closeButton;
+	[SerializeField]
+	private GameObject crewGroup;
+
+	public GameObject CrewGroup {
+		get {
+			return crewGroup;
+		}
+	}
 
 	public GameObject CloseButton {
 		get {
@@ -19,13 +35,11 @@ public class PlayerLoot : MonoBehaviour {
 		}
 	}
 
+	[Header("Category Contents")]
 	[SerializeField]
 	private CategoryContent inventoryCategoryContent;
 	[SerializeField]
 	private CategoryContent tradeCategoryContent;
-
-	[SerializeField]
-	private Crews.Side targetSide;
 
 	[Header("LootUI")]
 	[SerializeField]
@@ -71,6 +85,9 @@ public class PlayerLoot : MonoBehaviour {
 			++a;
 		}
 
+		crewGroup.SetActive (false);
+		closeButton.SetActive (false);
+
 	}
 
 	#region button action
@@ -86,22 +103,12 @@ public class PlayerLoot : MonoBehaviour {
 		int foodHealth = (int)(lootUI.SelectedItem.value * 1.5f);
 		targetMember.CurrentHunger -= foodHealth;
 
-
-			// ça c'est pour faire en sorte qu'il puisse prendre qu'un bouffe par tour.
-
-//		if (CombatManager.Instance.Fighting) {
-//
-//			inventoryButton.Opened = false;
-//
-//			Close ();
-//
-//			CombatManager.Instance.ChangeState (CombatManager.States.StartTurn);
-//			CardManager.Instance.UpdateCards ();
-//
-//			UpdateMembers ();
-//		}
-
 		RemoveSelectedItem ();
+
+		if ( CombatManager.Instance.Fighting ) {
+			Close ();
+			CombatManager.Instance.NextTurn ();
+		}
 
 	}
 
@@ -182,9 +189,26 @@ public class PlayerLoot : MonoBehaviour {
 
 	#region crew navigator
 	public void Switch () {
+		if (Opened)
+			Close ();
+		else
+			Open (inventoryCategoryContent);
+	}
+	public void Open (CategoryContent categorycontent) {
+		Opened = true;
+		lootUI.Show (categorycontent);
+	}
+	public void Close () {
 
-		lootUI.CategoryContent = inventoryCategoryContent;
-		Opened = !Opened;
+		Opened = false;
+		lootUI.Visible = false;
+
+		if ( CombatManager.Instance.Fighting ) {
+
+			CombatManager.Instance.ChangeState (CombatManager.States.PlayerAction);
+			InventoryButton.SetActive (false);
+
+		}
 	}
 	#endregion
 
@@ -241,12 +265,19 @@ public class PlayerLoot : MonoBehaviour {
 			return opened;
 		}
 		set {
+
 			opened = value;
-			lootUI.Visible = value;
+
+			crewGroup.SetActive (value);
+
+			closeButton.SetActive (value);
+
+			InventoryButton.SetActive (!value);
+
 			MapImage.Instance.MapButton.Opened = false;
-			inventoryButton.Opened = value;
 
 			UpdateMembers ();
+
 			SelectedMemberIndex = 0;
 
 			// set icons
@@ -294,12 +325,6 @@ public class PlayerLoot : MonoBehaviour {
 	public CategoryContent TradeCategoryContent {
 		get {
 			return tradeCategoryContent;
-		}
-	}
-
-	public UIButton InventoryButton {
-		get {
-			return inventoryButton;
 		}
 	}
 

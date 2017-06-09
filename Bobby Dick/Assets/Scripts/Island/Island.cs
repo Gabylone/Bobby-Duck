@@ -56,7 +56,7 @@ public class Island : MonoBehaviour {
 
 		if (onIslandChunk) {
 			transform.localPosition = MapData.Instance.currentChunk.IslandData.PositionOnScreen;
-			GetComponentInChildren<SpriteRenderer> ().sprite = sprites [MapData.Instance.currentChunk.IslandData.spriteID];
+			GetComponentInChildren<Image> ().sprite = sprites [MapData.Instance.currentChunk.IslandData.spriteID];
 		} else {
 			transform.localPosition = new Vector3 (10000f, 0, 0);
 		}

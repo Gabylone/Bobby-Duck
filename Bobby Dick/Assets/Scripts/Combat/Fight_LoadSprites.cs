@@ -97,11 +97,6 @@ public class Fight_LoadSprites : MonoBehaviour {
 
 	public void UpdateOrder (int fighterIndex)
 	{
-		if (allSprites != null)
-			print (allSprites);
-		else
-			print ("NOOOO : " + fighterIndex  + " : : :: : " + GetComponentInParent<Fighter>().CrewMember.Side);
-		
 		foreach ( SpriteRenderer sprite in allSprites ) {
 			sprite.sortingOrder += 11 * (fighterIndex+1);
 		}

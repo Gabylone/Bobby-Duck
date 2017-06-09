@@ -33,18 +33,15 @@ public class OtherLoot : MonoBehaviour {
 
 	#region trade
 	public void StartTrade () {
-
 			// player loot ui
-		playerLootUI.CategoryContent = PlayerLoot.Instance.TradeCategoryContent;
+
+		PlayerLoot.Instance.Open(PlayerLoot.Instance.TradeCategoryContent);
 		playerLootUI.Visible = true;
 		playerLootUI.UpdateActionButton (0);
-
-		PlayerLoot.Instance.Opened = true;
-		PlayerLoot.Instance.InventoryButton.Locked = true;
+		PlayerLoot.Instance.InventoryButton.SetActive (false);
 		PlayerLoot.Instance.CloseButton.SetActive (false);
 
-		otherLootUI.CategoryContent = category_TradeContent;
-		otherLootUI.Visible = true;
+		otherLootUI.Show (category_TradeContent);
 		otherLootUI.UpdateActionButton(0);
 
 		trading = true;
@@ -62,8 +59,7 @@ public class OtherLoot : MonoBehaviour {
 
 		SoundManager.Instance.PlaySound (lootSound);
 
-		otherLootUI.CategoryContent = category_OtherLootContent;
-		otherLootUI.Visible = true;
+		otherLootUI.Show (category_OtherLootContent);
 		otherLootUI.UpdateActionButton(0);
 //
 //		PlayerLoot.Instance.ActionGroup.UpdateButtons (ActionGroup.ButtonType.Throw);
@@ -113,9 +109,8 @@ public class OtherLoot : MonoBehaviour {
 
 		trading = false;
 
-		PlayerLoot.Instance.InventoryButton.Locked = false;
+		PlayerLoot.Instance.InventoryButton.SetActive (true);
 		PlayerLoot.Instance.CloseButton.SetActive (true);
-		PlayerLoot.Instance.InventoryButton.Opened = false;
 		PlayerLoot.Instance.Opened = false;
 
 		if ( StoryLauncher.Instance.PlayingStory ) {

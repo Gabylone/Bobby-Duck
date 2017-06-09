@@ -2,8 +2,14 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Combat\CombatManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\Fight\Fighter.cs" Line="481" Column="3" />
-      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="489" Column="31" />
+      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="614" Column="12" />
+      <File FileName="Assets\Scripts\Island\Island.cs" Line="84" Column="3" />
+      <File FileName="Assets\Scripts\Fight\Fighter.cs" Line="239" Column="29" />
+      <File FileName="Assets\Scripts\Inventory\PlayerLoot.cs" Line="211" Column="4" />
+      <File FileName="Assets\Scripts\Inventory\LootUI.cs" Line="164" Column="1" />
+      <File FileName="Assets\Scripts\Combat\Fight_LoadSprites.cs" Line="100" Column="3" />
+      <File FileName="Assets\Scripts\Transition\UIButton.cs" Line="107" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\OtherLoot.cs" Line="114" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
