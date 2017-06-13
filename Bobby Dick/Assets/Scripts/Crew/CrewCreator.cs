@@ -282,6 +282,11 @@ public class MemberID {
 	public int cha = 1;
 	public int con = 1;
 
+//	public int str { get { return str; } set { str = Mathf.Clamp(value,0,7); } }
+//	public int dex { get { return str; } set { str = Mathf.Clamp(value,0,7); } }
+//	public int cha { get { return str; } set { str = Mathf.Clamp(value,0,7); } }
+//	public int con { get { return str; } set { str = Mathf.Clamp(value,0,7); } }
+
 		// icon index
 	public int bodyColorID = 0;
 

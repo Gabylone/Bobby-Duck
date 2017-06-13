@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[System.Serializable]
 public class PlayerBoatInfo : BoatInfo {
 
 	public static PlayerBoatInfo Instance;
@@ -15,8 +16,6 @@ public class PlayerBoatInfo : BoatInfo {
 		Instance = this;
 
 		base.Init ();
-
-		NavigationManager.Instance.EnterNewChunk += UpdatePosition;
 
 		PosX = MapData.Instance.homeIslandXPos;
 		PosY = MapData.Instance.homeIslandYPos;

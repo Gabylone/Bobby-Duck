@@ -29,6 +29,17 @@ public class CrewManager : MonoBehaviour {
 	[SerializeField]
 	private Vector3[] crewDecals = new Vector3 [2] { new Vector3(0.3f,0f),new Vector3(0f, 0.35f)};
 
+	void Start () {
+		NavigationManager.Instance.EnterNewChunk += AddToStates;
+	}
+
+	void AddToStates ()
+	{
+		foreach (CrewMember member in CrewMembers) {
+			member.AddToStates ();
+		}
+	}
+
 	#region crew placement
 	public void HideCrew () {
 		foreach (CrewMember member in crewMembers) {
@@ -95,14 +106,8 @@ public class CrewManager : MonoBehaviour {
 		crewMembers.Remove (member);
 
 		if ( CrewMembers.Count == 0 ) {
-			if ( side == Crews.Side.Player ) {
-				if (CombatManager.Instance.Fighting) {
-					CombatManager.Instance.fightLost = true;
-				} else {
-					GameManager.Instance.GameOver ();
-				}
-			} else {
-				CombatManager.Instance.fightWon = true;
+			if (CombatManager.Instance.Fighting == false) {
+				GameManager.Instance.GameOver ();
 			}
 		}
 	}

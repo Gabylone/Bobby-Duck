@@ -235,10 +235,11 @@ public class Fighter : MonoBehaviour {
 		Animator.SetBool ("dead", true);
 		infoButton.SetActive (false);
 
+		CombatManager.Instance.currentMember.AddXP (CrewMember.Level * 25);
+
 			// combat flow
 		CombatManager.Instance.DeleteFighter (this);
 
-		CombatManager.Instance.currentMember.AddXP (CrewMember.Level * 25);
 		CrewMember.Kill ();
 
 		CombatManager.Instance.NextTurn ();
@@ -318,8 +319,6 @@ public class Fighter : MonoBehaviour {
 
 	#region hit
 	public virtual void hit_Start () {
-
-		animator.speed = 1 + crewMember.Dexterity / 10;
 
 		animator.SetTrigger ( "hit" );
 		animator.SetInteger ("hitType", Random.Range (0,2));

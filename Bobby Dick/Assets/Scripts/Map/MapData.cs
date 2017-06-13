@@ -6,16 +6,14 @@ public class MapData
 {
 	public static MapData Instance;
 
-	public Chunk[,] chunks;
+	public int[] 	clueIslandsXPos;
+	public int[] 	clueIslandsYPos;
 
-	public int[] clueIslandsXPos;
-	public int[] clueIslandsYPos;
+	public int 		treasureIslandXPos = 0;
+	public int 		treasureIslandYPos = 0;
 
-	public int treasureIslandXPos = 0;
-	public int treasureIslandYPos = 0;
-
-	public int homeIslandXPos = 0;
-	public int homeIslandYPos = 0;
+	public int 		homeIslandXPos = 0;
+	public int 		homeIslandYPos = 0;
 
 	public MapData () {
 		Instance = this;
@@ -25,10 +23,11 @@ public class MapData
 
 		Instance = this;
 
-		chunks = new Chunk[mapScale, mapScale];
+		MapGenerator.Instance.Chunks = new Chunk[mapScale,mapScale];
+
 		for (int x = 0; x < mapScale; x++) {
 			for (int y = 0; y < mapScale; y++) {
-				chunks [x, y] = new Chunk (x,y);
+				MapGenerator.Instance.Chunks [x, y] = new Chunk (x,y);
 			}
 		}
 
@@ -41,26 +40,26 @@ public class MapData
 			clueIslandsXPos[i] = MapGenerator.Instance.RandomX;
 			clueIslandsYPos[i] = MapGenerator.Instance.RandomY;
 
-			chunks 	[clueIslandsXPos[i], clueIslandsYPos[i]].IslandData = new IslandData(clueIslandsXPos[i],clueIslandsYPos[i]);
+			MapGenerator.Instance.Chunks 	[clueIslandsXPos[i], clueIslandsYPos[i]].IslandData = new IslandData(clueIslandsXPos[i],clueIslandsYPos[i]);
 		}
 
 		// TREASURE
 		treasureIslandXPos = MapGenerator.Instance.RandomX;
 		treasureIslandYPos = MapGenerator.Instance.RandomY;
 
-		chunks 	[treasureIslandXPos, treasureIslandXPos].IslandData = new IslandData(treasureIslandXPos, treasureIslandXPos);
+		MapGenerator.Instance.Chunks 	[treasureIslandXPos, treasureIslandXPos].IslandData = new IslandData(treasureIslandXPos, treasureIslandXPos);
 
 		// HOME
 		homeIslandXPos = MapGenerator.Instance.RandomX;
 		homeIslandYPos = MapGenerator.Instance.RandomY;
 
-		chunks 	[homeIslandXPos, homeIslandYPos].IslandData = new IslandData(homeIslandXPos, homeIslandYPos);
+		MapGenerator.Instance.Chunks 	[homeIslandXPos, homeIslandYPos].IslandData = new IslandData(homeIslandXPos, homeIslandYPos);
 
 	}
 
 	public Chunk currentChunk {
 		get {
-			return chunks[PlayerBoatInfo.Instance.PosX , PlayerBoatInfo.Instance.PosY];
+			return MapGenerator.Instance.Chunks[PlayerBoatInfo.Instance.PosX , PlayerBoatInfo.Instance.PosY];
 		}
 	}
 

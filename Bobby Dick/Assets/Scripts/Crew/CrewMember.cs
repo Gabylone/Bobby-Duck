@@ -64,7 +64,6 @@ public class CrewMember {
 		SetEquipment (EquipmentPart.Clothes, 	ItemLoader.Instance.getItem (ItemCategory.Clothes, memberID.clothesID));
 
 		// set state delegate
-		NavigationManager.Instance.EnterNewChunk += AddToStates;
 
 	}
 

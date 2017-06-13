@@ -124,7 +124,6 @@
      <Compile Include="Assets\Scripts\Treasure\ClueManager.cs" />
      <Compile Include="Assets\SetOrder.cs" />
      <Compile Include="Assets\StickToRectTransform.cs" />
-     <None Include="Assets\GameSaveData2.xml" />
      <None Include="Assets\GameSaveData1.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

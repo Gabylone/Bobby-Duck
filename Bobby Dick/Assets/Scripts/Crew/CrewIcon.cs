@@ -88,10 +88,16 @@ public class CrewIcon : MonoBehaviour {
 	public void UpdateIcon () {
 
 		if (currentPlacingType == Crews.PlacingType.Map) {
+			
 			float f = ((float)member.CurrentHunger / (float)member.MaxState);
+
+			if (hungerImage == null || !hungerImage)
+				print ("merde pourqoiy'a pas d'image...");
+
 			hungerImage.fillAmount = f;
 
 			hungerObject.SetActive (f > 0.65f);
+
 		} else {
 			hungerObject.SetActive (false);
 		}

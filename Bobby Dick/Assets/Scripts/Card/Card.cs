@@ -54,12 +54,10 @@ public class Card : MonoBehaviour {
 	[SerializeField]
 	private Animator[] stateAnimators;
 
-	void Awake () {
-		Init ();
-	}
-
-	public void Init () {
+	public virtual void Start () {
+		
 		_transform = cardObject.GetComponent<Transform>();
+
 		HideCard ();
 	}
 

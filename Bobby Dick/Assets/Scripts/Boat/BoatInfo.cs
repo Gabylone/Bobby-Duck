@@ -14,7 +14,7 @@ public class BoatInfo {
 	public Directions currentDirection;
 
 	public BoatInfo () {
-		Init ();
+		
 	}
 
 	public virtual void Init () {

@@ -47,6 +47,11 @@ public class MapImage : MonoBehaviour {
 		NavigationManager.Instance.EnterNewChunk += UpdateBoatSurroundings;
 	}
 
+	public void Reset ()
+	{
+		
+	}
+
 	public void InitImage () {
 
 		Texture2D texture = new Texture2D (MapGenerator.Instance.MapScale, MapGenerator.Instance.MapScale);
@@ -55,7 +60,7 @@ public class MapImage : MonoBehaviour {
 
 			for (int y = 0; y < MapGenerator.Instance.MapScale; ++y ) {
 
-				Chunk chunk = MapData.Instance.chunks [x, y];
+				Chunk chunk = MapGenerator.Instance.Chunks [x, y];
 
 				Color color = (chunk.state == State.UndiscoveredIsland ) ? Color.yellow : Color.blue;
 
@@ -87,7 +92,7 @@ public class MapImage : MonoBehaviour {
 
 		int mapScale = MapGenerator.Instance.MapScale;
 
-		Chunk previousChunk = MapData.Instance.chunks [PlayerBoatInfo.Instance.PreviousPosX, PlayerBoatInfo.Instance.PreviousPosY];
+		Chunk previousChunk = MapGenerator.Instance.Chunks [PlayerBoatInfo.Instance.PreviousPosX, PlayerBoatInfo.Instance.PreviousPosY];
 		SetPixel (texture,previousChunk.x, previousChunk.y, getChunkColor (previousChunk));
 
 		for (int x = -shipRange; x <= shipRange; ++x ) {
@@ -101,7 +106,7 @@ public class MapImage : MonoBehaviour {
 					pY < mapScale && pY >= 0) {
 
 
-					Chunk chunk = MapData.Instance.chunks [pX, pY];
+					Chunk chunk = MapGenerator.Instance.Chunks [pX, pY];
 
 					Color color = Color.red;
 

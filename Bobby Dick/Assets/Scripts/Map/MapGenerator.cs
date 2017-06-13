@@ -20,8 +20,17 @@ public class MapGenerator : MonoBehaviour {
 
 	public int islandID;
 
-	[SerializeField]
 	private MapData mapData;
+	private Chunk[,] chunks;
+
+	public Chunk[,] Chunks {
+		get {
+			return chunks;
+		}
+		set {
+			chunks = value;
+		}
+	}
 
 	void Awake () {
 		Instance = this;
@@ -38,7 +47,7 @@ public class MapGenerator : MonoBehaviour {
 
 		for ( int x = 0; x < mapScale; ++x ) {
 			for ( int y = 0; y < mapScale; ++y )
-				MapData.Instance.chunks [x, y].state = State.UndiscoveredSea;
+				Chunks [x, y].state = State.UndiscoveredSea;
 		}
 
 		int islandAmount = Mathf.RoundToInt (mapScale / 10);
@@ -54,8 +63,8 @@ public class MapGenerator : MonoBehaviour {
 				if ( isInNoMansSea == false ) {
 					int x = Random.Range ( 0, mapScale );
 
-					if (MapData.Instance.chunks[x,y].state == State.UndiscoveredSea) {
-						MapData.Instance.chunks [x, y].IslandData = new IslandData(x,y);
+					if (Chunks[x,y].state == State.UndiscoveredSea) {
+						Chunks [x, y].IslandData = new IslandData(x,y);
 					}
 				}
 			}
@@ -86,11 +95,44 @@ public class MapGenerator : MonoBehaviour {
 	#region load & save
 	public void LoadIslandsData () {
 		MapData.Instance = new MapData ();
+
 		MapData.Instance = SaveManager.Instance.CurrentData.mapData;
+
+		Chunks = fromChunkArray (SaveManager.Instance.CurrentData.chunkArray);
 	}
 
 	public void SaveIslandsData () {
 		SaveManager.Instance.CurrentData.mapData = MapData.Instance;
+		SaveManager.Instance.CurrentData.chunkArray = toChunkArray (Chunks);
+
+	}
+	public Chunk[][] toChunkArray ( Chunk[,] bufferChunks ) {
+
+		Chunk[][] tmpChunks = new Chunk[MapGenerator.Instance.MapScale][];
+		for (int i = 0; i < MapGenerator.Instance.MapScale; i++) {
+			tmpChunks[i] = new Chunk[MapGenerator.Instance.MapScale];
+		}
+
+		for (int x = 0; x < MapGenerator.Instance.MapScale; x++) {
+			for (int y = 0; y < MapGenerator.Instance.MapScale; y++) {
+				tmpChunks [x] [y] = bufferChunks [x, y];
+			}
+		}
+
+		return tmpChunks;
+	}
+
+	public Chunk[,] fromChunkArray ( Chunk[][] bufferChunks ) {
+
+		Chunk[,] tmpChunks = new Chunk[MapGenerator.Instance.MapScale,MapGenerator.Instance.MapScale];
+
+		for (int x = 0; x < MapGenerator.Instance.MapScale; x++) {
+			for (int y = 0; y < MapGenerator.Instance.MapScale; y++) {
+				tmpChunks [x,y] = bufferChunks [x][y];
+			}
+		}
+
+		return tmpChunks;
 	}
 	#endregion
 

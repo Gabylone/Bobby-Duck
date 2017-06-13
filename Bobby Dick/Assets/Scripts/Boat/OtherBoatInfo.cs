@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class OtherBoatInfo : BoatInfo {
 
 	private float changeOfChangeDirection = 0.2f;
@@ -22,7 +23,6 @@ public class OtherBoatInfo : BoatInfo {
 		PosX = Random.Range ( 0 , MapGenerator.Instance.MapScale );
 		PosY = Random.Range ( 0 , MapGenerator.Instance.MapScale );
 
-		NavigationManager.Instance.EnterNewChunk += UpdatePosition;
 	}
 
 	public override void UpdatePosition ()

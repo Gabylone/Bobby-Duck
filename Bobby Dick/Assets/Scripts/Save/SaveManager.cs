@@ -31,47 +31,49 @@ public class SaveManager : MonoBehaviour
 
 	IEnumerator LoadGameCoroutine () {
 
-		Transitions.Instance.ScreenTransition.Switch ();
-
-		yield return new WaitForEndOfFrame ();
+		Transitions.Instance.ScreenTransition.Fade = true;
+		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
 
 		// player crew
 		Crews.Instance.LoadPlayerCrew ();
 
-		yield return new WaitForEndOfFrame ();
-
 		// boat position
 
-		yield return new WaitForEndOfFrame ();
+		PlayerBoatInfo.Instance = CurrentData.playerBoatInfo;
+		Boats.Instance.OtherBoatInfos = CurrentData.otherBoatInfos;
 
 		// island ids
 		// island datas
 		// special island positions
 		MapGenerator.Instance.LoadIslandsData ();
 
-		yield return new WaitForEndOfFrame ();
-
 		// player loot
 		LootManager.Instance.setLoot (Crews.Side.Player, currentData.playerLoot);
-
-		yield return new WaitForEndOfFrame ();
 
 		// gold
 		GoldManager.Instance.GoldAmount = CurrentData.playerGold;
 
-		yield return new WaitForEndOfFrame ();
-
 		WeatherManager.Instance.LoadWeather ();
 
-		Transitions.Instance.ScreenTransition.Switch ();
+		MapImage.Instance.InitImage ();
+		NavigationManager.Instance.ChangeChunk (Directions.None);
+
+		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
+		Transitions.Instance.ScreenTransition.Fade = false;
+
+		print ("loading ?");
 
 	}
 	public void SaveGame (int index) {
+
+		print ("saving! ");
 
 		// player crew
 		Crews.Instance.SavePlayerCrew ();
 
 		// save boats
+		currentData.playerBoatInfo = PlayerBoatInfo.Instance;
+		currentData.otherBoatInfos = Boats.Instance.OtherBoatInfos;
 
 		// island ids
 		// island datas
@@ -85,6 +87,7 @@ public class SaveManager : MonoBehaviour
 		CurrentData.playerGold = GoldManager.Instance.GoldAmount;
 
 		WeatherManager.Instance.SaveWeather ();
+
 
 		SaveTool.Instance.Save (index);
 	}
@@ -100,6 +103,7 @@ public class SaveManager : MonoBehaviour
 
 }
 
+
 //[System.Serializable]
 public class GameData
 {
@@ -109,8 +113,10 @@ public class GameData
 	// islands
 	public MapData mapData;
 
-	public int boatPosX = 0;
-	public int boatPosY = 0;
+	public Chunk[][] chunkArray;
+
+	public PlayerBoatInfo playerBoatInfo;
+	public OtherBoatInfo[] otherBoatInfos;
 
 	public Loot playerLoot;
 

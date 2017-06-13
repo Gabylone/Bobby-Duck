@@ -112,6 +112,14 @@ public class CombatManager : MonoBehaviour {
 			updateState ();
 			timeInState += Time.deltaTime;
 		}
+
+		if ( Input.GetKeyDown(KeyCode.M) ) {
+			currEnemyFighters [0].Die ();
+		}
+
+		if ( Input.GetKeyDown(KeyCode.L) ) {
+			currPlayerFighters [0].Die ();
+		}
 	}
 	#region combat beginning
 	private void CombatStart_Start () {
@@ -185,8 +193,6 @@ public class CombatManager : MonoBehaviour {
 	private void StartTurn_Exit () {}
 	public void NextTurn () {
 
-		print ("next turn");
-
 		CheckMembers ();
 
 		if (currEnemyFighters.Count == 0) {
@@ -212,6 +218,7 @@ public class CombatManager : MonoBehaviour {
 	{
 		if ( currPlayerFighters.Count == 0 ) {
 			if (Crews.getCrew (Crews.Side.Player).CrewMembers.Count == 0) {
+				StopFight ();
 				GameManager.Instance.GameOver (1);
 			} else {
 				Escape ();
@@ -221,8 +228,7 @@ public class CombatManager : MonoBehaviour {
 
 		if ( currEnemyFighters.Count == 0 ) {
 			if (Crews.getCrew (Crews.Side.Enemy).CrewMembers.Count == 0) {
-				CombatManager.Instance.WinFight (1);
-				GameManager.Instance.GameOver (1);
+				WinFight ();
 			} else {
 				Escape ();
 			}
@@ -545,10 +551,17 @@ public class CombatManager : MonoBehaviour {
 	#endregion
 
 	#region fight end
+	void StopFight ()
+	{
+		Crews.enemyCrew.Hide ();
+		ChangeState (States.None);
+	}
 	public void WinFight ( float delay ) {
 		Invoke("WinFight",delay);
 	}
 	public void WinFight () {
+
+		StopFight ();
 
 		int po = Crews.enemyCrew.ManagedCrew.Value * (int)Random.Range ( 10 , 15 );
 		string phrase = "Il avait " + po + " pièces d'or";
@@ -564,18 +577,17 @@ public class CombatManager : MonoBehaviour {
 	void ShowLoot () {
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(ItemLoader.allCategories));
 		OtherLoot.Instance.StartLooting ();
-
 	}
 
 	public void Escape () {
 
-		DialogueManager.Instance.SetDialogue ("Espece de lache !", currentFighter.TargetFighter.CrewMember );
-
-		SoundManager.Instance.PlaySound (escapeSound);
+		StopFight ();
 
 		Fighting = false;
 
 		StoryLauncher.Instance.PlayingStory = false;
+
+		SoundManager.Instance.PlaySound (escapeSound);
 
 	}
 	#endregion
@@ -593,15 +605,12 @@ public class CombatManager : MonoBehaviour {
 			}
 		}
 	}
-	private void HideFighters () {
-		foreach ( Crews.Side side in Crews.Instance.Sides ) {
-			Crews.getCrew(side).UpdateCrew ( Crews.PlacingType.Map );
+	private void HideFighters (Crews.Side side) {
 
-			Fighter[] fighters = side == Crews.Side.Player ? initPlayerFighters : initEnemyFighters;
+		Fighter[] fighters = side == Crews.Side.Player ? initPlayerFighters : initEnemyFighters;
 
-			for (int fighterIndex = 0; fighterIndex < Crews.getCrew(side).CrewMembers.Count; fighterIndex++) {
-				fighters [fighterIndex].Hide ();
-			}
+		for (int fighterIndex = 0; fighterIndex < Crews.getCrew(side).CrewMembers.Count; fighterIndex++) {
+			fighters [fighterIndex].Hide ();
 		}
 	}
 	public void DeleteFighter (Fighter fighter) {
@@ -676,6 +685,7 @@ public class CombatManager : MonoBehaviour {
 			//
 
 		case States.None:
+			updateState = null;
 			break;
 		}
 	}
@@ -749,12 +759,11 @@ public class CombatManager : MonoBehaviour {
 
 			} else {
 
-				HideFighters ();
+				HideFighters (Crews.Side.Player);
 
 				Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
-				Crews.enemyCrew.Hide ();
+				Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 
-				updateState = null;
 			}
 		}
 	}

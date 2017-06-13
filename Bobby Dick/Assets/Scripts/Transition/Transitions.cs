@@ -46,11 +46,11 @@ public class Transitions : MonoBehaviour {
 		if ( fadeOther )
 			Crews.enemyCrew.HideCrew ();
 
-		ScreenTransition.Switch ();
+		ScreenTransition.Fade = true;
 
 		yield return new WaitForSeconds (ScreenTransition.Duration );
 
-		ScreenTransition.Switch ();
+		ScreenTransition.Fade = false;
 
 		yield return new WaitForSeconds (ScreenTransition.Duration );
 

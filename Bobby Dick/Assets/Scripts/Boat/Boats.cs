@@ -5,10 +5,10 @@ public class Boats : MonoBehaviour {
 
 	public static Boats Instance;
 
+	[SerializeField]
 	private PlayerBoatInfo playerBoatInfo;
-
+	[SerializeField]
 	private OtherBoatInfo[] otherBoatInfos;
-	private OtherBoatInfo otherBoatInfo;
 
 	[Header("Boats")]
 	[SerializeField]
@@ -34,6 +34,15 @@ public class Boats : MonoBehaviour {
 		Instance = this;
 	}
 
+	void UpdateBoatPosition ()
+	{
+		foreach (OtherBoatInfo boat in OtherBoatInfos) {
+			boat.UpdatePosition ();
+		}
+
+		playerBoatInfo.UpdatePosition ();
+	}
+
 	void Update (){
 		
 		if ( timer >= timeToMove) {
@@ -47,14 +56,17 @@ public class Boats : MonoBehaviour {
 	public void Init () {
 
 		playerBoatInfo = new PlayerBoatInfo ();
+		playerBoatInfo.Init ();
 		playerBoat.BoatInfo = playerBoatInfo;
 
 		otherBoatInfos = new OtherBoatInfo[otherBoatAmount];
 		for (int i = 0; i < otherBoatInfos.Length; i++) {
 			otherBoatInfos [i] = new OtherBoatInfo ();
+			otherBoatInfos [i].Init ();
 		}
 
 		NavigationManager.Instance.EnterNewChunk += HideBoat;
+		NavigationManager.Instance.EnterNewChunk += UpdateBoatPosition;
 	}
 
 	void MoveBoats ()
@@ -76,7 +88,6 @@ public class Boats : MonoBehaviour {
 	public void ShowBoat (OtherBoatInfo boatInfo)
 	{
 		otherBoat.OtherBoatInfo = boatInfo;
-		otherBoatInfo = boatInfo;
 
 		otherBoat.UpdatePositionOnScreen ();
 
@@ -101,14 +112,8 @@ public class Boats : MonoBehaviour {
 		get {
 			return otherBoatInfos;
 		}
-	}
-
-	public OtherBoatInfo OtherBoatInfo {
-		get {
-			return otherBoatInfo;
-		}
 		set {
-			otherBoatInfo = value;
+			otherBoatInfos = value;
 		}
 	}
 

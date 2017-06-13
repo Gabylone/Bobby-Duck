@@ -77,30 +77,32 @@ public class SaveMenu : MonoBehaviour {
 	#region buttons
 	public void UpdateButtons ()
 	{
-		int index = 0;
+		int buttonIndex = 0;
+		int loadIndex = 1;
 
 		foreach (Button button in saveButtons) {
 
-			if (SaveTool.Instance.FileExists (index+1)) {
+			if (SaveTool.Instance.FileExists (loadIndex)) {
 
-				GameData gameLoad = SaveTool.Instance.Load (index+1);
+				GameData gameLoad = SaveTool.Instance.Load (loadIndex);
 
 				string captainName = gameLoad.playerCrew.MemberIDs[0].male ? CrewCreator.Instance.MaleNames [gameLoad.playerCrew.MemberIDs [0].nameID] : CrewCreator.Instance.FemaleNames [gameLoad.playerCrew.MemberIDs [0].nameID];
-				saveButtons [index].GetComponentInChildren<Text> ().text = captainName;
-				saveButtons [index].GetComponentInChildren<Text> ().color = Color.black;
-				saveButtons[index].image.color = Color.white;
-				saveButtons[index].interactable = true;
+				saveButtons [buttonIndex].GetComponentInChildren<Text> ().text = captainName;
+				saveButtons [buttonIndex].GetComponentInChildren<Text> ().color = Color.black;
+				saveButtons[buttonIndex].image.color = Color.white;
+				saveButtons[buttonIndex].interactable = true;
 
 			} else {
 
-				saveButtons [index].GetComponentInChildren<Text> ().text = saving ? "?" : "aucun";
-				saveButtons [index].GetComponentInChildren<Text> ().color = Color.white;
-				saveButtons[index].image.color = Color.black;
-				saveButtons[index].interactable = saving;
+				saveButtons [buttonIndex].GetComponentInChildren<Text> ().text = saving ? "?" : "aucun";
+				saveButtons [buttonIndex].GetComponentInChildren<Text> ().color = Color.white;
+				saveButtons[buttonIndex].image.color = Color.black;
+				saveButtons[buttonIndex].interactable = saving;
 
 			}
 
-			++index;
+			++buttonIndex;
+			++loadIndex;
 		}
 	}
 

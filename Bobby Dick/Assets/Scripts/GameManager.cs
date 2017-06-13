@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour {
 
 		Island.Instance.Init ();
 
-
 	}
 
 	public void Restart () {

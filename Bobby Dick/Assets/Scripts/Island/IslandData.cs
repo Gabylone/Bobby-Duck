@@ -9,13 +9,12 @@ public class IslandData {
 
 	public int spriteID = 0;
 
-	public int worldPositionX = 0;
-	public int worldPositionY = 0;
+	public Vector2 positionOnScreen;
 
+	[SerializeField]
 	private StoryHandler storyHandler;
 
 	private Vector2 appearRange = new Vector2 ( 241f , 125f );
-	private Vector2 positionOnScreen;
 
 	public IslandData ()
 	{
@@ -24,8 +23,6 @@ public class IslandData {
 
 	public IslandData (int x , int y)
 	{
-		worldPositionX = x;
-		worldPositionY = y;
 
 		storyHandler = new StoryHandler (x,y);
 		name = storyHandler.Story.name;
@@ -39,12 +36,6 @@ public class IslandData {
 		positionOnScreen = new Vector2 (islandPosX, islandPosY);
 
 
-	}
-
-	public Vector2 PositionOnScreen {
-		get {
-			return positionOnScreen;
-		}
 	}
 
 	public StoryHandler StoryHandler {

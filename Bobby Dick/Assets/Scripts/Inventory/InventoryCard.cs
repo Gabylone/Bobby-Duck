@@ -38,11 +38,11 @@ public class InventoryCard : Card {
 	[SerializeField]
 	private Image constitutionImage;
 
-	void Start () {
-		
-		itemButtons = itemParent.GetComponentsInChildren<ItemButton> ();
+	public override void Start ()
+	{
+		base.Start ();
 
-		Init ();
+		itemButtons = itemParent.GetComponentsInChildren<ItemButton> ();
 
 		initScale = backGroundTransform.sizeDelta.y;
 
@@ -54,10 +54,6 @@ public class InventoryCard : Card {
 
 		Deployed = false;
 
-	}
-
-	void Update () {
-		
 	}
 
 	public void Select () {
@@ -72,6 +68,8 @@ public class InventoryCard : Card {
 
 		base.UpdateMember (member);
 
+
+
 		strenghtImage.GetComponentInChildren<Text> ().text 		= member.Strenght.ToString();
 		dexterityImage.GetComponentInChildren<Text> ().text 	= member.Dexterity.ToString();
 		charismaImage.GetComponentInChildren<Text> ().text 		= member.Charisma.ToString();
@@ -82,10 +80,10 @@ public class InventoryCard : Card {
 //		charismaImage.GetComponentInChildren<Animator> ().SetBool 		("Warning" , member.LevelsUp > 0);
 //		constitutionImage.GetComponentInChildren<Animator> ().SetBool 	("Warning" , member.LevelsUp > 0);
 
-		strenghtImage.GetComponentInChildren<Button> ().interactable 		= member.LevelsUp > 0;
-		dexterityImage.GetComponentInChildren<Button> ().interactable 		= member.LevelsUp > 0;
-		charismaImage.GetComponentInChildren<Button> ().interactable 		= member.LevelsUp > 0;
-		constitutionImage.GetComponentInChildren<Button> ().interactable 	= member.LevelsUp > 0;
+		strenghtImage.GetComponentInChildren<Button> ().interactable 		= member.LevelsUp > 0 && member.Strenght < 7;
+		dexterityImage.GetComponentInChildren<Button> ().interactable 		= member.LevelsUp > 0 && member.Dexterity < 7;
+		charismaImage.GetComponentInChildren<Button> ().interactable 		= member.LevelsUp > 0 && member.Charisma < 7;
+		constitutionImage.GetComponentInChildren<Button> ().interactable 	= member.LevelsUp > 0 && member.Constitution  < 7;
 
 	}
 
@@ -134,10 +132,7 @@ public class InventoryCard : Card {
 
 		int a = 0;
 		foreach (ItemButton itemButton in itemButtons) {
-
-
 			itemButton.Enabled = false;
-
 			++a;
 		}
 
