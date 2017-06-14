@@ -104,7 +104,7 @@ public class CrewMember {
 
 		if (lvl > Level) {
 
-			DialogueManager.Instance.SetDialogue ("Je sais pas porter ça moi...", this);
+			DialogueManager.Instance.SetDialogueTimed ("Je sais pas porter ça moi...", this);
 
 			return false;
 		}
@@ -123,7 +123,7 @@ public class CrewMember {
 
 		if ( CurrentHunger >= maxState ) {
 
-			DialogueManager.Instance.SetDialogue ("J'ai faim !", this);
+			DialogueManager.Instance.SetDialogueTimed ("J'ai faim !", this);
 
 			Health -= hungerDamage;
 
@@ -292,12 +292,10 @@ public class CrewMember {
 	#endregion
 
 	#region properties
+	private int maxHealth = 100;
 	public int MaxHealth {
 		get {
-			return memberID.maxHP + (memberID.con*10);
-		}
-		set {
-			memberID.maxHP = value;
+			return maxHealth + (memberID.con*10);
 		}
 	}
 

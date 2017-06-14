@@ -13,6 +13,8 @@ public class StoryLoader : MonoBehaviour {
 	private List<Story> homeStories 	= new List<Story> ();
 	private List<Story> boatStories 	= new List<Story> ();
 
+
+
 	private TextAsset[] storyFiles;
 	[SerializeField]
 	private TextAsset functionFile;
@@ -109,7 +111,6 @@ public class StoryLoader : MonoBehaviour {
 
 				foreach (string cellContent in rowContent) {
 					newStory.content.Add (new List<string> ());
-					newStory.contentDecal.Add (new List<int> ());
 				}
 			}
 			else
@@ -122,7 +123,6 @@ public class StoryLoader : MonoBehaviour {
 					}
 
 					newStory.content [collumnIndex].Add (cellContent);
-					newStory.contentDecal [collumnIndex].Add (-1);
 
 					++collumnIndex;
 
@@ -148,38 +148,53 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 
-	#region properties
-	public List<Story> Stories {
-		get {
-			return islandStories;
-		}
-		set {
-			islandStories = value;
-		}
-	}
-	#endregion
-
+	#region random story from position
 	public Story RandomStory (int x , int y) {
+		return IslandStories[RandomStoryIndex (x, y)];
+	}
+	public StoryType GetTypeFromPos (int x, int y)
+	{
+		if (x == MapData.Instance.treasureIslandXPos &&
+			y == MapData.Instance.treasureIslandXPos ) {
+			return StoryType.Treasure;
+		}
 
-			// check if treasure island
+		// check for home island
+		if (x == MapData.Instance.homeIslandXPos &&
+			y == MapData.Instance.homeIslandYPos ) {
+			return StoryType.Home;
+		}
+
+		// check if clue island
+		for( int i = 0; i < ClueManager.Instance.ClueAmount ; ++i ) {
+			if (x == MapData.Instance.clueIslandsXPos[i] &&
+				y == MapData.Instance.clueIslandsYPos[i] ) {
+				return StoryType.Clue;
+			}
+		}
+
+		return StoryType.Island;
+	}
+	public int RandomStoryIndex (int x, int y)
+	{
 		if (x == MapData.Instance.treasureIslandXPos &&
 			y == MapData.Instance.treasureIslandXPos ) {
 
 			if (treasureStories.Count == 0)
 				Debug.LogError ("no treasure stories");
-			
-			return getStoryFromPercentage (treasureStories);
+
+			return getStoryIndexFromPercentage(treasureStories);
 
 		}
 
-			// check for home island
+		// check for home island
 		if (x == MapData.Instance.homeIslandXPos &&
 			y == MapData.Instance.homeIslandYPos ) {
 
 			if (homeStories.Count == 0)
 				Debug.LogError ("no home stories");
-			
-			return getStoryFromPercentage (homeStories);
+
+			return getStoryIndexFromPercentage (homeStories);
 
 		}
 
@@ -191,29 +206,100 @@ public class StoryLoader : MonoBehaviour {
 
 				if (clueStories.Count == 0)
 					Debug.LogError ("no clue stories");
-				
-				return getStoryFromPercentage (clueStories);
+
+				return getStoryIndexFromPercentage (clueStories);
 
 			}
 		}
 
-		return getStoryFromPercentage (islandStories);
-
+		return getStoryIndexFromPercentage (islandStories);
 	}
+	#endregion
 
-	public Story getStoryFromPercentage ( List<Story> stories ) {
+	#region percentage
+	public int getStoryIndexFromPercentage ( StoryType type ) {
+
+		List<Story> stories = new List<Story> ();
+
+		switch (type) {
+		case StoryType.Island:
+			stories =  IslandStories;
+			break;
+		case StoryType.Treasure:
+			stories = TreasureStories;
+			break;
+		case StoryType.Home:
+			stories = HomeStories;
+			break;
+		case StoryType.Clue:
+			stories = ClueStories;
+			break;
+		case StoryType.Boat:
+			stories = BoatStories;
+			break;
+		default:
+			stories = IslandStories;
+			break;
+		}
+
+		return getStoryIndexFromPercentage (stories);
+	}
+	public int getStoryIndexFromPercentage ( List<Story> stories ) {
 
 		float random = Random.value * 100f;
 
+		int a = 0;
+
 		foreach (Story story in stories) {
-			if (random < story.rangeMax && random > story.rangeMin) {
-				return story;
+			if (random < story.rangeMax && random >= story.rangeMin) {
+				return a;
 			}
 
+			++a;
 		}
-		return stories [Random.Range (0,stories.Count)];
+
+//		Debug.LogError ("out of percentage, returning random story index : (random : " + random + ")");
+
+		return Random.Range (0,stories.Count);
+	}
+	#endregion
+	void VisualStory (Story newStory)
+	{
+		float scale = 1f;
+		//
+		GameObject obj = GameObject.CreatePrimitive (PrimitiveType.Cube);
+		obj.transform.localScale = new Vector3 (newStory.freq, 1f, 1f);
+		obj.transform.position = new Vector3 ( minFreq + (newStory.freq/2), kek , 0f );
+		obj.GetComponent<Renderer> ().material.color = Random.ColorHSV ();
+		obj.name = newStory.name;
 	}
 
+	public Story FindByName (string storyName)
+	{
+		return IslandStories[FindIndexByName (storyName)];
+	}
+
+	public int FindIndexByName (string storyName)
+	{
+		int storyIndex = IslandStories.FindIndex (x => x.name == storyName);
+
+		if (storyIndex < 0) {
+			Debug.LogError ("coun't find story /" + storyName + "/, returning first");
+			return 0;
+		}
+
+		return storyIndex;
+	}
+
+	#region story getters
+	public List<Story> IslandStories {
+		get {
+			return islandStories;
+		}
+		set {
+			islandStories = value;
+		}
+	}
 	public List<Story> TreasureStories {
 		get {
 			return treasureStories;
@@ -225,16 +311,16 @@ public class StoryLoader : MonoBehaviour {
 			return boatStories;
 		}
 	}
-
-
-	void VisualStory (Story newStory)
-	{
-		float scale = 1f;
-		//
-		GameObject obj = GameObject.CreatePrimitive (PrimitiveType.Cube);
-		obj.transform.localScale = new Vector3 (newStory.freq, 1f, 1f);
-		obj.transform.position = new Vector3 ( minFreq + (newStory.freq/2), kek , 0f );
-		obj.GetComponent<Renderer> ().material.color = Random.ColorHSV ();
-		obj.name = newStory.name;
+	public List<Story> ClueStories {
+		get {
+			return clueStories;
+		}
 	}
+
+	public List<Story> HomeStories {
+		get {
+			return homeStories;
+		}
+	}
+	#endregion
 }

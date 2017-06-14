@@ -563,7 +563,11 @@ public class CombatManager : MonoBehaviour {
 
 		StopFight ();
 
-		int po = Crews.enemyCrew.ManagedCrew.Value * (int)Random.Range ( 10 , 15 );
+		int po = 0;
+
+		foreach ( CrewMember crewMember in Crews.enemyCrew.CrewMembers )
+			po += crewMember.Level * (int)Random.Range ( 10 , 15 );
+
 		string phrase = "Il avait " + po + " pièces d'or";
 		DialogueManager.Instance.SetDialogue (phrase, CombatManager.Instance.currPlayerFighters[0].dialogueAnchor);
 

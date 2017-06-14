@@ -273,9 +273,6 @@ public class MemberID {
 		// lvl
 	public int lvl 		= 0;
 
-		// hp
-	public int maxHP 	= 0;
-
 		// stats
 	public int str = 1;
 	public int dex = 1;
@@ -297,9 +294,6 @@ public class MemberID {
 	public int beardSpriteID = 0;
 	public int noseSpriteID = 0;
 	public int mouthSpriteID = 0;
-
-	public Color clothColor;
-	public int clothSpriteID = 0;
 
 	public int voiceID = 0;
 
@@ -332,8 +326,6 @@ public class MemberID {
 		}
 
 		lvl = Mathf.Clamp ( lvl , 1 , 10 );
-
-		maxHP 			= CrewCreator.Instance.StartHealth;
 
 		int stats = lvl - 1;
 
@@ -373,11 +365,6 @@ public class MemberID {
 		noseSpriteID 	= Random.Range (0 , CrewCreator.Instance.NoseSprites.Length);
 		mouthSpriteID 	= Random.Range (0 , CrewCreator.Instance.MouthSprites.Length);
 
-
-		int[] clothIDs 	= male ? CrewCreator.Instance.maleClothesID : CrewCreator.Instance.femaleClothesID;
-		clothSpriteID 	= clothIDs [Random.Range (0, clothIDs.Length)];
-		clothColor 		= Random.ColorHSV();
-
 		voiceID 		= Random.Range ( 0 , DialogueManager.Instance.SpeakSounds.Length );
 
 		weaponID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Weapon, lvl);
@@ -410,10 +397,6 @@ public class Crew {
 
 	public bool hostile = false;
 
-	public int InitCount = 0;
-
-	public int Value = 0;
-
 	public int row = 0;
 	public int col = 0;
 
@@ -428,10 +411,7 @@ public class Crew {
 		row = r;
 		col = c;
 
-		InitCount = crewParams.amount;
-
-		InitCount = Mathf.Clamp ( InitCount , 1, InitCount );
-		for (int i = 0; i < InitCount; ++i) {
+		for (int i = 0; i < crewParams.amount; ++i) {
 			MemberID id = new MemberID (crewParams);
 			if (crewParams.overideGenre) {
 				id.male = crewParams.male;
@@ -439,8 +419,6 @@ public class Crew {
 
 			memberIDs.Add (id);
 		}
-		foreach (MemberID mID in MemberIDs)
-			Value += mID.lvl;
 
 	}
 

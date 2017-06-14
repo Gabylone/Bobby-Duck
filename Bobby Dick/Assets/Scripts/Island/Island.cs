@@ -41,9 +41,7 @@ public class Island : MonoBehaviour {
 
 	#region story
 	public void Enter () {
-		StoryReader.Instance.CurrentStoryHandler = MapData.Instance.currentChunk.IslandData.StoryHandler;
-		StoryLauncher.Instance.CurrentStorySource = StoryLauncher.StorySource.island;
-		StoryLauncher.Instance.PlayingStory = true;
+		StoryLauncher.Instance.PlayStory (MapData.Instance.currentChunk.IslandData.storyManager,StoryLauncher.StorySource.island);
 	}
 	#endregion
 
@@ -56,7 +54,7 @@ public class Island : MonoBehaviour {
 
 		if (onIslandChunk) {
 			transform.localPosition = MapData.Instance.currentChunk.IslandData.positionOnScreen;
-			GetComponentInChildren<Image> ().sprite = sprites [MapData.Instance.currentChunk.IslandData.spriteID];
+			GetComponentInChildren<Image> ().sprite = sprites [MapData.Instance.currentChunk.IslandData.SpriteID];
 		} else {
 			transform.localPosition = new Vector3 (10000f, 0, 0);
 		}

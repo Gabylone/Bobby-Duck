@@ -222,7 +222,8 @@ public class LootUI : MonoBehaviour {
 			Debug.LogError ("LONGUEUR DE LA LISTE : " + CategoryContent.interactable.Length);
 
 		}
-		actionGroup.gameObject.SetActive (CategoryContent.interactable[currentCat] && SelectedItems.Length > 0);
+		bool enoughItemsOnPage = SelectedItems.Length > CurrentPage * ItemPerPage;
+		actionGroup.gameObject.SetActive (CategoryContent.interactable[currentCat] && enoughItemsOnPage);
 			
 			// set group position
 		Vector3 targetPos = actionGroup.transform.position;

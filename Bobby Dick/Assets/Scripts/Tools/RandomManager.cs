@@ -54,14 +54,14 @@ public class RandomManager : MonoBehaviour {
 		if (overrideRandom) {
 			decal = Mathf.Clamp (targetDecal, 0, 2);
 		} else {
-			if (StoryReader.Instance.SaveDecal > -1) {
-				decal = StoryReader.Instance.SaveDecal;
+			if (StoryReader.Instance.CurrentStoryHandler.GetDecal() > -1) {
+				decal = StoryReader.Instance.CurrentStoryHandler.GetDecal();
 			} else {
 				decal = randomDecal;
 			}
 		}
 
-		StoryReader.Instance.SaveDecal = decal;
+		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);
 
 		StoryReader.Instance.SetDecal (decal);
 
@@ -80,14 +80,14 @@ public class RandomManager : MonoBehaviour {
 		if (overrideRandom) {
 			decal = Mathf.Clamp (targetDecal, 0, range-1);	
 		} else {
-			if (StoryReader.Instance.SaveDecal > -1) {
-				decal = StoryReader.Instance.SaveDecal;
+			if (StoryReader.Instance.CurrentStoryHandler.GetDecal() > -1) {
+				decal = StoryReader.Instance.CurrentStoryHandler.GetDecal();
 			} else {
 				decal = randomDecal;
 			}
 		}
 
-		StoryReader.Instance.SaveDecal = decal;
+		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);
 		StoryReader.Instance.SetDecal (decal);
 
 		StoryReader.Instance.UpdateStory ();

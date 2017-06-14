@@ -459,7 +459,7 @@ public class Fighter : MonoBehaviour {
 
 	public void Speak (string txt)
 	{
-		DialogueManager.Instance.SetDialogue (txt, dialogueAnchor);
+		DialogueManager.Instance.SetDialogueTimed (txt, dialogueAnchor);
 	}
 
 	#region get hit

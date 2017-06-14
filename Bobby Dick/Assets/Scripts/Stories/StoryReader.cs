@@ -7,7 +7,7 @@ public class StoryReader : MonoBehaviour {
 
 	public static StoryReader Instance;
 
-		// the coords of the story being read.
+	// the coords of the story being read.
 	private int index = 0;
 	private int decal = 0;
 
@@ -17,7 +17,7 @@ public class StoryReader : MonoBehaviour {
 	private bool waitToNextCell = false;
 	private float timer = 0f;
 
-	private StoryHandler currentStoryHandler;
+	private StoryManager storyManager;
 
 	void Awake () {
 		Instance = this;
@@ -119,15 +119,6 @@ public class StoryReader : MonoBehaviour {
 
 	}
 
-	public int SaveDecal {
-		get {
-			return CurrentStoryHandler.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index];
-		}
-		set {
-			CurrentStoryHandler.Story.contentDecal [StoryReader.Instance.Decal] [StoryReader.Instance.Index] = value;
-		}
-	}
-
 	public string ReadDecal (int decal) {
 		return CurrentStoryHandler.Story.content
 			[decal]
@@ -139,57 +130,74 @@ public class StoryReader : MonoBehaviour {
 	#region story layers
 	public void ChangeStory () {
 
+			// extract story informations
 		string text = StoryFunctions.Instance.CellParams;
 
 		string storyName = text.Remove (0, 2);
 		storyName = storyName.Remove (storyName.IndexOf ('['));
 
-		// extract nodes
-		string nodes = text.Remove (0,text.IndexOf ('[')+1);
-
-		// set nodes
-		string targetNode = nodes.Split ('/') [0];
-		string fallbackNode = nodes.Split ('/') [1].TrimEnd(']');
 
 		// get second story
-		Story secondStory = StoryLoader.Instance.Stories.Find ( x => x.name == storyName);
-
+		Story secondStory = StoryLoader.Instance.IslandStories.Find ( x => x.name == storyName);
 		if (secondStory == null) {
 			Debug.LogError ("pas trouvé second story : " + storyName);
 			StoryLauncher.Instance.PlayingStory = false;
 			return;
 		}
 
-		int storyIndex = CurrentStoryHandler.Stories.FindIndex (x => x.name == secondStory.name);
+		// extract nodes
+		string nodes = text.Remove (0,text.IndexOf ('[')+1);
 
-			// is the story already in the island ?
-		if (storyIndex < 0 ) {
-			CurrentStoryHandler.Stories.Add (secondStory);
-			storyIndex = CurrentStoryHandler.Stories.Count - 1;
-			secondStory.fallbackStoryName = CurrentStoryHandler.Story.name;
-			secondStory.fallbackNode = fallbackNode;
+		// set nodes
+		string fallbackNodeTXT = nodes.Split ('/') [1].TrimEnd(']');
+		Node fallBackNode = GetNodeFromText (fallbackNodeTXT);
+
+		Debug.Log ("CHANGE STORY : found story : " + secondStory.name);
+
+		int decal = StoryReader.Instance.Decal;
+		int index = StoryReader.Instance.Index;
+
+		int secondStoryID = StoryLoader.Instance.FindIndexByName (secondStory.name);
+
+		int targetStoryLayer = StoryManager.storyHandlers.FindIndex (handler => (handler.storyID == secondStoryID) );
+
+		// si le story ID apparrait déjà dans la liste handler
+		if ( targetStoryLayer < 0 ) {
+			// vérifier s'il est à sa bonne position
+
+			targetStoryLayer = StoryManager.storyHandlers.FindIndex (handler => (handler.decal == decal) && (handler.index == index));
+
+			if ( targetStoryLayer < 0 ) {
+				
+				Debug.Log ("CHANGE STORY : adding new story handler to handlers");
+
+				StoryHandler newHandler = new StoryHandler ( secondStoryID,StoryType.Island);
+				newHandler.fallBackLayer = CurrentStoryLayer;
+				newHandler.decal = decal;
+				newHandler.index = index;
+
+				StoryManager.AddStory (newHandler);
+
+				Debug.Log ("CHANGE STORY : setting new index");
+				targetStoryLayer = StoryManager.storyHandlers.Count - 1;
+
+				// fall back nodes
+				CurrentStoryHandler.fallbackNode = fallBackNode;
+			}
 		}
 
-		currentStoryLayer = storyIndex;
+		currentStoryLayer = targetStoryLayer;
 
+			// go to next node
+		string targetNode = nodes.Split ('/') [0];
 		Node node = GetNodeFromText (targetNode);
 		GoToNode (node);
 	}
 
 	public void FallBackToPreviousStory () {
 		
-		string fallbackNode = CurrentStoryHandler.Story.fallbackNode;
-		currentStoryLayer = CurrentStoryHandler.Stories.FindIndex (x => x.name == CurrentStoryHandler.Story.fallbackStoryName);
-
-		if (currentStoryLayer < 0) {
-			Debug.LogError ("pas trouvé de fall back story");
-			currentStoryLayer = 0;
-			StoryLauncher.Instance.PlayingStory = false;
-			return;
-		}
-
-		Node node = StoryReader.Instance.GetNodeFromText (fallbackNode);
-		StoryReader.Instance.GoToNode (node);
+		currentStoryLayer = CurrentStoryHandler.fallBackLayer;
+		StoryReader.Instance.GoToNode (CurrentStoryHandler.fallbackNode);
 	}
 	#endregion
 
@@ -227,6 +235,7 @@ public class StoryReader : MonoBehaviour {
 		SoundManager.Instance.PlaySound (pressInputButton);
 
 		DialogueManager.Instance.HideNarrator ();
+		DialogueManager.Instance.EndDialogue ();
 
 		waitForInput = false;
 		inputButton.SetActive (false);
@@ -289,12 +298,21 @@ public class StoryReader : MonoBehaviour {
 		}
 	}
 
-	public StoryHandler CurrentStoryHandler {
+	public StoryManager StoryManager {
 		get {
-			return currentStoryHandler;
+			return storyManager;
 		}
 		set {
-			currentStoryHandler = value;
+			storyManager = value;
+		}
+	}
+
+	public StoryHandler CurrentStoryHandler {
+		get {
+			return StoryManager.storyHandlers[CurrentStoryLayer];
+		}
+		set {
+			StoryManager.storyHandlers[CurrentStoryLayer] = value;
 		}
 	}
 }

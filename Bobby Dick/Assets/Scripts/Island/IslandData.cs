@@ -5,16 +5,13 @@ using System.Collections.Generic;
 [System.Serializable]
 public class IslandData {
 
-	public string name = "";
-
-	public int spriteID = 0;
+	public bool gaveClue = false;
 
 	public Vector2 positionOnScreen;
 	[System.NonSerialized]
 	private Vector2 appearRange = new Vector2 ( 241f , 125f );
 
-	public StoryHandler storyHandler;
-
+	public StoryManager storyManager;
 
 	public IslandData ()
 	{
@@ -23,24 +20,19 @@ public class IslandData {
 
 	public IslandData (int x , int y)
 	{
-
-		storyHandler = new StoryHandler (x,y);
-		name = storyHandler.Story.name;
-		spriteID = storyHandler.Story.spriteID;
-
-//		Debug.Log ("story name : " + storyHandler.Story.name);
+		storyManager = new StoryManager ();
+		storyManager.InitHandler (x,y);
 
 		float islandPosX = Random.Range (-appearRange.x , appearRange.x);
 		float islandPosY = Random.Range (-appearRange.y , appearRange.y);
 
 		positionOnScreen = new Vector2 (islandPosX, islandPosY);
 
-
 	}
 
-	public StoryHandler StoryHandler {
+	public int SpriteID {
 		get {
-			return storyHandler;
+			return storyManager.storyHandlers [0].Story.spriteID;
 		}
 	}
 }

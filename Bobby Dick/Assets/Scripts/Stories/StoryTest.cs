@@ -33,11 +33,8 @@ public class StoryTest : MonoBehaviour {
 	void Update () {
 		
 		if (Input.GetKeyDown(KeyCode.Return) ) {
-
-			StoryReader.Instance.CurrentStoryHandler.Story = StoryLoader.Instance.Stories.Find (x => x.name == storyName);
-
-			StoryLauncher.Instance.PlayingStory = true;
-
+			StoryReader.Instance.StoryManager.storyHandlers[0].storyID = StoryLoader.Instance.FindIndexByName (storyName);
+			StoryLauncher.Instance.PlayStory (StoryReader.Instance.StoryManager,StoryLauncher.StorySource.island);
 		}
 
 		if (Input.GetKeyDown (KeyCode.PageUp)) {

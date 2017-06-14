@@ -86,7 +86,7 @@ public class Crews : MonoBehaviour {
 			Crews.enemyCrew.setCrew (islandCrew);
 
 			if (islandCrew.hostile) {
-				DialogueManager.Instance.SetDialogue ("Le revoilà !", Crews.enemyCrew.captain);
+				DialogueManager.Instance.SetDialogueTimed ("Le revoilà !", Crews.enemyCrew.captain);
 				StoryReader.Instance.SetDecal (2);
 			} else {
 				Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
@@ -103,7 +103,7 @@ public class Crews : MonoBehaviour {
 		int row = StoryReader.Instance.Decal;
 		int col = StoryReader.Instance.Index;
 
-		var tmp = StoryReader.Instance.CurrentStoryHandler.Crews.Find (x => x.col == col && x.row == row);
+		var tmp = StoryReader.Instance.CurrentStoryHandler.GetCrew (row, col);
 
 		if (tmp == null) {
 
@@ -111,7 +111,7 @@ public class Crews : MonoBehaviour {
 
 			Crew newCrew = new Crew (crewParams, row, col);
 
-			StoryReader.Instance.CurrentStoryHandler.Crews.Add (newCrew);
+			StoryReader.Instance.CurrentStoryHandler.SetCrew (newCrew);
 
 			return newCrew;
 
@@ -155,7 +155,6 @@ public class Crews : MonoBehaviour {
 
 			string phrase = "Oh non, le bateau est trop petit";
 			DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain);
-
 			StoryReader.Instance.WaitForInput ();
 
 		} else {

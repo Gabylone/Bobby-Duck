@@ -105,7 +105,7 @@ public class CrewManager : MonoBehaviour {
 		managedCrew.Remove (member.MemberID);
 		crewMembers.Remove (member);
 
-		if ( CrewMembers.Count == 0 ) {
+		if ( CrewMembers.Count == 0 && side == Crews.Side.Player) {
 			if (CombatManager.Instance.Fighting == false) {
 				GameManager.Instance.GameOver ();
 			}

@@ -1,64 +1,119 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+public enum StoryType {
+	Island,
+	Treasure,
+	Home,
+	Clue,
+	Boat
+}
+
+[System.Serializable]
+public class StoryManager {
+
+	public List<StoryHandler> storyHandlers = new List<StoryHandler>();
+
+	public StoryManager () {
+		
+	}
+
+	public void AddStory (StoryHandler handler ) {
+		storyHandlers.Add (handler);
+	}
+
+	public void InitHandler ( int x , int y ) {
+
+		int storyId = StoryLoader.Instance.RandomStoryIndex (x, y);
+
+		StoryType type = StoryLoader.Instance.GetTypeFromPos (x, y);
+		StoryHandler handler = new StoryHandler (storyId,type);
+		storyHandlers.Add (handler);
+	}
+
+	public void InitHandler ( StoryType storyType ) {
+		
+		int storyId = StoryLoader.Instance.getStoryIndexFromPercentage (storyType);
+
+		StoryHandler handler = new StoryHandler (storyId,storyType);
+		storyHandlers.Add (handler);
+	}
+
+	public StoryHandler CurrentStoryHandler {
+		get {
+			return storyHandlers [StoryReader.Instance.CurrentStoryLayer];
+		}
+	}
+}
 
 [System.Serializable]
 public class StoryHandler {
 
-	public bool gaveClue = false;
+	public int decal = 0;
+	public int index = 0;
 
-	public List<Story> stories = new List<Story> ();
-	public List<Loot> loots = new List<Loot> ();
-	public List<Crew> crews = new List<Crew>();
+		// serialisation
+	public int fallBackLayer = 0;
+
+	public Node 				fallbackNode;
+
+	public int 					storyID 			= 0;
+	public StoryType 			storyType;
+	public List<contentDecal> 	contentDecals 		= new List<contentDecal>();
+	public List<Loot> 			loots 				= new List<Loot> ();
+	public List<Crew> 			crews 				= new List<Crew>();
+		//
 
 	public StoryHandler () {
 		//
 	}
 
-	public StoryHandler (int x , int y) {
-		Story = StoryLoader.Instance.RandomStory(x,y);
-	}
-
-	public List<Story> Stories {
-		get {
-			return stories;
-		}
-		set {
-			stories = value;
-		}
+	public StoryHandler (int _storyID,StoryType _storyType) {
+		storyID = _storyID;
+		storyType = _storyType;
 	}
 
 	public Story Story {
 		get {
-			
-			if (stories.Count == 0) {
-				Debug.Log ("mais y'en a pas");
-				return null;
+			switch (storyType) {
+			case StoryType.Island:
+				return StoryLoader.Instance.IslandStories[storyID];
+				break;
+			case StoryType.Treasure:
+				return StoryLoader.Instance.TreasureStories[storyID];
+				break;
+			case StoryType.Home:
+				return StoryLoader.Instance.HomeStories[storyID];
+				break;
+			case StoryType.Clue:
+				return StoryLoader.Instance.ClueStories[storyID];
+				break;
+			case StoryType.Boat:
+				return StoryLoader.Instance.BoatStories[storyID];
+				break;
+			default:
+				return StoryLoader.Instance.IslandStories[storyID];
+				break;
 			}
 
-			return stories[StoryReader.Instance.CurrentStoryLayer];
-		}
-		set {
-			if (stories.Count > 0) {
-				
-//				Debug.LogError ("Là t'essaye d'ajouter l'histoire " + value.name + " mais y'en a déjà une");
-
-				stories [0] = value;
-				return;
-			}
-
-			//			print 
-			stories.Add (value);
 		}
 	}
 
-	public List<Loot> Loots {
-		get {
-			return loots;
-		}
-		set {
-			loots = value;
-		}
+	public Loot GetLoot ( int x , int y ) {
+		return loots.Find (loot => (loot.col == x) && (loot.row == y) );
+	}
+
+	public void SetLoot (Loot targetLoot) {
+		loots.Add (targetLoot);
+	}
+
+	public Crew GetCrew ( int x , int y ) {
+		return crews.Find (crew => (crew.col == x) && (crew.row == y) );
+
+	}
+
+	public void SetCrew (Crew targetCrew) {
+		crews.Add (targetCrew);
 	}
 
 	public List<Crew> Crews {
@@ -69,4 +124,48 @@ public class StoryHandler {
 			crews = value;
 		}
 	}
+
+	public void SetDecal (int i) {
+		SaveDecal = i;
+	}
+	public int GetDecal() {
+		return SaveDecal;
+	}
+
+	private int SaveDecal {
+		get {
+			contentDecal cDecal = contentDecals.Find ((contentDecal obj) => (obj.x == StoryReader.Instance.Decal) && (obj.y == StoryReader.Instance.Index) );
+
+			if (cDecal == default(contentDecal)) {
+				return -1;
+			}
+
+			return cDecal.decal;
+		}
+		set {
+			contentDecals.Add (new contentDecal(StoryReader.Instance.Decal , StoryReader.Instance.Index , value) );
+		}
+	}
+}
+
+public struct contentDecal {
+	
+	public int x;
+	public int y;
+	public int decal;
+	public contentDecal (int x,int y, int decal) {
+		this.x 		= x;
+		this.y 		= y;
+		this.decal 	= decal;
+	}
+
+	public static bool operator ==( contentDecal cd1, contentDecal cd2) 
+	{
+		return cd1.x == cd2.x && cd1.y == cd2.y && cd1.decal == cd2.decal;
+	}
+	public static bool operator != (contentDecal cd1 , contentDecal cd2) 
+	{
+		return !(cd1==cd2);
+	}
+
 }

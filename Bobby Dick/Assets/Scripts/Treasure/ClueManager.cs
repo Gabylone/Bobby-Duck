@@ -9,8 +9,6 @@ public class ClueManager : MonoBehaviour {
 	private int clueIndex = 0;
 	private int clueAmount = 2;
 
-	private Chunk[] clueChunks;
-
 	private string[] clues = new string[2] {
 		"formule1",
 		"formule2"
@@ -31,8 +29,6 @@ public class ClueManager : MonoBehaviour {
 		for (int i = 0; i < clues.Length; ++i )
 			clues[i] = NameGeneration.Instance.randomWord.ToUpper ();
 
-		clueChunks = new Chunk[clues.Length];
-		
 	}
 
 	public void StartClue () {
@@ -94,28 +90,13 @@ public class ClueManager : MonoBehaviour {
 
 	public string getFormula () {
 
-		for (int index = ClueIndex; clueIndex < Clues.Length; clueIndex++) {
-			
-			if ( MapData.Instance.currentChunk == clueChunks[index] ) {
-				
-				Debug.Log ("already found clue in island");
-
-				return Clues [index];
-			}
+		if ( MapData.Instance.currentChunk.IslandData.gaveClue == true) {
+			return Clues [Random.Range (0,ClueIndex)];
 		}
 
-		Debug.Log ("first time gave clue");
-
-		// set clue phrase
-		string clue = Clues[clueIndex];
-
-		// set clue island
-		clueChunks [ClueIndex] = MapData.Instance.currentChunk;
-
-		// go to next clue
+		MapData.Instance.currentChunk.IslandData.gaveClue = true;
 		++ClueIndex;
-
-		return clue;
+		return Clues[clueIndex];
 	}
 
 	public Vector2 GetNextClueIslandPos {

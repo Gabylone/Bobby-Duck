@@ -37,6 +37,13 @@ public class EnemyBoat : Boat {
 		base.Update ();
 	}
 
+	public override void UpdatePositionOnScreen ()
+	{
+		base.UpdatePositionOnScreen ();
+
+
+	}
+
 	#region world
 	private void FollowPlayer () {
 		Vector2 boatPos = (Vector2)GetTransform.position;
@@ -44,6 +51,10 @@ public class EnemyBoat : Boat {
 
 		TargetSpeed = boatSpeed;
 		TargetDirection = (playerBoatPos - boatPos).normalized;
+
+
+		Vector2 getDir = NavigationManager.Instance.getDir(BoatInfo.currentDirection);
+		GetTransform.position = NavigationManager.Instance.OtherAnchors[(int)BoatInfo.currentDirection].position;
 	}
 
 	private void GoAbout () {
@@ -63,15 +74,14 @@ public class EnemyBoat : Boat {
 
 	#region story
 	public void Enter () {
+		
 		reachedPlayer = true;
 
 		TargetSpeed = 0f;
 
 		OtherBoatInfo.metPlayer = true;
 
-		StoryReader.Instance.CurrentStoryHandler = OtherBoatInfo.StoryHandler;
-		StoryLauncher.Instance.CurrentStorySource = StoryLauncher.StorySource.boat;
-		StoryLauncher.Instance.PlayingStory = true;
+		StoryLauncher.Instance.PlayStory (OtherBoatInfo.StoryHandlers, StoryLauncher.StorySource.boat);
 
 		NavigationManager.Instance.FlagControl.PlaceFlagOnWorld (GetTransform.position);
 	}

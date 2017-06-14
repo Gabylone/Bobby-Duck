@@ -85,9 +85,10 @@ public class Boat : MonoBehaviour {
 	#endregion
 
 	#region map position 
-	public void UpdatePositionOnScreen () {
-		Vector2 getDir = NavigationManager.Instance.getDir(boatInfo.currentDirection);
-		GetTransform.position = NavigationManager.Instance.Anchors[(int)boatInfo.currentDirection].position;
+	public virtual void UpdatePositionOnScreen () {
+
+		GetComponentInChildren<TrailRenderer> ().Clear ();
+
 	}
 
 	#endregion

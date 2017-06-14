@@ -7,7 +7,7 @@ public class OtherBoatInfo : BoatInfo {
 
 	private float changeOfChangeDirection = 0.2f;
 
-	private StoryHandler storyHandler;
+	private StoryManager storyManager;
 
 	public bool metPlayer = false;
 
@@ -17,8 +17,9 @@ public class OtherBoatInfo : BoatInfo {
 
 		currentDirection = (Directions)Random.Range (0,8);
 
-		storyHandler = new StoryHandler ();
-		storyHandler.Story = StoryLoader.Instance.getStoryFromPercentage (StoryLoader.Instance.BoatStories);
+			// assign story
+		storyManager = new StoryManager ();
+		storyManager.InitHandler (StoryType.Boat);
 
 		PosX = Random.Range ( 0 , MapGenerator.Instance.MapScale );
 		PosY = Random.Range ( 0 , MapGenerator.Instance.MapScale );
@@ -86,9 +87,9 @@ public class OtherBoatInfo : BoatInfo {
 //		Debug.Log ("... to " + currentDirection.ToString ());
 	}
 
-	public StoryHandler StoryHandler {
+	public StoryManager StoryHandlers {
 		get {
-			return storyHandler;
+			return storyManager;
 		}
 	}
 }

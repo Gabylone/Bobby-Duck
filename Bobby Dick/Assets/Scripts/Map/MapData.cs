@@ -27,7 +27,7 @@ public class MapData
 
 		for (int x = 0; x < mapScale; x++) {
 			for (int y = 0; y < mapScale; y++) {
-				MapGenerator.Instance.Chunks [x, y] = new Chunk (x,y);
+				MapGenerator.Instance.Chunks [x, y] = new Chunk ();
 			}
 		}
 

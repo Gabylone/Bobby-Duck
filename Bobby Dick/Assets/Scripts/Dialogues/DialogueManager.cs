@@ -47,8 +47,18 @@ public class DialogueManager : MonoBehaviour {
 		}
 
 	}
-
-	#region set dialoguex
+	#region set dialogue
+	bool timed = false;
+	public void SetDialogueTimed (string phrase, Transform _target) {
+		timed = true;
+		phrase = CheckForKeyWords (phrase);
+		SetDialogue (phrase, _target);
+	}
+	public void SetDialogueTimed (string phrase, CrewMember crewMember) {
+		timed = true;
+		phrase = CheckForKeyWords (phrase);
+		SetDialogue (phrase, crewMember.Icon.dialogueAnchor);
+	}
 	public void SetDialogue (string phrase, CrewMember crewMember) {
 		phrase = CheckForKeyWords (phrase);
 		SetDialogue (phrase, crewMember.Icon.dialogueAnchor);
@@ -90,7 +100,9 @@ public class DialogueManager : MonoBehaviour {
 		
 		if (CurrentTime > 0)
 		{
-			CurrentTime -= Time.deltaTime;
+			if (timed) {
+				CurrentTime -= Time.deltaTime;
+			}
 
 			UpdateBubblePosition ();
 
@@ -105,11 +117,13 @@ public class DialogueManager : MonoBehaviour {
 			CurrentTime = DisplayTime;
 		}
 	}
-	private void EndDialogue ()
+	public void EndDialogue ()
 	{
 		DisplayingText = false;
 
 		bubble_Obj.SetActive (false);
+
+		timed = false;
 	}
 	#endregion
 

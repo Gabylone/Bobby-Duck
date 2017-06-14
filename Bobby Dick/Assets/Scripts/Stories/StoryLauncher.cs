@@ -7,7 +7,6 @@ public class StoryLauncher : MonoBehaviour {
 
 	public static StoryLauncher Instance;
 
-
 	private bool playingStory = false;
 
 	public enum StorySource {
@@ -40,6 +39,12 @@ public class StoryLauncher : MonoBehaviour {
 	}
 
 	#region propeties
+	public void PlayStory (StoryManager storyHandlers , StoryLauncher.StorySource source) {
+		StoryReader.Instance.StoryManager = storyHandlers;
+		CurrentStorySource = source;
+		PlayingStory = true;
+	}
+
 	public bool PlayingStory {
 		get {
 			return playingStory;

@@ -48,7 +48,7 @@ public class LootManager : MonoBehaviour {
 		int row = StoryReader.Instance.Decal;
 		int col = StoryReader.Instance.Index;
 
-		var tmpLoot = StoryReader.Instance.CurrentStoryHandler.Loots.Find (x => x.col == col && x.row == row);
+		var tmpLoot = StoryReader.Instance.CurrentStoryHandler.GetLoot (row, col);
 
 		if (tmpLoot == null) {
 
@@ -56,7 +56,7 @@ public class LootManager : MonoBehaviour {
 
 			newLoot.Randomize (categories);
 
-			StoryReader.Instance.CurrentStoryHandler.Loots.Add (newLoot);
+			StoryReader.Instance.CurrentStoryHandler.SetLoot (newLoot);
 
 			return newLoot;
 

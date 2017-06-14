@@ -11,19 +11,10 @@
 public class Chunk
 {
 	public State state;
-
-	public int x = 0;
-	public int y = 0;
-
 	private IslandData islandData;
 
 	public Chunk () {
 		//
-	}
-
-	public Chunk (int _x , int _y) {
-		x = _x;
-		y = _y;
 	}
 
 	public IslandData IslandData {
@@ -34,8 +25,6 @@ public class Chunk
 			islandData = value;
 
 			state = State.UndiscoveredIsland;
-
-
 		}
 	}
 }

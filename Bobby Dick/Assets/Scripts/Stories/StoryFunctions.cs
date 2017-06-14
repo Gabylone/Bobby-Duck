@@ -158,7 +158,6 @@ public class StoryFunctions : MonoBehaviour {
 		string phrase = cellParams.Remove (0,2);
 
 		DialogueManager.Instance.SetDialogue (phrase, Crews.playerCrew.captain);
-
 		StoryReader.Instance.WaitForInput ();
 	}
 

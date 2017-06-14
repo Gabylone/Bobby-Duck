@@ -59,6 +59,8 @@ public class Boats : MonoBehaviour {
 		playerBoatInfo.Init ();
 		playerBoat.BoatInfo = playerBoatInfo;
 
+		otherBoatAmount = MapGenerator.Instance.MapScale;
+
 		otherBoatInfos = new OtherBoatInfo[otherBoatAmount];
 		for (int i = 0; i < otherBoatInfos.Length; i++) {
 			otherBoatInfos [i] = new OtherBoatInfo ();

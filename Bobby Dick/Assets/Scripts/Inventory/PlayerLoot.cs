@@ -99,8 +99,7 @@ public class PlayerLoot : MonoBehaviour {
 		SoundManager.Instance.PlaySound (eatSound);
 
 		targetMember.Health += lootUI.SelectedItem.value;
-
-		int foodHealth = (int)(lootUI.SelectedItem.value * 1.5f);
+		int foodHealth = (int)(lootUI.SelectedItem.value);
 		targetMember.CurrentHunger -= foodHealth;
 
 		RemoveSelectedItem ();

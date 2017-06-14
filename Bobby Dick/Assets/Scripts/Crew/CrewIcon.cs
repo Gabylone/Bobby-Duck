@@ -135,7 +135,7 @@ public class CrewIcon : MonoBehaviour {
 		if (!Overable)
 			return;
 		OnPointerExit ();
-		DialogueManager.Instance.SetDialogue ("Oui ?", member);
+		DialogueManager.Instance.SetDialogueTimed ("Oui ?", member);
 	}
 	#endregion
 

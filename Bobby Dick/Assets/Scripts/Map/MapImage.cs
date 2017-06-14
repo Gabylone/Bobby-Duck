@@ -38,6 +38,13 @@ public class MapImage : MonoBehaviour {
 	[SerializeField]
 	private int pixelFactor = 2;
 
+	[Header ("Center On Boat")]
+	[SerializeField]
+	private RectTransform contentTransform;
+	[SerializeField]
+	private float maxContentPosition = 150f;
+
+
 	void Awake() {
 		Instance = this;
 	}
@@ -86,7 +93,7 @@ public class MapImage : MonoBehaviour {
 		int mapScale = MapGenerator.Instance.MapScale;
 
 		Chunk previousChunk = MapGenerator.Instance.Chunks [PlayerBoatInfo.Instance.PreviousPosX, PlayerBoatInfo.Instance.PreviousPosY];
-		SetPixel (texture,previousChunk.x, previousChunk.y, getChunkColor (previousChunk));
+		SetPixel (texture,PlayerBoatInfo.Instance.PreviousPosX, PlayerBoatInfo.Instance.PreviousPosY, getChunkColor (previousChunk));
 
 		for (int x = -shipRange; x <= shipRange; ++x ) {
 
@@ -182,7 +189,6 @@ public class MapImage : MonoBehaviour {
 			return unvisitedIslandColor;
 			break;
 		case State.VisitedIsland:
-			print ("pourtant..");
 			return visitedIslandColor;
 			break;
 		default:
@@ -211,6 +217,19 @@ public class MapImage : MonoBehaviour {
 
 		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, MapGenerator.Instance.MapScale,  MapGenerator.Instance.MapScale) , Vector2.one * 0.5f );
 	}
+	public void CenterOnBoat () {
+		Vector2 boatPos = new Vector2 (PlayerBoatInfo.Instance.PosX,PlayerBoatInfo.Instance.PosY);
+		boatPos = (boatPos * maxContentPosition) / MapGenerator.Instance.MapScale;
+
+		boatPos -= Vector2.one * (maxContentPosition / 2);
+
+		boatPos = -boatPos;
+
+		print ("X POS : " + boatPos.x);
+		print ("Y POS : " + boatPos.y);
+
+		contentTransform.localPosition = boatPos;
+	}
 	#endregion
 
 	#region properties
@@ -220,6 +239,14 @@ public class MapImage : MonoBehaviour {
 		}
 	}
 	#endregion
+
+	public void OpenMap () {
+		mapButton.Opened = true;
+		CenterOnBoat ();
+	}
+	public void CloseMap () {
+		mapButton.Opened = false;
+	}
 
 	public UIButton MapButton {
 		get {

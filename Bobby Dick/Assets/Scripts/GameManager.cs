@@ -34,9 +34,11 @@ public class GameManager : MonoBehaviour {
 		MapImage.Instance.InitImage ();
 		MapImage.Instance.Init ();
 
-		StoryReader.Instance.CurrentStoryHandler = MapData.Instance.currentChunk.IslandData.StoryHandler;
-		StoryLauncher.Instance.CurrentStorySource = StoryLauncher.StorySource.island;
-		StoryLauncher.Instance.PlayingStory = true;
+		StoryLauncher.Instance.PlayStory (MapData.Instance.currentChunk.IslandData.storyManager,StoryLauncher.StorySource.island);
+
+		if ( PlayerBoatInfo.Instance.PosX == MapData.Instance.homeIslandXPos &&
+			PlayerBoatInfo.Instance.PosY == MapData.Instance.homeIslandYPos ) {
+		}
 
 		NavigationManager.Instance.ChangeChunk (Directions.None);
 

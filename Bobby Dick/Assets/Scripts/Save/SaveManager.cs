@@ -61,12 +61,8 @@ public class SaveManager : MonoBehaviour
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
 		Transitions.Instance.ScreenTransition.Fade = false;
 
-		print ("loading ?");
-
 	}
 	public void SaveGame (int index) {
-
-		print ("saving! ");
 
 		// player crew
 		Crews.Instance.SavePlayerCrew ();
