@@ -10,11 +10,11 @@ public class IslandData {
 	public int spriteID = 0;
 
 	public Vector2 positionOnScreen;
-
-	[SerializeField]
-	private StoryHandler storyHandler;
-
+	[System.NonSerialized]
 	private Vector2 appearRange = new Vector2 ( 241f , 125f );
+
+	public StoryHandler storyHandler;
+
 
 	public IslandData ()
 	{

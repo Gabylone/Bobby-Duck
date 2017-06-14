@@ -61,14 +61,7 @@ public class MapImage : MonoBehaviour {
 			for (int y = 0; y < MapGenerator.Instance.MapScale; ++y ) {
 
 				Chunk chunk = MapGenerator.Instance.Chunks [x, y];
-
-				Color color = (chunk.state == State.UndiscoveredIsland ) ? Color.yellow : Color.blue;
-
-				if ( !revealMap )
-					color = getChunkColor (chunk);
-
-
-				SetPixel (texture,x,y, color);
+				SetPixel (texture,x,y, revealMap ? getChunkColor_Reveal (chunk) : getChunkColor (chunk));
 
 			}
 
@@ -128,20 +121,51 @@ public class MapImage : MonoBehaviour {
 
 		}
 
+		SetPixel (texture,posX, posY, Color.red);
+
+		UpdateTexture (texture);
+
+		CheckForBoats ();
+
+	}
+
+	public void CheckForBoats ()
+	{
+		Texture2D texture = (Texture2D)targetImage.mainTexture;
+
 		foreach ( OtherBoatInfo boatInfo in Boats.Instance.OtherBoatInfos ) {
-			if ( boatInfo.PosX <= posX + shipRange && boatInfo.PosX >= posX -shipRange &&
-				boatInfo.PosY <= posY + shipRange && boatInfo.PosY >= posY - shipRange) {
+			if ( boatInfo.PosX <= PlayerBoatInfo.Instance.PosX + PlayerBoatInfo.Instance.ShipRange && boatInfo.PosX >= PlayerBoatInfo.Instance.PosX -PlayerBoatInfo.Instance.ShipRange &&
+				boatInfo.PosY <= PlayerBoatInfo.Instance.PosY + PlayerBoatInfo.Instance.ShipRange && boatInfo.PosY >= PlayerBoatInfo.Instance.PosY - PlayerBoatInfo.Instance.ShipRange) {
 				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, Color.green);
 			}
 		}
 
-		SetPixel (texture,posX, posY, Color.red);
-
-
 		UpdateTexture (texture);
-
 	}
 
+	private Color getChunkColor_Reveal (Chunk chunk) {
+
+		switch (chunk.state) {
+		case State.UndiscoveredSea:
+			return discoveredColor;
+			break;
+		case State.DiscoveredSea:
+			return discoveredColor;
+			break;
+		case State.UndiscoveredIsland:
+			return unvisitedIslandColor;
+			break;
+		case State.DiscoveredIsland:
+			return unvisitedIslandColor;
+			break;
+		case State.VisitedIsland:
+			return visitedIslandColor;
+			break;
+		default:
+			return Color.black;
+			break;
+		}
+	}
 	private Color getChunkColor (Chunk chunk) {
 
 		switch (chunk.state) {
@@ -158,6 +182,7 @@ public class MapImage : MonoBehaviour {
 			return unvisitedIslandColor;
 			break;
 		case State.VisitedIsland:
+			print ("pourtant..");
 			return visitedIslandColor;
 			break;
 		default:

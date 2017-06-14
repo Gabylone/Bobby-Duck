@@ -5,16 +5,11 @@ using System.Collections.Generic;
 [System.Serializable]
 public class StoryHandler {
 
-	[SerializeField]
-	private bool gaveClue = false;
+	public bool gaveClue = false;
 
-	[SerializeField]
-	private List<Story> stories = new List<Story> ();
-
-	[SerializeField]
-	private List<Loot> loots = new List<Loot> ();
-	[SerializeField]
-	private List<Crew> crews = new List<Crew>();
+	public List<Story> stories = new List<Story> ();
+	public List<Loot> loots = new List<Loot> ();
+	public List<Crew> crews = new List<Crew>();
 
 	public StoryHandler () {
 		//

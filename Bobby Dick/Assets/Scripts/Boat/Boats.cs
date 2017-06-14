@@ -80,7 +80,7 @@ public class Boats : MonoBehaviour {
 
 		}
 
-		MapImage.Instance.UpdateBoatSurroundings ();
+		MapImage.Instance.CheckForBoats ();
 
 		timer = 0f;
 	}
