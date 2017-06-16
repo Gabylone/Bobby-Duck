@@ -71,9 +71,6 @@ public class DiceManager : MonoBehaviour {
 			timeInState += Time.deltaTime;
 
 		}
-
-		if (Input.GetKeyDown (KeyCode.C))
-			ThrowDice (DiceTypes.CHA, 6);
 	}
 
 	#region init

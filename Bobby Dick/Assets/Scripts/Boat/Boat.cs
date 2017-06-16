@@ -47,11 +47,22 @@ public class Boat : MonoBehaviour {
 
 	public virtual void Start () {
 		getTransform = GetComponent<Transform> ();
+
+		CombatManager.Instance.fightStarting += DeactivateCollider;
+		CombatManager.Instance.fightEnding += ActivateCollider;
 	}
 
 	public virtual void Update () {
 		UpdateBoatRotation ();
 		UpdateBoatPosition ();
+	}
+
+	void DeactivateCollider ()
+	{
+		GetComponentInChildren<BoxCollider2D> ().enabled = false;
+	}
+	void ActivateCollider () {
+		GetComponentInChildren<BoxCollider2D> ().enabled = true;
 	}
 
 	#region boat transform
@@ -87,7 +98,8 @@ public class Boat : MonoBehaviour {
 	#region map position 
 	public virtual void UpdatePositionOnScreen () {
 
-		GetComponentInChildren<TrailRenderer> ().Clear ();
+		foreach (TrailRenderer renderer in GetComponentsInChildren<TrailRenderer>())
+			renderer.Clear ();
 
 	}
 

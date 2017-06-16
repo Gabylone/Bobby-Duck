@@ -55,11 +55,6 @@ public class Karma : MonoBehaviour {
 	}
 
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.H))
-			CurrentKarma--;
-
-		if (Input.GetKeyDown (KeyCode.J))
-			CurrentKarma++;
 
 		UpdateLerp ();
 	}

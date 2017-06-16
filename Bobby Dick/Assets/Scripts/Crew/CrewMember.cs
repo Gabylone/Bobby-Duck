@@ -129,7 +129,7 @@ public class CrewMember {
 
 			if ( health == 0 )
 			{
-				DialogueManager.Instance.ShowNarrator (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
+				DialogueManager.Instance.ShowNarratorTimed (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
 				Kill ();
 				return;
 			}

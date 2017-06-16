@@ -21,7 +21,7 @@ Leave;Fade;Fade;Fade;Fade;Fade;;;;;
 ;Node=>salon;Node=>cuisine;Node=>cuisine-mère;Node=>jardin;Node=>jardin-père;;;;;
 ;;;;;;;;;;
 [cuisine];;;[cuisine-mère];;;[mère partie];[cuisine-mère-morte];;[attaqua mère];
-SetChoices2;;;NewCrew1/F;Node=>mère partie;;PlayerSpeak : Maman;Narrator : Votre mère par terre, une épée dans le dos.;;PlayerSpeak : Désolé maman;
+SetChoices2;;;NewCrew1/F/10;Node=>mère partie;;PlayerSpeak : Maman;Narrator : Votre mère par terre, une épée dans le dos.;;PlayerSpeak : Désolé maman;
 Choice : Retourner salon;Choice : Regarder garde manger;;OtherSpeak : Coucou mon poussin !;Node=>cuisine-mère-morte;Node=>attaqua mère;Narrator : Votre mère mère est sous doute partie à la vue de son fils, tuant son propre père.;Node=>cuisine;;OtherSpeak : C'est rien;
 Fade;LootFood;;[choix-cuisine];;;Node=>cuisine;;;Node=>choix-mère;
 Node=>salon;Node=>cuisine;;SetChoices3;;;;;;;

@@ -23,14 +23,6 @@ public class MapData
 
 		Instance = this;
 
-		MapGenerator.Instance.Chunks = new Chunk[mapScale,mapScale];
-
-		for (int x = 0; x < mapScale; x++) {
-			for (int y = 0; y < mapScale; y++) {
-				MapGenerator.Instance.Chunks [x, y] = new Chunk ();
-			}
-		}
-
 		clueIslandsXPos = new int[ClueManager.Instance.ClueAmount];
 		clueIslandsYPos = new int[ClueManager.Instance.ClueAmount];
 
@@ -46,8 +38,7 @@ public class MapData
 		// TREASURE
 		treasureIslandXPos = MapGenerator.Instance.RandomX;
 		treasureIslandYPos = MapGenerator.Instance.RandomY;
-
-		MapGenerator.Instance.Chunks 	[treasureIslandXPos, treasureIslandXPos].IslandData = new IslandData(treasureIslandXPos, treasureIslandXPos);
+		MapGenerator.Instance.Chunks 	[treasureIslandXPos, treasureIslandYPos].IslandData = new IslandData(treasureIslandXPos, treasureIslandYPos);
 
 		// HOME
 		homeIslandXPos = MapGenerator.Instance.RandomX;

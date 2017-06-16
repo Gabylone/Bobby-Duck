@@ -35,13 +35,13 @@ public class PlayerBoatInfo : BoatInfo {
 		if (isInNoMansSea ) {
 
 			if (!hasBeenWarned) {
-				DialogueManager.Instance.ShowNarrator ("Le bateau entre dans la Grande Mer... Pas de terres en vue à des lieus d'ici. Mieux vaut être bien préparé, la traversée sera longue.");
+				DialogueManager.Instance.ShowNarratorTimed ("Le bateau entre dans la Grande Mer... Pas de terres en vue à des lieus d'ici. Mieux vaut être bien préparé, la traversée sera longue.");
 				hasBeenWarned = true;
 			}
 
 		} else {
 			if (hasBeenWarned) {
-				DialogueManager.Instance.ShowNarrator ("Le bateau quitte les eaux de la Grande Mer... Déjà les premières îles apparaissent à l'horizon. Ouf...");
+				DialogueManager.Instance.ShowNarratorTimed ("Le bateau quitte les eaux de la Grande Mer... Déjà les premières îles apparaissent à l'horizon. Ouf...");
 			}
 
 			hasBeenWarned = false;
@@ -74,7 +74,7 @@ public class PlayerBoatInfo : BoatInfo {
 		set {
 			
 			if (value < 0 || value > MapGenerator.Instance.MapScale - 1) {
-				DialogueManager.Instance.ShowNarrator ("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
+				DialogueManager.Instance.ShowNarratorTimed("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
 			}
 
 			base.PosX = value;
@@ -88,7 +88,7 @@ public class PlayerBoatInfo : BoatInfo {
 		set {
 
 			if ( value < 0 || value > MapGenerator.Instance.MapScale-1) {
-				DialogueManager.Instance.ShowNarrator ("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
+				DialogueManager.Instance.ShowNarratorTimed ("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
 			}
 
 			base.PosY = value;

@@ -16,6 +16,14 @@ public class CardManager : MonoBehaviour {
 		Instance = this;
 	}
 
+	void Start () {
+		foreach (Card card in overingCards)
+			card.Init ();
+
+		foreach (Card combatCard in combatCards)
+			combatCard.Init ();
+	}
+
 	#region overing cards
 	public void ShowOvering ( CrewMember member ) {
 

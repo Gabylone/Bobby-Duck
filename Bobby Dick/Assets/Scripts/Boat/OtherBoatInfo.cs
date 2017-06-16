@@ -30,14 +30,8 @@ public class OtherBoatInfo : BoatInfo {
 	{
 		base.UpdatePosition ();
 
-		if ( metPlayer || Random.value < 0.4f ) {
+		if ( Random.value < 0.4f ) {
 			MoveToOtherChunk ();
-		}
-
-		if ( PosX == PlayerBoatInfo.Instance.PosX && PosY == PlayerBoatInfo.Instance.PosY ) {
-
-			Boats.Instance.ShowBoat (this);
-
 		}
 	}
 
@@ -47,6 +41,7 @@ public class OtherBoatInfo : BoatInfo {
 
 		int newX = PosX + (int)p.x;
 		int newY = PosY + (int)p.y;
+
 
 		if (newX >= MapGenerator.Instance.MapScale - 1) {
 
@@ -77,6 +72,7 @@ public class OtherBoatInfo : BoatInfo {
 
 		PosX = newX;
 		PosY = newY;
+
 	}
 
 	private void SwitchDirection () {

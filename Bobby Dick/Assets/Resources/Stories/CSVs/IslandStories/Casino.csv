@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID;;;
-Casino;0;1;;;
+Casino;1,56;1;;;
 Narrator : L'île est assez grande. Une musique émane de derrière des dunes de sable. Un chemin y mène.;;;;;ceci juste pour le bug de merde
 [debut];;;;;Choice : (fouiller la salle)
 SetChoices2;;;;;Narrator : il n'y a pas gra

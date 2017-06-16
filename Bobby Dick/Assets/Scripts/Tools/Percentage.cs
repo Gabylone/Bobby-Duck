@@ -15,14 +15,12 @@ public class Percentage : MonoBehaviour {
 			float percent = prevPercent + percents [i];
 
 			if (chance > prevPercent && chance < prevPercent + percents [i]) {
-				print ("i : " + i);
 				return i;
 			}
 
 			prevPercent += percents [i];
 		}
 
-		Debug.LogError ("index out of percentage");
 		return percents.Length -1;
 	}
 }

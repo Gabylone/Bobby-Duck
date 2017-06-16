@@ -190,16 +190,19 @@ public class DialogueManager : MonoBehaviour {
 	#endregion
 
 	#region narrator
+	public void ShowNarratorTimed (string text) {
+
+		narratorObj.SetActive (true);
+
+		narratorText.text = CheckForKeyWords (text);
+
+		Invoke ("HideNarrator" , 2.5f );
+	}
 	public void ShowNarrator (string text) {
 		
 		narratorObj.SetActive (true);
 
 		narratorText.text = CheckForKeyWords (text);
-
-		if ( !StoryLauncher.Instance.PlayingStory ) {
-			print ("lhistoire se lit pas ?");
-			Invoke ("HideNarrator" , 2.5f );
-		}
 	}
 	public void HideNarrator () {
 		narratorObj.SetActive (false);

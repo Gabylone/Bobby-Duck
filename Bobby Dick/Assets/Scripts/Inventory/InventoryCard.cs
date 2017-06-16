@@ -38,9 +38,9 @@ public class InventoryCard : Card {
 	[SerializeField]
 	private Image constitutionImage;
 
-	public override void Start ()
+	public override void Init ()
 	{
-		base.Start ();
+		base.Init ();
 
 		itemButtons = itemParent.GetComponentsInChildren<ItemButton> ();
 

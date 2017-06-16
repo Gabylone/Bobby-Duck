@@ -155,7 +155,7 @@ public class StoryLoader : MonoBehaviour {
 	public StoryType GetTypeFromPos (int x, int y)
 	{
 		if (x == MapData.Instance.treasureIslandXPos &&
-			y == MapData.Instance.treasureIslandXPos ) {
+			y == MapData.Instance.treasureIslandYPos ) {
 			return StoryType.Treasure;
 		}
 
@@ -178,7 +178,7 @@ public class StoryLoader : MonoBehaviour {
 	public int RandomStoryIndex (int x, int y)
 	{
 		if (x == MapData.Instance.treasureIslandXPos &&
-			y == MapData.Instance.treasureIslandXPos ) {
+			y == MapData.Instance.treasureIslandYPos ) {
 
 			if (treasureStories.Count == 0)
 				Debug.LogError ("no treasure stories");

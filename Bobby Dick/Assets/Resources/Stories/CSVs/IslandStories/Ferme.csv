@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID;;;;;;;
-Ferme;0;1;;;;;;;
+Ferme;4,69;1;;;;;;;
 Narrator : La plage directement sur une terre verte et humide. Derrière des champs de tournesols se tient une petite ferme.;;;;;;;;;
 [debut];;;;;;;;;
 SetChoices2;;;;;;;;;

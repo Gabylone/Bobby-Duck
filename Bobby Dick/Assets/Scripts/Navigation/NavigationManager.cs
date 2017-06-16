@@ -86,6 +86,8 @@ public class NavigationManager : MonoBehaviour {
 			EnterNewChunk ();
 		}
 
+//		print (getDirectionToPoint (new Vector2(MapData.Instance.treasureIslandXPos,MapData.Instance.treasureIslandYPos)).ToString());
+
 	}
 	#endregion
 

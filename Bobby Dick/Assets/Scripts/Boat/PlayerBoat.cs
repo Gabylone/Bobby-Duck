@@ -22,6 +22,8 @@ public class PlayerBoat : Boat {
 	{
 		base.UpdatePositionOnScreen ();
 
+
+
 		Vector2 getDir = NavigationManager.Instance.getDir(BoatInfo.currentDirection);
 		GetTransform.position = NavigationManager.Instance.Anchors[(int)BoatInfo.currentDirection].position;
 	}

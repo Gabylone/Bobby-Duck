@@ -41,7 +41,8 @@ public class EnemyBoat : Boat {
 	{
 		base.UpdatePositionOnScreen ();
 
-
+		Vector2 getDir = NavigationManager.Instance.getDir(OtherBoatInfo.currentDirection);
+		GetTransform.position = NavigationManager.Instance.OtherAnchors[(int)OtherBoatInfo.currentDirection].position;
 	}
 
 	#region world
@@ -53,12 +54,12 @@ public class EnemyBoat : Boat {
 		TargetDirection = (playerBoatPos - boatPos).normalized;
 
 
-		Vector2 getDir = NavigationManager.Instance.getDir(BoatInfo.currentDirection);
-		GetTransform.position = NavigationManager.Instance.OtherAnchors[(int)BoatInfo.currentDirection].position;
+		Vector2 getDir = NavigationManager.Instance.getDir(OtherBoatInfo.currentDirection);
+		GetTransform.position = NavigationManager.Instance.OtherAnchors[(int)OtherBoatInfo.currentDirection].position;
 	}
 
 	private void GoAbout () {
-		Vector2 dir = NavigationManager.Instance.getDir (otherBoatInfo.currentDirection);
+		Vector2 dir = NavigationManager.Instance.getDir (OtherBoatInfo.currentDirection);
 
 		TargetDirection = dir;
 

@@ -43,6 +43,7 @@ public class Fight_LoadSprites : MonoBehaviour {
 			allSprites[(int)SpriteIndex.hair].sprite = memberID.male ? CrewCreator.Instance.HairSprites_Male [memberID.hairSpriteID] : CrewCreator.Instance.HairSprites_Female [memberID.hairSpriteID];
 		else
 			allSprites[(int)SpriteIndex.hair].enabled = false;
+		
 		allSprites[(int)SpriteIndex.hair].color = CrewCreator.Instance.HairColors [memberID.hairColorID];
 
 		if (memberID.beardSpriteID > -1)

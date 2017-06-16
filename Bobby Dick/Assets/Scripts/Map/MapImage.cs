@@ -144,6 +144,10 @@ public class MapImage : MonoBehaviour {
 			if ( boatInfo.PosX <= PlayerBoatInfo.Instance.PosX + PlayerBoatInfo.Instance.ShipRange && boatInfo.PosX >= PlayerBoatInfo.Instance.PosX -PlayerBoatInfo.Instance.ShipRange &&
 				boatInfo.PosY <= PlayerBoatInfo.Instance.PosY + PlayerBoatInfo.Instance.ShipRange && boatInfo.PosY >= PlayerBoatInfo.Instance.PosY - PlayerBoatInfo.Instance.ShipRange) {
 				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, Color.green);
+			} else {
+//				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, Color.magenta );
+				SetPixel (texture,boatInfo.PreviousPosX, boatInfo.PreviousPosY, getChunkColor(MapGenerator.Instance.Chunks[boatInfo.PosX,boatInfo.PosY]) );
+				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, getChunkColor(MapGenerator.Instance.Chunks[boatInfo.PosX,boatInfo.PosY]) );
 			}
 		}
 
@@ -224,9 +228,6 @@ public class MapImage : MonoBehaviour {
 		boatPos -= Vector2.one * (maxContentPosition / 2);
 
 		boatPos = -boatPos;
-
-		print ("X POS : " + boatPos.x);
-		print ("Y POS : " + boatPos.y);
 
 		contentTransform.localPosition = boatPos;
 	}

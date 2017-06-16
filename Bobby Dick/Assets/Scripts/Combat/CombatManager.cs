@@ -85,6 +85,8 @@ public class CombatManager : MonoBehaviour {
 
 	public CrewMember currentMember { get { return fighters [memberIndex].CrewMember; } }
 
+	int crewValue = 0;
+
 
 	/// <summary>
 	/// action
@@ -95,6 +97,10 @@ public class CombatManager : MonoBehaviour {
 	[SerializeField]
 	private CategoryContent categoryFightContent;
 
+	public delegate void FightStarting ();
+	public FightStarting fightStarting;
+	public delegate void FightEnding ();
+	public FightEnding fightEnding;
 
 	void Awake () {
 		Instance = this;
@@ -102,6 +108,9 @@ public class CombatManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		enemyFighters_Parent.SetActive (true);
+		playerFighters_Parent.SetActive (true);
 		initEnemyFighters = enemyFighters_Parent.GetComponentsInChildren<Fighter> (true);
 		initPlayerFighters = playerFighters_Parent.GetComponentsInChildren<Fighter> (true);
 	}
@@ -113,46 +122,34 @@ public class CombatManager : MonoBehaviour {
 			timeInState += Time.deltaTime;
 		}
 
-		if ( Input.GetKeyDown(KeyCode.M) ) {
-			currEnemyFighters [0].Die ();
-		}
-
-		if ( Input.GetKeyDown(KeyCode.L) ) {
-			currPlayerFighters [0].Die ();
-		}
 	}
 	#region combat beginning
 	private void CombatStart_Start () {
-		
-		fighters.Clear ();
-
-		currPlayerFighters.Clear ();
-
-		currEnemyFighters.Clear ();
-
-		for (int fighterIndex = 0; fighterIndex < Crews.playerCrew.CrewMembers.Count; fighterIndex++) {
-			fighters.Add (initPlayerFighters[fighterIndex]);
-			currPlayerFighters.Add (initPlayerFighters [fighterIndex]);
-		}
-
-		for (int fighterIndex = 0; fighterIndex < Crews.enemyCrew.CrewMembers.Count; fighterIndex++) {
-			fighters.Add (initEnemyFighters[fighterIndex]);
-			currEnemyFighters.Add (initEnemyFighters [fighterIndex]);
-		}
 
 		foreach (CrewMember member in Crews.enemyCrew.CrewMembers)
 			member.Icon.Overable = true;
 
 		SortFighters ();
-
 		ShowFighters ();
+
+		fightStarting ();
 
 		ChangeState (States.StartTurn);
 	}
 
 	void SortFighters ()
 	{
-		//
+		fighters.Clear ();
+		currPlayerFighters.Clear ();
+		currEnemyFighters.Clear ();
+		for (int fighterIndex = 0; fighterIndex < Crews.playerCrew.CrewMembers.Count; fighterIndex++) {
+			fighters.Add (initPlayerFighters[fighterIndex]);
+			currPlayerFighters.Add (initPlayerFighters [fighterIndex]);
+		}
+		for (int fighterIndex = 0; fighterIndex < Crews.enemyCrew.CrewMembers.Count; fighterIndex++) {
+			fighters.Add (initEnemyFighters[fighterIndex]);
+			currEnemyFighters.Add (initEnemyFighters [fighterIndex]);
+		}
 
 	}
 
@@ -163,7 +160,7 @@ public class CombatManager : MonoBehaviour {
 	#region StartTurn
 	private void StartTurn_Start () {
 
-		if ( currentFighter.SkipNextTurn) {
+		if ( currentFighter.TurnsToSkip > 0 ) {
 
 			currentFighter.CombatFeedback.Display ("Skip\nTurn");
 			return;
@@ -178,8 +175,9 @@ public class CombatManager : MonoBehaviour {
 
 		if (timeInState > timeBetweenSteps) {
 
-			if (currentFighter.SkipNextTurn) {
-				currentFighter.SkipNextTurn = true;
+			if (currentFighter.TurnsToSkip > 0) {
+				currentFighter.TurnsToSkip--;
+				currentFighter.CombatFeedback.Display ("Skip " + currentFighter.TurnsToSkip + "\nmore");
 				NextTurn ();
 				return;
 			}
@@ -196,11 +194,9 @@ public class CombatManager : MonoBehaviour {
 		CheckMembers ();
 
 		if (currEnemyFighters.Count == 0) {
-			print ("plus de combatants ennemis");
 			return;
 		}
 		if (currPlayerFighters.Count == 0) {
-			print ("plus de combatants joueurs");
 			return;
 		}
 
@@ -230,6 +226,7 @@ public class CombatManager : MonoBehaviour {
 			if (Crews.getCrew (Crews.Side.Enemy).CrewMembers.Count == 0) {
 				WinFight ();
 			} else {
+				DialogueManager.Instance.ShowNarratorTimed ("L'équipe adverse s'enfuit");
 				Escape ();
 			}
 			return;
@@ -308,26 +305,24 @@ public class CombatManager : MonoBehaviour {
 	{
 		ActionType tmpType = ActionType.Attacking;
 
-//		float maxChanceOfCharisma = 0.45f;
-//		float currentChanceOfCharisma = currentMember.Charisma * currentMember.maxStat;
-//
-//		if ( Random.value < currentChanceOfCharisma ) {
-//			tmpType = ActionType.Charming;
-//		}
-//
-//		if ( currentMember.Health <= (float)currentMember.MaxHealth / 4f ) {
-//
-//			float random = Random.value;
-//
-//			if ( random <= 0.6f ) {
-//
-//				tmpType = ActionType.Guarding;
-//
-//				if ( random <= 0.3f ) {
-//					tmpType = ActionType.Fleeing;
-//				}
-//			}
-//		}
+		float maxChanceOfCharisma = 0.45f;
+		float currentChanceOfCharisma = (currentMember.Charisma * maxChanceOfCharisma) / currentMember.maxStat;
+		if ( Random.value < currentChanceOfCharisma )
+			tmpType = ActionType.Charming;
+
+		if ( currentMember.Health <= (float)currentMember.MaxHealth / 4f ) {
+
+			float random = Random.value;
+
+			if ( random <= 0.4f ) {
+
+				tmpType = ActionType.Guarding;
+
+				if ( random <= 0.2f ) {
+					tmpType = ActionType.Fleeing;
+				}
+			}
+		}
 
 		return tmpType;
 	}
@@ -471,7 +466,7 @@ public class CombatManager : MonoBehaviour {
 		} if ( DiceManager.Instance.HighestResult == 1 ) {
 			
 			currentFighter.CombatFeedback.Display("Crit\nFail!");
-			currentFighter.SkipNextTurn = true;
+			currentFighter.TurnsToSkip += 1;
 		} else {
 			
 			currentFighter.CombatFeedback.Display("Fail!");
@@ -516,14 +511,14 @@ public class CombatManager : MonoBehaviour {
 			
 			currentFighter.CombatFeedback.Display ("Succ");
 			currentFighter.TargetFighter.Speak ("Ah, merci, c'est gentil");
-			currentFighter.TargetFighter.SkipNextTurn = true;
+			currentFighter.TargetFighter.TurnsToSkip += 2;
 
 		} else if ( DiceManager.Instance.HighestResult == 1 ) {
 			
 			currentFighter.TargetFighter.Speak ("Il est con ce mec...");
 			currentFighter.CombatFeedback.Display ("Crit\nFail");
 			foreach ( Fighter fighter in currEnemyFighters ) {
-				fighter.SkipNextTurn = false;
+				fighter.TurnsToSkip = 0;
 			}
 
 		} else {
@@ -553,8 +548,10 @@ public class CombatManager : MonoBehaviour {
 	#region fight end
 	void StopFight ()
 	{
+		fightEnding ();
 		Crews.enemyCrew.Hide ();
 		ChangeState (States.None);
+		CardManager.Instance.HideFightingCards ();
 	}
 	public void WinFight ( float delay ) {
 		Invoke("WinFight",delay);
@@ -563,17 +560,12 @@ public class CombatManager : MonoBehaviour {
 
 		StopFight ();
 
-		int po = 0;
-
-		foreach ( CrewMember crewMember in Crews.enemyCrew.CrewMembers )
-			po += crewMember.Level * (int)Random.Range ( 10 , 15 );
+		int po = crewValue * Random.Range (2, 4);
 
 		string phrase = "Il avait " + po + " pièces d'or";
 		DialogueManager.Instance.SetDialogue (phrase, CombatManager.Instance.currPlayerFighters[0].dialogueAnchor);
 
 		GoldManager.Instance.GoldAmount += po;
-
-		CardManager.Instance.HideFightingCards ();
 
 		Invoke ("ShowLoot", 1);
 	}
@@ -598,24 +590,26 @@ public class CombatManager : MonoBehaviour {
 
 	#region fighters
 	private void ShowFighters () {
-
 		foreach ( Crews.Side side in Crews.Instance.Sides ) {
 			Crews.getCrew(side).UpdateCrew ( Crews.PlacingType.Hidden );
 
 			Fighter[] fighters = side == Crews.Side.Player ? initPlayerFighters : initEnemyFighters;
 
 			for (int fighterIndex = 0; fighterIndex < Crews.getCrew(side).CrewMembers.Count; fighterIndex++) {
+				
 				fighters [fighterIndex].Init (Crews.getCrew(side).CrewMembers[fighterIndex],fighterIndex);
 			}
 		}
+
+		foreach (CrewMember mem in Crews.enemyCrew.CrewMembers)
+			crewValue += mem.Level;
 	}
 	private void HideFighters (Crews.Side side) {
 
 		Fighter[] fighters = side == Crews.Side.Player ? initPlayerFighters : initEnemyFighters;
 
-		for (int fighterIndex = 0; fighterIndex < Crews.getCrew(side).CrewMembers.Count; fighterIndex++) {
-			fighters [fighterIndex].Hide ();
-		}
+		foreach (Fighter f in fighters)
+			f.Hide ();
 	}
 	public void DeleteFighter (Fighter fighter) {
 		fighters.Remove (fighter);
@@ -764,6 +758,7 @@ public class CombatManager : MonoBehaviour {
 			} else {
 
 				HideFighters (Crews.Side.Player);
+				HideFighters (Crews.Side.Enemy);
 
 				Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
 				Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);

@@ -91,9 +91,6 @@ public class CrewIcon : MonoBehaviour {
 			
 			float f = ((float)member.CurrentHunger / (float)member.MaxState);
 
-			if (hungerImage == null || !hungerImage)
-				print ("merde pourqoiy'a pas d'image...");
-
 			hungerImage.fillAmount = f;
 
 			hungerObject.SetActive (f > 0.65f);

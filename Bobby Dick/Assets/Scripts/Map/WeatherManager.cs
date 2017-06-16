@@ -39,11 +39,6 @@ public class WeatherManager : MonoBehaviour {
 		NavigationManager.Instance.EnterNewChunk += UpdateWeather;
 	}
 
-	void Update () {
-		if (Input.GetKeyDown (KeyCode.O))
-			IsNight = true;
-	}
-
 	public bool Raining {
 		get {
 			return raining;

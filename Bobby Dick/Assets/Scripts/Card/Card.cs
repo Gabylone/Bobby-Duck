@@ -54,7 +54,7 @@ public class Card : MonoBehaviour {
 	[SerializeField]
 	private Animator[] stateAnimators;
 
-	public virtual void Start () {
+	public virtual void Init () {
 		
 		_transform = cardObject.GetComponent<Transform>();
 

@@ -42,13 +42,17 @@ public class MapGenerator : MonoBehaviour {
 
 	#region map data
 	private void CreateMapData () {
-		
-		mapData = new MapData (MapScale);
 
-		for ( int x = 0; x < mapScale; ++x ) {
-			for ( int y = 0; y < mapScale; ++y )
+		MapGenerator.Instance.Chunks = new Chunk[mapScale,mapScale];
+
+		for (int x = 0; x < mapScale; x++) {
+			for (int y = 0; y < mapScale; y++) {
+				Chunks [x, y] = new Chunk ();
 				Chunks [x, y].state = State.UndiscoveredSea;
+			}
 		}
+
+		mapData = new MapData (MapScale);
 
 		int islandAmount = Mathf.RoundToInt (mapScale / 10);
 

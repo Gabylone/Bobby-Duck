@@ -36,6 +36,16 @@ public class Island : MonoBehaviour {
 	public void Init () {
 		transform = GetComponent<Transform>();
 		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
+		CombatManager.Instance.fightStarting += DeactivateCollider;
+		CombatManager.Instance.fightEnding += ActivateCollider;
+	}
+
+	void DeactivateCollider ()
+	{
+		GetComponentInChildren<BoxCollider2D> ().enabled = false;
+	}
+	void ActivateCollider () {
+		GetComponentInChildren<BoxCollider2D> ().enabled = true;
 	}
 	#endregion
 
@@ -48,7 +58,7 @@ public class Island : MonoBehaviour {
 	#region render
 	public void UpdatePositionOnScreen () {
 
-		bool onIslandChunk = MapData.Instance.currentChunk.state == State.DiscoveredIsland || MapData.Instance.currentChunk.state == State.VisitedIsland;
+		bool onIslandChunk = MapData.Instance.currentChunk.state == State.DiscoveredIsland || MapData.Instance.currentChunk.state == State.VisitedIsland || MapData.Instance.currentChunk.state == State.UndiscoveredIsland;
 
 		group.SetActive ( onIslandChunk );
 

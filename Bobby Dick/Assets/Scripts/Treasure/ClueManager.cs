@@ -40,6 +40,8 @@ public class ClueManager : MonoBehaviour {
 
 		string stringToCheck = inputField.text;
 
+		stringToCheck = stringToCheck.ToLower ();
+
 		inputField.text = "";
 		clueBubble.SetActive (false);
 
@@ -47,7 +49,7 @@ public class ClueManager : MonoBehaviour {
 
 		foreach ( string clue in clues ) {
 			
-			if ( clue == stringToCheck ) {
+			if ( clue.ToLower() == stringToCheck ) {
 				DeleteClue (index);
 				return;
 			}

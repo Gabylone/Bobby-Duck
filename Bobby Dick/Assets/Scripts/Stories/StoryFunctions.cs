@@ -338,10 +338,8 @@ public class StoryFunctions : MonoBehaviour {
 
 		if (item == null) {
 			StoryReader.Instance.SetDecal (1);
-			print ("il l'a pas");
 		} else {
 			DialogueManager.Instance.LastItemName = item.name;
-			print ("il l'a");
 		}
 
 		StoryReader.Instance.UpdateStory ();

@@ -26,10 +26,10 @@ public class MenuManager : MonoBehaviour {
 
 	public void Open () {
 		uiButton.Opened = true;
-		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
 	}
 
 	public void Close () {
+		
 		uiButton.Opened = false;
 
 		saveMenu.Opened = false;

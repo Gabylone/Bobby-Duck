@@ -32,19 +32,24 @@ public class StoryTest : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if (Input.GetKeyDown(KeyCode.Return) ) {
-			StoryReader.Instance.StoryManager.storyHandlers[0].storyID = StoryLoader.Instance.FindIndexByName (storyName);
-			StoryLauncher.Instance.PlayStory (StoryReader.Instance.StoryManager,StoryLauncher.StorySource.island);
-		}
+//		if (Input.GetKeyDown(KeyCode.Return) ) {
+//			StoryReader.Instance.StoryManager.storyHandlers[0].storyID = StoryLoader.Instance.FindIndexByName (storyName);
+//			StoryLauncher.Instance.PlayStory (StoryReader.Instance.StoryManager,StoryLauncher.StorySource.island);
+//		}
 
-		if (Input.GetKeyDown (KeyCode.PageUp)) {
-			Node node = StoryReader.Instance.GetNodeFromText (nodeName);
-			StoryReader.Instance.GoToNode (node);
-		}
+//
+//		if (Input.GetKeyDown(KeyCode.PageUp) ) {
+//
+//			PlayerBoatInfo.Instance.PosX = MapData.Instance.treasureIslandXPos;
+//			PlayerBoatInfo.Instance.PosY = MapData.Instance.treasureIslandYPos;
+//			NavigationManager.Instance.ChangeChunk (Directions.None);
+//
+//			Debug.Log (" player Y : " + PlayerBoatInfo.Instance.PosX);
+//			Debug.Log (" player X : " + PlayerBoatInfo.Instance.PosY);
+//			Debug.Log ("island X : " + MapData.Instance.treasureIslandXPos);
+//			Debug.Log ("island Y : " + MapData.Instance.treasureIslandYPos);
+//		}
 
-		if (Input.GetKeyDown(KeyCode.Insert) ) {
-			StoryLoader.Instance.LoadStories ();
-		}
 	}
 
 	void checkDirection () {

@@ -16,26 +16,26 @@ public class RandomManager : MonoBehaviour {
 	}
 
 	void Update () {
-		if ( overrideRandom ) {
-			KeyCode[] keyCodes = new KeyCode[9] {
-				KeyCode.Alpha1,
-				KeyCode.Alpha2,
-				KeyCode.Alpha3,
-				KeyCode.Alpha4,
-				KeyCode.Alpha5,
-				KeyCode.Alpha6,
-				KeyCode.Alpha7,
-				KeyCode.Alpha8,
-				KeyCode.Alpha9,
-			};
-
-			int a = 0;
-			foreach (KeyCode keyCode in keyCodes) {
-				if (Input.GetKeyDown (keyCode))
-					targetDecal = a;
-				++a;
-			}
-		}
+//		if ( overrideRandom ) {
+//			KeyCode[] keyCodes = new KeyCode[9] {
+//				KeyCode.Alpha1,
+//				KeyCode.Alpha2,
+//				KeyCode.Alpha3,
+//				KeyCode.Alpha4,
+//				KeyCode.Alpha5,
+//				KeyCode.Alpha6,
+//				KeyCode.Alpha7,
+//				KeyCode.Alpha8,
+//				KeyCode.Alpha9,
+//			};
+//
+//			int a = 0;
+//			foreach (KeyCode keyCode in keyCodes) {
+//				if (Input.GetKeyDown (keyCode))
+//					targetDecal = a;
+//				++a;
+//			}
+//		}
 	}
 
 	#region random

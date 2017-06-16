@@ -151,7 +151,7 @@ public class Fighter : MonoBehaviour {
 	[SerializeField]
 	private GameObject infoButton;
 
-	private bool skipNextTurn = false;
+	private int turnsToSkip;
 
 	// Use this for initialization
 	public virtual void Start () {
@@ -413,14 +413,15 @@ public class Fighter : MonoBehaviour {
 	}
 	#endregion
 
-	public bool SkipNextTurn {
+	public int TurnsToSkip {
 		get {
-			return skipNextTurn;
+			return turnsToSkip;
 		}
 		set {
-			skipNextTurn = value;
+			
+			turnsToSkip = value;
 
-			animator.SetBool ("uncounscious", value);
+			animator.SetBool ("uncounscious", turnsToSkip > 0);
 		}
 	}
 
@@ -440,16 +441,6 @@ public class Fighter : MonoBehaviour {
 
 			if ( currentState == states.getHit ) {
 				Debug.Log ("didn't touch parce que déjà en get hit");
-				return;
-			}
-
-			if (targetFighter == null) {
-				print ("pas de target figter");
-				return;
-			}
-			
-			if (other.GetComponentInParent<Fighter>().ID != targetFighter.ID ) {
-				print ("mauvais ID");
 				return;
 			}
 

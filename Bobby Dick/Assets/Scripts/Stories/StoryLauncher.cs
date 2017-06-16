@@ -27,20 +27,15 @@ public class StoryLauncher : MonoBehaviour {
 	}
 
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.Q)) {
+		if (Input.GetKeyDown (KeyCode.PageDown)) {
 			print ("quittage de force");
 			PlayingStory = false;
-		}
-
-		if (Input.GetKeyDown (KeyCode.P)) {
-			print ("quittage de force");
-			mapButton.Opened = false;
 		}
 	}
 
 	#region propeties
-	public void PlayStory (StoryManager storyHandlers , StoryLauncher.StorySource source) {
-		StoryReader.Instance.StoryManager = storyHandlers;
+	public void PlayStory (StoryManager storyManager , StoryLauncher.StorySource source) {
+		StoryReader.Instance.StoryManager = storyManager;
 		CurrentStorySource = source;
 		PlayingStory = true;
 	}

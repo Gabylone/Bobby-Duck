@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID;;;;;;;;;
-Taverne;0;1;;;;;;;;;
+Taverne;6,25;1;;;;;;;;;
 [debut];;;;;;;;;;;
 Narrator : De la fumée monte dans le ciel et une odeur merveilleuse flotte dans l'air. C'est une taverne.;;;;;;;;;;;
 SetChoices2;;;;;;;;;;;
@@ -11,8 +11,8 @@ Leave;Fade;;;;;;;;;;
 [taverne];;;;;;;;;;;
 CheckDay;;;;;;;;;;;
 RandomRange2;;RandomRange2;;;;;;;;;
-Narrator : La taverne est bondée. Un grand feu de cheminée éclaire la pièce, et tout le monde raconte leurs journées autour. L'alcool embaume la pièce.;Narrator : La taverne est totalement vide de nuit… Le tavernier est à moitié endormi sur son comptoir et seul quelques client dorment dans le vomi de ce qu'ils ont mangé dans la soirée.;Narrator : La taverne est bondée. Les clients cris, rient, et s'engueulent. Même quelques musiciens sont venus faire danser les voyageurs.;Narrator : Il n'y a pas grand monde… Le silence domine les tables, seulement quelques vieux sirotent doucement leur chope.;;;;;;;;
-Node=>tavernier;Node=>tavernier;Node=>tavernier;Node=>tavernier;;;;;;;;
+Narrator : A cette heure de la journée, la taverne est bondée. Les clients cris, rient, et s'engueulent. Même quelques musiciens sont venus faire danser les voyageurs.;Narrator : Malgré l'heure de la journée, il n'y a pas grand monde… Le silence domine les tables, seulement quelques vieux sirotent doucement leur chope.;Narrator : La taverne est bondée. Un grand feu de cheminée éclaire la pièce, et tout le monde raconte leurs journées autour. L'alcool embaume la pièce.;Narrator : La taverne est totalement vide de nuit… Le tavernier est à moitié endormi sur son comptoir et seul quelques client dorment dans le vomi de ce qu'ils ont mangé dans la soirée.;;;;;;;;
+Node=>choix taverne;Node=>choix taverne;Node=>choix taverne;Node=>choix taverne;;;;;;;;
 ;;;;;;;;;;;
 [choix taverne];;;;;;;;;;;
 SetChoices3;;;;;;;;;;;

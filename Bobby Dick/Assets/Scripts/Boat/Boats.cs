@@ -22,10 +22,10 @@ public class Boats : MonoBehaviour {
 
 	[Header("Movement")]
 	[SerializeField]
-	private float chanceOfMoving = 0.1f;
+	private float chanceOfMoving = 0.5f;
 
 	[SerializeField]
-	private float timeToMove = 7f;
+	private float timeToMove = 20f;
 
 	private float timer = 0f;
 	private bool metBoat = false;
@@ -34,23 +34,6 @@ public class Boats : MonoBehaviour {
 		Instance = this;
 	}
 
-	void UpdateBoatPosition ()
-	{
-		foreach (OtherBoatInfo boat in OtherBoatInfos) {
-			boat.UpdatePosition ();
-		}
-
-		playerBoatInfo.UpdatePosition ();
-	}
-
-	void Update (){
-		
-		if ( timer >= timeToMove) {
-			MoveBoats ();
-		}
-
-		timer += Time.deltaTime;
-	}
 
 	// Use this for initialization
 	public void Init () {
@@ -68,23 +51,28 @@ public class Boats : MonoBehaviour {
 		}
 
 		NavigationManager.Instance.EnterNewChunk += HideBoat;
-		NavigationManager.Instance.EnterNewChunk += UpdateBoatPosition;
+		NavigationManager.Instance.EnterNewChunk += UpdateEnemyBoatPosition;
+		NavigationManager.Instance.EnterNewChunk += UpdatePlayerBoatPosition;
 	}
 
-	void MoveBoats ()
+	void UpdateEnemyBoatPosition ()
 	{
-		foreach ( OtherBoatInfo inf in OtherBoatInfos ) {
+		foreach (OtherBoatInfo boat in OtherBoatInfos) {
+			
+			boat.UpdatePosition ();
 
-			if ( Random.value < chanceOfMoving ) {
-				//
-				inf.UpdatePosition ();
+			if ( boat.PosX == PlayerBoatInfo.Instance.PosX && boat.PosY == PlayerBoatInfo.Instance.PosY ) {
+
+				ShowBoat (boat);
+
 			}
-
 		}
 
-		MapImage.Instance.CheckForBoats ();
+	}
 
-		timer = 0f;
+	void UpdatePlayerBoatPosition () {
+		playerBoatInfo.UpdatePosition ();
+
 	}
 
 	public void ShowBoat (OtherBoatInfo boatInfo)
@@ -101,10 +89,8 @@ public class Boats : MonoBehaviour {
 
 	public void HideBoat () {
 
-		if (!metBoat) {
-			otherBoat.OtherBoatInfo = null;
-			otherBoat.Visible = false;
-		}
+		otherBoat.OtherBoatInfo = null;
+		otherBoat.Visible = false;
 
 		metBoat = false;
 

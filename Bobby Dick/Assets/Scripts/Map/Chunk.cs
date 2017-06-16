@@ -14,7 +14,6 @@ public class Chunk
 	private IslandData islandData;
 
 	public Chunk () {
-		//
 	}
 
 	public IslandData IslandData {

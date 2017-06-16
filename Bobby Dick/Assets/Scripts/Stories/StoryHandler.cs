@@ -26,8 +26,11 @@ public class StoryManager {
 
 		int storyId = StoryLoader.Instance.RandomStoryIndex (x, y);
 
+
 		StoryType type = StoryLoader.Instance.GetTypeFromPos (x, y);
+
 		StoryHandler handler = new StoryHandler (storyId,type);
+
 		storyHandlers.Add (handler);
 	}
 
@@ -100,7 +103,7 @@ public class StoryHandler {
 	}
 
 	public Loot GetLoot ( int x , int y ) {
-		return loots.Find (loot => (loot.col == x) && (loot.row == y) );
+		return loots.Find (loot => (loot.row == x) && (loot.col== y) );
 	}
 
 	public void SetLoot (Loot targetLoot) {
@@ -108,8 +111,7 @@ public class StoryHandler {
 	}
 
 	public Crew GetCrew ( int x , int y ) {
-		return crews.Find (crew => (crew.col == x) && (crew.row == y) );
-
+		return crews.Find (crew => (crew.row == x) && (crew.col== y) );
 	}
 
 	public void SetCrew (Crew targetCrew) {

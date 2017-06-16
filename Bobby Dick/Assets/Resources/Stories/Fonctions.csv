@@ -7,7 +7,7 @@ RandomPercent;nombre aléatoire entre 0 et 100. se décale si le nombre est au-d
 RandomRange;choisit aléatoirement entre X décalage. ( RandomRedoRangeX ).;;
 RandomRedoPercent;pareil que RandomPercent. Mais le décalage change à chaque fois, l'aléatoire n'est pas conservé.;;
 RandomRedoRange;pareil que RandomRange. Mais le décalage change à chaque fois, l'aléatoire n'est pas conservé.;;
-NewCrew;crée un équipage aléatoire ( NewCrew ou NewCrewX ou NewCrew X/M ) X étant la taille de l'équipage et M le sexe (M/F);;
+NewCrew;crée un équipage aléatoire ( NewCrewN/S/L) : N = nombre (?:random) : S = sexe (?:random) : L = niveau (?:random);;
 ShowPlayer;Fait apparaître l'équipage joueur;;
 ShowOther;Fait apparaître l'équipage adverse;;
 HidePlayer;Cache l'équipage joueur;;

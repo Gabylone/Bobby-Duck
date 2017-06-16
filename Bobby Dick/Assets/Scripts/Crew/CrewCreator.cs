@@ -313,16 +313,15 @@ public class MemberID {
 		if (crewParams.overideGenre) {
 			male = crewParams.male;
 		} else {
-			male = Random.value < 0.65f;
+			male = Random.value < 0.5f;
 		}
 
 		nameID 	= Random.Range (0, male ? CrewCreator.Instance.MaleNames.Length : CrewCreator.Instance.FemaleNames.Length );
 
-		if (Crews.playerCrew.CrewMembers.Count > 0) {
-			lvl = Random.Range (Crews.playerCrew.captain.Level - 1, Crews.playerCrew.captain.Level + 2);
-//			Debug.Log ("random level given : " + lvl);
+		if (crewParams.level > 0) {
+			lvl = crewParams.level;
 		} else {
-			lvl = 1;
+			lvl = Random.Range (Crews.playerCrew.captain.Level - 1, Crews.playerCrew.captain.Level + 2);
 		}
 
 		lvl = Mathf.Clamp ( lvl , 1 , 10 );
@@ -361,7 +360,7 @@ public class MemberID {
 
 		beardSpriteID 	= male ? (Random.value > 0.2f ? Random.Range (0 , CrewCreator.Instance.BeardSprites.Length) : -1) : -1;
 		eyeSpriteID 	= Random.Range (0 , CrewCreator.Instance.EyesSprites.Length);
-		eyebrowsSpriteID 	= Random.Range (0 , CrewCreator.Instance.EyebrowsSprites.Length);
+		eyebrowsSpriteID= Random.Range (0 , CrewCreator.Instance.EyebrowsSprites.Length);
 		noseSpriteID 	= Random.Range (0 , CrewCreator.Instance.NoseSprites.Length);
 		mouthSpriteID 	= Random.Range (0 , CrewCreator.Instance.MouthSprites.Length);
 
@@ -375,6 +374,9 @@ public class MemberID {
 }
 
 public struct CrewParams {
+
+	public int level;
+
 	public int amount;
 
 	public bool overideGenre;
@@ -382,13 +384,15 @@ public struct CrewParams {
 
 	public CrewParams (
 		int _amount,
-		bool _overideGenre = false,
-		bool _male = false
+		bool _overideGenre,
+		bool _male,
+		int _level
 	)
 	{
 		amount = _amount;
 		overideGenre = _overideGenre;
 		male = _male;
+		level = _level;
 	}
 
 }
@@ -410,6 +414,11 @@ public class Crew {
 
 		row = r;
 		col = c;
+
+		if (crewParams.amount == 0) {
+			int a = Random.Range ( Crews.playerCrew.CrewMembers.Count -1 ,Crews.playerCrew.CrewMembers.Count +1 );
+			crewParams.amount = Mathf.Clamp (crewParams.amount, 1, 6);
+		}
 
 		for (int i = 0; i < crewParams.amount; ++i) {
 			MemberID id = new MemberID (crewParams);

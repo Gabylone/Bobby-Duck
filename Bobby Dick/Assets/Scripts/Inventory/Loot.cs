@@ -9,7 +9,6 @@ public class Loot {
 	public int row = 0;
 	public int col = 0;
 	public Item[][] loot = new Item[4][];
-
 	public int weight = 0;
 
 	public Item[][] getLoot {

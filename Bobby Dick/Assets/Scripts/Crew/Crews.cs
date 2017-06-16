@@ -34,7 +34,7 @@ public class Crews : MonoBehaviour {
 		crews [0] = GetComponentsInChildren<CrewManager> () [0];
 		crews [1] = GetComponentsInChildren<CrewManager> () [1];
 
-		CrewParams crewParams = new CrewParams (startMemberAmount, false, false);
+		CrewParams crewParams = new CrewParams (startMemberAmount, false, false, 1);
 		Crew playerCrew = new Crew (crewParams,0,0);
 		crews [0].setCrew (playerCrew);
 		crews [0].UpdateCrew (PlacingType.Map);
@@ -74,6 +74,7 @@ public class Crews : MonoBehaviour {
 
 	#region crew tools
 	public void CreateNewCrew () {
+		
 		StoryReader.Instance.NextCell ();
 
 		Crew islandCrew = Crews.Instance.GetCrewFromCurrentCell ();
@@ -84,13 +85,12 @@ public class Crews : MonoBehaviour {
 		} else {
 
 			Crews.enemyCrew.setCrew (islandCrew);
+			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+			Crews.enemyCrew.captain.Icon.ShowBody ();
 
 			if (islandCrew.hostile) {
 				DialogueManager.Instance.SetDialogueTimed ("Le revoilà !", Crews.enemyCrew.captain);
 				StoryReader.Instance.SetDecal (2);
-			} else {
-				Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-				Crews.enemyCrew.captain.Icon.ShowBody ();
 			}
 
 		}
@@ -117,33 +117,44 @@ public class Crews : MonoBehaviour {
 
 		}
 
+
 		return tmp;
 
 	}
 
 	public CrewParams GetCrewFromText (string text) {
 
-		int l = Crews.playerCrew.CrewMembers.Count;
-
 		CrewParams crewParams = new CrewParams ();
 
-		if ( text.Length > 0 ) {
+		string[] parms = text.Split ('/');
 
-			if (text.Contains ("/")) {
+			// crew amount
+		if ( parms.Length > 0 ) {
 
-				string[] parms = text.Split ('/');
+			int parmAmount = 0;
+			bool parsable = int.TryParse(parms[0],out parmAmount);
 
-				crewParams.amount = int.Parse (parms[0]);
-				crewParams.overideGenre = true;
-				crewParams.male = parms[1][0] == 'M';
+			crewParams.amount = parmAmount;
+		}
 
-			} else {
-				crewParams.amount = int.Parse (text);
+			// genre
+		if ( parms.Length > 1 ) {
+			
+			crewParams.overideGenre = true;
 
-			}
+			if ( parms[1][0] == 'M') 
+				crewParams.male = true;
+			else if (parms[1][0] == 'F' )
+				crewParams.male = false;
+			else
+				crewParams.male = Random.value > 0.5f;
 
-		} else {
-			crewParams.amount = Random.Range ( l-1 , l+2 );
+		}
+
+		if ( parms.Length > 2 ) {
+
+			crewParams.level = int.Parse ( parms[2] );
+
 		}
 
 		return crewParams;
