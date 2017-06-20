@@ -94,6 +94,8 @@ public class PlayerLoot : MonoBehaviour {
 
 	#region button action
 
+	bool ateSomething = false;
+
 	public void Eat () {
 
 		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
@@ -101,13 +103,16 @@ public class PlayerLoot : MonoBehaviour {
 		SoundManager.Instance.PlaySound (eatSound);
 
 		targetMember.Health += lootUI.SelectedItem.value;
-		int foodHealth = (int)(lootUI.SelectedItem.value);
-		targetMember.CurrentHunger -= foodHealth;
+		targetMember.CurrentHunger -= lootUI.SelectedItem.value * 2;
 
 		RemoveSelectedItem ();
 
 		if ( CombatManager.Instance.Fighting ) {
+
+			ateSomething = true;
+
 			Close ();
+
 			CombatManager.Instance.NextTurn ();
 		}
 
@@ -206,9 +211,10 @@ public class PlayerLoot : MonoBehaviour {
 
 		if ( CombatManager.Instance.Fighting ) {
 
-			CombatManager.Instance.ChangeState (CombatManager.States.PlayerAction);
-			InventoryButton.SetActive (false);
+			if (ateSomething == false)
+				CombatManager.Instance.ChangeState (CombatManager.States.PlayerAction);
 
+			ateSomething = false;
 		}
 	}
 	#endregion

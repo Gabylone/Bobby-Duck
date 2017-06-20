@@ -5,30 +5,59 @@ public class NavigationTrigger : MonoBehaviour {
 
 	public int texID = 0;
 
-	Animator animator;
-//
+	bool targeted = false;
+
+	bool inside = false;
+
 	void OnTriggerEnter2D ( Collider2D other ) {
 
-		if (other.tag == "Player") {
+		if (other.tag == "Player" && targeted ) {
 
 			NavigationManager.Instance.ChangeChunk ((Directions)texID);
 
+			Targeted = false;
+
 		}
 
 	}
 
-	public bool EnableFeedback {
+	void Update () {
+		if (targeted) {
+
+			if (NavigationManager.Instance.FlagControl.UpdatingPosition) {
+				if ( !inside )
+					Targeted = false;
+			}
+
+		}
+	}
+
+	public void OnMouseOver() {
+
+		if (targeted == false) {
+			if (NavigationManager.Instance.FlagControl.UpdatingPosition)
+				Targeted = true;
+		}
+
+		inside = true;
+	}
+
+	public void OnMouseExit () {
+
+		inside = false;
+
+	}
+
+
+	public bool Targeted {
 		get {
-			return animator.enabled;
+			return targeted;
 		}
 		set {
-			animator.enabled = value;
-		}
-	}
+			targeted = value;
 
-	public Animator Animator {
-		get {
-			return animator;
+			NavigationManager.Instance.FlagControl.FlagImage.sprite = targeted ? NavigationManager.Instance.arrowSprites [texID] : NavigationManager.Instance.flagSprite;
+
 		}
 	}
 }

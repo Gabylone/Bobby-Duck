@@ -13,7 +13,7 @@ public class StoryLoader : MonoBehaviour {
 	private List<Story> homeStories 	= new List<Story> ();
 	private List<Story> boatStories 	= new List<Story> ();
 
-
+	public bool checkNodes = false;
 
 	private TextAsset[] storyFiles;
 	[SerializeField]
@@ -35,6 +35,11 @@ public class StoryLoader : MonoBehaviour {
 
 	}
 
+	void Update () {
+		if ( Input.GetKeyDown(KeyCode.Insert) ) {
+			StartCoroutine (CheckAllNodes ());
+		}
+	}
 
 	public void LoadStories ()
 	{
@@ -290,6 +295,105 @@ public class StoryLoader : MonoBehaviour {
 
 		return storyIndex;
 	}
+
+	#region check nodes
+	IEnumerator CheckAllNodes ()
+	{
+		CheckNodes (islandStories);
+		yield return new WaitForEndOfFrame ();
+		CheckNodes (boatStories);
+		yield return new WaitForEndOfFrame ();
+		CheckNodes (homeStories);
+		yield return new WaitForEndOfFrame ();
+		CheckNodes (clueStories);
+		yield return new WaitForEndOfFrame ();
+		CheckNodes (treasureStories);
+	}
+
+	Story storyToCheck;
+
+	void CheckNodes (List<Story> stories)
+	{
+		foreach (Story story in stories) {
+			storyToCheck = story;
+			CheckNodes_Story (story);
+		}
+	}
+
+	void CheckNodes_Story ( Story story ) {
+		
+		foreach (List<string> contents in story.content) {
+
+			CheckNodes_CheckCells (contents);
+
+		}
+	}
+
+	void CheckNodes_CheckCells (List<string> contents)
+	{
+		foreach (string content in contents) {
+
+			CheckNodes_CheckCell (content);
+
+		}
+	}
+
+	void CheckNodes_CheckCell (string cellContent)
+	{
+			// check if empty
+		if (cellContent.Length == 0)
+			return;
+
+			// check if node
+		if ( cellContent[0] == '[' ) {
+			return;
+		}
+
+			// CHECK FOR FUNCTION
+		bool cellContainsFunction = false;
+
+		string functionFound = "";
+
+		foreach (string functionName in storyFunctions.FunctionNames) {
+
+			if (cellContent.Contains (functionName)) {
+				cellContainsFunction = true;
+				functionFound = functionName;
+				break;
+			}
+
+		}
+
+		if (cellContainsFunction == false) {
+			Debug.LogError ("" +
+				"There's no function in the cell :\n" +
+				"STORY : " + storyToCheck.name + " / CELL CONTENT : " + cellContent);
+			return;
+		}
+
+		if (functionFound != "Node")
+			return;
+
+		// CHECK NODE
+		bool nodeIsLinked = false;
+
+		string nodeName = cellContent.Remove (0, 6);
+
+		foreach (Node node in storyToCheck.nodes) {
+			if (nodeName == node.name) {
+				nodeIsLinked = true;
+				return;
+			}
+		}
+
+		if (!nodeIsLinked) {
+			Debug.LogError ("" +
+				"There's a node function, but the node has no link :\n" +
+				"STORY : " + storyToCheck.name + " / CELL CONTENT : " + cellContent + " / TARGET NODE : " + nodeName);
+		}
+	}
+
+	#endregion
 
 	#region story getters
 	public List<Story> IslandStories {

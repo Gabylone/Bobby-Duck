@@ -213,6 +213,7 @@ public class CombatManager : MonoBehaviour {
 	void CheckMembers ()
 	{
 		if ( currPlayerFighters.Count == 0 ) {
+
 			if (Crews.getCrew (Crews.Side.Player).CrewMembers.Count == 0) {
 				StopFight ();
 				GameManager.Instance.GameOver (1);
@@ -263,6 +264,7 @@ public class CombatManager : MonoBehaviour {
 			ChangeState (States.PlayerMemberChoice);
 			break;
 		case ActionType.Eating:
+
 			PlayerLoot.Instance.Open (categoryFightContent);
 			PlayerLoot.Instance.CrewGroup.SetActive (false);
 			break;
@@ -303,6 +305,9 @@ public class CombatManager : MonoBehaviour {
 
 	private ActionType Enemy_GetAction ()
 	{
+
+		return ActionType.Fleeing;
+
 		ActionType tmpType = ActionType.Attacking;
 
 		float maxChanceOfCharisma = 0.45f;
@@ -350,8 +355,10 @@ public class CombatManager : MonoBehaviour {
 	public void ChoosingEnemyTarget ( bool b ) {
 		foreach ( Fighter fighter in fighters ) {
 			if (fighter.CrewMember.Side == Crews.Side.Enemy) {
+				
 				fighter.ChooseButton.SetActive (b);
 				fighter.CrewMember.Icon.Overable = b;
+				fighter.ChooseButton.GetComponent<Button> ().interactable = b;
 			}
 		}
 	}
@@ -456,19 +463,20 @@ public class CombatManager : MonoBehaviour {
 	}
 	private void Flee () {
 
-		if ( DiceManager.Instance.HighestResult >= 5 ) {
+//		if ( DiceManager.Instance.HighestResult >= 5 ) {
+		if ( DiceManager.Instance.HighestResult >= 0 ) {
 
 			currentFighter.Hide ();
-			DeleteFighter (currentFighter);
-
 			currentFighter.CombatFeedback.Display("Sucess!");
 
-		} if ( DiceManager.Instance.HighestResult == 1 ) {
+			DeleteFighter (currentFighter);
+
+
+		} else if ( DiceManager.Instance.HighestResult == 1 ) {
 			
 			currentFighter.CombatFeedback.Display("Crit\nFail!");
 			currentFighter.TurnsToSkip += 1;
 		} else {
-			
 			currentFighter.CombatFeedback.Display("Fail!");
 		}
 

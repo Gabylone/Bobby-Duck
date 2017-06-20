@@ -41,10 +41,10 @@ public class CrewMember {
 
 	private int currentHunger = 0;
 
-	private int stepsToHunger = 1;
+	private int stepsToHunger = 10;
 	private int hungerDamage = 5;
 
-	private int maxState = 15;
+	private int maxState = 100;
 
 	private void Init () {
 

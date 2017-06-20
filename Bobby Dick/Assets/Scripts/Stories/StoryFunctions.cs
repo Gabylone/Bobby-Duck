@@ -22,9 +22,12 @@ public class StoryFunctions : MonoBehaviour {
 	public void Read ( string content ) {
 
 		if (content.Length == 0) {
-			Debug.LogError ("cell is empty on story " + StoryReader.Instance.CurrentStoryHandler.Story.name + "" +
+			string text = "cell is empty on story " + StoryReader.Instance.CurrentStoryHandler.Story.name + "" +
 				"\n at row : " + (StoryReader.Instance.Index+2) + "" +
-				"\n and collumn : " + StoryReader.Instance.Decal);
+				"\n and collumn : " + StoryReader.Instance.Decal;
+
+			DebugMessage.Instance.Open (text);
+
 			Leave ();
 			return;
 		}
@@ -434,7 +437,19 @@ public class StoryFunctions : MonoBehaviour {
 
 	#region dice
 	private void CheckStat () {
-		StartCoroutine (CheckStat_Coroutine ());
+
+		int decal = StoryReader.Instance.CurrentStoryHandler.GetDecal ();
+
+		if (decal < 0) {
+			StartCoroutine (CheckStat_Coroutine ());
+		} else {
+			StoryReader.Instance.NextCell ();
+
+			StoryReader.Instance.SetDecal (decal);
+
+			StoryReader.Instance.UpdateStory ();
+		}
+
 	}
 
 	IEnumerator CheckStat_Coroutine () {
@@ -499,7 +514,10 @@ public class StoryFunctions : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 
-		StoryReader.Instance.SetDecal (captainHighest >= otherHighest ? 0 : 1);
+		int decal = captainHighest >= otherHighest ? 0 : 1;
+
+		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);
+		StoryReader.Instance.SetDecal (decal);
 
 		StoryReader.Instance.UpdateStory ();
 	}

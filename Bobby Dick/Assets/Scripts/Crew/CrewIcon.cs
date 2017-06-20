@@ -151,7 +151,13 @@ public class CrewIcon : MonoBehaviour {
 
 		float decal = 0f;
 
+		if (currentPlacingType == Crews.PlacingType.Discussion
+			||currentPlacingType == Crews.PlacingType.SoloCombat) {
+			ShowBody ();
+		}
+
 		if (placingType == Crews.PlacingType.Combat || placingType == Crews.PlacingType.Map) {
+			HideBody();
 			decal = member.GetIndex * placementDecal;
 		}
 
@@ -182,16 +188,6 @@ public class CrewIcon : MonoBehaviour {
 	public void MoveExit () {
 		moveLerp = false;
 		Overable = true;
-
-		if (currentPlacingType == Crews.PlacingType.Discussion
-			||currentPlacingType == Crews.PlacingType.SoloCombat) {
-			ShowBody ();
-		}
-
-		if (currentPlacingType == Crews.PlacingType.Combat
-			|| currentPlacingType == Crews.PlacingType.Map) {
-			HideBody();
-		}
 
 	}
 	#endregion

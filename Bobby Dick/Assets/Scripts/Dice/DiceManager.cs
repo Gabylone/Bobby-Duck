@@ -126,10 +126,10 @@ public class DiceManager : MonoBehaviour {
 	}
 	private void Throwing_Update () {
 
-		if ( InputManager.Instance.OnInputDown() ) {
-			ChangeState (states.showingHighest);
-			return;
-		}
+//		if ( InputManager.Instance.OnInputDown() ) {
+//			ChangeState (states.showingHighest);
+//			return;
+//		}
 
 		if ( timeInState > throwDuration) {
 			ChangeState (states.showingHighest);

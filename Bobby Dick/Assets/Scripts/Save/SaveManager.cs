@@ -31,8 +31,14 @@ public class SaveManager : MonoBehaviour
 
 	IEnumerator LoadGameCoroutine () {
 
+
+
 		Transitions.Instance.ScreenTransition.Fade = true;
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
+
+		if ( StoryLauncher.Instance.PlayingStory)
+			StoryLauncher.Instance.PlayingStory = false;
+
 
 		// player crew
 		Crews.Instance.LoadPlayerCrew ();

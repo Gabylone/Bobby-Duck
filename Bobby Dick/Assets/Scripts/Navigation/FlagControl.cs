@@ -28,9 +28,13 @@ public class FlagControl : MonoBehaviour {
 
 	public bool updatingPosition = false;
 
+	bool targetedIsland = false;
+
 	// Use this for initialization
 	void Start () {
 		flagRect = flagImage.GetComponent<RectTransform> ();
+		NavigationManager.Instance.EnterNewChunk += ResetFlag;
+
 	}
 	
 	// Update is called once per frame
@@ -41,7 +45,6 @@ public class FlagControl : MonoBehaviour {
 
 		UpdateFlagToIsland ();
 
-		NavigationManager.Instance.EnterNewChunk += ResetFlag;
 	}
 
 	public void ResetFlag () {
@@ -57,8 +60,8 @@ public class FlagControl : MonoBehaviour {
 			// get flat poses
 		Vector2 boatPos 	= (Vector2)playerBoat.GetTransform.localPosition;
 		Vector2 flagPos 	= (Vector2)flagRect.localPosition;
-		Vector2 islandPos 	= (Vector2)island.transform.localPosition;
-		Vector2 islandWorldPos = (Vector2)island.transform.position;
+		Vector2 islandPos 	= (Vector2)island.getTransform.localPosition;
+		Vector2 islandWorldPos = (Vector2)island.getTransform.position;
 
 		// calc distances
 		float distance_BoatToFlag = Vector2.Distance (flagPos, boatPos);
@@ -67,29 +70,40 @@ public class FlagControl : MonoBehaviour {
 		flagImage.color = flagIsNearIsland ? Color.red : Color.blue;
 		flagImage.enabled = !(distance_BoatToFlag < distanceToStop + 0.3f);
 
-		if (flagIsNearIsland) {
-			
+		if (targetedIsland == false) {
+			if (updatingPosition) {
+
+				if ( flagIsNearIsland ) {
+
+					targetedIsland = true;
+
+				}
+
+			}
+		} else {
+			if ( updatingPosition ) {
+				if (flagIsNearIsland == false) {
+					targetedIsland = false;
+				}
+			}
+		}
+//
+
+		if (targetedIsland ) {
+
 			Vector2 pos = islandWorldPos + decalToIsland;
 
 			if ( distance_BoatToFlag < distanceToStop ) {
 
 				island.Enter ();
 
-				// move flag to prevent reentering on leave island
-				if (islandWorldPos.x < 0) {
-					pos = islandWorldPos + Vector2.right * 2f;
-				} else {
-					pos = islandWorldPos + Vector2.left *  2f;
-				}
+				targetedIsland = false;
 
 				flagImage.color = Color.blue;
 
 			}
 
-			PlaceFlagOnWorld (pos);
 		}
-
-
 		playerBoat.TargetSpeed = boatSpeed;
 		playerBoat.TargetDirection = (flagPos - boatPos).normalized;
 

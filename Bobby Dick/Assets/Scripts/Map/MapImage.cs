@@ -17,13 +17,13 @@ public class MapImage : MonoBehaviour {
 
 	[Header("Colors")]
 	[SerializeField]
-	private Color unvisitedIslandColor;
+	private Color discoveredIsland_Color;
 	[SerializeField]
-	private Color visitedIslandColor;
+	private Color visitedIsland_Color;
 	[SerializeField]
-	private Color discoveredColor;
+	private Color discoveredSea_Color;
 	[SerializeField]
-	private Color undiscoveredColor;
+	private Color undiscoveredSea_Color;
 	[SerializeField]
 	private Color boatPositionColor;
 
@@ -145,8 +145,7 @@ public class MapImage : MonoBehaviour {
 				boatInfo.PosY <= PlayerBoatInfo.Instance.PosY + PlayerBoatInfo.Instance.ShipRange && boatInfo.PosY >= PlayerBoatInfo.Instance.PosY - PlayerBoatInfo.Instance.ShipRange) {
 				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, Color.green);
 			} else {
-//				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, Color.magenta );
-				SetPixel (texture,boatInfo.PreviousPosX, boatInfo.PreviousPosY, getChunkColor(MapGenerator.Instance.Chunks[boatInfo.PosX,boatInfo.PosY]) );
+				SetPixel (texture,boatInfo.PreviousPosX, boatInfo.PreviousPosY, getChunkColor(MapGenerator.Instance.Chunks[boatInfo.PreviousPosX,boatInfo.PreviousPosY]) );
 				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, getChunkColor(MapGenerator.Instance.Chunks[boatInfo.PosX,boatInfo.PosY]) );
 			}
 		}
@@ -158,19 +157,19 @@ public class MapImage : MonoBehaviour {
 
 		switch (chunk.state) {
 		case State.UndiscoveredSea:
-			return discoveredColor;
+			return discoveredSea_Color;
 			break;
 		case State.DiscoveredSea:
-			return discoveredColor;
+			return discoveredSea_Color;
 			break;
 		case State.UndiscoveredIsland:
-			return unvisitedIslandColor;
+			return discoveredIsland_Color;
 			break;
 		case State.DiscoveredIsland:
-			return unvisitedIslandColor;
+			return discoveredIsland_Color;
 			break;
 		case State.VisitedIsland:
-			return visitedIslandColor;
+			return visitedIsland_Color;
 			break;
 		default:
 			return Color.black;
@@ -181,19 +180,19 @@ public class MapImage : MonoBehaviour {
 
 		switch (chunk.state) {
 		case State.UndiscoveredSea:
-			return undiscoveredColor;
+			return undiscoveredSea_Color;
 			break;
 		case State.DiscoveredSea:
-			return discoveredColor;
+			return discoveredSea_Color;
 			break;
 		case State.UndiscoveredIsland:
-			return undiscoveredColor;
+			return undiscoveredSea_Color;
 			break;
 		case State.DiscoveredIsland:
-			return unvisitedIslandColor;
+			return discoveredIsland_Color;
 			break;
 		case State.VisitedIsland:
-			return visitedIslandColor;
+			return visitedIsland_Color;
 			break;
 		default:
 			return Color.black;

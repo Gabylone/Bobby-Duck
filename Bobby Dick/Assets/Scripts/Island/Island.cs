@@ -6,18 +6,17 @@ public class Island : MonoBehaviour {
 
 	public static Island Instance;
 
-	private Transform transform;
+	public Transform getTransform;
 
+	[SerializeField]
 	private Image image;
 
 	[SerializeField]
 	private Transform boat;
 
-	[SerializeField]
-	private float decal = 0f;
+	[SerializeField] private float decal = 0f;
 
-	[SerializeField]
-	private GameObject group;
+	[SerializeField] private GameObject group;
 
 	[SerializeField]
 	private float distanceToTrigger = 1f;
@@ -33,8 +32,8 @@ public class Island : MonoBehaviour {
 		Instance = this;
 	}
 
-	public void Init () {
-		transform = GetComponent<Transform>();
+	public void Init() {
+		getTransform = GetComponent<Transform>();
 		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
 		CombatManager.Instance.fightStarting += DeactivateCollider;
 		CombatManager.Instance.fightEnding += ActivateCollider;
@@ -56,53 +55,17 @@ public class Island : MonoBehaviour {
 	#endregion
 
 	#region render
-	public void UpdatePositionOnScreen () {
+	public void UpdatePositionOnScreen() {
 
 		bool onIslandChunk = MapData.Instance.currentChunk.state == State.DiscoveredIsland || MapData.Instance.currentChunk.state == State.VisitedIsland || MapData.Instance.currentChunk.state == State.UndiscoveredIsland;
-
-		group.SetActive ( onIslandChunk );
+		gameObject.SetActive ( onIslandChunk );
 
 		if (onIslandChunk) {
-			transform.localPosition = MapData.Instance.currentChunk.IslandData.positionOnScreen;
+			getTransform.localPosition = MapData.Instance.currentChunk.IslandData.positionOnScreen;
 			GetComponentInChildren<Image> ().sprite = sprites [MapData.Instance.currentChunk.IslandData.SpriteID];
 		} else {
-			transform.localPosition = new Vector3 (10000f, 0, 0);
+			getTransform.localPosition = new Vector3 (10000f, 0, 0);
 		}
-	}
-	#endregion
-
-	#region input events
-	public void OnMouseEnter () {
-
-		if ( Vector3.Distance ( boat.position, transform.position ) < distanceToTrigger && StoryLauncher.Instance.PlayingStory == false){
-			transform.localScale = Vector3.one * 1.2f;
-		}
-	}
-
-	public void OnMouseExit() {
-		transform.localScale = Vector3.one;
-	}
-
-	public void OnMouseDown () {
-
-		transform.localScale = Vector3.one;
-
-//
-//		if (NavigationManager.Instance.CurrentNavigationSystem == NavigationManager.NavigationSystem.Flag) {
-//
-//			Vector3 pos = Camera.main.WorldToViewportPoint (transform.position + flagDecal);
-//
-//			NavigationManager.Instance.FlagControl.FlagImage.rectTransform.anchorMin = pos;
-//			NavigationManager.Instance.FlagControl.FlagImage.rectTransform.anchorMax = pos;
-//		} else {
-//			if (Vector3.Distance (boat.position, transform.position) < distanceToTrigger) {
-//				transform.localScale = Vector3.one;
-//
-//				StoryLauncher.Instance.PlayingStory = true;
-//
-//			}
-//
-//		}
 	}
 	#endregion
 

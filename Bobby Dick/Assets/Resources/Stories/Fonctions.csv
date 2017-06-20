@@ -30,6 +30,7 @@ Trade;crée un butin de marchand ( TradeCategorie ou TradeCategorie/AutreCategor
 BoatUpgrades;Ouvre la fenetre des améliorations bateaux;;
 LaunchCombat;lance un combat avec l'équipage adverse;;
 CheckClues;lance la vérification d'indice pour le trésor ( décalage : 0 = mauvais indice, 1 = un indice trouvé, 2 = tous les indices trouvés);;
+GiveFormula;;;
 SetWeather;Change la météo ( ChangeTimeOfDay / SetWeatherNight / SetWeatherRain );;
 ChangeTimeOfDay;Change la météo ( passe de nuit à jour ou jour à nuit );;
 CheckDay;se décale si c'est la nuit;;

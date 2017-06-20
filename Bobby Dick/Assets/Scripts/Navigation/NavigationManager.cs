@@ -16,6 +16,13 @@ public enum Directions {
 
 public class NavigationManager : MonoBehaviour {
 
+
+	[SerializeField]
+	public Sprite[] arrowSprites;
+
+	[SerializeField]
+	public Sprite flagSprite;
+
 		// singleton
 	public static NavigationManager Instance;
 

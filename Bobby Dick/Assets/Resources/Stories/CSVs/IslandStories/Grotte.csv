@@ -17,7 +17,7 @@ Node=>bois jour;Node=>bois nuit;;;;;;;
 Narrator : Les oiseaux chantent, les branches dansent paisiblement et l'atmosphère est calme.;;;;Narrator : Dans le bois résonne un silence de mort. Seul les branches se froissent de temps à autres, et quelques hullulements.;;;;
 Narrator : Un peu plus loin, une porte est solidement enfoncée dans un énorme rocher. Elle est entourée de symboles et de dessins.;;;;Narrator : Un peu plus loin, une porte est solidement enfoncée dans un énorme rocher. Elle est entourée de symboles et de dessins.;;;;
 [devant porte jour];;;;[devant porte nuit];;;;
-SetChoices2;;;;SetChoices2;;;;
+SetChoices3;;;;SetChoices2;;;;
 Choice : (ouvrir la porte);Choice : (observer les dessins);Choice : (retourner sur la plage);;Choice : (ouvrir la porte);;Choice : (retourner sur la plage);;
 PlayerSpeak : YAH ! ça ne s'ouvre pas.;PlayerSpeak : Hmmmm;Fade;;Narrator : La porte s'ouvre grandement, et calmement. Elle donne sur un escalier descendant. On n'en voit pas le fond.;;Fade;;
 Node=>devant porte jour;PlayerSpeak : On dirait des étoiles… Et la lune…;Node=>debut;;SetChoices2;;Node=>debut;;

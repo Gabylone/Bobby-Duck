@@ -103,11 +103,31 @@ public class MapGenerator : MonoBehaviour {
 		MapData.Instance = SaveManager.Instance.CurrentData.mapData;
 
 		Chunks = fromChunkArray (SaveManager.Instance.CurrentData.chunkArray);
+
+		foreach (Chunk cun in chunks) {
+			if (cun.state == State.VisitedIsland)
+				print ("load visited");
+		}
+
+		foreach (Chunk cun in chunks) {
+			if (cun.state == State.DiscoveredIsland)
+				print ("load discovered");
+		}
 	}
 
 	public void SaveIslandsData () {
 		SaveManager.Instance.CurrentData.mapData = MapData.Instance;
 		SaveManager.Instance.CurrentData.chunkArray = toChunkArray (Chunks);
+
+		foreach (Chunk cun in chunks) {
+			if (cun.state == State.VisitedIsland)
+				print ("save visited");
+		}
+
+		foreach (Chunk cun in chunks) {
+			if (cun.state == State.DiscoveredIsland)
+				print ("save discovered");
+		}
 
 	}
 	public Chunk[][] toChunkArray ( Chunk[,] bufferChunks ) {

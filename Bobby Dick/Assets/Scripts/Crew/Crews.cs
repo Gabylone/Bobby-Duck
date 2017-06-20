@@ -85,14 +85,13 @@ public class Crews : MonoBehaviour {
 		} else {
 
 			Crews.enemyCrew.setCrew (islandCrew);
-			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-			Crews.enemyCrew.captain.Icon.ShowBody ();
 
 			if (islandCrew.hostile) {
 				DialogueManager.Instance.SetDialogueTimed ("Le revoilà !", Crews.enemyCrew.captain);
 				StoryReader.Instance.SetDecal (2);
 			}
 
+			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 		}
 
 		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.MoveDuration);
