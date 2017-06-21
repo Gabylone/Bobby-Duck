@@ -1,7 +1,7 @@
 Nom;Fréquence %;Sprite ID;
 Bandits;4,69;0;
 [debut];;;
-Narrator : L'équipage accoste sur une petite île.;;;
+ChangeStory=>Hangar[debut/arrivée bandits];Narrator : L'équipage accoste sur une petite île.;;
 [arrivée bandits];;;
 NewCrew;;;
 Narrator : Quelques hommes s'avancent;Node=>bandits morts;OtherSpeak : Alors ? Tu nous as oubliés ?;

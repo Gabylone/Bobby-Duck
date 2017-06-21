@@ -242,6 +242,7 @@ public class MapImage : MonoBehaviour {
 
 	public void OpenMap () {
 		mapButton.Opened = true;
+		PlayerLoot.Instance.Close ();
 		CenterOnBoat ();
 	}
 	public void CloseMap () {

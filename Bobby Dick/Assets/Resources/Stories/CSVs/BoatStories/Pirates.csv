@@ -21,7 +21,7 @@ Switch=>payed ?;;LaunchCombat;OtherSpeak : Tanpis Pour vous !;;
 CheckGold30;OtherSpeak : Vous vous foutez de moi ?;Node=>bateau vide;LaunchCombat;;
 RemoveGold30;OtherSpeak : Déglingez les, les gars !;;Node=>bateau vide;;
 OtherSpeak : C'est très bien ça…;LaunchCombat;;;;
-OtherSpeak : A la prochaine;bateau vide;;;;
+OtherSpeak : A la prochaine;Node=>bateau vide;;;;
 Leave;;;;;
 ;;;;;
 [a payé];;;;;

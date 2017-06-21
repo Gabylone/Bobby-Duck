@@ -85,7 +85,7 @@ public class StoryLoader : MonoBehaviour {
 
 		for (int rowIndex = 1; rowIndex < rows.Length; ++rowIndex ) {
 
-			string[] rowContent = rows[rowIndex].Split (';');
+			string[] rowContent = rows [rowIndex].Split (';');
 
 			// create story
 			if (rowIndex == 1) 
@@ -145,10 +145,16 @@ public class StoryLoader : MonoBehaviour {
 		
 		string[] rows = functionFile.text.Split ( '\n' );
 
-		storyFunctions.FunctionNames = new string[rows.Length-1];
+		storyFunctions.FunctionNames = new string[rows.Length-2];
 
-		for (int row = 0; row < storyFunctions.FunctionNames.Length; ++row ) {
-			storyFunctions.FunctionNames [row] = rows [row].Split (';') [0];
+		int functionIndex = 0;
+
+		for (int row = 1; row < rows.Length-1; ++row ) {
+
+			string function = rows [row].Split (';') [0];
+			storyFunctions.FunctionNames [functionIndex] = function;
+
+			++functionIndex;
 
 		}
 	}
@@ -222,32 +228,31 @@ public class StoryLoader : MonoBehaviour {
 	#endregion
 
 	#region percentage
-	public int getStoryIndexFromPercentage ( StoryType type ) {
+	public List<Story> getStories ( StoryType storyType ) {
 
-		List<Story> stories = new List<Story> ();
-
-		switch (type) {
+		switch (storyType) {
 		case StoryType.Island:
-			stories =  IslandStories;
+			return IslandStories;
 			break;
 		case StoryType.Treasure:
-			stories = TreasureStories;
+			return TreasureStories;
 			break;
 		case StoryType.Home:
-			stories = HomeStories;
+			return HomeStories;
 			break;
 		case StoryType.Clue:
-			stories = ClueStories;
+			return ClueStories;
 			break;
 		case StoryType.Boat:
-			stories = BoatStories;
+			return BoatStories;
 			break;
 		default:
-			stories = IslandStories;
+			return IslandStories;
 			break;
 		}
-
-		return getStoryIndexFromPercentage (stories);
+	}
+	public int getStoryIndexFromPercentage ( StoryType type ) {
+		return getStoryIndexFromPercentage (getStories(type));
 	}
 	public int getStoryIndexFromPercentage ( List<Story> stories ) {
 
@@ -281,22 +286,35 @@ public class StoryLoader : MonoBehaviour {
 
 	public Story FindByName (string storyName)
 	{
-		return IslandStories[FindIndexByName (storyName)];
+		int index = FindIndexByName (storyName);
+
+		if (index < 0)
+			return null;
+
+		return IslandStories[index];
 	}
 
-	public int FindIndexByName (string storyName)
+	public int FindIndexByName (string storyName,StoryType storyType)
 	{
-		int storyIndex = IslandStories.FindIndex (x => x.name == storyName);
+		int storyIndex = getStories (storyType).FindIndex (x => x.name == storyName);
 
 		if (storyIndex < 0) {
-			Debug.LogError ("coun't find story /" + storyName + "/, returning first");
-			return 0;
+			Debug.LogError ("coun't find story / " + storyName + " /, returning null");
 		}
 
 		return storyIndex;
 	}
 
+	public int FindIndexByName (string storyName)
+	{
+		return FindIndexByName (storyName, StoryType.Island);
+	}
+
 	#region check nodes
+	int checkNodes_Decal = 0;
+	int checkNodes_Index = 0;
+	string alphabet = "abcdefghijklmnopqrstuvwxyz";
+	bool checkNodes_Incorrect = false;
 	IEnumerator CheckAllNodes ()
 	{
 		CheckNodes (islandStories);
@@ -308,6 +326,10 @@ public class StoryLoader : MonoBehaviour {
 		CheckNodes (clueStories);
 		yield return new WaitForEndOfFrame ();
 		CheckNodes (treasureStories);
+
+		if (!checkNodes_Incorrect) {
+			Debug.Log ("Stories are perfect");
+		}
 	}
 
 	Story storyToCheck;
@@ -321,19 +343,27 @@ public class StoryLoader : MonoBehaviour {
 	}
 
 	void CheckNodes_Story ( Story story ) {
-		
+
+		checkNodes_Decal = 0;
+
 		foreach (List<string> contents in story.content) {
 
 			CheckNodes_CheckCells (contents);
+
+			++checkNodes_Decal;
 
 		}
 	}
 
 	void CheckNodes_CheckCells (List<string> contents)
 	{
+		checkNodes_Index = 3;
+
 		foreach (string content in contents) {
 
 			CheckNodes_CheckCell (content);
+
+			++checkNodes_Index;
 
 		}
 	}
@@ -341,7 +371,7 @@ public class StoryLoader : MonoBehaviour {
 	void CheckNodes_CheckCell (string cellContent)
 	{
 			// check if empty
-		if (cellContent.Length == 0)
+		if (cellContent.Length < 2)
 			return;
 
 			// check if node
@@ -349,50 +379,98 @@ public class StoryLoader : MonoBehaviour {
 			return;
 		}
 
-			// CHECK FOR FUNCTION
-		bool cellContainsFunction = false;
+			// check if choice
+		if ( cellContent.Contains ("Choice") ) {
+			return;
+		}
 
-		string functionFound = "";
+			// CHECK FOR FUNCTION
+		if (ContainedFunction (cellContent) == false) {
+			CheckNodes_Error ("Cell doesn't contain function",cellContent);
+			return;
+		}
+
+		// CHECK NODE
+		if (cellContent.Contains ("Node") ) {
+
+			string nodeName = cellContent.Remove (0, 6);
+
+			if ( LinkedToNode (nodeName) == false ) {
+				
+				CheckNodes_Error ("There's a node function, but the node has no link",cellContent);
+
+				return;
+
+
+			}
+		}
+
+		if (cellContent.Contains ("ChangeStory") ) {
+
+			// get second story name
+			string storyName = cellContent.Remove (0, 13);
+			storyName = storyName.Remove (storyName.IndexOf ('['));
+
+			string[] nodes = cellContent.Remove (0, cellContent.IndexOf ('[') + 1).TrimEnd (']').Split ('/');
+
+			if ( LinkedToNode (nodes[1]) == false ) {
+				CheckNodes_Error ("the fallback node has no link",cellContent);
+			}
+
+			Story secondStory = StoryLoader.Instance.FindByName (storyName);
+			if ( secondStory == null ) {
+				CheckNodes_Error ("Story doesn't exist",cellContent);
+				return;
+			}
+
+			if ( LinkedToNode (nodes[0],secondStory) == false ) {
+				CheckNodes_Error ("the target node has no link",cellContent);
+			}
+
+
+		}
+	
+	}
+
+	void CheckNodes_Error (string str,string content)
+	{
+		
+		checkNodes_Incorrect = true;
+
+		Debug.Log (storyToCheck.name);
+		Debug.LogError (str);
+		Debug.LogError ("CELL CONTENT : " + content);
+		Debug.LogError ("ROW : " + alphabet [checkNodes_Decal] + " / COLL " + checkNodes_Index);
+	}
+
+	private bool LinkedToNode ( string nodeName ) {
+		return LinkedToNode (nodeName, storyToCheck);
+	}
+	private bool LinkedToNode ( string nodeName , Story targetStory ) {
+
+		nodeName = nodeName.TrimEnd ('\r', '\n');
+
+		foreach (Node node in targetStory.nodes) {
+			if (nodeName == node.name) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private bool ContainedFunction ( string str ) {
 
 		foreach (string functionName in storyFunctions.FunctionNames) {
 
-			if (cellContent.Contains (functionName)) {
-				cellContainsFunction = true;
-				functionFound = functionName;
-				break;
+			if (str.Contains (functionName)) {
+				return true;
 			}
 
 		}
 
-		if (cellContainsFunction == false) {
-			Debug.LogError ("" +
-				"There's no function in the cell :\n" +
-				"STORY : " + storyToCheck.name + " / CELL CONTENT : " + cellContent);
-			return;
-		}
-
-		if (functionFound != "Node")
-			return;
-
-		// CHECK NODE
-		bool nodeIsLinked = false;
-
-		string nodeName = cellContent.Remove (0, 6);
-
-		foreach (Node node in storyToCheck.nodes) {
-			if (nodeName == node.name) {
-				nodeIsLinked = true;
-				return;
-			}
-		}
-
-		if (!nodeIsLinked) {
-			Debug.LogError ("" +
-				"There's a node function, but the node has no link :\n" +
-				"STORY : " + storyToCheck.name + " / CELL CONTENT : " + cellContent + " / TARGET NODE : " + nodeName);
-		}
+		return false;
 	}
-
 	#endregion
 
 	#region story getters

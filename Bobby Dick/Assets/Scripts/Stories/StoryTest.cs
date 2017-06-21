@@ -12,7 +12,8 @@ public class StoryTest : MonoBehaviour {
 
 	public bool launchStoryOnStart;
 
-	public string storyName = "Maison";
+	public string testStoryName = "Maison";
+	public StoryType testStoryType;
 	public string nodeName = "";
 
 	public int X1 = 0;
@@ -32,12 +33,11 @@ public class StoryTest : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if (Input.GetKeyDown(KeyCode.Return) ) {
-			StoryReader.Instance.StoryManager.storyHandlers[0].storyID = StoryLoader.Instance.FindIndexByName (storyName);
-			StoryReader.Instance.StoryManager.storyHandlers [0].storyType = StoryType.Island;
-			print (StoryReader.Instance.StoryManager.storyHandlers [0].Story.name);	
-			StoryLauncher.Instance.PlayStory (StoryReader.Instance.StoryManager,StoryLauncher.StorySource.island);
-		}
+//		if (Input.GetKeyDown(KeyCode.Return) ) {
+//			StoryReader.Instance.StoryManager.storyHandlers [0].storyType = testStoryType;
+//			StoryReader.Instance.StoryManager.storyHandlers[0].storyID = StoryLoader.Instance.FindIndexByName (testStoryName,testStoryType);
+//			StoryLauncher.Instance.PlayStory (StoryReader.Instance.StoryManager,StoryLauncher.StorySource.island);
+//		}
 
 //
 //		if (Input.GetKeyDown(KeyCode.PageUp) ) {

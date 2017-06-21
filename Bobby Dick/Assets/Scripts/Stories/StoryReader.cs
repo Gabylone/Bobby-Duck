@@ -93,7 +93,9 @@ public class StoryReader : MonoBehaviour {
 	}
 
 	public Node GetNodeFromText ( string text ) {
-		
+
+		text = text.TrimEnd ('\r', '\n');
+
 		Node node = CurrentStoryHandler.Story.nodes.Find ( x => x.name == text);
 
 		if ( node == null ) {
@@ -136,9 +138,9 @@ public class StoryReader : MonoBehaviour {
 		string storyName = text.Remove (0, 2);
 		storyName = storyName.Remove (storyName.IndexOf ('['));
 
-
 		// get second story
-		Story secondStory = StoryLoader.Instance.IslandStories.Find ( x => x.name == storyName);
+		Story secondStory = StoryLoader.Instance.FindByName (storyName);
+
 		if (secondStory == null) {
 			Debug.LogError ("pas trouvé second story : " + storyName);
 			StoryLauncher.Instance.PlayingStory = false;
@@ -152,7 +154,6 @@ public class StoryReader : MonoBehaviour {
 		string fallbackNodeTXT = nodes.Split ('/') [1].TrimEnd(']');
 		Node fallBackNode = GetNodeFromText (fallbackNodeTXT);
 
-		Debug.Log ("CHANGE STORY : found story : " + secondStory.name);
 
 		int decal = StoryReader.Instance.Decal;
 		int index = StoryReader.Instance.Index;
@@ -169,7 +170,6 @@ public class StoryReader : MonoBehaviour {
 
 			if ( targetStoryLayer < 0 ) {
 				
-				Debug.Log ("CHANGE STORY : adding new story handler to handlers");
 
 				StoryHandler newHandler = new StoryHandler ( secondStoryID,StoryType.Island);
 				newHandler.fallBackLayer = CurrentStoryLayer;
@@ -178,7 +178,6 @@ public class StoryReader : MonoBehaviour {
 
 				StoryManager.AddStory (newHandler);
 
-				Debug.Log ("CHANGE STORY : setting new index");
 				targetStoryLayer = StoryManager.storyHandlers.Count - 1;
 
 				// fall back nodes

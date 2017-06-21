@@ -9,9 +9,9 @@ Leave;[choix ferme];;;;;;;;
 ;RandomRange2;;;;;;;;
 ;Node=>ferme détruite;Node=>ferme normale;;;;;;;
 ;;;;;;;;;
-[ferme détruite];;;;;;[ferme normale];;;[ferme caca]
-Narrator : La ferme n'est plus qu'un amât de poutre carbonisée et de cendre. L'air sent encore la fumée. Au seuil de la porte, un tas de papier brûlé. Un petit chemin parsemé de traces de pas mène sur une autre plage.;;;;;;NewCrew1/F;;;Narrator : C'est une petite caca
-[choix];;;;;;Narrator : C'est une petite ferme, entourée de champs. Une jeune fille ramasse des graines de tournesol près de la porte. Un chemin mène vers la plage, un autre vers derrière la maison.;Node=>fermière morte;Node=>combat fermière;Node=>ferme normale
+[ferme détruite];;;;;;[ferme normale];;;
+Narrator : La ferme n'est plus qu'un amât de poutre carbonisée et de cendre. L'air sent encore la fumée. Au seuil de la porte, un tas de papier brûlé. Un petit chemin parsemé de traces de pas mène sur une autre plage.;;;;;;NewCrew1/F;;;
+[choix];;;;;;Narrator : C'est une petite ferme, entourée de champs. Une jeune fille ramasse des graines de tournesol près de la porte. Un chemin mène vers la plage, un autre vers derrière la maison.;Node=>fermière morte;Node=>combat fermière;
 SetChoices4;;;;;;SetChoices3;;;
 Choice : (fouiller les restes);;Choice : (regarder les papiers);;Choice : (retourner au bateau);Choice : (suivre traces de pas);Choice : (aller voir jeune fille);Choice : (retourner plage);Choice : (suivre chemin);
 RandomPercent50;;RandomRange2;;Fade;Fade;Node=>rencontre fermière;Node=>debut;Node=>plage2;
@@ -40,7 +40,7 @@ Node=>ferme détruite;PlayerSpeak : Oh !;PlayerSpeak : La plage est toute vid
 ;;;;;;;;;
 [plage pirates];;;;;;;;;
 NewCrew;;;;;;;;;
-Narrator : Un groupe de pirates ! Ils s'appretent à monter dans leur petit bateau.;Node=>pirates morts;Node=>combat pirate;;;;;;;
+Narrator : Un groupe de pirates ! Ils s'appretent à monter dans leur petit bateau.;Node=>pirates morts;Node=>combat pirates;;;;;;;
 OtherSpeak : Vous n'aurez jamais le trésor avant nous !;;;;;;;;;
 [discussion pirates];;;;;;;;;
 SetChoices3;;;;;;;;;

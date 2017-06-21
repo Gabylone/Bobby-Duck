@@ -305,9 +305,6 @@ public class CombatManager : MonoBehaviour {
 
 	private ActionType Enemy_GetAction ()
 	{
-
-		return ActionType.Fleeing;
-
 		ActionType tmpType = ActionType.Attacking;
 
 		float maxChanceOfCharisma = 0.45f;
