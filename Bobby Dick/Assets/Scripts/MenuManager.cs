@@ -14,16 +14,6 @@ public class MenuManager : MonoBehaviour {
 
 	bool quit_Confirmed = false;
 
-	void Awake () {
-		DontDestroyOnLoad (gameObject);
-		DontDestroyOnLoad (saveMenu.gameObject);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	public void Open () {
 		uiButton.Opened = true;
 	}
@@ -41,9 +31,6 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	#region buttons
-	public void NewGameButton () {
-		SceneManager.LoadScene ("Main");
-	}
 	public void SaveButton () {
 		saveMenu.Saving = true;
 		saveMenu.Opened = !saveMenu.Opened;
@@ -53,8 +40,6 @@ public class MenuManager : MonoBehaviour {
 		saveMenu.Opened = !saveMenu.Opened;
 	}
 	public void QuitButton () {
-
-		Screen.fullScreen = false;
 
 		if (quit_Confirmed) {
 

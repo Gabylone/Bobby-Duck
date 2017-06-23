@@ -4,7 +4,7 @@ CheckFirstVisit;;;;;;;;;
 Node=>premiere visite;Node=>retour;;;;;;;;
 ;;;;;;;;;
 [premiere visite];;;;;;;;;
-Narrator : Et c'est ainsi que CAPITAINE parti à la recherche du trésor de Bobby Dick. Seul, et avec seulement quelques ration.;;;;;;;;;
+Narrator : Et c'est ainsi que CAPITAINE parti à la recherche du trésor de Bobby Dick. Accompagné de sa fidèle galère, NOMBATEAU, et de seulement quelques rations.;;;;;;;;;
 PlayerSpeak : En route !;;;;;;;;;
 Leave;;;;;;;;;
 ;;;;;;;;;

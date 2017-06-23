@@ -62,6 +62,14 @@ public class NavigationManager : MonoBehaviour {
 	public delegate void ChunkEvent ();
 	public ChunkEvent EnterNewChunk;
 
+	private Directions currentDirection;
+
+	public Directions CurrentDirection {
+		get {
+			return currentDirection;
+		}
+	}
+
 	void Awake () {
 		Instance = this;
 	}
@@ -83,17 +91,10 @@ public class NavigationManager : MonoBehaviour {
 	#region movement
 	public void ChangeChunk ( Directions newDirection ) {
 
-
-			// set new boat direction
-		PlayerBoatInfo.Instance.currentDirection = newDirection;
-		PlayerBoatInfo.Instance.PosX += (int)getDir (newDirection).x;
-		PlayerBoatInfo.Instance.PosY += (int)getDir (newDirection).y;
-
+		currentDirection = newDirection;
 		if (EnterNewChunk != null) {
 			EnterNewChunk ();
 		}
-
-//		print (getDirectionToPoint (new Vector2(MapData.Instance.treasureIslandXPos,MapData.Instance.treasureIslandYPos)).ToString());
 
 	}
 	#endregion
@@ -110,7 +111,7 @@ public class NavigationManager : MonoBehaviour {
 	}
 	public Directions getDirectionToPoint ( Vector2 point ) {
 
-		Vector2 boatPos = new Vector2 (PlayerBoatInfo.Instance.PosX, PlayerBoatInfo.Instance.PosY);
+		Vector2 boatPos = new Vector2 (Boats.Instance.PlayerBoatInfo.PosX, Boats.Instance.PlayerBoatInfo.PosY);
 		Vector2 direction = point - boatPos;
 
 		for (int i = 0; i < 8; ++i ) {

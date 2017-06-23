@@ -177,16 +177,16 @@ public class InventoryCard : Card {
 
 		switch (i) {
 		case 0:
-			++currentMember.MemberID.str;
+			++currentMember.MemberID.Str;
 			break;
 		case 1:
-			++currentMember.MemberID.dex;
+			++currentMember.MemberID.Dex;
 			break;
 		case 2:
-			++currentMember.MemberID.cha;
+			++currentMember.MemberID.Cha;
 			break;
 		case 3:
-			++currentMember.MemberID.con;
+			++currentMember.MemberID.Con;
 			break;
 		}
 

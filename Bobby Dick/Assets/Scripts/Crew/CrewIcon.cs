@@ -144,7 +144,11 @@ public class CrewIcon : MonoBehaviour {
 		MoveStart ();
 	}
 
-	public void MoveToPoint ( Crews.PlacingType placingType , float duration = 0.5f ) {
+	public void MoveToPoint ( Crews.PlacingType placingType ) {
+		MoveToPoint (placingType, 0.2f);
+	}
+
+	public void MoveToPoint ( Crews.PlacingType placingType , float duration ) {
 
 		previousPlacingType = currentPlacingType;
 		currentPlacingType = placingType;

@@ -18,33 +18,47 @@ public class GameManager : MonoBehaviour {
 
 	public void LoadGame () {
 
-		MapGenerator.Instance.GenerateIslands ();
+		Transitions.Instance.ScreenTransition.Fade = false;
 
 		ItemLoader.Instance.Init ();
 		LootManager.Instance.Init ();
 		ClueManager.Instance.Init ();
-
 		Crews.Instance.Init ();
+
+		if (KeepOnLoad.dataToLoad < 0) {
+
+			MapGenerator.Instance.GenerateIslands ();
+
+			Crews.Instance.RandomizePlayerCrew ();
+			LootManager.Instance.CreateNewLoot ();
+			ClueManager.Instance.CreateNewClues ();
+
+			Boats.Instance.RandomizeBoats ();
+
+		} else {
+			SaveManager.Instance.LoadGame (KeepOnLoad.dataToLoad);
+		}
 
 		Boats.Instance.Init ();
 
 		MapImage.Instance.InitImage ();
 		MapImage.Instance.Init ();
 
-		StoryLauncher.Instance.PlayStory (MapData.Instance.currentChunk.IslandData.storyManager,StoryLauncher.StorySource.island);
-
-		if ( PlayerBoatInfo.Instance.PosX == MapData.Instance.homeIslandXPos &&
-			PlayerBoatInfo.Instance.PosY == MapData.Instance.homeIslandYPos ) {
-		}
+		Island.Instance.Init ();
 
 		NavigationManager.Instance.ChangeChunk (Directions.None);
 
-		Island.Instance.Init ();
+		if (KeepOnLoad.dataToLoad < 0) {
+			MemberCreator.Instance.Show ();
+			Transitions.Instance.ActionTransition.Fade = true;
+		} else {
+			
+		}
 
 	}
 
 	public void Restart () {
-		SceneManager.LoadScene ("Main");
+		SceneManager.LoadScene ("Menu");
 	}
 
 	public void GameOver (float delay) {

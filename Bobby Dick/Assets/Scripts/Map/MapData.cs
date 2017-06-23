@@ -50,7 +50,7 @@ public class MapData
 
 	public Chunk currentChunk {
 		get {
-			return MapGenerator.Instance.Chunks[PlayerBoatInfo.Instance.PosX , PlayerBoatInfo.Instance.PosY];
+			return MapGenerator.Instance.Chunks[Boats.Instance.PlayerBoatInfo.PosX , Boats.Instance.PlayerBoatInfo.PosY];
 		}
 	}
 

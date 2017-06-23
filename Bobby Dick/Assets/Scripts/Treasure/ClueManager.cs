@@ -25,10 +25,12 @@ public class ClueManager : MonoBehaviour {
 	}
 
 	public void Init () {
-		// randomize clues
+
+	}
+
+	public void CreateNewClues () {
 		for (int i = 0; i < clues.Length; ++i )
 			clues[i] = NameGeneration.Instance.randomWord.ToUpper ();
-
 	}
 
 	public void StartClue () {

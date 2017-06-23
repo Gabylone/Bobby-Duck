@@ -60,8 +60,8 @@ public class CrewMember {
 			icon.Overable = false;
 
 		// equipment
-		SetEquipment (EquipmentPart.Weapon, 	ItemLoader.Instance.getItem (ItemCategory.Weapon, memberID.weaponID));
-		SetEquipment (EquipmentPart.Clothes, 	ItemLoader.Instance.getItem (ItemCategory.Clothes, memberID.clothesID));
+		SetEquipment (EquipmentPart.Weapon, 	ItemLoader.Instance.getItem (ItemCategory.Weapon, memberID.WeaponID));
+		SetEquipment (EquipmentPart.Clothes, 	ItemLoader.Instance.getItem (ItemCategory.Clothes, memberID.ClothesID));
 
 		// set state delegate
 
@@ -159,22 +159,22 @@ public class CrewMember {
 
 	public string MemberName {
 		get {
-			return Male ? CrewCreator.Instance.MaleNames [memberID.nameID] : CrewCreator.Instance.FemaleNames [memberID.nameID];
+			return memberID.Name;
 		}
 	}
 
 
 	public int Level {
 		get {
-			return memberID.lvl;
+			return memberID.Lvl;
 		}
 		set {
-			memberID.lvl = value;
+			memberID.Lvl = value;
 		}
 	}
 
 	public bool Male {
-		get { return memberID.male; }
+		get { return memberID.Male; }
 	}
 	#endregion
 
@@ -216,37 +216,37 @@ public class CrewMember {
 
 	public int Strenght {
 		get {
-			return memberID.str;
+			return memberID.Str;
 		}
 		set {
-			memberID.str = value;
+			memberID.Str = value;
 		}
 	}
 
 	public int Dexterity {
 		get {
-			return memberID.dex;
+			return memberID.Dex;
 		}
 		set {
-			memberID.dex = value;
+			memberID.Dex = value;
 		}
 	}
 
 	public int Charisma {
 		get {
-			return memberID.cha;
+			return memberID.Cha;
 		}
 		set {
-			memberID.cha = value;
+			memberID.Cha = value;
 		}
 	}
 
 	public int Constitution {
 		get {
-			return memberID.con;
+			return memberID.Con;
 		}
 		set {
-			memberID.con = value;
+			memberID.Con = value;
 		}
 	}
 	#endregion
@@ -295,7 +295,7 @@ public class CrewMember {
 	private int maxHealth = 100;
 	public int MaxHealth {
 		get {
-			return maxHealth + (memberID.con*10);
+			return maxHealth + (memberID.Con*10);
 		}
 	}
 

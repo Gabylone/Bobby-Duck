@@ -17,14 +17,14 @@ public class LootManager : MonoBehaviour {
 	}
 
 	public void Init () {
+		WeightManager.Instance.UpdateDisplay ();
+	}
 
+	public void CreateNewLoot () {
 		Loot playerLoot = new Loot (0, 0);
 		playerLoot.Randomize (ItemCategory.Provisions);
 
 		setLoot (Crews.Side.Player, playerLoot);
-
-		WeightManager.Instance.UpdateDisplay ();
-
 	}
 
 	public Loot PlayerLoot {

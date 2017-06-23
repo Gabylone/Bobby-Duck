@@ -93,7 +93,7 @@ public class DialogueManager : MonoBehaviour {
 		UpdateBubblePosition ();
 
 		if ( talkingMember != null )
-			SoundManager.Instance.PlaySound ( speakSounds[talkingMember.MemberID.voiceID] );
+			SoundManager.Instance.PlaySound ( speakSounds[talkingMember.MemberID.VoiceID] );
 	}
 
 	private void UpdateDialogue () {
@@ -151,7 +151,7 @@ public class DialogueManager : MonoBehaviour {
 		}
 
 		if ( text.Contains ("NOMBATEAU") ) {
-			text = text.Replace ( "NOMBATEAU" , PlayerBoatInfo.Instance.Name);
+			text = text.Replace ( "NOMBATEAU" , Boats.Instance.PlayerBoatInfo.Name);
 		}
 
 		if ( text.Contains ("LASTITEM") ) {

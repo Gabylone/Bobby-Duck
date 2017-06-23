@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CombatFeedback.cs" />
+     <Compile Include="Assets\KeepOnLoad.cs" />
+     <Compile Include="Assets\MainMenuManager.cs" />
      <Compile Include="Assets\Scripts\Boat\Boat.cs" />
      <Compile Include="Assets\Scripts\Boat\BoatInfo.cs" />
      <Compile Include="Assets\Scripts\Boat\BoatLight.cs" />
@@ -61,12 +63,14 @@
      <Compile Include="Assets\Scripts\Combat\Fight_LoadSprites.cs" />
      <Compile Include="Assets\Scripts\Combat\FollowFighter.cs" />
      <Compile Include="Assets\Scripts\Combat\StateMachine.cs" />
+     <Compile Include="Assets\Scripts\Crew\Crew.cs" />
      <Compile Include="Assets\Scripts\Crew\CrewCreator.cs" />
      <Compile Include="Assets\Scripts\Crew\CrewIcon.cs" />
      <Compile Include="Assets\Scripts\Crew\CrewManager.cs" />
      <Compile Include="Assets\Scripts\Crew\CrewMember.cs" />
      <Compile Include="Assets\Scripts\Crew\Crews.cs" />
      <Compile Include="Assets\Scripts\Crew\MemberFeedback.cs" />
+     <Compile Include="Assets\Scripts\Crew\MemberID.cs" />
      <Compile Include="Assets\Scripts\DebugMessage.cs" />
      <Compile Include="Assets\Scripts\Dialogues\ChoiceManager.cs" />
      <Compile Include="Assets\Scripts\Dialogues\DialogueManager.cs" />
@@ -97,6 +101,7 @@
      <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
      <Compile Include="Assets\Scripts\Map\MapImage.cs" />
      <Compile Include="Assets\Scripts\Map\WeatherManager.cs" />
+     <Compile Include="Assets\Scripts\MemberCreator.cs" />
      <Compile Include="Assets\Scripts\MenuManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\FlagControl.cs" />
      <Compile Include="Assets\Scripts\Navigation\NavigationManager.cs" />

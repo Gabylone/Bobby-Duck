@@ -35,7 +35,6 @@ public class Transitions : MonoBehaviour {
 
 	public void FadeScreen () {
 		StartCoroutine (FadeCoroutine ());
-		//
 	}
 	IEnumerator FadeCoroutine () {
 
@@ -46,11 +45,11 @@ public class Transitions : MonoBehaviour {
 		if ( fadeOther )
 			Crews.enemyCrew.HideCrew ();
 
-		ScreenTransition.Fade = true;
+		ScreenTransition.QuickFade = true;
 
-		yield return new WaitForSeconds (ScreenTransition.Duration );
+		yield return new WaitForSeconds (ScreenTransition.Duration  );
 
-		ScreenTransition.Fade = false;
+		ScreenTransition.QuickFade = false;
 
 		yield return new WaitForSeconds (ScreenTransition.Duration );
 

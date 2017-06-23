@@ -4,7 +4,6 @@ using System.Collections;
 
 public class SaveMenu : MonoBehaviour {
 
-
 	[Header("Buttons")]
 	[SerializeField] private Button[] saveButtons;
 
@@ -56,7 +55,7 @@ public class SaveMenu : MonoBehaviour {
 
 		} else {
 
-			SaveManager.Instance.LoadGame (index);
+			SaveManager.Instance.LoadGameCoroutine (index);
 
 		}
 
@@ -84,13 +83,11 @@ public class SaveMenu : MonoBehaviour {
 
 			if (SaveTool.Instance.FileExists (loadIndex)) {
 
-				GameData gameLoad = SaveTool.Instance.Load (loadIndex);
-
-				string captainName = gameLoad.playerCrew.MemberIDs[0].male ? CrewCreator.Instance.MaleNames [gameLoad.playerCrew.MemberIDs [0].nameID] : CrewCreator.Instance.FemaleNames [gameLoad.playerCrew.MemberIDs [0].nameID];
-				saveButtons [buttonIndex].GetComponentInChildren<Text> ().text = captainName;
+				saveButtons [buttonIndex].GetComponentInChildren<Text> ().text = "SAVE " + loadIndex;
 				saveButtons [buttonIndex].GetComponentInChildren<Text> ().color = Color.black;
 				saveButtons[buttonIndex].image.color = Color.white;
 				saveButtons[buttonIndex].interactable = true;
+
 
 			} else {
 

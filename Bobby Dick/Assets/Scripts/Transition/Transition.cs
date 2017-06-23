@@ -9,7 +9,9 @@ public class Transition : MonoBehaviour {
 
 	private float timer = 0f;
 	[SerializeField]
-	private float duration = 1f;
+	private float longDuration = 1f;
+	[SerializeField]
+	private float quickDuration = 0.3f;
 
 	private bool fade = false;
 
@@ -38,10 +40,10 @@ public class Transition : MonoBehaviour {
 
 	public float Duration {
 		get {
-			return duration;
+			return longDuration;
 		}
 		set {
-			duration = value;
+			longDuration = value;
 		}
 	}
 
@@ -56,18 +58,19 @@ public class Transition : MonoBehaviour {
 
 	private void UpdateLerp () {
 
-		float l = timer / duration;
+		float l = timer / longDuration;
 
 		targetImage.color = Color.Lerp (Color.clear, targetColor, fade ? l : 1 - l);
 
 		timer += Time.deltaTime;
-		if (timer >= duration) {
+		if (timer >= longDuration) {
 
 			transitionCanvas.SetActive (fade);
 
 			lerping = false;
 		}
 	}
+
 
 
 	public bool Fade {
@@ -79,9 +82,23 @@ public class Transition : MonoBehaviour {
 
 			lerping = true;
 
+			Duration = longDuration;
+
 			timer = 0f;
 
 			transitionCanvas.SetActive (true);
+		}
+	}
+
+	public bool QuickFade {
+		get {
+			return fade;
+		}
+		set {
+
+			Duration = quickDuration;
+
+			Fade = value;
 		}
 	}
 }

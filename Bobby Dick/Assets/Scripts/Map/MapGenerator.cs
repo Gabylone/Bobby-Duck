@@ -48,7 +48,7 @@ public class MapGenerator : MonoBehaviour {
 		for (int x = 0; x < mapScale; x++) {
 			for (int y = 0; y < mapScale; y++) {
 				Chunks [x, y] = new Chunk ();
-				Chunks [x, y].state = State.UndiscoveredSea;
+				Chunks [x, y].State = ChunkState.UndiscoveredSea;
 			}
 		}
 
@@ -67,7 +67,7 @@ public class MapGenerator : MonoBehaviour {
 				if ( isInNoMansSea == false ) {
 					int x = Random.Range ( 0, mapScale );
 
-					if (Chunks[x,y].state == State.UndiscoveredSea) {
+					if (Chunks[x,y].State == ChunkState.UndiscoveredSea) {
 						Chunks [x, y].IslandData = new IslandData(x,y);
 					}
 				}
@@ -105,14 +105,20 @@ public class MapGenerator : MonoBehaviour {
 		Chunks = fromChunkArray (SaveManager.Instance.CurrentData.chunkArray);
 
 		foreach (Chunk cun in chunks) {
-			if (cun.state == State.VisitedIsland)
-				print ("load visited");
+			if (cun.State == ChunkState.VisitedIsland)
+				print ("load visited island");
 		}
 
 		foreach (Chunk cun in chunks) {
-			if (cun.state == State.DiscoveredIsland)
-				print ("load discovered");
+			if (cun.State == ChunkState.DiscoveredIsland)
+				print ("load discovered island");
 		}
+
+		foreach (Chunk cun in chunks) {
+			if (cun.State == ChunkState.DiscoveredSea)
+				print ("load discovered sea");
+		}
+
 	}
 
 	public void SaveIslandsData () {
@@ -120,12 +126,12 @@ public class MapGenerator : MonoBehaviour {
 		SaveManager.Instance.CurrentData.chunkArray = toChunkArray (Chunks);
 
 		foreach (Chunk cun in chunks) {
-			if (cun.state == State.VisitedIsland)
+			if (cun.State == ChunkState.VisitedIsland)
 				print ("save visited");
 		}
 
 		foreach (Chunk cun in chunks) {
-			if (cun.state == State.DiscoveredIsland)
+			if (cun.State == ChunkState.DiscoveredIsland)
 				print ("save discovered");
 		}
 

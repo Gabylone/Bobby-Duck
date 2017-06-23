@@ -34,25 +34,34 @@ public class Boats : MonoBehaviour {
 		Instance = this;
 	}
 
-
 	// Use this for initialization
 	public void Init () {
 
-		playerBoatInfo = new PlayerBoatInfo ();
-		playerBoatInfo.Init ();
+		NavigationManager.Instance.EnterNewChunk += HideBoat;
+		NavigationManager.Instance.EnterNewChunk += UpdatePlayerBoatPosition;
+		NavigationManager.Instance.EnterNewChunk += UpdateEnemyBoatPosition;
+
 		playerBoat.BoatInfo = playerBoatInfo;
 
-		otherBoatAmount = MapGenerator.Instance.MapScale;
+		playerBoat.Init ();
+		otherBoat.Init ();
+
+	}
+
+	public int amountMult = 1;
+
+	public void RandomizeBoats( ) {
+		
+		playerBoatInfo = new PlayerBoatInfo ();
+		playerBoatInfo.Randomize ();
+
+		otherBoatAmount = MapGenerator.Instance.MapScale * amountMult;
 
 		otherBoatInfos = new OtherBoatInfo[otherBoatAmount];
 		for (int i = 0; i < otherBoatInfos.Length; i++) {
 			otherBoatInfos [i] = new OtherBoatInfo ();
-			otherBoatInfos [i].Init ();
+			otherBoatInfos [i].Randomize ();
 		}
-
-		NavigationManager.Instance.EnterNewChunk += HideBoat;
-		NavigationManager.Instance.EnterNewChunk += UpdateEnemyBoatPosition;
-		NavigationManager.Instance.EnterNewChunk += UpdatePlayerBoatPosition;
 	}
 
 	void UpdateEnemyBoatPosition ()
@@ -61,7 +70,7 @@ public class Boats : MonoBehaviour {
 			
 			boat.UpdatePosition ();
 
-			if ( boat.PosX == PlayerBoatInfo.Instance.PosX && boat.PosY == PlayerBoatInfo.Instance.PosY ) {
+			if ( boat.PosX == Boats.Instance.PlayerBoatInfo.PosX && boat.PosY == Boats.Instance.PlayerBoatInfo.PosY ) {
 
 				ShowBoat (boat);
 
@@ -96,6 +105,16 @@ public class Boats : MonoBehaviour {
 
 	}
 
+	public void LoadBoats () {
+		playerBoatInfo = SaveManager.Instance.CurrentData.playerBoatInfo;
+		otherBoatInfos = SaveManager.Instance.CurrentData.otherBoatInfos;
+	}
+	public void SaveBoats () {
+		SaveManager.Instance.CurrentData.playerBoatInfo = playerBoatInfo;
+
+		SaveManager.Instance.CurrentData.otherBoatInfos = OtherBoatInfos;
+	}
+
 	public OtherBoatInfo[] OtherBoatInfos {
 		get {
 			return otherBoatInfos;
@@ -108,6 +127,12 @@ public class Boats : MonoBehaviour {
 	public EnemyBoat OtherBoat {
 		get {
 			return otherBoat;
+		}
+	}
+
+	public PlayerBoatInfo PlayerBoatInfo {
+		get {
+			return playerBoatInfo;
 		}
 	}
 }

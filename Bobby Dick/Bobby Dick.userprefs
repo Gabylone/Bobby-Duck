@@ -1,13 +1,16 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Stories\StoryTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Map\Chunk.cs">
     <Files>
-      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="373" Column="3" />
-      <File FileName="Assets\Scripts\Dice\DiceManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="310" Column="56" />
-      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Map\MapImage.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Stories\StoryTest.cs" Line="61" Column="4" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="42" Column="20" />
+      <File FileName="Assets\Scripts\Navigation\NavigationTrigger.cs" Line="48" Column="1" />
+      <File FileName="Assets\Scripts\Boat\Boats.cs" Line="61" Column="37" />
+      <File FileName="Assets\Scripts\Boat\EnemyBoat.cs" Line="21" Column="2" />
+      <File FileName="Assets\Scripts\Boat\PlayerBoat.cs" Line="17" Column="3" />
+      <File FileName="Assets\Scripts\Map\MapGenerator.cs" Line="134" Column="49" />
+      <File FileName="Assets\GameSaveData1.xml" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Map\Chunk.cs" Line="30" Column="19" />
+      <File FileName="Assets\Scripts\Island\Island.cs" Line="60" Column="57" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

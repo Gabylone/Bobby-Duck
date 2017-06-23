@@ -26,27 +26,22 @@ public class SaveManager : MonoBehaviour
 
 		currentData = SaveTool.Instance.Load (index);
 
-		StartCoroutine (LoadGameCoroutine ());
+		LoadEveryThing ();
+
 	}
+	public void LoadGameCoroutine (int index) {
 
-	IEnumerator LoadGameCoroutine () {
+		currentData = SaveTool.Instance.Load (index);
 
+		StartCoroutine (LoadGameCoroutine ());
 
-
-		Transitions.Instance.ScreenTransition.Fade = true;
-		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
-
-		if ( StoryLauncher.Instance.PlayingStory)
-			StoryLauncher.Instance.PlayingStory = false;
-
-
+	}
+	public void LoadEveryThing () {
 		// player crew
 		Crews.Instance.LoadPlayerCrew ();
 
 		// boat position
-
-		PlayerBoatInfo.Instance = CurrentData.playerBoatInfo;
-		Boats.Instance.OtherBoatInfos = CurrentData.otherBoatInfos;
+		Boats.Instance.LoadBoats ();
 
 		// island ids
 		// island datas
@@ -62,7 +57,19 @@ public class SaveManager : MonoBehaviour
 		WeatherManager.Instance.LoadWeather ();
 
 		MapImage.Instance.InitImage ();
+
 		NavigationManager.Instance.ChangeChunk (Directions.None);
+
+	}
+	IEnumerator LoadGameCoroutine () {
+
+		Transitions.Instance.ScreenTransition.Fade = true;
+		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
+
+		if ( StoryLauncher.Instance.PlayingStory)
+			StoryLauncher.Instance.PlayingStory = false;
+
+		LoadEveryThing ();
 
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
 		Transitions.Instance.ScreenTransition.Fade = false;
@@ -74,9 +81,7 @@ public class SaveManager : MonoBehaviour
 		Crews.Instance.SavePlayerCrew ();
 
 		// save boats
-		currentData.playerBoatInfo = PlayerBoatInfo.Instance;
-		currentData.otherBoatInfos = Boats.Instance.OtherBoatInfos;
-
+		Boats.Instance.SaveBoats();
 		// island ids
 		// island datas
 		// special island positions

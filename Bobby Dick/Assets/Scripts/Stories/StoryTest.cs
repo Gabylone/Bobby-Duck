@@ -42,12 +42,12 @@ public class StoryTest : MonoBehaviour {
 //
 //		if (Input.GetKeyDown(KeyCode.PageUp) ) {
 //
-//			PlayerBoatInfo.Instance.PosX = MapData.Instance.treasureIslandXPos;
-//			PlayerBoatInfo.Instance.PosY = MapData.Instance.treasureIslandYPos;
+//			Boats.Instance.PlayerBoatInfo.PosX = MapData.Instance.treasureIslandXPos;
+//			Boats.Instance.PlayerBoatInfo.PosY = MapData.Instance.treasureIslandYPos;
 //			NavigationManager.Instance.ChangeChunk (Directions.None);
 //
-//			Debug.Log (" player Y : " + PlayerBoatInfo.Instance.PosX);
-//			Debug.Log (" player X : " + PlayerBoatInfo.Instance.PosY);
+//			Debug.Log (" player Y : " + Boats.Instance.PlayerBoatInfo.PosX);
+//			Debug.Log (" player X : " + Boats.Instance.PlayerBoatInfo.PosY);
 //			Debug.Log ("island X : " + MapData.Instance.treasureIslandXPos);
 //			Debug.Log ("island Y : " + MapData.Instance.treasureIslandYPos);
 //		}

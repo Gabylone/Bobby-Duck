@@ -39,29 +39,29 @@ public class Fight_LoadSprites : MonoBehaviour {
 
 	public void UpdateSprites ( MemberID memberID ) {
 
-		if (memberID.hairSpriteID > -1)
-			allSprites[(int)SpriteIndex.hair].sprite = memberID.male ? CrewCreator.Instance.HairSprites_Male [memberID.hairSpriteID] : CrewCreator.Instance.HairSprites_Female [memberID.hairSpriteID];
+		if (memberID.HairSpriteID > -1)
+			allSprites[(int)SpriteIndex.hair].sprite = memberID.Male ? CrewCreator.Instance.HairSprites_Male [memberID.HairSpriteID] : CrewCreator.Instance.HairSprites_Female [memberID.HairSpriteID];
 		else
 			allSprites[(int)SpriteIndex.hair].enabled = false;
 		
-		allSprites[(int)SpriteIndex.hair].color = CrewCreator.Instance.HairColors [memberID.hairColorID];
+		allSprites[(int)SpriteIndex.hair].color = CrewCreator.Instance.HairColors [memberID.HairColorID];
 
-		if (memberID.beardSpriteID > -1)
-			allSprites[(int)SpriteIndex.beard].sprite = CrewCreator.Instance.BeardSprites [memberID.beardSpriteID];
+		if (memberID.BeardSpriteID > -1)
+			allSprites[(int)SpriteIndex.beard].sprite = CrewCreator.Instance.BeardSprites [memberID.BeardSpriteID];
 		else
 			allSprites[(int)SpriteIndex.beard].enabled = false;
-		allSprites[(int)SpriteIndex.beard].color = CrewCreator.Instance.HairColors [memberID.hairColorID];
+		allSprites[(int)SpriteIndex.beard].color = CrewCreator.Instance.HairColors [memberID.HairColorID];
 
-		allSprites[(int)SpriteIndex.eyes].sprite = CrewCreator.Instance.EyesSprites [memberID.eyeSpriteID];
-		allSprites[(int)SpriteIndex.eyebrows].sprite = CrewCreator.Instance.EyebrowsSprites [memberID.eyebrowsSpriteID];
-		allSprites[(int)SpriteIndex.eyebrows].color = CrewCreator.Instance.HairColors [memberID.hairColorID];
+		allSprites[(int)SpriteIndex.eyes].sprite = CrewCreator.Instance.EyesSprites [memberID.EyeSpriteID];
+		allSprites[(int)SpriteIndex.eyebrows].sprite = CrewCreator.Instance.EyebrowsSprites [memberID.EyebrowsSpriteID];
+		allSprites[(int)SpriteIndex.eyebrows].color = CrewCreator.Instance.HairColors [memberID.HairColorID];
 
-		allSprites[(int)SpriteIndex.nose].sprite = CrewCreator.Instance.NoseSprites [memberID.noseSpriteID];
+		allSprites[(int)SpriteIndex.nose].sprite = CrewCreator.Instance.NoseSprites [memberID.NoseSpriteID];
 
-		allSprites[(int)SpriteIndex.mouth].sprite = CrewCreator.Instance.MouthSprites [memberID.mouthSpriteID];
+		allSprites[(int)SpriteIndex.mouth].sprite = CrewCreator.Instance.MouthSprites [memberID.MouthSpriteID];
 
 		// body
-		allSprites[(int)SpriteIndex.body].sprite = CrewCreator.Instance.BodySprites[memberID.male ? 0:1];
+		allSprites[(int)SpriteIndex.body].sprite = CrewCreator.Instance.BodySprites[memberID.Male ? 0:1];
 
 	}
 

@@ -30,15 +30,8 @@ public class Crews : MonoBehaviour {
 	}
 
 	public void Init () {
-
 		crews [0] = GetComponentsInChildren<CrewManager> () [0];
 		crews [1] = GetComponentsInChildren<CrewManager> () [1];
-
-		CrewParams crewParams = new CrewParams (startMemberAmount, false, false, 1);
-		Crew playerCrew = new Crew (crewParams,0,0);
-		crews [0].setCrew (playerCrew);
-		crews [0].UpdateCrew (PlacingType.Map);
-
 	}
 
 	#region get crews
@@ -63,7 +56,12 @@ public class Crews : MonoBehaviour {
 	public void SavePlayerCrew () {
 		SaveManager.Instance.CurrentData.playerCrew = playerCrew.ManagedCrew;
 	}
-
+	public void RandomizePlayerCrew () {
+		CrewParams crewParams = new CrewParams (startMemberAmount, false, false, 1);
+		Crew playerCrew = new Crew (crewParams,0,0);
+		crews [0].setCrew (playerCrew);
+		crews [0].UpdateCrew (PlacingType.Map);
+	}
 	public void LoadPlayerCrew () {
 		playerCrew.ManagedCrew = SaveManager.Instance.CurrentData.playerCrew;
 

@@ -18,9 +18,9 @@ public class EnemyBoat : Boat {
 
 	private bool visible = false;
 
-	public override void Start ()
+	public override void Init ()
 	{
-		base.Start ();
+		base.Init();
 	}
 	
 	public override void Update ()
@@ -59,6 +59,7 @@ public class EnemyBoat : Boat {
 	}
 
 	private void GoAbout () {
+		
 		Vector2 dir = NavigationManager.Instance.getDir (OtherBoatInfo.currentDirection);
 
 		TargetDirection = dir;

@@ -19,6 +19,8 @@ public class BoatUpgradeManager : MonoBehaviour {
 	}
 
 	[SerializeField]
+	private Text boatNameText;
+	[SerializeField]
 	private Text boatLevelText;
 	private int boatCurrentLevel = 1;
 
@@ -59,6 +61,8 @@ public class BoatUpgradeManager : MonoBehaviour {
 		UpdateCrewImages ();
 		UpdatePrices ();
 		UpdateTexts ();
+
+		boatNameText.text = Boats.Instance.PlayerBoatInfo.Name;
 	}
 
 	public void CloseUpgradeMenu () {
@@ -79,7 +83,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 			WeightManager.Instance.CurrentCapacity *= 2;
 			break;
 		case UpgradeType.Longview:
-			PlayerBoatInfo.Instance.ShipRange++;
+			Boats.Instance.PlayerBoatInfo.ShipRange++;
 			break;
 		}
 

@@ -65,6 +65,7 @@ public class ItemLoader : MonoBehaviour {
 		}
 	}
 
+
 	void LoadItems (TextAsset data) {
 
 		string[] rows = data.text.Split ('\n');

@@ -11,18 +11,19 @@ public class OtherBoatInfo : BoatInfo {
 
 	public bool metPlayer = false;
 
-	public override void Init ()
+
+	public override void Randomize ()
 	{
-		base.Init ();
-
-		currentDirection = (Directions)Random.Range (0,8);
-
-			// assign story
-		storyManager = new StoryManager ();
-		storyManager.InitHandler (StoryType.Boat);
+		base.Randomize ();
 
 		PosX = Random.Range ( 0 , MapGenerator.Instance.MapScale );
 		PosY = Random.Range ( 0 , MapGenerator.Instance.MapScale );
+
+		currentDirection = (Directions)Random.Range (0,8);
+
+		// assign story
+		storyManager = new StoryManager ();
+		storyManager.InitHandler (StoryType.Boat);
 
 	}
 

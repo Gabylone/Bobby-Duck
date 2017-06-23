@@ -9,20 +9,19 @@ public class PlayerBoat : Boat {
 		Instance = this;
 	}
 
-	public override void Start ()
+	public override void Init ()
 	{
-		base.Start ();
+		base.Init();
 
-		BoatInfo = PlayerBoatInfo.Instance;
+		BoatInfo = Boats.Instance.PlayerBoatInfo;
 
 		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
+
 	}
 
 	public override void UpdatePositionOnScreen ()
 	{
 		base.UpdatePositionOnScreen ();
-
-
 
 		Vector2 getDir = NavigationManager.Instance.getDir(BoatInfo.currentDirection);
 		GetTransform.position = NavigationManager.Instance.Anchors[(int)BoatInfo.currentDirection].position;

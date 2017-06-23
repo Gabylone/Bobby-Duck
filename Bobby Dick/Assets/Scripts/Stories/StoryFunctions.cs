@@ -364,7 +364,8 @@ public class StoryFunctions : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 
-		if ( MapData.Instance.currentChunk.state == State.VisitedIsland) {
+		if ( MapData.Instance.currentChunk.State == ChunkState.VisitedIsland) {
+			print ("mark as visited");
 			StoryReader.Instance.SetDecal (1);
 		}
 

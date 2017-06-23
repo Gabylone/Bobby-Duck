@@ -63,7 +63,7 @@ public class StoryLauncher : MonoBehaviour {
 
 			// place captain
 			Crews.PlacingType pT = playingStory ? Crews.PlacingType.Discussion : Crews.PlacingType.Map;
-			Crews.playerCrew.captain.Icon.MoveToPoint (pT, Transitions.Instance.ActionTransition.Duration);
+			Crews.playerCrew.captain.Icon.MoveToPoint (pT, 0.2f);
 
 			// lower volume
 			SoundManager.Instance.AmbianceSource.volume = playingStory ? SoundManager.Instance.AmbianceSource.volume / 2 : SoundManager.Instance.AmbianceSource.volume * 2;
@@ -87,7 +87,8 @@ public class StoryLauncher : MonoBehaviour {
 					// kek
 					break;
 				case StorySource.island:
-					MapData.Instance.currentChunk.state = State.VisitedIsland;
+					MapData.Instance.currentChunk.State = ChunkState.VisitedIsland;
+					print ("mark as visited island");
 					break;
 				case StorySource.boat:
 					Boats.Instance.OtherBoat.Leave ();

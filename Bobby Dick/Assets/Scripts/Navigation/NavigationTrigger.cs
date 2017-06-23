@@ -9,7 +9,7 @@ public class NavigationTrigger : MonoBehaviour {
 
 	bool inside = false;
 
-	void OnTriggerEnter2D ( Collider2D other ) {
+	void OnTriggerStay2D ( Collider2D other ) {
 
 		if (other.tag == "Player" && targeted ) {
 
@@ -43,11 +43,8 @@ public class NavigationTrigger : MonoBehaviour {
 	}
 
 	public void OnMouseExit () {
-
 		inside = false;
-
 	}
-
 
 	public bool Targeted {
 		get {

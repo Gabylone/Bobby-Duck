@@ -45,7 +45,7 @@ public class Boat : MonoBehaviour {
 	[SerializeField]
 	private float boat_MeshRotationSpeed = 50f;
 
-	public virtual void Start () {
+	public virtual void Init () {
 		getTransform = GetComponent<Transform> ();
 
 		CombatManager.Instance.fightStarting += DeactivateCollider;

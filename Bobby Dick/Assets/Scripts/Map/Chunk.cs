@@ -1,4 +1,4 @@
-﻿public enum State {
+﻿public enum ChunkState {
 	//
 	UndiscoveredSea,
 	DiscoveredSea,
@@ -10,7 +10,7 @@
 
 public class Chunk
 {
-	public State state;
+	public int stateID;
 	private IslandData islandData;
 
 	public Chunk () {
@@ -23,7 +23,16 @@ public class Chunk
 		set {
 			islandData = value;
 
-			state = State.UndiscoveredIsland;
+			State = ChunkState.UndiscoveredIsland;
+		}
+	}
+
+	public ChunkState State {
+		get {
+			return (ChunkState)stateID;
+		}
+		set {
+			stateID = (int)value;
 		}
 	}
 }

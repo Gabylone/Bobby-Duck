@@ -70,6 +70,8 @@ public class MapImage : MonoBehaviour {
 				Chunk chunk = MapGenerator.Instance.Chunks [x, y];
 				SetPixel (texture,x,y, revealMap ? getChunkColor_Reveal (chunk) : getChunkColor (chunk));
 
+				if (chunk.State == ChunkState.VisitedIsland)
+					print ("initing visited island");
 			}
 
 
@@ -85,15 +87,15 @@ public class MapImage : MonoBehaviour {
 
 		Texture2D texture = (Texture2D)targetImage.mainTexture;
 
-		int shipRange = PlayerBoatInfo.Instance.ShipRange;
+		int shipRange = Boats.Instance.PlayerBoatInfo.ShipRange;
 
-		int posX = PlayerBoatInfo.Instance.PosX;
-		int posY = PlayerBoatInfo.Instance.PosY;
+		int posX = Boats.Instance.PlayerBoatInfo.PosX;
+		int posY = Boats.Instance.PlayerBoatInfo.PosY;
 
 		int mapScale = MapGenerator.Instance.MapScale;
 
-		Chunk previousChunk = MapGenerator.Instance.Chunks [PlayerBoatInfo.Instance.PreviousPosX, PlayerBoatInfo.Instance.PreviousPosY];
-		SetPixel (texture,PlayerBoatInfo.Instance.PreviousPosX, PlayerBoatInfo.Instance.PreviousPosY, getChunkColor (previousChunk));
+		Chunk previousChunk = MapGenerator.Instance.Chunks [Boats.Instance.PlayerBoatInfo.PreviousPosX, Boats.Instance.PlayerBoatInfo.PreviousPosY];
+		SetPixel (texture,Boats.Instance.PlayerBoatInfo.PreviousPosX, Boats.Instance.PlayerBoatInfo.PreviousPosY, getChunkColor (previousChunk));
 
 		for (int x = -shipRange; x <= shipRange; ++x ) {
 
@@ -110,12 +112,13 @@ public class MapImage : MonoBehaviour {
 
 					Color color = Color.red;
 
-					switch (chunk.state) {
-					case State.UndiscoveredSea:
-						chunk.state = State.DiscoveredSea;
+					switch (chunk.State) {
+					case ChunkState.UndiscoveredSea:
+						chunk.State = ChunkState.DiscoveredSea;
 						break;
-					case State.UndiscoveredIsland:
-						chunk.state = State.DiscoveredIsland;
+					case ChunkState.UndiscoveredIsland:
+						print ("mark island as discoverd");
+						chunk.State = ChunkState.DiscoveredIsland;
 						break;
 					}
 
@@ -141,8 +144,8 @@ public class MapImage : MonoBehaviour {
 		Texture2D texture = (Texture2D)targetImage.mainTexture;
 
 		foreach ( OtherBoatInfo boatInfo in Boats.Instance.OtherBoatInfos ) {
-			if ( boatInfo.PosX <= PlayerBoatInfo.Instance.PosX + PlayerBoatInfo.Instance.ShipRange && boatInfo.PosX >= PlayerBoatInfo.Instance.PosX -PlayerBoatInfo.Instance.ShipRange &&
-				boatInfo.PosY <= PlayerBoatInfo.Instance.PosY + PlayerBoatInfo.Instance.ShipRange && boatInfo.PosY >= PlayerBoatInfo.Instance.PosY - PlayerBoatInfo.Instance.ShipRange) {
+			if ( boatInfo.PosX <= Boats.Instance.PlayerBoatInfo.PosX + Boats.Instance.PlayerBoatInfo.ShipRange && boatInfo.PosX >= Boats.Instance.PlayerBoatInfo.PosX -Boats.Instance.PlayerBoatInfo.ShipRange &&
+				boatInfo.PosY <= Boats.Instance.PlayerBoatInfo.PosY + Boats.Instance.PlayerBoatInfo.ShipRange && boatInfo.PosY >= Boats.Instance.PlayerBoatInfo.PosY - Boats.Instance.PlayerBoatInfo.ShipRange) {
 				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, Color.green);
 			} else {
 				SetPixel (texture,boatInfo.PreviousPosX, boatInfo.PreviousPosY, getChunkColor(MapGenerator.Instance.Chunks[boatInfo.PreviousPosX,boatInfo.PreviousPosY]) );
@@ -155,20 +158,20 @@ public class MapImage : MonoBehaviour {
 
 	private Color getChunkColor_Reveal (Chunk chunk) {
 
-		switch (chunk.state) {
-		case State.UndiscoveredSea:
+		switch (chunk.State) {
+		case ChunkState.UndiscoveredSea:
 			return discoveredSea_Color;
 			break;
-		case State.DiscoveredSea:
+		case ChunkState.DiscoveredSea:
 			return discoveredSea_Color;
 			break;
-		case State.UndiscoveredIsland:
+		case ChunkState.UndiscoveredIsland:
 			return discoveredIsland_Color;
 			break;
-		case State.DiscoveredIsland:
+		case ChunkState.DiscoveredIsland:
 			return discoveredIsland_Color;
 			break;
-		case State.VisitedIsland:
+		case ChunkState.VisitedIsland:
 			return visitedIsland_Color;
 			break;
 		default:
@@ -178,20 +181,20 @@ public class MapImage : MonoBehaviour {
 	}
 	private Color getChunkColor (Chunk chunk) {
 
-		switch (chunk.state) {
-		case State.UndiscoveredSea:
+		switch (chunk.State) {
+		case ChunkState.UndiscoveredSea:
 			return undiscoveredSea_Color;
 			break;
-		case State.DiscoveredSea:
+		case ChunkState.DiscoveredSea:
 			return discoveredSea_Color;
 			break;
-		case State.UndiscoveredIsland:
+		case ChunkState.UndiscoveredIsland:
 			return undiscoveredSea_Color;
 			break;
-		case State.DiscoveredIsland:
+		case ChunkState.DiscoveredIsland:
 			return discoveredIsland_Color;
 			break;
-		case State.VisitedIsland:
+		case ChunkState.VisitedIsland:
 			return visitedIsland_Color;
 			break;
 		default:
@@ -221,7 +224,7 @@ public class MapImage : MonoBehaviour {
 		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, MapGenerator.Instance.MapScale,  MapGenerator.Instance.MapScale) , Vector2.one * 0.5f );
 	}
 	public void CenterOnBoat () {
-		Vector2 boatPos = new Vector2 (PlayerBoatInfo.Instance.PosX,PlayerBoatInfo.Instance.PosY);
+		Vector2 boatPos = new Vector2 (Boats.Instance.PlayerBoatInfo.PosX,Boats.Instance.PlayerBoatInfo.PosY);
 		boatPos = (boatPos * maxContentPosition) / MapGenerator.Instance.MapScale;
 
 		boatPos -= Vector2.one * (maxContentPosition / 2);

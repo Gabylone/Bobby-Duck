@@ -57,7 +57,7 @@ public class Island : MonoBehaviour {
 	#region render
 	public void UpdatePositionOnScreen() {
 
-		bool onIslandChunk = MapData.Instance.currentChunk.state == State.DiscoveredIsland || MapData.Instance.currentChunk.state == State.VisitedIsland || MapData.Instance.currentChunk.state == State.UndiscoveredIsland;
+		bool onIslandChunk = MapData.Instance.currentChunk.State == ChunkState.DiscoveredIsland || MapData.Instance.currentChunk.State == ChunkState.VisitedIsland || MapData.Instance.currentChunk.State == ChunkState.UndiscoveredIsland;
 		gameObject.SetActive ( onIslandChunk );
 
 		if (onIslandChunk) {

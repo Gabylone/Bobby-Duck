@@ -4,27 +4,26 @@ using System.Collections;
 [System.Serializable]
 public class PlayerBoatInfo : BoatInfo {
 
-	public static PlayerBoatInfo Instance;
-
 	private int shipRange = 1;
 
 	public bool isInNoMansSea = false;
 	public bool hasBeenWarned = false;
 
-	public override void Init ()
+	public override void Randomize ()
 	{
-		Instance = this;
-
-		base.Init ();
+		base.Randomize ();
 
 		PosX = MapData.Instance.homeIslandXPos;
 		PosY = MapData.Instance.homeIslandYPos;
-
 	}
 
 	public override void UpdatePosition ()
 	{
 		base.UpdatePosition ();
+
+		currentDirection = NavigationManager.Instance.CurrentDirection;
+		PosX += (int)NavigationManager.Instance.getDir (currentDirection).x;
+		PosY += (int)NavigationManager.Instance.getDir (currentDirection).y;
 	}
 
 	public void CheckForNoMansSea () {
@@ -75,6 +74,7 @@ public class PlayerBoatInfo : BoatInfo {
 			
 			if (value < 0 || value > MapGenerator.Instance.MapScale - 1) {
 				DialogueManager.Instance.ShowNarratorTimed("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
+				Debug.Log ("exited map ?");
 			}
 
 			base.PosX = value;
@@ -87,8 +87,10 @@ public class PlayerBoatInfo : BoatInfo {
 		}
 		set {
 
+
 			if ( value < 0 || value > MapGenerator.Instance.MapScale-1) {
 				DialogueManager.Instance.ShowNarratorTimed ("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
+				Debug.Log ("exited map ?");
 			}
 
 			base.PosY = value;

@@ -8,8 +8,8 @@ public class BoatInfo {
 	private int previousPosX = 0;
 	private int previousPosY = 0;
 
-	private int posX = 0;
-	private int posY = 0;
+	public int posX = 0;
+	public int posY = 0;
 
 	public Directions currentDirection;
 
@@ -17,8 +17,8 @@ public class BoatInfo {
 		
 	}
 
-	public virtual void Init () {
-		
+	public virtual void Randomize () {
+		//
 	}
 
 	public virtual void UpdatePosition () {
