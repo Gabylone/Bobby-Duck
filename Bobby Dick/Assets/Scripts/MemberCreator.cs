@@ -70,9 +70,11 @@ public class MemberCreator : MonoBehaviour {
 		Instance = this;
 	}
 
+	public string[] boatNames;
+	public string[] captainNames;
+
 	public void Show ()
 	{
-
 		PlayerLoot.Instance.InventoryButton.SetActive (false);
 
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
@@ -81,7 +83,10 @@ public class MemberCreator : MonoBehaviour {
 
 		UpdateButtons ();
 
-		boatName.text = "L'Evasion";
+		int ID = Random.Range ( 0, boatNames.Length );
+
+		boatName.text = captainNames[ID];
+		Crews.playerCrew.captain.MemberID.Name = boatNames [ID];
 		captainName.text = Crews.playerCrew.captain.MemberID.Name;
 	}
 

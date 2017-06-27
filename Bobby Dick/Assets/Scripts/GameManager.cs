@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {
 
+		if (Application.isMobilePlatform)
+			ScreenOrientation = ScreenOrientation.Landscape;
+
 		Instance = this;
 
 		LoadGame ();
