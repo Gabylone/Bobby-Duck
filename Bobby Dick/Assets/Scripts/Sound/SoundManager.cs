@@ -1,15 +1,30 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class SoundManager : MonoBehaviour {
 
+	public enum Sound {
+		Select_Small,
+		Select_Big,
+	}
+
 	public static SoundManager Instance;
 
 	[SerializeField]
-	private AudioSource[] soundSource;
+	private AudioSource soundSource;
 
 	[SerializeField]
 	private AudioSource ambianceSource;
+
+	[SerializeField]
+	private AudioClip[] clips;
+
+	bool enableSound = true;
+
+	void Start () {
+		EnableSound = true;
+	}
 
 	void Awake () {
 		Instance = this;
@@ -19,6 +34,10 @@ public class SoundManager : MonoBehaviour {
 		PlaySound (clips [Random.Range (0, clips.Length)]);
 	}
 
+	public void PlaySound ( Sound sound ) {
+		PlaySound (clips [(int)sound]);
+	}
+
 	public void PlaySound ( AudioClip clip ) {
 
 		if ( clip == null ) {
@@ -26,17 +45,8 @@ public class SoundManager : MonoBehaviour {
 			return;
 		}
 
-		int sourceIndex = 0;
-
-		if (soundSource [sourceIndex].isPlaying)
-			sourceIndex++;
-
-		if (sourceIndex < soundSource.Length) {
-			soundSource[sourceIndex].clip = clip;
-			soundSource[sourceIndex].Play ();
-		} else {
-			Debug.Log ("too mush sound");
-		}
+		soundSource.clip = clip;
+		soundSource.Play ();
 	}
 
 	public void PlayAmbiance ( AudioClip clip ) {
@@ -47,6 +57,35 @@ public class SoundManager : MonoBehaviour {
 	public AudioSource AmbianceSource {
 		get {
 			return ambianceSource;
+		}
+	}
+
+	[SerializeField]
+	private Image soundImage;
+	[SerializeField]
+	private Sprite sprite_SoundOn;
+
+	[SerializeField]
+	private Sprite sprite_SoundOff;
+
+	public void SwitchEnableSound () {
+		EnableSound = !EnableSound;
+	}
+
+	public bool EnableSound {
+		get {
+			return enableSound;
+		}
+		set {
+			enableSound = value;
+
+			soundSource.enabled = value;
+			ambianceSource.enabled = value;
+			if ( value ) {
+				ambianceSource.Play ();
+			}
+
+			soundImage.sprite = value ? sprite_SoundOn : sprite_SoundOff;
 		}
 	}
 }

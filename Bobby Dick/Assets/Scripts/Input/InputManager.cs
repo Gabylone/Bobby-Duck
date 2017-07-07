@@ -47,8 +47,13 @@ public class InputManager : MonoBehaviour {
 		if (screenPart == ScreenPart.Right)
 			rightSideOfScreen = GetInputPosition ().x > Screen.width / 2;
 
-		if (OnMobile)
+		if (OnMobile) {
+			
+			if (Input.touches.Length <= 0)
+				return false;
+			
 			return Input.GetTouch (id).phase == TouchPhase.Began && rightSideOfScreen;
+		}
 		else
 			return Input.GetMouseButtonDown (id) && rightSideOfScreen;
 	}
@@ -67,9 +72,12 @@ public class InputManager : MonoBehaviour {
 		if (screenPart == ScreenPart.Right)
 			rightSideOfScreen = GetInputPosition ().x > Screen.width / 2;
 
-		if (OnMobile)
+		if (OnMobile) {
+			if (Input.touches.Length <= 0)
+				return false;
+
 			return (Input.GetTouch (id).phase == TouchPhase.Stationary || Input.GetTouch (id).phase == TouchPhase.Moved) && rightSideOfScreen;
-		else
+		} else
 			return Input.GetMouseButton (id) && rightSideOfScreen;
 	}
 
@@ -87,8 +95,13 @@ public class InputManager : MonoBehaviour {
 		if (screenPart == ScreenPart.Right)
 			rightSideOfScreen = GetInputPosition ().x > Screen.width / 2;
 
-		if (OnMobile)
+		if (OnMobile) {
+			
+			if (Input.touches.Length <= 0)
+				return false;
+
 			return (Input.GetTouch (id).phase == TouchPhase.Ended) && rightSideOfScreen;
+		}
 		else
 			return Input.GetMouseButtonUp (id) && rightSideOfScreen;
 	}
@@ -102,41 +115,13 @@ public class InputManager : MonoBehaviour {
 	}
 	public Vector3 GetInputPosition (int id) {
 		if (OnMobile) {
+			if ( Input.touches.Length <=0 ) {
+				return Vector3.zero;
+			}
 			return Input.GetTouch (id).position;
 		} else {
 			return Input.mousePosition;
 		}
-	}
-	#endregion
-
-
-	#region get axis
-	/// <summary>
-	/// Gets the horizontal axis.
-	/// </summary>
-	/// <returns>The horizontal axis.</returns>
-	public float GetHorizontalAxis () {
-
-		if (OnMobile || mobileTest) {
-			return virtualJoystick.GetHorizontalAxis ();
-		} else {
-			return Input.GetAxis ("Horizontal");
-		}
-
-	}
-
-	/// <summary>
-	/// Gets the vertical axis.
-	/// </summary>
-	/// <returns>The vertical axis.</returns>
-	public float GetVerticalAxis () {
-
-		if (OnMobile || mobileTest) {
-			return virtualJoystick.GetVerticalAxis();
-		} else {
-			return Input.GetAxis ("Vertical");
-		}
-
 	}
 	#endregion
 

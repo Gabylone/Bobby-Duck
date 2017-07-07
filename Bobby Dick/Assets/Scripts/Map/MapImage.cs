@@ -88,11 +88,11 @@ public class MapImage : MonoBehaviour {
 				Chunk chunk = MapGenerator.Instance.Chunks [x, y];
 				SetPixel (texture,x,y, revealMap ? getChunkColor_Reveal (chunk) : getChunkColor (chunk));
 
-				if (chunk.State == ChunkState.UndiscoveredIsland
-					|| chunk.State == ChunkState.VisitedIsland
-					|| chunk.State == ChunkState.DiscoveredIsland) {
-					CreateIslandButton (x,y);
-				}
+//				if (chunk.State == ChunkState.UndiscoveredIsland
+//					|| chunk.State == ChunkState.VisitedIsland
+//					|| chunk.State == ChunkState.DiscoveredIsland) {
+//					CreateIslandButton (x,y);
+//				}
 			}
 
 		}
@@ -303,3 +303,4 @@ public class MapImage : MonoBehaviour {
 		}
 	}
 }
+

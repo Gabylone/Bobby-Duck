@@ -83,11 +83,16 @@ public class SaveMenu : MonoBehaviour {
 
 			if (SaveTool.Instance.FileExists (loadIndex)) {
 
-				saveButtons [buttonIndex].GetComponentInChildren<Text> ().text = "SAVE " + loadIndex;
+				GameData tempData =SaveTool.Instance.Load (loadIndex);
+
+				saveButtons [buttonIndex].GetComponentInChildren<Text> ().text = tempData.playerCrew.MemberIDs [0].Name;
 				saveButtons [buttonIndex].GetComponentInChildren<Text> ().color = Color.black;
 				saveButtons[buttonIndex].image.color = Color.white;
 				saveButtons[buttonIndex].interactable = true;
 
+				saveButtons [buttonIndex].GetComponentInChildren<IconVisual> ().UpdateVisual (tempData.playerCrew.MemberIDs [0]);
+				foreach (SpriteRenderer rend in saveButtons [buttonIndex].GetComponentInChildren<IconVisual> ().GetComponentsInChildren<SpriteRenderer>())
+					rend.color = Color.white;
 
 			} else {
 
@@ -95,6 +100,9 @@ public class SaveMenu : MonoBehaviour {
 				saveButtons [buttonIndex].GetComponentInChildren<Text> ().color = Color.white;
 				saveButtons[buttonIndex].image.color = Color.black;
 				saveButtons[buttonIndex].interactable = saving;
+
+				foreach (SpriteRenderer rend in saveButtons [buttonIndex].GetComponentInChildren<IconVisual> ().GetComponentsInChildren<SpriteRenderer>())
+					rend.color = Color.black;
 
 			}
 

@@ -12,6 +12,7 @@ public class StoryLoader : MonoBehaviour {
 	private List<Story> treasureStories = new List<Story> ();
 	private List<Story> homeStories 	= new List<Story> ();
 	private List<Story> boatStories 	= new List<Story> ();
+	private List<Story> quests 	= new List<Story> ();
 
 	public bool checkNodes = false;
 
@@ -23,8 +24,6 @@ public class StoryLoader : MonoBehaviour {
 
 	[SerializeField]
 	private StoryFunctions storyFunctions;
-
-	int kek = 0;
 
 	void Awake () {
 		
@@ -48,6 +47,7 @@ public class StoryLoader : MonoBehaviour {
 		LoadSheets (	homeStories		, 		"Stories/CSVs/HomeStories"		);
 		LoadSheets (	clueStories		, 		"Stories/CSVs/ClueStories"		);
 		LoadSheets (	treasureStories	, 		"Stories/CSVs/TreasureStories"	);
+		LoadSheets (	quests	, 		"Stories/CSVs/Quest"			);
 	}
 
 
@@ -58,8 +58,6 @@ public class StoryLoader : MonoBehaviour {
 		GetFiles (path);
 		for (int i = 0; i < storyFiles.Length; ++i )
 			storyList.Add(LoadSheet (i));
-
-		++kek;
 	}
 
 	private void GetFiles (string path)
@@ -279,7 +277,7 @@ public class StoryLoader : MonoBehaviour {
 		//
 		GameObject obj = GameObject.CreatePrimitive (PrimitiveType.Cube);
 		obj.transform.localScale = new Vector3 (newStory.freq, 1f, 1f);
-		obj.transform.position = new Vector3 ( minFreq + (newStory.freq/2), kek , 0f );
+		obj.transform.position = new Vector3 ( minFreq + (newStory.freq/2), 0 , 0f );
 		obj.GetComponent<Renderer> ().material.color = Random.ColorHSV ();
 		obj.name = newStory.name;
 	}
@@ -326,9 +324,11 @@ public class StoryLoader : MonoBehaviour {
 		CheckNodes (clueStories);
 		yield return new WaitForEndOfFrame ();
 		CheckNodes (treasureStories);
+		yield return new WaitForEndOfFrame ();
+		CheckNodes (quests);
 
 		if (!checkNodes_Incorrect) {
-			Debug.Log ("Stories are perfect");
+			Debug.Log ("Stories & Quests are perfect");
 		}
 	}
 
@@ -502,6 +502,13 @@ public class StoryLoader : MonoBehaviour {
 	public List<Story> HomeStories {
 		get {
 			return homeStories;
+		}
+	}
+
+
+	public List<Story> Quests {
+		get {
+			return Quests;
 		}
 	}
 	#endregion

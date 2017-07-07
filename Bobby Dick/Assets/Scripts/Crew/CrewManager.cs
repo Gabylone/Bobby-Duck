@@ -60,10 +60,6 @@ public class CrewManager : MonoBehaviour {
 			member.Icon.MoveToPoint (placingType);
 		}
 	}
-
-	public Vector3 GetMemberPos ( Crews.PlacingType placingType , int memberIndex ) {
-		return crewAnchors [(int)currentPlacingType].position + (crewDecals [(int)currentPlacingType] * memberIndex);
-	}
 	public float PlacingDuration {
 		get {
 			return placingDuration;

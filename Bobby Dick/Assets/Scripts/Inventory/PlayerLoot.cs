@@ -6,32 +6,25 @@ public class PlayerLoot : MonoBehaviour {
 
 	public static PlayerLoot Instance;
 
-	private int selectedMember = 0;
+	private int selectedMemberIndex = 0;
 
 	[Header("Groups")]
 	[SerializeField]
-	private GameObject inventoryButton;
+	private GameObject crewGroup;
+	private bool canOpen = true;
 
-	public GameObject InventoryButton {
+	public bool CanOpen {
 		get {
-			return inventoryButton;
+			return canOpen;
+		}
+		set {
+			canOpen = value;
 		}
 	}
-
-	[SerializeField]
-	private GameObject closeButton;
-	[SerializeField]
-	private GameObject crewGroup;
 
 	public GameObject CrewGroup {
 		get {
 			return crewGroup;
-		}
-	}
-
-	public GameObject CloseButton {
-		get {
-			return closeButton;
 		}
 	}
 
@@ -49,8 +42,7 @@ public class PlayerLoot : MonoBehaviour {
 
 	[Header("Card")]
 	[SerializeField]
-	private GameObject inventoryCardsParent;
-	private InventoryCard[] inventoryCards;
+	private InventoryCard inventoryCard;
 
 	[SerializeField]
 	private Transform crewCanvas;
@@ -76,20 +68,9 @@ public class PlayerLoot : MonoBehaviour {
 	private void Init () {
 
 		// init crew cards
-		inventoryCards = inventoryCardsParent.GetComponentsInChildren<InventoryCard>(true);
-		foreach (InventoryCard card in inventoryCards)
-			card.Init();
-
-		// set indexes
-		int a = 0;
-		foreach (InventoryCard inventoryCard in inventoryCards) {
-			inventoryCard.MemberIndex = a;
-			++a;
-		}
+		inventoryCard.Init ();
 
 		crewGroup.SetActive (false);
-		closeButton.SetActive (false);
-
 	}
 
 	#region button action
@@ -103,7 +84,7 @@ public class PlayerLoot : MonoBehaviour {
 		SoundManager.Instance.PlaySound (eatSound);
 
 		targetMember.Health += lootUI.SelectedItem.value;
-		targetMember.CurrentHunger -= lootUI.SelectedItem.value * 2;
+		targetMember.CurrentHunger -= (int)(lootUI.SelectedItem.value * 1.7f);
 
 		RemoveSelectedItem ();
 
@@ -140,9 +121,9 @@ public class PlayerLoot : MonoBehaviour {
 
 		targetMember.SetEquipment (part, lootUI.SelectedItem);
 
-		PlayerLoot.Instance.SelectedCard.Deploy ();
-
 		SoundManager.Instance.PlaySound (equipSound);
+
+		PlayerLoot.Instance.inventoryCard.UpdateMember (targetMember);
 
 		RemoveSelectedItem ();
 	}
@@ -173,7 +154,6 @@ public class PlayerLoot : MonoBehaviour {
 	private void RemoveSelectedItem () {
 		LootManager.Instance.PlayerLoot.RemoveItem (lootUI.SelectedItem);
 		lootUI.UpdateLootUI ();
-		UpdateMembers ();
 	}
 
 	public void UseItem () {
@@ -194,11 +174,15 @@ public class PlayerLoot : MonoBehaviour {
 	#endregion
 
 	#region crew navigator
-	public void Switch () {
-		if (Opened)
-			Close ();
-		else
-			Open (inventoryCategoryContent);
+	public void Open (int id) {
+		if (!CanOpen)
+			return;
+		if ( opened ) {
+			HideMember (selectedMemberIndex);
+		}
+		selectedMemberIndex = id;
+		Opened = true;
+		lootUI.Show (inventoryCategoryContent);
 	}
 	public void Open (CategoryContent categorycontent) {
 		Opened = true;
@@ -220,49 +204,10 @@ public class PlayerLoot : MonoBehaviour {
 	#endregion
 
 	#region crew management
-	public int SelectedMemberIndex {
-		get {
-			return selectedMember;
-		}
-		set {
-			inventoryCards [SelectedMemberIndex].GetComponentInChildren<Button>().interactable = true;
-			inventoryCards [SelectedMemberIndex].Deployed = false;
-
-			selectedMember = value;
-
-			inventoryCards [SelectedMemberIndex].GetComponentInChildren<Button>().interactable = false;
-			inventoryCards [SelectedMemberIndex].Deployed = true;
-
-			UpdateMembers ();
-		}
-	}
 	public CrewMember SelectedMember {
 		get {
-			return Crews.playerCrew.CrewMembers[SelectedMemberIndex];
+			return Crews.playerCrew.CrewMembers[selectedMemberIndex];
 		}
-	}
-	#endregion
-
-	#region Update members
-	public Transform anchor;
-	public float deployedDecal = 1f;
-	public void UpdateMembers () {
-
-		float decal = 0;
-
-		for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
-
-			inventoryCards[i].UpdateMember (Crews.playerCrew.CrewMembers[i]);
-
-			Vector3 pos = anchor.position - Vector3.up * (decal);
-
-			inventoryCards [i].GetTransform.position = pos;
-
-			decal += deployedDecal;
-			if (i == SelectedMemberIndex)
-				decal += deployedDecal;
-		}
-
 	}
 	#endregion
 
@@ -273,34 +218,18 @@ public class PlayerLoot : MonoBehaviour {
 		}
 		set {
 
+
+
 			opened = value;
 
 			crewGroup.SetActive (value);
 
-			closeButton.SetActive (value);
-
-			InventoryButton.SetActive (!value);
-
 			MapImage.Instance.MapButton.Opened = false;
 
-			UpdateMembers ();
-
-			SelectedMemberIndex = 0;
-
-			// set icons
-			for (int i = 0; i < Crews.playerCrew.CrewMembers.Count; ++i ) {
-
-				Transform parent = value ? inventoryCards [i].IconAnchor : crewCanvas;
-				Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (parent);
-				Crews.playerCrew.CrewMembers[i].Icon.Overable = !value;
-
-				if ( value == true )
-					Crews.playerCrew.CrewMembers[i].Icon.GetTransform.localPosition = Vector3.zero;
-				else
-					Crews.playerCrew.CrewMembers[i].Icon.MoveToPoint (Crews.playerCrew.CrewMembers[i].Icon.CurrentPlacingType, 0.2f);
-
-				inventoryCards[i].UpdateMember (Crews.playerCrew.CrewMembers[i]);
-			}
+			if (value)
+				ShowMember (selectedMemberIndex);
+			else
+				HideMember (selectedMemberIndex);
 
 			if ( value == false )
 				BoatUpgradeManager.Instance.CloseUpgradeMenu ();
@@ -309,16 +238,23 @@ public class PlayerLoot : MonoBehaviour {
 		}
 	}
 
-	public InventoryCard[] InventoryCards {
-		get {
-			return inventoryCards;
-		}
+	public void ShowMember ( int i ) {
+		Transform parent = inventoryCard.IconAnchor;
+		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (parent);
+
+		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.localPosition = Vector3.zero;
+//		inventoryCards[i].UpdateMember (Crews.playerCrew.CrewMembers[i]);
+		inventoryCard.UpdateMember (Crews.playerCrew.CrewMembers[i]);
+		Crews.playerCrew.CrewMembers [i].Icon.Overable = false;
+
 	}
 
-	public InventoryCard SelectedCard {
-		get {
-			return inventoryCards [SelectedMemberIndex];
-		}
+	public void HideMember (int i ) {
+		Transform parent = crewCanvas;
+		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (parent);
+
+		Crews.playerCrew.CrewMembers[i].Icon.MoveToPoint (Crews.playerCrew.CrewMembers[i].Icon.CurrentPlacingType, 0.2f);
+		Crews.playerCrew.CrewMembers [i].Icon.Overable = true;
 	}
 
 	public LootUI LootUI {

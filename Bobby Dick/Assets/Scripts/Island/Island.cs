@@ -41,10 +41,10 @@ public class Island : MonoBehaviour {
 
 	void DeactivateCollider ()
 	{
-		GetComponentInChildren<BoxCollider2D> ().enabled = false;
+		GetComponentInChildren<PolygonCollider2D> ().enabled = false;
 	}
 	void ActivateCollider () {
-		GetComponentInChildren<BoxCollider2D> ().enabled = true;
+		GetComponentInChildren<PolygonCollider2D> ().enabled = true;
 	}
 	#endregion
 
@@ -74,4 +74,14 @@ public class Island : MonoBehaviour {
 			return sprites;
 		}
 	}
+
+	void OnCollisionEnter2D ( Collision2D coll ) {
+		if ( coll.gameObject.tag == "Player" ) {
+			if (NavigationManager.Instance.FlagControl.TargetedIsland) {
+				Island.Instance.Enter ();
+				NavigationManager.Instance.FlagControl.TargetedIsland = false;
+			}
+		}
+	}
+
 }

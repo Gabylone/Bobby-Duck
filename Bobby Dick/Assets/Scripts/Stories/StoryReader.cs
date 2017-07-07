@@ -19,6 +19,11 @@ public class StoryReader : MonoBehaviour {
 
 	private StoryManager storyManager;
 
+	private bool waitForInput = false;
+
+	[SerializeField]
+	private AudioClip pressInputButton;
+
 	void Awake () {
 		Instance = this;
 	}
@@ -26,6 +31,12 @@ public class StoryReader : MonoBehaviour {
 	void Update () {
 		if ( waitToNextCell )
 			WaitForNextCell_Update ();
+
+		if ( waitForInput ) {
+			if (InputManager.Instance.OnInputDown ()) {
+				PressInput ();
+			}
+		}
 	}
 
 	#region story flow
@@ -216,18 +227,9 @@ public class StoryReader : MonoBehaviour {
 		}
 	}
 	// ce truc n'a rien à foutre ici mais il y est
-	[Header("Input")]
-	[SerializeField]
-	private GameObject inputButton;
-
-	private bool waitForInput = false;
-
-	[SerializeField]
-	private AudioClip pressInputButton;
 	#region input & wait
 	public void WaitForInput () {
 		waitForInput = true;
-		inputButton.SetActive (true);
 	}
 	public void PressInput () {
 
@@ -237,7 +239,6 @@ public class StoryReader : MonoBehaviour {
 		DialogueManager.Instance.EndDialogue ();
 
 		waitForInput = false;
-		inputButton.SetActive (false);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();

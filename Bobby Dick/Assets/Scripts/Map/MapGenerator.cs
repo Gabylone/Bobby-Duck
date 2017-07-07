@@ -125,16 +125,6 @@ public class MapGenerator : MonoBehaviour {
 		SaveManager.Instance.CurrentData.mapData = MapData.Instance;
 		SaveManager.Instance.CurrentData.chunkArray = toChunkArray (Chunks);
 
-		foreach (Chunk cun in chunks) {
-			if (cun.State == ChunkState.VisitedIsland)
-				print ("save visited");
-		}
-
-		foreach (Chunk cun in chunks) {
-			if (cun.State == ChunkState.DiscoveredIsland)
-				print ("save discovered");
-		}
-
 	}
 	public Chunk[][] toChunkArray ( Chunk[,] bufferChunks ) {
 

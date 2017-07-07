@@ -43,3 +43,6 @@ AddKarma;rajoute du karma;;
 RemoveKarma;enleve du karma;;
 CheckKarma;0 : mec bien / 1 mec sans interet / 2 mec louche / 3 recherché;;
 PayBounty;removes bounty ( 0 : payé : 1 : pas assez d'argent );;
+LaunchQuest;ajoute une quete au journal;;
+CheckQuest;vérifie si le joueur à une quête;;
+ReturnQuest;renvoie le joueur au donneur de quête;;

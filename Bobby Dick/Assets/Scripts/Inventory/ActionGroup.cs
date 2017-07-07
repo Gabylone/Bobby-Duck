@@ -18,6 +18,8 @@ public class ActionGroup : MonoBehaviour {
 		None
 	}
 
+	bool visible = false;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -34,4 +36,16 @@ public class ActionGroup : MonoBehaviour {
 			buttonObjects [(int)buttonType2].SetActive (true);
 
 	}
+
+	public bool Visible {
+		get {
+			return visible;
+		}
+		set {
+			visible = value;
+
+			gameObject.SetActive (value);
+		}
+	}
+
 }

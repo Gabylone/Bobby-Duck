@@ -95,8 +95,8 @@ public class SaveManager : MonoBehaviour
 
 		WeatherManager.Instance.SaveWeather ();
 
-
 		SaveTool.Instance.Save (index);
+
 	}
 	#endregion
 

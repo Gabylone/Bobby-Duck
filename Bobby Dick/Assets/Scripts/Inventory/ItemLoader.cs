@@ -154,10 +154,9 @@ public class ItemLoader : MonoBehaviour {
 
 			int maxLevel = 1;
 
-			if ( Crews.playerCrew != null )
-				maxLevel = Crews.playerCrew.captain.Level + Random.Range (-1, 2);
+			if (Crews.playerCrew != null)
+				maxLevel = Random.Range (1,6);
 			
-			maxLevel = Mathf.Clamp ( maxLevel , 1 , 1000 );
 			for (int i = 0; i < itemAmount; ++i)
 			{
 				randomItems [itemType] [i] = getRandomItemMaxLevel ((ItemCategory)itemType, maxLevel);
@@ -176,7 +175,7 @@ public class ItemLoader : MonoBehaviour {
 		return items[(int)itemType][index];
 	}
 
-	public Item getRandomItemMaxLevel ( ItemCategory itemType , int maxLevel = 0 ) {
+	public Item getRandomItemMaxLevel ( ItemCategory itemType , int maxLevel = 1 ) {
 
 		int l = items [(int)itemType].Length;
 

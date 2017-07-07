@@ -33,11 +33,11 @@ public class StoryTest : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-//		if (Input.GetKeyDown(KeyCode.Return) ) {
-//			StoryReader.Instance.StoryManager.storyHandlers [0].storyType = testStoryType;
-//			StoryReader.Instance.StoryManager.storyHandlers[0].storyID = StoryLoader.Instance.FindIndexByName (testStoryName,testStoryType);
-//			StoryLauncher.Instance.PlayStory (StoryReader.Instance.StoryManager,StoryLauncher.StorySource.island);
-//		}
+		if (Input.GetKeyDown(KeyCode.Return) ) {
+			StoryReader.Instance.StoryManager.storyHandlers [0].storyType = testStoryType;
+			StoryReader.Instance.StoryManager.storyHandlers[0].storyID = StoryLoader.Instance.FindIndexByName (testStoryName,testStoryType);
+			StoryLauncher.Instance.PlayStory (StoryReader.Instance.StoryManager,StoryLauncher.StorySource.island);
+		}
 
 //
 //		if (Input.GetKeyDown(KeyCode.PageUp) ) {

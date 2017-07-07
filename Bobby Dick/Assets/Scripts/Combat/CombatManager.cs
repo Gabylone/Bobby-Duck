@@ -754,7 +754,7 @@ public class CombatManager : MonoBehaviour {
 		set {
 			fighting = value;
 
-			PlayerLoot.Instance.InventoryButton.SetActive (!value);
+			PlayerLoot.Instance.CanOpen = !value;
 
 			if (fighting) {
 				

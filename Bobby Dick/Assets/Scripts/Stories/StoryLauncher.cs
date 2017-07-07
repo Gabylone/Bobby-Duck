@@ -61,6 +61,8 @@ public class StoryLauncher : MonoBehaviour {
 
 			Transitions.Instance.ActionTransition.Fade = playingStory;
 
+			PlayerLoot.Instance.CanOpen = !value;
+
 			// place captain
 			Crews.PlacingType pT = playingStory ? Crews.PlacingType.Discussion : Crews.PlacingType.Map;
 			Crews.playerCrew.captain.Icon.MoveToPoint (pT, 0.2f);
@@ -88,7 +90,6 @@ public class StoryLauncher : MonoBehaviour {
 					break;
 				case StorySource.island:
 					MapData.Instance.currentChunk.State = ChunkState.VisitedIsland;
-					print ("mark as visited island");
 					break;
 				case StorySource.boat:
 					Boats.Instance.OtherBoat.Leave ();

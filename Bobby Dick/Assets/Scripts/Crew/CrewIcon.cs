@@ -49,6 +49,7 @@ public class CrewIcon : MonoBehaviour {
 	[Header("decals")]
 	[SerializeField]
 	private float overingDecal = 2f;
+	[SerializeField]
 	private float placementDecal = 1.3f;
 
 	Crews.PlacingType currentPlacingType;
@@ -70,17 +71,7 @@ public class CrewIcon : MonoBehaviour {
 			MoveUpdate ();
 		}
 
-		if ( scaleLerp ) {
-			
-			float l = pointerOver ? (timer / scaleDuration) : 1-(timer / scaleDuration);
-
-			GetTransform.localScale = Vector3.Lerp (Vector3.one, Vector3.one * scaleAmount, l);
-//
-			if (timer >= scaleDuration)
-				scaleLerp = false;
-		}
-
-		if (moveLerp || scaleLerp)
+		if (moveLerp)
 			timer += Time.deltaTime;
 
 	}
@@ -129,10 +120,14 @@ public class CrewIcon : MonoBehaviour {
 		CardManager.Instance.HideOvering ();
 	}
 	public void OnPointerDown() {
+		
 		if (!Overable)
 			return;
+
 		OnPointerExit ();
-		DialogueManager.Instance.SetDialogueTimed ("Oui ?", member);
+
+		PlayerLoot.Instance.Open (member.GetIndex);
+		
 	}
 	#endregion
 
@@ -211,6 +206,12 @@ public class CrewIcon : MonoBehaviour {
 	public void ShowFace () {
 		faceObj.SetActive (true);
 	}
+
+	public void UpdateVisual (MemberID memberID)
+	{
+		GetComponent<IconVisual> ().UpdateVisual (memberID);
+	}
+
 	#endregion
 
 	#region properties
@@ -235,6 +236,8 @@ public class CrewIcon : MonoBehaviour {
 		}
 		set {
 			member = value;
+
+			GetComponent<IconVisual> ().UpdateVisual (member.MemberID);
 		}
 	}
 
@@ -243,6 +246,10 @@ public class CrewIcon : MonoBehaviour {
 			return overable;
 		}
 		set {
+
+			if (member.Side == Crews.Side.Enemy && value)
+				return;
+
 			overable = value;
 
 			UpdateIcon ();
@@ -284,75 +291,6 @@ public class CrewIcon : MonoBehaviour {
 			return faceObj;
 		}
 	}
-
-	#region body parts
-	[Header("BobyParts")]
-	[SerializeField]
-	private Image faceImage;
-	[SerializeField]
-	private Image beardImage;
-	[SerializeField]
-	private Image bodyImage;
-	[SerializeField]
-	private Image hairImage;
-	[SerializeField]
-	private Image eyesImage;
-	[SerializeField]
-	private Image eyebrowsImage;
-	[SerializeField]
-	private Image mouthImage;
-	[SerializeField]
-	private Image noseImage;
-
-	public Image FaceImage {
-		get {
-			return faceImage;
-		}
-	}
-
-	public Image BeardImage {
-		get {
-			return beardImage;
-		}
-	}
-
-	public Image HairImage {
-		get {
-			return hairImage;
-		}
-	}
-
-	public Image EyesImage {
-		get {
-			return eyesImage;
-		}
-	}
-
-	public Image EyebrowsImage {
-		get {
-			return eyebrowsImage;
-		}
-	}
-
-	public Image MouthImage {
-		get {
-			return mouthImage;
-		}
-	}
-
-	public Image NoseImage {
-		get {
-			return noseImage;
-		}
-	}
-
-	public Image BodyImage {
-		get {
-			return bodyImage;
-		}
-	}
-
-	#endregion
 
 	public GameObject ControllerTransform {
 		get {

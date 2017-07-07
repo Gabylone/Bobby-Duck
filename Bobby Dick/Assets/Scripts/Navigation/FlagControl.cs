@@ -17,6 +17,12 @@ public class FlagControl : MonoBehaviour {
 	[SerializeField]
 	private float boatSpeed = 1.2f;
 
+
+	[SerializeField]
+	private Sprite targetSprite;
+	[SerializeField]
+	private Sprite flagSprite;
+
 	[SerializeField]
 	private Boat playerBoat;
 
@@ -28,7 +34,7 @@ public class FlagControl : MonoBehaviour {
 
 	public bool updatingPosition = false;
 
-	bool targetedIsland = false;
+	private bool targetedIsland = false;
 
 	// Use this for initialization
 	void Start () {
@@ -68,42 +74,19 @@ public class FlagControl : MonoBehaviour {
 		bool flagIsNearIsland = Vector2.Distance (flagPos, islandPos) < distanceToTriggerIsland;
 
 		flagImage.color = flagIsNearIsland ? Color.red : Color.blue;
-		flagImage.enabled = !(distance_BoatToFlag < distanceToStop + 0.3f);
+
+
+		if (updatingPosition) {
+
+			TargetedIsland = flagIsNearIsland;
+
+
+		}
 
 		if (targetedIsland == false) {
-			if (updatingPosition) {
-
-				if ( flagIsNearIsland ) {
-
-					targetedIsland = true;
-
-				}
-
-			}
-		} else {
-			if ( updatingPosition ) {
-				if (flagIsNearIsland == false) {
-					targetedIsland = false;
-				}
-			}
+			flagImage.enabled = !(distance_BoatToFlag < distanceToStop + 0.3f);
 		}
-//
 
-		if (targetedIsland ) {
-
-			Vector2 pos = islandWorldPos + decalToIsland;
-
-			if ( distance_BoatToFlag < distanceToStop ) {
-
-				island.Enter ();
-
-				targetedIsland = false;
-
-				flagImage.color = Color.blue;
-
-			}
-
-		}
 		playerBoat.TargetSpeed = boatSpeed;
 		playerBoat.TargetDirection = (flagPos - boatPos).normalized;
 
@@ -142,6 +125,30 @@ public class FlagControl : MonoBehaviour {
 		set {
 			updatingPosition = value;
 			PlaceFlagOnScreen ();
+		}
+	}
+
+	public bool TargetedIsland {
+		get {
+			return targetedIsland;
+		}
+		set {
+
+			if (targetedIsland == value)
+				return;
+
+			targetedIsland = value;
+
+			if (value) {
+
+				Vector2 pos = Camera.main.WorldToViewportPoint (island.getTransform.position);
+
+				flagRect.anchorMin = pos;
+				flagRect.anchorMax = pos;
+			}
+
+			flagImage.sprite = value ? targetSprite : flagSprite;
+
 		}
 	}
 }

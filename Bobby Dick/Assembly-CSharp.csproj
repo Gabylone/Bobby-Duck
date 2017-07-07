@@ -71,6 +71,7 @@
      <Compile Include="Assets\Scripts\Crew\CrewManager.cs" />
      <Compile Include="Assets\Scripts\Crew\CrewMember.cs" />
      <Compile Include="Assets\Scripts\Crew\Crews.cs" />
+     <Compile Include="Assets\Scripts\Crew\IconVisual.cs" />
      <Compile Include="Assets\Scripts\Crew\MemberFeedback.cs" />
      <Compile Include="Assets\Scripts\Crew\MemberID.cs" />
      <Compile Include="Assets\Scripts\DebugMessage.cs" />
@@ -109,6 +110,7 @@
      <Compile Include="Assets\Scripts\Navigation\NavigationManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\NavigationTrigger.cs" />
      <Compile Include="Assets\Scripts\Navigation\WheelControl.cs" />
+     <Compile Include="Assets\Scripts\QuestManager.cs" />
      <Compile Include="Assets\Scripts\Save\SaveManager.cs" />
      <Compile Include="Assets\Scripts\Save\SaveMenu.cs" />
      <Compile Include="Assets\Scripts\Save\SaveTool.cs" />
@@ -132,8 +134,9 @@
      <Compile Include="Assets\Scripts\Treasure\ClueManager.cs" />
      <Compile Include="Assets\SetOrder.cs" />
      <Compile Include="Assets\StickToRectTransform.cs" />
+     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\bep.xml" />
      <None Include="Assets\GameSaveData1.xml" />
-     <None Include="Assets\GameSaveData2.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

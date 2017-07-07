@@ -38,8 +38,6 @@ public class OtherLoot : MonoBehaviour {
 		PlayerLoot.Instance.Open(PlayerLoot.Instance.TradeCategoryContent);
 		playerLootUI.Visible = true;
 		playerLootUI.UpdateActionButton (0);
-		PlayerLoot.Instance.InventoryButton.SetActive (false);
-		PlayerLoot.Instance.CloseButton.SetActive (false);
 
 		otherLootUI.Show (category_TradeContent);
 		otherLootUI.UpdateActionButton(0);
@@ -109,8 +107,7 @@ public class OtherLoot : MonoBehaviour {
 
 		trading = false;
 
-		PlayerLoot.Instance.InventoryButton.SetActive (true);
-		PlayerLoot.Instance.CloseButton.SetActive (true);
+		PlayerLoot.Instance.CanOpen = true;
 		PlayerLoot.Instance.Opened = false;
 
 		if ( StoryLauncher.Instance.PlayingStory ) {

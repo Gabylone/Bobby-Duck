@@ -83,6 +83,12 @@ public class CrewCreator : MonoBehaviour {
 		Color.gray,
 		Color.gray,
 	};
+
+	public Color Beige {
+		get {
+			return beige;
+		}
+	}
 	#endregion
 
 	void Awake () {
@@ -104,8 +110,6 @@ public class CrewCreator : MonoBehaviour {
 		);
 
 		crewMember.IconObj.GetComponent<CrewIcon> ().Member = crewMember;
-
-		UpdateIcon (crewMember);
 
 		return crewMember;
 	}
@@ -134,50 +138,6 @@ public class CrewCreator : MonoBehaviour {
 
 		return iconObj;
 	}
-
-	public void UpdateIcon (CrewMember crewMember) {
-
-		CrewIcon icon = crewMember.Icon;
-
-		icon.FaceImage.color = beige;
-
-		MemberID memberID = crewMember.MemberID;
-
-		// hair
-		if (memberID.HairSpriteID > -1) {
-			icon.HairImage.sprite = memberID.Male ? HairSprites_Male [memberID.HairSpriteID] : HairSprites_Female [memberID.HairSpriteID];
-			icon.HairImage.enabled = true;
-		} else {
-			icon.HairImage.enabled = false;
-		}
-
-		icon.HairImage.color = hairColors [memberID.HairColorID];
-
-		if (memberID.BeardSpriteID > -1) {
-			icon.BeardImage.enabled = true;
-			icon.BeardImage.sprite = beardSprites [memberID.BeardSpriteID];
-		} else {
-			icon.BeardImage.enabled = false;
-
-		}
-		icon.BeardImage.color = hairColors [memberID.HairColorID];
-
-		// eyes
-		icon.EyesImage.sprite = eyesSprites [memberID.EyeSpriteID];
-		icon.EyebrowsImage.sprite = eyebrowsSprites [memberID.EyebrowsSpriteID];
-		icon.EyebrowsImage.color = hairColors [memberID.HairColorID];
-
-		// nose
-		icon.NoseImage.sprite = noseSprite [memberID.NoseSpriteID];
-
-		// mouth
-		icon.MouthImage.sprite = mouthSprite [memberID.MouthSpriteID];
-		icon.MouthImage.color = beige;
-
-		// body
-		icon.BodyImage.sprite = bodySprites[memberID.Male ? 0:1];
-	}
-
 	#endregion
 
 	public Crews.Side TargetSide {

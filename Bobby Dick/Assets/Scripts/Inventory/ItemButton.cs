@@ -34,6 +34,7 @@ public class ItemButton : MonoBehaviour {
 	bool enabled = false;
 
 	public void Select () {
+		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
 		lootUI.UpdateActionButton (index);
 	}
 
@@ -86,8 +87,10 @@ public class ItemButton : MonoBehaviour {
 		}
 		set {
 			weight = value;
-			weightText.text = weight.ToString ();
-			weightObj.SetActive (value > 0);
+			if (weightObj != null) {
+				weightText.text = weight.ToString ();
+				weightObj.SetActive (value > 0);
+			}
 		}
 	}
 

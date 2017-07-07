@@ -55,6 +55,7 @@ public class LootUI : MonoBehaviour {
 	public void Show (CategoryContent _categoryContent) {
 		categoryContent = _categoryContent;
 		Visible = true;
+		itemButtons [0].Select ();
 	}
 
 	public bool Visible {
@@ -101,6 +102,7 @@ public class LootUI : MonoBehaviour {
 
 			a++;
 		}
+
 	}
 	#endregion
 
@@ -192,10 +194,12 @@ public class LootUI : MonoBehaviour {
 	public void NextPage () {
 		++currentPage;
 		UpdateLootUI ();
+		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 	}
 	public void PreviousPage () {
 		--currentPage;
 		UpdateLootUI ();
+		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 	}
 
 	private void UpdatePages () {
@@ -223,18 +227,19 @@ public class LootUI : MonoBehaviour {
 
 		}
 		bool enoughItemsOnPage = SelectedItems.Length > CurrentPage * ItemPerPage;
-		actionGroup.gameObject.SetActive (CategoryContent.interactable[currentCat] && enoughItemsOnPage);
-			
-			// set group position
-		Vector3 targetPos = actionGroup.transform.position;
-		targetPos.y = itemButtons [itemIndex].transform.position.y;
-		actionGroup.transform.position = targetPos;
 
-			//
+		actionGroup.Visible = CategoryContent.interactable[currentCat] && enoughItemsOnPage;
 		actionGroup.UpdateButtons (CategoryContent.catButtonType[currentCat].buttonTypes [0], CategoryContent.catButtonType[currentCat].buttonTypes [1]);
 
-			// set group index
-		selectionIndex = itemIndex;
+
+		foreach (ItemButton itemButton in itemButtons)
+			itemButton.Enabled = true;
+
+
+		// set group index
+		SelectionIndex = itemIndex;
+
+
 
 	}
 	#endregion
@@ -244,7 +249,7 @@ public class LootUI : MonoBehaviour {
 			ItemCategory[] cats= CategoryContent.itemCategories [currentCat].categories;
 			Item[] items = LootManager.Instance.getLoot (side).getCategory (cats);
 
-			int index = currentPage + selectionIndex;
+			int index = currentPage + SelectionIndex;
 
 			return items[index];
 		}
@@ -270,13 +275,17 @@ public class LootUI : MonoBehaviour {
 				}
 			}
 
-			return l + currentPage + selectionIndex;
+			return l + currentPage + SelectionIndex;
 		}
 	}
 
 	public int SelectionIndex {
 		get {
 			return selectionIndex;
+		}
+		set {
+			selectionIndex = value;
+			itemButtons [selectionIndex].Enabled = false;
 		}
 	}
 
