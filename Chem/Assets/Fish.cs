@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum Side {
+	Left,
+	Right,
+}
+
 public class Fish : Ingredient {
 
 	[SerializeField]
@@ -25,9 +30,10 @@ public class Fish : Ingredient {
 	private float currentTimeToJump = 0f;
 
 	[SerializeField]
-	private float maxX = 0f;
+	private Vector2 positionRange = new Vector2(-2,2);
+
 	[SerializeField]
-	private float minX = 0f;
+	Side side;
 
 	public override void Start ()
 	{
@@ -40,7 +46,11 @@ public class Fish : Ingredient {
 		currentTime = Random.Range (range_TimeToJump.x ,range_TimeToJump.y);
 
 		CanInteract = false;
+
+		Side = Side.Left;
 	}
+
+
 
 	public override void Update ()
 	{
@@ -49,16 +59,29 @@ public class Fish : Ingredient {
 
 	}
 
+	public Side Side {
+		get {
+			return side;
+		}
+		set {
+			side = value;
+
+			transform.right = side == Side.Left ? Vector2.left : Vector2.right;
+		}
+	}
+
 	void FishAround ()
 	{
 		if ( !jumping ) {
 
-			if (transform.position.x >= initPos.x + maxX) {
-				transform.right = Vector2.left;
-			}
-
-			if (transform.position.x <= initPos.x + minX) {
-				transform.right = Vector2.right;
+			if ( Side == Side.Left ) {
+				if (transform.position.x <= initPos.x + positionRange.x) {
+					Side = Side.Right;
+				}
+			} else {
+				if (transform.position.x >= initPos.x + positionRange.y) {
+					Side = Side.Left;
+				}
 			}
 
 			transform.Translate (Vector2.right * speed * Time.deltaTime);
@@ -70,8 +93,6 @@ public class Fish : Ingredient {
 				Rigidody.isKinematic = false;
 				Rigidody.AddForce ( Vector2.up * jumpForce );
 				Rigidody.angularVelocity = Random.value < 0.5f ? jumpTorque : -jumpTorque;
-
-
 			}
 
 		} else {
@@ -79,11 +100,7 @@ public class Fish : Ingredient {
 			currentTime += Time.deltaTime;
 
 			if ( transform.position.y < initPos.y && currentTime >= 0.1f ) {
-				Vector2 dir = Random.value < 0.5f ? Vector2.left : Vector2.right;
-
-				transform.right = dir;
-
-
+				Side = Random.value < 0.5f ? Side.Left : Side.Right;
 				transform.position = new Vector3 ( transform.position.x , initPos.y , 0f );
 
 				Rigidody.velocity = Vector2.zero;
@@ -115,6 +132,6 @@ public class Fish : Ingredient {
 			p = initPos;
 
 		Gizmos.color = Color.cyan;
-		Gizmos.DrawLine (p+(Vector2.right*minX),p+(Vector2.right*maxX));
+		Gizmos.DrawLine (p+(Vector2.right*positionRange.x),p+(Vector2.right*positionRange.y));
 	}
 }

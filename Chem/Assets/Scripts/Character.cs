@@ -137,10 +137,14 @@ public class Character : Controller {
 
 	#region shoot
 	public override void Shoot_Start () {
+		
 		Throw ();
+
 		Animator.SetTrigger ("shoot");
 
 		shootCurrentRecoil = shootRecoilSpeed;
+
+		currentSpeed = 0f;
 	}
 	public override void Shoot_Update () {
 

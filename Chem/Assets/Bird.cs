@@ -16,7 +16,11 @@ public class Bird : Controller {
 	private float currentTimeToTurn = 0f;
 
 	[SerializeField]
-	private float distanceToFlyAway = 1f;
+	private float distanceToFlyAway_Turned = 1f;
+
+	[SerializeField]
+	private float distanceToFlyAway_Front = 1f;
+
 
 	[SerializeField]
 	private float flying_TimeToStop = 3f;
@@ -47,13 +51,22 @@ public class Bird : Controller {
 			TimeInState = 0f;
 		}
 
-		if ( Vector3.Distance (Character.Instance.GetTransform.position, GetTransform.localPosition ) < distanceToFlyAway ) {
+		float distanceToPlayer = Vector3.Distance (Character.Instance.GetTransform.position, GetTransform.localPosition);
+
+		if ( distanceToPlayer < distanceToFlyAway_Front ) {
 
 			Vector2 dirToPlayer = (Character.Instance.GetTransform.position - GetTransform.position).normalized;
 
+				// is facing player
 			if ( Vector2.Dot ( BodyTransform.right , dirToPlayer ) > 0 ) {
 
 				if ( Character.Instance.Crouching == false && TimeInState >= bufferTimeAfterTurn ) {
+					ChangeState (State.moving);
+				}
+
+			} else {
+
+				if (distanceToPlayer < distanceToFlyAway_Front && Character.Instance.Crouching == false) {
 					ChangeState (State.moving);
 				}
 
@@ -76,7 +89,7 @@ public class Bird : Controller {
 			GetTransform.Translate (Vector3.up * flySpeed * Time.deltaTime);
 		}
 
-		if ( Vector3.Distance (Character.Instance.GetTransform.position, GetTransform.localPosition ) > distanceToFlyAway ) {
+		if ( Vector3.Distance (Character.Instance.GetTransform.position, GetTransform.localPosition ) > distanceToFlyAway_Turned ) {
 
 			if ( TimeInState >= 5f ) {
 				ChangeState (State.goToAnchor);
@@ -96,7 +109,7 @@ public class Bird : Controller {
 
 		Vector3 dir = (anchor.position - GetTransform.position).normalized;
 
-		GetTransform.Translate (dir * distanceToFlyAway * Time.deltaTime);
+		GetTransform.Translate (dir * distanceToFlyAway_Turned * Time.deltaTime);
 		BodyTransform.right = dir;
 
 		if (Vector3.Distance (GetTransform.position, anchor.position) < Anchor_DistanceToIdle) {
@@ -113,7 +126,7 @@ public class Bird : Controller {
 
 	void OnDrawGizmos () {
 		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere (transform.position, distanceToFlyAway);
+		Gizmos.DrawWireSphere (transform.position, distanceToFlyAway_Turned);
 
 		Gizmos.color = Color.blue;
 		Gizmos.DrawWireSphere (transform.position, Anchor_DistanceToIdle);

@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-
-
 
 public class Array : MonoBehaviour {
 
@@ -14,12 +13,21 @@ public class Array : MonoBehaviour {
 	private Sprite[] sprites;
 	private Dictionary<TileCoord,SpriteRenderer> tileSpriteRenderers = new Dictionary<TileCoord, SpriteRenderer>();
 
+	[Header("Loading")]
+	[SerializeField]
+	private GameObject loadingGroup;
+	[SerializeField]
+	private Image loadingImage;
+	[SerializeField]
+	private int loadingLimit = 50;
+	private int currentLoad = 0;
+
 	#region load
 	void Awake () {
 		Instance = this;
 	}
 	void Start () {
-		LoadTiles ();
+//		LoadTiles ();
 	}
 	public void LoadTiles () {
 
@@ -28,24 +36,60 @@ public class Array : MonoBehaviour {
 			return;
 		}
 
-		SpriteRenderer[] tileRenderers = tileOverall.GetComponentsInChildren<SpriteRenderer> ();
+		tileSpriteRenderers.Clear ();
+	
+		BoxCollider2D[] tileRenderers = tileOverall.GetComponentsInChildren<BoxCollider2D> ();
 
 		for (int i = 0; i < tileRenderers.Length; i++) {
 
 			TileCoord newTile = new TileCoord ((int)tileRenderers [i].transform.position.x, (int)tileRenderers [i].transform.position.y);
 
-			tileSpriteRenderers.Add (newTile, tileRenderers [i]);
+			if ( tileSpriteRenderers.ContainsKey (newTile) ) {
+
+				continue;
+
+			}
+			tileSpriteRenderers.Add (newTile, tileRenderers [i].GetComponent<SpriteRenderer>());
 
 		}
 
-		for (int i = 0; i < tileRenderers.Length; i++) {
-
-			TileCoord newTile = new TileCoord ((int)tileRenderers [i].transform.position.x, (int)tileRenderers [i].transform.position.y);
-
-			UpdateTile (newTile);
-
+		foreach ( TileCoord tileCoord in tileSpriteRenderers.Keys ) {
+			UpdateTile (tileCoord);
 		}
+
 	}
+//	IEnumerator LoadTiles_Coroutine () {
+//
+//		BoxCollider2D[] tileRenderers = tileOverall.GetComponentsInChildren<BoxCollider2D> ();
+//
+//		loadingGroup.SetActive (true);
+//
+//		int max = tileRenderers.Length * 2;
+//		int current = 0;
+//
+//		for (int i = 0; i < tileRenderers.Length; i++) {
+//
+//			TileCoord newTile = new TileCoord ((int)tileRenderers [i].transform.position.x, (int)tileRenderers [i].transform.position.y);
+//
+//			tileSpriteRenderers.Add (newTile, tileRenderers [i].GetComponent<SpriteRenderer>());
+//
+//			++current;
+//
+//			if ( current >= loadingLimit ) {
+//
+//				current = 0;
+//
+//				loadingImage.fillAmount = i / max;
+//
+//				yield return new WaitForEndOfFrame ();
+//			}
+//
+//		}
+//
+//		loadingGroup.SetActive (false);
+//
+//
+//	}
 	#endregion
 
 	#region check tile surrounding
@@ -121,7 +165,109 @@ public class Array : MonoBehaviour {
 	}
 	#endregion
 
-	#region structs
+	#region props
+
+	[Header("Ornements")]
+	[SerializeField]
+	private GameObject[] ornementsPrefabs;
+
+	[SerializeField]
+	private float ornementsRange;
+
+	[SerializeField]
+	private int maxOrnementsAmount = 2;
+
+	public void GenerateProps () {
+
+		ClearProps ();
+
+		LoadTiles ();
+
+		SpriteRenderer[] tileRenderers = tileOverall.GetComponentsInChildren<SpriteRenderer> ();
+
+		for (int i = 0; i < tileRenderers.Length; i++) {
+
+			TileCoord newTile = new TileCoord ((int)tileRenderers [i].transform.position.x, (int)tileRenderers [i].transform.position.y);
+
+			TileSurrounding tileSurr = CheckTileSurrounding (newTile);
+
+			if ( tileSurr.Empty (Surrounding.Top) )
+				GeneratePropsOnTile (tileRenderers [i].transform, Surrounding.Top);
+			if ( tileSurr.Empty (Surrounding.Right) )
+				GeneratePropsOnTile (tileRenderers [i].transform, Surrounding.Right);
+			if ( tileSurr.Empty (Surrounding.Bottom) )
+				GeneratePropsOnTile (tileRenderers [i].transform, Surrounding.Bottom);
+			if ( tileSurr.Empty (Surrounding.Left) )
+				GeneratePropsOnTile (tileRenderers [i].transform, Surrounding.Left);
+
+		}
+
+	}
+	void GeneratePropsOnTile (Transform t, Surrounding surr) {
+
+		Vector3 p = Vector3.zero;
+
+		Vector3 ornementDirectionFromTile = Vector3.zero;
+
+		Vector3 ornementSpreadDirection = Vector2.zero;
+
+		switch (surr) {
+		case Surrounding.Top:
+			p = t.position + Vector3.up * (ornementsRange / 2f);
+			ornementDirectionFromTile = Vector3.up;
+			ornementSpreadDirection = Vector3.right;
+			break;
+		case Surrounding.Right:
+			p = t.position + Vector3.right * (ornementsRange / 2f);
+			ornementDirectionFromTile = Vector3.right;
+			ornementSpreadDirection = Vector3.up;
+			break;
+		case Surrounding.Bottom:
+			p = t.position - Vector3.up * (ornementsRange / 2f);
+			ornementDirectionFromTile = Vector3.down;
+			ornementSpreadDirection = Vector3.right;
+			break;
+		case Surrounding.Left:
+			p = t.position - Vector3.right * (ornementsRange / 2f);
+			ornementDirectionFromTile = Vector3.left;
+			ornementSpreadDirection = Vector3.up;
+			break;
+		}
+
+		int amount = Random.Range ( 0,maxOrnementsAmount );
+
+		int ornementIndex = Random.Range ( 0 , ornementsPrefabs.Length);
+
+		for (int i = 0; i < amount; i++) {
+
+			GameObject ornement = Instantiate (ornementsPrefabs [ornementIndex]) as GameObject;
+
+			ornement.transform.position = t.transform.position + (ornementDirectionFromTile * ornementsRange / 2f);
+			ornement.transform.up = (ornement.transform.position - t.position).normalized;
+
+//			ornement.transform.position = p + (ornementSpreadDirection * Random.Range (-ornementsRange/2f,ornementsRange/2f));
+
+			ornement.transform.SetParent (t);
+
+		}
+
+	}
+	public void ClearProps () {
+		
+		BoxCollider2D[] tileColliders = tileOverall.GetComponentsInChildren<BoxCollider2D> ();
+
+		for (int i = 0; i < tileColliders.Length; i++) {
+
+			SpriteRenderer[] props = tileColliders [i].GetComponentsInChildren<SpriteRenderer> ();
+			if (props.Length == 1)
+				continue;
+
+			for (int a = 1; a < props.Length; a++) {
+				DestroyImmediate(props[a].gameObject);
+			}
+
+		}
+	}
 	#endregion
 
 	#region tools
@@ -340,6 +486,11 @@ public class Array : MonoBehaviour {
 
 	}
 
+	public GameObject TileOverall {
+		get {
+			return tileOverall;
+		}
+	}
 }
 
 
