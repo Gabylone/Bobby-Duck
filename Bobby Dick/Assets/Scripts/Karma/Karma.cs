@@ -51,7 +51,12 @@ public class Karma : MonoBehaviour {
 	void Start () {
 
 		UpdateUI ();
+
+		PlayerLoot.Instance.openInventory += Show;
+		PlayerLoot.Instance.closeInventory += Hide;
+
 		Visible = false;
+
 	}
 
 	void Update () {
@@ -147,16 +152,19 @@ public class Karma : MonoBehaviour {
 			feedbackImage.sprite = sprites [0];
 		}
 
-		timer = 0f;
-
-		initColor = progressionImage.color;
 
 		Visible = true;
 
+		initColor = progressionImage.color;
 		lerping = true;
+		timer = 0f;
 
 		SoundManager.Instance.PlaySound ( currentKarma < previousKarma ? karmaBadSound : karmaGoodSound );
 
+	}
+
+	public void FeedbackKarma () {
+		//
 	}
 
 
@@ -203,6 +211,14 @@ public class Karma : MonoBehaviour {
 		}
 	}
 
+	public void Show () {
+		lerping = false;
+		Visible = true;
+	}
+	public void Hide () {
+		lerping = false;
+		Visible = false;
+	}
 	public bool Visible {
 		get {
 			return visible;

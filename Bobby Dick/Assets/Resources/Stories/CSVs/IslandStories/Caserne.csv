@@ -46,6 +46,7 @@ Node=>combat soldats;;;;;;;;;;;;;;;;;;;
 [caserne];;;;;;;;;;;;;;;;;;;
 NewCrew3;;;;;;;;;;;;;;;;;;;
 Narrator : Le campement n'est pas très grand. Un feu de joie brûle fort et quelques soldats boivent autour.;Node=>caserne vide;;;;;;;;;;;;;;;;;;
+CheckQuest[debut soldats];;;;;;;;;;;;;;;;;;;
 [debut soldats];;;;;;;;;;;;;;;;;;;
 SetChoices3;;;;;;;;;;;;;;;;;;;
 Choice : (retourner à l'entrée);Choice : (parler aux soldats);;Choice : Je veux parler à votre chef !;;;;;;;;;;;;;;;;

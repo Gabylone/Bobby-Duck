@@ -108,7 +108,7 @@ public class OtherLoot : MonoBehaviour {
 		trading = false;
 
 		PlayerLoot.Instance.CanOpen = true;
-		PlayerLoot.Instance.Opened = false;
+		PlayerLoot.Instance.Close ();
 
 		if ( StoryLauncher.Instance.PlayingStory ) {
 			StoryReader.Instance.NextCell ();

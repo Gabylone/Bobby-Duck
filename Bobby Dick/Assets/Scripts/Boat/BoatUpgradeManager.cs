@@ -25,19 +25,23 @@ public class BoatUpgradeManager : MonoBehaviour {
 	private int boatCurrentLevel = 1;
 
 	[SerializeField]
-	private Button[] upgradeButtons;
+	private GameObject tradingGroup;
+
+	[SerializeField]
+	private GameObject infoGroup;
 
 	[Header("Crew")]
 	[SerializeField]
-	private Button[] crewButtons;
+	private GameObject[] crewIcons;
 
 	[Header("Prices")]
 	[SerializeField]
 	private Text[] goldTexts;
 	[SerializeField]
+	private Text[] levelTexts;
+	[SerializeField]
 	private float[] upgradePrices = new float[3];
-	private int [] upgradeLevels = new int[3]
-	{1,1,1};
+	private int [] upgradeLevels = new int[3] {1,1,1};
 
 	[Header("Sounds")]
 	[SerializeField] private AudioClip upgradeSound;
@@ -58,9 +62,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		upgradeUIButton.Opened = true;
 
-		UpdateCrewImages ();
-		UpdatePrices ();
-		UpdateTexts ();
+		UpdateInfo ();
 
 		boatNameText.text = Boats.Instance.PlayerBoatInfo.Name;
 	}
@@ -94,29 +96,27 @@ public class BoatUpgradeManager : MonoBehaviour {
 		++boatCurrentLevel;
 		++upgradeLevels [i];
 
-		UpdatePrices ();
-		UpdateTexts ();
+		UpdateInfo ();
 
 	}
 
-	public void UpdatePrices () {
+	public void UpdateInfo () {
 		for (int i = 0; i < upgradePrices.Length; ++i ) {
 			upgradePrices [i] = upgradePrices [i] * upgradeLevels [i];
 		}
-	}
 
-	public void UpdateTexts () {
+		for (int i = 0; i < levelTexts.Length; ++i ) {
+			levelTexts [i].text = "" + upgradeLevels [i];
+		}
+
 		for (int i = 0; i < goldTexts.Length; ++i)
 			goldTexts[i].text = "" + upgradePrices[i];
 
 		boatLevelText.text = "" + boatCurrentLevel;
-	}
 
-	public void UpdateCrewImages () {
-		for (int i = 0; i < crewButtons.Length; ++i ) {
-			crewButtons [i].gameObject.SetActive (i <= Crews.playerCrew.MemberCapacity);
-			crewButtons [i].image.color = i == Crews.playerCrew.MemberCapacity ? Color.white : Color.black;
-			crewButtons [i].interactable = i == Crews.playerCrew.MemberCapacity && trading;
+		for (int i = 0; i < crewIcons.Length; ++i ) {
+			crewIcons [i].SetActive (i <= Crews.playerCrew.MemberCapacity);
+			crewIcons [i].GetComponentInChildren<Image>().color = i == Crews.playerCrew.MemberCapacity ? Color.white : Color.black;
 		}
 	}
 
@@ -127,11 +127,8 @@ public class BoatUpgradeManager : MonoBehaviour {
 		set {
 			trading = value;
 
-			foreach (Button button in upgradeButtons)
-				button.interactable = value;
-
-			foreach (Button button in crewButtons)
-				button.interactable = value;
+			infoGroup.SetActive (!value);
+			tradingGroup.SetActive (value);
 
 		}
 	}

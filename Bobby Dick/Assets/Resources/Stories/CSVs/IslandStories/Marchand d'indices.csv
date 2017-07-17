@@ -1,6 +1,7 @@
 Nom;Fréquence %;Sprite ID;
 Marchand d'indices;3,13;1;
 Narrator : L'île n'est pas plus large que quelques galères. ;;;
+CheckQuest[debut];;;
 [debut];;;
 Narrator : A quelques mètres devant CAPITAINE est dressée une maisonnette en bois. Au dessus de la porte, un point d'interrogation est piètrement peint sur une enseigne.;;;
 SetChoices2;;;

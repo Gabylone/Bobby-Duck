@@ -23,7 +23,6 @@ public class NavigationTrigger : MonoBehaviour {
 
 	void Update () {
 		if (targeted) {
-
 			if (NavigationManager.Instance.FlagControl.UpdatingPosition) {
 				if ( !inside )
 					Targeted = false;
@@ -35,8 +34,10 @@ public class NavigationTrigger : MonoBehaviour {
 	public void OnMouseOver() {
 
 		if (targeted == false) {
-			if (NavigationManager.Instance.FlagControl.UpdatingPosition)
+			if (NavigationManager.Instance.FlagControl.UpdatingPosition) {
 				Targeted = true;
+				NavigationManager.Instance.FlagControl.FlagImage.GetComponent<Animator> ().SetTrigger ("bounce");
+			}
 		}
 
 		inside = true;

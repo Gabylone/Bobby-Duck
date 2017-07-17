@@ -7,6 +7,12 @@ public class UIButton : MonoBehaviour {
 	[SerializeField]
 	private RectTransform menu;
 
+	public RectTransform Menu {
+		get {
+			return menu;
+		}
+	}
+
 	[SerializeField]
 	private RectTransform button;
 
@@ -33,13 +39,13 @@ public class UIButton : MonoBehaviour {
 
 	void Start () {
 
-		menu.gameObject.SetActive (true);
+		menu.gameObject.SetActive (false);
 
 		buttonScale = button.sizeDelta;
 		menuScale = menu.sizeDelta;
 
-		buttonPos = button.localPosition;
-		menuPos = menu.localPosition;
+		buttonPos = button.position;
+		menuPos = menu.position;
 
 		menu.sizeDelta = buttonScale;
 		menu.position = buttonPos;
@@ -49,6 +55,7 @@ public class UIButton : MonoBehaviour {
 	void Update () {
 
 		if (lerping) {
+			
 			timer += Time.deltaTime;
 
 			float l = opened ? (timer / duration) : 1 - (timer / duration);
@@ -56,8 +63,8 @@ public class UIButton : MonoBehaviour {
 			button.sizeDelta = Vector2.Lerp (buttonScale, menuScale, l);
 			menu.sizeDelta = Vector2.Lerp (buttonScale, menuScale, l);
 
-			button.localPosition = Vector2.Lerp (buttonPos, menuPos, l);
-			menu.localPosition = Vector2.Lerp (buttonPos, menuPos, l);
+			button.position = Vector2.Lerp (buttonPos, menuPos, l);
+			menu.position= Vector2.Lerp (buttonPos, menuPos, l);
 
 			foreach ( Image image in button.GetComponentsInChildren<Image>() )
 				image.color = Color.Lerp (Color.white, Color.clear, l);
@@ -75,7 +82,6 @@ public class UIButton : MonoBehaviour {
 			}
 		}
 
-
 	}
 
 	#region ui events
@@ -90,9 +96,6 @@ public class UIButton : MonoBehaviour {
 			return opened;
 		}
 		set {
-
-			if (locked)
-				return;
 
 			if (lerping )
 				return;

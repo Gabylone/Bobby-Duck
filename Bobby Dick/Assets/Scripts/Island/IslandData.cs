@@ -21,7 +21,9 @@ public class IslandData {
 	public IslandData (int x , int y)
 	{
 		storyManager = new StoryManager ();
-		storyManager.InitHandler (x,y);
+
+		StoryType type = StoryLoader.Instance.GetTypeFromPos (x, y);
+		storyManager.InitHandler (type);
 
 		float islandPosX = Random.Range (-appearRange.x , appearRange.x);
 		float islandPosY = Random.Range (-appearRange.y , appearRange.y);

@@ -29,6 +29,7 @@ Node=>debut;Node=>rue;OtherSpeak : Hé ho !;;;;
 ;;;;;Node=>choix poissoniers;
 ;;;;;;
 [rue];;;;;;
+CheckQuest[rue];;;;;;
 CheckDay;;;[taverne];;;
 RandomRange3;Node=>vide;;Fade;;;
 Node=>vide;Node=>boutique;Node=>hangar;ChangeStory=>Taverne[taverne/rue];;;

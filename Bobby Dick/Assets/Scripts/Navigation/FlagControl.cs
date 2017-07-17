@@ -17,12 +17,6 @@ public class FlagControl : MonoBehaviour {
 	[SerializeField]
 	private float boatSpeed = 1.2f;
 
-
-	[SerializeField]
-	private Sprite targetSprite;
-	[SerializeField]
-	private Sprite flagSprite;
-
 	[SerializeField]
 	private Boat playerBoat;
 
@@ -45,7 +39,8 @@ public class FlagControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (updatingPosition && StoryLauncher.Instance.PlayingStory == false) {
+
+		if (UpdatingPosition) {
 			PlaceFlagOnScreen ();
 		}
 
@@ -67,25 +62,12 @@ public class FlagControl : MonoBehaviour {
 		Vector2 boatPos 	= (Vector2)playerBoat.GetTransform.localPosition;
 		Vector2 flagPos 	= (Vector2)flagRect.localPosition;
 		Vector2 islandPos 	= (Vector2)island.getTransform.localPosition;
-		Vector2 islandWorldPos = (Vector2)island.getTransform.position;
 
 		// calc distances
 		float distance_BoatToFlag = Vector2.Distance (flagPos, boatPos);
 		bool flagIsNearIsland = Vector2.Distance (flagPos, islandPos) < distanceToTriggerIsland;
 
-		flagImage.color = flagIsNearIsland ? Color.red : Color.blue;
-
-
-		if (updatingPosition) {
-
-			TargetedIsland = flagIsNearIsland;
-
-
-		}
-
-		if (targetedIsland == false) {
-			flagImage.enabled = !(distance_BoatToFlag < distanceToStop + 0.3f);
-		}
+		flagImage.enabled = !(distance_BoatToFlag < distanceToStop + 0.1f);
 
 		playerBoat.TargetSpeed = boatSpeed;
 		playerBoat.TargetDirection = (flagPos - boatPos).normalized;
@@ -117,13 +99,43 @@ public class FlagControl : MonoBehaviour {
 	}
 	#endregion
 
+	#region island events
+	public void Pointer_EnterIsland () {
+		if (UpdatingPosition) {
+			Pointer_ClickIsland ();
+		}
+	}
+	public void Pointer_ExitIsland () {
+			
+	}
+	public void Pointer_ClickIsland () {
+		
+		TargetedIsland = true;
+
+		Vector2 pos = Camera.main.WorldToViewportPoint (island.getTransform.position);
+
+		flagRect.anchorMin = pos;
+		flagRect.anchorMax = pos;
+	}
+	#endregion
 
 	public bool UpdatingPosition {
 		get {
 			return updatingPosition;
 		}
 		set {
+
+			if (updatingPosition == value)
+				return;
+
 			updatingPosition = value;
+
+
+			if (value) {
+				flagImage.GetComponent<Animator> ().SetTrigger ("bounce");
+				TargetedIsland = false;
+			}
+
 			PlaceFlagOnScreen ();
 		}
 	}
@@ -137,17 +149,13 @@ public class FlagControl : MonoBehaviour {
 			if (targetedIsland == value)
 				return;
 
+			if ( value )
+				NavigationManager.Instance.FlagControl.FlagImage.GetComponent<Animator> ().SetTrigger ("bounce");
+			
+
 			targetedIsland = value;
 
-			if (value) {
-
-				Vector2 pos = Camera.main.WorldToViewportPoint (island.getTransform.position);
-
-				flagRect.anchorMin = pos;
-				flagRect.anchorMax = pos;
-			}
-
-			flagImage.sprite = value ? targetSprite : flagSprite;
+			flagImage.color = value ? Color.red : Color.blue;
 
 		}
 	}

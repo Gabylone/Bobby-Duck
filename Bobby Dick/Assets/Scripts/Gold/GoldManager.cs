@@ -30,6 +30,11 @@ public class GoldManager : MonoBehaviour {
 
 	void Start () {
 		GoldAmount = startValue;
+
+		PlayerLoot.Instance.openInventory += Show;
+		PlayerLoot.Instance.closeInventory += Hide;
+
+		Hide ();
 	}
 
 	void Update () {
@@ -73,15 +78,13 @@ public class GoldManager : MonoBehaviour {
 		feedbackActive = true;
 		timer = 0f;
 
-		goldImage.color = Color.red;
-		goldText.color = Color.red;
+		Visible = true;
 
 	}
 	private void HideFeedback () {
 		feedbackActive = false;
 
-		goldImage.color = Color.white;
-		goldText.color = Color.yellow;
+		Visible = false;
 	}
 
 	public void UpdateUI () {
@@ -95,7 +98,16 @@ public class GoldManager : MonoBehaviour {
 		set {
 			goldAmount = Mathf.Clamp (value, 0 , value );
 			UpdateUI ();
+
+			DisplayFeedback ();
 		}
+	}
+
+	public void Show () {
+		Visible = true;
+	}
+	public void Hide () {
+		Visible = false;
 	}
 
 	public bool Visible {

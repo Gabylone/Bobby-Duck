@@ -47,7 +47,7 @@ public class StoryLoader : MonoBehaviour {
 		LoadSheets (	homeStories		, 		"Stories/CSVs/HomeStories"		);
 		LoadSheets (	clueStories		, 		"Stories/CSVs/ClueStories"		);
 		LoadSheets (	treasureStories	, 		"Stories/CSVs/TreasureStories"	);
-		LoadSheets (	quests	, 		"Stories/CSVs/Quest"			);
+		LoadSheets (	quests			, 		"Stories/CSVs/Quests"			);
 	}
 
 
@@ -71,8 +71,6 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 
-
-	
 	private Story LoadSheet (int index)
 	{
 		string[] rows = storyFiles[index].text.Split ('\n');
@@ -244,6 +242,9 @@ public class StoryLoader : MonoBehaviour {
 		case StoryType.Boat:
 			return BoatStories;
 			break;
+		case StoryType.Quest:
+			return Quests;
+			break;
 		default:
 			return IslandStories;
 			break;
@@ -282,14 +283,14 @@ public class StoryLoader : MonoBehaviour {
 		obj.name = newStory.name;
 	}
 
-	public Story FindByName (string storyName)
+	public Story FindByName (string storyName, StoryType type)
 	{
-		int index = FindIndexByName (storyName);
+		int index = FindIndexByName (storyName,type);
 
 		if (index < 0)
 			return null;
 
-		return IslandStories[index];
+		return getStories(type)[index];
 	}
 
 	public int FindIndexByName (string storyName,StoryType storyType)
@@ -301,11 +302,6 @@ public class StoryLoader : MonoBehaviour {
 		}
 
 		return storyIndex;
-	}
-
-	public int FindIndexByName (string storyName)
-	{
-		return FindIndexByName (storyName, StoryType.Island);
 	}
 
 	#region check nodes
@@ -417,7 +413,7 @@ public class StoryLoader : MonoBehaviour {
 				CheckNodes_Error ("the fallback node has no link",cellContent);
 			}
 
-			Story secondStory = StoryLoader.Instance.FindByName (storyName);
+			Story secondStory = StoryLoader.Instance.FindByName (storyName,StoryType.Island);
 			if ( secondStory == null ) {
 				CheckNodes_Error ("Story doesn't exist",cellContent);
 				return;
@@ -508,7 +504,7 @@ public class StoryLoader : MonoBehaviour {
 
 	public List<Story> Quests {
 		get {
-			return Quests;
+			return quests;
 		}
 	}
 	#endregion

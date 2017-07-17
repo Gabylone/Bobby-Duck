@@ -80,6 +80,7 @@ Node=>auberge vide;LootFood;;;;;;;;;;
 ;;;;;;;;;;;
 ;;;;;;;;;;;
 [salle];;;;;;;;;;;
+CheckQuest[choix taverne];;;;;;;;;;;
 RandomRange4;;;;;;;;;;;
 Node=>salle_mercenaire;Node=>salle_vendeur de trucs;Node=>salle_joueurs;Node=>salle_rien;;;;;;;;
 ;;;;;;;;;;;

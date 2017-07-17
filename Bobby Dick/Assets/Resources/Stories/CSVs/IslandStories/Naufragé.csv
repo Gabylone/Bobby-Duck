@@ -50,6 +50,7 @@ Node=>plage déserte;;;;;;;
 ;;;;;;;
 [plage déserte];;;;;;;
 Narrator : La plage est vide.;;;;;;;
+CheckQuest[plage déserte];;;;;;;
 [choix plage];;;;;;;
 SetChoices4;;;;;;;
 Choice : On lève l'ancre !;Choice : On va rester ici pour la nuit;Choice : (Chercher de la nourriture);;Choice : (Retourner voir naufragé);;;

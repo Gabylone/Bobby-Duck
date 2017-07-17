@@ -5,11 +5,11 @@ Narrator : L'île est assez grande. Une musique émane de derrière des dunes d
 SetChoices2;;;;
 Choice : Lever l'ancre;Choice : Vers la grange;;;
 PlayerSpeak : On s'en va !;Fade;;;
-Leave;Narrator : La musique est très forte. Des rires et des insultes sortent de la grange.;;;
-;SetChoices2;;;
-;Choice : Revenir sur la plage;Choice : Entrer;;
-;Fade;Fade;;
-;Node=>debut;Node=>entrée casino;;
+Leave;CheckQuest[entrée casino];;;
+;Node=>entrée casino;;;
+;;;;
+;;;;
+;;;;
 [entrée casino];;;;
 NewCrew5;;;;
 Narrator : L'ambiance est joviale. Des gens sont assis à des tables, ils jouent aux cartes. Un serveur se tient derrière le comptoir.;Node=>salleVide;Node=>combatSalle;;

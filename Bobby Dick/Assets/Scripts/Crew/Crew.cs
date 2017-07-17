@@ -11,29 +11,16 @@ public struct CrewParams {
 	public bool overideGenre;
 	public bool male;
 
-	public CrewParams (
-		int _amount,
-		bool _overideGenre,
-		bool _male,
-		int _level
-	)
-	{
-		amount = _amount;
-		overideGenre = _overideGenre;
-		male = _male;
-		level = _level;
-	}
-
 }
 
 public class Crew {
 
 	public bool hostile = false;
+	List<MemberID> memberIDs = new List<MemberID>();
 
 	public int row = 0;
 	public int col = 0;
 
-	List<MemberID> memberIDs = new List<MemberID>();
 
 	public Crew () {
 

@@ -6,6 +6,11 @@ public class PlayerLoot : MonoBehaviour {
 
 	public static PlayerLoot Instance;
 
+	public delegate void OpenInventory ();
+	public OpenInventory openInventory;
+	public delegate void CloseInventory ();
+	public CloseInventory closeInventory;
+
 	private int selectedMemberIndex = 0;
 
 	[Header("Groups")]
@@ -181,14 +186,23 @@ public class PlayerLoot : MonoBehaviour {
 			HideMember (selectedMemberIndex);
 		}
 		selectedMemberIndex = id;
-		Opened = true;
-		lootUI.Show (inventoryCategoryContent);
+		Open (inventoryCategoryContent);
 	}
 	public void Open (CategoryContent categorycontent) {
 		Opened = true;
 		lootUI.Show (categorycontent);
+
+		if (openInventory != null)
+			openInventory ();
+		else
+			Debug.LogError ("no events linked to open inventory");
 	}
 	public void Close () {
+
+		if (closeInventory != null)
+			closeInventory();
+		else
+			Debug.LogError ("no events linked to close inventory");
 
 		Opened = false;
 		lootUI.Visible = false;
@@ -218,13 +232,12 @@ public class PlayerLoot : MonoBehaviour {
 		}
 		set {
 
-
-
 			opened = value;
 
 			crewGroup.SetActive (value);
 
-			MapImage.Instance.MapButton.Opened = false;
+			if ( value == true )
+				MapImage.Instance.CloseMap();
 
 			if (value)
 				ShowMember (selectedMemberIndex);
@@ -233,8 +246,6 @@ public class PlayerLoot : MonoBehaviour {
 
 			if ( value == false )
 				BoatUpgradeManager.Instance.CloseUpgradeMenu ();
-
-			Karma.Instance.Visible = value;
 		}
 	}
 

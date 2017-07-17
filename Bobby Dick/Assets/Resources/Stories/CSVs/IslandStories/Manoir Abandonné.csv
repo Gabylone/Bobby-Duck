@@ -2,6 +2,7 @@ Nom histoire;Fréquence %;Sprite ID;;;;;;;;;
 Manoir Abandonné;4,69;1;;;;;;;;;
 [debut];;;;;;;;;;;
 Narrator : Au milieu d'une petit plaine se tient une immense baraque. Elle est vielle et dans un piteux état.;;;;;;;;;;;
+CheckQuest[choix porte];;;;;;;;;;;
 [choix porte];;;;;;;;;;;
 SetChoices3;;;;;;;[toquer];;;;
 Choice : (repartir);Choice : (ouvrir porte maison);Choice : (toquer à la porte);;;;;RandomRange3;;;;

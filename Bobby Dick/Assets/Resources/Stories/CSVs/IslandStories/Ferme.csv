@@ -21,6 +21,7 @@ Node=>ferme détruite;;Node=>ferme détruite;;;;;;;
 ;;;;;;;;;
 ;;;;;;;;;
 [plage2];;;;;;;;;
+CheckQuest[plage2];;;;;;;;;
 RandomPercent50;;;;;;;;;
 Node=>plage vide;Node=>plage pirates;;;;;;;;
 ;;;;;;;;;

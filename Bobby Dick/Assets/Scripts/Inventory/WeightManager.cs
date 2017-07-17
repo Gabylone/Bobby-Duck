@@ -27,6 +27,13 @@ public class WeightManager : MonoBehaviour {
 		Instance = this;
 	}
 
+	void Start () {
+		PlayerLoot.Instance.openInventory += Show;
+		PlayerLoot.Instance.closeInventory += Hide;
+
+		Hide ();
+	}
+
 	void Update () {
 		if ( displayingFeedback ) {
 			timer += Time.deltaTime;
@@ -89,6 +96,13 @@ public class WeightManager : MonoBehaviour {
 			currentCapacity = value;
 			UpdateDisplay ();
 		}
+	}
+
+	public void Show () {
+		Visible = true;
+	}
+	public void Hide () {
+		Visible = false;
 	}
 
 	public bool Visible {

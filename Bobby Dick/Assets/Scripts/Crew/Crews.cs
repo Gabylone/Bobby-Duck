@@ -57,7 +57,13 @@ public class Crews : MonoBehaviour {
 		SaveManager.Instance.CurrentData.playerCrew = playerCrew.ManagedCrew;
 	}
 	public void RandomizePlayerCrew () {
-		CrewParams crewParams = new CrewParams (startMemberAmount, false, false, 1);
+		CrewParams crewParams = new CrewParams ();
+		crewParams.amount = startMemberAmount;
+		crewParams.overideGenre = false;
+		crewParams.male = false;
+		crewParams.level = 1;
+
+
 		Crew playerCrew = new Crew (crewParams,0,0);
 		crews [0].setCrew (playerCrew);
 		crews [0].UpdateCrew (PlacingType.Map);

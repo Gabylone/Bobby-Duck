@@ -19,9 +19,6 @@ public class StoryLauncher : MonoBehaviour {
 
 	private StorySource currentStorySource;
 
-	[SerializeField]
-	private UIButton mapButton;
-
 	void Awake() {
 		Instance = this;
 	}
@@ -35,7 +32,7 @@ public class StoryLauncher : MonoBehaviour {
 
 	#region propeties
 	public void PlayStory (StoryManager storyManager , StoryLauncher.StorySource source) {
-		StoryReader.Instance.StoryManager = storyManager;
+		StoryReader.Instance.CurrentStoryManager = storyManager;
 		CurrentStorySource = source;
 		PlayingStory = true;
 	}
@@ -51,7 +48,7 @@ public class StoryLauncher : MonoBehaviour {
 
 			if ( StoryReader.Instance.CurrentStoryLayer > 0 && value == false) {
 				StoryReader.Instance.FallBackToPreviousStory ();
-				Crews.enemyCrew.Hide ();
+
 				return;
 			}
 
@@ -72,11 +69,7 @@ public class StoryLauncher : MonoBehaviour {
 
 			WeatherManager.Instance.PlaySound ();
 
-
-			mapButton.Opened = false;
-			mapButton.Locked = value;
-//			MapImage.Instance.Opened = false;
-
+			MapImage.Instance.CloseMap ();
 
 			if (value == true) {
 				// set story

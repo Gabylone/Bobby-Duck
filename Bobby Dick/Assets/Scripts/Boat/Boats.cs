@@ -111,7 +111,6 @@ public class Boats : MonoBehaviour {
 	}
 	public void SaveBoats () {
 		SaveManager.Instance.CurrentData.playerBoatInfo = playerBoatInfo;
-
 		SaveManager.Instance.CurrentData.otherBoatInfos = OtherBoatInfos;
 	}
 

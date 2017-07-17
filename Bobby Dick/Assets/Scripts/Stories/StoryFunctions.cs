@@ -7,6 +7,8 @@ public class StoryFunctions : MonoBehaviour {
 
 	string cellParams = "";
 
+	float waitDuration = 0.35f;
+
 	public string CellParams {
 		get {
 			return cellParams;
@@ -26,12 +28,12 @@ public class StoryFunctions : MonoBehaviour {
 				"\n at row : " + (StoryReader.Instance.Index+2) + "" +
 				"\n and collumn : " + StoryReader.Instance.Decal;
 
-			DebugMessage.Instance.Open (text);
+			Debug.LogError (text);
 
 			Leave ();
 			return;
 		}
-
+	
 		if ( content[0] == '[' ) {
 
 			string nodeName = content.Remove (0, 1);
@@ -104,25 +106,25 @@ public class StoryFunctions : MonoBehaviour {
 		Crews.playerCrew.Hide ();
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (1f);
+		StoryReader.Instance.UpdateStory ();
 	}
 	private void ShowPlayer () {
 		Crews.playerCrew.ShowCrew ();
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (1f);
+		StoryReader.Instance.UpdateStory ();
 	}
 	private void HideOther () {
 		Crews.enemyCrew.Hide ();
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (1f);
+		StoryReader.Instance.UpdateStory ();
 	}
 	private void ShowOther() {
 		Crews.enemyCrew.ShowCrew ();
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (1f);
+		StoryReader.Instance.UpdateStory ();
 	}
 	#endregion
 
@@ -173,6 +175,21 @@ public class StoryFunctions : MonoBehaviour {
 	}
 	#endregion
 
+	#region quest
+	private void NewQuest () {
+		QuestManager.Instance.NewQuest ();
+	}
+	private void CheckQuest () {
+		QuestManager.Instance.CheckQuest ();
+	}
+	private void SendPlayerBackToGiver () {
+		QuestManager.Instance.SetCoordsToGiver ();
+	}
+	private void FinishQuest () {
+		QuestManager.Instance.FinishQuest ();
+	}
+	#endregion
+
 	#region karma
 	private void CheckKarma () {
 		Karma.Instance.CheckKarma ();
@@ -208,14 +225,14 @@ public class StoryFunctions : MonoBehaviour {
 		GoldManager.Instance.GoldAmount -= amount;
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait ( 0.5f );
+		StoryReader.Instance.Wait ( waitDuration );
 	}
 	void AddGold () {
 		int amount = int.Parse (cellParams);
 		GoldManager.Instance.GoldAmount += amount;
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (0.5f);
+		StoryReader.Instance.Wait (waitDuration);
 	}
 	#endregion
 

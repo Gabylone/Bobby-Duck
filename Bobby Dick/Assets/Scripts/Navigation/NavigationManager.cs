@@ -78,6 +78,21 @@ public class NavigationManager : MonoBehaviour {
 		InitPlayerBoatConctrol ();
 	}
 
+	void Update () {
+		if ( Input.GetKeyDown(KeyCode.DownArrow) ) {
+			ChangeChunk (Directions.South);
+		}
+		if ( Input.GetKeyDown(KeyCode.UpArrow) ) {
+			ChangeChunk (Directions.North);
+		}
+		if ( Input.GetKeyDown(KeyCode.LeftArrow) ) {
+			ChangeChunk (Directions.West);
+		}
+		if ( Input.GetKeyDown(KeyCode.RightArrow) ) {
+			ChangeChunk (Directions.East);
+		}
+	}
+
 	private void InitPlayerBoatConctrol ()
 	{
 		// get boat control
@@ -259,5 +274,31 @@ public class NavigationManager : MonoBehaviour {
 		get {
 			return otherAnchors;
 		}
+	}
+
+	public static Coords CurrentCoords {
+		get {
+			return new Coords (Boats.Instance.PlayerBoatInfo.PosX, Boats.Instance.PlayerBoatInfo.PosY);
+		}
+	}
+
+}
+
+public struct Coords {
+	public int x;
+	public int y;
+
+	public Coords (int x,int y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	public static bool operator ==( Coords c1, Coords c2) 
+	{
+		return c1.x == c2.x && c1.y == c2.y;
+	}
+	public static bool operator != (Coords c1, Coords c2) 
+	{
+		return !(c1 == c2);
 	}
 }

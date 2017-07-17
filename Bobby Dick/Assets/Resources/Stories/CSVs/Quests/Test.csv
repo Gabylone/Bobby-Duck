@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID
-Naufragé;7,81;0
+Test;100;0
 [debut];;
 OtherSpeak : j'aurais besoin d'un campignon;;
 Leave;;
@@ -8,18 +8,15 @@ Leave;;
 ;;
 [suite];;
 Narrator : Plus loin ont poussé quelques petits buisson.;;
-SetChoice2;;
-Choice : (fouiller);;
-PlayerSpeak : un champignon !;;
+SetChoices2;;
+Choice : (fouiller);Choice : (continuer son chemin);
+PlayerSpeak : un champignon !;Leave;
 AddToInventory<Champignon>/Food;;
-ReturnQuest;;
+SendPlayerBackToGiver;;
 Leave;;
 ;;
-[retour];;
+[fin];;
 CheckInInventory<Champignon>/Food;;
-OtherSpeak : merci !;OtherSpeak : vous n'avez pas de champi !;
-AddKarma;OtherSpeak : allez m'en chercher un !;
-AddKarma;;
-AddKarma;;
-AddGold50;;
-Leave;;
+OtherSpeak : merci !;OtherSpeak : Mais vous n'avez pas de champi !;
+FinishQuest;OtherSpeak : allez m'en chercher un !;
+Leave;Leave;

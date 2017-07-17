@@ -1,6 +1,7 @@
 Nom;Fréquence %;Sprite ID;;;
 Epave;7,81;0;;;
 Narrator : L'île est minuscule. Un petit bâteau s'est échoué sur les rocher qui l'entoure.;;;;;
+CheckQuest[debut];;;;;
 [debut];;;;;
 SetChoices3;;;;;
 Choice : (passer la nuit ici);;Choice : (partir);Choice : (fouiller l'épave);;

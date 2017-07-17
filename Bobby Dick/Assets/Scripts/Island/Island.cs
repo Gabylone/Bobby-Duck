@@ -75,7 +75,7 @@ public class Island : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter2D ( Collision2D coll ) {
+	void OnCollisionStay2D ( Collision2D coll ) {
 		if ( coll.gameObject.tag == "Player" ) {
 			if (NavigationManager.Instance.FlagControl.TargetedIsland) {
 				Island.Instance.Enter ();

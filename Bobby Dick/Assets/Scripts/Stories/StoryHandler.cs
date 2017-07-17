@@ -6,7 +6,8 @@ public enum StoryType {
 	Treasure,
 	Home,
 	Clue,
-	Boat
+	Boat,
+	Quest
 }
 
 [System.Serializable]
@@ -18,19 +19,7 @@ public class StoryManager {
 		
 	}
 
-	public void AddStory (StoryHandler handler ) {
-		storyHandlers.Add (handler);
-	}
-
-	public void InitHandler ( int x , int y ) {
-
-		int storyId = StoryLoader.Instance.RandomStoryIndex (x, y);
-
-
-		StoryType type = StoryLoader.Instance.GetTypeFromPos (x, y);
-
-		StoryHandler handler = new StoryHandler (storyId,type);
-
+	public void AddStoryHandler (StoryHandler handler ) {
 		storyHandlers.Add (handler);
 	}
 
@@ -94,6 +83,9 @@ public class StoryHandler {
 			case StoryType.Boat:
 				return StoryLoader.Instance.BoatStories[storyID];
 				break;
+			case StoryType.Quest:
+				return StoryLoader.Instance.Quests[storyID];
+				break;
 			default:
 				return StoryLoader.Instance.IslandStories[storyID];
 				break;
@@ -154,6 +146,7 @@ public struct contentDecal {
 	
 	public int x;
 	public int y;
+
 	public int decal;
 	public contentDecal (int x,int y, int decal) {
 		this.x 		= x;

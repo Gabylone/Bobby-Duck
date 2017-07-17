@@ -28,8 +28,13 @@ public class MapImage : MonoBehaviour {
 	[SerializeField]
 	private Color boatPositionColor;
 
+	[Header("UI Elements")]
 	[SerializeField]
-	private UIButton mapButton;
+	private GameObject openButton_Obj;
+	[SerializeField]
+	private GameObject mapGroup;
+	[SerializeField]
+	private GameObject closeButton_Obj;
 
 	private bool opened = false;
 
@@ -41,6 +46,8 @@ public class MapImage : MonoBehaviour {
 
 	[Header ("Center On Boat")]
 	[SerializeField]
+	private RectTransform mapTransform;
+	[SerializeField]
 	private RectTransform contentTransform;
 	[SerializeField]
 	private float maxContentPosition = 150f;
@@ -50,21 +57,17 @@ public class MapImage : MonoBehaviour {
 	[SerializeField]
 	private GameObject islandButtonPrefab;
 	private float islandButtonFactor = 0f;
-	struct coords {
-		int x;
-		int y;
-
-		public coords ( int x , int y ) {
-			this.x = x;
-			this.y = y;
-		}
-	}
-	private Dictionary<coords,IslandButton> islandButtons = new Dictionary<coords, IslandButton>();
+	private Dictionary<Coords,IslandButton> islandButtons = new Dictionary<Coords, IslandButton>();
 
 	void Awake() {
 		Instance = this;
 	}
 
+	void Update () {
+		if (timer >= 0) {
+			timer -= Time.deltaTime;
+		}
+	}
 	#region initialization
 	public void Init () {
 		NavigationManager.Instance.EnterNewChunk += UpdateBoatSurroundings;
@@ -77,7 +80,9 @@ public class MapImage : MonoBehaviour {
 
 	public void InitImage () {
 
-		islandButtonFactor = targetImage.GetComponent<RectTransform>().sizeDelta.x / (float)MapGenerator.Instance.MapScale;
+//		islandButtonFactor = 8;
+
+		islandButtonFactor = targetImage.GetComponent<RectTransform>().rect.width / (float)MapGenerator.Instance.MapScale;
 
 		Texture2D texture = new Texture2D (MapGenerator.Instance.MapScale, MapGenerator.Instance.MapScale);
 //
@@ -86,38 +91,47 @@ public class MapImage : MonoBehaviour {
 			for (int y = 0; y < MapGenerator.Instance.MapScale; ++y ) {
 
 				Chunk chunk = MapGenerator.Instance.Chunks [x, y];
+
 				SetPixel (texture,x,y, revealMap ? getChunkColor_Reveal (chunk) : getChunkColor (chunk));
 
-//				if (chunk.State == ChunkState.UndiscoveredIsland
-//					|| chunk.State == ChunkState.VisitedIsland
-//					|| chunk.State == ChunkState.DiscoveredIsland) {
-//					CreateIslandButton (x,y);
-//				}
+				if (chunk.State == ChunkState.UndiscoveredIsland
+					|| chunk.State == ChunkState.VisitedIsland
+					|| chunk.State == ChunkState.DiscoveredIsland) {
+
+					CreateIslandButton (new Coords (x,y));
+
+				}
 			}
 
 		}
 
 		UpdateTexture (texture);
 
+		OverallMapOpened = false;
+
 		UpdateBoatSurroundings ();
 	}
 	#endregion
 
 	#region island button
-	void CreateIslandButton ( int x , int y ) {
+	void CreateIslandButton ( Coords c) {
+		
 		GameObject button = Instantiate (islandButtonPrefab, targetImage.transform) as GameObject;
 
 		button.transform.localScale = Vector3.one;
 
 		button.GetComponent<RectTransform>().sizeDelta = Vector2.one * islandButtonFactor;
-		float pX = -(targetImage.rectTransform.rect.width/2f) + (islandButtonFactor / 2f) + (x * islandButtonFactor);
-		float pY = -(targetImage.rectTransform.rect.width/2f) + (islandButtonFactor / 2f) + (y * islandButtonFactor);
-		button.GetComponent<RectTransform>().localPosition = new Vector2 (pX, pY);
 
-		button.GetComponent<IslandButton> ().x = x;
-		button.GetComponent<IslandButton> ().y = y;
+		float w = targetImage.rectTransform.rect.width/2f;
 
-		islandButtons.Add (new coords (x, y), button.GetComponent<IslandButton> ());
+		float pX = (-w) + (islandButtonFactor / 2f) + (c.x * islandButtonFactor);
+		float pY = (-w) + (islandButtonFactor / 2f) + (c.y * islandButtonFactor);
+
+		button.GetComponent<RectTransform>().localPosition = new Vector2 (pX,pY);
+
+		button.GetComponent<IslandButton> ().Init (c);
+
+		islandButtons.Add (c, button.GetComponent<IslandButton> ());
 	}
 	#endregion
 
@@ -162,7 +176,7 @@ public class MapImage : MonoBehaviour {
 
 					SetPixel (texture,pX, pY, getChunkColor (chunk));
 
-					coords c = new coords (pX, pY);
+					Coords c = new Coords (pX, pY);
 
 					if (islandButtons.ContainsKey(c))
 						islandButtons [c].Visible = true;
@@ -195,6 +209,15 @@ public class MapImage : MonoBehaviour {
 				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, getChunkColor(MapGenerator.Instance.Chunks[boatInfo.PosX,boatInfo.PosY]) );
 			}
 		}
+
+		UpdateTexture (texture);
+	}
+
+	public void UpdatePixel ( Coords coords , Color color )
+	{
+		Texture2D texture = (Texture2D)targetImage.mainTexture;
+
+		SetPixel (texture,coords.x,coords.y, color);
 
 		UpdateTexture (texture);
 	}
@@ -249,9 +272,21 @@ public class MapImage : MonoBehaviour {
 
 	#region image
 	private void SetPixel (Texture2D text, int x,int y,Color c) {
+		
+		SetPixel (text, new Coords (x, y), c);
+	}
+	private void SetPixel (Coords coords) {
+		Texture2D texture = (Texture2D)targetImage.mainTexture;
+		SetPixel (texture, coords, getChunkColor (MapGenerator.Instance.Chunks [coords.x, coords.y]));
+		UpdateTexture (texture);
+	}
+	private void SetPixel (Texture2D text, Coords coords) {
+		SetPixel (text, coords, getChunkColor (MapGenerator.Instance.Chunks [coords.x, coords.y]));
+	}
+	private void SetPixel (Texture2D text, Coords coords,Color color) {
 		for (int iX = 0; iX < pixelFactor; iX++) {
 			for (int iY = 0; iY < pixelFactor; iY++) {
-				text.SetPixel ((pixelFactor*x)+iX,(pixelFactor*y)+iY, c);
+				text.SetPixel ((pixelFactor*coords.x)+iX,(pixelFactor*coords.y)+iY, color);
 			}
 		}
 	}
@@ -267,14 +302,27 @@ public class MapImage : MonoBehaviour {
 		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, MapGenerator.Instance.MapScale,  MapGenerator.Instance.MapScale) , Vector2.one * 0.5f );
 	}
 	public void CenterOnBoat () {
-		Vector2 boatPos = new Vector2 (Boats.Instance.PlayerBoatInfo.PosX,Boats.Instance.PlayerBoatInfo.PosY);
-		boatPos = (boatPos * maxContentPosition) / MapGenerator.Instance.MapScale;
+		CenterOnCoords (new Coords(Boats.Instance.PlayerBoatInfo.posX,Boats.Instance.PlayerBoatInfo.posY));
+	}
 
-		boatPos -= Vector2.one * (maxContentPosition / 2);
+	public void CenterOnCoords (Coords coords) {
 
-		boatPos = -boatPos;
+		Vector2 pos = new Vector2 (coords.x , coords.y);
 
-		contentTransform.localPosition = boatPos;
+		pos = (pos * maxContentPosition) / MapGenerator.Instance.MapScale;
+
+		pos -= Vector2.one * (maxContentPosition / 2);
+
+		pos = -pos;
+
+		contentTransform.localPosition = pos;
+	}
+
+	public void HighlightPixel ( Coords c ) {
+
+		SetPixel (c);
+		islandButtons [c].Highlight ();
+		CenterOnCoords (c);
 	}
 	#endregion
 
@@ -289,18 +337,90 @@ public class MapImage : MonoBehaviour {
 	#endregion
 
 	public void OpenMap () {
-		mapButton.Opened = true;
+		
+		mapGroup.SetActive (true);
+
+		closeButton_Obj.SetActive (true);
+		openButton_Obj.SetActive (false);
+
 		PlayerLoot.Instance.Close ();
+
 		CenterOnBoat ();
 	}
 	public void CloseMap () {
-		mapButton.Opened = false;
+	
+		mapGroup.SetActive (false);
+
+		closeButton_Obj.SetActive (false);
+		openButton_Obj.SetActive (true);
 	}
 
-	public UIButton MapButton {
+	#region overall map
+	float timer = 0f;
+	float duration = 1f;
+	bool overallMapOpened = false;
+
+	Vector2 initPos = Vector2.zero;
+	float initScale = 0f;
+
+	public bool OverallMapOpened {
 		get {
-			return mapButton;
+			return overallMapOpened;
+		}
+		set {
+
+			return;
+
+			if (overallMapOpened == value)
+				return;
+
+			overallMapOpened = value;
+
+
+			if ( value == true ) {
+
+				initPos = mapTransform.localPosition;
+				initScale = mapTransform.rect.width;
+
+				mapTransform.anchorMax = Vector2.one;
+				mapTransform.sizeDelta = Vector2.zero;
+
+				mapTransform.localPosition = Vector2.zero;
+
+			} else {
+
+				mapTransform.anchorMax = Vector2.zero;
+				mapTransform.sizeDelta = new Vector2 (initScale,initScale);
+
+				mapTransform.localPosition = initPos;
+
+			}
+
+
+
 		}
 	}
+	public void TouchMap () {
+		//}
+
+		timer = 0.2f;
+	}
+	public void Grow () {
+
+		if (OverallMapOpened == false) {
+
+			if (timer >= 0) {
+
+				OverallMapOpened = true;
+
+			}
+		} else {
+
+			OverallMapOpened = false;
+
+		}
+
+	}
+	#endregion
 }
 

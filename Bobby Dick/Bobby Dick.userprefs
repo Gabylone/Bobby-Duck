@@ -1,14 +1,11 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Save\SaveMenu.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Stories\StoryFunctions.cs">
     <Files>
-      <File FileName="Assets\Scripts\Input\InputManager.cs" Line="133" Column="2" />
-      <File FileName="Assets\Scripts\Stories\StoryLauncher.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Stories\StoryLoader.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Stories\StoryTest.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Save\SaveTool.cs" Line="24" Column="18" />
-      <File FileName="Assets\Scripts\Save\SaveManager.cs" Line="78" Column="18" />
-      <File FileName="Assets\Scripts\Save\SaveMenu.cs" Line="76" Column="17" />
+      <File FileName="Assets\Scripts\Quest\QuestManager.cs" Line="158" Column="3" />
+      <File FileName="Assets\Scripts\Map\MapImage.cs" Line="321" Column="25" />
+      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="178" Column="15" />
+      <File FileName="Assets\Scripts\Quest\QuestMenu.cs" Line="89" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
