@@ -61,7 +61,7 @@ public class InventoryCard : Card {
 			if ( member.Equipment [a] != null ) {
 
 				itemButton.Name = member.Equipment [a].name;
-				itemButton.Param = member.Equipment [a].value;
+				itemButton.Value = member.Equipment [a].value;
 				itemButton.Price = member.Equipment [a].price;
 				itemButton.Level = member.Equipment [a].level;
 				itemButton.Weight = member.Equipment [a].weight;
@@ -69,7 +69,7 @@ public class InventoryCard : Card {
 			} else {
 
 				itemButton.Name = "";
-				itemButton.Param = 0;
+				itemButton.Value = 0;
 				itemButton.Price = 0;
 				itemButton.Weight = 0;
 				itemButton.Level = 0;
@@ -85,10 +85,10 @@ public class InventoryCard : Card {
 
 	public void RemoveItem (int i) {
 
-		LootManager.Instance.PlayerLoot.AddItem (PlayerLoot.Instance.SelectedMember.Equipment [i]);
+		LootManager.GetLoot(Crews.Side.Player).AddItem (PlayerLootUI.Instance.SelectedMember.Equipment [i]);
 
-		PlayerLoot.Instance.SelectedMember.Equipment [i] = null;
-		PlayerLoot.Instance.LootUI.UpdateLootUI ();
+		PlayerLootUI.Instance.SelectedMember.Equipment [i] = null;
+		PlayerLootUI.Instance.LootUI.UpdateLootUI ();
 
 		UpdateMember (currentMember);
 	}

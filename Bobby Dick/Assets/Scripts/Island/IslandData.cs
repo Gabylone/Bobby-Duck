@@ -18,11 +18,11 @@ public class IslandData {
 
 	}
 
-	public IslandData (int x , int y)
+	public IslandData (Coords coords)
 	{
 		storyManager = new StoryManager ();
 
-		StoryType type = StoryLoader.Instance.GetTypeFromPos (x, y);
+		StoryType type = StoryLoader.Instance.GetTypeFromPos (coords);
 		storyManager.InitHandler (type);
 
 		float islandPosX = Random.Range (-appearRange.x , appearRange.x);

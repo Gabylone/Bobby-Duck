@@ -71,6 +71,7 @@ public class MapImage : MonoBehaviour {
 	#region initialization
 	public void Init () {
 		NavigationManager.Instance.EnterNewChunk += UpdateBoatSurroundings;
+		PlayerLootUI.Instance.openInventory += CloseMap;
 	}
 
 	public void Reset ()
@@ -90,9 +91,11 @@ public class MapImage : MonoBehaviour {
 
 			for (int y = 0; y < MapGenerator.Instance.MapScale; ++y ) {
 
-				Chunk chunk = MapGenerator.Instance.Chunks [x, y];
 
-				SetPixel (texture,x,y, revealMap ? getChunkColor_Reveal (chunk) : getChunkColor (chunk));
+				Coords c = new Coords (x, y);
+				Chunk chunk = MapGenerator.Instance.GetChunk(c);
+
+				SetPixel (texture,c, revealMap ? getChunkColor_Reveal (chunk) : getChunkColor (chunk));
 
 				if (chunk.State == ChunkState.UndiscoveredIsland
 					|| chunk.State == ChunkState.VisitedIsland
@@ -142,26 +145,21 @@ public class MapImage : MonoBehaviour {
 
 		int shipRange = Boats.Instance.PlayerBoatInfo.ShipRange;
 
-		int posX = Boats.Instance.PlayerBoatInfo.PosX;
-		int posY = Boats.Instance.PlayerBoatInfo.PosY;
-
 		int mapScale = MapGenerator.Instance.MapScale;
 
-		Chunk previousChunk = MapGenerator.Instance.Chunks [Boats.Instance.PlayerBoatInfo.PreviousPosX, Boats.Instance.PlayerBoatInfo.PreviousPosY];
-		SetPixel (texture,Boats.Instance.PlayerBoatInfo.PreviousPosX, Boats.Instance.PlayerBoatInfo.PreviousPosY, getChunkColor (previousChunk));
+		Chunk previousChunk = MapGenerator.Instance.GetChunk(Boats.Instance.PlayerBoatInfo.PreviousCoords);
+		SetPixel (texture,NavigationManager.PreviousCoords, getChunkColor (previousChunk));
 
 		for (int x = -shipRange; x <= shipRange; ++x ) {
 
 			for (int y = -shipRange; y <= shipRange; ++y ) {
 
-				int pX = posX + x;
-				int pY = posY + y;
+				Coords c = NavigationManager.CurrentCoords + new Coords (x, y);
 
-				if (pX < mapScale && pX >= 0 &&
-					pY < mapScale && pY >= 0) {
+				if ( c.x < mapScale && c.x >= 0 &&
+					c.y < mapScale && c.y >= 0) {
 
-
-					Chunk chunk = MapGenerator.Instance.Chunks [pX, pY];
+					Chunk chunk = MapGenerator.Instance.GetChunk(c);
 
 					Color color = Color.red;
 
@@ -174,9 +172,7 @@ public class MapImage : MonoBehaviour {
 						break;
 					}
 
-					SetPixel (texture,pX, pY, getChunkColor (chunk));
-
-					Coords c = new Coords (pX, pY);
+					SetPixel (texture,c, getChunkColor (chunk));
 
 					if (islandButtons.ContainsKey(c))
 						islandButtons [c].Visible = true;
@@ -188,7 +184,7 @@ public class MapImage : MonoBehaviour {
 
 		}
 
-		SetPixel (texture,posX, posY, Color.red);
+		SetPixel (texture,NavigationManager.CurrentCoords, Color.red);
 
 		UpdateTexture (texture);
 
@@ -198,15 +194,17 @@ public class MapImage : MonoBehaviour {
 
 	public void CheckForBoats ()
 	{
+		return;
+
 		Texture2D texture = (Texture2D)targetImage.mainTexture;
 
 		foreach ( OtherBoatInfo boatInfo in Boats.Instance.OtherBoatInfos ) {
-			if ( boatInfo.PosX <= Boats.Instance.PlayerBoatInfo.PosX + Boats.Instance.PlayerBoatInfo.ShipRange && boatInfo.PosX >= Boats.Instance.PlayerBoatInfo.PosX -Boats.Instance.PlayerBoatInfo.ShipRange &&
-				boatInfo.PosY <= Boats.Instance.PlayerBoatInfo.PosY + Boats.Instance.PlayerBoatInfo.ShipRange && boatInfo.PosY >= Boats.Instance.PlayerBoatInfo.PosY - Boats.Instance.PlayerBoatInfo.ShipRange) {
-				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, Color.green);
+			if ( boatInfo.CurrentCoords <= NavigationManager.CurrentCoords + Boats.Instance.PlayerBoatInfo.ShipRange
+				&& boatInfo.CurrentCoords >= NavigationManager.CurrentCoords - Boats.Instance.PlayerBoatInfo.ShipRange ) {
+				SetPixel (texture,boatInfo.CurrentCoords, Color.green);
 			} else {
-				SetPixel (texture,boatInfo.PreviousPosX, boatInfo.PreviousPosY, getChunkColor(MapGenerator.Instance.Chunks[boatInfo.PreviousPosX,boatInfo.PreviousPosY]) );
-				SetPixel (texture,boatInfo.PosX, boatInfo.PosY, getChunkColor(MapGenerator.Instance.Chunks[boatInfo.PosX,boatInfo.PosY]) );
+				SetPixel (texture,boatInfo.PreviousCoords, getChunkColor(MapGenerator.Instance.GetChunk(boatInfo.PreviousCoords) ));
+				SetPixel (texture,boatInfo.CurrentCoords, getChunkColor(MapGenerator.Instance.GetChunk(boatInfo.CurrentCoords) ));
 			}
 		}
 
@@ -277,11 +275,11 @@ public class MapImage : MonoBehaviour {
 	}
 	private void SetPixel (Coords coords) {
 		Texture2D texture = (Texture2D)targetImage.mainTexture;
-		SetPixel (texture, coords, getChunkColor (MapGenerator.Instance.Chunks [coords.x, coords.y]));
+		SetPixel (texture, coords, getChunkColor (MapGenerator.Instance.GetChunk(coords) ));
 		UpdateTexture (texture);
 	}
 	private void SetPixel (Texture2D text, Coords coords) {
-		SetPixel (text, coords, getChunkColor (MapGenerator.Instance.Chunks [coords.x, coords.y]));
+		SetPixel (text, coords, getChunkColor (MapGenerator.Instance.GetChunk(coords)));
 	}
 	private void SetPixel (Texture2D text, Coords coords,Color color) {
 		for (int iX = 0; iX < pixelFactor; iX++) {
@@ -302,7 +300,7 @@ public class MapImage : MonoBehaviour {
 		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, MapGenerator.Instance.MapScale,  MapGenerator.Instance.MapScale) , Vector2.one * 0.5f );
 	}
 	public void CenterOnBoat () {
-		CenterOnCoords (new Coords(Boats.Instance.PlayerBoatInfo.posX,Boats.Instance.PlayerBoatInfo.posY));
+		CenterOnCoords (NavigationManager.CurrentCoords);
 	}
 
 	public void CenterOnCoords (Coords coords) {
@@ -343,7 +341,7 @@ public class MapImage : MonoBehaviour {
 		closeButton_Obj.SetActive (true);
 		openButton_Obj.SetActive (false);
 
-		PlayerLoot.Instance.Close ();
+		PlayerLootUI.Instance.Close ();
 
 		CenterOnBoat ();
 	}

@@ -24,8 +24,8 @@ public class IslandButton : MonoBehaviour {
 	public void OnClick() {
 
 		string name = "";
-		if (MapGenerator.Instance.Chunks [coords.x,coords.y].State == ChunkState.VisitedIsland)
-			name = MapGenerator.Instance.Chunks [coords.x,coords.y].IslandData.storyManager.storyHandlers [0].Story.name;
+		if (MapGenerator.Instance.GetChunk(coords).State == ChunkState.VisitedIsland)
+			name = MapGenerator.Instance.GetChunk(coords).IslandData.storyManager.storyHandlers [0].Story.name;
 		else
 			name = "Ile inconnue";
 

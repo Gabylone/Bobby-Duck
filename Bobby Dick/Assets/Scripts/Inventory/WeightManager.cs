@@ -28,8 +28,8 @@ public class WeightManager : MonoBehaviour {
 	}
 
 	void Start () {
-		PlayerLoot.Instance.openInventory += Show;
-		PlayerLoot.Instance.closeInventory += Hide;
+		PlayerLootUI.Instance.openInventory += Show;
+		PlayerLootUI.Instance.closeInventory += Hide;
 
 		Hide ();
 	}
@@ -81,8 +81,8 @@ public class WeightManager : MonoBehaviour {
 	#region properties
 	public int CurrentWeight {
 		get {
-			if ( LootManager.Instance.PlayerLoot != null )
-				return LootManager.Instance.PlayerLoot.weight;
+			if ( LootManager.GetLoot(Crews.Side.Player) != null )
+				return LootManager.GetLoot(Crews.Side.Player).weight;
 
 			else return 0;
 		}

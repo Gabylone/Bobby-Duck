@@ -46,6 +46,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ClockUI.cs" />
+     <Compile Include="Assets\FoodUI.cs" />
      <Compile Include="Assets\QuestButton.cs" />
      <Compile Include="Assets\Scripts\Boat\Boat.cs" />
      <Compile Include="Assets\Scripts\Boat\BoatInfo.cs" />
@@ -90,8 +92,8 @@
      <Compile Include="Assets\Scripts\Inventory\Loot.cs" />
      <Compile Include="Assets\Scripts\Inventory\LootManager.cs" />
      <Compile Include="Assets\Scripts\Inventory\LootUI.cs" />
-     <Compile Include="Assets\Scripts\Inventory\OtherLoot.cs" />
-     <Compile Include="Assets\Scripts\Inventory\PlayerLoot.cs" />
+     <Compile Include="Assets\Scripts\Inventory\OtherLootUI.cs" />
+     <Compile Include="Assets\Scripts\Inventory\PlayerLootUI.cs" />
      <Compile Include="Assets\Scripts\Inventory\WeightManager.cs" />
      <Compile Include="Assets\Scripts\Island\Island.cs" />
      <Compile Include="Assets\Scripts\Island\IslandButton.cs" />
@@ -102,7 +104,7 @@
      <Compile Include="Assets\Scripts\Map\MapData.cs" />
      <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
      <Compile Include="Assets\Scripts\Map\MapImage.cs" />
-     <Compile Include="Assets\Scripts\Map\WeatherManager.cs" />
+     <Compile Include="Assets\Scripts\Map\TimeManager.cs" />
      <Compile Include="Assets\Scripts\Menu\GameManager.cs" />
      <Compile Include="Assets\Scripts\Menu\KeepOnLoad.cs" />
      <Compile Include="Assets\Scripts\Menu\MainMenuManager.cs" />
@@ -137,6 +139,7 @@
      <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
      <Compile Include="Assets\Scripts\Transition\UIButton.cs" />
      <Compile Include="Assets\Scripts\Treasure\ClueManager.cs" />
+     <Compile Include="Assets\UiIcon.cs" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

@@ -5,11 +5,8 @@ public class BoatInfo {
 
 	public string Name = "bateau";
 
-	private int previousPosX = 0;
-	private int previousPosY = 0;
-
-	public int posX = 0;
-	public int posY = 0;
+	private Coords previousCoords;
+	private Coords currentCoords;
 
 	public Directions currentDirection;
 
@@ -25,38 +22,27 @@ public class BoatInfo {
 
 	}
 
-	public virtual int PosX {
+	public virtual Coords CurrentCoords {
 		get {
-			return posX;
+			return currentCoords;
 		}
 		set {
 
-			previousPosX = posX;
-			posX = Mathf.Clamp (value , 0, MapGenerator.Instance.MapScale-1);
+			PreviousCoords = currentCoords;
 
+			currentCoords = value;
+
+			currentCoords.x = Mathf.Clamp (value.x , 0, MapGenerator.Instance.MapScale-1);
+			currentCoords.y = Mathf.Clamp (value.y , 0, MapGenerator.Instance.MapScale-1);
 		}
 	}
 
-	public virtual int PosY {
+	public virtual Coords PreviousCoords {
 		get {
-			return posY;
+			return previousCoords;
 		}
 		set {
-			
-			previousPosY = posY;
-			posY = Mathf.Clamp (value , 0, MapGenerator.Instance.MapScale-1);
-		}
-	}
-
-	public int PreviousPosX {
-		get {
-			return previousPosX;
-		}
-	}
-
-	public int PreviousPosY {
-		get {
-			return previousPosY;
+			previousCoords = value;
 		}
 	}
 }

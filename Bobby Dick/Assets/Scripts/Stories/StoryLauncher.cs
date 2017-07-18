@@ -58,7 +58,7 @@ public class StoryLauncher : MonoBehaviour {
 
 			Transitions.Instance.ActionTransition.Fade = playingStory;
 
-			PlayerLoot.Instance.CanOpen = !value;
+			PlayerLootUI.Instance.CanOpen = !value;
 
 			// place captain
 			Crews.PlacingType pT = playingStory ? Crews.PlacingType.Discussion : Crews.PlacingType.Map;
@@ -66,8 +66,6 @@ public class StoryLauncher : MonoBehaviour {
 
 			// lower volume
 			SoundManager.Instance.AmbianceSource.volume = playingStory ? SoundManager.Instance.AmbianceSource.volume / 2 : SoundManager.Instance.AmbianceSource.volume * 2;
-
-			WeatherManager.Instance.PlaySound ();
 
 			MapImage.Instance.CloseMap ();
 
@@ -82,7 +80,7 @@ public class StoryLauncher : MonoBehaviour {
 					// kek
 					break;
 				case StorySource.island:
-					MapData.Instance.currentChunk.State = ChunkState.VisitedIsland;
+					MapGenerator.Instance.CurrentChunk.State = ChunkState.VisitedIsland;
 					break;
 				case StorySource.boat:
 					Boats.Instance.OtherBoat.Leave ();

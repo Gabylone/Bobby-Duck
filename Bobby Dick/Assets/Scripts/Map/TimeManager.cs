@@ -2,14 +2,17 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class WeatherManager : MonoBehaviour {
+public class TimeManager : MonoBehaviour {
 
-	public static WeatherManager Instance;
+	public static TimeManager Instance;
 
 	[Header("Rain")]
 	[SerializeField] private Image rainImage;
 
 	bool raining = false;
+
+	int timeOfDay = 0;
+	int dayDuration = 24;
 
 	private int currentRain = 0;
 	[SerializeField] private int rainRate = 20;
@@ -20,23 +23,15 @@ public class WeatherManager : MonoBehaviour {
 
 	bool isNight = false;
 
-	private int currentNight = 0;
-	[SerializeField] private int nightRate = 8;
-	[SerializeField] private int nightDuration = 4;
-
-	[Header ("Sounds")]
-	[SerializeField] private AudioClip rainSound;
-	[SerializeField] private AudioClip daySound;
-	[SerializeField] private AudioClip nightSound;
+	[SerializeField] private int nightStartTime = 21;
+	[SerializeField] private int nightEndTime = 4;
 
 	void Awake () {
 		Instance = this;
 	}
 
 	void Start () {
-		PlaySound ();
-
-		NavigationManager.Instance.EnterNewChunk += UpdateWeather;
+		NavigationManager.Instance.EnterNewChunk += AdvanceTime;
 	}
 
 	public bool Raining {
@@ -47,11 +42,24 @@ public class WeatherManager : MonoBehaviour {
 			raining = value;
 			currentRain = 0;
 			rainImage.gameObject.SetActive ( value );
-			PlaySound ();
 		}
 	}
 
-	public void UpdateWeather () {
+	public void AdvanceTime () {
+
+		++timeOfDay;
+		if (timeOfDay == dayDuration)
+			timeOfDay = 0;
+		
+		if (IsNight == false) {
+			if (timeOfDay == nightStartTime) {
+				IsNight = true;
+			}
+		} else {
+			if (timeOfDay == nightEndTime) {
+				IsNight = false;
+			}
+		}
 
 		// rain image
 		currentRain++;
@@ -59,31 +67,14 @@ public class WeatherManager : MonoBehaviour {
 		if (currentRain == r1)
 			Raining = !Raining;
 
-		currentNight++;
-		int r2 = IsNight ? nightDuration : nightRate;
-		if (currentNight == r2)
-			IsNight = !IsNight;
 
-//		BoatManager.Instance.BoatLightImage.gameObject.SetActive (Raining || IsNight);
-	}
-	public void PlaySound () {
-
-		AudioClip ambiantClip;
-		if (raining)
-			ambiantClip = rainSound;
-		else if (isNight)
-			ambiantClip = nightSound;
-		else
-			ambiantClip = daySound;
-
-		SoundManager.Instance.PlayAmbiance (ambiantClip);
 	}
 
 	public void SaveWeather () {
 
 		SaveManager.Instance.CurrentData.raining = Raining;
 		SaveManager.Instance.CurrentData.night = IsNight;
-		SaveManager.Instance.CurrentData.currentNight = currentNight;
+		SaveManager.Instance.CurrentData.timeOfDay = timeOfDay;
 		SaveManager.Instance.CurrentData.currentRain = currentRain;
 
 	}
@@ -92,13 +83,8 @@ public class WeatherManager : MonoBehaviour {
 
 		Raining = SaveManager.Instance.CurrentData.raining;
 		IsNight = SaveManager.Instance.CurrentData.night;
-		currentNight = SaveManager.Instance.CurrentData.currentNight;
+		timeOfDay = SaveManager.Instance.CurrentData.timeOfDay;
 		currentRain = SaveManager.Instance.CurrentData.currentRain;
-
-		UpdateWeather ();
-
-		PlaySound ();
-
 	}
 
 	public bool IsNight {
@@ -107,9 +93,7 @@ public class WeatherManager : MonoBehaviour {
 		}
 		set {
 			isNight = value;
-			currentNight = 0;
 			nightImage.gameObject.SetActive (value);
-			PlaySound ();
 		}
 	}
 }

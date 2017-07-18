@@ -239,14 +239,14 @@ public class StoryFunctions : MonoBehaviour {
 	#region trade & loot
 	void Loot() {
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(getLootCategories()));
-		OtherLoot.Instance.StartLooting ();
+		OtherLootUI.Instance.StartLooting ();
 	}
 	void Trade() {
 
 		ItemLoader.Instance.Mult = 3;
 
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(getLootCategories()));
-		OtherLoot.Instance.StartTrade ();
+		OtherLootUI.Instance.StartTrade ();
 	}
 
 	public ItemCategory[] getLootCategories () {
@@ -293,17 +293,17 @@ public class StoryFunctions : MonoBehaviour {
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 		StoryReader.Instance.NextCell ();
 
-		if ( LootManager.Instance.PlayerLoot.getLoot[(int)targetCat].Length == 0 ) {
+		if ( LootManager.GetLoot(Crews.Side.Player).getLoot[(int)targetCat].Length == 0 ) {
 			
 			StoryReader.Instance.SetDecal (1);
 
 		} else {
 
-			Item item = LootManager.Instance.PlayerLoot.getLoot [(int)targetCat] [0];
+			Item item = LootManager.GetLoot(Crews.Side.Player).getLoot [(int)targetCat] [0];
 			if (CellParams.Contains ("<")) {
 				string itemName = cellParams.Split ('<') [1];
 				itemName = itemName.Remove (itemName.Length - 6);
-				item = System.Array.Find (LootManager.Instance.PlayerLoot.getLoot [(int)targetCat], x => x.name == itemName);
+				item = System.Array.Find (LootManager.GetLoot(Crews.Side.Player).getLoot [(int)targetCat], x => x.name == itemName);
 				if (item == null) {
 					StoryReader.Instance.SetDecal (1);
 					StoryReader.Instance.UpdateStory ();
@@ -313,7 +313,7 @@ public class StoryFunctions : MonoBehaviour {
 
 			DialogueManager.Instance.LastItemName = item.name;
 
-			LootManager.Instance.PlayerLoot.RemoveItem (item);
+			LootManager.GetLoot(Crews.Side.Player).RemoveItem (item);
 
 		}
 
@@ -339,7 +339,7 @@ public class StoryFunctions : MonoBehaviour {
 		if (item != null) {
 			DialogueManager.Instance.LastItemName = item.name;
 
-			LootManager.Instance.PlayerLoot.AddItem (item);
+			LootManager.GetLoot(Crews.Side.Player).AddItem (item);
 		}
 
 		StoryReader.Instance.NextCell ();
@@ -354,7 +354,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 
-		Item item = System.Array.Find (LootManager.Instance.PlayerLoot.getCategory (targetCat), x => x.name == itemName);
+		Item item = System.Array.Find (LootManager.GetLoot(Crews.Side.Player).getCategory (targetCat), x => x.name == itemName);
 
 		if (item == null) {
 			StoryReader.Instance.SetDecal (1);
@@ -381,7 +381,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 
-		if ( MapData.Instance.currentChunk.State == ChunkState.VisitedIsland) {
+		if ( MapGenerator.Instance.CurrentChunk.State == ChunkState.VisitedIsland) {
 			StoryReader.Instance.SetDecal (1);
 		}
 
@@ -391,7 +391,7 @@ public class StoryFunctions : MonoBehaviour {
 
 	#region weather
 	void ChangeTimeOfDay () {
-		if ( WeatherManager.Instance.IsNight )
+		if ( TimeManager.Instance.IsNight )
 			StartCoroutine (SetWeatherCoroutine ("Day"));
 		else
 			StartCoroutine (SetWeatherCoroutine ("Night"));
@@ -408,15 +408,15 @@ public class StoryFunctions : MonoBehaviour {
 
 		switch ( weather ) {
 		case "Day":
-			WeatherManager.Instance.IsNight = false;
-			WeatherManager.Instance.Raining = false;
+			TimeManager.Instance.IsNight = false;
+			TimeManager.Instance.Raining = false;
 			break;
 		case "Night":
-			WeatherManager.Instance.IsNight = true;
-			WeatherManager.Instance.Raining = false;
+			TimeManager.Instance.IsNight = true;
+			TimeManager.Instance.Raining = false;
 			break;
 		case "Rain":
-			WeatherManager.Instance.Raining = true;
+			TimeManager.Instance.Raining = true;
 			break;
 		}
 
@@ -439,7 +439,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 
-		if (WeatherManager.Instance.IsNight)
+		if (TimeManager.Instance.IsNight)
 			StoryReader.Instance.SetDecal (1);
 
 		StoryReader.Instance.UpdateStory ();

@@ -126,8 +126,7 @@ public class NavigationManager : MonoBehaviour {
 	}
 	public Directions getDirectionToPoint ( Vector2 point ) {
 
-		Vector2 boatPos = new Vector2 (Boats.Instance.PlayerBoatInfo.PosX, Boats.Instance.PlayerBoatInfo.PosY);
-		Vector2 direction = point - boatPos;
+		Vector2 direction = point - (Vector2)NavigationManager.CurrentCoords;
 
 		for (int i = 0; i < 8; ++i ) {
 			if ( Vector2.Angle ( direction , NavigationManager.Instance.getDir((Directions)i) ) < 45f ) {
@@ -163,6 +162,32 @@ public class NavigationManager : MonoBehaviour {
 		}
 
 		return "nulle part";
+
+	}
+	public Coords getNewCoords ( Directions dir ) {
+
+		switch (dir) {
+		case Directions.North:
+			return new Coords ( 0 , 1 );
+		case Directions.NorthEast:
+			return new Coords ( 1 , 1 );
+		case Directions.East:
+			return new Coords ( 1 , 0 );
+		case Directions.SouthEast:
+			return new Coords ( 1 , -1 );
+		case Directions.South:
+			return new Coords ( 0 , -1 );
+		case Directions.SouthWest:
+			return new Coords ( -1 , -1 );
+		case Directions.West:
+			return new Coords ( -1 , 0 );
+		case Directions.NorthWest:
+			return new Coords ( -1 , 1 );
+		case Directions.None:
+			return new Coords ( 0 , 0 );
+		}
+
+		return new Coords ();
 
 	}
 	public Vector2 getDir ( Directions dir ) {
@@ -278,7 +303,12 @@ public class NavigationManager : MonoBehaviour {
 
 	public static Coords CurrentCoords {
 		get {
-			return new Coords (Boats.Instance.PlayerBoatInfo.PosX, Boats.Instance.PlayerBoatInfo.PosY);
+			return Boats.Instance.PlayerBoatInfo.CurrentCoords;
+		}
+	}
+	public static Coords PreviousCoords {
+		get {
+			return Boats.Instance.PlayerBoatInfo.PreviousCoords;
 		}
 	}
 
@@ -293,6 +323,8 @@ public struct Coords {
 		this.y = y;
 	}
 
+	// overrides
+		// == !=
 	public static bool operator ==( Coords c1, Coords c2) 
 	{
 		return c1.x == c2.x && c1.y == c2.y;
@@ -301,4 +333,107 @@ public struct Coords {
 	{
 		return !(c1 == c2);
 	}
+
+		// < >
+	public static bool operator < (Coords c1, Coords c2) 
+	{
+		return c1.x < c2.x && c1.y < c2.y;
+	}
+	public static bool operator > (Coords c1, Coords c2) 
+	{
+		return c1.x > c2.x && c1.y > c2.y;
+	}
+	public static bool operator < (Coords c1, int i) 
+	{
+		return c1.x < i && c1.y < i;
+	}
+	public static bool operator > (Coords c1, int i) 
+	{
+		return c1.x > i && c1.y > i;
+	}
+
+		// >= <=
+	public static bool operator >= (Coords c1, Coords c2) 
+	{
+		return c1.x >= c2.x && c1.y >= c2.y;
+	}
+	public static bool operator <= (Coords c1, Coords c2) 
+	{
+		return c1.x <= c2.x && c1.y <= c2.y;
+	}
+	public static bool operator >= (Coords c1, int i) 
+	{
+		return c1.x >= i && c1.y >= i;
+	}
+	public static bool operator <= (Coords c1, int i) 
+	{
+		return c1.x <= i && c1.y <= i;
+	}
+
+		// + -
+	public static Coords operator +(Coords c1, Coords c2) 
+	{
+		return new Coords ( c1.x + c2.x , c1.y + c2.y );
+	}
+	public static Coords operator -(Coords c1, Coords c2) 
+	{
+		return new Coords ( c1.x - c2.x , c1.y - c2.y );
+	}
+	public static Coords operator +(Coords c1, int i) 
+	{
+		return new Coords ( c1.x + i, c1.y + i );
+	}
+	public static Coords operator -(Coords c1, int i) 
+	{
+		return new Coords ( c1.x - i, c1.y - i );
+	}
+
+		// vector2 cast
+
+	public static explicit operator Coords(Vector2 v)  // explicit byte to digit conversion operator
+	{
+		return new Coords ( (int)v.x , (int)v.y );
+	}
+	public static explicit operator Vector2(Coords c)  // explicit byte to digit conversion operator
+	{
+		return new Vector2 (c.x, c.y);
+	}
+//
+//		// direction cast
+//	public static explicit operator Directions(Coords c)  // explicit byte to digit conversion operator
+//	{
+//		return new Directions (c.x, c.y);
+//	}
+	public static explicit operator Coords(Directions dir)  // explicit byte to digit conversion operator
+	{
+		switch (dir) {
+		case Directions.North:
+			return new Coords ( 0 , 1 );
+		case Directions.NorthEast:
+			return new Coords ( 1 , 1 );
+		case Directions.East:
+			return new Coords ( 1 , 0 );
+		case Directions.SouthEast:
+			return new Coords ( 1 , -1 );
+		case Directions.South:
+			return new Coords ( 0 , -1 );
+		case Directions.SouthWest:
+			return new Coords ( -1 , -1 );
+		case Directions.West:
+			return new Coords ( -1 , 0 );
+		case Directions.NorthWest:
+			return new Coords ( -1 , 1 );
+		case Directions.None:
+			return new Coords ( 0 , 0 );
+		}
+
+		return new Coords ();
+	}
+
+		// string
+	public override string ToString()
+	{
+		return "X : " + x + " / Y : " + y;
+	}
+	   
 }

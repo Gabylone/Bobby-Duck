@@ -54,7 +54,7 @@ public class SaveManager : MonoBehaviour
 		// gold
 		GoldManager.Instance.GoldAmount = CurrentData.playerGold;
 
-		WeatherManager.Instance.LoadWeather ();
+		TimeManager.Instance.LoadWeather ();
 
 		MapImage.Instance.InitImage ();
 
@@ -88,12 +88,12 @@ public class SaveManager : MonoBehaviour
 		MapGenerator.Instance.SaveIslandsData ();
 
 		// player loot
-		currentData.playerLoot = LootManager.Instance.getLoot (Crews.Side.Player);
+		currentData.playerLoot = LootManager.GetLoot (Crews.Side.Player);
 
 		// gold
 		CurrentData.playerGold = GoldManager.Instance.GoldAmount;
 
-		WeatherManager.Instance.SaveWeather ();
+		TimeManager.Instance.SaveWeather ();
 
 		SaveTool.Instance.Save (index);
 
@@ -117,10 +117,13 @@ public class GameData
 	// crew
 	public Crew 			playerCrew;
 
+	public Dictionary<Coords, Chunk> chunks {
+		get;
+		set;
+	}
+
 	// islands
 	public MapData 			mapData;
-
-	public Chunk[][] 		chunkArray;
 
 	public PlayerBoatInfo 	playerBoatInfo;
 	public OtherBoatInfo[] 	otherBoatInfos;
@@ -132,11 +135,12 @@ public class GameData
 	public int 				playerWeight = 0;
 	public int 				playerGold = 0;
 
+		// time
 	public bool 			raining = false;
 	public int 				currentRain = 0;
 
 	public bool 			night = false;
-	public int 				currentNight = 0;
+	public int 				timeOfDay = 0;
 
 	public GameData()
 	{

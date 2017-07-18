@@ -156,36 +156,32 @@ public class StoryLoader : MonoBehaviour {
 	}
 
 	#region random story from position
-	public Story RandomStory (int x , int y) {
-		return IslandStories[RandomStoryIndex (x, y)];
+	public Story RandomStory (Coords c) {
+		return IslandStories[RandomStoryIndex (c)];
 	}
-	public StoryType GetTypeFromPos (int x, int y)
+	public StoryType GetTypeFromPos (Coords coords)
 	{
-		if (x == MapData.Instance.treasureIslandXPos &&
-			y == MapData.Instance.treasureIslandYPos ) {
+		if (coords == MapData.Instance.treasureIslandCoords ) {
 			return StoryType.Treasure;
 		}
 
 		// check for home island
-		if (x == MapData.Instance.homeIslandXPos &&
-			y == MapData.Instance.homeIslandYPos ) {
+		if (coords == MapData.Instance.homeIslandCoords ) {
 			return StoryType.Home;
 		}
 
 		// check if clue island
 		for( int i = 0; i < ClueManager.Instance.ClueAmount ; ++i ) {
-			if (x == MapData.Instance.clueIslandsXPos[i] &&
-				y == MapData.Instance.clueIslandsYPos[i] ) {
+			if (coords == MapData.Instance.clueIslandsCoords[i] ) {
 				return StoryType.Clue;
 			}
 		}
 
 		return StoryType.Island;
 	}
-	public int RandomStoryIndex (int x, int y)
+	public int RandomStoryIndex (Coords c)
 	{
-		if (x == MapData.Instance.treasureIslandXPos &&
-			y == MapData.Instance.treasureIslandYPos ) {
+		if (c == MapData.Instance.treasureIslandCoords ) {
 
 			if (treasureStories.Count == 0)
 				Debug.LogError ("no treasure stories");
@@ -195,8 +191,7 @@ public class StoryLoader : MonoBehaviour {
 		}
 
 		// check for home island
-		if (x == MapData.Instance.homeIslandXPos &&
-			y == MapData.Instance.homeIslandYPos ) {
+		if (c == MapData.Instance.homeIslandCoords ) {
 
 			if (homeStories.Count == 0)
 				Debug.LogError ("no home stories");
@@ -208,8 +203,7 @@ public class StoryLoader : MonoBehaviour {
 		// check if clue island
 		for( int i = 0; i < ClueManager.Instance.ClueAmount ; ++i ) {
 
-			if (x == MapData.Instance.clueIslandsXPos[i] &&
-				y == MapData.Instance.clueIslandsYPos[i] ) {
+			if (c == MapData.Instance.clueIslandsCoords[i] ) {
 
 				if (clueStories.Count == 0)
 					Debug.LogError ("no clue stories");

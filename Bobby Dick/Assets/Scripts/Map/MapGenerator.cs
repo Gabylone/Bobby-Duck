@@ -21,16 +21,8 @@ public class MapGenerator : MonoBehaviour {
 	public int islandID;
 
 	private MapData mapData;
-	private Chunk[,] chunks;
 
-	public Chunk[,] Chunks {
-		get {
-			return chunks;
-		}
-		set {
-			chunks = value;
-		}
-	}
+	public static Dictionary<Coords,Chunk> chunks = new Dictionary<Coords, Chunk>();
 
 	void Awake () {
 		Instance = this;
@@ -43,12 +35,13 @@ public class MapGenerator : MonoBehaviour {
 	#region map data
 	private void CreateMapData () {
 
-		Chunks = new Chunk[mapScale,mapScale];
-
 		for (int x = 0; x < mapScale; x++) {
 			for (int y = 0; y < mapScale; y++) {
-				Chunks [x, y] = new Chunk ();
-				Chunks [x, y].State = ChunkState.UndiscoveredSea;
+
+				Coords c = new Coords (x, y);
+
+				chunks.Add (c, new Chunk ());
+				chunks [c].State = ChunkState.UndiscoveredSea;
 			}
 		}
 
@@ -65,10 +58,13 @@ public class MapGenerator : MonoBehaviour {
 					&& y < (mapScale / 2) + (noManSeaScale/2);
 
 				if ( isInNoMansSea == false ) {
+
 					int x = Random.Range ( 0, mapScale );
 
-					if (Chunks[x,y].State == ChunkState.UndiscoveredSea) {
-						Chunks [x, y].IslandData = new IslandData(x,y);
+					Coords c = new Coords ( x , y );
+
+					if (GetChunk(c).State == ChunkState.UndiscoveredSea) {
+						GetChunk(c).IslandData = new IslandData(c);
 					}
 				}
 			}
@@ -79,6 +75,11 @@ public class MapGenerator : MonoBehaviour {
 	#endregion
 
 	#region tools
+	public Coords RandomCoords{
+		get {
+			return new Coords (Random.Range ( 0, mapScale ),Random.Range ( 0, mapScale ));
+		}
+	}
 	public int RandomX {
 		get {
 			return Random.Range ( 0, mapScale );
@@ -98,32 +99,20 @@ public class MapGenerator : MonoBehaviour {
 
 	#region load & save
 	public void LoadIslandsData () {
+		
 		MapData.Instance = new MapData ();
 
 		MapData.Instance = SaveManager.Instance.CurrentData.mapData;
 
-		Chunks = fromChunkArray (SaveManager.Instance.CurrentData.chunkArray);
+		chunks = SaveManager.Instance.CurrentData.chunks;
 
-		foreach (Chunk cun in chunks) {
-			if (cun.State == ChunkState.VisitedIsland)
-				print ("load visited island");
-		}
-
-		foreach (Chunk cun in chunks) {
-			if (cun.State == ChunkState.DiscoveredIsland)
-				print ("load discovered island");
-		}
-
-		foreach (Chunk cun in chunks) {
-			if (cun.State == ChunkState.DiscoveredSea)
-				print ("load discovered sea");
-		}
+//		Chunks = fromChunkArray (SaveManager.Instance.CurrentData.chunkArray);
 
 	}
 
 	public void SaveIslandsData () {
 		SaveManager.Instance.CurrentData.mapData = MapData.Instance;
-		SaveManager.Instance.CurrentData.chunkArray = toChunkArray (Chunks);
+		SaveManager.Instance.CurrentData.chunks = chunks;
 
 	}
 	public Chunk[][] toChunkArray ( Chunk[,] bufferChunks ) {
@@ -166,5 +155,22 @@ public class MapGenerator : MonoBehaviour {
 		get {
 			return mapScale;
 		}
+	}
+
+	public Chunk CurrentChunk {
+		get {
+			return chunks [NavigationManager.CurrentCoords];
+		}
+	}
+
+
+	public Chunk GetChunk (Coords c) {
+		if (chunks.ContainsKey (c) == false) {
+
+			Debug.LogError ("LES COORDONNEES " + c.ToString() + " ne sont pas dans le dico");
+
+			return chunks [new Coords ()];
+		}
+		return chunks [c];
 	}
 }

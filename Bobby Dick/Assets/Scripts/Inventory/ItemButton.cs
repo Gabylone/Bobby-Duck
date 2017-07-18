@@ -7,6 +7,8 @@ public class ItemButton : MonoBehaviour {
 	[SerializeField]
 	private LootUI lootUI;
 
+	private Item handledItem;
+
 	[Header("UI elements")]
 	[SerializeField] private Button button;
 
@@ -59,7 +61,7 @@ public class ItemButton : MonoBehaviour {
 		}
 	}
 
-	public int Param {
+	public int Value {
 		get {
 			return param;
 		}
@@ -117,6 +119,28 @@ public class ItemButton : MonoBehaviour {
 		}
 		set {
 			index = value;
+		}
+	}
+
+	public Item HandledItem {
+		get {
+			return handledItem;
+		}
+		set {
+			handledItem = value;
+
+			Name 		= handledItem.name;
+
+			if (HandledItem.category == ItemCategory.Misc)
+				Value = 0;
+			else
+				Value = handledItem.value;
+
+			Price 		= HandledItem.price;
+
+			Weight 		= HandledItem.weight;
+
+			Level 		= HandledItem.level;
 		}
 	}
 	#endregion

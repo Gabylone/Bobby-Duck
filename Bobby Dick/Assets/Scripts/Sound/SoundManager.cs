@@ -22,9 +22,72 @@ public class SoundManager : MonoBehaviour {
 
 	bool enableSound = true;
 
+	[Header("Inventory sounds")]
+	[SerializeField] private AudioClip eatSound;
+	[SerializeField] private AudioClip equipSound;
+	[SerializeField] private AudioClip sellSound;
+	[SerializeField] private AudioClip lootSound;
+
+	[Header ("Time sounds")]
+	[SerializeField] private AudioClip rainSound;
+	[SerializeField] private AudioClip daySound;
+	[SerializeField] private AudioClip nightSound;
+
 	void Start () {
 		EnableSound = true;
+
+		PlayerLootUI.Instance.useInventory += HandleUsePlayerInventory;
+		OtherLootUI.Instance.useInventory += HandleUseEnemyInventory;
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 	}
+
+	#region time
+	void HandleChunkEvent ()
+	{
+		AudioClip ambiantClip;
+		if (TimeManager.Instance.Raining)
+			ambiantClip = rainSound;
+		else if (TimeManager.Instance.IsNight)
+			ambiantClip = nightSound;
+		else
+			ambiantClip = daySound;
+
+		PlayAmbiance (ambiantClip);
+	}
+	#endregion
+
+	#region inventory
+	void HandleUsePlayerInventory (InventoryActionType actionType)
+	{
+		switch (actionType) {
+		case InventoryActionType.Eat:
+			PlaySound (eatSound);
+			break;
+		case InventoryActionType.Equip:
+			PlaySound (equipSound);
+			break;
+		case InventoryActionType.Throw:
+			PlaySound (equipSound);
+			break;
+		case InventoryActionType.Sell:
+			PlaySound (sellSound);
+			break;
+		default:
+			throw new System.ArgumentOutOfRangeException ();
+		}
+	}
+	void HandleUseEnemyInventory (InventoryActionType actionType)
+	{
+		switch (actionType) {
+		case InventoryActionType.PickUp:
+			PlaySound (equipSound);
+			break;
+		case InventoryActionType.Buy:
+			PlaySound (sellSound);
+			break;
+		}
+	}
+	#endregion
 
 	void Awake () {
 		Instance = this;
@@ -81,7 +144,7 @@ public class SoundManager : MonoBehaviour {
 
 			soundSource.enabled = value;
 			ambianceSource.enabled = value;
-			if ( value ) {
+			if (value) {
 				ambianceSource.Play ();
 			}
 

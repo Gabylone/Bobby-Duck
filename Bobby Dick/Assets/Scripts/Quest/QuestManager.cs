@@ -25,19 +25,15 @@ public class QuestManager : MonoBehaviour {
 					if (x == 0 && y == 0)
 						continue;
 
-					int posX = Boats.Instance.PlayerBoatInfo.PosX + x;
-					int posY = Boats.Instance.PlayerBoatInfo.PosY + y;
+					Coords coords = new Coords (NavigationManager.CurrentCoords.x + x, NavigationManager.CurrentCoords.y + y);
 
-					if (posX < 0 || posX >= MapGenerator.Instance.MapScale)
-						continue;
-
-					if (posY < 0 || posY >= MapGenerator.Instance.MapScale)
+					if (coords > MapGenerator.Instance.MapScale || coords < 0)
 						continue;
 					
-					Chunk chunk = MapGenerator.Instance.Chunks [posX, posY];
+					Chunk chunk = MapGenerator.Instance.GetChunk(coords);
 
 					if (chunk.IslandData != null) {
-						return new Coords (posX,posY);
+						return coords;
 					}
 
 				}
@@ -68,10 +64,8 @@ public class QuestManager : MonoBehaviour {
 
 		// check if player already has quest
 		if (quest != null) {
-			print ("la suite de la");
 			ReturnToGiver (quest);
 		} else {
-			print ("aucune quete comme ça, créer une nouvelle");
 			CreateNewQuest ();
 		}
 
@@ -93,12 +87,10 @@ public class QuestManager : MonoBehaviour {
 		currentQuests.Add (newQuest);
 
 		// set quest value
-		//		print ("lvl : "  );
-		print ("distance to quest : " + distToQuest);
 		newQuest.goldValue = distToQuest;
 
 		// show on map
-		MapGenerator.Instance.Chunks [c.x, c.y].State = ChunkState.DiscoveredIsland;
+		MapGenerator.Instance.GetChunk(c).State = ChunkState.DiscoveredIsland;
 		newQuest.ShowOnMap ();
 
 
@@ -219,6 +211,12 @@ public class QuestManager : MonoBehaviour {
 	public List<Quest> FinishedQuests {
 		get {
 			return finishedQuests;
+		}
+	}
+
+	public Quest CurrentQuest {
+		get {
+			return CurrentQuests.Find ( x=> x.targetCoords == NavigationManager.CurrentCoords);
 		}
 	}
 }

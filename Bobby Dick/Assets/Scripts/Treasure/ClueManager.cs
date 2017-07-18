@@ -94,21 +94,21 @@ public class ClueManager : MonoBehaviour {
 
 	public string getFormula () {
 
-		if ( MapData.Instance.currentChunk.IslandData.gaveClue == true) {
+		if ( MapGenerator.Instance.CurrentChunk.IslandData.gaveClue == true) {
 			return Clues [Random.Range (0,ClueIndex)];
 		}
 
-		MapData.Instance.currentChunk.IslandData.gaveClue = true;
+		MapGenerator.Instance.CurrentChunk.IslandData.gaveClue = true;
 		++ClueIndex;
 		return Clues[clueIndex];
 	}
 
 	public Vector2 GetNextClueIslandPos {
 		get {
-			if ( clueIndex == clues.Length ) 
-				return new Vector2 ( MapData.Instance.treasureIslandXPos , MapData.Instance.treasureIslandYPos );
+			if (clueIndex == clues.Length)
+				return (Vector2)MapData.Instance.treasureIslandCoords;
 
-			return new Vector2 ( MapData.Instance.clueIslandsXPos[ClueIndex] , MapData.Instance.clueIslandsYPos[ClueIndex] );
+			return (Vector2)MapData.Instance.clueIslandsCoords [clueIndex];
 		}
 	}
 

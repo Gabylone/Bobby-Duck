@@ -50,19 +50,19 @@ public class Island : MonoBehaviour {
 
 	#region story
 	public void Enter () {
-		StoryLauncher.Instance.PlayStory (MapData.Instance.currentChunk.IslandData.storyManager,StoryLauncher.StorySource.island);
+		StoryLauncher.Instance.PlayStory (MapGenerator.Instance.CurrentChunk.IslandData.storyManager,StoryLauncher.StorySource.island);
 	}
 	#endregion
 
 	#region render
 	public void UpdatePositionOnScreen() {
 
-		bool onIslandChunk = MapData.Instance.currentChunk.State == ChunkState.DiscoveredIsland || MapData.Instance.currentChunk.State == ChunkState.VisitedIsland || MapData.Instance.currentChunk.State == ChunkState.UndiscoveredIsland;
+		bool onIslandChunk = MapGenerator.Instance.CurrentChunk.State == ChunkState.DiscoveredIsland || MapGenerator.Instance.CurrentChunk.State == ChunkState.VisitedIsland || MapGenerator.Instance.CurrentChunk.State == ChunkState.UndiscoveredIsland;
 		gameObject.SetActive ( onIslandChunk );
 
 		if (onIslandChunk) {
-			getTransform.localPosition = MapData.Instance.currentChunk.IslandData.positionOnScreen;
-			GetComponentInChildren<Image> ().sprite = sprites [MapData.Instance.currentChunk.IslandData.SpriteID];
+			getTransform.localPosition = MapGenerator.Instance.CurrentChunk.IslandData.positionOnScreen;
+			GetComponentInChildren<Image> ().sprite = sprites [MapGenerator.Instance.CurrentChunk.IslandData.SpriteID];
 		} else {
 			getTransform.localPosition = new Vector3 (10000f, 0, 0);
 		}

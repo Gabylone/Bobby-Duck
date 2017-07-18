@@ -13,8 +13,7 @@ public class PlayerBoatInfo : BoatInfo {
 	{
 		base.Randomize ();
 
-		PosX = MapData.Instance.homeIslandXPos;
-		PosY = MapData.Instance.homeIslandYPos;
+		CurrentCoords = MapData.Instance.homeIslandCoords;
 	}
 
 	public override void UpdatePosition ()
@@ -22,14 +21,13 @@ public class PlayerBoatInfo : BoatInfo {
 		base.UpdatePosition ();
 
 		currentDirection = NavigationManager.Instance.CurrentDirection;
-		PosX += (int)NavigationManager.Instance.getDir (currentDirection).x;
-		PosY += (int)NavigationManager.Instance.getDir (currentDirection).y;
+		CurrentCoords += NavigationManager.Instance.getNewCoords (currentDirection);
 	}
 
 	public void CheckForNoMansSea () {
 		bool isInNoMansSea =
-			PosY > (MapGenerator.Instance.MapScale / 2) - (MapGenerator.Instance.NoManSeaScale/2)
-			&& PosY < (MapGenerator.Instance.MapScale / 2) + (MapGenerator.Instance.NoManSeaScale/2);
+			CurrentCoords.y > (MapGenerator.Instance.MapScale / 2) - (MapGenerator.Instance.NoManSeaScale/2)
+			&& CurrentCoords.y < (MapGenerator.Instance.MapScale / 2) + (MapGenerator.Instance.NoManSeaScale/2);
 
 		if (isInNoMansSea ) {
 
@@ -53,9 +51,9 @@ public class PlayerBoatInfo : BoatInfo {
 
 			int range = shipRange;
 
-			if (WeatherManager.Instance.Raining)
+			if (TimeManager.Instance.Raining)
 				range--;
-			if (WeatherManager.Instance.IsNight)
+			if (TimeManager.Instance.IsNight)
 				range--;
 
 			return Mathf.Clamp (range,0,10);
@@ -66,34 +64,17 @@ public class PlayerBoatInfo : BoatInfo {
 		}
 	}
 
-	public override int PosX {
+	public override Coords CurrentCoords {
 		get {
-			return base.PosX;
+			return base.CurrentCoords;
 		}
 		set {
-			
-			if (value < 0 || value > MapGenerator.Instance.MapScale - 1) {
+			base.CurrentCoords = value;
+
+			if (value.x < 0 || value.x > MapGenerator.Instance.MapScale - 1 || value.y < 0 || value.y > MapGenerator.Instance.MapScale - 1) {
 				DialogueManager.Instance.ShowNarratorTimed("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
-				Debug.Log ("exited map ?");
 			}
-
-			base.PosX = value;
 		}
 	}
 
-	public override int PosY {
-		get {
-			return base.PosY;
-		}
-		set {
-
-
-			if ( value < 0 || value > MapGenerator.Instance.MapScale-1) {
-				DialogueManager.Instance.ShowNarratorTimed ("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
-				Debug.Log ("exited map ?");
-			}
-
-			base.PosY = value;
-		}
-	}
 }

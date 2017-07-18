@@ -59,7 +59,7 @@ public class MemberCreator : MonoBehaviour {
 
 		overall.SetActive (false);
 
-		StoryLauncher.Instance.PlayStory (MapData.Instance.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
+		StoryLauncher.Instance.PlayStory (MapGenerator.Instance.CurrentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 	}
 

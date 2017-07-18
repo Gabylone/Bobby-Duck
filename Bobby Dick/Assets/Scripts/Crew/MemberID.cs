@@ -39,11 +39,13 @@ public class MemberID {
 			Lvl = crewParams.level;
 		} else {
 
+			Lvl = Random.Range (Crews.playerCrew.captain.Level - 3, Crews.playerCrew.captain.Level + 3);
+
 			if ( StoryReader.Instance.CurrentStoryHandler.storyType == StoryType.Quest ) {
 				Debug.Log ("l'histoire est une quete, donc la crew est du meme niveau que ma quete");
+				QuestManager.Instance.CurrentQuest.goldValue += (Lvl * 10);
+				QuestManager.Instance.CurrentQuest.experience += (Lvl * 10);
 			}
-
-			Lvl = Random.Range (Crews.playerCrew.captain.Level - 3, Crews.playerCrew.captain.Level + 3);
 		}
 
 		Lvl = Mathf.Clamp ( Lvl , 1 , 10 );

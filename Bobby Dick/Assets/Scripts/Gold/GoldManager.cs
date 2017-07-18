@@ -31,8 +31,8 @@ public class GoldManager : MonoBehaviour {
 	void Start () {
 		GoldAmount = startValue;
 
-		PlayerLoot.Instance.openInventory += Show;
-		PlayerLoot.Instance.closeInventory += Hide;
+		PlayerLootUI.Instance.openInventory += Show;
+		PlayerLootUI.Instance.closeInventory += Hide;
 
 		Hide ();
 	}

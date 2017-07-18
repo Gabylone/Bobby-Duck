@@ -56,6 +56,8 @@ public class BoatUpgradeManager : MonoBehaviour {
 		for (int i = 0; i < upgradeLevels.Length; i++) {
 			upgradeLevels [i] = 1;
 		}
+
+		PlayerLootUI.Instance.closeInventory += CloseUpgradeMenu;
 	}
 
 	public void ShowUpgradeMenu () {

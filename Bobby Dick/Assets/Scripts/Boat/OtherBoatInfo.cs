@@ -16,8 +16,7 @@ public class OtherBoatInfo : BoatInfo {
 	{
 		base.Randomize ();
 
-		PosX = Random.Range ( 0 , MapGenerator.Instance.MapScale );
-		PosY = Random.Range ( 0 , MapGenerator.Instance.MapScale );
+		CurrentCoords = MapGenerator.Instance.RandomCoords;
 
 		currentDirection = (Directions)Random.Range (0,8);
 
@@ -38,31 +37,26 @@ public class OtherBoatInfo : BoatInfo {
 
 	void MoveToOtherChunk ()
 	{
-		Vector2 p = NavigationManager.Instance.getDir (currentDirection);
+		Coords newCoords = NavigationManager.Instance.getNewCoords (currentDirection);
 
-		int newX = PosX + (int)p.x;
-		int newY = PosY + (int)p.y;
+		if (newCoords.x >= MapGenerator.Instance.MapScale - 1) {
 
-
-		if (newX >= MapGenerator.Instance.MapScale - 1) {
-
-			newX = PosX;
+			newCoords.x = CurrentCoords.x;
 			SwitchDirection ();
 
-		} else if (newX < 0) {
+		} else if (newCoords.x < 0) {
 
-			newX = PosX;
+			newCoords.x = CurrentCoords.x;
 			SwitchDirection ();
 			//
-		} else if (newY >= MapGenerator.Instance.MapScale - 1) {
+		} else if (newCoords.y>= MapGenerator.Instance.MapScale - 1) {
 
-			newY = PosY;
+			newCoords.y = CurrentCoords.y;
 			SwitchDirection ();
 
-		} else if (newY < 0) {
+		} else if (newCoords.y < 0) {
 
-			newY = PosY;
-
+			newCoords.y = CurrentCoords.y;
 			SwitchDirection ();
 
 		} else {
@@ -71,8 +65,7 @@ public class OtherBoatInfo : BoatInfo {
 			}
 		}
 
-		PosX = newX;
-		PosY = newY;
+		CurrentCoords = newCoords;
 
 	}
 

@@ -12,6 +12,8 @@
 
 	public int goldValue = 0;
 
+	public int experience = 0;
+
 	public int level = 0;
 
 	public Coords originCoords;
