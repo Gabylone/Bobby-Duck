@@ -35,6 +35,10 @@ public class ItemButton : MonoBehaviour {
 
 	bool enabled = false;
 
+	void Start () {
+		lootUI = GetComponentInParent<LootUI> ();
+	}
+
 	public void Select () {
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
 		lootUI.UpdateActionButton (index);

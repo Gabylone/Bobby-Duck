@@ -16,10 +16,6 @@ public class LootManager : MonoBehaviour {
 		Instance = this;
 	}
 
-	public void Init () {
-		WeightManager.Instance.UpdateDisplay ();
-	}
-
 	public void CreateNewLoot () {
 		Loot playerLoot = new Loot (0, 0);
 		playerLoot.Randomize (ItemCategory.Provisions);

@@ -58,7 +58,7 @@ public class StoryLauncher : MonoBehaviour {
 
 			Transitions.Instance.ActionTransition.Fade = playingStory;
 
-			PlayerLootUI.Instance.CanOpen = !value;
+			PlayerLoot.Instance.CanOpen = !value;
 
 			// place captain
 			Crews.PlacingType pT = playingStory ? Crews.PlacingType.Discussion : Crews.PlacingType.Map;

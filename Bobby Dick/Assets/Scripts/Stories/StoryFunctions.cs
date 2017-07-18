@@ -239,14 +239,14 @@ public class StoryFunctions : MonoBehaviour {
 	#region trade & loot
 	void Loot() {
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(getLootCategories()));
-		OtherLootUI.Instance.StartLooting ();
+		OtherLoot.Instance.StartLooting ();
 	}
 	void Trade() {
 
 		ItemLoader.Instance.Mult = 3;
 
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(getLootCategories()));
-		OtherLootUI.Instance.StartTrade ();
+		OtherLoot.Instance.StartTrade ();
 	}
 
 	public ItemCategory[] getLootCategories () {
@@ -293,17 +293,17 @@ public class StoryFunctions : MonoBehaviour {
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 		StoryReader.Instance.NextCell ();
 
-		if ( LootManager.GetLoot(Crews.Side.Player).getLoot[(int)targetCat].Length == 0 ) {
+		if ( LootManager.Instance.getLoot(Crews.Side.Player).getLoot[(int)targetCat].Length == 0 ) {
 			
 			StoryReader.Instance.SetDecal (1);
 
 		} else {
 
-			Item item = LootManager.GetLoot(Crews.Side.Player).getLoot [(int)targetCat] [0];
+			Item item = LootManager.Instance.getLoot(Crews.Side.Player).getLoot [(int)targetCat] [0];
 			if (CellParams.Contains ("<")) {
 				string itemName = cellParams.Split ('<') [1];
 				itemName = itemName.Remove (itemName.Length - 6);
-				item = System.Array.Find (LootManager.GetLoot(Crews.Side.Player).getLoot [(int)targetCat], x => x.name == itemName);
+				item = System.Array.Find (LootManager.Instance.getLoot(Crews.Side.Player).getLoot [(int)targetCat], x => x.name == itemName);
 				if (item == null) {
 					StoryReader.Instance.SetDecal (1);
 					StoryReader.Instance.UpdateStory ();
@@ -313,7 +313,7 @@ public class StoryFunctions : MonoBehaviour {
 
 			DialogueManager.Instance.LastItemName = item.name;
 
-			LootManager.GetLoot(Crews.Side.Player).RemoveItem (item);
+			LootManager.Instance.getLoot(Crews.Side.Player).RemoveItem (item);
 
 		}
 
@@ -339,7 +339,7 @@ public class StoryFunctions : MonoBehaviour {
 		if (item != null) {
 			DialogueManager.Instance.LastItemName = item.name;
 
-			LootManager.GetLoot(Crews.Side.Player).AddItem (item);
+			LootManager.Instance.getLoot(Crews.Side.Player).AddItem (item);
 		}
 
 		StoryReader.Instance.NextCell ();
@@ -354,7 +354,7 @@ public class StoryFunctions : MonoBehaviour {
 
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 
-		Item item = System.Array.Find (LootManager.GetLoot(Crews.Side.Player).getCategory (targetCat), x => x.name == itemName);
+		Item item = System.Array.Find (LootManager.Instance.getLoot(Crews.Side.Player).getCategory (targetCat), x => x.name == itemName);
 
 		if (item == null) {
 			StoryReader.Instance.SetDecal (1);

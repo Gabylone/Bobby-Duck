@@ -10,9 +10,9 @@ public class UiIcon : MonoBehaviour {
 	// Use this for initialization
 	public virtual void Start () {
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;;
-		PlayerLootUI.Instance.closeInventory += HandleCloseInventory;
-		PlayerLootUI.Instance.openInventory += HandleOpenInventory;
-		PlayerLootUI.Instance.useInventory += HandleUseInventory;
+		PlayerLoot.Instance.closeInventory += HandleCloseInventory;
+		PlayerLoot.Instance.openInventory += HandleOpenInventory;
+		PlayerLoot.Instance.LootUI.useInventory += HandleUseInventory;
 
 		UpdateUI ();
 	}

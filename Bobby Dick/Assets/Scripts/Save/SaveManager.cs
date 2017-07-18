@@ -88,7 +88,7 @@ public class SaveManager : MonoBehaviour
 		MapGenerator.Instance.SaveIslandsData ();
 
 		// player loot
-		currentData.playerLoot = LootManager.GetLoot (Crews.Side.Player);
+		currentData.playerLoot = LootManager.Instance.getLoot (Crews.Side.Player);
 
 		// gold
 		CurrentData.playerGold = GoldManager.Instance.GoldAmount;

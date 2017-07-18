@@ -94,6 +94,8 @@ public class CombatManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject actionFeedback;
 	private ActionType actionType;
+	[SerializeField]
+	private CategoryContent categoryFightContent;
 
 	public delegate void FightStarting ();
 	public FightStarting fightStarting;
@@ -262,7 +264,9 @@ public class CombatManager : MonoBehaviour {
 			ChangeState (States.PlayerMemberChoice);
 			break;
 		case ActionType.Eating:
-			PlayerLootUI.Instance.Show (categoryFightContent);
+
+			PlayerLoot.Instance.Open (categoryFightContent);
+			PlayerLoot.Instance.CrewGroup.SetActive (false);
 			break;
 		default:
 			throw new System.ArgumentOutOfRangeException ();
@@ -573,7 +577,7 @@ public class CombatManager : MonoBehaviour {
 
 	void ShowLoot () {
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(ItemLoader.allCategories));
-		OtherLootUI.Instance.StartLooting ();
+		OtherLoot.Instance.StartLooting ();
 	}
 
 	public void Escape () {
@@ -749,6 +753,8 @@ public class CombatManager : MonoBehaviour {
 		}
 		set {
 			fighting = value;
+
+			PlayerLoot.Instance.CanOpen = !value;
 
 			if (fighting) {
 				

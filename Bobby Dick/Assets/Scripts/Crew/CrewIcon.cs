@@ -126,8 +126,7 @@ public class CrewIcon : MonoBehaviour {
 
 		OnPointerExit ();
 
-		PlayerLootUI.Instance.selectedMemberIndex = id;
-		PlayerLootUI.Instance.Show ();
+		PlayerLoot.Instance.Open (id);
 		
 	}
 	#endregion

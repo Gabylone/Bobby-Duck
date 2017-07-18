@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour {
 		Transitions.Instance.ScreenTransition.Fade = false;
 
 		ItemLoader.Instance.Init ();
-		LootManager.Instance.Init ();
 		ClueManager.Instance.Init ();
 		Crews.Instance.Init ();
 
@@ -51,9 +50,9 @@ public class GameManager : MonoBehaviour {
 		if (KeepOnLoad.dataToLoad < 0) {
 			MemberCreator.Instance.Show ();
 			Transitions.Instance.ActionTransition.Fade = true;
-		} else {
-			
 		}
+
+		WeightManager.Instance.Init ();
 
 	}
 

@@ -111,7 +111,6 @@ public class Loot {
 		loot [(int)newItem.category] = newItems;
 
 		weight += newItem.weight;
-		WeightManager.Instance.UpdateDisplay ();
 	}
 
 	public void RemoveItem ( Item itemToRemove ) {
@@ -134,9 +133,6 @@ public class Loot {
 		loot [(int)category] = newItems;
 
 		weight -= itemToRemove.weight;
-		WeightManager.Instance.UpdateDisplay ();
-
-
 
 	}
 	#endregion

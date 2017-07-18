@@ -36,8 +36,8 @@ public class SoundManager : MonoBehaviour {
 	void Start () {
 		EnableSound = true;
 
-		PlayerLootUI.Instance.useInventory += HandleUsePlayerInventory;
-		OtherLootUI.Instance.useInventory += HandleUseEnemyInventory;
+		PlayerLoot.Instance.LootUI.useInventory += HandleUsePlayerInventory;
+		OtherLoot.Instance.LootUi.useInventory += HandleUseEnemyInventory;
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 	}
 

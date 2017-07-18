@@ -52,10 +52,7 @@ public class PlayerLoot : MonoBehaviour {
 	[SerializeField]
 	private Transform crewCanvas;
 
-	[Header("Sounds")]
-	[SerializeField] private AudioClip eatSound;
-	[SerializeField] private AudioClip equipSound;
-	[SerializeField] private AudioClip sellSound;
+	private bool ateSomething = false;
 
 	[SerializeField]
 	private ActionGroup actionGroup;
@@ -76,17 +73,38 @@ public class PlayerLoot : MonoBehaviour {
 		inventoryCard.Init ();
 
 		crewGroup.SetActive (false);
+
+		lootUI.useInventory += HandleUseInventory;
+	}
+
+	void HandleUseInventory (InventoryActionType actionType)
+	{
+
+
+		switch (actionType) {
+		case InventoryActionType.Eat:
+			EatItem ();
+			break;
+		case InventoryActionType.Equip:
+			EquipItem ();
+			break;
+		case InventoryActionType.Throw:
+			ThrowItem ();
+			break;
+		case InventoryActionType.Sell:
+			SellItem ();
+			break;
+		default:
+			break;
+		}
 	}
 
 	#region button action
 
-	bool ateSomething = false;
 
-	public void Eat () {
+	public void EatItem () {
 
 		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
-
-		SoundManager.Instance.PlaySound (eatSound);
 
 		targetMember.Health += lootUI.SelectedItem.value;
 		targetMember.CurrentHunger -= (int)(lootUI.SelectedItem.value * 1.7f);
@@ -104,7 +122,7 @@ public class PlayerLoot : MonoBehaviour {
 
 	}
 
-	public void Equip () {
+	public void EquipItem () {
 
 		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
 
@@ -126,25 +144,19 @@ public class PlayerLoot : MonoBehaviour {
 
 		targetMember.SetEquipment (part, lootUI.SelectedItem);
 
-		SoundManager.Instance.PlaySound (equipSound);
-
 		PlayerLoot.Instance.inventoryCard.UpdateMember (targetMember);
 
 		RemoveSelectedItem ();
 	}
 
-	public void Throw () {
+	public void ThrowItem () {
 
 		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
-
-		SoundManager.Instance.PlaySound (equipSound);
 
 		RemoveSelectedItem ();
 	}
 
-	public void Sell () {
-
-		SoundManager.Instance.PlaySound (sellSound);
+	public void SellItem () {
 
 		GoldManager.Instance.GoldAmount += lootUI.SelectedItem.price;
 
@@ -189,6 +201,7 @@ public class PlayerLoot : MonoBehaviour {
 		Open (inventoryCategoryContent);
 	}
 	public void Open (CategoryContent categorycontent) {
+		
 		Opened = true;
 		lootUI.Show (categorycontent);
 
@@ -254,10 +267,8 @@ public class PlayerLoot : MonoBehaviour {
 		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (parent);
 
 		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.localPosition = Vector3.zero;
-//		inventoryCards[i].UpdateMember (Crews.playerCrew.CrewMembers[i]);
 		inventoryCard.UpdateMember (Crews.playerCrew.CrewMembers[i]);
 		Crews.playerCrew.CrewMembers [i].Icon.Overable = false;
-
 	}
 
 	public void HideMember (int i ) {

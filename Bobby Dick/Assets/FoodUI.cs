@@ -20,7 +20,7 @@ public class FoodUI : UiIcon {
 	{
 		base.UpdateUI ();
 
-		int allFood = LootManager.GetLoot (Crews.Side.Player).getCategory(ItemCategory.Provisions).Length;
+		int allFood = LootManager.Instance.getLoot (Crews.Side.Player).getCategory(ItemCategory.Provisions).Length;
 
 		string s = "" + allFood;
 

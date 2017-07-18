@@ -1,19 +1,10 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Inventory\LootUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Inventory\ItemButton.cs">
     <Files>
-      <File FileName="Assets\Scripts\Inventory\LootUI.cs" Line="201" Column="85" />
-      <File FileName="Assets\Scripts\Inventory\PlayerLootUI.cs" Line="9" Column="8" NotebookId="1" />
-      <File FileName="Assets\Scripts\Map\MapImage.cs" Line="74" Column="38" NotebookId="1" />
-      <File FileName="Assets\Scripts\Inventory\LootManager.cs" Line="7" Column="37" NotebookId="1" />
-      <File FileName="Assets\UiIcon.cs" Line="20" Column="34" NotebookId="1" />
-      <File FileName="Assets\Scripts\Sound\SoundManager.cs" Line="29" Column="1" NotebookId="1" />
-      <File FileName="Assets\Scripts\Inventory\InventoryCard.cs" Line="88" Column="1" NotebookId="1" />
-      <File FileName="Assets\FoodUI.cs" Line="23" Column="36" NotebookId="1" />
-      <File FileName="Assets\Scripts\Inventory\OtherLootUI.cs" Line="33" Column="17" NotebookId="1" />
-      <File FileName="Assets\Scripts\Boat\BoatUpgradeManager.cs" Line="60" Column="24" NotebookId="1" />
-      <File FileName="Assets\Scripts\Combat\CombatManager.cs" Line="106" Column="2" NotebookId="1" />
-      <File FileName="Assets\Scripts\Crew\CrewIcon.cs" Line="129" Column="50" NotebookId="1" />
+      <File FileName="Assets\Scripts\Inventory\PlayerLoot.cs" Line="200" Column="28" />
+      <File FileName="Assets\Scripts\Crew\CrewIcon.cs" Line="129" Column="33" />
+      <File FileName="Assets\Scripts\Inventory\ItemButton.cs" Line="40" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -27,9 +27,13 @@ public class WeightManager : MonoBehaviour {
 		Instance = this;
 	}
 
-	void Start () {
-		PlayerLootUI.Instance.openInventory += Show;
-		PlayerLootUI.Instance.closeInventory += Hide;
+	public void Init () {
+		PlayerLoot.Instance.openInventory += Show;
+		PlayerLoot.Instance.closeInventory += Hide;
+
+		NavigationManager.Instance.EnterNewChunk += UpdateDisplay;
+
+		PlayerLoot.Instance.LootUI.useInventory += UpdateDisplay;
 
 		Hide ();
 	}
@@ -56,8 +60,13 @@ public class WeightManager : MonoBehaviour {
 		return true;
 
 	}
+	public void UpdateDisplay (InventoryActionType inventoryActionType) {
+		UpdateDisplay ();
+	}
 	public void UpdateDisplay () {
-		currentWeightText.text = CurrentWeight + "<color=black>\n/" + CurrentCapacity + "</color>";
+		currentWeightText.text = "" + CurrentWeight;
+		print ("current wirhgt : " + CurrentWeight);
+		weightImage.fillAmount = CurrentWeight / CurrentCapacity;
 	}
 	#endregion
 
@@ -81,10 +90,7 @@ public class WeightManager : MonoBehaviour {
 	#region properties
 	public int CurrentWeight {
 		get {
-			if ( LootManager.GetLoot(Crews.Side.Player) != null )
-				return LootManager.GetLoot(Crews.Side.Player).weight;
-
-			else return 0;
+			return LootManager.Instance.getLoot (Crews.Side.Player).weight;
 		}
 	}
 

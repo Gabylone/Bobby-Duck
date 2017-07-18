@@ -52,8 +52,8 @@ public class Karma : MonoBehaviour {
 
 		UpdateUI ();
 
-		PlayerLootUI.Instance.openInventory += Show;
-		PlayerLootUI.Instance.closeInventory += Hide;
+		PlayerLoot.Instance.openInventory += Show;
+		PlayerLoot.Instance.closeInventory += Hide;
 
 		Visible = false;
 

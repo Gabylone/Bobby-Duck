@@ -2,9 +2,23 @@
 using UnityEngine.UI;
 using System.Collections;
 
+public enum InventoryActionType {
+
+	Eat,
+	Equip,
+	Throw,
+	Sell,
+	Buy,
+	PickUp
+
+}
+
 public class LootUI : MonoBehaviour {
 
 	private int currentCat = 0;
+
+	public delegate void UseInventory ( InventoryActionType actionType );
+	public UseInventory useInventory;
 
 	[SerializeField]
 	private GameObject lootObj;
@@ -18,21 +32,26 @@ public class LootUI : MonoBehaviour {
 	[SerializeField]
 	private GameObject itemButtonGroup;
 	private ItemButton[] itemButtons = new ItemButton[0];
-
-	private int currentPage 	= 0;
-	private int maxPage 		= 0;
-
+	private Item[] selectedItems;
 	private int selectionIndex = 0;
+
 
 	[Header("Categories")]
 	[SerializeField] private Button[] categoryButtons;
 	private CategoryContent categoryContent;
+	[SerializeField]
+	private Sprite[] categorySprites;
 
 	[Header("Pages")]
 	[SerializeField] private GameObject previousPageButton;
 	[SerializeField] private GameObject nextPageButton;
+	private int currentPage 	= 0;
+	private int maxPage 		= 0;
 
-	private Item[] selectedItems;
+	[Header("Actions")]
+	[SerializeField]
+	private ActionGroup actionGroup;
+
 
 	void Awake () {
 		Init ();
@@ -85,18 +104,7 @@ public class LootUI : MonoBehaviour {
 
 //				Debug.Log (a.ToString ());
 				Item item = SelectedItems[a];
-
-				itemButton.gameObject.SetActive (true);
-
-				itemButton.Name 		= item.name;
-
-				itemButton.Param 		= CategoryContent.itemCategories[currentCat].categories[0] != ItemCategory.Misc ? item.value : 0;
-
-				itemButton.Price 		= item.price;
-
-				itemButton.Weight 		= item.weight;
-
-				itemButton.Level 		= item.level;
+				itemButton.HandledItem = item;
 
 			}
 
@@ -106,8 +114,7 @@ public class LootUI : MonoBehaviour {
 	}
 	#endregion
 
-	[SerializeField]
-	private ActionGroup actionGroup;
+
 
 	#region category navigation
 	public void SwitchCategory ( int cat ) {
@@ -121,13 +128,6 @@ public class LootUI : MonoBehaviour {
 		currentPage = 0;
 
 		UpdateLootUI ();
-
-		SetActionButtons ();
-	}
-
-	private void SetActionButtons (){ 
-
-
 
 	}
 
@@ -157,9 +157,6 @@ public class LootUI : MonoBehaviour {
 			return categoryContent;
 		}
 	}
-
-	[SerializeField]
-	private Sprite[] categorySprites;
 
 	private void UpdateCategoryButtons () {
 
@@ -217,6 +214,10 @@ public class LootUI : MonoBehaviour {
 	#endregion
 
 	#region action button
+	public void InventoryAction ( int i ) {
+		if (useInventory != null)
+			useInventory ((InventoryActionType)i);
+	}
 	public void UpdateActionButton (int itemIndex) {
 
 		if ( currentCat >= CategoryContent.interactable.Length ) {

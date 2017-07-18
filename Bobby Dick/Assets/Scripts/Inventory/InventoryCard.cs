@@ -85,10 +85,10 @@ public class InventoryCard : Card {
 
 	public void RemoveItem (int i) {
 
-		LootManager.GetLoot(Crews.Side.Player).AddItem (PlayerLootUI.Instance.SelectedMember.Equipment [i]);
+		LootManager.Instance.getLoot(Crews.Side.Player).AddItem (PlayerLoot.Instance.SelectedMember.Equipment [i]);
 
-		PlayerLootUI.Instance.SelectedMember.Equipment [i] = null;
-		PlayerLootUI.Instance.LootUI.UpdateLootUI ();
+		PlayerLoot.Instance.SelectedMember.Equipment [i] = null;
+		PlayerLoot.Instance.LootUI.UpdateLootUI ();
 
 		UpdateMember (currentMember);
 	}

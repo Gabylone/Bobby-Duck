@@ -71,7 +71,7 @@ public class MapImage : MonoBehaviour {
 	#region initialization
 	public void Init () {
 		NavigationManager.Instance.EnterNewChunk += UpdateBoatSurroundings;
-		PlayerLootUI.Instance.openInventory += CloseMap;
+		PlayerLoot.Instance.openInventory += CloseMap;
 	}
 
 	public void Reset ()
@@ -341,7 +341,7 @@ public class MapImage : MonoBehaviour {
 		closeButton_Obj.SetActive (true);
 		openButton_Obj.SetActive (false);
 
-		PlayerLootUI.Instance.Close ();
+		PlayerLoot.Instance.Close ();
 
 		CenterOnBoat ();
 	}

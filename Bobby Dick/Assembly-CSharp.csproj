@@ -92,8 +92,8 @@
      <Compile Include="Assets\Scripts\Inventory\Loot.cs" />
      <Compile Include="Assets\Scripts\Inventory\LootManager.cs" />
      <Compile Include="Assets\Scripts\Inventory\LootUI.cs" />
-     <Compile Include="Assets\Scripts\Inventory\OtherLootUI.cs" />
-     <Compile Include="Assets\Scripts\Inventory\PlayerLootUI.cs" />
+     <Compile Include="Assets\Scripts\Inventory\OtherLoot.cs" />
+     <Compile Include="Assets\Scripts\Inventory\PlayerLoot.cs" />
      <Compile Include="Assets\Scripts\Inventory\WeightManager.cs" />
      <Compile Include="Assets\Scripts\Island\Island.cs" />
      <Compile Include="Assets\Scripts\Island\IslandButton.cs" />
