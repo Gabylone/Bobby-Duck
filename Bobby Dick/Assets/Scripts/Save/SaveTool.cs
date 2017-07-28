@@ -40,7 +40,10 @@ public class SaveTool : MonoBehaviour
 
 	#region Load
 	public string getPath ( int index ) {
-		string path = Application.persistentDataPath + dataPathSave + index.ToString () + ".xml";
+		string path = Application.dataPath + dataPathSave + index.ToString () + ".xml";
+		if ( Application.isMobilePlatform )
+			path = Application.persistentDataPath + dataPathSave + index.ToString () + ".xml";
+
 		return path;
 	}
 	public GameData Load(int index)

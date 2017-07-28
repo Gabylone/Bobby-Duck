@@ -81,7 +81,7 @@ public class MapImage : MonoBehaviour {
 
 	public void InitImage () {
 
-//		islandButtonFactor = 8;
+		islandButtons.Clear ();
 
 		islandButtonFactor = targetImage.GetComponent<RectTransform>().rect.width / (float)MapGenerator.Instance.MapScale;
 
@@ -90,7 +90,6 @@ public class MapImage : MonoBehaviour {
 		for ( int x = 0; x < MapGenerator.Instance.MapScale; ++x ) {
 
 			for (int y = 0; y < MapGenerator.Instance.MapScale; ++y ) {
-
 
 				Coords c = new Coords (x, y);
 				Chunk chunk = MapGenerator.Instance.GetChunk(c);
@@ -133,6 +132,10 @@ public class MapImage : MonoBehaviour {
 		button.GetComponent<RectTransform>().localPosition = new Vector2 (pX,pY);
 
 		button.GetComponent<IslandButton> ().Init (c);
+
+		if (islandButtons.ContainsKey (c)) {
+			return;
+		}
 
 		islandButtons.Add (c, button.GetComponent<IslandButton> ());
 	}

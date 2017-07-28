@@ -1,12 +1,11 @@
-﻿public class Quest {
+﻿[System.Serializable]
+public class Quest {
 
 	public enum QuestState {
 		Started,
 		Returning,
 		Finished
 	}
-
-	public QuestState questState = QuestState.Started;
 
 	public int questID = 0;
 
@@ -19,7 +18,10 @@
 	public Coords originCoords;
 	public Coords targetCoords;
 
+	public Node targetNodeWhenCompleted;
+
 	public Quest () {
+		//
 
 	}
 

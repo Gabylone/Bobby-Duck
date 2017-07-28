@@ -1,0 +1,48 @@
+Nom;Fréquence %;Sprite ID;;;;;
+Le livre de recettes;100;0;;;;;
+[debut];;;;;;;
+OtherSpeak : Oui, je suis cuisinier;;;;;;;
+RandomRange2;;;;;;;
+OtherSpeak : J'ai besoin du livre de recettes de ma grand-mère;OtherSpeak : Impossible de retrouver mon livre de cuisine;;;;;;
+OtherSpeak : Elle vit sur cette île;OtherSpeak : Vous m'en donneriez pas un ?;;;;;;
+SetQuestOnMap;Leave;;;;;;
+Leave;;;;;;;
+;;;;;;;
+;;;;;;;
+;;;;;;;
+[suite];;;;;;;
+Narrator : Une vielle dame médite, assise sur un banc.;;;;;;;
+NewCrew1/F;;;;;;;
+SetChoices2;;;;;;;
+Choice : (continuer sa route);Choice : (parler);;;;;;
+HideOther;PlayerSpeak : Hola !;;;;;;
+Leave;OtherSpeak : Oui ?;;;;;;
+;SetChoices3;;;;;;
+;Choice : Votre petit fils a besoin d'aide !;;;;Choice : Donnez moi le livre de recette !(str);;Choice : Non rien
+;RandomRange2;;;;CheckStatSTR;;HideOther
+;OtherSpeak : Qu'est-ce que ça peut bien me faire ?;;;;Node=>demande;Node=>combat;Leave
+;SetChoices2;;;;;;
+;Choice : Aidez le ou je le prend de force(str);;Choice : Allez soyez sympa quoi(cha);;;;
+;CheckStatSTR;;CheckStatCHA;;;;
+;Node=>demande;Node=>combat;Node=>demande;Node=>combat;;;
+;;;;;;;
+;;;;;;;
+;;;;;;;
+[demande];;[combat];;;;;
+OtherSpeak : Heh là, calmez vous mon mignon.;;OtherSpeak : Pour ce voleur ? Il va falloir passer sur mon corps;;;;;
+OtherSpeak : Tenez;;LaunchCombat;;;;;
+AddToInventory<Livre de recettes>/Misc;;AddToInventory<Livre de recettes>/Misc;;;;;
+OtherSpeak : Donnez ça à mon petit chéri;;SendPlayerBackToGiver;;;;;
+SendPlayerBackToGiver;;Leave;;;;;
+HideOther;;fefezdfed;;;;;
+Leave;;;;;;;
+;;;;;;;
+;;;;;;;
+;;;;;;;
+;;;;;;;
+[fin];;;;;;;
+CheckInInventory<Livre de recettes>/Misc;;;;;;;
+PlayerSpeak : Voilà voilà;OtherSpeak : Ou est mon livre de recettes !;;;;;;
+OtherSpeak : Gé-nial !;OtherSpeak : Je suis très peu inspiré sans lui !;;;;;;
+FinishQuest;Leave;;;;;;
+Leave;;;;;;;

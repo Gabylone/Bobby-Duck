@@ -85,9 +85,9 @@ public class Card : MonoBehaviour {
 
 			// STATES
 		float[] values = new float[2] { member.CurrentHunger, member.CurrentCold };
-
-		stateFeedbacks [0].fillAmount = values[0] / member.MaxState;
-		stateFeedbacks [0].color = values[0] >= member.MaxState ? Color.red : Color.white;
+//
+//		stateFeedbacks [0].fillAmount = values[0] / member.MaxState;
+//		stateFeedbacks [0].color = values[0] >= member.MaxState ? Color.red : Color.white;
 //		stateWarnings[0].enabled = values[0] >= member.MaxState;
 
 //		stateAnimators[0].SetBool ("Warning",values[0] >= member.MaxState);

@@ -47,3 +47,4 @@ NewQuest;ajoute une quete au journal;;
 CheckQuest;vérifie si le joueur à une quête;;
 SendPlayerBackToGiver;renvoie le joueur au donneur de quête;;
 FinishQuest;supprime la quete;;
+SetQuestOnMap;montre la quete actuelle sur la carte;;

@@ -18,17 +18,26 @@ public class BoatUpgradeManager : MonoBehaviour {
 		Instance = this;
 	}
 
+	[Header("Name & Level")]
 	[SerializeField]
-	private Text boatNameText;
+	private Text nameTextUI;
 	[SerializeField]
-	private Text boatLevelText;
-	private int boatCurrentLevel = 1;
+	private Text levelTextUI;
+	[SerializeField]
+	private Image levelImage;
+	private int currentLevel = 1;
 
+	[Header("UI Groups")]
 	[SerializeField]
 	private GameObject tradingGroup;
-
 	[SerializeField]
 	private GameObject infoGroup;
+	[SerializeField]
+	private GameObject openButton;
+	[SerializeField]
+	private GameObject menuObj;
+	[SerializeField]
+	private GameObject closeButton;
 
 	[Header("Crew")]
 	[SerializeField]
@@ -41,13 +50,13 @@ public class BoatUpgradeManager : MonoBehaviour {
 	private Text[] levelTexts;
 	[SerializeField]
 	private float[] upgradePrices = new float[3];
+	[SerializeField]
+	private Image[] upgradeImages;
 	private int [] upgradeLevels = new int[3] {1,1,1};
+	private int upgradeMaxLevel = 5;
 
 	[Header("Sounds")]
 	[SerializeField] private AudioClip upgradeSound;
-
-	[SerializeField]
-	private UIButton upgradeUIButton;
 
 	void Start () {
 		Trading = false;
@@ -62,15 +71,15 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 	public void ShowUpgradeMenu () {
 
-		upgradeUIButton.Opened = true;
+		menuObj.SetActive (true);
 
 		UpdateInfo ();
 
-		boatNameText.text = Boats.Instance.PlayerBoatInfo.Name;
+		nameTextUI.text = Boats.Instance.PlayerBoatInfo.Name;
 	}
 
 	public void CloseUpgradeMenu () {
-		upgradeUIButton.Opened = false;
+		menuObj.SetActive (false);
 	}
 
 
@@ -84,7 +93,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 			Crews.playerCrew.MemberCapacity += 1;
 			break;
 		case UpgradeType.Cargo:
-			WeightManager.Instance.CurrentCapacity *= 2;
+			WeightManager.Instance.CurrentCapacity += 50;
 			break;
 		case UpgradeType.Longview:
 			Boats.Instance.PlayerBoatInfo.ShipRange++;
@@ -95,7 +104,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		SoundManager.Instance.PlaySound (upgradeSound);
 
-		++boatCurrentLevel;
+		++currentLevel;
 		++upgradeLevels [i];
 
 		UpdateInfo ();
@@ -109,12 +118,14 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		for (int i = 0; i < levelTexts.Length; ++i ) {
 			levelTexts [i].text = "" + upgradeLevels [i];
+			upgradeImages [i].fillAmount = (float)upgradeLevels [i] / (float)upgradeMaxLevel;
 		}
 
 		for (int i = 0; i < goldTexts.Length; ++i)
 			goldTexts[i].text = "" + upgradePrices[i];
 
-		boatLevelText.text = "" + boatCurrentLevel;
+		levelTextUI.text = "" + currentLevel;
+		levelImage.fillAmount = (float)currentLevel / (float)(upgradeMaxLevel*3);
 
 		for (int i = 0; i < crewIcons.Length; ++i ) {
 			crewIcons [i].SetActive (i <= Crews.playerCrew.MemberCapacity);

@@ -4,7 +4,7 @@ public class Node {
 	public string name;
 	public int x, y;
 
-	public bool switched;
+	public int decal;
 
 	public Node () {
 		
@@ -14,7 +14,7 @@ public class Node {
 		name = n;
 		x = p1;
 		y = p2;
-		switched = false;
+		decal = 0;
 	}
 
 }

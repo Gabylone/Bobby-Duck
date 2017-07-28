@@ -1,0 +1,12 @@
+Nom;Fréquence / 5;Sprite ID
+Départ – Ile deserte;0;1
+[premiere visite];;
+Narrator : Naufragé depuis plus d'un an, CAPITAINE n'a quasiment plus rien à mangé. Il est temps pour lui de partir à bord de son bateau construit de bambous et d'os, BATEAU, et de chercher la richesse auprès du trésor de Bobby Dick.;Node=>retour;
+PlayerSpeak : En route !;;
+Switch=>premiere visite;;
+Leave;;
+;;
+;;
+[retour];;
+Narrator : La vielle île naufragé de CAPITAINE. Les années passées dans cette prison ne lui donne pas envie de s'éterniser.;;[partir]
+ChangeStory=>Ile deserte[ile sans arbuste/partir];;Leave

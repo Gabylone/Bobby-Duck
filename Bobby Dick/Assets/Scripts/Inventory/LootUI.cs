@@ -217,6 +217,8 @@ public class LootUI : MonoBehaviour {
 	public void InventoryAction ( int i ) {
 		if (useInventory != null)
 			useInventory ((InventoryActionType)i);
+		else
+			print ("no function liked to the event : use inventory");
 	}
 	public void UpdateActionButton (int itemIndex) {
 

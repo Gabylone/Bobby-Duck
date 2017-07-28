@@ -1,23 +1,58 @@
 Vêtement;Description;Value;$;W;LVL
-Habit de noble;C'est un habit de noble;10;21;5;1
-Marcel;C'est un marcel;11;24;6;1
-Toge en tissu;C'est un toge en tissu;13;27;7;1
-Habit de paysan;C'est un habit de paysan;13;34;7;1
-Tenue de voyageur;C'est un tenue de voyageur;14;32;7;1
-Fourrure;C'est un fourrure;15;37;8;1
-Salopette;C'est un salopette;16;34;8;1
-Habit de mineur;C'est un habit de mineur;17;37;9;1
-Chemise de maille;C'est un chemise de maille;22;49;11;2
-Armure de parade;C'est un armure de parade;26;52;13;2
-Armure de bois;C'est un armure de bois;26;54;13;2
-Cuirasse rouillée;C'est un cuirasse rouillée;24;50;12;2
-Harnais de cuir;C'est un harnais de cuir;22;54;11;2
-Veste renforcée;C'est un veste renforcée;30;67;15;2
-Plastron de cuir;C'est un plastron de cuir;36;77;18;3
-Epaulières;C'est un epaulières;35;78;18;3
-Tenue d'officier;C'est un tenue d'officier;39;79;20;3
-Habit de bandit;C'est un habit de bandit;36;75;18;3
-Plastron de fer;C'est un plastron de fer;60;127;30;4
-Cotte de maille;C'est un cotte de maille;60;127;30;4
-Armure en acier;C'est un armure en acier;65;136;33;5
-Armure en plaque;C'est un armure en plaque;90;184;45;6
+Habit de noble;C'est un habit de noble;10;22;5;1
+Marcel;C'est un marcel;11;29;6;1
+Toge en tissu;C'est un toge en tissu;11;27;6;1
+Habit de paysan;C'est un habit de paysan;13;26;7;1
+Tenue de voyageur;C'est un tenue de voyageur;14;36;7;1
+Fourrure;C'est un fourrure;15;38;8;1
+Salopette;C'est un salopette;16;39;8;1
+Habit de mineur;C'est un habit de mineur;17;38;9;1
+Chemise de maille;C'est un chemise de maille;24;51;12;2
+Armure de parade;C'est un armure de parade;22;48;11;2
+Armure de bois;C'est un armure de bois;20;42;10;2
+Cuirasse rouillée;C'est un cuirasse rouillée;24;49;12;2
+Harnais de cuir;C'est un harnais de cuir;30;62;15;2
+Veste renforcée;C'est un veste renforcée;20;40;10;2
+Plastron de cuir;C'est un plastron de cuir;36;74;18;3
+Epaulières;C'est un epaulières;35;80;18;3
+Tenue d'officier;C'est un tenue d'officier;33;74;17;3
+Habit de bandit;C'est un habit de bandit;33;70;17;3
+Plastron de fer;C'est un plastron de fer;36;76;18;3
+Cotte de maille;C'est un cotte de maille;45;100;23;3
+Chemise de maille;C'est un chemise de maille;44;94;22;4
+Armure de parade;C'est un armure de parade;56;113;28;4
+Armure de bois;C'est un armure de bois;52;109;26;4
+Cuirasse rouillée;C'est un cuirasse rouillée;56;118;28;4
+Harnais de cuir;C'est un harnais de cuir;40;88;20;4
+Veste renforcée;C'est un veste renforcée;48;100;24;4
+Plastron de cuir;C'est un plastron de cuir;75;151;38;5
+Epaulières;C'est un epaulières;35;77;18;5
+Tenue d'officier;C'est un tenue d'officier;65;140;33;5
+Habit de bandit;C'est un habit de bandit;70;143;35;5
+Plastron de fer;C'est un plastron de fer;75;157;38;5
+Cotte de maille;C'est un cotte de maille;70;143;35;5
+Chemise de maille;C'est un chemise de maille;60;124;30;6
+Armure de parade;C'est un armure de parade;84;170;42;6
+Armure de bois;C'est un armure de bois;78;162;39;6
+Cuirasse rouillée;C'est un cuirasse rouillée;66;133;33;6
+Harnais de cuir;C'est un harnais de cuir;84;174;42;6
+Veste renforcée;C'est un veste renforcée;72;149;36;6
+Plastron de cuir;C'est un plastron de cuir;98;201;49;7
+Epaulières;C'est un epaulières;35;78;18;7
+Tenue d'officier;C'est un tenue d'officier;84;169;42;7
+Habit de bandit;C'est un habit de bandit;84;177;42;7
+Plastron de fer;C'est un plastron de fer;84;176;42;7
+Cotte de maille;C'est un cotte de maille;91;186;46;7
+Chemise de maille;C'est un chemise de maille;80;169;40;8
+Armure de parade;C'est un armure de parade;104;218;52;8
+Armure de bois;C'est un armure de bois;120;245;60;8
+Cuirasse rouillée;C'est un cuirasse rouillée;96;200;48;8
+Harnais de cuir;C'est un harnais de cuir;80;163;40;8
+Veste renforcée;C'est un veste renforcée;80;164;40;8
+Plastron de cuir;C'est un plastron de cuir;108;218;54;9
+Epaulières;C'est un epaulières;35;74;18;9
+Tenue d'officier;C'est un tenue d'officier;108;221;54;9
+Habit de bandit;C'est un habit de bandit;117;240;59;9
+Plastron de fer;C'est un plastron de fer;126;259;63;9
+Cotte de maille;C'est un cotte de maille;108;216;54;9
+Armure en plaque;C'est un armure en plaque;140;283;70;10

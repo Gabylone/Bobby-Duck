@@ -26,6 +26,9 @@ public class DialogueManager : MonoBehaviour {
 
 	[SerializeField] private Vector2 bubbleBounds = new Vector2();
 
+	[SerializeField]
+	private int maxCharactersPerLine = 20;
+
 	private int TextIndex = 0;
 	private string[] TextsToDisplay = new string[2] {"Rentrer","Dialogues"};
 
@@ -229,8 +232,11 @@ public class DialogueManager : MonoBehaviour {
 		// scale
 		Vector3 scale = Vector3.one;
 
-		scale.x = target.position.x < 0.5f ? 1 : -1;
-		bubble_Image.localScale = scale;
+
+
+		float f = target.position.x < 0 ? -1 : 1;
+		bubble_Image.localScale = new Vector3(f ,1 ,1 );
+		bubble_Text.transform.localScale = new Vector3 (f,1,1);
 
 //		// bubble decal
 //		Vector3 decal = new Vector3 ( 
@@ -245,7 +251,7 @@ public class DialogueManager : MonoBehaviour {
 
 
 		// straighten text
-		bubble_Text.transform.position = bubble_Image.transform.position;
+//		bubble_Text.transform.position = bubble_Image.transform.position;
 
 	}
 

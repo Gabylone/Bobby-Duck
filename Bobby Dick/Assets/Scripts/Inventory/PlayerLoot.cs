@@ -17,6 +17,8 @@ public class PlayerLoot : MonoBehaviour {
 	[SerializeField]
 	private GameObject crewGroup;
 	private bool canOpen = true;
+	[SerializeField]
+	private GameObject closeButtonObj;
 
 	public bool CanOpen {
 		get {
@@ -63,11 +65,7 @@ public class PlayerLoot : MonoBehaviour {
 		Instance = this;
 	}
 
-	void Start() {
-		Init ();
-	}
-
-	private void Init () {
+	public void Init () {
 
 		// init crew cards
 		inventoryCard.Init ();
@@ -75,12 +73,11 @@ public class PlayerLoot : MonoBehaviour {
 		crewGroup.SetActive (false);
 
 		lootUI.useInventory += HandleUseInventory;
+
 	}
 
 	void HandleUseInventory (InventoryActionType actionType)
 	{
-
-
 		switch (actionType) {
 		case InventoryActionType.Eat:
 			EatItem ();
@@ -194,10 +191,11 @@ public class PlayerLoot : MonoBehaviour {
 	public void Open (int id) {
 		if (!CanOpen)
 			return;
-		if ( opened ) {
-			HideMember (selectedMemberIndex);
-		}
+		
 		selectedMemberIndex = id;
+
+		inventoryCard.UpdateMember (Crews.playerCrew.CrewMembers[id]);
+
 		Open (inventoryCategoryContent);
 	}
 	public void Open (CategoryContent categorycontent) {
@@ -252,11 +250,6 @@ public class PlayerLoot : MonoBehaviour {
 			if ( value == true )
 				MapImage.Instance.CloseMap();
 
-			if (value)
-				ShowMember (selectedMemberIndex);
-			else
-				HideMember (selectedMemberIndex);
-
 			if ( value == false )
 				BoatUpgradeManager.Instance.CloseUpgradeMenu ();
 		}
@@ -265,10 +258,9 @@ public class PlayerLoot : MonoBehaviour {
 	public void ShowMember ( int i ) {
 		Transform parent = inventoryCard.IconAnchor;
 		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (parent);
-
 		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.localPosition = Vector3.zero;
-		inventoryCard.UpdateMember (Crews.playerCrew.CrewMembers[i]);
 		Crews.playerCrew.CrewMembers [i].Icon.Overable = false;
+
 	}
 
 	public void HideMember (int i ) {

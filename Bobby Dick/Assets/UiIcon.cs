@@ -9,12 +9,16 @@ public class UiIcon : MonoBehaviour {
 
 	// Use this for initialization
 	public virtual void Start () {
-		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;;
+		
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+
 		PlayerLoot.Instance.closeInventory += HandleCloseInventory;
+
 		PlayerLoot.Instance.openInventory += HandleOpenInventory;
-		PlayerLoot.Instance.LootUI.useInventory += HandleUseInventory;
 
 		UpdateUI ();
+
+		Hide ();
 	}
 
 	public void HandleUseInventory (InventoryActionType actionType)
@@ -36,7 +40,7 @@ public class UiIcon : MonoBehaviour {
 
 	public virtual void HandleCloseInventory ()
 	{
-		Close ();
+		Hide ();
 	}
 
 	public void Show ()
@@ -44,7 +48,7 @@ public class UiIcon : MonoBehaviour {
 		uiGroup.SetActive (true);
 	}
 
-	public void Close ()
+	public void Hide ()
 	{
 		uiGroup.SetActive (false);
 	}

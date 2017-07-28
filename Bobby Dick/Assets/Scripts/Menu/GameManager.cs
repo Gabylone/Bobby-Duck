@@ -45,6 +45,12 @@ public class GameManager : MonoBehaviour {
 
 		Island.Instance.Init ();
 
+		PlayerLoot.Instance.Init ();
+
+		WeightManager.Instance.Init ();
+
+		TimeManager.Instance.Init ();
+
 		NavigationManager.Instance.ChangeChunk (Directions.None);
 
 		if (KeepOnLoad.dataToLoad < 0) {
@@ -52,7 +58,6 @@ public class GameManager : MonoBehaviour {
 			Transitions.Instance.ActionTransition.Fade = true;
 		}
 
-		WeightManager.Instance.Init ();
 
 	}
 

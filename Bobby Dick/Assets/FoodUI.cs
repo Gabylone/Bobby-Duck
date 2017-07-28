@@ -14,6 +14,7 @@ public class FoodUI : UiIcon {
 	public override void Start ()
 	{
 		base.Start ();
+		PlayerLoot.Instance.LootUI.useInventory += HandleUseInventory;
 	}
 
 	public override void UpdateUI ()

@@ -17,15 +17,30 @@ OtherSpeak : Emmenez moi avec vous, je vous en prie !;;;;;;;
 [dialogue];;;;;;;
 SetChoices3;;;;;;;
 Choice : Monte !;Choice : Donne nous tout ce que tu as ou on te croque la bite.;;Choice : Désolé mon gars, pas assez de place à bord;;;;
-OtherSpeak : Merci m'sieur !;RandomRange2;;RandomRange3;;;;
-AddKarma;OtherSpeak : Mais je n'ai absolument rien !;RemoveKarma;OtherSpeak : Donnez moi au moins quelque chose à manger;;;Node=>combat naufragé;OtherSpeak : Je comprends…
-AddMember;Node=>combat dialogue;Node=>combat naufragé;SetChoices2;;;;Leave
-Node=>plage déserte;;;Choice : Tiens.;;Choice : Non continue à manger des noix de coco.;;
+Node=>ajouté à l'équipage;RandomRange2;;RandomRange3;;;;
+;OtherSpeak : Mais je n'ai absolument rien !;RemoveKarma;OtherSpeak : Donnez moi au moins quelque chose à manger;;;Node=>combat naufragé;OtherSpeak : Je comprends…
+;Node=>combat dialogue;Node=>combat naufragé;SetChoices2;;;;Leave
+;;;Choice : Tiens.;;Choice : Non continue à manger des noix de coco.;;
 ;;;RemoveFromInventory/Food;;OtherSpeak : Vous êtes sans coeur !;;
 ;;;OtherSpeak : Merci…;OtherSpeak : Mais… Vous n'avez rien…;RemoveKarma;;
 ;;;AddKarma;RemoveKarma;Node=>plage déserte;;
 ;;;HideOther;HideOther;;;
 ;;;Node=>debut;Node=>debut;;;
+;;;;;;;
+[ajouté à l'équipage];;;;;;;
+RandomRange2;;;;;;;
+OtherSpeak : Merci m'sieur !;OtherSpeak : J'ai besoin que vous me rendiez un petit service !;;;;;;
+AddKarma;SetChoices 2;;;;;;
+AddMember;Choice : Je t'écoute;Choice : Sûrement pas.;;;;;
+Node=>plage déserte;NewQuest[a fait quete];Node=>dialogue;;;;;
+;;;;;;;
+;[a fait quete];;;;;;
+;OtherSpeak : Merci m'sieur !;;;;;;
+;AddKarma;;;;;;
+;AddMember;;;;;;
+;Node=>plage déserte;;;;;;
+;;;;;;;
+;;;;;;;
 ;;;;;;;
 [combat dialogue];;;;;;;
 SetChoices2;;;;;;;

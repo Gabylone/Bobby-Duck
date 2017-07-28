@@ -104,44 +104,42 @@ public class MapGenerator : MonoBehaviour {
 
 		MapData.Instance = SaveManager.Instance.CurrentData.mapData;
 
-		chunks = SaveManager.Instance.CurrentData.chunks;
-
-//		Chunks = fromChunkArray (SaveManager.Instance.CurrentData.chunkArray);
+		chunks = fromChunkArray(SaveManager.Instance.CurrentData.chunks);
 
 	}
 
 	public void SaveIslandsData () {
 		SaveManager.Instance.CurrentData.mapData = MapData.Instance;
-		SaveManager.Instance.CurrentData.chunks = chunks;
-
+		SaveManager.Instance.CurrentData.chunks = toChunkArray(chunks);
 	}
-	public Chunk[][] toChunkArray ( Chunk[,] bufferChunks ) {
+
+	public Chunk[][] toChunkArray ( Dictionary<Coords,Chunk> chunkDico ) {
 
 		Chunk[][] tmpChunks = new Chunk[MapGenerator.Instance.MapScale][];
+
 		for (int i = 0; i < MapGenerator.Instance.MapScale; i++) {
 			tmpChunks[i] = new Chunk[MapGenerator.Instance.MapScale];
 		}
 
 		for (int x = 0; x < MapGenerator.Instance.MapScale; x++) {
 			for (int y = 0; y < MapGenerator.Instance.MapScale; y++) {
-				tmpChunks [x] [y] = bufferChunks [x, y];
+				tmpChunks [x] [y] = chunkDico [new Coords (x, y)];
 			}
 		}
 
 		return tmpChunks;
 	}
 
-	public Chunk[,] fromChunkArray ( Chunk[][] bufferChunks ) {
+	public Dictionary<Coords,Chunk> fromChunkArray ( Chunk[][] bufferChunks ) {
 
-		Chunk[,] tmpChunks = new Chunk[MapGenerator.Instance.MapScale,MapGenerator.Instance.MapScale];
-
+		Dictionary<Coords,Chunk> chunkDico = new Dictionary<Coords, Chunk> ();
 		for (int x = 0; x < MapGenerator.Instance.MapScale; x++) {
 			for (int y = 0; y < MapGenerator.Instance.MapScale; y++) {
-				tmpChunks [x,y] = bufferChunks [x][y];
+				chunkDico.Add (new Coords (x, y), bufferChunks [x] [y]);
 			}
 		}
 
-		return tmpChunks;
+		return chunkDico;
 	}
 	#endregion
 

@@ -51,12 +51,13 @@ public class SaveManager : MonoBehaviour
 		// player loot
 		LootManager.Instance.setLoot (Crews.Side.Player, currentData.playerLoot);
 
+		QuestManager.Instance.CurrentQuests = currentData.currentQuests;
+		QuestManager.Instance.FinishedQuests = currentData.finishedQuests;
+
 		// gold
 		GoldManager.Instance.GoldAmount = CurrentData.playerGold;
 
 		TimeManager.Instance.LoadWeather ();
-
-		MapImage.Instance.InitImage ();
 
 		NavigationManager.Instance.ChangeChunk (Directions.None);
 
@@ -82,13 +83,17 @@ public class SaveManager : MonoBehaviour
 
 		// save boats
 		Boats.Instance.SaveBoats();
+
 		// island ids
 		// island datas
 		// special island positions
 		MapGenerator.Instance.SaveIslandsData ();
 
-		// player loot
+
 		currentData.playerLoot = LootManager.Instance.getLoot (Crews.Side.Player);
+
+		currentData.currentQuests = QuestManager.Instance.CurrentQuests;
+		currentData.finishedQuests = QuestManager.Instance.FinishedQuests;
 
 		// gold
 		CurrentData.playerGold = GoldManager.Instance.GoldAmount;
@@ -117,10 +122,7 @@ public class GameData
 	// crew
 	public Crew 			playerCrew;
 
-	public Dictionary<Coords, Chunk> chunks {
-		get;
-		set;
-	}
+	public Chunk[][] 		chunks;
 
 	// islands
 	public MapData 			mapData;
@@ -128,9 +130,12 @@ public class GameData
 	public PlayerBoatInfo 	playerBoatInfo;
 	public OtherBoatInfo[] 	otherBoatInfos;
 
-	public StoryHandler storyHandler;
+	public StoryHandler 	storyHandler;
 
 	public Loot 			playerLoot;
+
+	public List<Quest> 		currentQuests;
+	public List<Quest>		finishedQuests;
 
 	public int 				playerWeight = 0;
 	public int 				playerGold = 0;

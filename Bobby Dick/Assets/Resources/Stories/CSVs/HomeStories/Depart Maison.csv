@@ -1,30 +1,10 @@
 Nom;Fréquence / 5;Sprite ID;;;;;;;
-Maison;100;1;;;;;;;
-[debut];;;;;;;;;
-NewCrew;;;;;;;;;
-OtherSpeak : Bonjour !;;;;;;;;;
-[choix];;;;;;;;;
-SetChoices2;;;;;;;;;
-Choice : Vous avez une quête ?;Choice : (partir);;;;;;;;
-OtherSpeak : Bien sûr !;Leave;;;;;;;;
-NewQuest[choix];;;;;;;;;
-;;;;;;;;;
-;;;;;;;;;
-;;;;;;;;;
-;;;;;;;;;
-;;;;;;;;;
-;;;;;;;;;
-;;;;;;;;;
-;;;;;;;;;
-;;;;;;;;;
-CheckFirstVisit;;;;;;;;;
-Node=>premiere visite;Node=>retour;;;;;;;;
-;;;;;;;;;
+Départ – Maison;100;1;;;;;;;
 [premiere visite];;;;;;;;;
-Narrator : Et c'est ainsi que CAPITAINE parti à la recherche du trésor de Bobby Dick. Accompagné de sa fidèle galère, NOMBATEAU, et de seulement quelques rations.;;;;;;;;;
+Narrator : Et c'est ainsi que CAPITAINE parti enfin de sa vielle maison, à la recherche du trésor de Bobby Dick. Accompagné de sa fidèle galère, NOMBATEAU, et de seulement quelques rations.;Node=>retour;;;;;;;;
 PlayerSpeak : En route !;;;;;;;;;
+Switch=>premiere visite;;;;;;;;;
 Leave;;;;;;;;;
-;;;;;;;;;
 ;;;;;;;;;
 ;;;;;;;;;
 [retour];;;;;;;;;
@@ -69,12 +49,12 @@ Choice : (retourner salon);Choice : (observer le jardin);;OtherSpeak : Salut 
 Fade;Node=>jardin;;Node=>choix-père;;;;;;
 Node=>salon;;;;;;;;;
 ;;;;;;;;;
-;;;[choix-père];;;[jardin-père-mort];;[attaqua père];
-;;;SetChoices3;;;Narrator : Le corps de votre père gît sur l'herbe.;;OtherSpeak : T'es revenu ptit con;
-;;;Choice : (retourner au salon);Choice : Un petit conseil ?;Choice : (attaquer);Node=>jardin;;LaunchCombat;
-;;;Fade;GiveTip;Node=>combat père;;;Node=>jardin-père-mort;
-;;;HideOther;Node=>choix-père;;;;;
-;;;Node=>salon;;;;;;
+;;;[choix-père];;;;[jardin-père-mort];;[attaqua père]
+;;;SetChoices4;;;;Narrator : Le corps de votre père gît sur l'herbe.;;OtherSpeak : T'es revenu ptit con
+;;;Choice : (retourner au salon);Choice : Un petit conseil ?;Choice : (attaquer);Choice : Je peux faire quelques chose pour toi ?;Node=>jardin;;LaunchCombat
+;;;Fade;GiveTip;Node=>combat père;RandomRange2;;;Node=>jardin-père-mort
+;;;HideOther;Node=>choix-père;;OtherSpeak : Tout va bien ici merci !;NewQuest[choix-père];;
+;;;Node=>salon;;;Node=>choix-père;;;
 ;;;;;;;;;
 ;;;[combat père];;;;;;
 ;;;RemoveKarma;;;;;;

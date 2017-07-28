@@ -1,0 +1,34 @@
+Nom;Fréquence %;Sprite ID
+Champignon pour cuisinier;0;0
+[debut];;
+OtherSpeak : C'est terrible !;;
+OtherSpeak : J'attends des invités pour très bientôt !;;
+OtherSpeak : Il me manque l'ingrédient principal de ma soupe !;;
+OtherSpeak : Un gros champignon !;;
+RandomRange2;;
+OtherSpeak : A l'aide !;OtherSpeak : Je crois en avoir vu par là;
+Leave;SetQuestOnMap;
+;Leave;
+;;
+[suite];;
+Narrator : CAPITAINE remarque un petit tas de mousse, quelques pas plus loin.;;
+SetChoices2;;
+Choice : (fouiller);Choice : (continuer son chemin);
+AddToInventory<Champignon>/Food;Leave;
+PlayerSpeak : Plus qu'à ramener ça au cuisinier;;
+SendPlayerBackToGiver;;
+Leave;;
+;;
+;;
+;;
+[fin];;
+CheckInInventory<Champignon>/Food;;
+PlayerSpeak : Tenez, votre champignon;;OtherSpeak : Vous revenez bredouille ?
+OtherSpeak : Génial, ça fera l'affaire !;;OtherSpeak : Ou est mon chanpignon ?
+FinishQuest;;Leave
+RandomRange2;;
+OtherSpeak : A bientôt !;OtherSpeak : Attendez une minute !;
+Leave;Fade;
+;OtherSpeak : Tenez prenez en un peu;
+;AddToInventory<Soupe>/Food;
+;Leave;

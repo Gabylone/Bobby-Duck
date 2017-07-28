@@ -39,13 +39,12 @@ public class StoryFunctions : MonoBehaviour {
 			string nodeName = content.Remove (0, 1);
 			nodeName = nodeName.Remove (nodeName.Length-1);
 
-
 			Node node = StoryReader.Instance.GetNodeFromText (nodeName);
 
 			StoryReader.Instance.NextCell ();
 
-			if (node.switched)
-				StoryReader.Instance.SetDecal (1);
+			if (node.decal > 0)
+				StoryReader.Instance.SetDecal (node.decal);
 
 			StoryReader.Instance.UpdateStory ();
 			return;
@@ -177,13 +176,17 @@ public class StoryFunctions : MonoBehaviour {
 
 	#region quest
 	private void NewQuest () {
-		QuestManager.Instance.NewQuest ();
+		QuestManager.Instance.HandleQuest ();
 	}
 	private void CheckQuest () {
 		QuestManager.Instance.CheckQuest ();
 	}
 	private void SendPlayerBackToGiver () {
 		QuestManager.Instance.SetCoordsToGiver ();
+	}
+	private void SetQuestOnMap () {
+		QuestManager.Instance.SetQuestOnMap ();
+		StoryReader.Instance.WaitForInput ();
 	}
 	private void FinishQuest () {
 		QuestManager.Instance.FinishQuest ();
@@ -335,15 +338,13 @@ public class StoryFunctions : MonoBehaviour {
 			item = ItemLoader.Instance.getRandomItem (targetCat);
 		}
 
+		LootManager.Instance.getLoot(Crews.Side.Player).AddItem (item);
 
-		if (item != null) {
-			DialogueManager.Instance.LastItemName = item.name;
+		DialogueManager.Instance.LastItemName = item.name;
 
-			LootManager.Instance.getLoot(Crews.Side.Player).AddItem (item);
-		}
+		DialogueManager.Instance.SetDialogue (item.name, Crews.playerCrew .captain);
 
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
+		StoryReader.Instance.WaitForInput ();
 	}
 	void CheckInInventory () {
 		StoryReader.Instance.NextCell ();

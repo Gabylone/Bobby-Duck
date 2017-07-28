@@ -8,6 +8,7 @@ public class WeightManager : MonoBehaviour {
 
 	private int currentCapacity = 100;
 
+	[Header("UI Elements")]
 	[SerializeField]
 	private GameObject weightGroup;
 	[SerializeField]
@@ -15,19 +16,21 @@ public class WeightManager : MonoBehaviour {
 	[SerializeField]
 	private Text currentWeightText;
 
-	bool displayingFeedback = false;
-	float timer = 0f;
+	private bool displayingFeedback = false;
+	private float timer = 0f;
 	[SerializeField]
 	private float feedbackDuration = 0.3f;
 
 	[Header("Sound")]
-	[SerializeField] private AudioClip noRoomSound;
+	[SerializeField] 
+	private AudioClip noRoomSound;
 
 	void Awake () {
 		Instance = this;
 	}
 
 	public void Init () {
+
 		PlayerLoot.Instance.openInventory += Show;
 		PlayerLoot.Instance.closeInventory += Hide;
 
@@ -36,6 +39,7 @@ public class WeightManager : MonoBehaviour {
 		PlayerLoot.Instance.LootUI.useInventory += UpdateDisplay;
 
 		Hide ();
+
 	}
 
 	void Update () {
@@ -65,8 +69,7 @@ public class WeightManager : MonoBehaviour {
 	}
 	public void UpdateDisplay () {
 		currentWeightText.text = "" + CurrentWeight;
-		print ("current wirhgt : " + CurrentWeight);
-		weightImage.fillAmount = CurrentWeight / CurrentCapacity;
+		weightImage.fillAmount = ((float)CurrentWeight / (float)CurrentCapacity);
 	}
 	#endregion
 
@@ -100,7 +103,6 @@ public class WeightManager : MonoBehaviour {
 		}
 		set {
 			currentCapacity = value;
-			UpdateDisplay ();
 		}
 	}
 

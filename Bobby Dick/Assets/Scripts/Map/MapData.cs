@@ -35,6 +35,7 @@ public class MapData
 
 		// HOME
 		homeIslandCoords = MapGenerator.Instance.RandomCoords;
+//		homeIslandCoords = new Coords(0,0);
 		MapGenerator.Instance.GetChunk(homeIslandCoords).IslandData = new IslandData(homeIslandCoords);
 
 	}

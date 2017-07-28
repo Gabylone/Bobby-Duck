@@ -40,26 +40,7 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 
-	public void LoadStories ()
-	{
-		LoadSheets (	islandStories	, 		"Stories/CSVs/IslandStories"	);
-		LoadSheets (	boatStories		, 		"Stories/CSVs/BoatStories"		);
-		LoadSheets (	homeStories		, 		"Stories/CSVs/HomeStories"		);
-		LoadSheets (	clueStories		, 		"Stories/CSVs/ClueStories"		);
-		LoadSheets (	treasureStories	, 		"Stories/CSVs/TreasureStories"	);
-		LoadSheets (	quests			, 		"Stories/CSVs/Quests"			);
-	}
-
-
-	private void LoadSheets (List<Story> storyList , string path)
-	{
-		minFreq = 0f;
-
-		GetFiles (path);
-		for (int i = 0; i < storyFiles.Length; ++i )
-			storyList.Add(LoadSheet (i));
-	}
-
+	#region load
 	private void GetFiles (string path)
 	{
 		storyFiles = new TextAsset[Resources.LoadAll (path, typeof(TextAsset)).Length];
@@ -71,6 +52,27 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 
+	public void LoadStories ()
+	{
+		LoadSheets (	islandStories	, 		"Stories/CSVs/IslandStories"	);
+		LoadSheets (	boatStories		, 		"Stories/CSVs/BoatStories"		);
+		LoadSheets (	homeStories		, 		"Stories/CSVs/HomeStories"		);
+		LoadSheets (	clueStories		, 		"Stories/CSVs/ClueStories"		);
+		LoadSheets (	treasureStories	, 		"Stories/CSVs/TreasureStories"	);
+		LoadSheets (	quests			, 		"Stories/CSVs/Quests"			);
+	}
+
+	private void LoadSheets (List<Story> storyList , string path)
+	{
+		minFreq = 0f;
+
+		GetFiles (path);
+		for (int i = 0; i < storyFiles.Length; ++i )
+			storyList.Add(LoadSheet (i));
+	}
+ 	#endregion
+
+	#region sheet
 	private Story LoadSheet (int index)
 	{
 		string[] rows = storyFiles[index].text.Split ('\n');
@@ -108,7 +110,11 @@ public class StoryLoader : MonoBehaviour {
 
 				minFreq += newStory.freq;
 
-				newStory.spriteID = int.Parse (rowContent [2]);
+				bool spriteIDParsable = int.TryParse (rowContent [2], out newStory.spriteID);
+				if (spriteIDParsable == false ) {
+					print("pas parsbble l'histoire " + newStory.name);
+				}
+//				newStory.spriteID = int.Parse (rowContent [2]);
 
 				foreach (string cellContent in rowContent) {
 					newStory.content.Add (new List<string> ());
@@ -136,6 +142,7 @@ public class StoryLoader : MonoBehaviour {
 
 		return newStory;
 	}
+	#endregion
 
 	private void LoadFunctions () {
 		

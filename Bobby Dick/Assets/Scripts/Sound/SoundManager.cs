@@ -33,7 +33,16 @@ public class SoundManager : MonoBehaviour {
 	[SerializeField] private AudioClip daySound;
 	[SerializeField] private AudioClip nightSound;
 
+	[Header("Sound menu")]
+	[SerializeField]
+	private Image soundImage;
+	[SerializeField]
+	private Sprite sprite_SoundOn;
+
+	[SerializeField]
+	private Sprite sprite_SoundOff;
 	void Start () {
+		
 		EnableSound = true;
 
 		PlayerLoot.Instance.LootUI.useInventory += HandleUsePlayerInventory;
@@ -122,14 +131,6 @@ public class SoundManager : MonoBehaviour {
 			return ambianceSource;
 		}
 	}
-
-	[SerializeField]
-	private Image soundImage;
-	[SerializeField]
-	private Sprite sprite_SoundOn;
-
-	[SerializeField]
-	private Sprite sprite_SoundOff;
 
 	public void SwitchEnableSound () {
 		EnableSound = !EnableSound;

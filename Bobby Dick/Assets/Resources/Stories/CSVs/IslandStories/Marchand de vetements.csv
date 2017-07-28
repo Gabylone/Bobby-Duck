@@ -1,21 +1,26 @@
-Nom;Fréquence %;Sprite ID;;
-Marchand de vetements;3,13;1;;
-Narrator : L'île est petite, plate et verte. ;;;;
-CheckQuest[debut];;;;
-[debut];;;;
-Narrator : Sur la plage un panneau indique une direction : « Marchand d'étoffe et de cuir »;;;;
-SetChoices2;;;;
-Choice : (suivre panneau);Choice : (repartir);;;
-Fade;Leave;;;
-Node=>marchand;;;;
-;;;;
-;;;;
-[marchand];;;;
-NewCrew1;;;;
-OtherSpeak : Salut voyageur !;;;;
-[choix];;;;
-SetChoices4;;;;
-Choice : Qu'est-ce que vous vendez ?;Choice : Montrez moi votre marchandise;Choice : Le trésor de Bobby Dick ?;;Choice : (partir)
-OtherSpeak : Comme le panneau l'indique.;TradeClothes;RandomPercent20;;OtherSpeak : Au revoir !
-OtherSpeak : Des vêtements, protections en tout genre.;Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;Leave
-Node=>choix;;Node=>choix;Node=>choix;
+Nom;Fréquence %;Sprite ID;;;;;
+Marchand de vetements;3,13;1;;;;;
+Narrator : L'île est petite, plate et verte. ;;;;;;;
+CheckQuest[debut];;;;;;;
+[debut];;;;;;;
+Narrator : Sur la plage un panneau indique une direction : « Marchand d'étoffe et de cuir »;;;;;;;
+SetChoices2;;;;;;;
+Choice : (suivre panneau);Choice : (repartir);;;;;;
+Fade;Leave;;;;;;
+Node=>marchand;;;;;;;
+;;;;;;;
+;;;;;;;
+[marchand];;;;;;;
+NewCrew1;;;;;;;
+[switch quete];;;;;;;
+OtherSpeak : Salut voyageur !;Node=>la quete;;;;;;
+[choix];;;;;;;
+SetChoices4;;;;;;;
+Choice : Montrez moi votre marchandise;Choice : Le trésor de Bobby Dick ?;;Choice : (partir);Choice : Les affaires vont bien ?;;;[la quete]
+TradeClothes;RandomPercent20;;OtherSpeak : Au revoir !;RandomRange2;;;NewQuest[choix]
+Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;Leave;OtherSpeak : Très bien.;OtherSpeak : Pas génialement.;;
+;Node=>choix;Node=>choix;;OtherSpeak : Les pirates comme les soldats viennent s'habiller ici.;OtherSpeak : J'ai un soucis.;;
+;;;;Node=>choix;SetChoices2;;
+;;;;;Choice : Je n'ai pas le temps.;Choice : Dites moi.;
+;;;;;OtherSpeak : Ah…;Switch=>switch quete;
+;;;;;Node=>choix;Node=>la quete;

@@ -24,7 +24,7 @@ public class ChoiceManager : MonoBehaviour {
 	public void SetChoices (int amount, string[] content) {
 
 		for (int i = 0; i < amount ; ++i ) {
-			choiceButtons[i].SetActive (true);
+			choiceButtons [i].SetActive (true);
 			choiceButtons [i].GetComponentInChildren<Text> ().text = content [i];
 		}
 	}

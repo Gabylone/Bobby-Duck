@@ -11,28 +11,8 @@ Node=>debut;Node=>debut;;;;
 ;;;;;
 [épave];;;;;
 RandomRange6;;;;;
-[bateau vide];PlayerSpeak : De la bouffe…;PlayerSpeak : De quoi se défendre !;PlayerSpeak : Habillés pour l'hiver !;Node=>naufragé;PlayerSpeak : On dirait des journaux, traitant de Bobby Dick.
+[bateau vide];PlayerSpeak : De la bouffe…;PlayerSpeak : De quoi se défendre !;PlayerSpeak : Habillés pour l'hiver !;ChangeStory=>Naufragé[naufragé/debut];PlayerSpeak : On dirait des journaux, traitant de Bobby Dick.
 PlayerSpeak : Rien !;PlayerSpeak : Ça va nous aider à tenir quelques jours.;LootWeapons;LootClothes;;PlayerSpeak : Le bateau était en route DIRECTIONTOFORMULA
 Fade;LootFood;Fade;Fade;;Fade
 Node=>debut;Fade;Node=>debut;Node=>debut;;Node=>debut
 ;Node=>debut;;;;
-;;;;;
-[naufragé];;;;;
-NewCrew1;;;;;
-OtherSpeak : Aidez moi !;Node=>bateau vide;Node=>combat naufragé;;;
-OtherSpeak : Je suis coincé ici depuis trois jours !;;;;;
-SetChoices3;;;;;
-Choice : (achever l'homme);Choice : Monte !;Choice : (partir);;;
-RemoveKarma;OtherSpeak : Merci seigneur !;OtherSpeak : Salaud !;;;
-OtherSpeak : Enculé !;;Leave;;;
-Node=>combat naufragé;HideOther;;;;
-;Fade;;;;
-;Node=>debut;;;;
-;;;;;
-;;;;;
-;;;;;
-[combat naufragé];;;;;
-LaunchCombat;;;;;
-[mort naufragé];;;;;
-Narrator : Le naufragé à qui le bateau appartenait est mort.;;;;;
-Node=>debut;;;;;

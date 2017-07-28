@@ -314,6 +314,7 @@ public class NavigationManager : MonoBehaviour {
 
 }
 
+[System.Serializable]
 public struct Coords {
 	public int x;
 	public int y;
@@ -321,6 +322,12 @@ public struct Coords {
 	public Coords (int x,int y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public static Coords Zero {
+		get {
+			return new Coords (0, 0);
+		}
 	}
 
 	// overrides
@@ -345,11 +352,11 @@ public struct Coords {
 	}
 	public static bool operator < (Coords c1, int i) 
 	{
-		return c1.x < i && c1.y < i;
+		return c1.x < i || c1.y < i;
 	}
 	public static bool operator > (Coords c1, int i) 
 	{
-		return c1.x > i && c1.y > i;
+		return c1.x > i || c1.y > i;
 	}
 
 		// >= <=
@@ -363,11 +370,11 @@ public struct Coords {
 	}
 	public static bool operator >= (Coords c1, int i) 
 	{
-		return c1.x >= i && c1.y >= i;
+		return c1.x >= i || c1.y >= i;
 	}
 	public static bool operator <= (Coords c1, int i) 
 	{
-		return c1.x <= i && c1.y <= i;
+		return c1.x <= i || c1.y <= i;
 	}
 
 		// + -

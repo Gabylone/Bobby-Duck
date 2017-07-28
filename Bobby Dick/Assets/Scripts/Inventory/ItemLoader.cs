@@ -151,15 +151,11 @@ public class ItemLoader : MonoBehaviour {
 				mult = 1;
 
 			randomItems [itemType] = new Item[itemAmount];
-
-			int maxLevel = 1;
-
-			if (Crews.playerCrew != null)
-				maxLevel = Random.Range (1,6);
 			
 			for (int i = 0; i < itemAmount; ++i)
 			{
-				randomItems [itemType] [i] = getRandomItemMaxLevel ((ItemCategory)itemType, maxLevel);
+				int level = Random.Range ( 0, 11 );
+				randomItems [itemType] [i] = getRandomItemSpecLevel ((ItemCategory)itemType,level);
 			}
 
 		}
@@ -170,21 +166,6 @@ public class ItemLoader : MonoBehaviour {
 	public Item getRandomItem ( ItemCategory itemType ) {
 
 		int l = items [(int)itemType].Length;
-		int index = Random.Range (0, l);
-
-		return items[(int)itemType][index];
-	}
-
-	public Item getRandomItemMaxLevel ( ItemCategory itemType , int maxLevel = 1 ) {
-
-		int l = items [(int)itemType].Length;
-
-		if ( maxLevel > 0 && maxLevel < LevelRange[(int)itemType].Length ) {
-			if ( LevelRange [(int)itemType][maxLevel] > 0 )
-				l = LevelRange [(int)itemType][maxLevel];
-		}
-
-
 		int index = Random.Range (0, l);
 
 		return items[(int)itemType][index];
@@ -228,6 +209,22 @@ public class ItemLoader : MonoBehaviour {
 			return items [(int)itemType][0];
 		}
 		return items[(int)itemType][itemID];
+	}
+
+	public Item createItembyName (string name, ItemCategory cat) {
+
+		print (" ITEM : " + name + " doesn't exist, creating new one");
+
+//		Item[] tempItems = items [(int)cat]; 
+//
+//		items[(int)cat] = new Item[tempItems.Length+1];
+
+		Item newItem = getRandomItem (cat);
+		newItem.name = name;
+
+//		items [(int)cat] [tempItems.Length] = newItem;
+
+		return newItem;
 	}
 
 	public Item[][] Items {

@@ -6,31 +6,39 @@ public class TimeManager : MonoBehaviour {
 
 	public static TimeManager Instance;
 
-	[Header("Rain")]
-	[SerializeField] private Image rainImage;
-
-	bool raining = false;
-
-	int timeOfDay = 0;
-	int dayDuration = 24;
+	[Range(0,24)]
+	[SerializeField]
+	private int startTime = 6;
+	private int timeOfDay = 0;
+	private int dayDuration = 24;
 
 	private int currentRain = 0;
-	[SerializeField] private int rainRate = 20;
-	[SerializeField] private int rainDuration = 5;
+	[SerializeField]
+	private int rainRate = 55;
+	[SerializeField]
+	private int rainDuration = 10;
 
 	[Header("Night")]
-	[SerializeField] private Image nightImage;
+	[SerializeField]
+	private Image nightImage;
 
-	bool isNight = false;
+	private bool isNight = false;
 
-	[SerializeField] private int nightStartTime = 21;
-	[SerializeField] private int nightEndTime = 4;
+	[SerializeField]
+	private int nightStartTime = 21;
+	[SerializeField]
+	private int nightEndTime = 4;
+
+	[Header("Rain")]
+	[SerializeField] private Image rainImage;
+	private bool raining = false;
 
 	void Awake () {
 		Instance = this;
 	}
 
-	void Start () {
+	public void Init () {
+		timeOfDay = startTime;
 		NavigationManager.Instance.EnterNewChunk += AdvanceTime;
 	}
 
@@ -50,13 +58,15 @@ public class TimeManager : MonoBehaviour {
 		++timeOfDay;
 		if (timeOfDay == dayDuration)
 			timeOfDay = 0;
-		
+
 		if (IsNight == false) {
-			if (timeOfDay == nightStartTime) {
+			if (TimeOfDay >= NightStartTime) {
+				IsNight = true;
+			} else if (TimeOfDay < nightEndTime) {
 				IsNight = true;
 			}
 		} else {
-			if (timeOfDay == nightEndTime) {
+			if (timeOfDay < 12 && timeOfDay >= nightEndTime) {
 				IsNight = false;
 			}
 		}
@@ -71,16 +81,13 @@ public class TimeManager : MonoBehaviour {
 	}
 
 	public void SaveWeather () {
-
 		SaveManager.Instance.CurrentData.raining = Raining;
 		SaveManager.Instance.CurrentData.night = IsNight;
 		SaveManager.Instance.CurrentData.timeOfDay = timeOfDay;
 		SaveManager.Instance.CurrentData.currentRain = currentRain;
-
 	}
 
 	public void LoadWeather () {
-
 		Raining = SaveManager.Instance.CurrentData.raining;
 		IsNight = SaveManager.Instance.CurrentData.night;
 		timeOfDay = SaveManager.Instance.CurrentData.timeOfDay;
@@ -94,6 +101,30 @@ public class TimeManager : MonoBehaviour {
 		set {
 			isNight = value;
 			nightImage.gameObject.SetActive (value);
+		}
+	}
+
+	public int TimeOfDay {
+		get {
+			return timeOfDay;
+		}
+	}
+
+	public int DayDuration {
+		get {
+			return dayDuration;
+		}
+	}
+
+	public int NightStartTime {
+		get {
+			return nightStartTime;
+		}
+	}
+
+	public int NightEndTime {
+		get {
+			return nightEndTime;
 		}
 	}
 }

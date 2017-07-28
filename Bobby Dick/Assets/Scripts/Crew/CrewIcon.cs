@@ -27,6 +27,7 @@ public class CrewIcon : MonoBehaviour {
 	private float scaleDuration = 0.35f;
 	private bool pointerOver = false;
 	private bool overable = true;
+	private bool showCard = true;
 
 	[Header("States")]
 	[SerializeField]
@@ -91,7 +92,7 @@ public class CrewIcon : MonoBehaviour {
 		}
 	}
 
-	#region selection
+	#region overing
 	public void OnPointerEnter() {
 
 		if (!Overable)
@@ -102,7 +103,8 @@ public class CrewIcon : MonoBehaviour {
 
 		hungerObject.SetActive (true);
 
-		CardManager.Instance.ShowOvering (member);
+		if ( showCard )
+			CardManager.Instance.ShowOvering (member);
 	}
 
 	public void OnPointerExit () {
@@ -119,6 +121,7 @@ public class CrewIcon : MonoBehaviour {
 
 		CardManager.Instance.HideOvering ();
 	}
+
 	public void OnPointerDown() {
 		
 		if (!Overable)
@@ -126,7 +129,13 @@ public class CrewIcon : MonoBehaviour {
 
 		OnPointerExit ();
 
-		PlayerLoot.Instance.Open (id);
+		if (PlayerLoot.Instance.Opened) {
+			PlayerLoot.Instance.Close ();
+			showCard = true;
+		} else {
+			PlayerLoot.Instance.Open (id);
+			showCard = false;
+		}
 		
 	}
 	#endregion
@@ -144,7 +153,6 @@ public class CrewIcon : MonoBehaviour {
 	}
 
 	public void MoveToPoint ( Crews.PlacingType placingType , float duration ) {
-
 		previousPlacingType = currentPlacingType;
 		currentPlacingType = placingType;
 

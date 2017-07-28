@@ -27,6 +27,24 @@ public class OtherLoot : MonoBehaviour {
 		Instance = this;
 	}
 
+	void Start () {
+		lootUi.useInventory += HandleUseInventory;
+	}
+
+	void HandleUseInventory (InventoryActionType actionType)
+	{
+		switch (actionType) {
+		case InventoryActionType.Buy:
+			Buy ();
+			break;
+		case InventoryActionType.PickUp:
+			PickUp ();
+			break;
+		default:
+			break;
+		}
+	}
+
 	#region trade
 	public void StartTrade () {
 			// player loot ui
@@ -53,9 +71,6 @@ public class OtherLoot : MonoBehaviour {
 
 		lootUi.Show (category_OtherLootContent);
 		lootUi.UpdateActionButton(0);
-//
-//		PlayerLoot.Instance.ActionGroup.UpdateButtons (ActionGroup.ButtonType.Throw);
-//		actionGroup.UpdateButtons (ActionGroup.ButtonType.PickUp);
 
 	}
 	#endregion

@@ -80,8 +80,8 @@ public class StoryReader : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 
-		if (node.switched) {
-			StoryReader.Instance.SetDecal (1);
+		if (node.decal > 0) {
+			StoryReader.Instance.SetDecal (node.decal);
 		}
 
 		StoryReader.Instance.UpdateStory ();
@@ -92,11 +92,21 @@ public class StoryReader : MonoBehaviour {
 
 		string text = StoryFunctions.Instance.CellParams;
 
+		int decal = 1;
+
+		if ( text[text.Length-2] == '/' ) {
+
+			decal = int.Parse (text.Remove(0,text.Length - 1));
+
+			text = text.Remove (text.Length - 2);
+
+		}
+
 		string nodeName = text.Remove (0, 2);
 
 		Node node = GetNodeFromText (nodeName);
 
-		node.switched = true;
+		node.decal = decal;
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
@@ -163,8 +173,6 @@ public class StoryReader : MonoBehaviour {
 			StoryLauncher.Instance.PlayingStory = false;
 			return;
 		}
-
-		print ("trouvé second story : " + secondStory.name);
 
 		// extract nodes
 		string nodes = text.Remove (0,text.IndexOf ('[')+1);

@@ -1,10 +1,16 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Inventory\ItemButton.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Inventory\ItemLoader.cs">
     <Files>
-      <File FileName="Assets\Scripts\Inventory\PlayerLoot.cs" Line="200" Column="28" />
-      <File FileName="Assets\Scripts\Crew\CrewIcon.cs" Line="129" Column="33" />
-      <File FileName="Assets\Scripts\Inventory\ItemButton.cs" Line="40" Column="1" />
+      <File FileName="Assets\Scripts\Save\SaveManager.cs" Line="62" Column="1" />
+      <File FileName="Assets\Scripts\Map\MapGenerator.cs" Line="136" Column="52" />
+      <File FileName="Assets\Scripts\Map\MapImage.cs" Line="82" Column="14" />
+      <File FileName="Assets\Scripts\Menu\GameManager.cs" Line="43" Column="21" />
+      <File FileName="Assets\Scripts\Dialogues\DialogueManager.cs" Line="75" Column="8" />
+      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="32" Column="4" />
+      <File FileName="Assets\Scripts\Inventory\LootManager.cs" Line="53" Column="17" />
+      <File FileName="Assets\Scripts\Inventory\Loot.cs" Line="41" Column="56" />
+      <File FileName="Assets\Scripts\Inventory\ItemLoader.cs" Line="157" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
