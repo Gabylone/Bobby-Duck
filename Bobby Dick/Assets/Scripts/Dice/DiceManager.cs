@@ -61,6 +61,17 @@ public class DiceManager : MonoBehaviour {
 	void Start () {
 		InitDice ();
 		ResetDice ();
+
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.CheckStat:
+			CheckStat ();
+			break;
+		}
 	}
 	
 	// Update is called once per frame
@@ -132,7 +143,7 @@ public class DiceManager : MonoBehaviour {
 //		}
 
 		if ( timeInState > throwDuration) {
-			ChangeState (states.showingHighest);
+			ChangeState (states.settling);
 		}
 	}
 	private void Throwing_Exit () {
@@ -141,50 +152,46 @@ public class DiceManager : MonoBehaviour {
 	}
 	#endregion
 
+	#region settling
+	private void Settling_Start () {
+		for (int diceIndex = 0; diceIndex < currentThrow.diceAmount; diceIndex++) {
+//			print ("die result : " + dices [diceIndex].result);
+			dices[diceIndex].TurnToDirection (dices[diceIndex].result);
+		}
+	}
+	private void Settling_Update () {
+		if (timeInState > settlingDuration)
+			ChangeState (states.showingHighest);
+	}
+	private void Settling_Exit () {
+	
+	}
+	#endregion
+
 	#region showing highest
 	private void ShowingHighest_Start () {
-		
-		Throwing = false;
+
 
 		Dice highestDie = dices [0];
 
 		highestResult = 0;
 
-		int index = 0;
-
 		for (int diceIndex = 0; diceIndex < CurrentThrow.diceAmount; diceIndex++) {
 			if (dices[diceIndex].result > highestResult) {
 				highestResult = dices [diceIndex].result;
 				highestDie = dices [diceIndex];
-				index = diceIndex;
 			}
 		}
 
-		highestResult = highestDie.result;
-
-		for (int diceIndex = 0; diceIndex < CurrentThrow.diceAmount; diceIndex++) {
-			if (diceIndex != index)
-				dices [diceIndex].SettleDown 
-				();
-		}
-
-
-//		highestDie. ();
-
-		//
+		highestDie.SettleUp ();
+		Throwing = false;
 	}
 	private void ShowingHighest_Update () {
-		if ( InputManager.Instance.OnInputDown() ) {
-			ChangeState (states.none);
-			return;
-		}
-
 		if (timeInState > settlingDuration) {
 			ChangeState (states.none);
 		}
 	}
 	private void ShowingHighest_Exit () {
-
 		ResetDice ();
 	}
 	#endregion
@@ -252,6 +259,9 @@ public class DiceManager : MonoBehaviour {
 		case states.throwing :
 			Throwing_Exit ();
 			break;
+		case states.settling:
+			Settling_Exit();
+			break;
 		case states.showingHighest :
 			ShowingHighest_Exit ();
 			break;
@@ -270,6 +280,11 @@ public class DiceManager : MonoBehaviour {
 			ShowingHighest_Start ();
 			break;
 
+		case states.settling:
+			updateState = Settling_Update;
+			Settling_Start ();
+			break;
+
 		case states.none :
 			updateState = null;
 			break;
@@ -277,6 +292,79 @@ public class DiceManager : MonoBehaviour {
 
 		timeInState = 0f;
 	}
+	#endregion
+
+
+
+	#region dice
+	private void CheckStat () {
+
+		int decal = StoryReader.Instance.CurrentStoryHandler.GetDecal ();
+
+		if (decal < 0) {
+			
+			StartCoroutine (CheckStat_Coroutine ());
+
+		} else {
+			
+			StoryReader.Instance.NextCell ();
+
+			StoryReader.Instance.SetDecal (decal);
+
+			StoryReader.Instance.UpdateStory ();
+
+		}
+
+	}
+
+	IEnumerator CheckStat_Coroutine () {
+
+		ThrowDirection = 1;
+
+		string cellParams = StoryFunctions.Instance.CellParams;
+
+		int otherHighest = 0;
+
+		switch (cellParams) {
+		case "STR":
+			ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.Strenght);
+			otherHighest = Crews.enemyCrew.captain.Strenght;
+			break;
+		case "DEX":
+			ThrowDice (DiceTypes.DEX, Crews.playerCrew.captain.Dexterity);
+			otherHighest = Crews.enemyCrew.captain.Dexterity;
+			break;
+		case "CHA":
+			ThrowDice (DiceTypes.CHA, Crews.playerCrew.captain.Charisma);
+			otherHighest = Crews.enemyCrew.captain.Charisma;
+			break;
+		case "CON":
+			ThrowDice (DiceTypes.CON, Crews.playerCrew.captain.Constitution);
+			otherHighest = Crews.enemyCrew.captain.Constitution;
+			break;
+		default:
+			Debug.LogError ("PAS DE Dé " + cellParams + " : lancé de force");
+			ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.Strenght);
+			break;
+		}
+
+
+		while (Throwing)
+			yield return null;
+
+		int captainHighest = HighestResult;
+
+		StoryReader.Instance.NextCell ();
+
+//		int decal = captainHighest >= otherHighest ? 0 : 1;
+		int decal = captainHighest >= 5 ? 0 : 1;
+
+		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);
+		StoryReader.Instance.SetDecal (decal);
+
+		StoryReader.Instance.UpdateStory ();
+	}
+
 	#endregion
 
 }

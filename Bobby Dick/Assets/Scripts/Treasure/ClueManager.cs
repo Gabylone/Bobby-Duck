@@ -24,6 +24,19 @@ public class ClueManager : MonoBehaviour {
 		Instance = this;
 	}
 
+	void Start () {
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.CheckClues:
+			StartClue ();
+			break;
+		}
+	}
+
 	public void Init () {
 
 	}

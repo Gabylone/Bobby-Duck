@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Holoville.HOTween;
 
 public class MapImage : MonoBehaviour {
 
@@ -344,7 +345,9 @@ public class MapImage : MonoBehaviour {
 		closeButton_Obj.SetActive (true);
 		openButton_Obj.SetActive (false);
 
-		PlayerLoot.Instance.Close ();
+		Tween.Bounce ( mapGroup.transform , 0.2f , 1.05f );
+
+		PlayerLoot.Instance.HideInventory ();
 
 		CenterOnBoat ();
 	}

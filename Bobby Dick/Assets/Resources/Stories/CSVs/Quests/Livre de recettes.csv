@@ -34,7 +34,7 @@ OtherSpeak : Tenez;;LaunchCombat;;;;;
 AddToInventory<Livre de recettes>/Misc;;AddToInventory<Livre de recettes>/Misc;;;;;
 OtherSpeak : Donnez ça à mon petit chéri;;SendPlayerBackToGiver;;;;;
 SendPlayerBackToGiver;;Leave;;;;;
-HideOther;;fefezdfed;;;;;
+HideOther;;;;;;;
 Leave;;;;;;;
 ;;;;;;;
 ;;;;;;;

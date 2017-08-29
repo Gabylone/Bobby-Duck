@@ -15,6 +15,7 @@ public class EnemyBoat : Boat {
 
 	public bool followPlayer = false;
 	private bool reachedPlayer = false;
+	private bool spokeWithPlayer = false;
 
 	private bool visible = false;
 
@@ -28,10 +29,16 @@ public class EnemyBoat : Boat {
 		if (reachedPlayer == false) {
 			
 			if (followPlayer) {
+				
 				FollowPlayer ();
+
 			} else {
+				
 				GoAbout ();
+
 			}
+		} else {
+			GoAbout ();
 		}
 
 		base.Update ();
@@ -43,6 +50,8 @@ public class EnemyBoat : Boat {
 
 		Vector2 getDir = NavigationManager.Instance.getDir(OtherBoatInfo.currentDirection);
 		GetTransform.position = NavigationManager.Instance.OtherAnchors[(int)OtherBoatInfo.currentDirection].position;
+
+		spokeWithPlayer = false;
 	}
 
 	#region world
@@ -68,15 +77,19 @@ public class EnemyBoat : Boat {
 	}
 
 	void OnCollisionEnter2D (Collision2D collider) {
-		if ( collider.gameObject.tag == "Player") {
-			Enter ();
+
+		if (spokeWithPlayer == false) {
+			if (collider.gameObject.tag == "Player") {
+				Enter ();
+			}
 		}
 	}
 	#endregion
 
 	#region story
 	public void Enter () {
-		
+
+		spokeWithPlayer = true;
 		reachedPlayer = true;
 
 		TargetSpeed = 0f;

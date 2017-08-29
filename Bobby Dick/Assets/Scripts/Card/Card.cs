@@ -28,14 +28,10 @@ public class Card : MonoBehaviour {
 	private GameObject memberIcon;
 
 	[Header("Dice")]
-	[SerializeField]
-	private Text heartText;
-	[SerializeField]
-	private Image heartImage;
-	[SerializeField]
-	private Text attackText;
-	[SerializeField]
-	private Text defenseText;
+	public Text heartText;
+	public Image heartImage;
+	public Text attackText;
+	public Text defenseText;
 
 	[Header("Card Bounds")]
 	[SerializeField]
@@ -44,15 +40,6 @@ public class Card : MonoBehaviour {
 	private Vector2 cardBoundsY = new Vector2();
 	[SerializeField]
 	private bool centerCard = false;
-
-	// states => hunger ; cold ( array way )
-	[Header("States")]
-	[SerializeField]
-	private Image[] stateFeedbacks;
-	[SerializeField]
-	private Image[] stateWarnings;
-	[SerializeField]
-	private Animator[] stateAnimators;
 
 	public virtual void Init () {
 		
@@ -73,11 +60,11 @@ public class Card : MonoBehaviour {
 			// INFO
 		lvl_Text.text = member.Level.ToString ();
 
-		lvl_Image.fillAmount = ((float)member.Xp / (float)member.StepToNextLevel);
+		lvl_Image.fillAmount = ((float)member.CurrentXp / (float)member.XpToLevelUp);
 
 		// STATS & Equipment
 
-		heartImage.fillAmount = (float)member.Health / (float)member.MaxHealth;
+		heartImage.fillAmount = (float)member.Health / (float)member.MemberID.maxHealth;
 		heartText.text = member.Health.ToString ();
 
 		attackText.text = member.Attack.ToString ();
@@ -85,12 +72,6 @@ public class Card : MonoBehaviour {
 
 			// STATES
 		float[] values = new float[2] { member.CurrentHunger, member.CurrentCold };
-//
-//		stateFeedbacks [0].fillAmount = values[0] / member.MaxState;
-//		stateFeedbacks [0].color = values[0] >= member.MaxState ? Color.red : Color.white;
-//		stateWarnings[0].enabled = values[0] >= member.MaxState;
-
-//		stateAnimators[0].SetBool ("Warning",values[0] >= member.MaxState);
 	}
 
 	public void PlaceCard (Vector3 pos) {
@@ -137,6 +118,12 @@ public class Card : MonoBehaviour {
 	public Transform IconAnchor {
 		get {
 			return iconAnchor;
+		}
+	}
+
+	public Image Lvl_Image {
+		get {
+			return lvl_Image;
 		}
 	}
 }

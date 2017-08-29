@@ -29,18 +29,6 @@ public class PlayerLoot : MonoBehaviour {
 		}
 	}
 
-	public GameObject CrewGroup {
-		get {
-			return crewGroup;
-		}
-	}
-
-	[Header("Category Contents")]
-	[SerializeField]
-	private CategoryContent inventoryCategoryContent;
-	[SerializeField]
-	private CategoryContent tradeCategoryContent;
-
 	[Header("LootUI")]
 	[SerializeField]
 	private LootUI lootUI;
@@ -70,12 +58,38 @@ public class PlayerLoot : MonoBehaviour {
 		// init crew cards
 		inventoryCard.Init ();
 
-		crewGroup.SetActive (false);
+		HideCrewGroup ();
 
 		lootUI.useInventory += HandleUseInventory;
 
+		StoryLauncher.Instance.playStoryEvent += HandlePlayStory;
+		StoryLauncher.Instance.endStoryEvent += HandleEndStory;
 	}
 
+	#region crew group
+	public void ShowCrewGroup () {
+		crewGroup.SetActive (true);
+		//
+	}
+	public void HideCrewGroup () {
+		crewGroup.SetActive (false);
+		//
+	}
+	#endregion
+
+	#region events
+	void HandleEndStory ()
+	{
+		canOpen = true;
+	}
+
+	void HandlePlayStory ()
+	{
+		canOpen = false;
+	}
+	#endregion
+
+	#region event handling
 	void HandleUseInventory (InventoryActionType actionType)
 	{
 		switch (actionType) {
@@ -94,28 +108,22 @@ public class PlayerLoot : MonoBehaviour {
 		default:
 			break;
 		}
+
 	}
+	#endregion
 
 	#region button action
-
-
 	public void EatItem () {
 
 		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
 
 		targetMember.Health += lootUI.SelectedItem.value;
-		targetMember.CurrentHunger -= (int)(lootUI.SelectedItem.value * 1.7f);
+
+		int i = (int)(lootUI.SelectedItem.value * 1.5f);
+
+		targetMember.CurrentHunger -= i;
 
 		RemoveSelectedItem ();
-
-		if ( CombatManager.Instance.Fighting ) {
-
-			ateSomething = true;
-
-			Close ();
-
-			CombatManager.Instance.NextTurn ();
-		}
 
 	}
 
@@ -123,8 +131,10 @@ public class PlayerLoot : MonoBehaviour {
 
 		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
 
-		if (!targetMember.CheckLevel (lootUI.SelectedItem.level))
+		if (!targetMember.CheckLevel (lootUI.SelectedItem.level)) {
+			Tween.Bounce (inventoryCard.Lvl_Image.transform);
 			return;
+		}
 
 		CrewMember.EquipmentPart part = CrewMember.EquipmentPart.Clothes;
 		switch (lootUI.SelectedItem.category) {
@@ -141,7 +151,6 @@ public class PlayerLoot : MonoBehaviour {
 
 		targetMember.SetEquipment (part, lootUI.SelectedItem);
 
-		PlayerLoot.Instance.inventoryCard.UpdateMember (targetMember);
 
 		RemoveSelectedItem ();
 	}
@@ -169,63 +178,6 @@ public class PlayerLoot : MonoBehaviour {
 		LootManager.Instance.PlayerLoot.RemoveItem (lootUI.SelectedItem);
 		lootUI.UpdateLootUI ();
 	}
-
-	public void UseItem () {
-
-		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
-
-		switch (lootUI.SelectedItem.category) {
-		case ItemCategory.Provisions:
-			
-			break;
-		case ItemCategory.Weapon:
-		case ItemCategory.Clothes:
-
-			break;
-		}
-
-	}
-	#endregion
-
-	#region crew navigator
-	public void Open (int id) {
-		if (!CanOpen)
-			return;
-		
-		selectedMemberIndex = id;
-
-		inventoryCard.UpdateMember (Crews.playerCrew.CrewMembers[id]);
-
-		Open (inventoryCategoryContent);
-	}
-	public void Open (CategoryContent categorycontent) {
-		
-		Opened = true;
-		lootUI.Show (categorycontent);
-
-		if (openInventory != null)
-			openInventory ();
-		else
-			Debug.LogError ("no events linked to open inventory");
-	}
-	public void Close () {
-
-		if (closeInventory != null)
-			closeInventory();
-		else
-			Debug.LogError ("no events linked to close inventory");
-
-		Opened = false;
-		lootUI.Visible = false;
-
-		if ( CombatManager.Instance.Fighting ) {
-
-			if (ateSomething == false)
-				CombatManager.Instance.ChangeState (CombatManager.States.PlayerAction);
-
-			ateSomething = false;
-		}
-	}
 	#endregion
 
 	#region crew management
@@ -237,21 +189,56 @@ public class PlayerLoot : MonoBehaviour {
 	#endregion
 
 	#region properties
+	public void ShowInventory (CategoryContentType catContentType ) {
+
+		if (!CanOpen) {
+			return;
+		}
+
+			// set bool
+		opened = true;
+
+			// event
+		openInventory ();
+
+			// update member
+		inventoryCard.UpdateMember (Crews.playerCrew.CrewMembers[selectedMemberIndex]);
+
+			// update crew position
+		Crews.getCrew (Crews.Side.Player).UpdateCrew (Crews.PlacingType.Map);
+
+			// close map
+		MapImage.Instance.CloseMap ();
+
+			// show elements
+		ShowCrewGroup();
+		lootUI.Show (catContentType);
+	}
+	public void HideInventory () {
+
+		if (Opened == false)
+			return;
+
+			// set bool
+		opened = false;
+
+		Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.playerCrew.captain.Icon.PreviousPlacingType);
+
+		foreach (CrewMember member in Crews.getCrew(Crews.Side.Player).CrewMembers)
+			member.Icon.Down ();
+
+			// event
+		closeInventory();
+
+			// hide elements
+		HideCrewGroup();
+		lootUI.Hide ();
+
+	}
+
 	public bool Opened {
 		get {
 			return opened;
-		}
-		set {
-
-			opened = value;
-
-			crewGroup.SetActive (value);
-
-			if ( value == true )
-				MapImage.Instance.CloseMap();
-
-			if ( value == false )
-				BoatUpgradeManager.Instance.CloseUpgradeMenu ();
 		}
 	}
 
@@ -260,7 +247,6 @@ public class PlayerLoot : MonoBehaviour {
 		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (parent);
 		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.localPosition = Vector3.zero;
 		Crews.playerCrew.CrewMembers [i].Icon.Overable = false;
-
 	}
 
 	public void HideMember (int i ) {
@@ -279,15 +265,26 @@ public class PlayerLoot : MonoBehaviour {
 
 	#endregion
 
-	public CategoryContent TradeCategoryContent {
-		get {
-			return tradeCategoryContent;
-		}
-	}
-
 	public ActionGroup ActionGroup {
 		get {
 			return actionGroup;
 		}
 	}
+
+	public int SelectedMemberIndex {
+		get {
+			return selectedMemberIndex;
+		}
+		set {
+
+			Crews.playerCrew.CrewMembers [selectedMemberIndex].Icon.Down ();
+
+
+			selectedMemberIndex = value;
+
+			Crews.playerCrew.CrewMembers [value].Icon.Up ();
+
+		}
+	}
+
 }

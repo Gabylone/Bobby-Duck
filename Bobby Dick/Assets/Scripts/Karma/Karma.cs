@@ -57,12 +57,33 @@ public class Karma : MonoBehaviour {
 
 		Visible = false;
 
+		StoryFunctions.Instance.getFunction+= HandleGetFunction;
 	}
 
 	void Update () {
 
 		UpdateLerp ();
 	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.CheckKarma:
+			CheckKarma ();
+			break;
+		case FunctionType.AddKarma:
+			AddKarma();
+			break;
+		case FunctionType.RemoveKarma:
+			RemoveKarma();
+			break;
+		case FunctionType.PayBounty:
+			PayBounty();
+			break;
+		}
+	}
+
+
 
 	public void CheckKarma () {
 

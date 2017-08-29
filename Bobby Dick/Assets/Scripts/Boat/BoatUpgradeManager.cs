@@ -67,6 +67,16 @@ public class BoatUpgradeManager : MonoBehaviour {
 		}
 
 		PlayerLoot.Instance.closeInventory += CloseUpgradeMenu;
+
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		if ( func == FunctionType.BoatUpgrades ) {
+			ShowUpgradeMenu ();
+			Trading = true;
+		}
 	}
 
 	public void ShowUpgradeMenu () {
@@ -76,12 +86,21 @@ public class BoatUpgradeManager : MonoBehaviour {
 		UpdateInfo ();
 
 		nameTextUI.text = Boats.Instance.PlayerBoatInfo.Name;
+
+		Tween.Bounce (menuObj.transform, 0.2f, 1.05f);
+		Tween.ClearFade (menuObj.transform);
 	}
 
 	public void CloseUpgradeMenu () {
-		menuObj.SetActive (false);
+		Tween.Scale (menuObj.transform,0.2f, 0.8f);
+		Tween.Fade (menuObj.transform, 0.2f);
+
+		Invoke ("HideMenu",0.2f);
 	}
 
+	void HideMenu () {
+		menuObj.SetActive (false);
+	}
 
 	public void Upgrade ( int i ) {
 

@@ -25,15 +25,16 @@ public class ActionGroup : MonoBehaviour {
 		
 	}
 
-	public void UpdateButtons (ButtonType buttonType1 , ButtonType buttonType2 = ButtonType.None) {
+	public void UpdateButtons (ButtonType[] buttonTypes) {
 
 		foreach ( GameObject button in buttonObjects ) {
 			button.SetActive (false);
 		}
 
-		buttonObjects [(int)buttonType1].SetActive (true);
-		if ( buttonType2 != ButtonType.None )
-			buttonObjects [(int)buttonType2].SetActive (true);
+		buttonObjects [(int)buttonTypes[0]].SetActive (true);
+
+		if ( buttonTypes.Length > 1 )
+			buttonObjects [(int)buttonTypes[1]].SetActive (true);
 
 	}
 
@@ -48,4 +49,9 @@ public class ActionGroup : MonoBehaviour {
 		}
 	}
 
+	public GameObject[] ButtonObjects {
+		get {
+			return buttonObjects;
+		}
+	}
 }

@@ -7,8 +7,13 @@ public class MemberID {
 
 	public bool Male = false;
 
+	public int health = 100;
+	public int maxHealth = 100;
+
 	// lvl
 	public int Lvl 		= 0;
+	public int xp 		= 0; 
+	public int statPoints = 0;
 
 	// stats
 	public int Str = 1;
@@ -43,8 +48,8 @@ public class MemberID {
 
 			if ( StoryReader.Instance.CurrentStoryHandler.storyType == StoryType.Quest ) {
 				Debug.Log ("l'histoire est une quete, donc la crew est du meme niveau que ma quete");
-				QuestManager.Instance.CurrentQuest.goldValue += (Lvl * 10);
-				QuestManager.Instance.CurrentQuest.experience += (Lvl * 10);
+				QuestManager.Instance.CurrentQuest_Target.goldValue += (Lvl * 10);
+				QuestManager.Instance.CurrentQuest_Target.experience += (Lvl * 10);
 			}
 		}
 
@@ -71,6 +76,9 @@ public class MemberID {
 
 			--stats;
 		}
+
+		maxHealth = 100 + (Con * 10);
+		health = maxHealth;
 
 		// il a 35% de chance d'être noir
 		BodyColorID 	= Random.value < 0.35f ? 0 : 1;

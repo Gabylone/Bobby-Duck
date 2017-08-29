@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Holoville.HOTween;
 
 public class Dice : MonoBehaviour {
 
@@ -30,9 +31,6 @@ public class Dice : MonoBehaviour {
 
 	private int throwDirection = 1;
 
-	private bool settling = false;
-	private Quaternion initRot = Quaternion.identity;
-	private Quaternion targetRot = Quaternion.identity;
 	private float settleDuration = 0.5f;
 
 	public Transform anchor;
@@ -40,16 +38,7 @@ public class Dice : MonoBehaviour {
 
 	// Use this for initialization
 	public void Init () {
-
-		settleDuration = DiceManager.Instance.settlingDuration/2;
-	}
-
-	// Update is called once per frame
-	void Update () {
-		if (settling) {
-			Settling ();
-			timer += Time.deltaTime;
-		}
+		settleDuration = DiceManager.Instance.settlingDuration;
 	}
 
 	public void Reset () {
@@ -76,7 +65,7 @@ public class Dice : MonoBehaviour {
 		GetComponent<BoxCollider> ().enabled = true;
 		GetComponent<Rigidbody> ().isKinematic = false;
 
-		Vector3 dir = (Vector3.zero - transform.position).normalized;
+		Vector3 dir = Vector3.right;
 
 		GetComponent<Rigidbody> ().AddForce ( dir * throwDirection *  Random.Range (minForce , maxForce) );
 		GetComponent<Rigidbody> ().AddTorque ( dir * throwDirection * Random.Range (minTorque,maxTorque) );
@@ -87,30 +76,26 @@ public class Dice : MonoBehaviour {
 	float targetScale;
 
 	public void SettleDown () {
-		settling = true;
-		timer = 0f;
 
-		targetScale = 0f;
+		HOTween.To ( transform , settleDuration , "localScale" , Vector3.one * 0f );
+
+		foreach (SpriteRenderer rend in GetComponentsInChildren<SpriteRenderer>()) {
+
+			HOTween.To (rend, settleDuration, "color", Color.clear);
+
+		}
+
 	}
 
 	public void SettleUp() {
-		settling = true;
-		timer = 0f;
+		
+		HOTween.To ( transform , settleDuration , "localScale" , Vector3.one * 1.5f );
 
-		targetScale =  1.5f;
-	}
-	Vector3 initDir = Vector3.zero;
-	private void Settling () {
-		float l = timer / settleDuration;
+		foreach (SpriteRenderer rend in GetComponentsInChildren<SpriteRenderer>()) {
 
-		transform.localScale = Vector3.Lerp (Vector3.one, Vector3.one * targetScale, l);
+			HOTween.To (rend, settleDuration, "color", Color.white);
 
-		foreach (SpriteRenderer rend in GetComponentsInChildren<SpriteRenderer>() ) {
-			rend.color = Color.Lerp (DiceManager.Instance.DiceColors (currType), Color.clear, l);
 		}
-
-		if (l >= 1) 
-			settling = false;
 	}
 	#endregion
 
@@ -129,7 +114,7 @@ public class Dice : MonoBehaviour {
 			int i = 1;
 
 			foreach ( Vector3 d in dirs ) {
-				if (Vector3.Dot (d, -Vector3.forward) > 0.5f) {
+				if (Vector3.Dot (d, Vector3.up) > 0.5f) {
 					return i;
 				}
 
@@ -149,6 +134,34 @@ public class Dice : MonoBehaviour {
 		set {
 			throwDirection = value;
 		}
+	}
+	public void TurnToDirection (int i ) {
+		
+		GetComponent<Rigidbody> ().velocity = Vector3.zero;
+		GetComponent<Rigidbody> ().angularVelocity = Vector3.zero;
+
+		return;
+
+//		switch(i) {
+//		case 1:
+//			HOTween.To ( transform ,settleDuration, "up" , Vector3.up );
+//			break;
+//		case 2:
+//			HOTween.To ( transform ,settleDuration, "right" , Vector3.up );
+//			break;
+//		case 3:
+//			HOTween.To ( transform ,settleDuration, "forward" , Vector3.up );
+//			break;
+//		case 4:
+//			HOTween.To ( transform ,settleDuration, "up" , -Vector3.up );
+//			break;
+//		case 5:
+//			HOTween.To ( transform ,settleDuration, "right" , -Vector3.up );
+//			break;
+//		case 6:
+//			HOTween.To ( transform ,settleDuration, "forward" , -Vector3.up );
+//			break;
+//		}
 	}
 	#endregion
 

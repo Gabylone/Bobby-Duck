@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID;;;;;;;;;;;;
-Hangar;4,69;1;;;;;;;;;;;;
+Hangar;4,48;1;;;;;;;;;;;;
 Narrator : Le bateau est accosté sur une minuscule île, la plage est jonchée de bateau de toute taille, certains sont mêmes des carcasses. Il y a une vielle cabane au bout d'un petit chemin.;;;;;;;;;;;;;;
 CheckQuest[debut];;;;;;;;;;;;;;
 [debut];;;;;;;;;;;;;;

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Holoville.HOTween;
 
 public class WeightManager : MonoBehaviour {
 
@@ -20,6 +21,10 @@ public class WeightManager : MonoBehaviour {
 	private float timer = 0f;
 	[SerializeField]
 	private float feedbackDuration = 0.3f;
+	[SerializeField]
+	private float feedbackBounceDuration = 0.3f;
+	[SerializeField]
+	private float feedbackScaleAmount = 1.3f;
 
 	[Header("Sound")]
 	[SerializeField] 
@@ -38,6 +43,8 @@ public class WeightManager : MonoBehaviour {
 
 		PlayerLoot.Instance.LootUI.useInventory += UpdateDisplay;
 
+		LootManager.Instance.updateLoot += UpdateDisplay;
+
 		Hide ();
 
 	}
@@ -52,14 +59,30 @@ public class WeightManager : MonoBehaviour {
 		}
 	}
 
+	private void Bounce () {
+		HOTween.To ( weightGroup.transform , feedbackBounceDuration , "localScale" , Vector3.one * feedbackScaleAmount, false , EaseType.EaseOutBounce , 0f);
+		HOTween.To ( weightGroup.transform , feedbackBounceDuration , "localScale" , Vector3.one , false , EaseType.Linear , feedbackBounceDuration );
+	}
+
 	#region weight control
 	public bool CheckWeight ( int amount ) {
 
+		DisplayFeedback ();
+
 		if ( CurrentWeight + amount > currentCapacity ) {
+
+			print ("PEUT PAS PRENDRE : " + amount + " parce qu'il a dej a " + CurrentWeight);
+
 			SoundManager.Instance.PlaySound ( noRoomSound );
-			DisplayFeedback ();
+
+			Bounce ();
+
+			currentWeightText.color = Color.red;
+
 			return false;
 		}
+
+		currentWeightText.color = Color.white;
 
 		return true;
 
@@ -74,19 +97,26 @@ public class WeightManager : MonoBehaviour {
 	#endregion
 
 	#region feedback
-	public void DisplayFeedback () {	
+	bool wasActive = false;
+	public void DisplayFeedback () {
+		
 		displayingFeedback = true;
 		timer = 0f;
 
-		weightImage.color = Color.red;
-		currentWeightText.color = Color.red;
+		Bounce ();
+
+		wasActive = Visible;
+
+		Show ();
 	}
 
 	public void HideFeedback () {
-		displayingFeedback = false;
 
-		weightImage.color = Color.white;
+		Visible = wasActive;
+
 		currentWeightText.color = Color.white;
+
+		displayingFeedback = false;
 	}
 	#endregion
 
@@ -110,6 +140,7 @@ public class WeightManager : MonoBehaviour {
 		Visible = true;
 	}
 	public void Hide () {
+		return;
 		Visible = false;
 	}
 

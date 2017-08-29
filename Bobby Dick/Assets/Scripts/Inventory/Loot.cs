@@ -32,11 +32,6 @@ public class Loot {
 			loot[i] = new Item[0];
 	}
 
-	public void Randomize ( ItemCategory category ) {
-		ItemCategory[] cats = new ItemCategory [1] { category };
-		Randomize (cats);
-	}
-
 	public void Randomize ( ItemCategory[] categories ) {
 		foreach ( Item[] items in ItemLoader.Instance.getRandomLoot (categories) ) {
 			foreach ( Item item in items )
@@ -111,6 +106,10 @@ public class Loot {
 		loot [(int)newItem.category] = newItems;
 
 		weight += newItem.weight;
+
+		if ( LootManager.Instance.updateLoot != null )
+		LootManager.Instance.updateLoot ();
+
 	}
 
 	public void RemoveItem ( Item itemToRemove ) {
@@ -133,6 +132,10 @@ public class Loot {
 		loot [(int)category] = newItems;
 
 		weight -= itemToRemove.weight;
+
+		if ( LootManager.Instance.updateLoot != null )
+		LootManager.Instance.updateLoot ();
+
 
 	}
 	#endregion

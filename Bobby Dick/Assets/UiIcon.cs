@@ -29,7 +29,7 @@ public class UiIcon : MonoBehaviour {
 	public virtual void HandleChunkEvent ()
 	{
 		Show ();
-		Invoke ("Close", 1f);
+		Invoke ("Hide", 1f);
 	}
 
 	public virtual void HandleOpenInventory ()

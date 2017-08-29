@@ -172,6 +172,8 @@ public class Fighter : MonoBehaviour {
 		infoButton.SetActive (false);
 
 		chooseButton.SetActive (false);
+
+
 	}
 
 	// Update is called once per frame
@@ -191,10 +193,16 @@ public class Fighter : MonoBehaviour {
 //			ChangeState (states.hit);
 	}
 
+	// c'est pour que le start se fasse qu'on fois seulement pour ça c'est idiot mais bon
+	bool started = false;
+
 	#region initalization
 	public void Init (CrewMember crewMember, int id )
 	{
-		Start ();
+		if (!started) {
+			Start ();
+			started = true;
+		}
 
 		ID = id;
 
@@ -226,6 +234,8 @@ public class Fighter : MonoBehaviour {
 		ChangeState (states.none);
 		animator.SetBool("dead",false);
 		fightSprites.Fade_Reset ();
+
+		print ("reseting");
 	}
 
 	public virtual void Die () {
@@ -403,9 +413,7 @@ public class Fighter : MonoBehaviour {
 	}
 	void dead_Update ()
 	{
-		if ( timeInState > 1 ) {
-			
-		}
+		
 	}
 	void dead_Exit ()
 	{

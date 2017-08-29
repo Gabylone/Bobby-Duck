@@ -131,11 +131,6 @@ public class CrewCreator : MonoBehaviour {
 
 		icon.HideBody ();
 
-		// appearence
-
-			// face
-
-
 		return iconObj;
 	}
 	#endregion

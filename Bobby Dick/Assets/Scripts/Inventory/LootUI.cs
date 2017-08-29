@@ -32,7 +32,12 @@ public class LootUI : MonoBehaviour {
 	[SerializeField]
 	private GameObject itemButtonGroup;
 	private ItemButton[] itemButtons = new ItemButton[0];
-	private Item[] selectedItems;
+	private Item[] selectedItems {
+		get {
+			ItemCategory[] categories = CategoryContent.itemCategories [currentCat].categories;
+			return LootManager.Instance.getLoot (side).getCategory (categories);
+		}
+	}
 	private int selectionIndex = 0;
 
 
@@ -52,7 +57,6 @@ public class LootUI : MonoBehaviour {
 	[SerializeField]
 	private ActionGroup actionGroup;
 
-
 	void Awake () {
 		Init ();
 	}
@@ -68,24 +72,32 @@ public class LootUI : MonoBehaviour {
 			++a;
 		}
 
-		Visible = false;
+		Hide ();
 	}
 
-	public void Show (CategoryContent _categoryContent) {
-		categoryContent = _categoryContent;
-		Visible = true;
+	public void Show (CategoryContentType catContentType) {
+
+		categoryContent = LootManager.Instance.GetCategoryContent(catContentType);
+
 		itemButtons [0].Select ();
+		SwitchCategory (0);
+
+		visible = true;
+		lootObj.SetActive (true);
+
+		UpdateLootUI ();
+
+	}
+
+	public void Hide () {
+
+		visible = false;
+		lootObj.SetActive (false);
 	}
 
 	public bool Visible {
 		get {
 			return visible;
-		}
-		set {
-			visible = value;
-			lootObj.SetActive (value);
-			if ( value == true )
-				SwitchCategory (0);
 		}
 	}
 
@@ -98,12 +110,12 @@ public class LootUI : MonoBehaviour {
 
 			ItemButton itemButton = itemButtons [i];
 
-			itemButton.gameObject.SetActive ( a < SelectedItems.Length );
+			itemButton.gameObject.SetActive ( a < selectedItems.Length );
 
-			if ( a < SelectedItems.Length ) {
+			if ( a < selectedItems.Length ) {
 
 //				Debug.Log (a.ToString ());
-				Item item = SelectedItems[a];
+				Item item = selectedItems[a];
 				itemButton.HandledItem = item;
 
 			}
@@ -125,6 +137,8 @@ public class LootUI : MonoBehaviour {
 
 		categoryButtons [cat].interactable = false;
 
+		Tween.Bounce (categoryButtons[cat].transform, 0.2f , 1.1f);
+
 		currentPage = 0;
 
 		UpdateLootUI ();
@@ -135,10 +149,6 @@ public class LootUI : MonoBehaviour {
 
 		if (!visible)
 			return;
-
-		ItemCategory[] categories = CategoryContent.itemCategories [currentCat].categories;
-		Item[] items = LootManager.Instance.getLoot (side).getCategory (categories);
-		SelectedItems = items;
 
 		UpdatePages ();
 		UpdateItemButtons ();
@@ -177,10 +187,7 @@ public class LootUI : MonoBehaviour {
 
 				categoryButtons [i].GetComponentsInChildren<Image> () [1].sprite = sprite;
 
-				if (i < CategoryContent.amount) {
-//				categoryButtons [i].GetComponentInChildren<Text> ().text = CategoryContent.names[i];
-					categoryButtons [i].image.color = CategoryContent.colors [i];
-				}
+
 			}
 
 		}
@@ -200,10 +207,10 @@ public class LootUI : MonoBehaviour {
 	}
 
 	private void UpdatePages () {
-		maxPage = Mathf.CeilToInt ( SelectedItems.Length / ItemPerPage);
+		maxPage = Mathf.CeilToInt ( selectedItems.Length / ItemPerPage);
 
 		previousPageButton.SetActive( currentPage > 0 );
-		nextPageButton.SetActive( currentPage < maxPage );
+		nextPageButton.SetActive( selectedItems.Length > ItemPerPage * (currentPage+1));
 	}
 
 	public int ItemPerPage {
@@ -215,24 +222,28 @@ public class LootUI : MonoBehaviour {
 
 	#region action button
 	public void InventoryAction ( int i ) {
+
+		Tween.Bounce (actionGroup.ButtonObjects[i].transform );
+
 		if (useInventory != null)
 			useInventory ((InventoryActionType)i);
 		else
 			print ("no function liked to the event : use inventory");
+
 	}
 	public void UpdateActionButton (int itemIndex) {
 
-		if ( currentCat >= CategoryContent.interactable.Length ) {
+		if ( currentCat >= CategoryContent.itemCategories.Length ) {
 
 			Debug.LogError ("Y AUN TRUC QUI VA PAS DANS L INVENTAIRE ET LES CATEGORIES");
 			Debug.LogError ("CURRENT CAT : " + currentCat);
-			Debug.LogError ("LONGUEUR DE LA LISTE : " + CategoryContent.interactable.Length);
+			Debug.LogError ("LONGUEUR DE LA LISTE : " + CategoryContent.itemCategories.Length);
 
 		}
-		bool enoughItemsOnPage = SelectedItems.Length > CurrentPage * ItemPerPage;
+		bool enoughItemsOnPage = selectedItems.Length > CurrentPage * ItemPerPage;
 
-		actionGroup.Visible = CategoryContent.interactable[currentCat] && enoughItemsOnPage;
-		actionGroup.UpdateButtons (CategoryContent.catButtonType[currentCat].buttonTypes [0], CategoryContent.catButtonType[currentCat].buttonTypes [1]);
+		actionGroup.Visible =  enoughItemsOnPage;
+		actionGroup.UpdateButtons (CategoryContent.catButtonType[currentCat].buttonTypes);
 
 
 		foreach (ItemButton itemButton in itemButtons)
@@ -287,8 +298,15 @@ public class LootUI : MonoBehaviour {
 			return selectionIndex;
 		}
 		set {
+
+			bool bounce = selectionIndex != value;
+
 			selectionIndex = value;
 			itemButtons [selectionIndex].Enabled = false;
+
+			if ( bounce )
+				Tween.Bounce( itemButtons[selectionIndex].transform , 0.2f , 1.1f);
+
 		}
 	}
 
@@ -300,29 +318,18 @@ public class LootUI : MonoBehaviour {
 			lootObj = value;
 		}
 	}
-
-	public Item[] SelectedItems {
-		get {
-			return selectedItems;
-		}
-		set {
-			selectedItems = value;
-		}
-	}
 }
 
 [System.Serializable]
 public class CategoryContent {
 
-	public int amount = 0;
-
 	public Categories[] itemCategories;
 
-	public string[] names;
-	public Color[] colors;
-	public bool[] interactable;
+//	public string[] names;
+//	public Color[] colors;
+//	public bool[] interactable;
 
-	public CategoryButtonType[] catButtonType;
+	public CategoryButtonType[] catButtonType = new CategoryButtonType[4];
 
 
 }
@@ -343,6 +350,7 @@ public class Categories {
 
 [System.Serializable]
 public class CategoryButtonType {
+	
 	public ActionGroup.ButtonType[] buttonTypes = new ActionGroup.ButtonType[2];
 
 	public ActionGroup.ButtonType this [int i] {

@@ -130,7 +130,10 @@ public class CrewManager : MonoBehaviour {
 		CrewCreator.Instance.TargetSide = side;
 
 		for (int i = 0; i < crew.MemberIDs.Count; ++i ) {
-			CrewMembers.Add (CrewCreator.Instance.NewMember (crew.MemberIDs[i]));
+
+			CrewMember member = CrewCreator.Instance.NewMember (crew.MemberIDs [i]);
+			member.id = i;
+			CrewMembers.Add (member);
 		}
 
 		ManagedCrew = crew;

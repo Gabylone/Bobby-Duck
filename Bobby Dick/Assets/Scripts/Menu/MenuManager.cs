@@ -6,21 +6,27 @@ public class MenuManager : MonoBehaviour {
 
 	[SerializeField]
 	private SaveMenu saveMenu;
-	[SerializeField]
-	private UIButton uiButton;
 
 	[SerializeField]
 	private GameObject quitFeedback;
 
+	[SerializeField]
+	private GameObject openButton;
+	[SerializeField]
+	private GameObject menuGroup;
+
 	bool quit_Confirmed = false;
 
+
 	public void Open () {
-		uiButton.Opened = true;
+
+		menuGroup.SetActive (true);
+		Tween.Bounce (menuGroup.transform , 0.2f , 1.1f);
 	}
 
 	public void Close () {
 		
-		uiButton.Opened = false;
+		menuGroup.SetActive (false);
 
 		saveMenu.Opened = false;
 
@@ -32,6 +38,7 @@ public class MenuManager : MonoBehaviour {
 
 	#region buttons
 	public void SaveButton () {
+
 		saveMenu.Saving = true;
 		saveMenu.Opened = !saveMenu.Opened;
 	}
@@ -47,6 +54,7 @@ public class MenuManager : MonoBehaviour {
 		} else {
 			quit_Confirmed = true;
 			quitFeedback.SetActive (true);
+			Tween.Bounce (quitFeedback.transform, 0.2f, 1.2f);
 		}
 	}
 	#endregion

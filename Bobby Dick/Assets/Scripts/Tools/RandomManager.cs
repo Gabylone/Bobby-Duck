@@ -7,39 +7,34 @@ public class RandomManager : MonoBehaviour {
 
 	public int targetDecal = 0;
 
-	public bool overrideRandom = false;
-
 	void Awake( ) {
 		Instance = this;
-
-
 	}
 
-	void Update () {
-//		if ( overrideRandom ) {
-//			KeyCode[] keyCodes = new KeyCode[9] {
-//				KeyCode.Alpha1,
-//				KeyCode.Alpha2,
-//				KeyCode.Alpha3,
-//				KeyCode.Alpha4,
-//				KeyCode.Alpha5,
-//				KeyCode.Alpha6,
-//				KeyCode.Alpha7,
-//				KeyCode.Alpha8,
-//				KeyCode.Alpha9,
-//			};
-//
-//			int a = 0;
-//			foreach (KeyCode keyCode in keyCodes) {
-//				if (Input.GetKeyDown (keyCode))
-//					targetDecal = a;
-//				++a;
-//			}
-//		}
+	void Start () {
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.RandomRange:
+			RandomRange (cellParameters);
+			break;
+		case FunctionType.RandomRedoRange:
+			RandomRedoRange (cellParameters);
+			break;
+		case FunctionType.RandomPercent:
+			RandomPercent (cellParameters);
+			break;
+		case FunctionType.RandomRedoPercent:
+			RandomRedoPercent (cellParameters);
+			break;
+		}
 	}
 
 	#region random
-	public void RandomPercent (string cellParams) {
+	void RandomPercent (string cellParams) {
 
 		float chance = float.Parse ( cellParams );
 
@@ -51,14 +46,10 @@ public class RandomManager : MonoBehaviour {
 
 		int decal = 0;
 
-		if (overrideRandom) {
-			decal = Mathf.Clamp (targetDecal, 0, 2);
+		if (StoryReader.Instance.CurrentStoryHandler.GetDecal() > -1) {
+			decal = StoryReader.Instance.CurrentStoryHandler.GetDecal();
 		} else {
-			if (StoryReader.Instance.CurrentStoryHandler.GetDecal() > -1) {
-				decal = StoryReader.Instance.CurrentStoryHandler.GetDecal();
-			} else {
-				decal = randomDecal;
-			}
+			decal = randomDecal;
 		}
 
 		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);
@@ -68,7 +59,7 @@ public class RandomManager : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 
 	}
-	public void RandomRange (string cellParams) {
+	void RandomRange (string cellParams) {
 
 		int range = int.Parse (cellParams);
 		int randomDecal = Random.Range (0, range);
@@ -77,14 +68,10 @@ public class RandomManager : MonoBehaviour {
 
 		int decal = 0;
 
-		if (overrideRandom) {
-			decal = Mathf.Clamp (targetDecal, 0, range-1);	
+		if (StoryReader.Instance.CurrentStoryHandler.GetDecal() > -1) {
+			decal = StoryReader.Instance.CurrentStoryHandler.GetDecal();
 		} else {
-			if (StoryReader.Instance.CurrentStoryHandler.GetDecal() > -1) {
-				decal = StoryReader.Instance.CurrentStoryHandler.GetDecal();
-			} else {
-				decal = randomDecal;
-			}
+			decal = randomDecal;
 		}
 
 		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);
@@ -93,7 +80,8 @@ public class RandomManager : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 
 	}
-	public void RandomRedoPercent (string cellParams) {
+
+	void RandomRedoPercent (string cellParams) {
 
 		float chance = float.Parse ( cellParams );
 
@@ -107,7 +95,7 @@ public class RandomManager : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 
 	}
-	public void RandomRedoRange (string cellParams) {
+	void RandomRedoRange (string cellParams) {
 
 		int range = int.Parse (cellParams);
 		int randomDecal = Random.Range (0, range);

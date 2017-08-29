@@ -6,10 +6,6 @@ public class DialogueManager : MonoBehaviour {
 
 	public static DialogueManager Instance;
 
-	void Awake () {
-		Instance = this;
-	}
-
 	[Header("UI Element")]
 	[SerializeField] private GameObject bubble_Obj;
 	[SerializeField] private RectTransform bubble_Image;
@@ -43,6 +39,35 @@ public class DialogueManager : MonoBehaviour {
 	[Header("Sounds")]
 	[SerializeField] private AudioClip[] speakSounds;
 
+	bool timed = false;
+
+	void Awake () {
+		Instance = this;
+	}
+
+	void Start () {
+		StoryFunctions.Instance.getFunction+= HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.Narrator:
+			ShowNarrator (cellParameters.Remove (0, 2));
+			StoryReader.Instance.WaitForInput ();
+			break;
+		case FunctionType.OtherSpeak:
+			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+			SetDialogue (cellParameters.Remove (0, 2), Crews.enemyCrew.captain);
+			StoryReader.Instance.WaitForInput ();
+			break;
+		case FunctionType.PlayerSpeak:
+			SetDialogue (cellParameters.Remove (0, 2), Crews.playerCrew.captain);
+			StoryReader.Instance.WaitForInput ();
+			break;
+		}
+	}
+
 	void Update() 
 	{
 		if (DisplayingText == true) {
@@ -50,24 +75,28 @@ public class DialogueManager : MonoBehaviour {
 		}
 
 	}
+
+	#region functions
+	#endregion
+
 	#region set dialogue
-	bool timed = false;
 	public void SetDialogueTimed (string phrase, Transform _target) {
 		timed = true;
 		phrase = CheckForKeyWords (phrase);
 		SetDialogue (phrase, _target);
 	}
 	public void SetDialogueTimed (string phrase, CrewMember crewMember) {
-		timed = true;
-		phrase = CheckForKeyWords (phrase);
-		SetDialogue (phrase, crewMember.Icon.dialogueAnchor);
+		SetDialogueTimed (phrase, crewMember.Icon.dialogueAnchor);
 	}
 	public void SetDialogue (string phrase, CrewMember crewMember) {
-		phrase = CheckForKeyWords (phrase);
 		SetDialogue (phrase, crewMember.Icon.dialogueAnchor);
 	}
+
+	// MAIN
 	public void SetDialogue (string phrase, Transform _target) {
-		
+
+		phrase = CheckForKeyWords (phrase);
+
 		DialogueTexts = new string[1] {phrase};
 
 		target = _target;
@@ -94,13 +123,19 @@ public class DialogueManager : MonoBehaviour {
 		DisplayingText = true;
 
 		UpdateBubblePosition ();
+		UpdateBubbleScale ();
 
 		if ( talkingMember != null )
 			SoundManager.Instance.PlaySound ( speakSounds[talkingMember.MemberID.VoiceID] );
 	}
 
 	private void UpdateDialogue () {
-		
+
+		if (target == null) {
+			EndDialogue ();
+			return;
+		}
+
 		if (CurrentTime > 0)
 		{
 			if (timed) {
@@ -195,14 +230,13 @@ public class DialogueManager : MonoBehaviour {
 	#region narrator
 	public void ShowNarratorTimed (string text) {
 
-		narratorObj.SetActive (true);
-
-		narratorText.text = CheckForKeyWords (text);
-
+		ShowNarrator (text);
 		Invoke ("HideNarrator" , 2.5f );
 	}
 	public void ShowNarrator (string text) {
-		
+
+		Tween.Bounce (narratorObj.transform , 0.1f , 1.01f);
+
 		narratorObj.SetActive (true);
 
 		narratorText.text = CheckForKeyWords (text);
@@ -222,21 +256,21 @@ public class DialogueManager : MonoBehaviour {
 		bubble_Text.text = TextsToDisplay[TextIndex];
 	}
 
-	private void UpdateBubblePosition ()
+	void UpdateBubbleScale ()
 	{
-		if (target == null) {
-			EndDialogue ();
-			return;
-		}
-
 		// scale
 		Vector3 scale = Vector3.one;
-
-
 
 		float f = target.position.x < 0 ? -1 : 1;
 		bubble_Image.localScale = new Vector3(f ,1 ,1 );
 		bubble_Text.transform.localScale = new Vector3 (f,1,1);
+
+		Tween.Bounce ( bubble_Image.transform , 0.2f , bubble_Image.localScale , 1.05f );	
+	}
+
+	private void UpdateBubblePosition ()
+	{
+		
 
 //		// bubble decal
 //		Vector3 decal = new Vector3 ( 

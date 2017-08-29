@@ -27,14 +27,18 @@ public class Fight_LoadSprites : MonoBehaviour {
 	{
 		allSprites = GetComponentsInChildren<SpriteRenderer> (true);
 		fade_InitColors = new Color[allSprites.Length];
+
+
 		for (int i = 0; i < fade_InitColors.Length; i++) {
 			fade_InitColors [i] = allSprites [i].color;
 		}
+
 	}
 
 	void Update () {
-		if (fading)
-		Fade_Update ();
+		if (fading) {
+			Fade_Update ();
+		}
 	}
 
 	public void UpdateSprites ( MemberID memberID ) {
@@ -73,6 +77,8 @@ public class Fight_LoadSprites : MonoBehaviour {
 			++a;
 		}
 
+		timer = 0f;
+		fading = false;
 	}
 	public void Fade_Start (float dur) {
 		fade_Duration = dur;

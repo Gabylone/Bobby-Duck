@@ -32,6 +32,34 @@ public class Crews : MonoBehaviour {
 	public void Init () {
 		crews [0] = GetComponentsInChildren<CrewManager> () [0];
 		crews [1] = GetComponentsInChildren<CrewManager> () [1];
+
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.NewCrew:
+			CreateNewCrew ();
+			break;
+		case FunctionType.AddMember:
+			AddMemberToCrew ();
+			break;
+		case FunctionType.RemoveMember:
+			RemoveMemberFromCrew ();
+			break;
+		case FunctionType.AddHealth:
+			AddHealth ();
+			break;
+		case FunctionType.RemoveHealth:
+			RemoveHealth();
+			break;
+		case FunctionType.HideOther:
+			enemyCrew.HideCrew ();
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.UpdateStory ();
+			break;
+		}
 	}
 
 	#region get crews
@@ -196,6 +224,30 @@ public class Crews : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (0.5f);
+	}
+	#endregion
+
+	#region health
+	private void AddHealth () {
+
+		string cellParams = StoryFunctions.Instance.CellParams;
+		int health = int.Parse ( cellParams );
+		Crews.getCrew (Crews.Side.Player).captain.Health += health;
+
+		CardManager.Instance.ShowOvering (Crews.getCrew (Crews.Side.Player).captain);
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+	}
+	private void RemoveHealth () {
+		string cellParams = StoryFunctions.Instance.CellParams;
+		int health = int.Parse ( cellParams );
+		Crews.getCrew (Crews.Side.Player).captain.Health -= health;
+
+		CardManager.Instance.ShowOvering (Crews.getCrew (Crews.Side.Player).captain);
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
 	}
 	#endregion
 }

@@ -1,6 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum FunctionType {
+
+	Leave,
+	ChangeStory,
+	Fade,
+	CheckFirstVisit,
+	RandomPercent,
+	RandomRange,
+	RandomRedoPercent,
+	RandomRedoRange,
+	NewCrew,
+	ShowPlayer,
+	ShowOther,
+	HidePlayer,
+	HideOther,
+	AddMember,
+	RemoveMember,
+	Narrator,
+	SetChoices,
+	PlayerSpeak,
+	OtherSpeak,
+	GiveTip,
+	CheckGold,
+	RemoveGold,
+	AddGold,
+	AddToInventory,
+	RemoveFromInventory,
+	CheckInInventory,
+	Loot,
+	Trade,
+	BoatUpgrades,
+	LaunchCombat,
+	CheckClues,
+	GiveFormula,
+	SetWeather,
+	ChangeTimeOfDay,
+	CheckDay,
+	Node,
+	Switch,
+	CheckStat,
+	AddHealth,
+	RemoveHealth,
+	AddKarma,
+	RemoveKarma,
+	CheckKarma,
+	PayBounty,
+	NewQuest,
+	CheckQuest,
+	SendPlayerBackToGiver,
+	FinishQuest,
+	SetQuestOnMap,
+
+}
+
 public class StoryFunctions : MonoBehaviour {
 
 	public static StoryFunctions Instance;
@@ -9,13 +63,14 @@ public class StoryFunctions : MonoBehaviour {
 
 	float waitDuration = 0.35f;
 
+	public delegate void GetFunction (FunctionType func, string cellParameters );
+	public GetFunction getFunction;
+
 	public string CellParams {
 		get {
 			return cellParams;
 		}
 	}
-
-	private string[] functionNames;
 
 	void Awake () {
 		Instance = this;
@@ -24,13 +79,14 @@ public class StoryFunctions : MonoBehaviour {
 	public void Read ( string content ) {
 
 		if (content.Length == 0) {
+			
 			string text = "cell is empty on story " + StoryReader.Instance.CurrentStoryHandler.Story.name + "" +
 				"\n at row : " + (StoryReader.Instance.Index+2) + "" +
 				"\n and collumn : " + StoryReader.Instance.Decal;
 
 			Debug.LogError (text);
 
-			Leave ();
+			StoryLauncher.Instance.EndStory ();
 			return;
 		}
 	
@@ -50,13 +106,14 @@ public class StoryFunctions : MonoBehaviour {
 			return;
 		}
 
-		foreach ( string functionName in functionNames ) {
+		foreach ( FunctionType func in System.Enum.GetValues(typeof(FunctionType)) ) {
 
-			if ( content.Contains (functionName) ){
+			if ( content.Contains (func.ToString()) ){
 
-				cellParams = content.Remove (0, functionName.Length);
+				cellParams = content.Remove (0, func.ToString().Length);
 
-				SendMessage (functionName);
+				if (getFunction != null)
+					getFunction (func,cellParams);
 
 				return;
 			}
@@ -68,507 +125,9 @@ public class StoryFunctions : MonoBehaviour {
 			"index : " + StoryReader.Instance.Index + "\n" +
 			"qui contient : " + content);
 
-		Leave ();
+		StoryLauncher.Instance.EndStory ();
 
 	}
 
-	#region random
-	private void RandomPercent () {
-		RandomManager.Instance.RandomPercent (cellParams);
-	}
-	private void RandomRange () {
-		RandomManager.Instance.RandomRange (cellParams);
-	}
-	private void RandomRedoPercent () {
-		RandomManager.Instance.RandomRedoPercent (cellParams);
-	}
-	private void RandomRedoRange () {
-		RandomManager.Instance.RandomRedoRange (cellParams);
-	}
-	#endregion
 
-	#region character & crew
-	private void NewCrew () {
-		Crews.Instance.CreateNewCrew ();
-	}
-
-	private void AddMember () {
-		Crews.Instance.AddMemberToCrew ();
-	}
-	private void RemoveMember () {
-		Crews.Instance.RemoveMemberFromCrew ();
-	}
-	#endregion
-
-	#region hide & show
-	private void HidePlayer() {
-		Crews.playerCrew.Hide ();
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-	private void ShowPlayer () {
-		Crews.playerCrew.ShowCrew ();
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-	private void HideOther () {
-		Crews.enemyCrew.Hide ();
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-	private void ShowOther() {
-		Crews.enemyCrew.ShowCrew ();
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-	#endregion
-
-	#region boatUpgrades
-	private void BoatUpgrades () {
-		BoatUpgradeManager.Instance.ShowUpgradeMenu ();
-		BoatUpgradeManager.Instance.Trading = true;
-	}
-	#endregion
-
-	#region dialogue
-	private void Narrator () {
-		string phrase = cellParams.Remove (0,2);
-		DialogueManager.Instance.ShowNarrator (phrase);
-		StoryReader.Instance.WaitForInput ();
-	}
-	private void OtherSpeak () {
-
-		string phrase = cellParams.Remove (0,2);
-
-		if ( Crews.enemyCrew.CrewMembers.Count == 0 ) {
-			Debug.LogError ("no enemy crew for other speak");
-			return;
-		}
-
-		Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-
-		DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain);
-
-		StoryReader.Instance.WaitForInput ();
-
-	}
-
-	private void PlayerSpeak () {
-		
-		string phrase = cellParams.Remove (0,2);
-
-		DialogueManager.Instance.SetDialogue (phrase, Crews.playerCrew.captain);
-		StoryReader.Instance.WaitForInput ();
-	}
-
-	private void SetChoices () {
-		ChoiceManager.Instance.GetChoices ();
-	}
-
-	private void GiveTip ()  {
-		ChoiceManager.Instance.GiveTip ();
-	}
-	#endregion
-
-	#region quest
-	private void NewQuest () {
-		QuestManager.Instance.HandleQuest ();
-	}
-	private void CheckQuest () {
-		QuestManager.Instance.CheckQuest ();
-	}
-	private void SendPlayerBackToGiver () {
-		QuestManager.Instance.SetCoordsToGiver ();
-	}
-	private void SetQuestOnMap () {
-		QuestManager.Instance.SetQuestOnMap ();
-		StoryReader.Instance.WaitForInput ();
-	}
-	private void FinishQuest () {
-		QuestManager.Instance.FinishQuest ();
-	}
-	#endregion
-
-	#region karma
-	private void CheckKarma () {
-		Karma.Instance.CheckKarma ();
-	}
-	private void AddKarma () {
-		Karma.Instance.AddKarma ();
-	}
-	private void RemoveKarma () {
-		Karma.Instance.RemoveKarma();
-	}private void PayBounty () {
-		Karma.Instance.PayBounty();
-	}
-
-	#endregion
-
-	#region end
-	void LaunchCombat () {
-		Crews.enemyCrew.ManagedCrew.hostile = true;
-		CombatManager.Instance.Fighting = true;
-	}
-	void Leave () {
-//		print ("quitter par
-		StoryLauncher.Instance.PlayingStory = false;
-	}
-	#endregion
-
-	#region gold
-	void CheckGold () {
-		GoldManager.Instance.SetGoldDecal ();
-	}
-	void RemoveGold () {
-		int amount = int.Parse (cellParams);
-		GoldManager.Instance.GoldAmount -= amount;
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait ( waitDuration );
-	}
-	void AddGold () {
-		int amount = int.Parse (cellParams);
-		GoldManager.Instance.GoldAmount += amount;
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (waitDuration);
-	}
-	#endregion
-
-	#region trade & loot
-	void Loot() {
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(getLootCategories()));
-		OtherLoot.Instance.StartLooting ();
-	}
-	void Trade() {
-
-		ItemLoader.Instance.Mult = 3;
-
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(getLootCategories()));
-		OtherLoot.Instance.StartTrade ();
-	}
-
-	public ItemCategory[] getLootCategories () {
-		string[] cellParts = cellParams.Split ('/');
-		ItemCategory[] categories = new ItemCategory[cellParts.Length];
-
-		int index = 0;
-
-		foreach ( string cellPart in cellParts ) {
-
-			categories [index] = getLootCategoryFromString(cellPart);
-
-			++index;
-		}
-
-		return categories;
-	}
-
-	public ItemCategory getLootCategoryFromString ( string arg ) {
-
-		switch (arg) {
-		case "Food":
-			return ItemCategory.Provisions;
-			break;
-		case "Weapons":
-			return ItemCategory.Weapon;
-			break;
-		case "Clothes":
-			return ItemCategory.Clothes;
-			break;
-		case "Misc":
-			return ItemCategory.Misc;
-			break;
-		}
-
-		Debug.LogError ("getLootCategoryFromString : couldn't find category in : " + arg);
-
-		return ItemCategory.Misc;
-
-	}
-
-	void RemoveFromInventory () {
-
-		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
-		StoryReader.Instance.NextCell ();
-
-		if ( LootManager.Instance.getLoot(Crews.Side.Player).getLoot[(int)targetCat].Length == 0 ) {
-			
-			StoryReader.Instance.SetDecal (1);
-
-		} else {
-
-			Item item = LootManager.Instance.getLoot(Crews.Side.Player).getLoot [(int)targetCat] [0];
-			if (CellParams.Contains ("<")) {
-				string itemName = cellParams.Split ('<') [1];
-				itemName = itemName.Remove (itemName.Length - 6);
-				item = System.Array.Find (LootManager.Instance.getLoot(Crews.Side.Player).getLoot [(int)targetCat], x => x.name == itemName);
-				if (item == null) {
-					StoryReader.Instance.SetDecal (1);
-					StoryReader.Instance.UpdateStory ();
-					return;
-				}
-			}
-
-			DialogueManager.Instance.LastItemName = item.name;
-
-			LootManager.Instance.getLoot(Crews.Side.Player).RemoveItem (item);
-
-		}
-
-		StoryReader.Instance.UpdateStory ();
-	}
-
-	void AddToInventory () {
-
-		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
-
-		Item item = null;
-
-		if (cellParams.Contains ("<")) {
-			string itemName = cellParams.Split ('<') [1];
-			itemName = itemName.Remove (itemName.Length - 6);
-			item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
-
-		} else {
-			item = ItemLoader.Instance.getRandomItem (targetCat);
-		}
-
-		LootManager.Instance.getLoot(Crews.Side.Player).AddItem (item);
-
-		DialogueManager.Instance.LastItemName = item.name;
-
-		DialogueManager.Instance.SetDialogue (item.name, Crews.playerCrew .captain);
-
-		StoryReader.Instance.WaitForInput ();
-	}
-	void CheckInInventory () {
-		StoryReader.Instance.NextCell ();
-
-		string itemName = cellParams.Split ('<')[1];
-
-		itemName = itemName.Remove (itemName.Length - 6);
-
-		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
-
-		Item item = System.Array.Find (LootManager.Instance.getLoot(Crews.Side.Player).getCategory (targetCat), x => x.name == itemName);
-
-		if (item == null) {
-			StoryReader.Instance.SetDecal (1);
-		} else {
-			DialogueManager.Instance.LastItemName = item.name;
-		}
-
-		StoryReader.Instance.UpdateStory ();
-	}
-	#endregion
-
-	#region story navigation
-	private void ChangeStory () {
-		StoryReader.Instance.ChangeStory ();
-	}
-	private void Node () {
-		StoryReader.Instance.Node ();
-	}
-	private void Switch () {
-		StoryReader.Instance.Switch ();
-	}
-
-	private void CheckFirstVisit () {
-
-		StoryReader.Instance.NextCell ();
-
-		if ( MapGenerator.Instance.CurrentChunk.State == ChunkState.VisitedIsland) {
-			StoryReader.Instance.SetDecal (1);
-		}
-
-		StoryReader.Instance.UpdateStory ();
-	}
-	#endregion
-
-	#region weather
-	void ChangeTimeOfDay () {
-		if ( TimeManager.Instance.IsNight )
-			StartCoroutine (SetWeatherCoroutine ("Day"));
-		else
-			StartCoroutine (SetWeatherCoroutine ("Night"));
-
-	}
-	void SetWeather() {
-		StartCoroutine (SetWeatherCoroutine (cellParams));
-	}
-	IEnumerator SetWeatherCoroutine (string weather) {
-
-		Transitions.Instance.FadeScreen ();
-
-		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
-
-		switch ( weather ) {
-		case "Day":
-			TimeManager.Instance.IsNight = false;
-			TimeManager.Instance.Raining = false;
-			break;
-		case "Night":
-			TimeManager.Instance.IsNight = true;
-			TimeManager.Instance.Raining = false;
-			break;
-		case "Rain":
-			TimeManager.Instance.Raining = true;
-			break;
-		}
-
-		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-
-	void Fade () {
-
-		Transitions.Instance.FadeScreen ();
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (Transitions.Instance.ActionTransition.Duration);
-
-	}
-
-	void CheckDay () {
-
-		StoryReader.Instance.NextCell ();
-
-		if (TimeManager.Instance.IsNight)
-			StoryReader.Instance.SetDecal (1);
-
-		StoryReader.Instance.UpdateStory ();
-	}
-	#endregion
-
-	#region clues
-	private void CheckClues () {
-		ClueManager.Instance.StartClue ();
-	}
-	#endregion
-
-	#region dice
-	private void CheckStat () {
-
-		int decal = StoryReader.Instance.CurrentStoryHandler.GetDecal ();
-
-		if (decal < 0) {
-			StartCoroutine (CheckStat_Coroutine ());
-		} else {
-			StoryReader.Instance.NextCell ();
-
-			StoryReader.Instance.SetDecal (decal);
-
-			StoryReader.Instance.UpdateStory ();
-		}
-
-	}
-
-	IEnumerator CheckStat_Coroutine () {
-
-		DiceManager.Instance.ThrowDirection = 1;
-
-		switch (cellParams) {
-		case "STR":
-			DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.Strenght);
-			break;
-		case "DEX":
-			DiceManager.Instance.ThrowDice (DiceTypes.DEX, Crews.playerCrew.captain.Dexterity);
-			break;
-		case "CHA":
-			DiceManager.Instance.ThrowDice (DiceTypes.CHA, Crews.playerCrew.captain.Charisma);
-			break;
-		case "CON":
-			DiceManager.Instance.ThrowDice (DiceTypes.CON, Crews.playerCrew.captain.Constitution);
-			break;
-		default:
-			Debug.LogError ("PAS DE Dé " + CellParams + " : lancé de force");
-			DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.Strenght);
-			break;
-		}
-
-
-		yield return new WaitForSeconds ( DiceManager.Instance.settlingDuration + DiceManager.Instance.ThrowDuration);
-
-		int captainHighest = DiceManager.Instance.HighestResult;
-		int otherHighest = 0;
-
-		if (CombatManager.Instance.Fighting) {
-
-			DiceManager.Instance.ThrowDirection = -1;
-
-			switch (cellParams) {
-			case "STR":
-				DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.enemyCrew.captain.Strenght);
-				break;
-			case "DEX":
-				DiceManager.Instance.ThrowDice (DiceTypes.DEX, Crews.enemyCrew.captain.Dexterity);
-				break;
-			case "CHA":
-				DiceManager.Instance.ThrowDice (DiceTypes.CHA, Crews.enemyCrew.captain.Charisma);
-				break;
-			case "CON":
-				DiceManager.Instance.ThrowDice (DiceTypes.CON, Crews.enemyCrew.captain.Constitution);
-				break;
-			default:
-				Debug.LogError ("PAS DE Dé " + CellParams + " : lancé de force");
-				DiceManager.Instance.ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.Strenght);
-				break;
-			}
-
-			yield return new WaitForSeconds (DiceManager.Instance.settlingDuration + DiceManager.Instance.ThrowDuration);
-
-			otherHighest = DiceManager.Instance.HighestResult;
-
-		} else {
-			otherHighest = 5;
-		}
-
-		StoryReader.Instance.NextCell ();
-
-		int decal = captainHighest >= otherHighest ? 0 : 1;
-
-		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);
-		StoryReader.Instance.SetDecal (decal);
-
-		StoryReader.Instance.UpdateStory ();
-	}
-
-	#endregion
-
-	#region health
-	private void AddHealth () {
-		int health = int.Parse ( cellParams );
-		Crews.getCrew (Crews.Side.Player).captain.Health += health;
-
-		CardManager.Instance.ShowOvering (Crews.getCrew (Crews.Side.Player).captain);
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-	private void RemoveHealth () {
-		int health = int.Parse ( cellParams );
-		Crews.getCrew (Crews.Side.Player).captain.Health -= health;
-
-		CardManager.Instance.ShowOvering (Crews.getCrew (Crews.Side.Player).captain);
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-	#endregion
-
-	public string[] FunctionNames {
-		get {
-			return functionNames;
-		}
-		set {
-			functionNames = value;
-		}
-	}
 }

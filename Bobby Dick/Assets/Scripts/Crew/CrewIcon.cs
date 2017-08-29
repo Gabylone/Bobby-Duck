@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Holoville.HOTween;
 
 public class CrewIcon : MonoBehaviour {
-
-	private int id = 0;
 
 		// components
 	[Header ("Components")]
@@ -63,7 +62,10 @@ public class CrewIcon : MonoBehaviour {
 	}
 
 	void Start () {
-		UpdateIcon ();
+
+		UpdateHungerIcon ();
+
+		PlayerLoot.Instance.LootUI.useInventory += HandleUseInventory;;
 	}
 
 	void Update () {
@@ -77,7 +79,16 @@ public class CrewIcon : MonoBehaviour {
 
 	}
 
-	public void UpdateIcon () {
+
+	#region hunger icon
+	void HandleUseInventory (InventoryActionType actionType)
+	{
+		if ( actionType == InventoryActionType.Eat ) {
+			UpdateHungerIcon ();
+		}
+	}
+
+	public void UpdateHungerIcon () {
 
 		if (currentPlacingType == Crews.PlacingType.Map) {
 			
@@ -91,20 +102,29 @@ public class CrewIcon : MonoBehaviour {
 			hungerObject.SetActive (false);
 		}
 	}
+	#endregion
 
 	#region overing
 	public void OnPointerEnter() {
 
-		if (!Overable)
+		if (!Overable) {
 			return;
+		}
 
 		pointerOver = true;
 		scaleLerp = true;
-
-		hungerObject.SetActive (true);
-
-		if ( showCard )
-			CardManager.Instance.ShowOvering (member);
+		if (member.Side == Crews.Side.Player) {
+			if (showCard) {
+				CardManager.Instance.ShowOvering (member);
+				hungerObject.SetActive (true);
+			}
+		} else {
+			if (CombatManager.Instance.Fighting) {
+				CardManager.Instance.ShowFightingCard (member);
+			} else {
+				CardManager.Instance.ShowOvering (member);
+			}
+		}
 	}
 
 	public void OnPointerExit () {
@@ -117,7 +137,7 @@ public class CrewIcon : MonoBehaviour {
 
 		hungerObject.SetActive (false);
 
-		UpdateIcon ();
+		UpdateHungerIcon ();
 
 		CardManager.Instance.HideOvering ();
 	}
@@ -129,14 +149,44 @@ public class CrewIcon : MonoBehaviour {
 
 		OnPointerExit ();
 
-		if (PlayerLoot.Instance.Opened) {
-			PlayerLoot.Instance.Close ();
+		if (PlayerLoot.Instance.Opened && PlayerLoot.Instance.SelectedMemberIndex == member.id) {
+
+			if (StoryLauncher.Instance.PlayingStory)
+				return;
+
+			PlayerLoot.Instance.HideInventory ();
+
+			Down ();
+
 			showCard = true;
+
 		} else {
-			PlayerLoot.Instance.Open (id);
+
+			PlayerLoot.Instance.SelectedMemberIndex = member.id;
+
+			if (StoryLauncher.Instance.PlayingStory) {
+				if (OtherLoot.Instance.Trading) {
+					PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerTrade);
+				} else {
+					PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerLoot);
+				}
+			} else {
+				PlayerLoot.Instance.ShowInventory (CategoryContentType.Inventory);
+			}
+
 			showCard = false;
+
 		}
 		
+	}
+	#endregion
+
+	#region bounce
+	public void Up () {
+		Tween.Scale ( transform , 0.3f  , 1.3f);
+	}
+	public void Down () {
+		Tween.Scale ( transform , 0.3f  , 1f);
 	}
 	#endregion
 
@@ -223,14 +273,6 @@ public class CrewIcon : MonoBehaviour {
 	#endregion
 
 	#region properties
-	public int Id {
-		get {
-			return id;
-		}
-		set {
-			id = value;
-		}
-	}
 
 	public Transform GetTransform {
 		get {
@@ -260,7 +302,7 @@ public class CrewIcon : MonoBehaviour {
 
 			overable = value;
 
-			UpdateIcon ();
+			UpdateHungerIcon ();
 
 			if ( value == false )
 				hungerObject.SetActive (false);

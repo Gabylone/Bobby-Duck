@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID;;;;;;;;;;;;;;;;
-Ferme;4,69;1;;;;;;;;;;;;;;;;
+Ferme;4,48;1;;;;;;;;;;;;;;;;
 Narrator : La plage directement sur une terre verte et humide. Derrière des champs de tournesols se tient une petite ferme.;;;;;;;;;;;;;;;;;;
 [debut];;;;;;;;;;;;;;;;;;
 SetChoices2;;;;;;;;;;;;;;;;;;
@@ -83,7 +83,7 @@ Choice : Quelque chose à vendre ?;;;Choice : (retourner devant ferme);Choice
 RandomRange2;;;HideOther;Node=>autre;RandomRange3;;;;;;Choice : Bobby dick ?;;Choice : (attaquer);Choice : (autre);Choice : Elle est jolie votre ferme !;;;[la quete]
 OtherSpeak : Je n'en ai que assez pour ma famille ! Désolé.;;OtherSpeak : Laissez moi regarder dans mes reserves…;Fade;;OtherSpeak : Non.;OtherSpeak : Si et heureusement !;;OtherSpeak : Si un peu;;;RandomRange2;;Node=>combat fermière;Node=>discussion fermière;RandomRange2;;;NewQuest[discussion fermière]
 SetChoices2;;TradeFood/Misc;Node=>choix ferme normale;;OtherSpeak : Mon mari est juste parti;OtherSpeak : Je ne me suis pas installée ici pour les foires !;;OtherSpeak : Depuis la mort de papi…;;;OtherSpeak : Je vois des mats passer par là.;OtherSpeak : Non ça ne me dit rien;;;OtherSpeak : Ça elle était à mon papi !;OtherSpeak : Si je n'avais pas que des misères;;
-Choice : Ce n'est rien.;Choice : (attaquer);;;;Node=>discussion fermière;SetChoices2;;SetChoices2;;;OtherSpeak : Ils doivent chercher ce dont vous parlez.;Node=>autre;;;OtherSpeak : En plus elle produit que des betteraves.;OtherSpeak : Je pourrais en profiter !;;
+Choice : Ce n'est rien.;Choice : (attaquer);Node=>discussion fermière;;;Node=>discussion fermière;SetChoices2;;SetChoices2;;;OtherSpeak : Ils doivent chercher ce dont vous parlez.;Node=>autre;;;OtherSpeak : En plus elle produit que des betteraves.;OtherSpeak : Je pourrais en profiter !;;
 Node=>discussion fermière;RemoveKarma;;;;;Choice : (lui proposer un poste sur le bateau)(cha);Choice : Je comprends;Choice : (lui proposer un poste sur le bateau)(cha);Choice : Oups;;OtherSpeak : Ils partent DIRECTIONTOFORMULA;;;;Node=>discussion fermière;SetChoices2;;
 ;Node=>combat fermière;;;;;PlayerSpeak : Ça ne vous dirait pas de nous rejoindre ?;Node=>discussion fermière;PlayerSpeak : Ça ne vous dirait pas de nous rejoindre ?;Node=>discussion fermière;;Node=>autre;;;;;Choice : On peut parler d'autre chose si vous voulez.;Choice : Je vous écoutes;
 ;;;;;;PlayerSpeak : La vie est mer est tout aussi solitaire et tranquille.;;PlayerSpeak : Ton papi serait fière.;;;;;;;;OtherSpeak : Mince;Switch=>switch quete;

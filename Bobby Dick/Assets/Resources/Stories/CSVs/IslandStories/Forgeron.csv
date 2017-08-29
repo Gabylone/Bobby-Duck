@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID;;;;;
-Forgeron;3,13;1;;;;;
+Forgeron;2,99;1;;;;;
 [debut];;;;;;;
 Narrator : Le bateau est accosté sur une plage d'herbe. Elle est composée de quelques plates collines. Pas très loin, une maisonnette est surplombée d'une gigantesque cheminée, qui crache une colonne de fumée noire.;;;;;;;
 CheckQuest[choix debut];;;;;;;
@@ -17,15 +17,15 @@ OtherSpeak : Bonjour !;Node=>forgeron mort;OtherSpeak : Tu oses revenir…;;;
 Node=>discussion forgeron;Node=>la quete;Node=>combat forgeron;;;;;
 ;;;;;;;
 [discussion forgeron];Node=>la quete;;;;;;
-SetChoices4;;Choice : (partir);Choice : (attaquer sauvagement);Choice : Ça se passe comment par ici ?;;;[la quete]
-Choice : Héla ! Tu vends des armes ?;;HideOther;RemoveKarma;RandomRange2;;;NewQuest[discussion forgeron]
-RandomPercent8;OtherSpeak : Avec plaisir !;Fade;[combat forgeron];OtherSpeak : Comme quand on installe une forge au milieu d'une île vierge.;OtherSpeak : Un enfer.;;
-OtherSpeak : Pas à des gens comme toi !;TradeWeapons/Clothes;Node=>discussion forgeron;OtherSpeak : Tu te frottes à la mauvaise personne !;OtherSpeak : Moyen.;OtherSpeak : On aurait bien besoin d'aide.;;
-Node=>discussion forgeron;Node=>discussion forgeron;;LaunchCombat;Node=>discussion forgeron;SetChoices2;;
+SetChoices4;;;;;;;[la quete]
+Choice : Héla ! Tu vends des armes ?;;Choice : (partir);Choice : (attaquer sauvagement);Choice : Ça se passe comment par ici ?;;;NewQuest[discussion forgeron]
+RandomPercent8;OtherSpeak : Avec plaisir !;HideOther;RemoveKarma;RandomRange2;;;
+OtherSpeak : Pas à des gens comme toi !;TradeWeapons/Clothes;Leave;[combat forgeron];OtherSpeak : Comme quand on installe une forge au milieu d'une île vierge.;OtherSpeak : Un enfer.;;
+Node=>discussion forgeron;Node=>discussion forgeron;;OtherSpeak : Tu te frottes à la mauvaise personne !;OtherSpeak : Moyen.;OtherSpeak : On aurait bien besoin d'aide.;;
+;;;LaunchCombat;Node=>discussion forgeron;SetChoices2;;
 ;;;Node=>forgeron mort;;Choice : Désolé j'ai piscine.;Choice : Je m'en charge.;
 ;;;;;OtherSpeak : Dommage.;Switch=>switch quete;
 ;;;;;Node=>discussion forgeron;Node=>la quete;
-;;;;;;;
 [forgeron mort];;;;;;;
 Narrator : Le forgeron est mort, mais sa forge continu de brûler. Derrière la forge se trouve toute sorte de métaux.;;;;;;;
 SetChoices3;;;Choice : (regarder derrière forge);;;Choice : (partir);

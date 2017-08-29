@@ -9,6 +9,11 @@ public class StoryLauncher : MonoBehaviour {
 
 	private bool playingStory = false;
 
+	public delegate void PlayStoryEvent ();
+	public PlayStoryEvent playStoryEvent;
+	public delegate void EndStoryEvent ();
+	public EndStoryEvent endStoryEvent;
+
 	public enum StorySource {
 
 		none,
@@ -23,75 +28,88 @@ public class StoryLauncher : MonoBehaviour {
 		Instance = this;
 	}
 
+	void Start () {
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.Leave:
+			EndStory ();
+			break;
+
+		}
+	}
+
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.PageDown)) {
 			print ("quittage de force");
-			PlayingStory = false;
+			EndStory ();
 		}
 	}
 
 	#region propeties
-	public void PlayStory (StoryManager storyManager , StoryLauncher.StorySource source) {
+	public void PlayStory ( StoryManager storyManager , StoryLauncher.StorySource source) {
+
+		if (playingStory)
+			return;
+
 		StoryReader.Instance.CurrentStoryManager = storyManager;
+
 		CurrentStorySource = source;
-		PlayingStory = true;
+
+		playingStory = true;
+
+		Transitions.Instance.ActionTransition.Fade = true;
+
+		// place captain
+		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion, 0.2f);
+
+		MapImage.Instance.CloseMap ();
+
+		StoryReader.Instance.Reset ();
+		StoryReader.Instance.UpdateStory ();
+
+		if (playStoryEvent != null)
+			playStoryEvent ();
+	}
+
+	public void EndStory () {
+		if ( StoryReader.Instance.CurrentStoryLayer > 0 ) {
+			StoryReader.Instance.FallBackToPreviousStory ();
+			return;
+		}
+
+		playingStory = false;
+
+		Transitions.Instance.ActionTransition.Fade = false;
+
+		// place captain
+		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Map, 0.2f);
+
+		Crews.enemyCrew.Hide ();
+		switch (CurrentStorySource) {
+		case StorySource.none:
+			// kek
+			break;
+		case StorySource.island:
+			MapGenerator.Instance.CurrentChunk.State = ChunkState.VisitedIsland;
+			break;
+		case StorySource.boat:
+			Boats.Instance.OtherBoat.Leave ();
+			break;
+		default:
+			break;
+		}
+
+		if (endStoryEvent != null)
+			endStoryEvent ();
 	}
 
 	public bool PlayingStory {
 		get {
 			return playingStory;
-		}
-		set {
-
-			if (playingStory == value)
-				return;
-
-			if ( StoryReader.Instance.CurrentStoryLayer > 0 && value == false) {
-				StoryReader.Instance.FallBackToPreviousStory ();
-
-				return;
-			}
-
-			playingStory = value;
-
-			NavigationManager.Instance.NavigationTriggers.SetActive (!playingStory);
-
-			Transitions.Instance.ActionTransition.Fade = playingStory;
-
-			PlayerLoot.Instance.CanOpen = !value;
-
-			// place captain
-			Crews.PlacingType pT = playingStory ? Crews.PlacingType.Discussion : Crews.PlacingType.Map;
-			Crews.playerCrew.captain.Icon.MoveToPoint (pT, 0.2f);
-
-			// lower volume
-			SoundManager.Instance.AmbianceSource.volume = playingStory ? SoundManager.Instance.AmbianceSource.volume / 2 : SoundManager.Instance.AmbianceSource.volume * 2;
-
-			MapImage.Instance.CloseMap ();
-
-			if (value == true) {
-				// set story
-				StoryReader.Instance.Reset ();
-				StoryReader.Instance.UpdateStory ();
-			} else {
-				Crews.enemyCrew.Hide ();
-				switch (CurrentStorySource) {
-				case StorySource.none:
-					// kek
-					break;
-				case StorySource.island:
-					MapGenerator.Instance.CurrentChunk.State = ChunkState.VisitedIsland;
-					break;
-				case StorySource.boat:
-					Boats.Instance.OtherBoat.Leave ();
-					break;
-				default:
-					break;
-				}
-
-
-			}
-
 		}
 	}
 	#endregion

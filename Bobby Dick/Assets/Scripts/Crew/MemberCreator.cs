@@ -94,6 +94,8 @@ public class MemberCreator : MonoBehaviour {
 			break;
 		}
 
+		Tween.Bounce (previousButtons [i].transform);
+
 		Crews.playerCrew.captain.Icon.UpdateVisual (Crews.playerCrew.captain.MemberID);
 		UpdateButtons ();
 	}
@@ -129,6 +131,8 @@ public class MemberCreator : MonoBehaviour {
 
 		}
 
+		Tween.Bounce (nextButtons [i].transform);
+
 		Crews.playerCrew.captain.Icon.UpdateVisual (Crews.playerCrew.captain.MemberID);
 		UpdateButtons ();
 	}
@@ -140,31 +144,29 @@ public class MemberCreator : MonoBehaviour {
 		nextButtons [(int)ButtonType.Gender].interactable = !Crews.playerCrew.captain.MemberID.Male;
 
 		if ( Crews.playerCrew.captain.MemberID.Male )
-			previousButtons [(int)ButtonType.HairSprite].gameObject.SetActive( Crews.playerCrew.captain.MemberID.HairSpriteID > -1);
+			previousButtons [(int)ButtonType.HairSprite].interactable = Crews.playerCrew.captain.MemberID.HairSpriteID > -1;
 		else
-			previousButtons [(int)ButtonType.HairSprite].gameObject.SetActive( Crews.playerCrew.captain.MemberID.HairSpriteID > 0);
+			previousButtons [(int)ButtonType.HairSprite].interactable = Crews.playerCrew.captain.MemberID.HairSpriteID > 0;
 
-		nextButtons [(int)ButtonType.HairSprite].gameObject.SetActive(Crews.playerCrew.captain.MemberID.HairSpriteID < (Crews.playerCrew.captain.Male ? CrewCreator.Instance.HairSprites_Male.Length -1 : CrewCreator.Instance.HairSprites_Female.Length -1) );
+		nextButtons [(int)ButtonType.HairSprite].interactable =Crews.playerCrew.captain.MemberID.HairSpriteID < (Crews.playerCrew.captain.Male ? CrewCreator.Instance.HairSprites_Male.Length -1 : CrewCreator.Instance.HairSprites_Female.Length -1);
 
-		previousButtons [(int)ButtonType.HairColor].gameObject.SetActive( Crews.playerCrew.captain.MemberID.HairColorID > 0);
+		previousButtons [(int)ButtonType.HairColor].interactable = Crews.playerCrew.captain.MemberID.HairColorID > 0;
+		nextButtons [(int)ButtonType.HairColor].interactable =Crews.playerCrew.captain.MemberID.HairColorID < CrewCreator.Instance.HairColors.Length-1;
 
-		nextButtons [(int)ButtonType.HairColor].gameObject.SetActive(Crews.playerCrew.captain.MemberID.HairColorID < CrewCreator.Instance.HairColors.Length-1);
+		previousButtons [(int)ButtonType.BeardSprite].interactable = Crews.playerCrew.captain.MemberID.BeardSpriteID > -1;
+		nextButtons [(int)ButtonType.BeardSprite].interactable =Crews.playerCrew.captain.Male && Crews.playerCrew.captain.MemberID.BeardSpriteID < CrewCreator.Instance.BeardSprites.Length-1;
 
-		previousButtons [(int)ButtonType.BeardSprite].gameObject.SetActive( Crews.playerCrew.captain.MemberID.BeardSpriteID > -1);
+		previousButtons [(int)ButtonType.EyesSprite].interactable = Crews.playerCrew.captain.MemberID.EyeSpriteID > 0;
+		nextButtons [(int)ButtonType.EyesSprite].interactable =Crews.playerCrew.captain.MemberID.EyeSpriteID < CrewCreator.Instance.EyesSprites.Length-1;
 
-		nextButtons [(int)ButtonType.BeardSprite].gameObject.SetActive(Crews.playerCrew.captain.Male && Crews.playerCrew.captain.MemberID.BeardSpriteID < CrewCreator.Instance.BeardSprites.Length-1);
+		previousButtons [(int)ButtonType.EyebrowsSprite].interactable = Crews.playerCrew.captain.MemberID.EyebrowsSpriteID > 0;
+		nextButtons [(int)ButtonType.EyebrowsSprite].interactable =Crews.playerCrew.captain.MemberID.EyebrowsSpriteID < CrewCreator.Instance.EyebrowsSprites.Length-1;
 
-		previousButtons [(int)ButtonType.EyesSprite].gameObject.SetActive( Crews.playerCrew.captain.MemberID.EyeSpriteID > 0);
-		nextButtons [(int)ButtonType.EyesSprite].gameObject.SetActive(Crews.playerCrew.captain.MemberID.EyeSpriteID < CrewCreator.Instance.EyesSprites.Length-1);
+		previousButtons [(int)ButtonType.NoseSprite].interactable = Crews.playerCrew.captain.MemberID.NoseSpriteID> 0;
+		nextButtons [(int)ButtonType.NoseSprite].interactable =Crews.playerCrew.captain.MemberID.NoseSpriteID < CrewCreator.Instance.NoseSprites.Length-1;
 
-		previousButtons [(int)ButtonType.EyebrowsSprite].gameObject.SetActive( Crews.playerCrew.captain.MemberID.EyebrowsSpriteID > 0);
-		nextButtons [(int)ButtonType.EyebrowsSprite].gameObject.SetActive(Crews.playerCrew.captain.MemberID.EyebrowsSpriteID < CrewCreator.Instance.EyebrowsSprites.Length-1);
-
-		previousButtons [(int)ButtonType.NoseSprite].gameObject.SetActive( Crews.playerCrew.captain.MemberID.NoseSpriteID> 0);
-		nextButtons [(int)ButtonType.NoseSprite].gameObject.SetActive(Crews.playerCrew.captain.MemberID.NoseSpriteID < CrewCreator.Instance.NoseSprites.Length-1);
-
-		previousButtons [(int)ButtonType.MouthSprite].gameObject.SetActive( Crews.playerCrew.captain.MemberID.MouthSpriteID > 0);
-		nextButtons [(int)ButtonType.MouthSprite].gameObject.SetActive(Crews.playerCrew.captain.MemberID.MouthSpriteID < CrewCreator.Instance.MouthSprites.Length-1);
+		previousButtons [(int)ButtonType.MouthSprite].interactable = Crews.playerCrew.captain.MemberID.MouthSpriteID > 0;
+		nextButtons [(int)ButtonType.MouthSprite].interactable =Crews.playerCrew.captain.MemberID.MouthSpriteID < CrewCreator.Instance.MouthSprites.Length-1;
 
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
 
@@ -172,11 +174,15 @@ public class MemberCreator : MonoBehaviour {
 
 	public void ChangeBoatName () {
 
+		Tween.Bounce ( boatName.transform );
+
 		Boats.Instance.PlayerBoatInfo.Name = boatName.text;
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 	}
 
 	public void ChangeCaptainName () {
+
+		Tween.Bounce ( captainName.transform );
 
 		Crews.playerCrew.captain.MemberID.Name = captainName.text;
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);

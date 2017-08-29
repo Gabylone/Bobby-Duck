@@ -76,7 +76,21 @@ public class NavigationManager : MonoBehaviour {
 
 	void Start () {
 		InitPlayerBoatConctrol ();
+		StoryLauncher.Instance.playStoryEvent += HandlePlayStory;
+		StoryLauncher.Instance.endStoryEvent += HandleEndStory;
 	}
+
+	#region event handler
+	void HandleEndStory ()
+	{
+		navigationTriggers.SetActive (true);
+	}
+
+	void HandlePlayStory ()
+	{
+		navigationTriggers.SetActive (false);
+	}
+	#endregion
 
 	void Update () {
 		if ( Input.GetKeyDown(KeyCode.DownArrow) ) {

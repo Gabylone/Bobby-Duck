@@ -9,8 +9,37 @@ public class QuestManager : MonoBehaviour {
 	private List<Quest> currentQuests = new List<Quest>();
 	private List<Quest> finishedQuests = new List<Quest>();
 
+	public delegate void NewQuestEvent ();
+	public NewQuestEvent newQuestEvent;
+
 	void Awake () {
 		Instance = this;
+	}
+
+	void Start () {
+		StoryFunctions.Instance.getFunction+= HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.NewQuest:
+			HandleQuest ();
+			break;
+		case FunctionType.CheckQuest:
+			CheckQuest ();
+			break;
+		case FunctionType.SendPlayerBackToGiver:
+			SetCoordsToGiver ();
+			break;
+		case FunctionType.SetQuestOnMap:
+			SetQuestOnMap ();
+			StoryReader.Instance.WaitForInput ();
+			break;
+		case FunctionType.FinishQuest:
+			FinishQuest ();
+			break;
+		}
 	}
 
 	public void HandleQuest () {
@@ -39,6 +68,9 @@ public class QuestManager : MonoBehaviour {
 		
 		Quest newQuest = new Quest ();
 
+		if (newQuestEvent != null)
+			newQuestEvent ();
+
 		// create quest
 		newQuest.originCoords = NavigationManager.CurrentCoords;
 		newQuest.targetCoords = NavigationManager.CurrentCoords;
@@ -57,24 +89,31 @@ public class QuestManager : MonoBehaviour {
 		// get fallback node
 		string s = StoryFunctions.Instance.CellParams;
 
-		s = s.Remove (0, 1);
-		s = s.Remove (s.Length - 1);
 
 		if (s.Contains("]["))  {
 
 			int nodeIndex = s.IndexOf ("]");
 
-			string compNode = s.Remove (0,nodeIndex+2);
-			newQuest.targetNodeWhenCompleted = StoryReader.Instance.GetNodeFromText(compNode);
+			string nodeWhenCompleted = s.Remove (1,nodeIndex+2);
+			newQuest.targetNodeWhenCompleted = StoryReader.Instance.GetNodeFromText(nodeWhenCompleted);
 
 			string fallbackNodeText = s.Remove (nodeIndex);
+
+			Debug.LogError ("fall back node A PRIORI YA UN PROBLEME ICI: " + fallbackNodeText);
+
 			Node fallbackNode = StoryReader.Instance.GetNodeFromText ( fallbackNodeText );
+
 			StoryReader.Instance.SetNewStory (newQuest.Story, StoryType.Quest, targetNode, fallbackNode);
+
 
 		} else {
 
 			string nodeText = s;
 
+			nodeText = nodeText.Remove( 0,1 );
+			nodeText = nodeText.Remove( nodeText.IndexOf("]") );
+
+			Debug.LogError ("fall back node : " + nodeText);
 			Node fallbackNode = StoryReader.Instance.GetNodeFromText ( nodeText );
 			StoryReader.Instance.SetNewStory (newQuest.Story, StoryType.Quest, targetNode, fallbackNode);
 
@@ -84,13 +123,14 @@ public class QuestManager : MonoBehaviour {
 
 	void ReturnToGiver ( )
 	{
-		Quest quest = CurrentQuest;
+		Quest quest = CurrentQuest_Origin;
 
 		Node targetNode = StoryReader.Instance.GetNodeFromText(quest.Story, "fin");
 
 		// get fallback node
 		string s = StoryFunctions.Instance.CellParams;
 
+		s = s.Trim (new char [3] { '\r','\t','\n' } );
 		s = s.Remove (0, 1);
 		s = s.Remove (s.Length - 1);
 		string nodeText = s;
@@ -166,7 +206,7 @@ public class QuestManager : MonoBehaviour {
 	#region map stuff
 	public void SetQuestOnMap () {
 
-		Quest quest = CurrentQuest;
+		Quest quest = CurrentQuest_Target;
 
 		Coords c = GetClosestIslandCoords ();
 		Coords boatCoords = NavigationManager.CurrentCoords;
@@ -252,9 +292,15 @@ public class QuestManager : MonoBehaviour {
 		}
 	}
 
-	public Quest CurrentQuest {
+	public Quest CurrentQuest_Target {
 		get {
 			return CurrentQuests.Find ( x=> x.targetCoords == NavigationManager.CurrentCoords);
+		}
+	}
+
+	public Quest CurrentQuest_Origin {
+		get {
+			return CurrentQuests.Find ( x=> x.originCoords == NavigationManager.CurrentCoords);
 		}
 	}
 }

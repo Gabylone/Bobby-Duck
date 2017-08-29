@@ -57,6 +57,7 @@ public class SaveManager : MonoBehaviour
 		// gold
 		GoldManager.Instance.GoldAmount = CurrentData.playerGold;
 
+
 		TimeManager.Instance.LoadWeather ();
 
 		NavigationManager.Instance.ChangeChunk (Directions.None);
@@ -67,8 +68,8 @@ public class SaveManager : MonoBehaviour
 		Transitions.Instance.ScreenTransition.Fade = true;
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
 
-		if ( StoryLauncher.Instance.PlayingStory)
-			StoryLauncher.Instance.PlayingStory = false;
+		if (StoryLauncher.Instance.PlayingStory)
+			StoryLauncher.Instance.EndStory ();
 
 		LoadEveryThing ();
 

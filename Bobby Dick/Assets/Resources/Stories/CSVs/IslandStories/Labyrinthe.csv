@@ -1,0 +1,82 @@
+Nom histoire;Fréquence %;Sprite ID;;;;;;
+Labyrinthe;1,49;1;;;;;;
+Narrator : L'ile est couverte de sapins à perte de vue. On ne voit pas à quelques mètres derrière les arbres.;;;;;;;;
+[choix bateau];;;;;;;;
+SetChoices2;;;;;;;;
+Choice : (entrer dans la foret);Choice : (repartir);;;;;;;
+Node=>entrée forêt;Leave;;;;;;;
+;;;;;;;;
+[entrée forêt];;;;;[description de rien];;;
+Narrator : Les ombres des sapins recouvrent CAPITAINE. NOMBATEAU s'eloigne de plus en plus, on ne voit que son mat derrirère les immenses arbres.;;;;;RandomRedoRange3;;;
+SetChoices4;;;;;Narrator : Le feuillage des sapins s epaissi avec la brume. On ne voit plus rien a un metre.;Narrator : CAPITAINE a deja vu ces rochers, ces racines et ces sapins. On tourne en rond.;Narrator : Un immense falaise bloque le chemin. De son sommet, CAPITAINE voit des sapins a perte de vue. L horizon ne presente pas un bout d ocean.;
+Choice : (retourner en arrière);Choice : (droite);Choice : (tout droit);Choice : (gauche);;Fade;Fade;Fade;
+Fade;Fade;Fade;Fade;;Node=>choix 1;Node=>choix 1;Node=>choix 1;
+Narrator : CAPITAINE est de retour au bateau;Node=>choix 1;Node=>choix 1;Node=>choix 1;;;;;
+Node=>choix bateau;;;;;;;;
+;;;;;;;;
+;;;;;;;;
+;;;;;;;;
+;;;;;;;;
+[choix 1];;;;;;;;
+ChangeTimeOfDay;;;;[lieu 1];;;;
+Narrator : CAPITAINE marche depuis quelques minutes mais ne reconnait rien. Tout se ressemble, une brume epaisse enveloppe les arbres, et on ne sent plus le sel de la mer dans l air. Il est perdu.;;;;RandomPercent90;;;;
+SetChoices4;;;;Node=>description de rien;RandomRange4;;;
+Choice : (retourner en arrière);Choice : (droite);Choice : (tout droit);Choice : (gauche);;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+Fade;Fade;Fade;Fade;;;;;
+Node=>lieu 1;Node=>lieu 1;Node=>choix 2;Node=>lieu 1;;;;;
+;;;;;;;;
+;;;;;;;;
+;;;;;;;;
+;;;;;;;;
+[choix 2];;;;[lieu 2];;;;
+Narrator : CAPITAINE est stoppe par un rocher immense. Il est couvert de mousse marine. Est-il sur le bon chemin ?;;;;RandomPercent90;;;;
+SetChoices4;;;;Node=>description de rien;RandomRange4;;;
+Choice : (retourner en arrière);Choice : (droite);Choice : (tout droit);Choice : (gauche);;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+Fade;Fade;Fade;Fade;;;;;
+Node=>lieu 2;Node=>lieu 2;Node=>lieu 2;Node=>choix 3;;;;;
+;;;;;;;;
+[choix 3];;;;[lieu 3];;;;
+Narrator : Autour de CAPITAINE la brume se desaipaissi. A lhorizon il ne voit que les cimes sapinesques, mais il y voit au moins plus clair.;;;;RandomPercent90;;;;
+SetChoices4;;;;Node=>description de rien;RandomRange4;;;
+Choice : (retourner en arrière);Choice : (droite);Choice : (tout droit);Choice : (gauche);;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+Fade;Fade;Fade;Fade;;;;;
+Node=>lieu 3;Node=>choix 4;Node=>lieu 3;Node=>lieu 3;;;;;
+;;;;;;;;
+;;;;;;;;
+[choix 4];;;;[lieu 4];;;;
+Narrator : Les cimes se rapprochent du sol et les la vegetation s epaissie grandement. Ca rend les deplacenents legerement plus difficiles, mais ca veut aussi dire que CAPITAINE seloigne du centre de l ile.;;;;RandomPercent90;;;;
+SetChoices4;;;;Node=>description de rien;RandomRange4;;;
+Choice : (retourner en arrière);Choice : (droite);Choice : (tout droit);Choice : (gauche);;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+Fade;Fade;Fade;Fade;;;;;
+Node=>lieu 4;Node=>choix 5;Node=>lieu 4;Node=>lieu 4;;;;;
+;;;;;;;;
+;;;;;;;;
+[choix 5];;;;[lieu 5];;;;
+Narrator : CAPITAINE sest aventure dans une petite clairiere. Pas de ruisseau ni de cours qui puisse mener a la mer, mais un minuscule lagon, qui laisse penser que les vagues ne sont plus ci loins.;;;;RandomPercent90;;;;
+SetChoices4;;;;Node=>description de rien;RandomRange4;;;
+Choice : (retourner en arrière);Choice : (droite);Choice : (tout droit);Choice : (gauche);;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+Fade;Fade;Fade;Fade;;;;;
+Node=>lieu 5;Node=>lieu 5;Node=>choix 6;Node=>lieu 5;;;;;
+;;;;;;;;
+;;;;;;;;
+[choix 6];;;;[lieu 6];;;;
+Narrator : Les narines de CAPITAINE s ouvrent. Un souffle de sel et de poiscaille enjaille le chef de bateau. Cest le vent de locean.;;;;RandomPercent90;;;;
+SetChoices;;;;Node=>description de rien;RandomRange4;;;
+Choice : (retourner en arrière);Choice : (droite);Choice : (tout droit);Choice : (gauche);;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+Fade;Fade;Fade;Fade;;;;;
+Node=>lieu 6;Node=>lieu 6;Node=>lieu 6;Node=>choix 7;;;;;
+;;;;;;;;
+;;;;;;;;
+[choix 7];;;;[lieu 7];;;;
+Narrator : On entend les mouettes. Ces cris que CAPITAINE maudit en temps normaux lui embaume aujourdhui le coeur de joie.;;;;RandomPercent90;;;;
+SetChoices4;;;;Node=>description de rien;RandomRange4;;;
+Choice : (retourner en arrière);Choice : (droite);Choice : (tout droit);Choice : (gauche);;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+Fade;Fade;Fade;Fade;;;;;
+Node=>lieu 7;Node=>lieu 7;Node=>fin;Node=>lieu 7;;;;;
+;;;;;;;;
+;;;;;;;;
+[fin];;;;;;;;
+Narrator : Enfin ! Le Mat de BATEAU apparait enfin ! Il est grand temps de reprendre le large.;;;;;;;;
+SetChoices1;;;;;;;;
+Choice . (partir);;;;;;;;
+Leave;;;;;;;;

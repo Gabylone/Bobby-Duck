@@ -36,6 +36,32 @@ public class TimeManager : MonoBehaviour {
 	void Awake () {
 		Instance = this;
 	}
+	void Start () {
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.ChangeTimeOfDay:
+			if ( IsNight )
+				StartCoroutine (SetWeatherCoroutine ("Day"));
+			else
+				StartCoroutine (SetWeatherCoroutine ("Night"));
+			break;
+		case FunctionType.SetWeather:
+			StartCoroutine (SetWeatherCoroutine (cellParameters));
+			break;
+		case FunctionType.CheckDay:
+			StoryReader.Instance.NextCell ();
+
+			if (TimeManager.Instance.IsNight)
+				StoryReader.Instance.SetDecal (1);
+
+			StoryReader.Instance.UpdateStory ();
+			break;
+		}
+	}
 
 	public void Init () {
 		timeOfDay = startTime;
@@ -92,6 +118,32 @@ public class TimeManager : MonoBehaviour {
 		IsNight = SaveManager.Instance.CurrentData.night;
 		timeOfDay = SaveManager.Instance.CurrentData.timeOfDay;
 		currentRain = SaveManager.Instance.CurrentData.currentRain;
+	}
+
+	IEnumerator SetWeatherCoroutine (string weather) {
+
+		Transitions.Instance.FadeScreen ();
+
+		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
+
+		switch ( weather ) {
+		case "Day":
+			TimeManager.Instance.IsNight = false;
+			TimeManager.Instance.Raining = false;
+			break;
+		case "Night":
+			TimeManager.Instance.IsNight = true;
+			TimeManager.Instance.Raining = false;
+			break;
+		case "Rain":
+			TimeManager.Instance.Raining = true;
+			break;
+		}
+
+		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
 	}
 
 	public bool IsNight {

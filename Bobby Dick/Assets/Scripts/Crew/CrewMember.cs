@@ -7,6 +7,8 @@ public class CrewMember {
 	private Crews.Side side;
 	private MemberID memberID;
 
+	public int id = 0;
+
 	public int maxStat = 6;
 
 	public CrewMember (MemberID _memberID, Crews.Side _side, GameObject _iconObj )
@@ -20,13 +22,8 @@ public class CrewMember {
 		Init ();
 	}
 
-	private int health = 0;
-
 		// level
-	int levelsUp = 0;
-
-	private int xp = 0;
-	private int stepToNextLevel = 100;
+	private int xpToLevelUp = 100;
 
 	private int daysOnBoard = 0;
 
@@ -48,16 +45,13 @@ public class CrewMember {
 
 	private void Init () {
 
-		// health
-		health = MaxHealth;
-
 		// icon
 		icon = iconObj.GetComponent<CrewIcon> ();
 		icon.Member = this;
 
-		// side
-		if (side == Crews.Side.Enemy)
-			icon.Overable = false;
+//		// side
+//		if (side == Crews.Side.Enemy)
+//			icon.Overable = false;
 
 		// equipment
 		SetEquipment (EquipmentPart.Weapon, 	ItemLoader.Instance.getItem (ItemCategory.Weapon, memberID.WeaponID));
@@ -91,18 +85,23 @@ public class CrewMember {
 	#region level
 	public void AddXP ( int _xp ) {
 		
-		xp += _xp;
+		CurrentXp += _xp;
 
-		if ( xp >= stepToNextLevel ) {
-			++Level;
-			xp = stepToNextLevel - xp;
-
-			++levelsUp;
+		if ( CurrentXp >= xpToLevelUp ) {
+			LevelUp ();
 		}
+	}
+	public void LevelUp () {
+		++Level;
+		CurrentXp = xpToLevelUp - CurrentXp;
+
+		++StatPoints;
 	}
 	public bool CheckLevel ( int lvl ) {
 
 		if (lvl > Level) {
+
+//			PlayerLoot.Instance.inven
 
 			DialogueManager.Instance.SetDialogueTimed ("Je sais pas porter ça moi...", this);
 
@@ -127,7 +126,7 @@ public class CrewMember {
 
 			Health -= hungerDamage;
 
-			if ( health == 0 )
+			if ( Health == 0 )
 			{
 				DialogueManager.Instance.ShowNarratorTimed (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
 				Kill ();
@@ -137,7 +136,7 @@ public class CrewMember {
 
 		++daysOnBoard;
 
-		Icon.UpdateIcon ();
+		Icon.UpdateHungerIcon ();
 
 	}
 	#endregion
@@ -145,12 +144,12 @@ public class CrewMember {
 	#region parameters
 	public int Health {
 		get {
-			return health;
+			return memberID.health;
 		}
 		set {
-			health = Mathf.Clamp (value , 0 , MaxHealth);
+			memberID.health = Mathf.Clamp (value , 0 , memberID.maxHealth);
 
-			if (health <= 0)
+			if (memberID.health <= 0)
 				Kill ();
 
 
@@ -292,13 +291,6 @@ public class CrewMember {
 	#endregion
 
 	#region properties
-	private int maxHealth = 100;
-	public int MaxHealth {
-		get {
-			return maxHealth + (memberID.Con*10);
-		}
-	}
-
 	public MemberID MemberID {
 		get {
 			return memberID;
@@ -398,24 +390,27 @@ public class CrewMember {
 	#endregion
 
 	#region level
-	public int Xp {
+	public int CurrentXp {
 		get {
-			return xp;
-		}
-	}
-
-	public int StepToNextLevel {
-		get {
-			return stepToNextLevel;
-		}
-	}
-
-	public int LevelsUp {
-		get {
-			return levelsUp;
+			return memberID.xp;
 		}
 		set {
-			levelsUp = value;
+			memberID.xp = value;
+		}
+	}
+
+	public int XpToLevelUp {
+		get {
+			return xpToLevelUp;
+		}
+	}
+
+	public int StatPoints {
+		get {
+			return memberID.statPoints;
+		}
+		set {
+			memberID.statPoints = value;
 		}
 	}
 	#endregion

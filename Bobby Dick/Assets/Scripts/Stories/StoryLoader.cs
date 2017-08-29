@@ -29,7 +29,6 @@ public class StoryLoader : MonoBehaviour {
 		
 		Instance = this;
 
-		LoadFunctions ();
 		LoadStories ();
 
 	}
@@ -112,8 +111,17 @@ public class StoryLoader : MonoBehaviour {
 
 				bool spriteIDParsable = int.TryParse (rowContent [2], out newStory.spriteID);
 				if (spriteIDParsable == false ) {
-					print("pas parsbble l'histoire " + newStory.name);
+					print("sprite id pas parcable : (" + rowContent[2] + ") dans l'histoire " + newStory.name);
+
+					print (rowContent [0]);
+					print (rowContent [1]);
+					print (rowContent [2]);
+					print (rowContent [3]);
+
+					print (index);
+
 				}
+
 //				newStory.spriteID = int.Parse (rowContent [2]);
 
 				foreach (string cellContent in rowContent) {
@@ -124,12 +132,18 @@ public class StoryLoader : MonoBehaviour {
 			{
 				foreach (string cellContent in rowContent) {
 
-					if ( cellContent.Length > 0 && cellContent[0] == '[' ) {
-						string markName = cellContent.Remove (0, 1).Remove (cellContent.IndexOf (']')-1);
+					string txt = cellContent;
+
+					if ( collumnIndex == rowContent.Length - 1) {
+						txt = txt.TrimEnd ('\r', '\n', '\t');
+					}
+
+					if ( txt.Length > 0 && txt[0] == '[' ) {
+						string markName = txt.Remove (0, 1).Remove (txt.IndexOf (']')-1);
 						newStory.nodes.Add (new Node (markName, collumnIndex, (rowIndex-2)));
 					}
 
-					newStory.content [collumnIndex].Add (cellContent);
+					newStory.content [collumnIndex].Add (txt);
 
 					++collumnIndex;
 
@@ -143,25 +157,7 @@ public class StoryLoader : MonoBehaviour {
 		return newStory;
 	}
 	#endregion
-
-	private void LoadFunctions () {
-		
-		string[] rows = functionFile.text.Split ( '\n' );
-
-		storyFunctions.FunctionNames = new string[rows.Length-2];
-
-		int functionIndex = 0;
-
-		for (int row = 1; row < rows.Length-1; ++row ) {
-
-			string function = rows [row].Split (';') [0];
-			storyFunctions.FunctionNames [functionIndex] = function;
-
-			++functionIndex;
-
-		}
-	}
-
+//
 	#region random story from position
 	public Story RandomStory (Coords c) {
 		return IslandStories[RandomStoryIndex (c)];
@@ -380,9 +376,9 @@ public class StoryLoader : MonoBehaviour {
 		if ( cellContent.Contains ("Choice") ) {
 			return;
 		}
-
+//
 			// CHECK FOR FUNCTION
-		if (ContainedFunction (cellContent) == false) {
+		if (CellContainsFunction (cellContent) == false) {
 			CheckNodes_Error ("Cell doesn't contain function",cellContent);
 			return;
 		}
@@ -411,12 +407,12 @@ public class StoryLoader : MonoBehaviour {
 			string[] nodes = cellContent.Remove (0, cellContent.IndexOf ('[') + 1).TrimEnd (']').Split ('/');
 
 			if ( LinkedToNode (nodes[1]) == false ) {
-				CheckNodes_Error ("the fallback node has no link",cellContent);
+				CheckNodes_Error ("the fallback node text : " + nodes[1] + " has no link",cellContent);
 			}
 
 			Story secondStory = StoryLoader.Instance.FindByName (storyName,StoryType.Island);
 			if ( secondStory == null ) {
-				CheckNodes_Error ("Story doesn't exist",cellContent);
+				CheckNodes_Error ("Story " + storyName + " doesn't exist ",cellContent);
 				return;
 			}
 
@@ -456,11 +452,11 @@ public class StoryLoader : MonoBehaviour {
 		return false;
 	}
 
-	private bool ContainedFunction ( string str ) {
+	private bool CellContainsFunction ( string str ) {
 
-		foreach (string functionName in storyFunctions.FunctionNames) {
+		foreach ( FunctionType func in System.Enum.GetValues(typeof(FunctionType)) ) {
 
-			if (str.Contains (functionName)) {
+			if (str.Contains (func.ToString())) {
 				return true;
 			}
 

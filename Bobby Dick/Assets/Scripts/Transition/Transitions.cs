@@ -15,6 +15,25 @@ public class Transitions : MonoBehaviour {
 		Instance = this;
 	}
 
+	void Start () {
+		if ( StoryFunctions.Instance )
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.Fade:
+
+			FadeScreen ();
+
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.Wait (Transitions.Instance.ActionTransition.Duration);
+
+			break;
+		}
+	}
+
 	public Transition ScreenTransition {
 		get {
 			return screenTransition;

@@ -40,8 +40,6 @@ public class CombatManager : MonoBehaviour {
 	UpdateState updateState;
 	private float timeInState = 0f;
 
-	private float timeBetweenSteps = 0f;
-
 	/// <summary>
 	/// states
 	/// </summary>
@@ -81,7 +79,16 @@ public class CombatManager : MonoBehaviour {
 	List<Fighter> currPlayerFighters = new List<Fighter>();
 	List<Fighter> currEnemyFighters = new List<Fighter>();
 //
-	public Fighter currentFighter { get { return fighters [memberIndex]; } }
+	public Fighter currentFighter {
+		get {
+
+			if (memberIndex >= fighters.Count) {
+				Debug.Log ("ATTANTEN : out of range / member index : " + memberIndex + " fighters : " + fighters.Count);
+				return fighters [0];
+			}
+			return fighters [memberIndex];
+		}
+	}
 
 	public CrewMember currentMember { get { return fighters [memberIndex].CrewMember; } }
 
@@ -97,8 +104,10 @@ public class CombatManager : MonoBehaviour {
 	[SerializeField]
 	private CategoryContent categoryFightContent;
 
+	// EVENTS
 	public delegate void FightStarting ();
 	public FightStarting fightStarting;
+
 	public delegate void FightEnding ();
 	public FightEnding fightEnding;
 
@@ -113,6 +122,20 @@ public class CombatManager : MonoBehaviour {
 		playerFighters_Parent.SetActive (true);
 		initEnemyFighters = enemyFighters_Parent.GetComponentsInChildren<Fighter> (true);
 		initPlayerFighters = playerFighters_Parent.GetComponentsInChildren<Fighter> (true);
+
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+
+		PlayerLoot.Instance.LootUI.useInventory += HandleUseInventory;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.LaunchCombat:
+			StartFight ();
+			break;
+
+		}
 	}
 
 	// Update is called once per frame
@@ -121,6 +144,7 @@ public class CombatManager : MonoBehaviour {
 			updateState ();
 			timeInState += Time.deltaTime;
 		}
+
 
 	}
 	#region combat beginning
@@ -162,9 +186,19 @@ public class CombatManager : MonoBehaviour {
 
 		if ( currentFighter.TurnsToSkip > 0 ) {
 
-			currentFighter.CombatFeedback.Display ("Skip\nTurn");
+			currentFighter.TurnsToSkip--;
+
+			if (currentFighter.TurnsToSkip == 0) {
+				currentFighter.CombatFeedback.Display ("DEBOUT !");
+				//
+			} else {
+				currentFighter.CombatFeedback.Display ("Encore\n" + currentFighter.TurnsToSkip + " Tours");
+			}
+
 			return;
 		}
+
+		currentFighter.ChangeState (Fighter.states.none);
 
 		currentFighter.ChooseButton.SetActive (true);
 		CardManager.Instance.ShowFightingCard (currentFighter.CrewMember);
@@ -173,11 +207,9 @@ public class CombatManager : MonoBehaviour {
 	}
 	private void StartTurn_Update () {
 
-		if (timeInState > timeBetweenSteps) {
+		if (timeInState > 1f) {
 
 			if (currentFighter.TurnsToSkip > 0) {
-				currentFighter.TurnsToSkip--;
-				currentFighter.CombatFeedback.Display ("Skip " + currentFighter.TurnsToSkip + "\nmore");
 				NextTurn ();
 				return;
 			}
@@ -199,8 +231,6 @@ public class CombatManager : MonoBehaviour {
 		if (currPlayerFighters.Count == 0) {
 			return;
 		}
-
-		CardManager.Instance.HideFightingCards ();
 
 		currentFighter.ChooseButton.SetActive (false);
 		if (currentFighter.TargetFighter != null)
@@ -264,9 +294,7 @@ public class CombatManager : MonoBehaviour {
 			ChangeState (States.PlayerMemberChoice);
 			break;
 		case ActionType.Eating:
-
-			PlayerLoot.Instance.Open (categoryFightContent);
-			PlayerLoot.Instance.CrewGroup.SetActive (false);
+			StartAction ();
 			break;
 		default:
 			throw new System.ArgumentOutOfRangeException ();
@@ -312,7 +340,7 @@ public class CombatManager : MonoBehaviour {
 		if ( Random.value < currentChanceOfCharisma )
 			tmpType = ActionType.Charming;
 
-		if ( currentMember.Health <= (float)currentMember.MaxHealth / 4f ) {
+		if ( currentMember.Health <= (float)currentMember.MemberID.maxHealth / 4f ) {
 
 			float random = Random.value;
 
@@ -393,7 +421,7 @@ public class CombatManager : MonoBehaviour {
 			ChangeState (States.Charming);
 			break;
 		case ActionType.Eating:
-			
+			ChangeState (States.Eating);
 			break;
 		default:
 			throw new System.ArgumentOutOfRangeException ();
@@ -460,14 +488,12 @@ public class CombatManager : MonoBehaviour {
 	}
 	private void Flee () {
 
-//		if ( DiceManager.Instance.HighestResult >= 5 ) {
-		if ( DiceManager.Instance.HighestResult >= 0 ) {
+		if ( DiceManager.Instance.HighestResult >= 5 ) {
 
 			currentFighter.Hide ();
 			currentFighter.CombatFeedback.Display("Sucess!");
 
 			DeleteFighter (currentFighter);
-
 
 		} else if ( DiceManager.Instance.HighestResult == 1 ) {
 			
@@ -512,14 +538,19 @@ public class CombatManager : MonoBehaviour {
 		//
 	}
 	private void Charm () {
+		
 		if (DiceManager.Instance.HighestResult >= 5) {
-			
+		
+			print ("charm : success");
+
 			currentFighter.CombatFeedback.Display ("Succ");
 			currentFighter.TargetFighter.Speak ("Ah, merci, c'est gentil");
 			currentFighter.TargetFighter.TurnsToSkip += 2;
 
 		} else if ( DiceManager.Instance.HighestResult == 1 ) {
-			
+
+			print ("charm : critical");
+
 			currentFighter.TargetFighter.Speak ("Il est con ce mec...");
 			currentFighter.CombatFeedback.Display ("Crit\nFail");
 			foreach ( Fighter fighter in currEnemyFighters ) {
@@ -527,7 +558,7 @@ public class CombatManager : MonoBehaviour {
 			}
 
 		} else {
-			
+
 			currentFighter.TargetFighter.Speak ("Quoi ?");
 			currentFighter.CombatFeedback.Display ("Oups");
 
@@ -537,16 +568,34 @@ public class CombatManager : MonoBehaviour {
 
 	#region eating
 	private void Eating_Start () {
-		//
+		eatingMenuButton.SetActive (true);
+		PlayerLoot.Instance.LootUI.Show (CategoryContentType.Combat);
 	}
 	private void Eating_Update () {
-		//
 	}
 	private void Eating_Exit () {
-		//
+		PlayerLoot.Instance.CanOpen = false;
 	}
-	private void Eat () {
+	void HandleUseInventory (InventoryActionType actionType)
+	{
+		if (fighting) {
+			
+			if (actionType == InventoryActionType.Eat) {
+
+				PlayerLoot.Instance.HideInventory ();
+
+				eatingMenuButton.SetActive (false);
+
+				NextTurn ();
+			}
+		}
 		
+	}
+	public GameObject eatingMenuButton;
+	public void CloseEatingMenu () {
+		PlayerLoot.Instance.HideInventory ();
+		eatingMenuButton.SetActive (false);
+		ChangeState (States.PlayerAction);
 	}
 	#endregion
 
@@ -576,7 +625,6 @@ public class CombatManager : MonoBehaviour {
 	}
 
 	void ShowLoot () {
-		LootManager.Instance.setLoot ( Crews.Side.Enemy, LootManager.Instance.GetIslandLoot(ItemLoader.allCategories));
 		OtherLoot.Instance.StartLooting ();
 	}
 
@@ -584,9 +632,9 @@ public class CombatManager : MonoBehaviour {
 
 		StopFight ();
 
-		Fighting = false;
+		EndFight ();
 
-		StoryLauncher.Instance.PlayingStory = false;
+		StoryLauncher.Instance.EndStory ();
 
 		SoundManager.Instance.PlaySound (escapeSound);
 
@@ -595,6 +643,9 @@ public class CombatManager : MonoBehaviour {
 
 	#region fighters
 	private void ShowFighters () {
+
+		print ("showing fighters");
+
 		foreach ( Crews.Side side in Crews.Instance.Sides ) {
 			Crews.getCrew(side).UpdateCrew ( Crews.PlacingType.Hidden );
 
@@ -747,28 +798,31 @@ public class CombatManager : MonoBehaviour {
 		}
 	}
 
+	public void StartFight () {
+
+		ChangeState (States.CombatStart);
+
+		fighting = true;
+
+	}
+
+	public void EndFight () {
+		//
+
+		fighting = false;
+
+		HideFighters (Crews.Side.Player);
+		HideFighters (Crews.Side.Enemy);
+
+		Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
+		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+
+
+	}
+
 	public bool Fighting {
 		get {
 			return fighting;
-		}
-		set {
-			fighting = value;
-
-			PlayerLoot.Instance.CanOpen = !value;
-
-			if (fighting) {
-				
-				ChangeState (States.CombatStart);
-
-			} else {
-
-				HideFighters (Crews.Side.Player);
-				HideFighters (Crews.Side.Enemy);
-
-				Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
-				Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-
-			}
 		}
 	}
 

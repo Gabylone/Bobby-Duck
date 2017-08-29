@@ -32,6 +32,8 @@ public class SaveMenu : MonoBehaviour {
 
 	public void SaveSocket (int index) {
 
+		Tween.Bounce ( saveButtons[index].transform , 0.2f , 1.1f );
+
 		if (saving) {
 
 			if (save_Confirmed) {
@@ -43,6 +45,7 @@ public class SaveMenu : MonoBehaviour {
 				if ( SaveTool.Instance.FileExists (index) ) {
 
 					saveFeedback.SetActive (true);
+					Tween.Bounce ( saveFeedback.transform , 0.2f , 1.1f );
 					saveFeedback.GetComponentInChildren<Text> ().text = "Ecraser ?";
 					save_Confirmed = true;
 
@@ -120,6 +123,10 @@ public class SaveMenu : MonoBehaviour {
 			opened = value;
 
 			saveGroup.SetActive (value);
+
+			if ( value == true ) {
+				Tween.Bounce ( saveGroup.transform , 0.2f , 1.1f );
+			}
 
 			save_Confirmed = false;
 

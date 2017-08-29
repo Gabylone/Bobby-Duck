@@ -28,6 +28,25 @@ public class StoryReader : MonoBehaviour {
 		Instance = this;
 	}
 
+	void Start () {
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.ChangeStory:
+			ChangeStory ();
+			break;
+		case FunctionType.Node:
+			Node ();
+			break;
+		case FunctionType.Switch:
+			Switch ();
+			break;
+		}
+	}
+
 	void Update () {
 		if ( waitToNextCell )
 			WaitForNextCell_Update ();
@@ -120,7 +139,7 @@ public class StoryReader : MonoBehaviour {
 
 	public Node GetNodeFromText ( Story story, string text ) {
 
-		text = text.TrimEnd ('\r', '\n');
+		text = text.TrimEnd ('\r', '\n', '\t');
 
 		Node node = story.nodes.Find ( x => x.name == text);
 
@@ -167,12 +186,6 @@ public class StoryReader : MonoBehaviour {
 
 		// get second story
 		Story secondStory = StoryLoader.Instance.FindByName (storyName,StoryType.Island);
-
-		if (secondStory == null) {
-			Debug.LogError ("pas trouvé second story : " + storyName);
-			StoryLauncher.Instance.PlayingStory = false;
-			return;
-		}
 
 		// extract nodes
 		string nodes = text.Remove (0,text.IndexOf ('[')+1);

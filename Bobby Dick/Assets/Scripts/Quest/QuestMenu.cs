@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Holoville.HOTween;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,28 +26,59 @@ public class QuestMenu : MonoBehaviour {
 	private GameObject menuGroup;
 	[SerializeField]
 	private GameObject openButton;
-//	[SerializeField]
-//	private GameObject closeButton;
+
+	// feedback
+	public GameObject feedbackObject;
+	bool showFeedback = false;
+	float feedbackDuration = 0.5f;
 
 	void Awake () {
 		Instance = this;
 	}
 
-	void Update () {
-
+	void Start () {
+		QuestManager.Instance.newQuestEvent += HandleNewQuestEvent;
 	}
+
+	#region feedback
+	void HandleNewQuestEvent ()
+	{
+		feedbackObject.SetActive (true);
+
+		HOTween.To ( feedbackObject.transform , feedbackDuration , "localScale" , Vector3.one * 1.2f , false , EaseType.EaseOutBounce , 0f );
+		HOTween.To ( feedbackObject.transform , feedbackDuration , "localScale" , Vector3.one , false , EaseType.EaseInBounce , feedbackDuration );
+
+		Invoke ("HideFeedback" , feedbackDuration * 3);
+	}
+
+	void HideFeedback () {
+		feedbackObject.SetActive (false);
+	}
+	#endregion
 
 	public void Init () {
 		InitButtons ();
 	}
 
 	public void Open () {
+		
 		openButton.SetActive (false);
 		menuGroup.SetActive (true);
+
+		Tween.ClearFade (menuGroup.transform);
+		Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
 	}
 
 	public void Close () {
 		openButton.SetActive (true);
+
+		Tween.Scale (menuGroup.transform , 0.2f , 0.8f);
+		Tween.Fade (menuGroup.transform , 0.2f );
+
+		Invoke ("HideMenu" , 0.2f);
+	}
+
+	void HideMenu() {
 		menuGroup.SetActive (false);
 	}
 

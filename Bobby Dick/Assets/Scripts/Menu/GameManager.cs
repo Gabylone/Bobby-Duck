@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour {
 
 		TimeManager.Instance.Init ();
 
+		QuestMenu.Instance.Init ();
+
 		NavigationManager.Instance.ChangeChunk (Directions.None);
 
 		if (KeepOnLoad.dataToLoad < 0) {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Holoville.HOTween;
 
 public class GoldManager : MonoBehaviour {
 
@@ -11,9 +12,14 @@ public class GoldManager : MonoBehaviour {
 	[SerializeField] private Text goldText;
 	[SerializeField] private Image goldImage;
 
-	[SerializeField] private float feedbackDuration = 0.2f;
-	bool feedbackActive = false;
-	float timer = 0f;
+	[SerializeField]
+	private float feedbackDuration = 1.5f;
+	[SerializeField]
+	private float feedbackScaleAmount = 1.5f;
+	[SerializeField]
+	private float feedbackBounceDuration = 0.3f;
+	private bool feedbackActive = false;
+	private float timer = 0f;
 
 	[Header ("Amounts")]
 	[SerializeField]
@@ -31,14 +37,33 @@ public class GoldManager : MonoBehaviour {
 	void Start () {
 		GoldAmount = startValue;
 
+		Hide ();
+
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
 		PlayerLoot.Instance.openInventory += Show;
 		PlayerLoot.Instance.closeInventory += Hide;
-
-		Hide ();
 	}
 
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.CheckGold:
+			SetGoldDecal ();
+			break;
+		case FunctionType.RemoveGold:
+			RemoveGold (cellParameters);
+			break;
+		case FunctionType.AddGold:
+			AddGold (cellParameters);
+			break;
+		}
+	}
+
+	#region timed feedback
 	void Update () {
+		
 		if ( feedbackActive ) {
+			
 			timer += Time.deltaTime;
 
 			if ( timer > feedbackDuration ) {
@@ -47,7 +72,32 @@ public class GoldManager : MonoBehaviour {
 		}
 	}
 
+	private void Bounce () {
+		HOTween.To ( goldGroup.transform , feedbackBounceDuration , "localScale" , Vector3.one * feedbackScaleAmount, false , EaseType.EaseOutBounce , 0f);
+		HOTween.To ( goldGroup.transform , feedbackBounceDuration , "localScale" , Vector3.one , false , EaseType.Linear , feedbackBounceDuration );
+	}
+	private void DisplayFeedback () {
+
+
+		feedbackActive = true;
+		timer = 0f;
+
+		Bounce();
+		Show ();
+
+	}
+	private void HideFeedback () {
+		feedbackActive = false;
+
+		goldImage.color = Color.white;
+		goldText.color = Color.white;
+
+		Hide ();
+	}
+	#endregion
+
 	public void SetGoldDecal () {
+		
 		int amount = int.Parse (StoryFunctions.Instance.CellParams);
 
 		if (GoldManager.Instance.CheckGold (amount)) {
@@ -57,38 +107,60 @@ public class GoldManager : MonoBehaviour {
 			StoryReader.Instance.SetDecal (1);
 		}
 
+		DisplayFeedback ();
+
 		StoryReader.Instance.UpdateStory ();
 	}
 
 	public bool CheckGold ( float amount ) {
-		
+
+		Bounce();
+
 		if ( amount > GoldAmount ) {
+
+//			print ("amount : " + amount);
+//			print ("gold : " + GoldAmount);
+
+			goldImage.color = Color.red;
+			goldText.color = Color.red;
+//
 			SoundManager.Instance.PlaySound (noGoldSound);
-			DisplayFeedback ();
 			return false;
 		}
 
 		SoundManager.Instance.PlaySound (buySound);
 
+		goldImage.color = Color.white;
+		goldText.color = Color.white;
+
 		return true;
-	}
-
-	private void DisplayFeedback () {
-
-		feedbackActive = true;
-		timer = 0f;
-
-		Visible = true;
-
-	}
-	private void HideFeedback () {
-		feedbackActive = false;
-
-		Visible = false;
 	}
 
 	public void UpdateUI () {
 		goldText.text = goldAmount.ToString ();
+	}
+
+	void RemoveGold(string cellParams) {
+		
+		int amount = int.Parse (cellParams);
+		GoldAmount -= amount;
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait ( 0.3f );
+
+		DisplayFeedback ();
+
+	}
+	void AddGold(string cellParams) {
+		
+		int amount = int.Parse (cellParams);
+		GoldAmount += amount;
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (0.3f);
+
+		DisplayFeedback ();
+
 	}
 
 	public int GoldAmount {
@@ -99,7 +171,6 @@ public class GoldManager : MonoBehaviour {
 			goldAmount = Mathf.Clamp (value, 0 , value );
 			UpdateUI ();
 
-			DisplayFeedback ();
 		}
 	}
 
@@ -107,6 +178,7 @@ public class GoldManager : MonoBehaviour {
 		Visible = true;
 	}
 	public void Hide () {
+		return;
 		Visible = false;
 	}
 

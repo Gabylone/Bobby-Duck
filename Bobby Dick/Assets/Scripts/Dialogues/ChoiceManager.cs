@@ -21,6 +21,22 @@ public class ChoiceManager : MonoBehaviour {
 		Instance = this;
 	}
 
+	void Start () {
+		StoryFunctions.Instance.getFunction+= HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.SetChoices:
+			GetChoices ();
+			break;
+		case FunctionType.GiveTip:
+			GiveTip ();
+			break;
+		}
+	}
+
 	public void SetChoices (int amount, string[] content) {
 
 		for (int i = 0; i < amount ; ++i ) {

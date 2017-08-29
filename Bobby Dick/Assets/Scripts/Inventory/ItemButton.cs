@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Holoville.HOTween;
 
 public class ItemButton : MonoBehaviour {
 
@@ -131,7 +132,17 @@ public class ItemButton : MonoBehaviour {
 			return handledItem;
 		}
 		set {
+
+			Tween.ClearFade (transform);
+			if (handledItem == null) {
+				Tween.Bounce (transform, 0.2f, 1.05f);
+			}
+
 			handledItem = value;
+
+			if (value == null) {
+				return;
+			}
 
 			Name 		= handledItem.name;
 
@@ -145,7 +156,20 @@ public class ItemButton : MonoBehaviour {
 			Weight 		= HandledItem.weight;
 
 			Level 		= HandledItem.level;
+
 		}
+	}
+	public void Clear () {
+
+		handledItem = null;
+
+		Name = "";
+		Value = 0;
+		Price = 0;
+		Weight = 0;
+		Level = 0;
+
+		Tween.Fade ( transform , 0.3f  );
 	}
 	#endregion
 }
