@@ -13,7 +13,7 @@ Leave;Node=>place du village;;;;;;;;
 [place du village];;;;;;;;;
 CheckDay;;;;;;;;;
 Narrator : Le village est petit mais vivant, c'est un jour de marché. Des hommes déplacent des caisses de poissons pendant que des femmes le cuisine et le vend. Une petite rue s'ouvre vers la gauche;Narrator : La nuit, la place du village est vide. Seulement quelques maison sont allumées, et une petite ruelle s'ouvre vers la gauche.;;;;;;;;
-CheckQuest[choix village];CheckQuest[choix village];;;;;;;;
+CheckQuest=>choix village;CheckQuest=>choix village;;;;;;;;
 Node=>choix village;Node=>choix village;;;;;;;;
 [choix village];;;;;;;;;
 SetChoices3;;;;;;;;;
@@ -25,7 +25,7 @@ Node=>debut;Node=>rue;OtherSpeak : Hé ho !;;;;;;;
 ;;[choix poissoniers];;;;;;;
 ;;SetChoices4;;;;;;;
 ;;Choice : Me vendre à manger.;;Choice : Rien !;Choice : Bobby Dick, ça vous parle ?;;Choice : Ça se passe comment dans votre beau village ?;;[la quete]
-;;RandomPercent40;;OtherSpeak : A la prochaine !;RandomPercent40;;RandomRange2;;NewQuest[choix poissoniers]
+;;RandomPercent40;;OtherSpeak : A la prochaine !;NewQuest=>choix poissoniers;;RandomRange2;;NewQuest=>choix poissoniers
 ;;TradeFood;OtherSpeak : Vous arrivez au mauvais moment, on en a plus du tout.;HideOther;OtherSpeak : Bien sûr, un ami m'en a souvent parlé;OtherSpeak : Non, rien;OtherSpeak : C'est merveilleux !;OtherSpeak : C'est un peu la bouillasse à vrai dire.;
 ;;Node=>choix poissoniers;Node=>choix poissoniers;Node=>choix village;OtherSpeak : Il habite DIRECTIONTOFORMULA;Node=>choix poissoniers;OtherSpeak : Ici on est loin des pirates, on se connaît tous.;OtherSpeak : On a même besoin d'un peu d'aide;
 ;;;;;Node=>choix poissoniers;;OtherSpeak : Chaque minute est à croquer.;Switch=>switch quete;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Holoville.HOTween;
 
 public class Fight_LoadSprites : MonoBehaviour {
 
@@ -26,22 +27,13 @@ public class Fight_LoadSprites : MonoBehaviour {
 	public void Init ()
 	{
 		allSprites = GetComponentsInChildren<SpriteRenderer> (true);
-		fade_InitColors = new Color[allSprites.Length];
 
-
-		for (int i = 0; i < fade_InitColors.Length; i++) {
-			fade_InitColors [i] = allSprites [i].color;
-		}
-
-	}
-
-	void Update () {
-		if (fading) {
-			Fade_Update ();
-		}
+		GetSpriteColors ();
 	}
 
 	public void UpdateSprites ( MemberID memberID ) {
+
+		ResetColors ();
 
 		if (memberID.HairSpriteID > -1)
 			allSprites[(int)SpriteIndex.hair].sprite = memberID.Male ? CrewCreator.Instance.HairSprites_Male [memberID.HairSpriteID] : CrewCreator.Instance.HairSprites_Female [memberID.HairSpriteID];
@@ -66,42 +58,39 @@ public class Fight_LoadSprites : MonoBehaviour {
 
 		// body
 		allSprites[(int)SpriteIndex.body].sprite = CrewCreator.Instance.BodySprites[memberID.Male ? 0:1];
-
 	}
 
-	#region fade
-	public void Fade_Reset () {
+
+
+	#region sprite colors
+	void GetSpriteColors () {
+		fade_InitColors = new Color[allSprites.Length];
+
+		for (int i = 0; i < fade_InitColors.Length; i++) {
+			fade_InitColors [i] = allSprites [i].color;
+		}
+	}
+
+	void ResetColors ()
+	{
 		int a = 0;
 		foreach ( SpriteRenderer sprite in allSprites ) {
 			sprite.color = fade_InitColors [a];
 			++a;
 		}
-
-		timer = 0f;
-		fading = false;
-	}
-	public void Fade_Start (float dur) {
-		fade_Duration = dur;
-
-		fading = true;
-
-		timer = 0f;
-	}
-	void Fade_Update ()
-	{
-		int a = 0;
-		foreach ( SpriteRenderer sprite in allSprites ) {
-			sprite.color = Color.Lerp (fade_InitColors [a], Color.clear, timer / fade_Duration);
-			++a;
-		}
-
-		timer += Time.deltaTime;
-
-		if (timer >= fade_Duration)
-			fading = false;
 	}
 	#endregion
 
+	#region fade
+	public void FadeSprites (float dur) {
+
+		foreach ( SpriteRenderer sprite in allSprites ) {
+			HOTween.To (sprite , dur , "color" , Color.clear);
+		}
+	}
+	#endregion
+
+	#region sprite order
 	public void UpdateOrder (int fighterIndex)
 	{
 		foreach ( SpriteRenderer sprite in allSprites ) {
@@ -109,4 +98,5 @@ public class Fight_LoadSprites : MonoBehaviour {
 		}
 
 	}
+	#endregion
 }

@@ -12,7 +12,7 @@ Leave;Fade;;;;;;;;;;;
 CheckDay;;;;;;;;;;;;
 RandomRange2;;RandomRange2;;;;;;;;;;
 Narrator : A cette heure de la journée, la taverne est bondée. Les clients cris, rient, et s'engueulent. Même quelques musiciens sont venus faire danser les voyageurs.;Narrator : Malgré l'heure de la journée, il n'y a pas grand monde… Le silence domine les tables, seulement quelques vieux sirotent doucement leur chope.;Narrator : La taverne est bondée. Un grand feu de cheminée éclaire la pièce, et tout le monde raconte leurs journées autour. L'alcool embaume la pièce.;Narrator : La taverne est totalement vide de nuit… Le tavernier est à moitié endormi sur son comptoir et seul quelques client dorment dans le vomi de ce qu'ils ont mangé dans la soirée.;;;;;;;;;
-CheckQuest[choix taverne];CheckQuest[choix taverne];CheckQuest[choix taverne];CheckQuest[choix taverne];;;;;;;;;
+CheckQuest=>choix taverne;CheckQuest=>choix taverne;CheckQuest=>choix taverne;CheckQuest=>choix taverne;;;;;;;;;
 Node=>choix taverne;Node=>choix taverne;Node=>choix taverne;Node=>choix taverne;;;;;;;;;
 ;;;;;;;;;;;;
 [choix taverne];;;;;;;;;;;;
@@ -32,7 +32,7 @@ Node=>choix1;;Node=>combat tavernier;;;;;;;;;;
 [choix1];Node=>la quete;;;[choix2];;;;;;;;
 SetChoices4;;;;SetChoices4;;;;;[nouvelles];;;
 Choice : Des chambres pour mes hommes !;Choice : On a faim !;Choice : (autre);Choice : Ça ira pour aujourdh'ui;Choice : C'est quoi les nouvelles de la région ?;Choice : (attaquer);Choice : Bobby Dick, ça vous parle ?;;Choice : (autre);RandomRange2;Node=>la quete;;[la quete]
-Node=>chambre;OtherSpeak : Regardez voir ce que j'ai;Node=>choix2;OtherSpeak : Bon bah à la prochaine !;Node=>nouvelles;RemoveKarma;RandomRange2;;Node=>choix1;GiveTip;OtherSpeak : Que des problèmes !;;NewQuest[choix2]
+Node=>chambre;OtherSpeak : Regardez voir ce que j'ai;Node=>choix2;OtherSpeak : Bon bah à la prochaine !;Node=>nouvelles;RemoveKarma;RandomRange2;;Node=>choix1;GiveTip;OtherSpeak : Que des problèmes !;;NewQuest=>choix2
 ;TradeFood;;HideOther;;Node=>combat tavernier;OtherSpeak : Non pas du tout.;OtherSpeak : Bien sûr ! Tous les alcooliques ici en parlent.;;Node=>choix2;OtherSpeak : Ça vous dirait de nous donner un coup de main ?;;
 ;Node=>choix1;;Fade;;;Node=>choix2;OtherSpeak : Il partent toujours DIRECTIONTOFORMULA;;;SetChoices2;;
 ;;;Leave;;;;Node=>choix2;;;Choice : Non merci;Choice : Avec plaisir;

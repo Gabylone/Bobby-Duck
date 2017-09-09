@@ -1,7 +1,7 @@
 Nom;Fréquence %;Sprite ID;;;;
 Marchand de indices;5,97;1;;;;
 Narrator : L'île n'est pas plus large que quelques galères. ;;;;;;
-CheckQuest[debut];;;;;;
+CheckQuest=>debut;;;;;;
 [debut];;;;;;
 Narrator : A quelques mètres devant CAPITAINE est dressée une maisonnette en bois. Au dessus de la porte, un point d'interrogation est piètrement peint sur une enseigne.;;;;;;
 SetChoices2;;;;;;
@@ -17,7 +17,7 @@ OtherSpeak : Coucou toi !;Node=>la quete;;;;;
 [choix];;;;;;
 SetChoices4;;;;;;
 Choice : Apprenez moi quelque chose.;Choice : Où est le trésor de Bobby Dick ?;Choice : (partir);Choice : Ça marche le « commerce d'indice ? »;;;[la quete]
-Node=>aide;Node=>trésor;OtherSpeak : Au revoir !;RandomRange2;;;NewQuest[choix]
+Node=>aide;Node=>trésor;OtherSpeak : Au revoir !;RandomRange2;;;NewQuest=>choix
 ;;Leave;OtherSpeak : Eh bien.;OtherSpeak : Le commerce, oui.;;
 ;;;OtherSpeak : Ça dépend de vous.;OtherSpeak : Moi en revanche j'ai un petit soucis.;;
 ;;;OtherSpeak : Il fallait bien quelque chose à faire toutes ces choses inutiles.;SetChoices2;;

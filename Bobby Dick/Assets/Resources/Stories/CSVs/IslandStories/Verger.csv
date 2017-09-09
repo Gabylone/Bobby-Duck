@@ -3,7 +3,7 @@ Verger;4,48;1;;
 Narrator : L'île est toute petite.;;;;
 [debut];;;;
 Narrator : Quelques beaux arbres à fruits sont alignés à quelques mètres.;;;;
-CheckQuest[switch verger];;;;
+CheckQuest=>switch verger;;;;
 [switch verger];;;;
 Node=>choix verger;Node=>consequence;;;
 [choix verger];;;;

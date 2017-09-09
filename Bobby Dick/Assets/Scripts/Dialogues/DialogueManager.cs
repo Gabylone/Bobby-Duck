@@ -62,6 +62,7 @@ public class DialogueManager : MonoBehaviour {
 			StoryReader.Instance.WaitForInput ();
 			break;
 		case FunctionType.PlayerSpeak:
+			Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 			SetDialogue (cellParameters.Remove (0, 2), Crews.playerCrew.captain);
 			StoryReader.Instance.WaitForInput ();
 			break;
@@ -204,7 +205,7 @@ public class DialogueManager : MonoBehaviour {
 		}
 
 		if ( text.Contains ("DIRECTIONTOFORMULA") ) {
-			text = text.Replace ( "DIRECTIONTOFORMULA" , ClueManager.Instance.getDirectionToFormula () );
+			text = text.Replace ( "DIRECTIONTOFORMULA" , FormulaManager.Instance.getDirectionToFormula () );
 		}
 
 		if ( text.Contains ("BOUNTY") ) {
@@ -212,7 +213,7 @@ public class DialogueManager : MonoBehaviour {
 		}
 
 		if ( text.Contains ("FORMULA") ) {
-			text = text.Replace ( "FORMULA" , ClueManager.Instance.getFormula () );
+			text = text.Replace ( "FORMULA" , FormulaManager.Instance.getFormula () );
 		}
 
 		if ( text.Contains ("RANDOMFEMALENAME") ) {

@@ -6,27 +6,30 @@ public class PlayerLoot : MonoBehaviour {
 
 	public static PlayerLoot Instance;
 
-	public delegate void OpenInventory ();
+	public delegate void OpenInventory (CrewMember member);
 	public OpenInventory openInventory;
 	public delegate void CloseInventory ();
 	public CloseInventory closeInventory;
 
+	private CrewMember selectedMember;
+
 	private int selectedMemberIndex = 0;
+
+	[SerializeField]
+	private GameObject infoGroup;
 
 	[Header("Groups")]
 	[SerializeField]
 	private GameObject crewGroup;
-	private bool canOpen = true;
+	public bool canOpen = true;
 	[SerializeField]
 	private GameObject closeButtonObj;
 
-	public bool CanOpen {
-		get {
-			return canOpen;
-		}
-		set {
-			canOpen = value;
-		}
+	public void Lock () {
+		canOpen = false;
+	}
+	public void Unlock () {
+		canOpen = true;
 	}
 
 	[Header("LootUI")]
@@ -35,9 +38,6 @@ public class PlayerLoot : MonoBehaviour {
 	[SerializeField]
 	private LootUI otherLootUI;
 
-	[Header("Card")]
-	[SerializeField]
-	private InventoryCard inventoryCard;
 
 	[SerializeField]
 	private Transform crewCanvas;
@@ -54,16 +54,18 @@ public class PlayerLoot : MonoBehaviour {
 	}
 
 	public void Init () {
-
-		// init crew cards
-		inventoryCard.Init ();
-
-		HideCrewGroup ();
+//		HideCrewGroup ();
 
 		lootUI.useInventory += HandleUseInventory;
 
 		StoryLauncher.Instance.playStoryEvent += HandlePlayStory;
 		StoryLauncher.Instance.endStoryEvent += HandleEndStory;
+		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+	}
+
+	void HandleOnRemoveItemFromMember (Item item)
+	{
+		lootUI.UpdateLootUI ();
 	}
 
 	#region crew group
@@ -86,6 +88,7 @@ public class PlayerLoot : MonoBehaviour {
 	void HandlePlayStory ()
 	{
 		canOpen = false;
+		HideInventory ();
 	}
 	#endregion
 
@@ -115,13 +118,11 @@ public class PlayerLoot : MonoBehaviour {
 	#region button action
 	public void EatItem () {
 
-		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
-
-		targetMember.Health += lootUI.SelectedItem.value;
+		SelectedMember.Health += lootUI.SelectedItem.value;
 
 		int i = (int)(lootUI.SelectedItem.value * 1.5f);
 
-		targetMember.CurrentHunger -= i;
+		SelectedMember.CurrentHunger -= i;
 
 		RemoveSelectedItem ();
 
@@ -132,7 +133,6 @@ public class PlayerLoot : MonoBehaviour {
 		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
 
 		if (!targetMember.CheckLevel (lootUI.SelectedItem.level)) {
-			Tween.Bounce (inventoryCard.Lvl_Image.transform);
 			return;
 		}
 
@@ -151,13 +151,12 @@ public class PlayerLoot : MonoBehaviour {
 
 		targetMember.SetEquipment (part, lootUI.SelectedItem);
 
-
 		RemoveSelectedItem ();
+		print ("debor y'a ça");
+
 	}
 
 	public void ThrowItem () {
-
-		CrewMember targetMember = PlayerLoot.Instance.SelectedMember;
 
 		RemoveSelectedItem ();
 	}
@@ -183,26 +182,37 @@ public class PlayerLoot : MonoBehaviour {
 	#region crew management
 	public CrewMember SelectedMember {
 		get {
-			return Crews.playerCrew.CrewMembers[selectedMemberIndex];
+			return selectedMember;
+		}
+		set {
+			if ( selectedMember != null ) {
+				selectedMember.Icon.Down ();
+			}
+
+			selectedMember = value;
+
+			selectedMember.Icon.Up ();
 		}
 	}
 	#endregion
 
 	#region properties
-	public void ShowInventory (CategoryContentType catContentType ) {
+	public void ShowInventory ( CategoryContentType catContentType ) {
+		ShowInventory (catContentType, Crews.playerCrew.captain);
+	}
+	public void ShowInventory ( CategoryContentType catContentType , CrewMember crewMember ) {
 
-		if (!CanOpen) {
+		if (!canOpen) {
 			return;
 		}
+
+		SelectedMember = crewMember;
 
 			// set bool
 		opened = true;
 
 			// event
-		openInventory ();
-
-			// update member
-		inventoryCard.UpdateMember (Crews.playerCrew.CrewMembers[selectedMemberIndex]);
+		openInventory (crewMember);
 
 			// update crew position
 		Crews.getCrew (Crews.Side.Player).UpdateCrew (Crews.PlacingType.Map);
@@ -212,7 +222,14 @@ public class PlayerLoot : MonoBehaviour {
 
 			// show elements
 		ShowCrewGroup();
-		lootUI.Show (catContentType);
+		lootUI.Hide ();
+		infoGroup.SetActive (true);
+
+		if ( catContentType != CategoryContentType.Inventory ) {
+			lootUI.Show (catContentType);
+			infoGroup.SetActive (false);
+		}
+
 	}
 	public void HideInventory () {
 
@@ -222,7 +239,7 @@ public class PlayerLoot : MonoBehaviour {
 			// set bool
 		opened = false;
 
-		Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.playerCrew.captain.Icon.PreviousPlacingType);
+		Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Map);
 
 		foreach (CrewMember member in Crews.getCrew(Crews.Side.Player).CrewMembers)
 			member.Icon.Down ();
@@ -232,29 +249,28 @@ public class PlayerLoot : MonoBehaviour {
 
 			// hide elements
 		HideCrewGroup();
+
 		lootUI.Hide ();
 
+	}
+
+	public void OpenLoot () {
+		lootUI.Show (CategoryContentType.Inventory);
+		infoGroup.SetActive (false);
+
+		QuestMenu.Instance.Close ();
+		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
+	}
+
+	public void CloseLoot () {
+		lootUI.Hide ();
+		infoGroup.SetActive (true);
 	}
 
 	public bool Opened {
 		get {
 			return opened;
 		}
-	}
-
-	public void ShowMember ( int i ) {
-		Transform parent = inventoryCard.IconAnchor;
-		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (parent);
-		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.localPosition = Vector3.zero;
-		Crews.playerCrew.CrewMembers [i].Icon.Overable = false;
-	}
-
-	public void HideMember (int i ) {
-		Transform parent = crewCanvas;
-		Crews.playerCrew.CrewMembers[i].Icon.GetTransform.SetParent (parent);
-
-		Crews.playerCrew.CrewMembers[i].Icon.MoveToPoint (Crews.playerCrew.CrewMembers[i].Icon.CurrentPlacingType, 0.2f);
-		Crews.playerCrew.CrewMembers [i].Icon.Overable = true;
 	}
 
 	public LootUI LootUI {
@@ -268,22 +284,6 @@ public class PlayerLoot : MonoBehaviour {
 	public ActionGroup ActionGroup {
 		get {
 			return actionGroup;
-		}
-	}
-
-	public int SelectedMemberIndex {
-		get {
-			return selectedMemberIndex;
-		}
-		set {
-
-			Crews.playerCrew.CrewMembers [selectedMemberIndex].Icon.Down ();
-
-
-			selectedMemberIndex = value;
-
-			Crews.playerCrew.CrewMembers [value].Icon.Up ();
-
 		}
 	}
 

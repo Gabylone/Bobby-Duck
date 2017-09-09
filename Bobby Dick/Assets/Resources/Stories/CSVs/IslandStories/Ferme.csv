@@ -21,7 +21,7 @@ Node=>ferme détruite;;Node=>ferme détruite;;;;;Node=>rencontre fermière;Node=
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
 [plage2];;;;;;;;;;;;;;;;;;
-CheckQuest[plage2];;;;;;;;;;;;;;;;;;
+CheckQuest=>plage2;;;;;;;;;;;;;;;;;;
 RandomPercent50;;;;;;;;;;;;;;;;;;
 Node=>plage vide;Node=>plage pirates;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
@@ -32,7 +32,7 @@ Narrator : Ils partent DIRECTIONTOFORMULA;;;;;;;;;;;;;;;;;;
 SetChoices2;;;;;;;;;;;;;;;;;;
 Choice : Revenir à la ferme.;Choice : Fouiller la plage.;;;;;;;;;;;;;;;;;
 Fade;RandomPercent25;;;;;;;;;;;;;;;;;
-Node=>ferme détruite;PlayerSpeak : Oh !;PlayerSpeak : La plage est toute vide !;;;;;;;;;;;;;;;;
+Node=>choix ferme;PlayerSpeak : Oh !;PlayerSpeak : La plage est toute vide !;;;;;;;;;;;;;;;;
 ;PlayerSpeak : Un petit crabe..;Node=>plage vide;;;;;;;;;;;;;;;;
 ;AddToInventory<Crabe>/Food;;;;;;;;;;;;;;;;;
 ;Node=>plage vide;;;;;;;;;;;;;;;;;
@@ -81,7 +81,7 @@ Node=>discussion fermière;;;;;;;;;;;;;;;;;;
 SetChoices4;;;;;;;;;;;[autre];;;;;;;
 Choice : Quelque chose à vendre ?;;;Choice : (retourner devant ferme);Choice : (autre);Choice : Vous vous sentez pas seule par ici ?;;;;;;SetChoices4;;;;;;;
 RandomRange2;;;HideOther;Node=>autre;RandomRange3;;;;;;Choice : Bobby dick ?;;Choice : (attaquer);Choice : (autre);Choice : Elle est jolie votre ferme !;;;[la quete]
-OtherSpeak : Je n'en ai que assez pour ma famille ! Désolé.;;OtherSpeak : Laissez moi regarder dans mes reserves…;Fade;;OtherSpeak : Non.;OtherSpeak : Si et heureusement !;;OtherSpeak : Si un peu;;;RandomRange2;;Node=>combat fermière;Node=>discussion fermière;RandomRange2;;;NewQuest[discussion fermière]
+OtherSpeak : Je n'en ai que assez pour ma famille ! Désolé.;;OtherSpeak : Laissez moi regarder dans mes reserves…;Fade;;OtherSpeak : Non.;OtherSpeak : Si et heureusement !;;OtherSpeak : Si un peu;;;RandomRange2;;Node=>combat fermière;Node=>discussion fermière;RandomRange2;;;NewQuest=>discussion fermière
 SetChoices2;;TradeFood/Misc;Node=>choix ferme normale;;OtherSpeak : Mon mari est juste parti;OtherSpeak : Je ne me suis pas installée ici pour les foires !;;OtherSpeak : Depuis la mort de papi…;;;OtherSpeak : Je vois des mats passer par là.;OtherSpeak : Non ça ne me dit rien;;;OtherSpeak : Ça elle était à mon papi !;OtherSpeak : Si je n'avais pas que des misères;;
 Choice : Ce n'est rien.;Choice : (attaquer);Node=>discussion fermière;;;Node=>discussion fermière;SetChoices2;;SetChoices2;;;OtherSpeak : Ils doivent chercher ce dont vous parlez.;Node=>autre;;;OtherSpeak : En plus elle produit que des betteraves.;OtherSpeak : Je pourrais en profiter !;;
 Node=>discussion fermière;RemoveKarma;;;;;Choice : (lui proposer un poste sur le bateau)(cha);Choice : Je comprends;Choice : (lui proposer un poste sur le bateau)(cha);Choice : Oups;;OtherSpeak : Ils partent DIRECTIONTOFORMULA;;;;Node=>discussion fermière;SetChoices2;;

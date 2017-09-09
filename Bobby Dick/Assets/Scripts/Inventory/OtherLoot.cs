@@ -69,7 +69,7 @@ public class OtherLoot : MonoBehaviour {
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, loot);
 		lootUi.Show (CategoryContentType.OtherTrade);
 
-		PlayerLoot.Instance.CanOpen = true;
+		PlayerLoot.Instance.Unlock ();
 		PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerTrade);
 
 		trading = true;
@@ -89,7 +89,7 @@ public class OtherLoot : MonoBehaviour {
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, loot);
 		lootUi.Show (CategoryContentType.OtherLoot);
 
-		PlayerLoot.Instance.CanOpen = true;
+		PlayerLoot.Instance.Unlock ();
 		PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerLoot);
 
 	}
@@ -141,7 +141,7 @@ public class OtherLoot : MonoBehaviour {
 
 		trading = false;
 
-		PlayerLoot.Instance.CanOpen = false;
+		PlayerLoot.Instance.Lock ();
 
 		PlayerLoot.Instance.HideInventory ();
 

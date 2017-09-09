@@ -7,8 +7,6 @@ public class CrewMember {
 	private Crews.Side side;
 	private MemberID memberID;
 
-	public int id = 0;
-
 	public int maxStat = 6;
 
 	public CrewMember (MemberID _memberID, Crews.Side _side, GameObject _iconObj )
@@ -25,20 +23,21 @@ public class CrewMember {
 		// level
 	private int xpToLevelUp = 100;
 
-	private int daysOnBoard = 0;
-
-	private Item[] equipment = new Item[3];
+	private int daysOnBoard {
+		get {
+			return memberID.daysOnBoard;
+		}
+		set {
+			memberID.daysOnBoard = value;
+		}
+	}
 
 	private CrewIcon icon;
 	private MemberFeedback info;
 	private GameObject iconObj;
 
-	private int currentCold = 0;
-	private int stepsToCold = 4;
-
-	private int currentHunger = 0;
-
-	private int stepsToHunger = 10;
+	private int stepsToHunger = 0;
+//	private int stepsToHunger = 10;
 	private int hungerDamage = 5;
 
 	private int maxState = 100;
@@ -48,16 +47,6 @@ public class CrewMember {
 		// icon
 		icon = iconObj.GetComponent<CrewIcon> ();
 		icon.Member = this;
-
-//		// side
-//		if (side == Crews.Side.Enemy)
-//			icon.Overable = false;
-
-		// equipment
-		SetEquipment (EquipmentPart.Weapon, 	ItemLoader.Instance.getItem (ItemCategory.Weapon, memberID.WeaponID));
-		SetEquipment (EquipmentPart.Clothes, 	ItemLoader.Instance.getItem (ItemCategory.Clothes, memberID.ClothesID));
-
-		// set state delegate
 
 	}
 
@@ -91,6 +80,15 @@ public class CrewMember {
 			LevelUp ();
 		}
 	}
+	public void HandleOnLevelUpStat (Stat stat)
+	{
+		int newValue = GetStat (stat) + 1;
+
+		SetStat(stat, newValue);
+
+		--StatPoints;
+
+	}
 	public void LevelUp () {
 		++Level;
 		CurrentXp = xpToLevelUp - CurrentXp;
@@ -100,11 +98,7 @@ public class CrewMember {
 	public bool CheckLevel ( int lvl ) {
 
 		if (lvl > Level) {
-
-//			PlayerLoot.Instance.inven
-
-			DialogueManager.Instance.SetDialogueTimed ("Je sais pas porter ça moi...", this);
-
+			LootManager.Instance.OnWrontLevel ();
 			return false;
 		}
 
@@ -118,7 +112,7 @@ public class CrewMember {
 
 		AddXP (3);
 
-		CurrentHunger += StepsToHunger;
+		CurrentHunger += stepsToHunger;
 
 		if ( CurrentHunger >= maxState ) {
 
@@ -135,8 +129,6 @@ public class CrewMember {
 		}
 
 		++daysOnBoard;
-
-		Icon.UpdateHungerIcon ();
 
 	}
 	#endregion
@@ -162,16 +154,6 @@ public class CrewMember {
 		}
 	}
 
-
-	public int Level {
-		get {
-			return memberID.Lvl;
-		}
-		set {
-			memberID.Lvl = value;
-		}
-	}
-
 	public bool Male {
 		get { return memberID.Male; }
 	}
@@ -192,7 +174,7 @@ public class CrewMember {
 	public int Attack {
 		get {
 
-			int i = Strenght * 5;
+			int i = GetStat(Stat.Strenght) * 5;
 
 			if (GetEquipment (EquipmentPart.Weapon) != null)
 				return i + GetEquipment (EquipmentPart.Weapon).value;
@@ -204,7 +186,7 @@ public class CrewMember {
 	public int Defense {
 		get {
 
-			int i = Constitution * 5;
+			int i = GetStat(Stat.Constitution) * 5;
 
 			if (GetEquipment (EquipmentPart.Clothes) != null)
 				return i + GetEquipment (EquipmentPart.Clothes).value;
@@ -213,40 +195,12 @@ public class CrewMember {
 		}
 	}
 
-	public int Strenght {
-		get {
-			return memberID.Str;
-		}
-		set {
-			memberID.Str = value;
-		}
+	public int GetStat (Stat stat) {
+		return memberID.stats [(int)stat];
 	}
 
-	public int Dexterity {
-		get {
-			return memberID.Dex;
-		}
-		set {
-			memberID.Dex = value;
-		}
-	}
-
-	public int Charisma {
-		get {
-			return memberID.Cha;
-		}
-		set {
-			memberID.Cha = value;
-		}
-	}
-
-	public int Constitution {
-		get {
-			return memberID.Con;
-		}
-		set {
-			memberID.Con = value;
-		}
+	public void SetStat (Stat stat, int value) {
+		memberID.stats [(int)stat] = value;
 	}
 	#endregion
 
@@ -326,56 +280,40 @@ public class CrewMember {
 
 	}
 	public void SetEquipment ( EquipmentPart part , Item item ) {
-		equipment [(int)part] = item;
+		switch (part) {
+		case EquipmentPart.Weapon:
+			memberID.equipedWeapon = item;
+			break;
+		case EquipmentPart.Clothes:
+			memberID.equipedCloth = item;
+			break;
+		default:
+			Debug.LogError ("whut...");
+			break;
+		}
 	}
 	public Item GetEquipment ( EquipmentPart part ) {
-		return equipment [(int)part];
-	}
-
-	public Item[] Equipment {
-		get {
-			return equipment;
-		}
-		set {
-			equipment = value;
+		switch (part) {
+		case EquipmentPart.Weapon:
+			return memberID.equipedWeapon;
+			break;
+		case EquipmentPart.Clothes:
+			return memberID.equipedCloth;
+			break;
+		default:
+			return memberID.equipedWeapon;
+			break;
 		}
 	}
 	#endregion
 
 	#region states properties
-	public int StepsToHunger {
-		get {
-			return stepsToHunger;
-		}
-		set {
-			stepsToHunger = value;
-		}
-	}
-
 	public int CurrentHunger {
 		get {
-			return currentHunger;
+			return memberID.currentHunger;
 		}
 		set {
-			currentHunger = Mathf.Clamp (value, 0, maxState);
-		}
-	}
-
-	public int StepsToCold {
-		get {
-			return stepsToCold;
-		}
-		set {
-			stepsToCold = value;
-		}
-	}
-
-	public int CurrentCold {
-		get {
-			return currentCold;
-		}
-		set {
-			currentCold = Mathf.Clamp (value, 0, maxState);
+			memberID.currentHunger = Mathf.Clamp (value, 0, maxState);
 		}
 	}
 
@@ -390,6 +328,14 @@ public class CrewMember {
 	#endregion
 
 	#region level
+	public int Level {
+		get {
+			return memberID.Lvl;
+		}
+		set {
+			memberID.Lvl = value;
+		}
+	}
 	public int CurrentXp {
 		get {
 			return memberID.xp;
@@ -414,4 +360,11 @@ public class CrewMember {
 		}
 	}
 	#endregion
+}
+
+public enum Stat {
+	Strenght,
+	Dexterity,
+	Charisma,
+	Constitution
 }

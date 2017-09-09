@@ -3,10 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using Holoville.HOTween;
 
-public class ItemButton : MonoBehaviour {
-
-	[SerializeField]
-	private LootUI lootUI;
+public class DisplayItem : MonoBehaviour {
 
 	private Item handledItem;
 
@@ -25,8 +22,6 @@ public class ItemButton : MonoBehaviour {
 	[SerializeField] private GameObject weightObj;
 	[SerializeField] private GameObject lvlObj;
 
-	private int index = 0;
-
 	private string name;
 	private string description;
 	private int param = 0;
@@ -35,15 +30,6 @@ public class ItemButton : MonoBehaviour {
 	private int level = 0;
 
 	bool enabled = false;
-
-	void Start () {
-		lootUI = GetComponentInParent<LootUI> ();
-	}
-
-	public void Select () {
-		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
-		lootUI.UpdateActionButton (index);
-	}
 
 	public bool Enabled {
 		get {
@@ -83,8 +69,10 @@ public class ItemButton : MonoBehaviour {
 		}
 		set {
 			price = value;
-			priceText.text = price.ToString ();
-			priceObj.SetActive (value > 0);
+			if (priceObj != null) {
+				priceText.text = price.ToString ();
+				priceObj.SetActive (value > 0);
+			}
 		}
 	}
 
@@ -115,15 +103,6 @@ public class ItemButton : MonoBehaviour {
 	public Button Button {
 		get {
 			return button;
-		}
-	}
-
-	public int Index {
-		get {
-			return index;
-		}
-		set {
-			index = value;
 		}
 	}
 

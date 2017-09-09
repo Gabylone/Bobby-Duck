@@ -5,7 +5,7 @@ Narrator : L'île est assez grande. Une musique émane de derrière des dunes d
 SetChoices2;;;;;;;
 Choice : Lever l'ancre;Choice : Vers la grange;;;;;;
 PlayerSpeak : On s'en va !;Fade;;;;;;
-Leave;CheckQuest[entrée casino];;;;;;
+Leave;CheckQuest=>entrée casino;;;;;;
 ;Node=>entrée casino;;;;;;
 ;;;;;;;
 ;;;;;;;
@@ -60,11 +60,12 @@ Node=>pierre;Node=>papier;Node=>ciseau;;;;;
 ;;;;;;;
 [comptoir];;;;;;;
 NewCrew1;;;;;;;
-OtherSpeak : Hélà, qu'est-ce que je vous sers ?;;;;;;;
+[switch quete];;;;;;;
+OtherSpeak : Hélà, qu'est-ce que je vous sers ?;Node=>la quete;;;;;;
 [discussion];;;;;;;
 SetChoices4;;;;;;;
 Choice : Une information sur Bobby Dick ?!;;Choice : De la nourriture !;Choice : Rien !;Choice : Il tourne bien le casino ?!;;;[la quete]
-RandomRange2;;TradeFood;HideOther;RandomRange2;;;NewQuest[discussion]
+RandomRange2;;TradeFood;HideOther;RandomRange2;;;NewQuest=>discussion
 OtherSpeak : Ah ça c'est DIRECTIONTOFORMULA;OtherSpeak : Ah ça me dit rien non.;Node=>comptoir;Node=>entrée casino;OtherSpeak : Ça dépend de la chance des gens.;OtherSpeak : Le casino oui, mais moi j'ai un problème;;
 Node=>comptoir;Node=>comptoir;;;OtherSpeak : On est à un jet de dé de la faillite !;OtherSpeak : Et j'ai besoin d'aide !;;
 ;;;;Node=>discussion;SetChoices2;;

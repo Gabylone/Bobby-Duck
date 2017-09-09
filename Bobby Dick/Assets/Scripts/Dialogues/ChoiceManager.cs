@@ -42,7 +42,11 @@ public class ChoiceManager : MonoBehaviour {
 		for (int i = 0; i < amount ; ++i ) {
 			choiceButtons [i].SetActive (true);
 			choiceButtons [i].GetComponentInChildren<Text> ().text = content [i];
+			Tween.Bounce ( choiceButtons[i].transform , 0.2f , 1.1f );
 		}
+
+		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+
 	}
 
 	public void ResetColors () {

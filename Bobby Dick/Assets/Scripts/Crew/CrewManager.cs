@@ -8,9 +8,6 @@ public class CrewManager : MonoBehaviour {
 		// managed crew
 	Crew managedCrew;
 
-	Crews.PlacingType previousPlacingType = Crews.PlacingType.Map;
-	Crews.PlacingType currentPlacingType = Crews.PlacingType.Map;
-
 	List<CrewMember> crewMembers = new List<CrewMember> ();
 
 	[SerializeField] private Crews.Side side;
@@ -35,26 +32,18 @@ public class CrewManager : MonoBehaviour {
 
 	void AddToStates ()
 	{
-		foreach (CrewMember member in CrewMembers) {
-			member.AddToStates ();
+		for (int i = 0; i < CrewMembers.Count; i++) {
+			CrewMembers [i].AddToStates ();
 		}
 	}
 
 	#region crew placement
-	public void HideCrew () {
-		foreach (CrewMember member in crewMembers) {
-			member.Icon.MoveToPoint (Crews.PlacingType.Hidden);
-		}
-	}
 	public void ShowCrew () {
 		foreach (CrewMember member in crewMembers) {
 			member.Icon.MoveToPoint (member.Icon.PreviousPlacingType);
 		}
 	}
 	public void UpdateCrew ( Crews.PlacingType placingType ) {
-
-		previousPlacingType = currentPlacingType;
-		currentPlacingType = placingType;
 
 		foreach ( CrewMember member in crewMembers ) {
 			member.Icon.MoveToPoint (placingType);
@@ -117,9 +106,7 @@ public class CrewManager : MonoBehaviour {
 
 		crewMembers.Clear ();
 	}
-	public void Hide () {
-		UpdateCrew (Crews.PlacingType.Hidden);
-	}
+
 	#endregion
 
 	#region creation
@@ -132,7 +119,6 @@ public class CrewManager : MonoBehaviour {
 		for (int i = 0; i < crew.MemberIDs.Count; ++i ) {
 
 			CrewMember member = CrewCreator.Instance.NewMember (crew.MemberIDs [i]);
-			member.id = i;
 			CrewMembers.Add (member);
 		}
 

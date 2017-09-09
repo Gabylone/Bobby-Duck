@@ -10,17 +10,22 @@ public class MemberID {
 	public int health = 100;
 	public int maxHealth = 100;
 
+	public int currentHunger = 0;
+
 	// lvl
 	public int Lvl 		= 0;
 	public int xp 		= 0; 
 	public int statPoints = 0;
 
 	// stats
-	public int Str = 1;
-	public int Dex = 1;
-	public int Cha = 1;
-	public int Con = 1;
+	public int[] stats = new int[4] {
+		1,1,1,1
+	};
 
+	public int daysOnBoard = 0;
+
+	public Item equipedWeapon;
+	public Item equipedCloth;
 
 	public MemberID () {
 
@@ -46,38 +51,24 @@ public class MemberID {
 
 			Lvl = Random.Range (Crews.playerCrew.captain.Level - 3, Crews.playerCrew.captain.Level + 3);
 
-			if ( StoryReader.Instance.CurrentStoryHandler.storyType == StoryType.Quest ) {
+			if ( StoryReader.Instance.CurrentStoryHandler.storyType == IslandType.Quest ) {
 				Debug.Log ("l'histoire est une quete, donc la crew est du meme niveau que ma quete");
-				QuestManager.Instance.CurrentQuest_Target.goldValue += (Lvl * 10);
-				QuestManager.Instance.CurrentQuest_Target.experience += (Lvl * 10);
+				QuestManager.Instance.Coords_CheckForTargetQuest.goldValue += (Lvl * 10);
+				QuestManager.Instance.Coords_CheckForTargetQuest.experience += (Lvl * 10);
 			}
 		}
 
 		Lvl = Mathf.Clamp ( Lvl , 1 , 10 );
 
-		int stats = Lvl - 1;
+		int statAmount = Lvl - 1;
 
-		while ( stats > 0 )  {
-
-			switch (Random.Range (0, 4)) {
-			case 0:
-				++Str;
-				break;
-			case 1:
-				++Dex;
-				break;
-			case 2:
-				++Cha;
-				break;
-			case 3:
-				++Con;
-				break;
-			}
-
-			--stats;
+		while ( statAmount > 0 )  {
+			++stats [Random.Range (0, 4)];
+			--statAmount;
 		}
 
-		maxHealth = 100 + (Con * 10);
+		int con = stats[(int)Stat.Constitution];
+		maxHealth = 100 + (con * 10);
 		health = maxHealth;
 
 		// il a 35% de chance d'être noir
@@ -98,8 +89,8 @@ public class MemberID {
 
 		VoiceID 		= Random.Range ( 0 , DialogueManager.Instance.SpeakSounds.Length );
 
-		WeaponID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Weapon, Lvl);
-		ClothesID = ItemLoader.Instance.getRandomIDSpecLevel (ItemCategory.Clothes, Lvl);
+		equipedWeapon = ItemLoader.Instance.getRandomItemSpecLevel (ItemCategory.Weapon, Lvl);
+		equipedCloth = ItemLoader.Instance.getRandomItemSpecLevel (ItemCategory.Clothes, Lvl);
 
 	}
 
@@ -260,39 +251,6 @@ public class MemberID {
 		}
 		set {
 			voiceID = value;
-		}
-	}
-
-	private int weaponID 			= 0;
-
-	public int WeaponID {
-		get {
-			return weaponID;
-		}
-		set {
-			weaponID = value;
-		}
-	}
-
-	private int clothesID 			= 0;
-
-	public int ClothesID {
-		get {
-			return clothesID;
-		}
-		set {
-			clothesID = value;
-		}
-	}
-
-	private int shoesID 			= 0;
-
-	public int ShoesID {
-		get {
-			return shoesID;
-		}
-		set {
-			shoesID = value;
 		}
 	}
 }

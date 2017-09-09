@@ -64,7 +64,7 @@ public class MapGenerator : MonoBehaviour {
 					Coords c = new Coords ( x , y );
 
 					if (GetChunk(c).State == ChunkState.UndiscoveredSea) {
-						GetChunk(c).IslandData = new IslandData(c);
+						GetChunk(c).IslandData = new IslandData(IslandType.Normal);
 					}
 				}
 			}

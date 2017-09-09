@@ -36,6 +36,12 @@ public class LootManager : MonoBehaviour {
 
 	void Start () {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
+		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+	}
+
+	void HandleOnRemoveItemFromMember (Item item)
+	{
+		getLoot(Crews.Side.Player).AddItem (item);
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -57,7 +63,8 @@ public class LootManager : MonoBehaviour {
 
 	public void CreateNewLoot () {
 		Loot playerLoot = new Loot (0, 0);
-		playerLoot.Randomize (new ItemCategory[1] {ItemCategory.Provisions});
+//		playerLoot.Randomize (new ItemCategory[1] {ItemCategory.Provisions});
+		playerLoot.Randomize (ItemLoader.allCategories);
 
 		setLoot (Crews.Side.Player, playerLoot);
 	}
@@ -166,17 +173,17 @@ public class LootManager : MonoBehaviour {
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 		StoryReader.Instance.NextCell ();
 
-		if ( LootManager.Instance.getLoot(Crews.Side.Player).getLoot[(int)targetCat].Length == 0 ) {
+		if ( LootManager.Instance.getLoot(Crews.Side.Player).loot[(int)targetCat].Length == 0 ) {
 
 			StoryReader.Instance.SetDecal (1);
 
 		} else {
 
-			Item item = LootManager.Instance.getLoot(Crews.Side.Player).getLoot [(int)targetCat] [0];
+			Item item = LootManager.Instance.getLoot(Crews.Side.Player).loot [(int)targetCat] [0];
 			if (cellParams.Contains ("<")) {
 				string itemName = cellParams.Split ('<') [1];
 				itemName = itemName.Remove (itemName.Length - 6);
-				item = System.Array.Find (LootManager.Instance.getLoot(Crews.Side.Player).getLoot [(int)targetCat], x => x.name == itemName);
+				item = System.Array.Find (LootManager.Instance.getLoot(Crews.Side.Player).loot [(int)targetCat], x => x.name == itemName);
 				if (item == null) {
 					StoryReader.Instance.SetDecal (1);
 					StoryReader.Instance.UpdateStory ();
@@ -206,6 +213,11 @@ public class LootManager : MonoBehaviour {
 			itemName = itemName.Remove (itemName.Length - 6);
 			item = System.Array.Find (ItemLoader.Instance.getItems (targetCat), x => x.name == itemName);
 
+			if (item == null) {
+				Debug.LogError ("item : " + itemName + " was not found, returning random");
+				item = ItemLoader.Instance.getRandomItem (targetCat);
+			}
+				
 		} else {
 			item = ItemLoader.Instance.getRandomItem (targetCat);
 		}
@@ -214,10 +226,8 @@ public class LootManager : MonoBehaviour {
 
 		DialogueManager.Instance.LastItemName = item.name;
 
-		//		DialogueManager.Instance.SetDialogue (item.name, Crews.playerCrew .captain);
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
+		DialogueManager.Instance.ShowNarrator ("Nouvel objet : " + item.name);
+		StoryReader.Instance.WaitForInput ();
 	}
 
 	void CheckInInventory () {
@@ -268,6 +278,16 @@ public class LootManager : MonoBehaviour {
 		}
 		print ("category content reached zero");
 		return defaultCategoryContent;
+	}
+
+	public delegate void OnWrongLevelEvent ();
+	public OnWrongLevelEvent onWrongLevelEvent;
+
+	public void OnWrontLevel ()
+	{
+		if ( onWrongLevelEvent != null ) {
+			onWrongLevelEvent ();
+		}
 	}
 }
 

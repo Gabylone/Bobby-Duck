@@ -13,7 +13,7 @@ public class StoryTest : MonoBehaviour {
 	public bool launchStoryOnStart;
 
 	public string testStoryName = "Maison";
-	public StoryType testStoryType;
+	public IslandType testStoryType;
 	public string nodeName = "";
 
 	public int X1 = 0;
@@ -33,26 +33,13 @@ public class StoryTest : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-//		if (Input.GetKeyDown(KeyCode.Return) ) {
-//
-//			StoryReader.Instance.CurrentStoryManager.storyHandlers [0].storyType = testStoryType;
-//			StoryReader.Instance.CurrentStoryManager.storyHandlers[0].storyID = StoryLoader.Instance.FindIndexByName (testStoryName,testStoryType);
-//			StoryLauncher.Instance.PlayStory (StoryReader.Instance.CurrentStoryManager,StoryLauncher.StorySource.island);
-//
-//		}
+		if (Input.GetKeyDown(KeyCode.PageUp) ) {
 
-//
-//		if (Input.GetKeyDown(KeyCode.PageUp) ) {
-//
-//			Boats.Instance.PlayerBoatInfo.PosX = MapData.Instance.treasureIslandXPos;
-//			Boats.Instance.PlayerBoatInfo.PosY = MapData.Instance.treasureIslandYPos;
-//			NavigationManager.Instance.ChangeChunk (Directions.None);
-//
-//			Debug.Log (" player Y : " + Boats.Instance.PlayerBoatInfo.PosX);
-//			Debug.Log (" player X : " + Boats.Instance.PlayerBoatInfo.PosY);
-//			Debug.Log ("island X : " + MapData.Instance.treasureIslandXPos);
-//			Debug.Log ("island Y : " + MapData.Instance.treasureIslandYPos);
-//		}
+			StoryReader.Instance.CurrentStoryManager.storyHandlers [0].storyType = testStoryType;
+			StoryReader.Instance.CurrentStoryManager.storyHandlers[0].storyID = StoryLoader.Instance.FindIndexByName (testStoryName,testStoryType);
+			StoryLauncher.Instance.PlayStory (StoryReader.Instance.CurrentStoryManager,StoryLauncher.StorySource.island);
+
+		}
 
 	}
 

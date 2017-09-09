@@ -33,12 +33,6 @@ public class StoryLoader : MonoBehaviour {
 
 	}
 
-	void Update () {
-		if ( Input.GetKeyDown(KeyCode.Insert) ) {
-			StartCoroutine (CheckAllNodes ());
-		}
-	}
-
 	#region load
 	private void GetFiles (string path)
 	{
@@ -104,9 +98,6 @@ public class StoryLoader : MonoBehaviour {
 				newStory.rangeMin = minFreq;
 				newStory.rangeMax = minFreq + newStory.freq;
 
-				// story visials
-//				VisualStory (newStory);
-
 				minFreq += newStory.freq;
 
 				bool spriteIDParsable = int.TryParse (rowContent [2], out newStory.spriteID);
@@ -162,25 +153,25 @@ public class StoryLoader : MonoBehaviour {
 	public Story RandomStory (Coords c) {
 		return IslandStories[RandomStoryIndex (c)];
 	}
-	public StoryType GetTypeFromPos (Coords coords)
+	public IslandType GetTypeFromPos (Coords coords)
 	{
 		if (coords == MapData.Instance.treasureIslandCoords ) {
-			return StoryType.Treasure;
+			return IslandType.Treasure;
 		}
 
 		// check for home island
 		if (coords == MapData.Instance.homeIslandCoords ) {
-			return StoryType.Home;
+			return IslandType.Home;
 		}
 
 		// check if clue island
-		for( int i = 0; i < ClueManager.Instance.ClueAmount ; ++i ) {
-			if (coords == MapData.Instance.clueIslandsCoords[i] ) {
-				return StoryType.Clue;
+		foreach (var formula in FormulaManager.Instance.formulas) {
+			if ( coords == formula.coords){
+				return IslandType.Clue;
 			}
 		}
 
-		return StoryType.Island;
+		return IslandType.Normal;
 	}
 	public int RandomStoryIndex (Coords c)
 	{
@@ -203,16 +194,12 @@ public class StoryLoader : MonoBehaviour {
 
 		}
 
-		// check if clue island
-		for( int i = 0; i < ClueManager.Instance.ClueAmount ; ++i ) {
-
-			if (c == MapData.Instance.clueIslandsCoords[i] ) {
-
+		foreach (var formula in FormulaManager.Instance.formulas) {
+			if ( c == formula.coords){
 				if (clueStories.Count == 0)
 					Debug.LogError ("no clue stories");
 
 				return getStoryIndexFromPercentage (clueStories);
-
 			}
 		}
 
@@ -221,25 +208,25 @@ public class StoryLoader : MonoBehaviour {
 	#endregion
 
 	#region percentage
-	public List<Story> getStories ( StoryType storyType ) {
+	public List<Story> getStories ( IslandType storyType ) {
 
 		switch (storyType) {
-		case StoryType.Island:
+		case IslandType.Normal:
 			return IslandStories;
 			break;
-		case StoryType.Treasure:
+		case IslandType.Treasure:
 			return TreasureStories;
 			break;
-		case StoryType.Home:
+		case IslandType.Home:
 			return HomeStories;
 			break;
-		case StoryType.Clue:
+		case IslandType.Clue:
 			return ClueStories;
 			break;
-		case StoryType.Boat:
+		case IslandType.Boat:
 			return BoatStories;
 			break;
-		case StoryType.Quest:
+		case IslandType.Quest:
 			return Quests;
 			break;
 		default:
@@ -247,7 +234,7 @@ public class StoryLoader : MonoBehaviour {
 			break;
 		}
 	}
-	public int getStoryIndexFromPercentage ( StoryType type ) {
+	public int getStoryIndexFromPercentage ( IslandType type ) {
 		return getStoryIndexFromPercentage (getStories(type));
 	}
 	public int getStoryIndexFromPercentage ( List<Story> stories ) {
@@ -264,23 +251,13 @@ public class StoryLoader : MonoBehaviour {
 			++a;
 		}
 
-//		Debug.LogError ("out of percentage, returning random story index : (random : " + random + ")");
-
 		return Random.Range (0,stories.Count);
 	}
 	#endregion
-	void VisualStory (Story newStory)
-	{
-		float scale = 1f;
-		//
-		GameObject obj = GameObject.CreatePrimitive (PrimitiveType.Cube);
-		obj.transform.localScale = new Vector3 (newStory.freq, 1f, 1f);
-		obj.transform.position = new Vector3 ( minFreq + (newStory.freq/2), 0 , 0f );
-		obj.GetComponent<Renderer> ().material.color = Random.ColorHSV ();
-		obj.name = newStory.name;
-	}
 
-	public Story FindByName (string storyName, StoryType type)
+
+
+	public Story FindByName (string storyName, IslandType type)
 	{
 		int index = FindIndexByName (storyName,type);
 
@@ -290,7 +267,7 @@ public class StoryLoader : MonoBehaviour {
 		return getStories(type)[index];
 	}
 
-	public int FindIndexByName (string storyName,StoryType storyType)
+	public int FindIndexByName (string storyName,IslandType storyType)
 	{
 		int storyIndex = getStories (storyType).FindIndex (x => x.name == storyName);
 
@@ -301,170 +278,6 @@ public class StoryLoader : MonoBehaviour {
 		return storyIndex;
 	}
 
-	#region check nodes
-	int checkNodes_Decal = 0;
-	int checkNodes_Index = 0;
-	string alphabet = "abcdefghijklmnopqrstuvwxyz";
-	bool checkNodes_Incorrect = false;
-	IEnumerator CheckAllNodes ()
-	{
-		CheckNodes (islandStories);
-		yield return new WaitForEndOfFrame ();
-		CheckNodes (boatStories);
-		yield return new WaitForEndOfFrame ();
-		CheckNodes (homeStories);
-		yield return new WaitForEndOfFrame ();
-		CheckNodes (clueStories);
-		yield return new WaitForEndOfFrame ();
-		CheckNodes (treasureStories);
-		yield return new WaitForEndOfFrame ();
-		CheckNodes (quests);
-
-		if (!checkNodes_Incorrect) {
-			Debug.Log ("Stories & Quests are perfect");
-		}
-	}
-
-	Story storyToCheck;
-
-	void CheckNodes (List<Story> stories)
-	{
-		foreach (Story story in stories) {
-			storyToCheck = story;
-			CheckNodes_Story (story);
-		}
-	}
-
-	void CheckNodes_Story ( Story story ) {
-
-		checkNodes_Decal = 0;
-
-		foreach (List<string> contents in story.content) {
-
-			CheckNodes_CheckCells (contents);
-
-			++checkNodes_Decal;
-
-		}
-	}
-
-	void CheckNodes_CheckCells (List<string> contents)
-	{
-		checkNodes_Index = 3;
-
-		foreach (string content in contents) {
-
-			CheckNodes_CheckCell (content);
-
-			++checkNodes_Index;
-
-		}
-	}
-
-	void CheckNodes_CheckCell (string cellContent)
-	{
-			// check if empty
-		if (cellContent.Length < 2)
-			return;
-
-			// check if node
-		if ( cellContent[0] == '[' ) {
-			return;
-		}
-
-			// check if choice
-		if ( cellContent.Contains ("Choice") ) {
-			return;
-		}
-//
-			// CHECK FOR FUNCTION
-		if (CellContainsFunction (cellContent) == false) {
-			CheckNodes_Error ("Cell doesn't contain function",cellContent);
-			return;
-		}
-
-		// CHECK NODE
-		if (cellContent.Contains ("Node") ) {
-
-			string nodeName = cellContent.Remove (0, 6);
-
-			if ( LinkedToNode (nodeName) == false ) {
-				
-				CheckNodes_Error ("There's a node function, but the node has no link",cellContent);
-
-				return;
-
-
-			}
-		}
-
-		if (cellContent.Contains ("ChangeStory") ) {
-
-			// get second story name
-			string storyName = cellContent.Remove (0, 13);
-			storyName = storyName.Remove (storyName.IndexOf ('['));
-
-			string[] nodes = cellContent.Remove (0, cellContent.IndexOf ('[') + 1).TrimEnd (']').Split ('/');
-
-			if ( LinkedToNode (nodes[1]) == false ) {
-				CheckNodes_Error ("the fallback node text : " + nodes[1] + " has no link",cellContent);
-			}
-
-			Story secondStory = StoryLoader.Instance.FindByName (storyName,StoryType.Island);
-			if ( secondStory == null ) {
-				CheckNodes_Error ("Story " + storyName + " doesn't exist ",cellContent);
-				return;
-			}
-
-			if ( LinkedToNode (nodes[0],secondStory) == false ) {
-				CheckNodes_Error ("the target node has no link",cellContent);
-			}
-
-
-		}
-	
-	}
-
-	void CheckNodes_Error (string str,string content)
-	{
-		
-		checkNodes_Incorrect = true;
-
-		Debug.Log (storyToCheck.name);
-		Debug.LogError (str);
-		Debug.LogError ("CELL CONTENT : " + content);
-		Debug.LogError ("ROW : " + alphabet [checkNodes_Decal] + " / COLL " + checkNodes_Index);
-	}
-
-	private bool LinkedToNode ( string nodeName ) {
-		return LinkedToNode (nodeName, storyToCheck);
-	}
-	private bool LinkedToNode ( string nodeName , Story targetStory ) {
-
-		nodeName = nodeName.TrimEnd ('\r', '\n');
-
-		foreach (Node node in targetStory.nodes) {
-			if (nodeName == node.name) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private bool CellContainsFunction ( string str ) {
-
-		foreach ( FunctionType func in System.Enum.GetValues(typeof(FunctionType)) ) {
-
-			if (str.Contains (func.ToString())) {
-				return true;
-			}
-
-		}
-
-		return false;
-	}
-	#endregion
 
 	#region story getters
 	public List<Story> IslandStories {

@@ -49,6 +49,8 @@ public class QuestMenu : MonoBehaviour {
 		HOTween.To ( feedbackObject.transform , feedbackDuration , "localScale" , Vector3.one , false , EaseType.EaseInBounce , feedbackDuration );
 
 		Invoke ("HideFeedback" , feedbackDuration * 3);
+
+		InitButtons ();
 	}
 
 	void HideFeedback () {
@@ -64,6 +66,8 @@ public class QuestMenu : MonoBehaviour {
 		
 		openButton.SetActive (false);
 		menuGroup.SetActive (true);
+
+		PlayerLoot.Instance.CloseLoot ();
 
 		Tween.ClearFade (menuGroup.transform);
 		Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
@@ -82,7 +86,7 @@ public class QuestMenu : MonoBehaviour {
 		menuGroup.SetActive (false);
 	}
 
-	public void InitButtons () {
+	void InitButtons () {
 
 		for (int buttonIndex = 0; buttonIndex < QuestManager.Instance.CurrentQuests.Count; buttonIndex++) {
 
@@ -120,6 +124,7 @@ public class QuestMenu : MonoBehaviour {
 		Quest quest = QuestManager.Instance.CurrentQuests [i];
 		quest.ShowOnMap ();
 
+		Tween.Bounce ( buttons[i].transform );
 	}
 
 }

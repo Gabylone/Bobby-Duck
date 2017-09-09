@@ -1,8 +1,8 @@
 Nom;Fréquence %;Sprite ID;;;;;;;;;;;;
 Hangar;4,48;1;;;;;;;;;;;;
 Narrator : Le bateau est accosté sur une minuscule île, la plage est jonchée de bateau de toute taille, certains sont mêmes des carcasses. Il y a une vielle cabane au bout d'un petit chemin.;;;;;;;;;;;;;;
-CheckQuest[debut];;;;;;;;;;;;;;
-[debut];;;;;;;;;;;;;;
+CheckQuest=>choix debut;;;;;;;;;;;;;;
+[choix debut];;;;;;;;;;;;;;
 SetChoices2;;;;;;;;;;;;;;
 Choice : (repartir);Choice : (vers la cabane);;;;;;;;;;;;;
 PlayerSpeak : On s'en va !;Fade;;;;;;;;;;;;;
@@ -14,7 +14,7 @@ Leave;[charpentier];;;;;;;;;;;;;
 ;[conversation];;;;;;;[discussion];;;;;;
 ;SetChoices4;;;;;;;SetChoices3;;;;;;
 ;Choice : (repartir);Choice : Occupez vous de mon bateau !;;Choice : (discuter);;Choice : (attaquer);;Choice : Revenons aux choses sérieuses.;Choice : Bobby Dick, ça vous parle ?;;Choice : Comment ça se passe le métier de charpentier ?;;;[la quete]
-;HideOther;[bateau];;Node=>discussion;;RemoveKarma;;OtherSpeak : Très bien.;RandomRange2;;RandomRange2;;;NewQuest[discussion]
+;HideOther;[bateau];;Node=>discussion;;RemoveKarma;;OtherSpeak : Très bien.;RandomRange2;;RandomRange2;;;NewQuest=>discussion
 ;Leave;OtherSpeak : Avec plaisir !;OtherSpeak : Après m'avoir menacé ? Non, non.;;;RandomPercent50;;Node=>conversation;OtherSpeak : Allez DIRECTIONTOFORMULA, vous en saurez plus.;OtherSpeak : Non ça me dis rien !;OtherSpeak : Les affaires marchent très bien.;OtherSpeak : C'est un peu la bouillasse à vrai dire.;;
 ;;BoatUpgrades;Node=>conversation;;;OtherSpeak : Non, non.;Node=>Combat Charpentier;;Node=>conversation;Node=>conversation;OtherSpeak : Trop bien même.;OtherSpeak : On a même besoin d'un peu d'aide;;
 ;;Node=>conversation;;;;OtherSpeak : Prenez ça, laissez moi, svp.;;;;;OtherSpeak : Je n'ai plus le temps de naviguer.;SetChoices2;;

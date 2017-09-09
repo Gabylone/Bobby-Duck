@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using UnityEngine;
+
+[System.Serializable]
 public class Quest {
 
 	public enum QuestState {
@@ -18,24 +20,96 @@ public class Quest {
 	public Coords originCoords;
 	public Coords targetCoords;
 
-	public Node targetNodeWhenCompleted;
+	public Node nodeWhenCompleted;
+	public Node newQuest_FallbackNode;
+	public Node checkQuest_FallbackNode;
 
 	public Quest () {
 		//
 
 	}
+	public void Init ()
+	{
+		goldValue = Random.Range(10,50);
 
-	public Story Story {
-		get {
-			return StoryLoader.Instance.Quests [questID];
-		}
+		originCoords = NavigationManager.CurrentCoords;
+
+		SetRandomCoords ();
+
+		questID = StoryLoader.Instance.getStoryIndexFromPercentage (IslandType.Quest);
+
+		GetNewQuestnode ();
+
+		Node targetNode = Story.GetNode ("debut");
+
+		StoryReader.Instance.SetNewStory (Story, IslandType.Quest, targetNode, newQuest_FallbackNode);
+
 	}
 
+	public void ReturnToGiver() {
+
+
+		StoryReader.Instance.SetNewStory (Story, IslandType.Quest, Story.GetNode("fin") , newQuest_FallbackNode);
+		//
+	}
+
+	public void Continue ()
+	{
+
+		string nodeText = StoryFunctions.Instance.CellParams;
+
+		nodeText = nodeText.Remove (0, 2);
+
+		checkQuest_FallbackNode = StoryReader.Instance.GetNodeFromText ( nodeText );
+
+		StoryReader.Instance.SetNewStory (Story, IslandType.Quest, Story.GetNode("suite"), checkQuest_FallbackNode);
+
+	}
+
+	#region map & coords
 	public void ShowOnMap ()
 	{
 		MapImage.Instance.OpenMap ();
 		MapImage.Instance.CenterOnCoords (targetCoords);
 		MapImage.Instance.HighlightPixel (targetCoords);
+	}
+
+	public void SetRandomCoords () {
+
+		targetCoords = QuestManager.Instance.GetClosestIslandCoords ();
+
+		Coords boatCoords = NavigationManager.CurrentCoords;
+		int distToQuest = (int)Vector2.Distance ( new Vector2(targetCoords.x,targetCoords.y) , new Vector2 (boatCoords.x , boatCoords.y) );
+
+		// show on map
+		MapGenerator.Instance.GetChunk (targetCoords).State = ChunkState.DiscoveredIsland;
+//		ShowOnMap ();
+		goldValue += (10 * distToQuest);
+	}
+	#endregion
+
+	#region nodes
+	public void GetNewQuestnode () {
+
+		string s = StoryFunctions.Instance.CellParams;
+
+		s = s.Remove (0,2);
+
+		string[] parts = s.Split (',');
+
+		newQuest_FallbackNode = StoryReader.Instance.GetNodeFromText ( parts[0] );
+
+		if ( parts.Length > 1 ) {
+			nodeWhenCompleted = StoryReader.Instance.GetNodeFromText (parts [1]);
+		}	
+	}
+	#endregion
+
+
+	public Story Story {
+		get {
+			return StoryLoader.Instance.Quests [questID];
+		}
 	}
 
 	//

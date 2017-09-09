@@ -29,6 +29,8 @@ public class PlayerBoat : Boat {
 
 	public override void Update ()
 	{
-		base.Update ();
+		if (StoryLauncher.Instance.PlayingStory == false) {
+			base.Update ();
+		}
 	}
 }

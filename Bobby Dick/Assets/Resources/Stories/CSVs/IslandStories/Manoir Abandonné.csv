@@ -2,7 +2,7 @@ Nom histoire;Fréquence %;Sprite ID;;;;;;;;;;
 Manoir Abandonné;4,48;1;;;;;;;;;;
 [debut];;;;;;;;;;;;
 Narrator : Au milieu d'une petit plaine se tient une immense baraque. Elle est vielle et dans un piteux état.;;;;;;;;;;;;
-CheckQuest[choix porte];;;;;;;;;;;;
+CheckQuest=>choix porte;;;;;;;;;;;;
 [choix porte];;;;;;;;;;;;
 SetChoices3;;;;;;;[toquer];;;;;
 Choice : (repartir);Choice : (ouvrir porte maison);Choice : (toquer à la porte);;;;;RandomRange3;;;;;
@@ -84,7 +84,7 @@ Node=>choix vielle dame;;;;;;;;;;;;
 [choix vielle dame];;;;;;[choix autre];;;;;;
 SetChoices4;;;;;;SetChoices4;;;;;;
 Choice : Ça vous parle, Bobby Dick ?;;Choice : Non rien;Choice : Vous auriez pas de quoi manger ?;Choice : (autre);;Choice : C'est quoi cette maison ?;Choice : (attaquer);Choice : (autre);Choice : Ça se passe bien ici ?;;;[la quete]
-RandomRange2;;HideOther;Node=>dame nourriture;Node=>choix autre;;Node=>conv;RemoveKarma;Node=>choix vielle dame;RandomRange2;;;NewQuest[choix]
+RandomRange2;;HideOther;Node=>dame nourriture;Node=>choix autre;;Node=>conv;RemoveKarma;Node=>choix vielle dame;RandomRange2;;;NewQuest=>choix autre
 OtherSpeak : Ça ne me dis rien.;OtherSpeak : Ces des légendes DIRECTIONTOFORMULA;Fade;;;;;LaunchCombat;;OtherSpeak : Parfait !;OtherSpeak : Eh bien non.;;
 Node=>choix vielle dame;Node=>choix vielle dame;Node=>maison vide;;;;;Node=>salon vide;;OtherSpeak : Je n'ai pas besoin de grand choses.;OtherSpeak : Et j'attends quelqu'un pour m'aider…;;
 ;;;;;;;;;OtherSpeak : Seulement de l’éventuelle compagnie des voyageurs.;SetChoices2;;

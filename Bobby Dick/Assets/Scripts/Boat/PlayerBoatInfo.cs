@@ -14,6 +14,7 @@ public class PlayerBoatInfo : BoatInfo {
 		base.Randomize ();
 
 		CurrentCoords = MapData.Instance.homeIslandCoords;
+//		CurrentCoords = MapData.Instance.treasureIslandCoords;
 	}
 
 	public override void UpdatePosition ()

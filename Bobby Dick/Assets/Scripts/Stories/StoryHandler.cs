@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public enum StoryType {
-	Island,
+public enum IslandType {
+	Normal,
 	Treasure,
 	Home,
 	Clue,
@@ -23,7 +23,7 @@ public class StoryManager {
 		storyHandlers.Add (handler);
 	}
 
-	public void InitHandler ( StoryType storyType ) {
+	public void InitHandler ( IslandType storyType ) {
 		
 		int storyId = StoryLoader.Instance.getStoryIndexFromPercentage (storyType);
 
@@ -50,7 +50,7 @@ public class StoryHandler {
 	public Node 				fallbackNode;
 
 	public int 					storyID 			= 0;
-	public StoryType 			storyType;
+	public IslandType 			storyType;
 	public List<contentDecal> 	contentDecals 		= new List<contentDecal>();
 	public List<Loot> 			loots 				= new List<Loot> ();
 	public List<Crew> 			crews 				= new List<Crew>();
@@ -60,7 +60,7 @@ public class StoryHandler {
 		//
 	}
 
-	public StoryHandler (int _storyID,StoryType _storyType) {
+	public StoryHandler (int _storyID,IslandType _storyType) {
 		storyID = _storyID;
 		storyType = _storyType;
 	}
@@ -68,22 +68,22 @@ public class StoryHandler {
 	public Story Story {
 		get {
 			switch (storyType) {
-			case StoryType.Island:
+			case IslandType.Normal:
 				return StoryLoader.Instance.IslandStories[storyID];
 				break;
-			case StoryType.Treasure:
+			case IslandType.Treasure:
 				return StoryLoader.Instance.TreasureStories[storyID];
 				break;
-			case StoryType.Home:
+			case IslandType.Home:
 				return StoryLoader.Instance.HomeStories[storyID];
 				break;
-			case StoryType.Clue:
+			case IslandType.Clue:
 				return StoryLoader.Instance.ClueStories[storyID];
 				break;
-			case StoryType.Boat:
+			case IslandType.Boat:
 				return StoryLoader.Instance.BoatStories[storyID];
 				break;
-			case StoryType.Quest:
+			case IslandType.Quest:
 				return StoryLoader.Instance.Quests[storyID];
 				break;
 			default:

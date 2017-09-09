@@ -11,12 +11,6 @@ public class Loot {
 	public Item[][] loot = new Item[4][];
 	public int weight = 0;
 
-	public Item[][] getLoot {
-		get {
-			return loot;
-		}
-	}
-
 	public Loot()
 	{
 		

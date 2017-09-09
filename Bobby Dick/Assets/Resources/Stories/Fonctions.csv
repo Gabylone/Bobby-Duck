@@ -2,7 +2,6 @@ Fonctions;Description;écrite ?;Testée ?
 Leave;clos l'histoire, retourne à la navigation;;
 ChangeStory;lance une histoire au sein d'une histoire. ( ChangeStory=>Nom de l'histoire[noeud ciblé/noeud de retour] ) exemple : ChangeStory=>Taverne[entrée taverne/plage];;
 Fade;fondu au noir. Sers de transition entre les lieux par exemple.;;
-CheckFirstVisit;se décalé si ce n'est pas la première visite du joueur.;;
 RandomPercent;nombre aléatoire entre 0 et 100. se décale si le nombre est au-delà de X ( RandomRedoPercent10 = 90 % de chance de se décaler );;
 RandomRange;choisit aléatoirement entre X décalage. ( RandomRedoRangeX ).;;
 RandomRedoPercent;pareil que RandomPercent. Mais le décalage change à chaque fois, l'aléatoire n'est pas conservé.;;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
@@ -27,4 +28,15 @@ public class Story {
 		name = _name;
 	}
 
+	public Node GetNode (string str ) {
+
+		Node node = nodes.Find (x => x.name == str);
+
+		if ( node == null ) {
+			Debug.LogError ( "node " + str + " doesn't exist in story " + name );
+		}
+
+		return node;
+
+	}
 }

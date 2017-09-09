@@ -10,12 +10,13 @@ Leave;;;;;;;;;
 [retour];;;;;;;;;
 Narrator : Nous voilà sur une petite île. Un petit chemin de pierre mène à une chaumière coquette.;;;;;;;;;
 PlayerSpeak : C'est chez moi !;;;;;;;;;
+CheckQuest=>salon;;;;;;;;;
 [salon];;;;;;;;;
 SetChoices4;;;;;;;;;
 Choice : (partir);Choice : (dormir jusqu'au lendemain);Choice : (aller cuisine);;Choice : (aller jardin);;;;;
 PlayerSpeak : Hop !;ChangeTimeOfDay;RandomRange2;;RandomRange2;;;;;
-Leave;Fade;Fade;Fade;Fade;Fade;;;;
-;Node=>salon;Node=>cuisine;Node=>cuisine-mère;Node=>jardin;Node=>jardin-père;;;;
+Leave;Node=>salon;Fade;Fade;Fade;Fade;;;;
+;;Node=>cuisine;Node=>cuisine-mère;Node=>jardin;Node=>jardin-père;;;;
 ;;;;;;;;;
 [cuisine];;;[cuisine-mère];;;[mère partie];[cuisine-mère-morte];;[attaqua mère]
 SetChoices2;;;NewCrew1/F/10;Node=>mère partie;;PlayerSpeak : Maman;Narrator : Votre mère par terre, une épée dans le dos.;;PlayerSpeak : Désolé maman
@@ -53,7 +54,7 @@ Node=>salon;;;;;;;;;
 ;;;SetChoices4;;;;Narrator : Le corps de votre père gît sur l'herbe.;;OtherSpeak : T'es revenu ptit con
 ;;;Choice : (retourner au salon);Choice : Un petit conseil ?;Choice : (attaquer);Choice : Je peux faire quelques chose pour toi ?;Node=>jardin;;LaunchCombat
 ;;;Fade;GiveTip;Node=>combat père;RandomRange2;;;Node=>jardin-père-mort
-;;;HideOther;Node=>choix-père;;OtherSpeak : Tout va bien ici merci !;NewQuest[choix-père];;
+;;;HideOther;Node=>choix-père;;OtherSpeak : Tout va bien ici merci !;NewQuest=>choix-père;;
 ;;;Node=>salon;;;Node=>choix-père;;;
 ;;;;;;;;;
 ;;;[combat père];;;;;;

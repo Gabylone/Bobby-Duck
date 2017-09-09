@@ -34,7 +34,6 @@ public enum FunctionType {
 	BoatUpgrades,
 	LaunchCombat,
 	CheckClues,
-	GiveFormula,
 	SetWeather,
 	ChangeTimeOfDay,
 	CheckDay,
@@ -51,7 +50,7 @@ public enum FunctionType {
 	CheckQuest,
 	SendPlayerBackToGiver,
 	FinishQuest,
-	SetQuestOnMap,
+	ShowQuestOnMap,
 
 }
 

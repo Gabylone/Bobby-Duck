@@ -28,23 +28,9 @@ public class CrewIcon : MonoBehaviour {
 	private bool overable = true;
 	private bool showCard = true;
 
-	[Header("States")]
-	[SerializeField]
-	private Image hungerImage;
-	[SerializeField]
-	private GameObject hungerObject;
-
 	[Header("Lerping")]
 	[SerializeField]
 	private float moveDuration = 1f;
-
-	float timer = 0f;
-
-	bool scaleLerp = false;
-	bool moveLerp = false;
-
-	Vector3 initPos = Vector3.zero;
-	Vector3 targetPos = Vector3.zero;
 
 	[Header("decals")]
 	[SerializeField]
@@ -61,95 +47,23 @@ public class CrewIcon : MonoBehaviour {
 		_transform = transform;
 	}
 
-	void Start () {
-
-		UpdateHungerIcon ();
-
-		PlayerLoot.Instance.LootUI.useInventory += HandleUseInventory;;
-	}
-
-	void Update () {
-
-		if (moveLerp ) {
-			MoveUpdate ();
-		}
-
-		if (moveLerp)
-			timer += Time.deltaTime;
-
-	}
-
-
-	#region hunger icon
-	void HandleUseInventory (InventoryActionType actionType)
-	{
-		if ( actionType == InventoryActionType.Eat ) {
-			UpdateHungerIcon ();
-		}
-	}
-
-	public void UpdateHungerIcon () {
-
-		if (currentPlacingType == Crews.PlacingType.Map) {
-			
-			float f = ((float)member.CurrentHunger / (float)member.MaxState);
-
-			hungerImage.fillAmount = f;
-
-			hungerObject.SetActive (f > 0.65f);
-
-		} else {
-			hungerObject.SetActive (false);
-		}
-	}
-	#endregion
-
 	#region overing
-	public void OnPointerEnter() {
-
-		if (!Overable) {
-			return;
-		}
-
-		pointerOver = true;
-		scaleLerp = true;
-		if (member.Side == Crews.Side.Player) {
-			if (showCard) {
-				CardManager.Instance.ShowOvering (member);
-				hungerObject.SetActive (true);
-			}
-		} else {
-			if (CombatManager.Instance.Fighting) {
-				CardManager.Instance.ShowFightingCard (member);
-			} else {
-				CardManager.Instance.ShowOvering (member);
-			}
-		}
-	}
-
-	public void OnPointerExit () {
-
-		if (!Overable)
-			return;
-
-		pointerOver = false;
-		scaleLerp = true;
-
-		hungerObject.SetActive (false);
-
-		UpdateHungerIcon ();
-
-		CardManager.Instance.HideOvering ();
-	}
+//	public void OnPointerEnter() {
+//
+//		if (CombatManager.Instance.Fighting) {
+//			CardManager.Instance.ShowFightingCard (member);
+//		}
+//		return;
+//	}
 
 	public void OnPointerDown() {
 		
-		if (!Overable)
+		if (!Overable) {
+			print ("not overable");
 			return;
+		}
 
-		OnPointerExit ();
-
-		if (PlayerLoot.Instance.Opened && PlayerLoot.Instance.SelectedMemberIndex == member.id) {
+		if (PlayerLoot.Instance.Opened && PlayerLoot.Instance.SelectedMember == member) {
 
 			if (StoryLauncher.Instance.PlayingStory)
 				return;
@@ -162,16 +76,19 @@ public class CrewIcon : MonoBehaviour {
 
 		} else {
 
-			PlayerLoot.Instance.SelectedMemberIndex = member.id;
+			if ( !PlayerLoot.Instance.canOpen ) {
+				print ("cannot open player loot");
+				return;
+			}
 
 			if (StoryLauncher.Instance.PlayingStory) {
 				if (OtherLoot.Instance.Trading) {
-					PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerTrade);
+					PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerTrade, member);
 				} else {
-					PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerLoot);
+					PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerLoot, member);
 				}
 			} else {
-				PlayerLoot.Instance.ShowInventory (CategoryContentType.Inventory);
+				PlayerLoot.Instance.ShowInventory (CategoryContentType.Inventory , member);
 			}
 
 			showCard = false;
@@ -191,18 +108,8 @@ public class CrewIcon : MonoBehaviour {
 	#endregion
 
 	#region movement
-	public void MoveToPoint ( Vector3 pos , float duration = 0.5f ) {
-		
-		targetPos = pos;
-
-		MoveStart ();
-	}
-
 	public void MoveToPoint ( Crews.PlacingType placingType ) {
-		MoveToPoint (placingType, 0.2f);
-	}
-
-	public void MoveToPoint ( Crews.PlacingType placingType , float duration ) {
+		
 		previousPlacingType = currentPlacingType;
 		currentPlacingType = placingType;
 
@@ -218,34 +125,9 @@ public class CrewIcon : MonoBehaviour {
 			decal = member.GetIndex * placementDecal;
 		}
 
-		moveDuration = duration;
+		Vector3 targetPos = Crews.getCrew(member.Side).CrewAnchors [(int)placingType].position + Crews.playerCrew.CrewAnchors [(int)placingType].up * decal;
 
-		targetPos = Crews.getCrew(member.Side).CrewAnchors [(int)placingType].position + Crews.playerCrew.CrewAnchors [(int)placingType].up * decal;
-
-		MoveStart ();
-	}
-
-	private void MoveStart () {
-		moveLerp = true;
-
-		initPos = GetTransform.position;
-
-		timer = 0f;
-	}
-	private void MoveUpdate () {
-
-		float l = timer / moveDuration;
-
-		GetTransform.position = Vector3.Lerp ( initPos , targetPos , l );
-
-		if (timer > moveDuration)
-			MoveExit ();
-	}
-
-	public void MoveExit () {
-		moveLerp = false;
-		Overable = true;
-
+		HOTween.To ( GetTransform , moveDuration , "position" , targetPos , false , EaseType.Linear , 0f );
 	}
 	#endregion
 
@@ -255,25 +137,14 @@ public class CrewIcon : MonoBehaviour {
 	}
 	public void ShowBody () {
 		bodyObj.SetActive (true);
-
 	}
-	public void HideFace () {
-		faceObj.SetActive (false);
-
-	}
-	public void ShowFace () {
-		faceObj.SetActive (true);
-	}
-
 	public void UpdateVisual (MemberID memberID)
 	{
 		GetComponent<IconVisual> ().UpdateVisual (memberID);
 	}
-
 	#endregion
 
 	#region properties
-
 	public Transform GetTransform {
 		get {
 			return _transform;
@@ -301,11 +172,6 @@ public class CrewIcon : MonoBehaviour {
 				return;
 
 			overable = value;
-
-			UpdateHungerIcon ();
-
-			if ( value == false )
-				hungerObject.SetActive (false);
 
 		}
 	}

@@ -32,16 +32,27 @@ public class GoldManager : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+
 	}
 
 	void Start () {
-		GoldAmount = startValue;
-
-		Hide ();
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
-		PlayerLoot.Instance.openInventory += Show;
-		PlayerLoot.Instance.closeInventory += Hide;
+//		PlayerLoot.Instance.openInventory += Show;
+//		PlayerLoot.Instance.closeInventory += Hide;
+
+		CombatManager.Instance.fightStarting += Hide;
+		CombatManager.Instance.fightEnding+= Show;
+	}
+
+	public void InitGold ()
+	{
+		GoldAmount = startValue;
+	}
+
+	public void LoadGold ()
+	{
+		GoldAmount = SaveManager.Instance.CurrentData.playerGold;
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -83,7 +94,7 @@ public class GoldManager : MonoBehaviour {
 		timer = 0f;
 
 		Bounce();
-		Show ();
+//		Show ();
 
 	}
 	private void HideFeedback () {
@@ -92,7 +103,7 @@ public class GoldManager : MonoBehaviour {
 		goldImage.color = Color.white;
 		goldText.color = Color.white;
 
-		Hide ();
+//		Hide ();
 	}
 	#endregion
 
@@ -123,6 +134,7 @@ public class GoldManager : MonoBehaviour {
 
 			goldImage.color = Color.red;
 			goldText.color = Color.red;
+			DisplayFeedback ();
 //
 			SoundManager.Instance.PlaySound (noGoldSound);
 			return false;
@@ -178,7 +190,6 @@ public class GoldManager : MonoBehaviour {
 		Visible = true;
 	}
 	public void Hide () {
-		return;
 		Visible = false;
 	}
 

@@ -109,11 +109,7 @@ public class NavigationManager : MonoBehaviour {
 
 	private void InitPlayerBoatConctrol ()
 	{
-		// get boat control
-		wheelControl.WheelTransform.gameObject.SetActive (navigationSystem == NavigationSystem.Wheel);
 		flagControl.FlagImage.gameObject.SetActive (navigationSystem == NavigationSystem.Flag);
-
-		wheelControl.gameObject.SetActive (navigationSystem == NavigationSystem.Wheel);
 		flagControl.gameObject.SetActive (navigationSystem == NavigationSystem.Flag);
 	}
 

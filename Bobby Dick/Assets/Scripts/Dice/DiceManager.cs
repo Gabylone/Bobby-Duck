@@ -323,28 +323,22 @@ public class DiceManager : MonoBehaviour {
 
 		string cellParams = StoryFunctions.Instance.CellParams;
 
-		int otherHighest = 0;
-
 		switch (cellParams) {
 		case "STR":
-			ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.Strenght);
-			otherHighest = Crews.enemyCrew.captain.Strenght;
+			ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.GetStat(Stat.Strenght));
 			break;
 		case "DEX":
-			ThrowDice (DiceTypes.DEX, Crews.playerCrew.captain.Dexterity);
-			otherHighest = Crews.enemyCrew.captain.Dexterity;
+			ThrowDice (DiceTypes.DEX, Crews.playerCrew.captain.GetStat(Stat.Dexterity));
 			break;
 		case "CHA":
-			ThrowDice (DiceTypes.CHA, Crews.playerCrew.captain.Charisma);
-			otherHighest = Crews.enemyCrew.captain.Charisma;
+			ThrowDice (DiceTypes.CHA, Crews.playerCrew.captain.GetStat(Stat.Charisma));
 			break;
 		case "CON":
-			ThrowDice (DiceTypes.CON, Crews.playerCrew.captain.Constitution);
-			otherHighest = Crews.enemyCrew.captain.Constitution;
+			ThrowDice (DiceTypes.CON, Crews.playerCrew.captain.GetStat(Stat.Constitution));
 			break;
 		default:
 			Debug.LogError ("PAS DE Dé " + cellParams + " : lancé de force");
-			ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.Strenght);
+			ThrowDice (DiceTypes.STR, Crews.playerCrew.captain.GetStat(Stat.Strenght));
 			break;
 		}
 
@@ -356,7 +350,6 @@ public class DiceManager : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 
-//		int decal = captainHighest >= otherHighest ? 0 : 1;
 		int decal = captainHighest >= 5 ? 0 : 1;
 
 		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);

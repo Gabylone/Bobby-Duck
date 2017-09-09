@@ -87,6 +87,8 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		nameTextUI.text = Boats.Instance.PlayerBoatInfo.Name;
 
+		PlayerLoot.Instance.CloseLoot ();
+
 		Tween.Bounce (menuObj.transform, 0.2f, 1.05f);
 		Tween.ClearFade (menuObj.transform);
 	}

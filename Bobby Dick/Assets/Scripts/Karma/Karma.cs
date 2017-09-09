@@ -52,12 +52,17 @@ public class Karma : MonoBehaviour {
 
 		UpdateUI ();
 
-		PlayerLoot.Instance.openInventory += Show;
+		PlayerLoot.Instance.openInventory += HandleOpenInventory;;
 		PlayerLoot.Instance.closeInventory += Hide;
 
 		Visible = false;
 
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
+	}
+
+	void HandleOpenInventory (CrewMember member)
+	{
+		Show ();
 	}
 
 	void Update () {

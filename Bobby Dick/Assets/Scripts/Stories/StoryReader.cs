@@ -132,7 +132,6 @@ public class StoryReader : MonoBehaviour {
 
 	}
 
-
 	public Node GetNodeFromText ( string text ) {
 		return GetNodeFromText (CurrentStoryHandler.Story, text);
 	}
@@ -185,7 +184,7 @@ public class StoryReader : MonoBehaviour {
 		storyName = storyName.Remove (storyName.IndexOf ('['));
 
 		// get second story
-		Story secondStory = StoryLoader.Instance.FindByName (storyName,StoryType.Island);
+		Story secondStory = StoryLoader.Instance.FindByName (storyName,IslandType.Normal);
 
 		// extract nodes
 		string nodes = text.Remove (0,text.IndexOf ('[')+1);
@@ -198,10 +197,10 @@ public class StoryReader : MonoBehaviour {
 		string targetNodeTXT = nodes.Split ('/') [0];
 		Node targetNode = GetNodeFromText (secondStory,targetNodeTXT);
 
-		SetNewStory (secondStory, StoryType.Island, targetNode, fallBackNode);
+		SetNewStory (secondStory, IslandType.Normal, targetNode, fallBackNode);
 	}
 
-	public void SetNewStory (Story story, StoryType storyType , Node targetNode , Node fallbackNode) {
+	public void SetNewStory (Story story, IslandType storyType , Node targetNode , Node fallbackNode) {
 
 		int secondStoryID = StoryLoader.Instance.FindIndexByName (story.name,storyType);
 
@@ -210,20 +209,18 @@ public class StoryReader : MonoBehaviour {
 			targetStoryLayer = CurrentStoryManager.storyHandlers.FindIndex (handler => (handler.decal == decal) && (handler.index == index));
 		}
 
-		// si le story ID apparrait déjà dans la liste handler
+		// si la story n'apparait pas dans le truc
 		if ( targetStoryLayer < 0 ) {
 			
 			StoryHandler newHandler = new StoryHandler ( secondStoryID,storyType);
 			newHandler.fallBackLayer = CurrentStoryLayer;
 			newHandler.decal = decal;
 			newHandler.index = index;
+			newHandler.fallbackNode = fallbackNode;
 
 			CurrentStoryManager.AddStoryHandler (newHandler);
 
 			targetStoryLayer = CurrentStoryManager.storyHandlers.Count - 1;
-
-			// fall back nodes
-			CurrentStoryHandler.fallbackNode = fallbackNode;
 		}
 
 
@@ -233,8 +230,13 @@ public class StoryReader : MonoBehaviour {
 	}
 
 	public void FallBackToPreviousStory () {
+
+
+
+		Node fallbackNode = CurrentStoryHandler.fallbackNode;
+
 		currentStoryLayer = CurrentStoryHandler.fallBackLayer;
-		StoryReader.Instance.GoToNode (CurrentStoryHandler.fallbackNode);
+		StoryReader.Instance.GoToNode (fallbackNode);
 	}
 	#endregion
 
@@ -264,6 +266,8 @@ public class StoryReader : MonoBehaviour {
 
 		DialogueManager.Instance.HideNarrator ();
 		DialogueManager.Instance.EndDialogue ();
+
+		MapImage.Instance.CloseMap ();
 
 		waitForInput = false;
 

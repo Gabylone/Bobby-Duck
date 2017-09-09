@@ -1,16 +1,15 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Inventory\ItemLoader.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StatButton.cs">
     <Files>
-      <File FileName="Assets\Scripts\Save\SaveManager.cs" Line="62" Column="1" />
-      <File FileName="Assets\Scripts\Map\MapGenerator.cs" Line="136" Column="52" />
-      <File FileName="Assets\Scripts\Map\MapImage.cs" Line="82" Column="14" />
-      <File FileName="Assets\Scripts\Menu\GameManager.cs" Line="43" Column="21" />
-      <File FileName="Assets\Scripts\Dialogues\DialogueManager.cs" Line="75" Column="8" />
-      <File FileName="Assets\Scripts\Stories\StoryFunctions.cs" Line="32" Column="4" />
-      <File FileName="Assets\Scripts\Inventory\LootManager.cs" Line="53" Column="17" />
-      <File FileName="Assets\Scripts\Inventory\Loot.cs" Line="41" Column="56" />
-      <File FileName="Assets\Scripts\Inventory\ItemLoader.cs" Line="157" Column="37" />
+      <File FileName="Assets\DisplayAttack.cs" Line="21" Column="1" />
+      <File FileName="Assets\DisplayDefence.cs" Line="17" Column="36" />
+      <File FileName="Assets\DisplayHeart.cs" Line="21" Column="1" />
+      <File FileName="Assets\DisplayHunger.cs" Line="13" Column="36" />
+      <File FileName="Assets\Scripts\Inventory\PlayerLoot.cs" Line="105" Column="13" />
+      <File FileName="Assets\Scripts\Inventory\Item\DisplayItem_Crew.cs" Line="16" Column="14" />
+      <File FileName="Assets\DisplayCrew.cs" Line="26" Column="38" />
+      <File FileName="Assets\StatButton.cs" Line="60" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

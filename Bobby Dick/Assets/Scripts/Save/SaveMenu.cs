@@ -32,7 +32,7 @@ public class SaveMenu : MonoBehaviour {
 
 	public void SaveSocket (int index) {
 
-		Tween.Bounce ( saveButtons[index].transform , 0.2f , 1.1f );
+		Tween.Bounce ( saveButtons[index-1].transform , 0.2f , 1.1f );
 
 		if (saving) {
 

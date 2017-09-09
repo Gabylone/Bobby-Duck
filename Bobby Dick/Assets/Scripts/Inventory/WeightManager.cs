@@ -35,18 +35,25 @@ public class WeightManager : MonoBehaviour {
 	}
 
 	public void Init () {
-
-		PlayerLoot.Instance.openInventory += Show;
+//
+		PlayerLoot.Instance.openInventory += HandleOpenInventory;;
 		PlayerLoot.Instance.closeInventory += Hide;
-
-		NavigationManager.Instance.EnterNewChunk += UpdateDisplay;
 
 		PlayerLoot.Instance.LootUI.useInventory += UpdateDisplay;
 
 		LootManager.Instance.updateLoot += UpdateDisplay;
+//
+//		CombatManager.Instance.fightStarting += Hide;
+//		CombatManager.Instance.fightEnding += Show;
+//
+		Hide();
 
-		Hide ();
+		UpdateDisplay ();
+	}
 
+	void HandleOpenInventory (CrewMember member)
+	{
+		Show ();
 	}
 
 	void Update () {
@@ -71,7 +78,6 @@ public class WeightManager : MonoBehaviour {
 
 		if ( CurrentWeight + amount > currentCapacity ) {
 
-			print ("PEUT PAS PRENDRE : " + amount + " parce qu'il a dej a " + CurrentWeight);
 
 			SoundManager.Instance.PlaySound ( noRoomSound );
 
@@ -140,7 +146,6 @@ public class WeightManager : MonoBehaviour {
 		Visible = true;
 	}
 	public void Hide () {
-		return;
 		Visible = false;
 	}
 

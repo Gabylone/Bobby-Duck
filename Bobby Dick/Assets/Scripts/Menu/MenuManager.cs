@@ -4,6 +4,7 @@ using System.Collections;
 
 public class MenuManager : MonoBehaviour {
 
+
 	[SerializeField]
 	private SaveMenu saveMenu;
 
@@ -17,10 +18,21 @@ public class MenuManager : MonoBehaviour {
 
 	bool quit_Confirmed = false;
 
+	void Start () {
+		PlayerLoot.Instance.openInventory += HandleOpenInventory;;
+	}
+
+	void HandleOpenInventory (CrewMember member)
+	{
+		Close ();
+	}
 
 	public void Open () {
 
 		menuGroup.SetActive (true);
+
+		PlayerLoot.Instance.HideInventory ();
+
 		Tween.Bounce (menuGroup.transform , 0.2f , 1.1f);
 	}
 

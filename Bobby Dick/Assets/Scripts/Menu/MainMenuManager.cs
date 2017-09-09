@@ -8,13 +8,30 @@ public class MainMenuManager : MonoBehaviour {
 	[SerializeField]
 	private Button[] loadButtons;
 
+	[SerializeField]
+	private GameObject quitButton;
+
+	[SerializeField]
+	private GameObject loadButton;
+
+	[SerializeField]
+	private GameObject playButton;
+
+	[SerializeField]
+	private GameObject loadMenu;
+
 	public bool loadMenuOpened = false;
 
 	void Start () {
 		Transitions.Instance.ScreenTransition.Fade = false;
+
+		Screen.orientation = ScreenOrientation.Landscape;
 	}
 
 	public void NewGameButton () {
+
+		Tween.Bounce (playButton.transform);
+
 		Transitions.Instance.ScreenTransition.Fade = true;
 		Invoke ("NewGameDelay" , Transitions.Instance.ScreenTransition.Duration);
 	}
@@ -23,15 +40,21 @@ public class MainMenuManager : MonoBehaviour {
 		SceneManager.LoadScene ("Main");
 	}
 	public void QuitButton () {
+
+		Tween.Bounce (quitButton.transform);
+
+		Transitions.Instance.ScreenTransition.Fade = true;
 		Invoke ("QuitDelay" , Transitions.Instance.ScreenTransition.Duration);
 	}
 	private void QuitDelay () {
-		Transitions.Instance.ScreenTransition.Fade = true;
 		Application.Quit ();
 		//
 	}
 
 	public void Load (int index) {
+		
+		Tween.Bounce (loadButtons[index-1].transform);
+
 		KeepOnLoad.dataToLoad = index;
 		Transitions.Instance.ScreenTransition.Fade = true;
 		Invoke ("LoadDelay" , Transitions.Instance.ScreenTransition.Duration);
@@ -40,17 +63,18 @@ public class MainMenuManager : MonoBehaviour {
 		SceneManager.LoadScene ("Main");
 	}
 
-	public bool LoadMenuOpened {
-		get {
-			return loadMenuOpened;
-		}
-		set {
-			loadMenuOpened = value;
+	public void OpenLoadMenu () {
+		loadMenu.SetActive (true);
+		loadButton.SetActive (false);
 
-			if (value) {
-				UpdateButtons ();
-			}
-		}
+		Tween.Bounce (loadMenu.transform, 0.1f , 1.05f );
+
+		UpdateButtons ();
+	}
+
+	public void CloseLoadMenu () {
+		loadMenu.SetActive (false);
+		loadButton.SetActive (true);
 	}
 
 	public void UpdateButtons ()

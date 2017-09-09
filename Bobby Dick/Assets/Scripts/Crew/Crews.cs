@@ -55,7 +55,7 @@ public class Crews : MonoBehaviour {
 			RemoveHealth();
 			break;
 		case FunctionType.HideOther:
-			enemyCrew.HideCrew ();
+			enemyCrew.UpdateCrew (PlacingType.Hidden);
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
 			break;
@@ -234,8 +234,6 @@ public class Crews : MonoBehaviour {
 		int health = int.Parse ( cellParams );
 		Crews.getCrew (Crews.Side.Player).captain.Health += health;
 
-		CardManager.Instance.ShowOvering (Crews.getCrew (Crews.Side.Player).captain);
-
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
 	}
@@ -243,8 +241,6 @@ public class Crews : MonoBehaviour {
 		string cellParams = StoryFunctions.Instance.CellParams;
 		int health = int.Parse ( cellParams );
 		Crews.getCrew (Crews.Side.Player).captain.Health -= health;
-
-		CardManager.Instance.ShowOvering (Crews.getCrew (Crews.Side.Player).captain);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();

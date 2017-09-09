@@ -22,7 +22,7 @@ public class OtherBoatInfo : BoatInfo {
 
 		// assign story
 		storyManager = new StoryManager ();
-		storyManager.InitHandler (StoryType.Boat);
+		storyManager.InitHandler (IslandType.Boat);
 
 	}
 

@@ -233,9 +233,6 @@ public class Fighter : MonoBehaviour {
 	public void Reset () {
 		ChangeState (states.none);
 		animator.SetBool("dead",false);
-		fightSprites.Fade_Reset ();
-
-		print ("reseting");
 	}
 
 	public virtual void Die () {
@@ -409,7 +406,7 @@ public class Fighter : MonoBehaviour {
 	#region dead
 	void dead_Start ()
 	{
-		fightSprites.Fade_Start (1);
+		fightSprites.FadeSprites (1);
 	}
 	void dead_Update ()
 	{
@@ -434,13 +431,7 @@ public class Fighter : MonoBehaviour {
 	}
 
 	public void ShowInfo (Transform t) {
-		if (CombatManager.Instance.Fighting) {
-			CardManager.Instance.ShowOvering (CrewMember, t.position);
-		}
-	}
-
-	public void HideInfo () {
-		CardManager.Instance.HideOvering ();
+		CardManager.Instance.ShowFightingCard (CrewMember);
 	}
 
 	public virtual void OnTriggerEnter2D (Collider2D other) {

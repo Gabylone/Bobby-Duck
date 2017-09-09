@@ -147,7 +147,7 @@ public class CombatManager : MonoBehaviour {
 
 
 	}
-	#region combat beginning
+	#region Combat Start
 	private void CombatStart_Start () {
 
 		foreach (CrewMember member in Crews.enemyCrew.CrewMembers)
@@ -201,13 +201,16 @@ public class CombatManager : MonoBehaviour {
 		currentFighter.ChangeState (Fighter.states.none);
 
 		currentFighter.ChooseButton.SetActive (true);
+
 		CardManager.Instance.ShowFightingCard (currentFighter.CrewMember);
+
+		print ("starting turn");
 
 
 	}
 	private void StartTurn_Update () {
 
-		if (timeInState > 1f) {
+		if (timeInState > 0f) {
 
 			if (currentFighter.TurnsToSkip > 0) {
 				NextTurn ();
@@ -232,9 +235,9 @@ public class CombatManager : MonoBehaviour {
 			return;
 		}
 
-		currentFighter.ChooseButton.SetActive (false);
-		if (currentFighter.TargetFighter != null)
-			currentFighter.TargetFighter.ChooseButton.SetActive (false);
+		foreach (Fighter fighter in fighters) {
+			fighter.ChooseButton.SetActive (false);
+		}
 
 		++MemberIndex;
 		ChangeState (States.StartTurn);
@@ -336,7 +339,7 @@ public class CombatManager : MonoBehaviour {
 		ActionType tmpType = ActionType.Attacking;
 
 		float maxChanceOfCharisma = 0.45f;
-		float currentChanceOfCharisma = (currentMember.Charisma * maxChanceOfCharisma) / currentMember.maxStat;
+		float currentChanceOfCharisma = (currentMember.GetStat(Stat.Charisma) * maxChanceOfCharisma) / currentMember.maxStat;
 		if ( Random.value < currentChanceOfCharisma )
 			tmpType = ActionType.Charming;
 
@@ -442,6 +445,15 @@ public class CombatManager : MonoBehaviour {
 				timeInState = 0f;
 			}
 
+			if ( timeInState > 5 ) {
+				print ("C'est un peu long non ?");
+				print ("le fighter a atteind sa cible ? " + currentFighter.ReachedTarget);
+				print ("la cible du fighter est a sa position initiale ? " + currentFighter.TargetFighter.BackToInitPos);
+
+				Attack ();
+				timeInState = 0f;
+			}
+
 		} else {
 
 			if (timeInState > currentFighter.Hit_TimeToEnableCollider) {
@@ -456,7 +468,7 @@ public class CombatManager : MonoBehaviour {
 	}
 	private void Attack () {
 
-		int diceValue = DiceManager.Instance.QuickThrow (currentFighter.CrewMember.Strenght);
+		int diceValue = DiceManager.Instance.QuickThrow (currentFighter.CrewMember.GetStat(Stat.Strenght));
 		float maxAttack = currentMember.Attack * 1.5f;
 		int currentAttack = Mathf.RoundToInt ((maxAttack * diceValue) / 6f);
 
@@ -475,7 +487,7 @@ public class CombatManager : MonoBehaviour {
 
 	#region fleeing
 	private void Fleeing_Start () {
-		DiceManager.Instance.ThrowDice (DiceTypes.DEX, currentMember.Dexterity);
+		DiceManager.Instance.ThrowDice (DiceTypes.DEX, currentMember.GetStat(Stat.Dexterity));
 	}
 	private void Fleeing_Update () {
 		if (DiceManager.Instance.Throwing == false) {
@@ -526,7 +538,7 @@ public class CombatManager : MonoBehaviour {
 	#region charming
 	private void Charming_Start () {
 		currentFighter.Speak ("T'as de beaux yeux");
-		DiceManager.Instance.ThrowDice (DiceTypes.CHA, currentMember.Charisma);
+		DiceManager.Instance.ThrowDice (DiceTypes.CHA, currentMember.GetStat(Stat.Charisma));
 	}
 	private void Charming_Update () {
 		if (DiceManager.Instance.Throwing == false) {
@@ -569,23 +581,22 @@ public class CombatManager : MonoBehaviour {
 	#region eating
 	private void Eating_Start () {
 		eatingMenuButton.SetActive (true);
+		PlayerLoot.Instance.SelectedMember = currentFighter.CrewMember;
 		PlayerLoot.Instance.LootUI.Show (CategoryContentType.Combat);
 	}
 	private void Eating_Update () {
 	}
 	private void Eating_Exit () {
-		PlayerLoot.Instance.CanOpen = false;
+		PlayerLoot.Instance.Lock ();
+
+		PlayerLoot.Instance.LootUI.Hide ();
+		eatingMenuButton.SetActive (false);
 	}
 	void HandleUseInventory (InventoryActionType actionType)
 	{
 		if (fighting) {
 			
 			if (actionType == InventoryActionType.Eat) {
-
-				PlayerLoot.Instance.HideInventory ();
-
-				eatingMenuButton.SetActive (false);
-
 				NextTurn ();
 			}
 		}
@@ -593,8 +604,6 @@ public class CombatManager : MonoBehaviour {
 	}
 	public GameObject eatingMenuButton;
 	public void CloseEatingMenu () {
-		PlayerLoot.Instance.HideInventory ();
-		eatingMenuButton.SetActive (false);
 		ChangeState (States.PlayerAction);
 	}
 	#endregion
@@ -603,9 +612,10 @@ public class CombatManager : MonoBehaviour {
 	void StopFight ()
 	{
 		fightEnding ();
-		Crews.enemyCrew.Hide ();
+		Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Hidden);
 		ChangeState (States.None);
 		CardManager.Instance.HideFightingCards ();
+
 	}
 	public void WinFight ( float delay ) {
 		Invoke("WinFight",delay);
@@ -644,9 +654,8 @@ public class CombatManager : MonoBehaviour {
 	#region fighters
 	private void ShowFighters () {
 
-		print ("showing fighters");
-
 		foreach ( Crews.Side side in Crews.Instance.Sides ) {
+			
 			Crews.getCrew(side).UpdateCrew ( Crews.PlacingType.Hidden );
 
 			Fighter[] fighters = side == Crews.Side.Player ? initPlayerFighters : initEnemyFighters;
@@ -659,6 +668,9 @@ public class CombatManager : MonoBehaviour {
 
 		foreach (CrewMember mem in Crews.enemyCrew.CrewMembers)
 			crewValue += mem.Level;
+
+		CardManager.Instance.ShowFightingCard (currPlayerFighters [0].CrewMember);
+		CardManager.Instance.ShowFightingCard (currEnemyFighters [0].CrewMember);
 	}
 	private void HideFighters (Crews.Side side) {
 
@@ -800,23 +812,23 @@ public class CombatManager : MonoBehaviour {
 
 	public void StartFight () {
 
-		ChangeState (States.CombatStart);
-
 		fighting = true;
+
+		ChangeState (States.CombatStart);
 
 	}
 
 	public void EndFight () {
-		//
 
 		fighting = false;
 
 		HideFighters (Crews.Side.Player);
 		HideFighters (Crews.Side.Enemy);
 
+		CardManager.Instance.HideFightingCards ();
+
 		Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-
 
 	}
 

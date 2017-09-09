@@ -32,7 +32,7 @@ public class UiIcon : MonoBehaviour {
 		Invoke ("Hide", 1f);
 	}
 
-	public virtual void HandleOpenInventory ()
+	public virtual void HandleOpenInventory (CrewMember member)
 	{
 		CancelInvoke ();
 		Show ();

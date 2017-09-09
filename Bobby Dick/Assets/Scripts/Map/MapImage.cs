@@ -72,7 +72,14 @@ public class MapImage : MonoBehaviour {
 	#region initialization
 	public void Init () {
 		NavigationManager.Instance.EnterNewChunk += UpdateBoatSurroundings;
-		PlayerLoot.Instance.openInventory += CloseMap;
+		PlayerLoot.Instance.openInventory += HandleOpenInventory;;
+		CombatManager.Instance.fightStarting += HideButton;
+		CombatManager.Instance.fightEnding += ShowButton;
+	}
+
+	void HandleOpenInventory (CrewMember member)
+	{
+		CloseMap ();
 	}
 
 	public void Reset ()
@@ -88,11 +95,14 @@ public class MapImage : MonoBehaviour {
 
 		Texture2D texture = new Texture2D (MapGenerator.Instance.MapScale, MapGenerator.Instance.MapScale);
 //
+		int clueIndex = 0;
+
 		for ( int x = 0; x < MapGenerator.Instance.MapScale; ++x ) {
 
 			for (int y = 0; y < MapGenerator.Instance.MapScale; ++y ) {
 
 				Coords c = new Coords (x, y);
+
 				Chunk chunk = MapGenerator.Instance.GetChunk(c);
 
 				SetPixel (texture,c, revealMap ? getChunkColor_Reveal (chunk) : getChunkColor (chunk));
@@ -104,6 +114,7 @@ public class MapImage : MonoBehaviour {
 					CreateIslandButton (new Coords (x,y));
 
 				}
+
 			}
 
 		}
@@ -343,7 +354,8 @@ public class MapImage : MonoBehaviour {
 		mapGroup.SetActive (true);
 
 		closeButton_Obj.SetActive (true);
-		openButton_Obj.SetActive (false);
+
+		HideButton ();
 
 		Tween.Bounce ( mapGroup.transform , 0.2f , 1.05f );
 
@@ -356,7 +368,18 @@ public class MapImage : MonoBehaviour {
 		mapGroup.SetActive (false);
 
 		closeButton_Obj.SetActive (false);
+
+		ShowButton ();
+	}
+
+	void HideButton () {
+		openButton_Obj.SetActive (false);
+		//
+	}
+
+	void ShowButton () {
 		openButton_Obj.SetActive (true);
+		//
 	}
 
 	#region overall map

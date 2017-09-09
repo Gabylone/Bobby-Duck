@@ -64,7 +64,7 @@ public class StoryLauncher : MonoBehaviour {
 		Transitions.Instance.ActionTransition.Fade = true;
 
 		// place captain
-		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion, 0.2f);
+		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 
 		MapImage.Instance.CloseMap ();
 
@@ -76,7 +76,12 @@ public class StoryLauncher : MonoBehaviour {
 	}
 
 	public void EndStory () {
+
+			// hides crew when leaving ISLAND AND STORY
+		Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Hidden);
+
 		if ( StoryReader.Instance.CurrentStoryLayer > 0 ) {
+			print ("fallin back to other story");
 			StoryReader.Instance.FallBackToPreviousStory ();
 			return;
 		}
@@ -86,9 +91,8 @@ public class StoryLauncher : MonoBehaviour {
 		Transitions.Instance.ActionTransition.Fade = false;
 
 		// place captain
-		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Map, 0.2f);
+		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Map);
 
-		Crews.enemyCrew.Hide ();
 		switch (CurrentStorySource) {
 		case StorySource.none:
 			// kek

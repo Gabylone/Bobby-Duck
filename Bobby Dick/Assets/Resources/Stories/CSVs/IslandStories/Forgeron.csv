@@ -2,7 +2,7 @@ Nom;Fréquence %;Sprite ID;;;;;
 Forgeron;2,99;1;;;;;
 [debut];;;;;;;
 Narrator : Le bateau est accosté sur une plage d'herbe. Elle est composée de quelques plates collines. Pas très loin, une maisonnette est surplombée d'une gigantesque cheminée, qui crache une colonne de fumée noire.;;;;;;;
-CheckQuest[choix debut];;;;;;;
+CheckQuest=>choix debut;;;;;;;
 [choix debut];;;;;;;
 SetChoices2;;;;;;;
 Choice : Repartir;Choice : Avancer vers la maison;;;;;;
@@ -18,7 +18,7 @@ Node=>discussion forgeron;Node=>la quete;Node=>combat forgeron;;;;;
 ;;;;;;;
 [discussion forgeron];Node=>la quete;;;;;;
 SetChoices4;;;;;;;[la quete]
-Choice : Héla ! Tu vends des armes ?;;Choice : (partir);Choice : (attaquer sauvagement);Choice : Ça se passe comment par ici ?;;;NewQuest[discussion forgeron]
+Choice : Héla ! Tu vends des armes ?;;Choice : (partir);Choice : (attaquer sauvagement);Choice : Ça se passe comment par ici ?;;;NewQuest=>discussion forgeron
 RandomPercent8;OtherSpeak : Avec plaisir !;HideOther;RemoveKarma;RandomRange2;;;
 OtherSpeak : Pas à des gens comme toi !;TradeWeapons/Clothes;Leave;[combat forgeron];OtherSpeak : Comme quand on installe une forge au milieu d'une île vierge.;OtherSpeak : Un enfer.;;
 Node=>discussion forgeron;Node=>discussion forgeron;;OtherSpeak : Tu te frottes à la mauvaise personne !;OtherSpeak : Moyen.;OtherSpeak : On aurait bien besoin d'aide.;;
@@ -46,9 +46,9 @@ RemoveKarma;;;;;;;
 OtherSpeak : Noooooon;;;;;;;
 RandomPercent50;Node=>combat femme;;;;;;
 Narrator : La magnifique femme est à genoux et pleure…;;;;;;;
-SetChoices2;Choice : Partir;;;;;;
-Choice : Fouiller;HideOther;;;;;;
-Node=>fouiller;Fade;;;;;;
+Choice : Fouiller;Choice : Partir;;;;;;
+Node=>fouiller;HideOther;;;;;;
+;Fade;;;;;;
 ;Node=>forgeron mort;;;;;;
 ;;;;;;;
 ;;;;;;;

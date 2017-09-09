@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
 		Transitions.Instance.ScreenTransition.Fade = false;
 
 		ItemLoader.Instance.Init ();
-		ClueManager.Instance.Init ();
+		FormulaManager.Instance.Init ();
 		Crews.Instance.Init ();
 
 		if (KeepOnLoad.dataToLoad < 0) {
@@ -30,9 +30,12 @@ public class GameManager : MonoBehaviour {
 
 			Crews.Instance.RandomizePlayerCrew ();
 			LootManager.Instance.CreateNewLoot ();
-			ClueManager.Instance.CreateNewClues ();
+
+			FormulaManager.Instance.CreateNewClues ();
 
 			Boats.Instance.RandomizeBoats ();
+
+			GoldManager.Instance.InitGold ();
 
 		} else {
 			SaveManager.Instance.LoadGame (KeepOnLoad.dataToLoad);

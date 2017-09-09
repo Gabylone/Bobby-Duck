@@ -28,7 +28,7 @@ Leave;;;;;
 OtherSpeak : Qu'est-ce que tu fais là toi.;Node=>la quete;;;;
 OtherSpeak : Tu veux qu'on te prenne plus d'argent ?;;;;;
 [choix payé];;;;;[la quete]
-SetChoices4;;;;;NewQuest[choix payé]
+SetChoices4;;;;;NewQuest=>choix payé
 Choice : (repartir);Choice : (se battre);Choice : (regarder l'île);Choice : Je peux faire quelque chose pour vous ?;;
 Leave;LaunchCombat;Node=>ile vide;RandomRange2;;
 ;Node=>bandits morts;;OtherSpeak : Dégages de là.;OtherSpeak : Vous pouvez bien me donner un coup de main…;
@@ -41,5 +41,5 @@ Narrator : Le sol est jonché de corps de bandits;;;;;
 SetChoices3;;;;;
 Choice : (partir);Choice : (rester pour la nuit);Choice : (regarder l'île);;;
 Leave;ChangeTimeOfDay;PlayerSpeak : Il y a pas grands choses.;;;
-;Node=>bandits morts;CheckQuest[ile vide];;;
+;Node=>bandits morts;CheckQuest=>ile vide;;;
 ;;Node=>ile vide;;;

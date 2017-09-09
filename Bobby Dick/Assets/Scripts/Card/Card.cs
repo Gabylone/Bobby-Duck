@@ -14,22 +14,12 @@ public class Card : MonoBehaviour {
 	[SerializeField]
 	private Text name_Text;
 
-	[Header("Level")]
-	[SerializeField]
-	private Text lvl_Text;
-	[SerializeField]
-	private Image lvl_Image;
-
 	bool displaying = false;
 
 	[SerializeField]
 	private Transform iconAnchor;
 
-	private GameObject memberIcon;
-
 	[Header("Dice")]
-	public Text heartText;
-	public Image heartImage;
 	public Text attackText;
 	public Text defenseText;
 
@@ -42,36 +32,25 @@ public class Card : MonoBehaviour {
 	private bool centerCard = false;
 
 	public virtual void Init () {
-		
 		_transform = cardObject.GetComponent<Transform>();
 
 		HideCard ();
 	}
 
+	public delegate void OnCardUpdate (CrewMember crewMember);
+	public OnCardUpdate onCardUpdate;
 	public virtual void UpdateMember ( CrewMember member ) {
 
-		ResetCard ();
-
-		cardObject.SetActive (true);
+		ShowCard ();
 
 			// general info
 		name_Text.text = member.MemberName;
 
-			// INFO
-		lvl_Text.text = member.Level.ToString ();
+		if (onCardUpdate != null) {
+			onCardUpdate (member);
+		} 
 
-		lvl_Image.fillAmount = ((float)member.CurrentXp / (float)member.XpToLevelUp);
 
-		// STATS & Equipment
-
-		heartImage.fillAmount = (float)member.Health / (float)member.MemberID.maxHealth;
-		heartText.text = member.Health.ToString ();
-
-		attackText.text = member.Attack.ToString ();
-		defenseText.text = member.Defense.ToString ();
-
-			// STATES
-		float[] values = new float[2] { member.CurrentHunger, member.CurrentCold };
 	}
 
 	public void PlaceCard (Vector3 pos) {
@@ -88,18 +67,13 @@ public class Card : MonoBehaviour {
 
 	}
 
-	public void HideCard () {
-		ResetCard ();
-		cardObject.SetActive (false);
+	void ShowCard () {
+		//
+		cardObject.SetActive (true);
+
 	}
-
-	private void ResetCard () {
-		name_Text.text = "";
-		lvl_Text.text = "";
-
-		if (memberIcon != null) { 
-			Destroy (memberIcon);
-		}
+	public void HideCard () {
+		cardObject.SetActive (false);
 	}
 
 	public void EndDisplay () {
@@ -121,9 +95,5 @@ public class Card : MonoBehaviour {
 		}
 	}
 
-	public Image Lvl_Image {
-		get {
-			return lvl_Image;
-		}
-	}
+
 }

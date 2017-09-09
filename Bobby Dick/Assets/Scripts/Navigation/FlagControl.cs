@@ -101,21 +101,21 @@ public class FlagControl : MonoBehaviour {
 
 	#region island events
 	public void Pointer_EnterIsland () {
-		if (UpdatingPosition) {
-			Pointer_ClickIsland ();
-		}
+//		if (UpdatingPosition) {
+//			Pointer_ClickIsland ();
+//		}
 	}
 	public void Pointer_ExitIsland () {
 			
 	}
 	public void Pointer_ClickIsland () {
-		
+
+		Tween.Bounce (Island.Instance.getTransform );
+
 		TargetedIsland = true;
 
-		Vector2 pos = Camera.main.WorldToViewportPoint (island.getTransform.position);
+		PlaceFlagOnScreen ();
 
-		flagRect.anchorMin = pos;
-		flagRect.anchorMax = pos;
 	}
 	#endregion
 
@@ -155,7 +155,7 @@ public class FlagControl : MonoBehaviour {
 
 			targetedIsland = value;
 
-			flagImage.color = value ? Color.red : Color.blue;
+//			flagImage.color = value ? Color.red : Color.blue;
 
 		}
 	}
