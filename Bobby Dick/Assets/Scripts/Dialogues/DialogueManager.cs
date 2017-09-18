@@ -28,10 +28,6 @@ public class DialogueManager : MonoBehaviour {
 	private int TextIndex = 0;
 	private string[] TextsToDisplay = new string[2] {"Rentrer","Dialogues"};
 
-	[Header("Narrator")]
-	[SerializeField] private Text narratorText;
-	[SerializeField] private GameObject narratorObj;
-
 	[SerializeField]
 	private float DisplayTime = 2.5f;
 	private float CurrentTime = 0f;
@@ -47,24 +43,45 @@ public class DialogueManager : MonoBehaviour {
 
 	void Start () {
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
+
+		PlayerLoot.Instance.openInventory += HandleOpenInventory;
+		PlayerLoot.Instance.closeInventory += HandleCloseInventory;
+
+		StoryInput.onPressInput += HandleOnPressInput;
+	}
+
+	bool previousActive = false;
+	void HandleOpenInventory (CrewMember member)
+	{
+		if (bubble_Obj.activeSelf) {
+			previousActive = true;
+			bubble_Obj.SetActive (false);
+		}
+	}
+
+	void HandleCloseInventory ()
+	{
+		if (previousActive) {
+			bubble_Obj.SetActive (true);
+			previousActive = false;
+		}
+	}
+
+	void HandleOnPressInput ()
+	{
+		EndDialogue ();
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
 	{
 		switch (func) {
-		case FunctionType.Narrator:
-			ShowNarrator (cellParameters.Remove (0, 2));
-			StoryReader.Instance.WaitForInput ();
-			break;
 		case FunctionType.OtherSpeak:
 			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 			SetDialogue (cellParameters.Remove (0, 2), Crews.enemyCrew.captain);
-			StoryReader.Instance.WaitForInput ();
 			break;
 		case FunctionType.PlayerSpeak:
 			Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 			SetDialogue (cellParameters.Remove (0, 2), Crews.playerCrew.captain);
-			StoryReader.Instance.WaitForInput ();
 			break;
 		}
 	}
@@ -77,13 +94,10 @@ public class DialogueManager : MonoBehaviour {
 
 	}
 
-	#region functions
-	#endregion
-
 	#region set dialogue
 	public void SetDialogueTimed (string phrase, Transform _target) {
 		timed = true;
-		phrase = CheckForKeyWords (phrase);
+		phrase = NameGeneration.CheckForKeyWords (phrase);
 		SetDialogue (phrase, _target);
 	}
 	public void SetDialogueTimed (string phrase, CrewMember crewMember) {
@@ -96,7 +110,7 @@ public class DialogueManager : MonoBehaviour {
 	// MAIN
 	public void SetDialogue (string phrase, Transform _target) {
 
-		phrase = CheckForKeyWords (phrase);
+		phrase = NameGeneration.CheckForKeyWords (phrase);
 
 		DialogueTexts = new string[1] {phrase};
 
@@ -166,86 +180,6 @@ public class DialogueManager : MonoBehaviour {
 	}
 	#endregion
 
-	#region key words
-
-	string lastItemName = "";
-
-	public string LastItemName {
-		get {
-			return lastItemName;
-		}
-		set {
-			lastItemName = value;
-		}
-	}
-
-	public string CheckForKeyWords ( string text ) {
-
-		if ( text.Contains ("CAPITAINE") ) {
-			text = text.Replace ( "CAPITAINE" , Crews.playerCrew.captain.MemberName );
-		}
-
-		if ( text.Contains ("OTHERNAME") ) {
-			text = text.Replace ( "OTHERNAME" , Crews.enemyCrew.captain.MemberName );
-		}
-
-		if ( text.Contains ("NOMBATEAU") ) {
-			text = text.Replace ( "NOMBATEAU" , Boats.Instance.PlayerBoatInfo.Name);
-		}
-
-		if ( text.Contains ("LASTITEM") ) {
-
-			if ( lastItemName.Length < 1 ) {
-				text = text.Replace ( "LASTITEM" , "une babiole" );
-			} else {
-				text = text.Replace ( "LASTITEM" , lastItemName );
-				lastItemName = "";
-			}
-
-		}
-
-		if ( text.Contains ("DIRECTIONTOFORMULA") ) {
-			text = text.Replace ( "DIRECTIONTOFORMULA" , FormulaManager.Instance.getDirectionToFormula () );
-		}
-
-		if ( text.Contains ("BOUNTY") ) {
-			text = text.Replace ( "BOUNTY" , Karma.Instance.Bounty.ToString () );
-		}
-
-		if ( text.Contains ("FORMULA") ) {
-			text = text.Replace ( "FORMULA" , FormulaManager.Instance.getFormula () );
-		}
-
-		if ( text.Contains ("RANDOMFEMALENAME") ) {
-			text = text.Replace ( "RANDOMFEMALENAME" , CrewCreator.Instance.FemaleNames[Random.Range (0,CrewCreator.Instance.FemaleNames.Length)]);
-		}
-
-		if ( text.Contains ("RANDOMMALENAME") ) {
-			text = text.Replace ( "RANDOMMALENAME" , CrewCreator.Instance.MaleNames[Random.Range (0,CrewCreator.Instance.MaleNames.Length)]);
-		}
-
-		return text;
-	}
-	#endregion
-
-	#region narrator
-	public void ShowNarratorTimed (string text) {
-
-		ShowNarrator (text);
-		Invoke ("HideNarrator" , 2.5f );
-	}
-	public void ShowNarrator (string text) {
-
-		Tween.Bounce (narratorObj.transform , 0.1f , 1.01f);
-
-		narratorObj.SetActive (true);
-
-		narratorText.text = CheckForKeyWords (text);
-	}
-	public void HideNarrator () {
-		narratorObj.SetActive (false);
-	}
-	#endregion
 
 	private void NextPhrase ()
 	{
@@ -271,23 +205,8 @@ public class DialogueManager : MonoBehaviour {
 
 	private void UpdateBubblePosition ()
 	{
-		
-
-//		// bubble decal
-//		Vector3 decal = new Vector3 ( 
-//			pos.x > 0.5f ? -speaker_Decal.x : speaker_Decal.x,
-//			pos.y > 0.5f ? -speaker_Decal.y : speaker_Decal.y,
-//			0);
-//
-//		pos += decal;
-
 		// position
 		bubble_Image.transform.position = target.position;
-
-
-		// straighten text
-//		bubble_Text.transform.position = bubble_Image.transform.position;
-
 	}
 
 	public AudioClip[] SpeakSounds {

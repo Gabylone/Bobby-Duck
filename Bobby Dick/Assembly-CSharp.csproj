@@ -57,11 +57,18 @@
      <Compile Include="Assets\DisplayCrew.cs" />
      <Compile Include="Assets\DisplayDefence.cs" />
      <Compile Include="Assets\DisplayHeart.cs" />
+     <Compile Include="Assets\DisplayHexes.cs" />
      <Compile Include="Assets\DisplayHunger.cs" />
      <Compile Include="Assets\DisplayLevel.cs" />
+     <Compile Include="Assets\DisplayLevelUp.cs" />
+     <Compile Include="Assets\DisplayMap.cs" />
+     <Compile Include="Assets\DisplayName.cs" />
+     <Compile Include="Assets\DisplayStoryItem.cs" />
      <Compile Include="Assets\FoodUI.cs" />
      <Compile Include="Assets\HOTween\_Demo\HOTweenDemoBrain.cs" />
      <Compile Include="Assets\HungerIcon.cs" />
+     <Compile Include="Assets\MessageDisplay.cs" />
+     <Compile Include="Assets\Narrator.cs" />
      <Compile Include="Assets\QuestButton.cs" />
      <Compile Include="Assets\Scripts\Boat\Boat.cs" />
      <Compile Include="Assets\Scripts\Boat\BoatInfo.cs" />
@@ -139,7 +146,6 @@
      <Compile Include="Assets\Scripts\Stories\Story.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryFunctions.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryHandler.cs" />
-     <Compile Include="Assets\Scripts\Stories\StoryInput.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryLauncher.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryLoader.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryReader.cs" />
@@ -156,6 +162,7 @@
      <Compile Include="Assets\Scripts\Treasure\FormulaManager.cs" />
      <Compile Include="Assets\StatButton.cs" />
      <Compile Include="Assets\StoryCheck.cs" />
+     <Compile Include="Assets\StoryInput.cs" />
      <Compile Include="Assets\Swipe.cs" />
      <Compile Include="Assets\Tween.cs" />
      <Compile Include="Assets\UiIcon.cs" />

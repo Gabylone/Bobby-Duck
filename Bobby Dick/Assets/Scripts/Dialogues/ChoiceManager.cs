@@ -17,12 +17,39 @@ public class ChoiceManager : MonoBehaviour {
 	[SerializeField]
 	private string[] tips;
 
+	[SerializeField]
+	private GameObject choiceGroup;
+
 	void Awake () {
 		Instance = this;
 	}
 
 	void Start () {
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
+
+		PlayerLoot.Instance.openInventory += HandleOpenInventory;
+		PlayerLoot.Instance.closeInventory += HandleCloseInventory;
+	}
+
+	bool previousActive = false;
+	void HandleOpenInventory (CrewMember member)
+	{
+		if (choiceGroup.activeSelf) {
+
+			choiceGroup.SetActive (false);
+
+			previousActive = true;
+		}
+	}
+
+	void HandleCloseInventory ()
+	{
+		if ( previousActive ) {
+
+			choiceGroup.SetActive (true);
+
+			previousActive = false;	
+		}
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -136,8 +163,6 @@ public class ChoiceManager : MonoBehaviour {
 	#region tips
 	public void GiveTip () {
 		DialogueManager.Instance.SetDialogue (tips[Random.Range (0,tips.Length)], Crews.enemyCrew.captain);
-
-		StoryReader.Instance.WaitForInput ();
 	}
 	#endregion
 

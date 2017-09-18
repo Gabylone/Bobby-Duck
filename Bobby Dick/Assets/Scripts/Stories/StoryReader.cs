@@ -30,6 +30,13 @@ public class StoryReader : MonoBehaviour {
 
 	void Start () {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
+		StoryInput.onPressInput += HandleOnPressInput;
+	}
+
+	void HandleOnPressInput ()
+	{
+		NextCell ();
+		UpdateStory ();
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -50,12 +57,6 @@ public class StoryReader : MonoBehaviour {
 	void Update () {
 		if ( waitToNextCell )
 			WaitForNextCell_Update ();
-
-		if ( waitForInput ) {
-			if (InputManager.Instance.OnInputDown ()) {
-				PressInput ();
-			}
-		}
 	}
 
 	#region story flow
@@ -255,26 +256,6 @@ public class StoryReader : MonoBehaviour {
 			StoryReader.Instance.UpdateStory ();
 		}
 	}
-	// ce truc n'a rien à foutre ici mais il y est
-	#region input & wait
-	public void WaitForInput () {
-		waitForInput = true;
-	}
-	public void PressInput () {
-
-		SoundManager.Instance.PlaySound (pressInputButton);
-
-		DialogueManager.Instance.HideNarrator ();
-		DialogueManager.Instance.EndDialogue ();
-
-		MapImage.Instance.CloseMap ();
-
-		waitForInput = false;
-
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
-	#endregion
 
 	#region properties
 	public int Index {

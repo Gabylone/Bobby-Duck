@@ -1,15 +1,13 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StatButton.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Boat\Boats.cs">
     <Files>
-      <File FileName="Assets\DisplayAttack.cs" Line="21" Column="1" />
-      <File FileName="Assets\DisplayDefence.cs" Line="17" Column="36" />
-      <File FileName="Assets\DisplayHeart.cs" Line="21" Column="1" />
-      <File FileName="Assets\DisplayHunger.cs" Line="13" Column="36" />
-      <File FileName="Assets\Scripts\Inventory\PlayerLoot.cs" Line="105" Column="13" />
-      <File FileName="Assets\Scripts\Inventory\Item\DisplayItem_Crew.cs" Line="16" Column="14" />
-      <File FileName="Assets\DisplayCrew.cs" Line="26" Column="38" />
-      <File FileName="Assets\StatButton.cs" Line="60" Column="24" />
+      <File FileName="Assets\Scripts\Quest\Quest.cs" Line="27" Column="24" />
+      <File FileName="Assets\Scripts\Quest\QuestManager.cs" Line="70" Column="3" />
+      <File FileName="Assets\Scripts\Dice\DiceManager.cs" Line="196" Column="30" />
+      <File FileName="Assets\Scripts\Karma\Karma.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Boat\OtherBoatInfo.cs" Line="21" Column="53" NotebookId="1" />
+      <File FileName="Assets\Scripts\Boat\Boats.cs" Line="86" Column="2" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

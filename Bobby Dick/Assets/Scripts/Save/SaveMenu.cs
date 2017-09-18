@@ -30,6 +30,10 @@ public class SaveMenu : MonoBehaviour {
 
 	#region save action
 
+//	public void SaveSocket (int index) {
+//		Save (1);
+//	}
+
 	public void SaveSocket (int index) {
 
 		Tween.Bounce ( saveButtons[index-1].transform , 0.2f , 1.1f );
@@ -63,6 +67,7 @@ public class SaveMenu : MonoBehaviour {
 		}
 
 	}
+
 	private void Save (int index) {
 		
 		SaveManager.Instance.SaveGame (index);

@@ -22,13 +22,18 @@ Leave;;
 ;;
 ;;
 [fin];;
-CheckInInventory<Champignon>/Food;;
-PlayerSpeak : Tenez, votre champignon;;OtherSpeak : Vous revenez bredouille ?
-OtherSpeak : Génial, ça fera l'affaire !;;OtherSpeak : Ou est mon chanpignon ?
-FinishQuest;;Leave
-RandomRange2;;
-OtherSpeak : A bientôt !;OtherSpeak : Attendez une minute !;
-Leave;Fade;
-;OtherSpeak : Tenez prenez en un peu;
-;AddToInventory<Soupe>/Food;
-;Leave;
+OtherSpeak : Oh ! C’est vous !;;
+OtherSpeak : Vous avez mon champignon ?;;
+SetChoices2;;
+Choice : Non…;Choice : Le voilà !;
+OtherSpeak : Vous revenez bredouille ?;CheckInInventory<Champignon>/Food;
+Leave;RemoveFromInventory<Champignon>/Misc;OtherSpeak : Vous revenez bredouille ?
+;PlayerSpeak : Tenez, votre champignon;Leave
+;OtherSpeak : Génial, ça fera l'affaire !;
+;FinishQuest;
+;RandomRange2;
+;OtherSpeak : A bientôt !;OtherSpeak : Attendez une minute !
+;Leave;Fade
+;;OtherSpeak : Tenez prenez en un peu
+;;AddToInventory<Soupe>/Food
+;;Leave

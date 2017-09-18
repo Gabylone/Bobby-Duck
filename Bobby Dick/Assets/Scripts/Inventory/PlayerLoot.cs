@@ -82,12 +82,12 @@ public class PlayerLoot : MonoBehaviour {
 	#region events
 	void HandleEndStory ()
 	{
-		canOpen = true;
+//		canOpen = true;
 	}
 
 	void HandlePlayStory ()
 	{
-		canOpen = false;
+//		canOpen = false;
 		HideInventory ();
 	}
 	#endregion
@@ -217,8 +217,9 @@ public class PlayerLoot : MonoBehaviour {
 			// update crew position
 		Crews.getCrew (Crews.Side.Player).UpdateCrew (Crews.PlacingType.Map);
 
+
 			// close map
-		MapImage.Instance.CloseMap ();
+		MapImage.Instance.Close ();
 
 			// show elements
 		ShowCrewGroup();
@@ -239,7 +240,12 @@ public class PlayerLoot : MonoBehaviour {
 			// set bool
 		opened = false;
 
-		Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Map);
+
+		if (StoryLauncher.Instance.PlayingStory) {
+			Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+		} else {
+			Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Map);
+		}
 
 		foreach (CrewMember member in Crews.getCrew(Crews.Side.Player).CrewMembers)
 			member.Icon.Down ();

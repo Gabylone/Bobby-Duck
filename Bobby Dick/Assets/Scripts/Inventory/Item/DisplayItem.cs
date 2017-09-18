@@ -106,7 +106,7 @@ public class DisplayItem : MonoBehaviour {
 		}
 	}
 
-	public Item HandledItem {
+	public virtual Item HandledItem {
 		get {
 			return handledItem;
 		}

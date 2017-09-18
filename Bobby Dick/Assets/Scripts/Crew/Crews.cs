@@ -193,11 +193,11 @@ public class Crews : MonoBehaviour {
 	}
 
 	public void AddMemberToCrew () {
+		
 		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.MemberCapacity) {
 
 			string phrase = "Oh non, le bateau est trop petit";
 			DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain);
-			StoryReader.Instance.WaitForInput ();
 
 		} else {
 
@@ -210,10 +210,12 @@ public class Crews : MonoBehaviour {
 
 			newMember.Icon.MoveToPoint (Crews.PlacingType.Map);
 
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.Wait (0.5f);
+
 
 		}
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.Wait (0.5f);
 	}
 
 	public void RemoveMemberFromCrew () {

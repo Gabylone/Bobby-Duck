@@ -24,6 +24,8 @@ public class Quest {
 	public Node newQuest_FallbackNode;
 	public Node checkQuest_FallbackNode;
 
+	public MemberID giver;
+
 	public Quest () {
 		//
 
@@ -47,7 +49,6 @@ public class Quest {
 	}
 
 	public void ReturnToGiver() {
-
 
 		StoryReader.Instance.SetNewStory (Story, IslandType.Quest, Story.GetNode("fin") , newQuest_FallbackNode);
 		//

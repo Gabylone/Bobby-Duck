@@ -66,7 +66,7 @@ public class StoryLauncher : MonoBehaviour {
 		// place captain
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 
-		MapImage.Instance.CloseMap ();
+		MapImage.Instance.Close ();
 
 		StoryReader.Instance.Reset ();
 		StoryReader.Instance.UpdateStory ();

@@ -4,7 +4,20 @@ using UnityEngine;
 
 public class Swipe : MonoBehaviour {
 
+	public delegate void OnSwipe (Directions direction);
+	public static OnSwipe onSwipe;
+
 	Vector2 prevPoint;
+
+	public Transform test;
+
+	public float minimumDistance = 0.1f;
+
+	public float minimumTime = 0.5f;
+
+	bool swiping = false;
+
+	float timer = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -14,8 +27,50 @@ public class Swipe : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-//		float dis = Vector3.Distance ( prevPoint , InputManager.Instance.GetInputPosition() );
-//
-//		prevPoint = 
+		if ( InputManager.Instance.OnInputDown() ) {
+			Swipe_Start ();
+		}
+
+		if (swiping) {
+			Swipe_Update ();
+		}
+
+	}
+
+	void Swipe_Start() {
+		swiping = true;
+		timer = 0f;
+
+		prevPoint = InputManager.Instance.GetInputPosition ();
+	}
+
+	void Swipe_Update() {
+
+		float dis = Vector3.Distance ( prevPoint , InputManager.Instance.GetInputPosition() );
+
+		if (dis > minimumDistance && timer < minimumTime) {
+
+			Vector2 dir = (Vector2)InputManager.Instance.GetInputPosition () - prevPoint;
+			Directions direction = NavigationManager.Instance.getDirectionFromVector (dir);
+
+//			print ("swipe : " + direction.ToString() );
+
+			if ( onSwipe!=null )
+				onSwipe (direction);
+
+			Swipe_Exit ();
+		}
+
+		timer += Time.deltaTime;
+
+//		prevPoint = InputManager.Instance.GetInputPosition ();
+
+		if ( InputManager.Instance.OnInputExit() ) {
+			Swipe_Exit ();
+		}
+	}
+
+	void Swipe_Exit () {
+		swiping = false;
 	}
 }

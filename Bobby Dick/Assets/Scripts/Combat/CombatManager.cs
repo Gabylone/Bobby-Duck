@@ -204,8 +204,6 @@ public class CombatManager : MonoBehaviour {
 
 		CardManager.Instance.ShowFightingCard (currentFighter.CrewMember);
 
-		print ("starting turn");
-
 
 	}
 	private void StartTurn_Update () {
@@ -260,7 +258,7 @@ public class CombatManager : MonoBehaviour {
 			if (Crews.getCrew (Crews.Side.Enemy).CrewMembers.Count == 0) {
 				WinFight ();
 			} else {
-				DialogueManager.Instance.ShowNarratorTimed ("L'équipe adverse s'enfuit");
+				Narrator.Instance.ShowNarratorTimed ("L'équipe adverse s'enfuit");
 				Escape ();
 			}
 			return;
@@ -552,27 +550,22 @@ public class CombatManager : MonoBehaviour {
 	private void Charm () {
 		
 		if (DiceManager.Instance.HighestResult >= 5) {
-		
-			print ("charm : success");
-
-			currentFighter.CombatFeedback.Display ("Succ");
-			currentFighter.TargetFighter.Speak ("Ah, merci, c'est gentil");
-			currentFighter.TargetFighter.TurnsToSkip += 2;
+			
+			currentFighter.TargetFighter.Speak ("Je peux pas me battre contre lui !");
+			DeleteFighter (currentFighter.TargetFighter);
 
 		} else if ( DiceManager.Instance.HighestResult == 1 ) {
 
-			print ("charm : critical");
-
-			currentFighter.TargetFighter.Speak ("Il est con ce mec...");
-			currentFighter.CombatFeedback.Display ("Crit\nFail");
+			currentFighter.TargetFighter.Speak ("N'essaye pas de nous embobiner !");
+//			currentFighter.CombatFeedback.Display ("Crit. Fail.");
 			foreach ( Fighter fighter in currEnemyFighters ) {
 				fighter.TurnsToSkip = 0;
 			}
 
 		} else {
 
-			currentFighter.TargetFighter.Speak ("Quoi ?");
-			currentFighter.CombatFeedback.Display ("Oups");
+			currentFighter.TargetFighter.Speak ("Qu'est-ce que t'as dis ?");
+//			currentFighter.CombatFeedback.Display ("Raté");
 
 		}
 	}
@@ -587,8 +580,6 @@ public class CombatManager : MonoBehaviour {
 	private void Eating_Update () {
 	}
 	private void Eating_Exit () {
-		PlayerLoot.Instance.Lock ();
-
 		PlayerLoot.Instance.LootUI.Hide ();
 		eatingMenuButton.SetActive (false);
 	}

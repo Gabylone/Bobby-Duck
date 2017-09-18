@@ -39,8 +39,7 @@ public class DiceManager : MonoBehaviour {
 	[SerializeField]
 	private Color[] diceColors;
 
-	[SerializeField]
-	private float throwDuration;
+	public float throwDuration;
 	private int throwDirection = 1;
 
 	[SerializeField]
@@ -59,8 +58,10 @@ public class DiceManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
 		InitDice ();
 		ResetDice ();
+
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
@@ -82,6 +83,8 @@ public class DiceManager : MonoBehaviour {
 			timeInState += Time.deltaTime;
 
 		}
+
+//		print ("QUICK THROW RESULT : " + QuickThrow (1));
 	}
 
 	#region init
@@ -142,7 +145,7 @@ public class DiceManager : MonoBehaviour {
 //			return;
 //		}
 
-		if ( timeInState > throwDuration) {
+		if ( timeInState > settlingDuration) {
 			ChangeState (states.settling);
 		}
 	}
@@ -155,7 +158,7 @@ public class DiceManager : MonoBehaviour {
 	#region settling
 	private void Settling_Start () {
 		for (int diceIndex = 0; diceIndex < currentThrow.diceAmount; diceIndex++) {
-//			print ("die result : " + dices [diceIndex].result);
+			print ("die result : " + dices [diceIndex].result);
 			dices[diceIndex].TurnToDirection (dices[diceIndex].result);
 		}
 	}
@@ -171,7 +174,6 @@ public class DiceManager : MonoBehaviour {
 	#region showing highest
 	private void ShowingHighest_Start () {
 
-
 		Dice highestDie = dices [0];
 
 		highestResult = 0;
@@ -184,15 +186,18 @@ public class DiceManager : MonoBehaviour {
 		}
 
 		highestDie.SettleUp ();
+		print ("HIGHEST DIE : " + highestDie.result);
 		Throwing = false;
 	}
 	private void ShowingHighest_Update () {
-		if (timeInState > settlingDuration) {
+		
+		if (timeInState > settlingDuration + 0.1f) {
+			
 			ChangeState (states.none);
 		}
 	}
 	private void ShowingHighest_Exit () {
-		ResetDice ();
+		
 	}
 	#endregion
 
@@ -294,19 +299,17 @@ public class DiceManager : MonoBehaviour {
 	}
 	#endregion
 
-
-
 	#region dice
 	private void CheckStat () {
 
 		int decal = StoryReader.Instance.CurrentStoryHandler.GetDecal ();
 
 		if (decal < 0) {
-			
+
 			StartCoroutine (CheckStat_Coroutine ());
 
 		} else {
-			
+
 			StoryReader.Instance.NextCell ();
 
 			StoryReader.Instance.SetDecal (decal);
@@ -348,11 +351,13 @@ public class DiceManager : MonoBehaviour {
 
 		int captainHighest = HighestResult;
 
-		StoryReader.Instance.NextCell ();
 
 		int decal = captainHighest >= 5 ? 0 : 1;
 
 		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);
+
+		StoryReader.Instance.NextCell ();
+
 		StoryReader.Instance.SetDecal (decal);
 
 		StoryReader.Instance.UpdateStory ();

@@ -59,14 +59,18 @@ public class CrewIcon : MonoBehaviour {
 	public void OnPointerDown() {
 		
 		if (!Overable) {
-			print ("not overable");
 			return;
 		}
 
+		if (member.Side == Crews.Side.Enemy)
+			return;
+
 		if (PlayerLoot.Instance.Opened && PlayerLoot.Instance.SelectedMember == member) {
 
-			if (StoryLauncher.Instance.PlayingStory)
+			if ( OtherLoot.Instance.trading || OtherLoot.Instance.looting ) {
 				return;
+
+			}
 
 			PlayerLoot.Instance.HideInventory ();
 
@@ -82,10 +86,12 @@ public class CrewIcon : MonoBehaviour {
 			}
 
 			if (StoryLauncher.Instance.PlayingStory) {
-				if (OtherLoot.Instance.Trading) {
+				if (OtherLoot.Instance.trading) {
 					PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerTrade, member);
-				} else {
+				} else if (OtherLoot.Instance.looting) {
 					PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerLoot, member);
+				} else {
+					PlayerLoot.Instance.ShowInventory (CategoryContentType.Inventory , member);
 				}
 			} else {
 				PlayerLoot.Instance.ShowInventory (CategoryContentType.Inventory , member);
@@ -108,10 +114,19 @@ public class CrewIcon : MonoBehaviour {
 	#endregion
 
 	#region movement
-	public void MoveToPoint ( Crews.PlacingType placingType ) {
-		
+	public void MoveToPrevPoint () {
+
+		if ( PreviousPlacingType == Crews.PlacingType.Hidden ) {
+			Debug.LogError ("wait no... previous point is hidden");
+			previousPlacingType = Crews.PlacingType.Map;
+		}
+
+		MoveToPoint (previousPlacingType);
+	}
+	public void MoveToPoint ( Crews.PlacingType targetPlacingType ) {
+
 		previousPlacingType = currentPlacingType;
-		currentPlacingType = placingType;
+		currentPlacingType = targetPlacingType;
 
 		float decal = 0f;
 
@@ -120,12 +135,12 @@ public class CrewIcon : MonoBehaviour {
 			ShowBody ();
 		}
 
-		if (placingType == Crews.PlacingType.Combat || placingType == Crews.PlacingType.Map) {
+		if (targetPlacingType == Crews.PlacingType.Combat || targetPlacingType == Crews.PlacingType.Map) {
 			HideBody();
 			decal = member.GetIndex * placementDecal;
 		}
 
-		Vector3 targetPos = Crews.getCrew(member.Side).CrewAnchors [(int)placingType].position + Crews.playerCrew.CrewAnchors [(int)placingType].up * decal;
+		Vector3 targetPos = Crews.getCrew(member.Side).CrewAnchors [(int)targetPlacingType].position + Crews.playerCrew.CrewAnchors [(int)targetPlacingType].up * decal;
 
 		HOTween.To ( GetTransform , moveDuration , "position" , targetPos , false , EaseType.Linear , 0f );
 	}

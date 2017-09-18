@@ -30,6 +30,18 @@ public class LootManager : MonoBehaviour {
 	private Loot playerLoot;
 	private Loot otherLoot;
 
+	[SerializeField]
+	private Sprite[] foodSprites;
+
+	[SerializeField]
+	private Sprite[] weaponSprites;
+
+	[SerializeField]
+	private Sprite[] clotheSprites;
+
+	[SerializeField]
+	private Sprite[] miscSprites;
+
 	void Awake (){
 		Instance = this;
 	}
@@ -166,6 +178,8 @@ public class LootManager : MonoBehaviour {
 	}
 
 	#region item
+	public delegate void OnRemoveItemFromInventory (Item item);
+	public static OnRemoveItemFromInventory onRemoveItemFromInventory;
 	void RemoveFromInventory () {
 
 		string cellParams = StoryFunctions.Instance.CellParams;
@@ -173,33 +187,23 @@ public class LootManager : MonoBehaviour {
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 		StoryReader.Instance.NextCell ();
 
-		if ( LootManager.Instance.getLoot(Crews.Side.Player).loot[(int)targetCat].Length == 0 ) {
-
-			StoryReader.Instance.SetDecal (1);
-
-		} else {
-
-			Item item = LootManager.Instance.getLoot(Crews.Side.Player).loot [(int)targetCat] [0];
-			if (cellParams.Contains ("<")) {
-				string itemName = cellParams.Split ('<') [1];
-				itemName = itemName.Remove (itemName.Length - 6);
-				item = System.Array.Find (LootManager.Instance.getLoot(Crews.Side.Player).loot [(int)targetCat], x => x.name == itemName);
-				if (item == null) {
-					StoryReader.Instance.SetDecal (1);
-					StoryReader.Instance.UpdateStory ();
-					return;
-				}
-			}
-
-			DialogueManager.Instance.LastItemName = item.name;
-
-			LootManager.Instance.getLoot(Crews.Side.Player).RemoveItem (item);
-
+		Item item = LootManager.Instance.getLoot(Crews.Side.Player).loot [(int)targetCat] [0];
+		if (cellParams.Contains ("<")) {
+			string itemName = cellParams.Split ('<') [1];
+			itemName = itemName.Remove (itemName.Length - 6);
+			item = System.Array.Find (LootManager.Instance.getLoot(Crews.Side.Player).loot [(int)targetCat], x => x.name == itemName);
 		}
 
-		StoryReader.Instance.UpdateStory ();
+		if (onRemoveItemFromInventory != null) {
+			onRemoveItemFromInventory (item);
+		}
+
+		LootManager.Instance.getLoot(Crews.Side.Player).RemoveItem (item);
+
 	}
 
+	public delegate void OnAddToInventory (Item item);
+	public static OnAddToInventory onAddToInventory;
 	void AddToInventory () {
 
 		string cellParams = StoryFunctions.Instance.CellParams;
@@ -222,32 +226,33 @@ public class LootManager : MonoBehaviour {
 			item = ItemLoader.Instance.getRandomItem (targetCat);
 		}
 
+		if (onAddToInventory != null) {
+			onAddToInventory (item);
+		}
+
 		getLoot(Crews.Side.Player).AddItem (item);
-
-		DialogueManager.Instance.LastItemName = item.name;
-
-		DialogueManager.Instance.ShowNarrator ("Nouvel objet : " + item.name);
-		StoryReader.Instance.WaitForInput ();
 	}
 
 	void CheckInInventory () {
+		
 		string cellParams = StoryFunctions.Instance.CellParams;
-
 
 		StoryReader.Instance.NextCell ();
 
-		string itemName = cellParams.Split ('<')[1];
-
-		itemName = itemName.Remove (itemName.Length - 6);
-
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 
-		Item item = System.Array.Find (LootManager.Instance.getLoot(Crews.Side.Player).getCategory (targetCat), x => x.name == itemName);
+		if (cellParams.Contains ("<")) {
+			string itemName = cellParams.Split ('<') [1];
+			itemName = itemName.Remove (itemName.Length - 6);
+			Item item = System.Array.Find (LootManager.Instance.getLoot (Crews.Side.Player).getCategory (targetCat), x => x.name == itemName);
 
-		if (item == null) {
-			StoryReader.Instance.SetDecal (1);
+			if (item == null) {
+				StoryReader.Instance.SetDecal (1);
+			}
 		} else {
-			DialogueManager.Instance.LastItemName = item.name;
+			if (LootManager.Instance.getLoot (Crews.Side.Player).getCategory (targetCat).Length == 0) {
+				StoryReader.Instance.SetDecal (1);
+			}
 		}
 
 		StoryReader.Instance.UpdateStory ();
@@ -287,6 +292,57 @@ public class LootManager : MonoBehaviour {
 	{
 		if ( onWrongLevelEvent != null ) {
 			onWrongLevelEvent ();
+		}
+	}
+
+	public Sprite getItemSprite (ItemCategory cat,int id) {
+
+		switch (cat) {
+		case ItemCategory.Provisions:
+
+			if (foodSprites.Length == 0) {
+				return null;
+			}
+
+			return foodSprites [id];
+
+			break;
+		case ItemCategory.Weapon:
+
+			if (weaponSprites.Length == 0) {
+				return null;
+			}
+
+			return weaponSprites [id];
+
+			break;
+		case ItemCategory.Clothes:
+
+			if (clotheSprites.Length == 0) {
+				return null;
+			}
+
+			return clotheSprites [id];
+
+			break;
+		case ItemCategory.Misc:
+
+			if (miscSprites.Length == 0) {
+				return null;
+			}
+
+			return miscSprites [id];
+
+			break;
+		default:
+
+			if (miscSprites.Length == 0) {
+				return null;
+			}
+
+			return miscSprites [id];
+
+			break;
 		}
 	}
 }

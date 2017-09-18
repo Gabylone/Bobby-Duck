@@ -28,6 +28,13 @@ public class CrewManager : MonoBehaviour {
 
 	void Start () {
 		NavigationManager.Instance.EnterNewChunk += AddToStates;
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		if (func == FunctionType.ChangeTimeOfDay)
+			AddToStates ();
 	}
 
 	void AddToStates ()

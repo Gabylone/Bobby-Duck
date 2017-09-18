@@ -29,8 +29,7 @@ public class QuestMenu : MonoBehaviour {
 
 	// feedback
 	public GameObject feedbackObject;
-	bool showFeedback = false;
-	float feedbackDuration = 0.5f;
+	float feedbackDuration = 1f;
 
 	void Awake () {
 		Instance = this;
@@ -38,6 +37,13 @@ public class QuestMenu : MonoBehaviour {
 
 	void Start () {
 		QuestManager.Instance.newQuestEvent += HandleNewQuestEvent;
+		QuestManager.onGiveUpQuest += HandleOnFinishQuest;
+		QuestManager.onFinishQuest += HandleOnFinishQuest;
+	}
+
+	void HandleOnFinishQuest (Quest quest)
+	{
+		InitButtons ();
 	}
 
 	#region feedback
@@ -45,10 +51,9 @@ public class QuestMenu : MonoBehaviour {
 	{
 		feedbackObject.SetActive (true);
 
-		HOTween.To ( feedbackObject.transform , feedbackDuration , "localScale" , Vector3.one * 1.2f , false , EaseType.EaseOutBounce , 0f );
-		HOTween.To ( feedbackObject.transform , feedbackDuration , "localScale" , Vector3.one , false , EaseType.EaseInBounce , feedbackDuration );
+		Tween.Bounce (feedbackObject.transform);
 
-		Invoke ("HideFeedback" , feedbackDuration * 3);
+		Invoke ("HideFeedback" , feedbackDuration );
 
 		InitButtons ();
 	}
@@ -100,9 +105,9 @@ public class QuestMenu : MonoBehaviour {
 			if (buttonIndex < QuestManager.Instance.CurrentQuests.Count) {
 
 				buttons [buttonIndex].gameObject.SetActive (true);
+				buttons [buttonIndex].GetComponent<QuestButton> ().SetQuest (buttonIndex);
 
-				buttons [buttonIndex].GetComponentInChildren<Text> ().text = QuestManager.Instance.CurrentQuests[buttonIndex].Story.name;
-				buttons [buttonIndex].GetComponentInChildren<QuestButton> ().id = buttonIndex;
+
 
 			} else {
 
@@ -117,14 +122,6 @@ public class QuestMenu : MonoBehaviour {
 
 		contentTransform.sizeDelta = new Vector2 (contentTransform.sizeDelta.x , scale);
 
-	}
-
-	public void Select ( int i ) {
-
-		Quest quest = QuestManager.Instance.CurrentQuests [i];
-		quest.ShowOnMap ();
-
-		Tween.Bounce ( buttons[i].transform );
 	}
 
 }

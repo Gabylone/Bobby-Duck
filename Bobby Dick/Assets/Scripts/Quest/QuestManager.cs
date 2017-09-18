@@ -116,21 +116,33 @@ public class QuestManager : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 	}
 
+	public delegate void OnFinishQuest (Quest quest);
+	public static OnFinishQuest onFinishQuest;
 	void FinishQuest ()
 	{
 		Quest quest = Coords_CheckForTargetQuest;
 
 		if (quest == null)
 			quest = Coords_CheckForStartQuest;
-		if (quest == null)
-			print ("arret...");
+		if (quest == null) {
+			print ("quest arr pourq uoi tu fai aàarret...");
+			return;
+		}
 		
 		GoldManager.Instance.GoldAmount += quest.goldValue;
+
+		foreach ( CrewMember member in Crews.playerCrew.CrewMembers ) {
+			member.AddXP (quest.experience);
+		}
 
 		Karma.Instance.CurrentKarma += 3;
 
 		finishedQuests.Add (quest);
 		currentQuests.Remove (quest);
+
+		if (onFinishQuest != null) {
+			onFinishQuest (quest);
+		}
 
 		if ( quest.nodeWhenCompleted != null ) {
 			StoryReader.Instance.CurrentStoryHandler.fallbackNode = quest.nodeWhenCompleted;
@@ -140,7 +152,17 @@ public class QuestManager : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 	}
 
+	public delegate void OnGiveUpQuest ( Quest quest );
+	public static OnGiveUpQuest onGiveUpQuest;
+	public void GiveUpQuest (Quest quest) {
+		
+		currentQuests.Remove (quest);
 
+		if (onGiveUpQuest != null) {
+			onGiveUpQuest(quest);
+		}
+
+	}
 
 	#region map stuff
 	public void ShowQuestOnMap () {
@@ -151,9 +173,6 @@ public class QuestManager : MonoBehaviour {
 		} else {
 			quest.ShowOnMap ();
 		}
-
-		StoryReader.Instance.WaitForInput ();
-		//
 	}
 
 	public void SendPlayerBackToGiver () {

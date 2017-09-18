@@ -25,11 +25,13 @@ Leave;Node=>tavernier;Node=>salle;;;;;;;;;;
 ;;;;;;;;;;;;
 [tavernier];;;;;;;;;;;;
 NewCrew;;;;;;;;;;;;
-OtherSpeak : Qu'est-ce que je peux faire pour vous ?;Node=>combat tavernier;OtherSpeak : Comment osez vous remettre les pieds dans mon auberge !?;;;;;;;;;;
-Node=>choix1;;Node=>combat tavernier;;;;;;;;;;
+[switch quete];Node=>combat tavernier;OtherSpeak : Comment osez vous remettre les pieds dans mon auberge !?;;;;;;;;;;
+OtherSpeak : Qu'est-ce que je peux faire pour vous ?;Node=>la quete;Node=>combat tavernier;;;;;;;;;;
+Node=>choix1;;;;;;;;;;;;
 ;;;;;;;;;;;;
-[switch quete];;;;;;;;;;;;
-[choix1];Node=>la quete;;;[choix2];;;;;;;;
+;;;;;;;;;;;;
+;;;;;;;;;;;;
+[choix1];;;;[choix2];;;;;;;;
 SetChoices4;;;;SetChoices4;;;;;[nouvelles];;;
 Choice : Des chambres pour mes hommes !;Choice : On a faim !;Choice : (autre);Choice : Ça ira pour aujourdh'ui;Choice : C'est quoi les nouvelles de la région ?;Choice : (attaquer);Choice : Bobby Dick, ça vous parle ?;;Choice : (autre);RandomRange2;Node=>la quete;;[la quete]
 Node=>chambre;OtherSpeak : Regardez voir ce que j'ai;Node=>choix2;OtherSpeak : Bon bah à la prochaine !;Node=>nouvelles;RemoveKarma;RandomRange2;;Node=>choix1;GiveTip;OtherSpeak : Que des problèmes !;;NewQuest=>choix2

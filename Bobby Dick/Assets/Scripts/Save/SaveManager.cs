@@ -13,12 +13,29 @@ public class SaveManager : MonoBehaviour
 	public delegate void SaveGameData ();
 	public event SaveGameData saveData;
 
+	public int currentIndex;
+
 	void Awake () {
 		Instance = this;
 	}
 
 	void Start () {
 		currentData = new GameData ();
+
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+	}
+
+	int saveLimit = 10;
+	int saveCount = 0;
+	void HandleChunkEvent ()
+	{
+		++saveCount;
+
+		if (saveCount > saveLimit) {
+			SaveGame (1);
+
+			saveCount = 0;
+		}
 	}
 
 	#region action

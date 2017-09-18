@@ -490,7 +490,7 @@ public class Fighter : MonoBehaviour {
 
 		BodyCollider.enabled = false;
 
-		CombatFeedback.Display (dam.ToString (),impactEffect.GetComponent<SpriteRenderer> ().color);
+//		CombatFeedback.Display (dam.ToString (),impactEffect.GetComponent<SpriteRenderer> ().color);
 
 		// collision effect
 		impactEffect.SetActive (false);

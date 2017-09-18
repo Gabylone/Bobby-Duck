@@ -16,6 +16,9 @@ public class MenuManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject menuGroup;
 
+	[SerializeField]
+	private GameObject saveButton;
+
 	bool quit_Confirmed = false;
 
 	void Start () {
@@ -51,9 +54,20 @@ public class MenuManager : MonoBehaviour {
 	#region buttons
 	public void SaveButton () {
 
-		saveMenu.Saving = true;
-		saveMenu.Opened = !saveMenu.Opened;
+		Tween.Bounce (saveButton.transform);
+
+		MessageDisplay.Instance.Show ("Sauvegarder partie ?");
+		MessageDisplay.onValidate += HandleOnValidate;
 	}
+
+	void HandleOnValidate ()
+	{
+		SaveManager.Instance.SaveGame (1);
+	}
+//	public void SaveButton () {
+//		saveMenu.Saving = true;
+//		saveMenu.Opened = !saveMenu.Opened;
+//	}
 	public void LoadButton () {
 		saveMenu.Saving = false;
 		saveMenu.Opened = !saveMenu.Opened;

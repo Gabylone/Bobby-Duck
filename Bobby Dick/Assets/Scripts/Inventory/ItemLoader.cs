@@ -25,8 +25,11 @@ public class ItemLoader : MonoBehaviour {
 	private Item[][] items;
 
 	[Header("Chances")]
-	[SerializeField] private float[] items_AppearChance;
-	[SerializeField] private int[] items_MaxPerLoot;
+	[SerializeField]
+	private int[] amountRange_Min;
+
+	[SerializeField]
+	private int[] amountRange_Max;
 
 	int[][] levelRange;
 
@@ -78,9 +81,16 @@ public class ItemLoader : MonoBehaviour {
 
 		int currentLevel = 0;
 
+
 		for ( int i = 1; i < items[(int)currentType].Length+1 ;++i ) {
 
 			string[] cells = rows[i].Split (';');
+
+			int spriteID = -1;
+			if ( cells.Length > 6 ) {
+				spriteID = int.Parse (cells [6]) - 1;
+			}
+
 			Item newItem =
 				new Item (
 				currentID,
@@ -90,6 +100,7 @@ public class ItemLoader : MonoBehaviour {
 				int.Parse(cells[3]),// price
 				int.Parse(cells[4]),// weight
 				int.Parse(cells[5]),// level
+				spriteID,
 
 				currentType // category
 				);
@@ -138,15 +149,9 @@ public class ItemLoader : MonoBehaviour {
 
 			int itemType = (int)cat;
 
-			if (itemType >= items_MaxPerLoot.Length) {
+			int itemAmount = Random.Range (amountRange_Min[itemType],amountRange_Max[itemType]) * mult;
 
-				Debug.LogError ("je sais pas exactement ce qu'est le probleme : catégorie ; " + cat.ToString ());
-
-				itemType = 0;
-			}
-
-			int itemAmount = Random.Range (1, items_MaxPerLoot [itemType]+1) * mult;
-
+			// reset mult
 			if ( mult > 1 )
 				mult = 1;
 

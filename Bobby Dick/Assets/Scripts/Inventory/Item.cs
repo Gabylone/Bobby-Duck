@@ -6,12 +6,13 @@ public class Item {
 
 	public int ID = 0;
 
-	public string 	name = "";
+	public string 	name 		= "";
 	public string 	description = "";
-	public int 		value = 0;
-	public int 		price = 0;
-	public int 		weight = 0;
-	public int 		level = 0;
+	public int 		value 		= 0;
+	public int 		price 		= 0;
+	public int 		weight 		= 0;
+	public int 		level 		= 0;
+	public int		spriteID 	= 0;
 
 	public ItemCategory category;
 		
@@ -29,6 +30,7 @@ public class Item {
 		int _price,
 		int _weight,
 		int _level,
+		int _spriteID,
 
 		ItemCategory _cat
 		)
@@ -41,6 +43,8 @@ public class Item {
 		price = _price;
 		weight = _weight;
 		level = _level;
+
+		spriteID = _spriteID;
 
 		category = _cat;
 	}

@@ -153,6 +153,12 @@ public class TimeManager : MonoBehaviour {
 		set {
 			isNight = value;
 			nightImage.gameObject.SetActive (value);
+
+			if (isNight) {
+				timeOfDay = nightStartTime;
+			} else {
+				timeOfDay = startTime;
+			}
 		}
 	}
 

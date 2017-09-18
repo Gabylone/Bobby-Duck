@@ -36,8 +36,8 @@ public class CrewMember {
 	private MemberFeedback info;
 	private GameObject iconObj;
 
-	private int stepsToHunger = 0;
-//	private int stepsToHunger = 10;
+//	private int stepsToHunger = 0;
+	private int stepsToHunger = 5;
 	private int hungerDamage = 5;
 
 	private int maxState = 100;
@@ -72,6 +72,8 @@ public class CrewMember {
 	#endregion
 
 	#region level
+
+
 	public void AddXP ( int _xp ) {
 		
 		CurrentXp += _xp;
@@ -80,6 +82,10 @@ public class CrewMember {
 			LevelUp ();
 		}
 	}
+
+	public delegate void OnLevelUpStat (CrewMember member);
+	public OnLevelUpStat onLevelUpStat;
+
 	public void HandleOnLevelUpStat (Stat stat)
 	{
 		int newValue = GetStat (stat) + 1;
@@ -88,12 +94,24 @@ public class CrewMember {
 
 		--StatPoints;
 
+		if (onLevelUp != null) {
+			onLevelUpStat (this);
+		}
+
 	}
+
+	public delegate void OnLevelUp (CrewMember member);
+	public OnLevelUp onLevelUp;
+
 	public void LevelUp () {
 		++Level;
 		CurrentXp = xpToLevelUp - CurrentXp;
 
 		++StatPoints;
+
+		if (onLevelUp != null) {
+			onLevelUp (this);
+		}
 	}
 	public bool CheckLevel ( int lvl ) {
 
@@ -116,13 +134,13 @@ public class CrewMember {
 
 		if ( CurrentHunger >= maxState ) {
 
-			DialogueManager.Instance.SetDialogueTimed ("J'ai faim !", this);
+//			DialogueManager.Instance.SetDialogueTimed ("J'ai faim !", this);
 
 			Health -= hungerDamage;
 
 			if ( Health == 0 )
 			{
-				DialogueManager.Instance.ShowNarratorTimed (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
+				Narrator.Instance.ShowNarratorTimed (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
 				Kill ();
 				return;
 			}

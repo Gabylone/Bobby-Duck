@@ -3,40 +3,66 @@ using System.Collections;
 
 public class NavigationTrigger : MonoBehaviour {
 
+	public static bool anyTargeted = false;
+
+	public GameObject arrowGroup;
+
 	public int texID = 0;
 
 	bool targeted = false;
 
 	bool inside = false;
 
-	void OnTriggerStay2D ( Collider2D other ) {
-
-		if (other.tag == "Player" && targeted ) {
-
-			NavigationManager.Instance.ChangeChunk ((Directions)texID);
-
-			Targeted = false;
-
-		}
-
+	void Start () {
+		Swipe.onSwipe += HandleOnSwipe;
 	}
 
 	void Update () {
 		if (targeted) {
+
 			if (NavigationManager.Instance.FlagControl.UpdatingPosition) {
-				if ( !inside )
+				if (!inside) {
+					NavigationManager.Instance.FlagControl.PlaceFlagOnScreen ();
 					Targeted = false;
+				}
 			}
 
 		}
+	}
+
+	void HandleOnSwipe (Directions direction)
+	{
+		if ( direction == (Directions)texID ) {
+
+			NavigationManager.Instance.FlagControl.UpdatingPosition = false;
+			NavigationManager.Instance.FlagControl.FlagImage.transform.position = arrowGroup.transform.position;
+//			NavigationManager.Instance.FlagControl.PlaceFlagOnWorld (transform.localPosition);
+
+			Target ();
+		}
+	}
+
+	void OnTriggerStay2D ( Collider2D other ) {
+		if (other.tag == "Player" && targeted ) {
+			NavigationManager.Instance.ChangeChunk ((Directions)texID);
+			Targeted = false;
+		}
+	}
+
+	void Target ()
+	{
+		
+
+		Targeted = true;
+
+		Tween.Bounce (NavigationManager.Instance.FlagControl.FlagImage.transform);
 	}
 
 	public void OnMouseOver() {
 
 		if (targeted == false) {
 			if (NavigationManager.Instance.FlagControl.UpdatingPosition) {
-				Targeted = true;
-				NavigationManager.Instance.FlagControl.FlagImage.GetComponent<Animator> ().SetTrigger ("bounce");
+				Target ();
 			}
 		}
 
@@ -54,6 +80,9 @@ public class NavigationTrigger : MonoBehaviour {
 		set {
 			targeted = value;
 
+			if (value == false) {
+				arrowGroup.SetActive (false);
+			}
 			NavigationManager.Instance.FlagControl.FlagImage.sprite = targeted ? NavigationManager.Instance.arrowSprites [texID] : NavigationManager.Instance.flagSprite;
 
 		}

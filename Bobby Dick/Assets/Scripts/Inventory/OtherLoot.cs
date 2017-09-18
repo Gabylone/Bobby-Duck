@@ -21,7 +21,8 @@ public class OtherLoot : MonoBehaviour {
 	[SerializeField]
 	private ActionGroup actionGroup;
 
-	bool trading = false;
+	public bool trading = false;
+	public bool looting = false;
 
 	void Awake () {
 		Instance = this;
@@ -64,21 +65,14 @@ public class OtherLoot : MonoBehaviour {
 	public void StartTrade () {
 			// player loot ui
 
-		ItemLoader.Instance.Mult = 3;
+		ItemLoader.Instance.Mult = 2;
 		Loot loot = LootManager.Instance.GetIslandLoot ();
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, loot);
 		lootUi.Show (CategoryContentType.OtherTrade);
 
-		PlayerLoot.Instance.Unlock ();
 		PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerTrade);
 
 		trading = true;
-	}
-
-	public bool Trading {
-		get {
-			return trading;
-		}
 	}
 	#endregion
 
@@ -89,22 +83,20 @@ public class OtherLoot : MonoBehaviour {
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, loot);
 		lootUi.Show (CategoryContentType.OtherLoot);
 
-		PlayerLoot.Instance.Unlock ();
 		PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerLoot);
+
+		looting = true;
 
 	}
 	#endregion
 
 	public void Buy () {
 
-
 		if (!GoldManager.Instance.CheckGold (lootUi.SelectedItem.price)) {
-			print ("pas assez d'or");
 			return;
 		}
 
 		if (!WeightManager.Instance.CheckWeight (lootUi.SelectedItem.weight)) {
-			print ("pas asse zde place");
 			return;
 		}
 
@@ -140,8 +132,7 @@ public class OtherLoot : MonoBehaviour {
 		playerLootUI.Hide ();
 
 		trading = false;
-
-		PlayerLoot.Instance.Lock ();
+		looting = false;
 
 		PlayerLoot.Instance.HideInventory ();
 

@@ -61,6 +61,9 @@ public class GameManager : MonoBehaviour {
 		if (KeepOnLoad.dataToLoad < 0) {
 			MemberCreator.Instance.Show ();
 			Transitions.Instance.ActionTransition.Fade = true;
+
+//			SaveManager.Instance.SaveGame (1);
+
 		}
 
 

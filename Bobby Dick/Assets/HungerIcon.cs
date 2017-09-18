@@ -13,6 +13,8 @@ public class HungerIcon : MonoBehaviour {
 
 	public Image fullImage;
 
+	public Image heartImage;
+
 	void Start () {
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
@@ -20,11 +22,18 @@ public class HungerIcon : MonoBehaviour {
 		PlayerLoot.Instance.openInventory += HandleOpenInventory;
 		StoryLauncher.Instance.playStoryEvent += Hide;
 
-		PlayerLoot.Instance.closeInventory += HandleChunkEvent;
+		PlayerLoot.Instance.closeInventory += HandleCloseInventory;;
 
 		linkedIcon = GetComponentInParent<CrewIcon> ();
 
 		Hide ();
+	}
+
+	void HandleCloseInventory ()
+	{
+		if (StoryLauncher.Instance.PlayingStory == false) {
+			HandleChunkEvent ();
+		}
 	}
 
 	void HandleOpenInventory (CrewMember member)
@@ -46,7 +55,14 @@ public class HungerIcon : MonoBehaviour {
 
 		fullImage.fillAmount = fillAmount;
 
-		if (fillAmount < 0.1f) {
+		if (fillAmount < 0.4f) {
+			heartImage.gameObject.SetActive (true);
+			heartImage.fillAmount = (float)linkedIcon.Member.Health / (float)linkedIcon.Member.MemberID.maxHealth;
+		} else {
+			heartImage.gameObject.SetActive (false);
+		}
+
+		if (fillAmount < 0.3f) {
 			Tween.Bounce (group.transform, 0.2f, 1.2f);
 		}
 	}
@@ -60,11 +76,11 @@ public class HungerIcon : MonoBehaviour {
 		StoryLauncher.Instance.playStoryEvent -= Hide;
 	}
 
-	public void Show () {
+	void Show () {
 		group.SetActive (true);
 	}
 
-	public void Hide () {
+	void Hide () {
 		group.SetActive (false);
 	}
 }

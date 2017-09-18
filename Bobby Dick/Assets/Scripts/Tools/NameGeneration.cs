@@ -32,4 +32,41 @@ public class NameGeneration : MonoBehaviour {
 			return word;
 		}
 	}
+
+	public static string CheckForKeyWords ( string text ) {
+
+		if ( text.Contains ("CAPITAINE") ) {
+			text = text.Replace ( "CAPITAINE" , Crews.playerCrew.captain.MemberName );
+		}
+
+		if ( text.Contains ("OTHERNAME") ) {
+			text = text.Replace ( "OTHERNAME" , Crews.enemyCrew.captain.MemberName );
+		}
+
+		if ( text.Contains ("NOMBATEAU") ) {
+			text = text.Replace ( "NOMBATEAU" , Boats.Instance.PlayerBoatInfo.Name);
+		}
+
+		if ( text.Contains ("DIRECTIONTOFORMULA") ) {
+			text = text.Replace ( "DIRECTIONTOFORMULA" , FormulaManager.Instance.getDirectionToFormula () );
+		}
+
+		if ( text.Contains ("BOUNTY") ) {
+			text = text.Replace ( "BOUNTY" , Karma.Instance.Bounty.ToString () );
+		}
+
+		if ( text.Contains ("FORMULA") ) {
+			text = text.Replace ( "FORMULA" , FormulaManager.Instance.getFormula () );
+		}
+
+		if ( text.Contains ("RANDOMFEMALENAME") ) {
+			text = text.Replace ( "RANDOMFEMALENAME" , CrewCreator.Instance.FemaleNames[Random.Range (0,CrewCreator.Instance.FemaleNames.Length)]);
+		}
+
+		if ( text.Contains ("RANDOMMALENAME") ) {
+			text = text.Replace ( "RANDOMMALENAME" , CrewCreator.Instance.MaleNames[Random.Range (0,CrewCreator.Instance.MaleNames.Length)]);
+		}
+
+		return text;
+	}
 }

@@ -26,6 +26,12 @@ public class MainMenuManager : MonoBehaviour {
 		Transitions.Instance.ScreenTransition.Fade = false;
 
 		Screen.orientation = ScreenOrientation.Landscape;
+
+		if (SaveTool.Instance.FileExists (1)) {
+			loadButton.SetActive (true);
+		} else {
+			loadButton.SetActive (false);
+		}
 	}
 
 	public void NewGameButton () {

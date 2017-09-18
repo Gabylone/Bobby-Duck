@@ -75,11 +75,17 @@ public class MapImage : MonoBehaviour {
 		PlayerLoot.Instance.openInventory += HandleOpenInventory;;
 		CombatManager.Instance.fightStarting += HideButton;
 		CombatManager.Instance.fightEnding += ShowButton;
+		StoryInput.onPressInput += HandleOnPressInput;
+	}
+
+	void HandleOnPressInput ()
+	{
+		Close ();
 	}
 
 	void HandleOpenInventory (CrewMember member)
 	{
-		CloseMap ();
+		Close ();
 	}
 
 	public void Reset ()
@@ -349,6 +355,7 @@ public class MapImage : MonoBehaviour {
 	public ShowIslandInfo showIslandInfo;
 	#endregion
 
+	#region open / Close
 	public void OpenMap () {
 		
 		mapGroup.SetActive (true);
@@ -363,7 +370,8 @@ public class MapImage : MonoBehaviour {
 
 		CenterOnBoat ();
 	}
-	public void CloseMap () {
+
+	public void Close () {
 	
 		mapGroup.SetActive (false);
 
@@ -381,6 +389,25 @@ public class MapImage : MonoBehaviour {
 		openButton_Obj.SetActive (true);
 		//
 	}
+	#endregion
+
+	#region touch to close
+	float timeToClose = 0.15f;
+	bool closeOnTouch = false;
+	public void OnPointerDown() {
+		closeOnTouch = true;
+		Invoke ("OnPointerDownDelay",timeToClose);
+	}
+	public void OnPointerDownDelay () {
+		closeOnTouch = false;
+	}
+	public void OnPointerUp () {
+		if (closeOnTouch) {
+			Close ();
+			closeOnTouch = false;
+		}
+	}
+	#endregion
 
 	#region overall map
 	float timer = 0f;

@@ -50,6 +50,14 @@ public class Boat : MonoBehaviour {
 
 		CombatManager.Instance.fightStarting += DeactivateCollider;
 		CombatManager.Instance.fightEnding += ActivateCollider;
+
+		StoryLauncher.Instance.playStoryEvent += HandlePlayStoryEvent;
+	}
+
+	void HandlePlayStoryEvent ()
+	{
+		TargetSpeed = 0f;
+		currentSpeed = 0f;
 	}
 
 	public virtual void Update () {

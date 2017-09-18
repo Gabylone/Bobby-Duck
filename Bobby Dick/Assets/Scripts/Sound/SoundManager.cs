@@ -48,10 +48,17 @@ public class SoundManager : MonoBehaviour {
 		PlayerLoot.Instance.LootUI.useInventory += HandleUsePlayerInventory;
 		OtherLoot.Instance.LootUi.useInventory += HandleUseEnemyInventory;
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+
+		UpdateAmbiance ();
 	}
 
 	#region time
 	void HandleChunkEvent ()
+	{
+		UpdateAmbiance ();
+	}
+
+	void UpdateAmbiance ()
 	{
 		AudioClip ambiantClip;
 		if (TimeManager.Instance.Raining)

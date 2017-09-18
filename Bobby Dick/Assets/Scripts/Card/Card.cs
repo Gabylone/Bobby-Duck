@@ -12,87 +12,57 @@ public class Card : MonoBehaviour {
 	private GameObject cardObject;
 
 	[SerializeField]
-	private Text name_Text;
-
-	bool displaying = false;
+	private Text nameText;
 
 	[SerializeField]
-	private Transform iconAnchor;
+	private Image heartImage;
 
-	[Header("Dice")]
-	public Text attackText;
-	public Text defenseText;
+	[SerializeField]
+	private Text heartText;
 
-	[Header("Card Bounds")]
 	[SerializeField]
-	private Vector2 cardBoundsX = new Vector2();
+	private Text defenceText;
+
 	[SerializeField]
-	private Vector2 cardBoundsY = new Vector2();
+	private Text attackText;
+
 	[SerializeField]
-	private bool centerCard = false;
+	private Text levelText;
 
 	public virtual void Init () {
-		_transform = cardObject.GetComponent<Transform>();
-
 		HideCard ();
+
+		PlayerLoot.Instance.LootUI.useInventory+= HandleUseInventory;
 	}
 
-	public delegate void OnCardUpdate (CrewMember crewMember);
-	public OnCardUpdate onCardUpdate;
+	void HandleUseInventory (InventoryActionType actionType)
+	{
+		UpdateMember (PlayerLoot.Instance.SelectedMember);
+	}
+
 	public virtual void UpdateMember ( CrewMember member ) {
 
-		ShowCard ();
+		Tween.Bounce (heartText.transform);
 
-			// general info
-		name_Text.text = member.MemberName;
+		nameText.text = member.MemberName;
 
-		if (onCardUpdate != null) {
-			onCardUpdate (member);
-		} 
+		levelText.text = member.Level.ToString ();
 
+		heartImage.fillAmount = (float)member.Health / (float)member.MemberID.maxHealth;
+		heartText.text = member.Health.ToString ();
 
+		attackText.text = member.Attack.ToString ();
+
+		defenceText.text = member.Defense.ToString ();
 	}
 
-	public void PlaceCard (Vector3 pos) {
-
-		pos.x = Mathf.Clamp ( pos.x , cardBoundsX.x, cardBoundsX.y );
-		pos.y = Mathf.Clamp ( pos.y , cardBoundsY.x, cardBoundsY.y );
-
-		GetTransform.position = pos;
-
-		if (centerCard) {
-			Vector3 dir = GetTransform.position - Vector3.zero;
-			GetTransform.right = -dir;
-		}
-
-	}
-
-	void ShowCard () {
+	public void ShowCard () {
 		//
 		cardObject.SetActive (true);
 
 	}
 	public void HideCard () {
 		cardObject.SetActive (false);
-	}
-
-	public void EndDisplay () {
-		//
-	}
-
-	public Transform GetTransform {
-		get {
-			return _transform;
-		}
-		set {
-			_transform = value;
-		}
-	}
-
-	public Transform IconAnchor {
-		get {
-			return iconAnchor;
-		}
 	}
 
 
