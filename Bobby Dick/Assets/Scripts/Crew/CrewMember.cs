@@ -4,11 +4,47 @@ using System.Collections;
 [System.Serializable]
 public class CrewMember {
 
-	private Crews.Side side;
-	private MemberID memberID;
+	// SELECTED MEMBER IN INVENTORY
+	public static CrewMember selectedMember;
+	public static void setSelectedMember (CrewMember crewMember) {
+		if (selectedMember != null) {
+			selectedMember.Icon.Down ();
+		}
 
+		selectedMember = crewMember;
+
+		selectedMember.Icon.Up ();
+	}
+
+	// STATS
 	public int maxStat = 6;
+	public int currentAttack = 0;
 
+	// EXPERIENCE
+	public int xpToLevelUp = 100;
+
+	// COMPONENTS
+	public Crews.Side side;
+	private MemberID memberID;
+	private CrewIcon icon;
+	private MemberFeedback info;
+	private GameObject iconObj;
+
+	// HUNGER
+	private int stepsToHunger = 5;
+	private int hungerDamage = 5;
+	public int maxHunger = 100;
+
+	// INIT
+	private void Init () {
+
+		// icon
+		icon = iconObj.GetComponent<CrewIcon> ();
+		icon.Member = this;
+
+	}
+
+	// CONSTRUCTOR
 	public CrewMember (MemberID _memberID, Crews.Side _side, GameObject _iconObj )
 	{
 		memberID = _memberID;
@@ -20,60 +56,7 @@ public class CrewMember {
 		Init ();
 	}
 
-		// level
-	private int xpToLevelUp = 100;
-
-	private int daysOnBoard {
-		get {
-			return memberID.daysOnBoard;
-		}
-		set {
-			memberID.daysOnBoard = value;
-		}
-	}
-
-	private CrewIcon icon;
-	private MemberFeedback info;
-	private GameObject iconObj;
-
-//	private int stepsToHunger = 0;
-	private int stepsToHunger = 5;
-	private int hungerDamage = 5;
-
-	private int maxState = 100;
-
-	private void Init () {
-
-		// icon
-		icon = iconObj.GetComponent<CrewIcon> ();
-		icon.Member = this;
-
-	}
-
-	#region health
-	public void GetHit (float damage) {
-//		float damageTaken = ( ((float)damage) / ((float)Defense) );
-//		damageTaken *= 10;
-		float damageTaken = damage;
-
-		damageTaken = Mathf.CeilToInt (damageTaken);
-		damageTaken = Mathf.Clamp ( damageTaken , 1 , 200 );
-
-		string smallText = damage + " / " + Defense;
-		string bigText = damageTaken.ToString ();
-
-		Health -= (int)damageTaken;
-
-	}
-
-	public void Kill () {
-		Crews.getCrew(side).RemoveMember (this);
-	}
-	#endregion
-
 	#region level
-
-
 	public void AddXP ( int _xp ) {
 		
 		CurrentXp += _xp;
@@ -85,7 +68,6 @@ public class CrewMember {
 
 	public delegate void OnLevelUpStat (CrewMember member);
 	public OnLevelUpStat onLevelUpStat;
-
 	public void HandleOnLevelUpStat (Stat stat)
 	{
 		int newValue = GetStat (stat) + 1;
@@ -102,7 +84,6 @@ public class CrewMember {
 
 	public delegate void OnLevelUp (CrewMember member);
 	public OnLevelUp onLevelUp;
-
 	public void LevelUp () {
 		++Level;
 		CurrentXp = xpToLevelUp - CurrentXp;
@@ -125,29 +106,54 @@ public class CrewMember {
 	}
 	#endregion
 
+	#region health
+	public void GetHit (float damage) {
+		
+		float damageTaken = damage;
+
+		damageTaken = Mathf.CeilToInt (damageTaken);
+		damageTaken = Mathf.Clamp ( damageTaken , 1 , 200 );
+
+		string smallText = damage + " / " + Defense;
+		string bigText = damageTaken.ToString ();
+
+		Health -= (int)damageTaken;
+
+	}
+
+	public void Kill () {
+		Crews.getCrew(side).RemoveMember (this);
+	}
+	#endregion
+
 	#region states
-	public void AddToStates () {
+	public void UpdateHunger () {
 
 		AddXP (3);
 
 		CurrentHunger += stepsToHunger;
 
-		if ( CurrentHunger >= maxState ) {
+		if ( CurrentHunger >= maxHunger ) {
 
-//			DialogueManager.Instance.SetDialogueTimed ("J'ai faim !", this);
+			if ( Health - hungerDamage <= 0 )
+			{
+				Narrator.Instance.ShowNarratorTimed (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
+			}
 
 			Health -= hungerDamage;
 
-			if ( Health == 0 )
-			{
-				Narrator.Instance.ShowNarratorTimed (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
-				Kill ();
-				return;
-			}
 		}
 
 		++daysOnBoard;
 
+	}
+	private int daysOnBoard {
+		get {
+			return memberID.daysOnBoard;
+		}
+		set {
+			memberID.daysOnBoard = value;
+		}
 	}
 	#endregion
 
@@ -161,8 +167,6 @@ public class CrewMember {
 
 			if (memberID.health <= 0)
 				Kill ();
-
-
 		}
 	}
 
@@ -178,17 +182,6 @@ public class CrewMember {
 	#endregion
 
 	#region stats
-	private int currentAttack = 0;
-
-	public int CurrentAttack {
-		get {
-			return currentAttack;
-		}
-		set {
-			currentAttack = value;
-		}
-	}
-
 	public int Attack {
 		get {
 
@@ -249,15 +242,6 @@ public class CrewMember {
 	public int GetIndex {
 		get {
 			return Crews.getCrew (side).CrewMembers.FindIndex (x => x == this);
-		}
-	}
-
-	public Crews.Side Side {
-		get {
-			return side;
-		}
-		set {
-			side = value;
 		}
 	}
 	#endregion
@@ -331,16 +315,7 @@ public class CrewMember {
 			return memberID.currentHunger;
 		}
 		set {
-			memberID.currentHunger = Mathf.Clamp (value, 0, maxState);
-		}
-	}
-
-	public int MaxState {
-		get {
-			return maxState;
-		}
-		set {
-			maxState = value;
+			memberID.currentHunger = Mathf.Clamp (value, 0, maxHunger);
 		}
 	}
 	#endregion
@@ -360,12 +335,6 @@ public class CrewMember {
 		}
 		set {
 			memberID.xp = value;
-		}
-	}
-
-	public int XpToLevelUp {
-		get {
-			return xpToLevelUp;
 		}
 	}
 

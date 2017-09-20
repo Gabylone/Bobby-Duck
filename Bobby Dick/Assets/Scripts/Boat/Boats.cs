@@ -5,8 +5,7 @@ public class Boats : MonoBehaviour {
 
 	public static Boats Instance;
 
-	[SerializeField]
-	private PlayerBoatInfo playerBoatInfo;
+	public static PlayerBoatInfo PlayerBoatInfo;
 	[SerializeField]
 	private OtherBoatInfo[] otherBoatInfos;
 
@@ -41,8 +40,6 @@ public class Boats : MonoBehaviour {
 		NavigationManager.Instance.EnterNewChunk += UpdatePlayerBoatPosition;
 		NavigationManager.Instance.EnterNewChunk += UpdateEnemyBoatPosition;
 
-		playerBoat.BoatInfo = playerBoatInfo;
-
 		playerBoat.Init ();
 		otherBoat.Init ();
 
@@ -52,8 +49,8 @@ public class Boats : MonoBehaviour {
 
 	public void RandomizeBoats( ) {
 		
-		playerBoatInfo = new PlayerBoatInfo ();
-		playerBoatInfo.Randomize ();
+		PlayerBoatInfo = new PlayerBoatInfo ();
+		PlayerBoatInfo.Randomize ();
 
 		otherBoatAmount = MapGenerator.Instance.MapScale * amountMult;
 
@@ -70,7 +67,7 @@ public class Boats : MonoBehaviour {
 			
 			boat.UpdatePosition ();
 
-			if ( boat.CurrentCoords == NavigationManager.CurrentCoords ) {
+			if ( boat.CurrentCoords == Boats.PlayerBoatInfo.CurrentCoords ) {
 
 				ShowBoat (boat);
 
@@ -80,7 +77,7 @@ public class Boats : MonoBehaviour {
 	}
 
 	void UpdatePlayerBoatPosition () {
-		playerBoatInfo.UpdatePosition ();
+		PlayerBoatInfo.UpdatePosition ();
 
 	}
 
@@ -106,11 +103,11 @@ public class Boats : MonoBehaviour {
 	}
 
 	public void LoadBoats () {
-		playerBoatInfo = SaveManager.Instance.CurrentData.playerBoatInfo;
+		PlayerBoatInfo = SaveManager.Instance.CurrentData.playerBoatInfo;
 		otherBoatInfos = SaveManager.Instance.CurrentData.otherBoatInfos;
 	}
 	public void SaveBoats () {
-		SaveManager.Instance.CurrentData.playerBoatInfo = playerBoatInfo;
+		SaveManager.Instance.CurrentData.playerBoatInfo = PlayerBoatInfo;
 		SaveManager.Instance.CurrentData.otherBoatInfos = OtherBoatInfos;
 	}
 
@@ -126,12 +123,6 @@ public class Boats : MonoBehaviour {
 	public EnemyBoat OtherBoat {
 		get {
 			return otherBoat;
-		}
-	}
-
-	public PlayerBoatInfo PlayerBoatInfo {
-		get {
-			return playerBoatInfo;
 		}
 	}
 }

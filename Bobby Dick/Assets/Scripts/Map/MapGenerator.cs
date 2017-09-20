@@ -7,7 +7,7 @@ public class MapGenerator : MonoBehaviour {
 	public static MapGenerator Instance;
 
 	[SerializeField]
-	private MapImage mapImage;
+	private DisplayMap mapImage;
 
 	[SerializeField]
 	private int mapScale = 100;
@@ -21,8 +21,6 @@ public class MapGenerator : MonoBehaviour {
 	public int islandID;
 
 	private MapData mapData;
-
-	public static Dictionary<Coords,Chunk> chunks = new Dictionary<Coords, Chunk>();
 
 	void Awake () {
 		Instance = this;
@@ -40,8 +38,8 @@ public class MapGenerator : MonoBehaviour {
 
 				Coords c = new Coords (x, y);
 
-				chunks.Add (c, new Chunk ());
-				chunks [c].State = ChunkState.UndiscoveredSea;
+				Chunk.chunks.Add (c, new Chunk ());
+				Chunk.chunks[c].State = ChunkState.UndiscoveredSea;
 			}
 		}
 
@@ -63,8 +61,8 @@ public class MapGenerator : MonoBehaviour {
 
 					Coords c = new Coords ( x , y );
 
-					if (GetChunk(c).State == ChunkState.UndiscoveredSea) {
-						GetChunk(c).IslandData = new IslandData(IslandType.Normal);
+					if (Chunk.GetChunk(c).State == ChunkState.UndiscoveredSea) {
+						Chunk.GetChunk(c).IslandData = new IslandData(IslandType.Normal);
 					}
 				}
 			}
@@ -104,13 +102,13 @@ public class MapGenerator : MonoBehaviour {
 
 		MapData.Instance = SaveManager.Instance.CurrentData.mapData;
 
-		chunks = fromChunkArray(SaveManager.Instance.CurrentData.chunks);
+		Chunk.chunks = fromChunkArray(SaveManager.Instance.CurrentData.chunks);
 
 	}
 
 	public void SaveIslandsData () {
 		SaveManager.Instance.CurrentData.mapData = MapData.Instance;
-		SaveManager.Instance.CurrentData.chunks = toChunkArray(chunks);
+		SaveManager.Instance.CurrentData.chunks = toChunkArray(Chunk.chunks);
 	}
 
 	public Chunk[][] toChunkArray ( Dictionary<Coords,Chunk> chunkDico ) {
@@ -153,22 +151,5 @@ public class MapGenerator : MonoBehaviour {
 		get {
 			return mapScale;
 		}
-	}
-
-	public Chunk CurrentChunk {
-		get {
-			return chunks [NavigationManager.CurrentCoords];
-		}
-	}
-
-
-	public Chunk GetChunk (Coords c) {
-		if (chunks.ContainsKey (c) == false) {
-
-			Debug.LogError ("LES COORDONNEES " + c.ToString() + " ne sont pas dans le dico");
-
-			return chunks [new Coords ()];
-		}
-		return chunks [c];
 	}
 }

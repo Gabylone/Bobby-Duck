@@ -11,35 +11,52 @@ public class DisplayHexes : MonoBehaviour {
 
 	float hexHeight;
 
-	float hexDecal = 148.7f;
+	float hexDecal = 432f;
 
 	// Use this for initialization
 	void Start () {
 
 		hexHeight = hexPrefab.GetComponent<Image> ().rectTransform.rect.height;
 
-		bool down = false;
+		for (int x = -scale; x < scale; x++) {
+			
+			for (int y = -scale; y < scale; y++) {
 
-		for (int x = 0; x < scale; x++) {
-			for (int y = 0; y < scale; y++) {
+				PlaceHex (new Coords (x, y));
 
-				// INST
-				GameObject hexObj = Instantiate (hexPrefab, transform);
 
-				// SCALE
-				hexObj.transform.localScale = Vector3.one;
+			}
 
-				// POS
-				Vector3 pos;
-
-				float yPos = down ? (hexHeight/2f) : 0f;
-
-				pos = new Vector3 ( x * hexDecal , yPos * y, 0f);
-
-				hexObj.transform.position = pos;
-
-			}	
 		}
+	}
+
+	public void PlaceHex(Coords c) {
+		
+		// INST
+		GameObject hexObj = Instantiate (hexPrefab, transform);
+
+		// SCALE
+		hexObj.transform.localScale = Vector3.one;
+
+		// POS
+		Vector3 pos;
+
+		float yPos = hexHeight * c.y;
+		if (c.x < 0) {
+			if (-c.x % -2 == 1)
+				yPos += hexHeight / 2f;
+		} else {
+			if (c.x % 2 == 1)
+				yPos += hexHeight / 2f;
+		}
+
+		pos = new Vector3 ( c.x * hexDecal ,yPos , 0f);
+
+		hexObj.transform.localPosition = pos;
+
+		hexObj.GetComponentInChildren<Text> ().text = "" +
+			"X : " + c.x + "\n" +
+			"Y : " + c.y;
 	}
 	
 	// Update is called once per frame

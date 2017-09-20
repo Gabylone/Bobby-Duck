@@ -3,7 +3,7 @@ using System.Collections;
 
 [System.Serializable]
 public class PlayerBoatInfo : BoatInfo {
-
+	
 	private int shipRange = 1;
 
 	public bool isInNoMansSea = false;
@@ -14,7 +14,6 @@ public class PlayerBoatInfo : BoatInfo {
 		base.Randomize ();
 
 		CurrentCoords = MapData.Instance.homeIslandCoords;
-//		CurrentCoords = MapData.Instance.treasureIslandCoords;
 	}
 
 	public override void UpdatePosition ()
@@ -26,6 +25,7 @@ public class PlayerBoatInfo : BoatInfo {
 	}
 
 	public void CheckForNoMansSea () {
+		
 		bool isInNoMansSea =
 			CurrentCoords.y > (MapGenerator.Instance.MapScale / 2) - (MapGenerator.Instance.NoManSeaScale/2)
 			&& CurrentCoords.y < (MapGenerator.Instance.MapScale / 2) + (MapGenerator.Instance.NoManSeaScale/2);
@@ -57,7 +57,7 @@ public class PlayerBoatInfo : BoatInfo {
 			if (TimeManager.Instance.IsNight)
 				range--;
 
-			return Mathf.Clamp (range,0,10);
+			return Mathf.Clamp (range,1,10);
 
 		}
 		set {

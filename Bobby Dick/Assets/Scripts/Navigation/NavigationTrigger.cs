@@ -7,7 +7,7 @@ public class NavigationTrigger : MonoBehaviour {
 
 	public GameObject arrowGroup;
 
-	public int texID = 0;
+	public Directions direction;
 
 	bool targeted = false;
 
@@ -32,7 +32,7 @@ public class NavigationTrigger : MonoBehaviour {
 
 	void HandleOnSwipe (Directions direction)
 	{
-		if ( direction == (Directions)texID ) {
+		if ( direction == this.direction ) {
 
 			NavigationManager.Instance.FlagControl.UpdatingPosition = false;
 			NavigationManager.Instance.FlagControl.FlagImage.transform.position = arrowGroup.transform.position;
@@ -44,7 +44,7 @@ public class NavigationTrigger : MonoBehaviour {
 
 	void OnTriggerStay2D ( Collider2D other ) {
 		if (other.tag == "Player" && targeted ) {
-			NavigationManager.Instance.ChangeChunk ((Directions)texID);
+			NavigationManager.Instance.ChangeChunk (direction);
 			Targeted = false;
 		}
 	}
@@ -83,7 +83,7 @@ public class NavigationTrigger : MonoBehaviour {
 			if (value == false) {
 				arrowGroup.SetActive (false);
 			}
-			NavigationManager.Instance.FlagControl.FlagImage.sprite = targeted ? NavigationManager.Instance.arrowSprites [texID] : NavigationManager.Instance.flagSprite;
+			NavigationManager.Instance.FlagControl.FlagImage.sprite = targeted ? NavigationManager.Instance.arrowSprites [(int)direction] : NavigationManager.Instance.flagSprite;
 
 		}
 	}

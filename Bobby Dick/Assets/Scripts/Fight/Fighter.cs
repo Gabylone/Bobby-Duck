@@ -210,7 +210,7 @@ public class Fighter : MonoBehaviour {
 
 		CrewMember = crewMember;
 
-		fightSprites.UpdateOrder (Crews.getCrew(crewMember.Side).CrewMembers.Count-id);
+		fightSprites.UpdateOrder (Crews.getCrew(crewMember.side).CrewMembers.Count-id);
 		fightSprites.UpdateSprites (CrewMember.MemberID);
 
 		infoButton.SetActive (true);
@@ -469,7 +469,7 @@ public class Fighter : MonoBehaviour {
 	}
 	public void GetHit (Fighter otherFighter) {
 
-		float dam = otherFighter.CrewMember.CurrentAttack;
+		float dam = otherFighter.CrewMember.currentAttack;
 
 		if ( DiceManager.Instance.HighestResult == 6 ) {
 			SoundManager.Instance.PlaySound (hurtSound);

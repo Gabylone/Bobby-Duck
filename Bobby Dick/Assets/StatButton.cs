@@ -17,7 +17,7 @@ public class StatButton : MonoBehaviour {
 		button = GetComponent<Button> ();
 		text = GetComponentInChildren<Text> ();
 
-		PlayerLoot.Instance.openInventory += HandleOnCardUpdate;
+		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
 
 		StatButton.onClickStatButton += HandleOnClickStatButton;
 
@@ -27,7 +27,7 @@ public class StatButton : MonoBehaviour {
 
 	void HandleOnClickStatButton ()
 	{
-		Display (PlayerLoot.Instance.SelectedMember);
+		Display (CrewMember.selectedMember);
 	}
 
 	void Disable ()
@@ -61,7 +61,7 @@ public class StatButton : MonoBehaviour {
 		
 		Tween.Bounce (transform);
 
-		PlayerLoot.Instance.SelectedMember.HandleOnLevelUpStat (stat);
+		CrewMember.selectedMember.HandleOnLevelUpStat (stat);
 
 		if (onClickStatButton!=null)
 			onClickStatButton ();

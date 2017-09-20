@@ -23,9 +23,6 @@ public class FlagControl : MonoBehaviour {
 	[SerializeField]
 	private Vector2 decalToIsland = Vector2.zero;
 
-	[SerializeField]
-	private Island island;
-
 	public bool updatingPosition = false;
 
 	private bool targetedIsland = false;
@@ -35,6 +32,15 @@ public class FlagControl : MonoBehaviour {
 		flagRect = flagImage.GetComponent<RectTransform> ();
 		NavigationManager.Instance.EnterNewChunk += ResetFlag;
 
+		Island.onTouchIsland += HandleOnTouchIsland;
+
+	}
+
+	void HandleOnTouchIsland ()
+	{
+		TargetedIsland = true;
+
+		PlaceFlagOnScreen ();
 	}
 	
 	// Update is called once per frame
@@ -106,23 +112,7 @@ public class FlagControl : MonoBehaviour {
 	#endregion
 
 	#region island events
-	public void Pointer_EnterIsland () {
-//		if (UpdatingPosition) {
-//			Pointer_ClickIsland ();
-//		}
-	}
-	public void Pointer_ExitIsland () {
-			
-	}
-	public void Pointer_ClickIsland () {
 
-		Tween.Bounce (Island.Instance.getTransform );
-
-		TargetedIsland = true;
-
-		PlaceFlagOnScreen ();
-
-	}
 	#endregion
 
 	public void OnPointerDown () {

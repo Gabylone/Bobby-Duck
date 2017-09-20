@@ -66,8 +66,6 @@ public class StoryLauncher : MonoBehaviour {
 		// place captain
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 
-		MapImage.Instance.Close ();
-
 		StoryReader.Instance.Reset ();
 		StoryReader.Instance.UpdateStory ();
 
@@ -98,7 +96,7 @@ public class StoryLauncher : MonoBehaviour {
 			// kek
 			break;
 		case StorySource.island:
-			MapGenerator.Instance.CurrentChunk.State = ChunkState.VisitedIsland;
+			Chunk.currentChunk.State = ChunkState.VisitedIsland;
 			break;
 		case StorySource.boat:
 			Boats.Instance.OtherBoat.Leave ();

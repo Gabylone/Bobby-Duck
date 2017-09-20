@@ -62,17 +62,16 @@ public class CrewIcon : MonoBehaviour {
 			return;
 		}
 
-		if (member.Side == Crews.Side.Enemy)
+		if (member.side == Crews.Side.Enemy)
 			return;
 
-		if (PlayerLoot.Instance.Opened && PlayerLoot.Instance.SelectedMember == member) {
+		if (CrewInventory.Instance.Opened && CrewMember.selectedMember == member) {
 
-			if ( OtherLoot.Instance.trading || OtherLoot.Instance.looting ) {
+			if ( OtherInventory.Instance.type != OtherInventory.Type.None ) {
 				return;
-
 			}
 
-			PlayerLoot.Instance.HideInventory ();
+			CrewInventory.Instance.HideInventory ();
 
 			Down ();
 
@@ -80,21 +79,27 @@ public class CrewIcon : MonoBehaviour {
 
 		} else {
 
-			if ( !PlayerLoot.Instance.canOpen ) {
+			if ( !CrewInventory.Instance.canOpen ) {
 				print ("cannot open player loot");
 				return;
 			}
 
 			if (StoryLauncher.Instance.PlayingStory) {
-				if (OtherLoot.Instance.trading) {
-					PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerTrade, member);
-				} else if (OtherLoot.Instance.looting) {
-					PlayerLoot.Instance.ShowInventory (CategoryContentType.PlayerLoot, member);
-				} else {
-					PlayerLoot.Instance.ShowInventory (CategoryContentType.Inventory , member);
+				
+				switch (OtherInventory.Instance.type) {
+				case OtherInventory.Type.None:
+					CrewInventory.Instance.ShowInventory (CategoryContentType.Inventory , member);
+					break;
+				case OtherInventory.Type.Loot:
+					CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerLoot, member);
+					break;
+				case OtherInventory.Type.Trade:
+					CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerTrade, member);
+					break;
 				}
+
 			} else {
-				PlayerLoot.Instance.ShowInventory (CategoryContentType.Inventory , member);
+				CrewInventory.Instance.ShowInventory (CategoryContentType.Inventory , member);
 			}
 
 			showCard = false;
@@ -140,7 +145,7 @@ public class CrewIcon : MonoBehaviour {
 			decal = member.GetIndex * placementDecal;
 		}
 
-		Vector3 targetPos = Crews.getCrew(member.Side).CrewAnchors [(int)targetPlacingType].position + Crews.playerCrew.CrewAnchors [(int)targetPlacingType].up * decal;
+		Vector3 targetPos = Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].position + Crews.playerCrew.CrewAnchors [(int)targetPlacingType].up * decal;
 
 		HOTween.To ( GetTransform , moveDuration , "position" , targetPos , false , EaseType.Linear , 0f );
 	}
@@ -183,7 +188,7 @@ public class CrewIcon : MonoBehaviour {
 		}
 		set {
 
-			if (member.Side == Crews.Side.Enemy && value)
+			if (member.side == Crews.Side.Enemy && value)
 				return;
 
 			overable = value;

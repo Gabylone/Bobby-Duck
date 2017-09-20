@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Holoville.HOTween;
 
-public class MapImage : MonoBehaviour {
+public class DisplayMap : MonoBehaviour {
 
-	public static MapImage Instance;
+	public static DisplayMap Instance;
 
 	[Header("General")]
 	[SerializeField]
@@ -64,20 +64,21 @@ public class MapImage : MonoBehaviour {
 		Instance = this;
 	}
 
-	void Update () {
-		if (timer >= 0) {
-			timer -= Time.deltaTime;
-		}
-	}
-	#region initialization
-	public void Init () {
+	void Start () {
 		NavigationManager.Instance.EnterNewChunk += UpdateBoatSurroundings;
-		PlayerLoot.Instance.openInventory += HandleOpenInventory;;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;;
 		CombatManager.Instance.fightStarting += HideButton;
 		CombatManager.Instance.fightEnding += ShowButton;
 		StoryInput.onPressInput += HandleOnPressInput;
 	}
 
+	void Update () {
+		if (timer >= 0) {
+			timer -= Time.deltaTime;
+		}
+	}
+
+	#region initialization
 	void HandleOnPressInput ()
 	{
 		Close ();
@@ -88,13 +89,8 @@ public class MapImage : MonoBehaviour {
 		Close ();
 	}
 
-	public void Reset ()
-	{
+	void InitImage () {
 		
-	}
-
-	public void InitImage () {
-
 		islandButtons.Clear ();
 
 		islandButtonFactor = targetImage.GetComponent<RectTransform>().rect.width / (float)MapGenerator.Instance.MapScale;
@@ -109,7 +105,7 @@ public class MapImage : MonoBehaviour {
 
 				Coords c = new Coords (x, y);
 
-				Chunk chunk = MapGenerator.Instance.GetChunk(c);
+				Chunk chunk = Chunk.GetChunk(c);
 
 				SetPixel (texture,c, revealMap ? getChunkColor_Reveal (chunk) : getChunkColor (chunk));
 
@@ -128,8 +124,6 @@ public class MapImage : MonoBehaviour {
 		UpdateTexture (texture);
 
 		OverallMapOpened = false;
-
-		UpdateBoatSurroundings ();
 	}
 	#endregion
 
@@ -160,27 +154,27 @@ public class MapImage : MonoBehaviour {
 	#endregion
 
 	#region update boat surroundings
-	public void UpdateBoatSurroundings () {
+	void UpdateBoatSurroundings () {
 
 		Texture2D texture = (Texture2D)targetImage.mainTexture;
 
-		int shipRange = Boats.Instance.PlayerBoatInfo.ShipRange;
+		int shipRange = Boats.PlayerBoatInfo.ShipRange;
 
 		int mapScale = MapGenerator.Instance.MapScale;
 
-		Chunk previousChunk = MapGenerator.Instance.GetChunk(Boats.Instance.PlayerBoatInfo.PreviousCoords);
+		Chunk previousChunk = Chunk.GetChunk(Boats.PlayerBoatInfo.PreviousCoords);
 		SetPixel (texture,NavigationManager.PreviousCoords, getChunkColor (previousChunk));
 
 		for (int x = -shipRange; x <= shipRange; ++x ) {
 
 			for (int y = -shipRange; y <= shipRange; ++y ) {
 
-				Coords c = NavigationManager.CurrentCoords + new Coords (x, y);
+				Coords c = Boats.PlayerBoatInfo.CurrentCoords + new Coords (x, y);
 
 				if ( c.x < mapScale && c.x >= 0 &&
 					c.y < mapScale && c.y >= 0) {
 
-					Chunk chunk = MapGenerator.Instance.GetChunk(c);
+					Chunk chunk = Chunk.GetChunk(c);
 
 					Color color = Color.red;
 
@@ -205,7 +199,7 @@ public class MapImage : MonoBehaviour {
 
 		}
 
-		SetPixel (texture,NavigationManager.CurrentCoords, Color.red);
+		SetPixel (texture,Boats.PlayerBoatInfo.CurrentCoords, Color.red);
 
 		UpdateTexture (texture);
 
@@ -213,81 +207,27 @@ public class MapImage : MonoBehaviour {
 
 	}
 
-	public void CheckForBoats ()
+	void CheckForBoats ()
 	{
 		return;
 
 		Texture2D texture = (Texture2D)targetImage.mainTexture;
 
 		foreach ( OtherBoatInfo boatInfo in Boats.Instance.OtherBoatInfos ) {
-			if ( boatInfo.CurrentCoords <= NavigationManager.CurrentCoords + Boats.Instance.PlayerBoatInfo.ShipRange
-				&& boatInfo.CurrentCoords >= NavigationManager.CurrentCoords - Boats.Instance.PlayerBoatInfo.ShipRange ) {
+			if ( boatInfo.CurrentCoords <= Boats.PlayerBoatInfo.CurrentCoords + Boats.PlayerBoatInfo.ShipRange
+				&& boatInfo.CurrentCoords >= Boats.PlayerBoatInfo.CurrentCoords - Boats.PlayerBoatInfo.ShipRange ) {
 				SetPixel (texture,boatInfo.CurrentCoords, Color.green);
 			} else {
-				SetPixel (texture,boatInfo.PreviousCoords, getChunkColor(MapGenerator.Instance.GetChunk(boatInfo.PreviousCoords) ));
-				SetPixel (texture,boatInfo.CurrentCoords, getChunkColor(MapGenerator.Instance.GetChunk(boatInfo.CurrentCoords) ));
+				SetPixel (texture,boatInfo.PreviousCoords, getChunkColor(Chunk.GetChunk(boatInfo.PreviousCoords) ));
+				SetPixel (texture,boatInfo.CurrentCoords, getChunkColor(Chunk.GetChunk(boatInfo.CurrentCoords) ));
 			}
 		}
 
 		UpdateTexture (texture);
 	}
-
-	public void UpdatePixel ( Coords coords , Color color )
-	{
-		Texture2D texture = (Texture2D)targetImage.mainTexture;
-
-		SetPixel (texture,coords.x,coords.y, color);
-
-		UpdateTexture (texture);
-	}
-
-	private Color getChunkColor_Reveal (Chunk chunk) {
-
-		switch (chunk.State) {
-		case ChunkState.UndiscoveredSea:
-			return discoveredSea_Color;
-			break;
-		case ChunkState.DiscoveredSea:
-			return discoveredSea_Color;
-			break;
-		case ChunkState.UndiscoveredIsland:
-			return discoveredIsland_Color;
-			break;
-		case ChunkState.DiscoveredIsland:
-			return discoveredIsland_Color;
-			break;
-		case ChunkState.VisitedIsland:
-			return visitedIsland_Color;
-			break;
-		default:
-			return Color.black;
-			break;
-		}
-	}
-	private Color getChunkColor (Chunk chunk) {
-
-		switch (chunk.State) {
-		case ChunkState.UndiscoveredSea:
-			return undiscoveredSea_Color;
-			break;
-		case ChunkState.DiscoveredSea:
-			return discoveredSea_Color;
-			break;
-		case ChunkState.UndiscoveredIsland:
-			return undiscoveredSea_Color;
-			break;
-		case ChunkState.DiscoveredIsland:
-			return discoveredIsland_Color;
-			break;
-		case ChunkState.VisitedIsland:
-			return visitedIsland_Color;
-			break;
-		default:
-			return Color.black;
-			break;
-		}
-	}
 	#endregion
+
+
 
 	#region image
 	private void SetPixel (Texture2D text, int x,int y,Color c) {
@@ -296,11 +236,11 @@ public class MapImage : MonoBehaviour {
 	}
 	private void SetPixel (Coords coords) {
 		Texture2D texture = (Texture2D)targetImage.mainTexture;
-		SetPixel (texture, coords, getChunkColor (MapGenerator.Instance.GetChunk(coords) ));
+		SetPixel (texture, coords, getChunkColor (Chunk.GetChunk(coords) ));
 		UpdateTexture (texture);
 	}
 	private void SetPixel (Texture2D text, Coords coords) {
-		SetPixel (text, coords, getChunkColor (MapGenerator.Instance.GetChunk(coords)));
+		SetPixel (text, coords, getChunkColor (Chunk.GetChunk(coords)));
 	}
 	private void SetPixel (Texture2D text, Coords coords,Color color) {
 		for (int iX = 0; iX < pixelFactor; iX++) {
@@ -321,7 +261,7 @@ public class MapImage : MonoBehaviour {
 		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, MapGenerator.Instance.MapScale,  MapGenerator.Instance.MapScale) , Vector2.one * 0.5f );
 	}
 	public void CenterOnBoat () {
-		CenterOnCoords (NavigationManager.CurrentCoords);
+		CenterOnCoords (Boats.PlayerBoatInfo.CurrentCoords);
 	}
 
 	public void CenterOnCoords (Coords coords) {
@@ -366,7 +306,7 @@ public class MapImage : MonoBehaviour {
 
 		Tween.Bounce ( mapGroup.transform , 0.2f , 1.05f );
 
-		PlayerLoot.Instance.HideInventory ();
+		CrewInventory.Instance.HideInventory ();
 
 		CenterOnBoat ();
 	}
@@ -455,8 +395,6 @@ public class MapImage : MonoBehaviour {
 		}
 	}
 	public void TouchMap () {
-		//}
-
 		timer = 0.2f;
 	}
 	public void Grow () {
@@ -474,6 +412,55 @@ public class MapImage : MonoBehaviour {
 
 		}
 
+	}
+	#endregion
+
+	#region colors
+	private Color getChunkColor_Reveal (Chunk chunk) {
+
+		switch (chunk.State) {
+		case ChunkState.UndiscoveredSea:
+			return discoveredSea_Color;
+			break;
+		case ChunkState.DiscoveredSea:
+			return discoveredSea_Color;
+			break;
+		case ChunkState.UndiscoveredIsland:
+			return discoveredIsland_Color;
+			break;
+		case ChunkState.DiscoveredIsland:
+			return discoveredIsland_Color;
+			break;
+		case ChunkState.VisitedIsland:
+			return visitedIsland_Color;
+			break;
+		default:
+			return Color.black;
+			break;
+		}
+	}
+	private Color getChunkColor (Chunk chunk) {
+
+		switch (chunk.State) {
+		case ChunkState.UndiscoveredSea:
+			return undiscoveredSea_Color;
+			break;
+		case ChunkState.DiscoveredSea:
+			return discoveredSea_Color;
+			break;
+		case ChunkState.UndiscoveredIsland:
+			return undiscoveredSea_Color;
+			break;
+		case ChunkState.DiscoveredIsland:
+			return discoveredIsland_Color;
+			break;
+		case ChunkState.VisitedIsland:
+			return visitedIsland_Color;
+			break;
+		default:
+			return Color.black;
+			break;
+		}
 	}
 	#endregion
 }

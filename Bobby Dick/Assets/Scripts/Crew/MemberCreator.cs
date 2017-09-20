@@ -48,7 +48,7 @@ public class MemberCreator : MonoBehaviour {
 
 		int ID = Random.Range ( 0, boatNames.Length );
 
-		Boats.Instance.PlayerBoatInfo.Name = captainNames[ID];
+		Boats.PlayerBoatInfo.Name = captainNames[ID];
 		boatName.text = captainNames[ID];
 
 		Crews.playerCrew.captain.MemberID.Name = boatNames [ID];
@@ -59,7 +59,7 @@ public class MemberCreator : MonoBehaviour {
 
 		overall.SetActive (false);
 
-		StoryLauncher.Instance.PlayStory (MapGenerator.Instance.CurrentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
+		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 	}
 
@@ -176,7 +176,7 @@ public class MemberCreator : MonoBehaviour {
 
 		Tween.Bounce ( boatName.transform );
 
-		Boats.Instance.PlayerBoatInfo.Name = boatName.text;
+		Boats.PlayerBoatInfo.Name = boatName.text;
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 	}
 

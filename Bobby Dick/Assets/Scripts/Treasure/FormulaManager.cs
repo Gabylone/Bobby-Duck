@@ -57,7 +57,7 @@ public class FormulaManager : MonoBehaviour {
 			newFormula.coords = MapGenerator.Instance.RandomCoords;
 
 
-			MapGenerator.Instance.GetChunk (newFormula.coords).IslandData = new IslandData (IslandType.Clue);
+			Chunk.GetChunk (newFormula.coords).IslandData = new IslandData (IslandType.Clue);
 
 			formulas [i] = newFormula;
 
@@ -127,7 +127,7 @@ public class FormulaManager : MonoBehaviour {
 
 	public string getFormula () {
 
-		Formula formula = System.Array.Find(formulas,x=>x.coords == NavigationManager.CurrentCoords);
+		Formula formula = System.Array.Find(formulas,x=>x.coords == Boats.PlayerBoatInfo.CurrentCoords);
 
 		formula.found = true;
 

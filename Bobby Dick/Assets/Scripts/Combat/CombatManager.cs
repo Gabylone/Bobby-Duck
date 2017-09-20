@@ -125,7 +125,7 @@ public class CombatManager : MonoBehaviour {
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
-		PlayerLoot.Instance.LootUI.useInventory += HandleUseInventory;
+		LootUI.useInventory += HandleUseInventory;
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -215,7 +215,7 @@ public class CombatManager : MonoBehaviour {
 				return;
 			}
 
-			States state = currentMember.Side == Crews.Side.Player ? States.PlayerAction : States.EnemyAction;
+			States state = currentMember.side == Crews.Side.Player ? States.PlayerAction : States.EnemyAction;
 //			States state = currentMember.Side == Crews.Side.Player ? States.PlayerMemberChoice : States.EnemyMemberChoice;
 			ChangeState (state);
 		}
@@ -380,7 +380,7 @@ public class CombatManager : MonoBehaviour {
 	}
 	public void ChoosingEnemyTarget ( bool b ) {
 		foreach ( Fighter fighter in fighters ) {
-			if (fighter.CrewMember.Side == Crews.Side.Enemy) {
+			if (fighter.CrewMember.side == Crews.Side.Enemy) {
 				
 				fighter.ChooseButton.SetActive (b);
 				fighter.CrewMember.Icon.Overable = b;
@@ -478,7 +478,7 @@ public class CombatManager : MonoBehaviour {
 			currentAttack = Mathf.RoundToInt (currentMember.Attack * 1.75f);
 		}
 
-		currentMember.CurrentAttack = currentAttack;
+		currentMember.currentAttack = currentAttack;
 		currentFighter.ChangeState (Fighter.states.hit);
 	}
 	#endregion
@@ -574,13 +574,13 @@ public class CombatManager : MonoBehaviour {
 	#region eating
 	private void Eating_Start () {
 		eatingMenuButton.SetActive (true);
-		PlayerLoot.Instance.SelectedMember = currentFighter.CrewMember;
-		PlayerLoot.Instance.LootUI.Show (CategoryContentType.Combat);
+		CrewMember.setSelectedMember(currentFighter.CrewMember);
+		LootUI.Instance.Show (CategoryContentType.Combat);
 	}
 	private void Eating_Update () {
 	}
 	private void Eating_Exit () {
-		PlayerLoot.Instance.LootUI.Hide ();
+		LootUI.Instance.Hide ();
 		eatingMenuButton.SetActive (false);
 	}
 	void HandleUseInventory (InventoryActionType actionType)
@@ -626,7 +626,7 @@ public class CombatManager : MonoBehaviour {
 	}
 
 	void ShowLoot () {
-		OtherLoot.Instance.StartLooting ();
+		OtherInventory.Instance.StartLooting ();
 	}
 
 	public void Escape () {
@@ -672,7 +672,7 @@ public class CombatManager : MonoBehaviour {
 	}
 	public void DeleteFighter (Fighter fighter) {
 		fighters.Remove (fighter);
-		if ( fighter.CrewMember.Side == Crews.Side.Player)
+		if ( fighter.CrewMember.side == Crews.Side.Player)
 			currPlayerFighters.Remove (fighter);
 		else
 			currEnemyFighters.Remove (fighter);

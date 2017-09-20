@@ -16,7 +16,7 @@ public class DisplayLevel : MonoBehaviour {
 
 		LootManager.Instance.onWrongLevelEvent += HandleOnWrongLevelEvent;
 
-		PlayerLoot.Instance.openInventory += HandleOnCardUpdate;
+		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
 	}
 
 	#region level icons
@@ -29,7 +29,7 @@ public class DisplayLevel : MonoBehaviour {
 			text.text += "<b>("+crewMember.StatPoints+")</b>";
 		}
 
-		fillImage.fillAmount = ((float)crewMember.CurrentXp / (float)crewMember.XpToLevelUp);
+		fillImage.fillAmount = ((float)crewMember.CurrentXp / (float)crewMember.xpToLevelUp);
 	}
 	void BounceLevel () {
 		Tween.Bounce (fillImage.transform);

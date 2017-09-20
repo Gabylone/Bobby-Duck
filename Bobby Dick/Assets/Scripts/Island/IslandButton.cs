@@ -24,12 +24,12 @@ public class IslandButton : MonoBehaviour {
 	public void OnClick() {
 
 		string name = "";
-		if (MapGenerator.Instance.GetChunk(coords).State == ChunkState.VisitedIsland)
-			name = MapGenerator.Instance.GetChunk(coords).IslandData.storyManager.storyHandlers [0].Story.name;
+		if (Chunk.GetChunk(coords).State == ChunkState.VisitedIsland)
+			name = Chunk.GetChunk(coords).IslandData.storyManager.storyHandlers [0].Story.name;
 		else
 			name = "Ile inconnue";
 
-		MapImage.Instance.showIslandInfo (name,(Vector2)transform.localPosition);
+		DisplayMap.Instance.showIslandInfo (name,(Vector2)transform.localPosition);
 	}
 
 	public bool Visible {

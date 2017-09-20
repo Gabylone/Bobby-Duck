@@ -40,7 +40,7 @@ public class CrewManager : MonoBehaviour {
 	void AddToStates ()
 	{
 		for (int i = 0; i < CrewMembers.Count; i++) {
-			CrewMembers [i].AddToStates ();
+			CrewMembers [i].UpdateHunger ();
 		}
 	}
 

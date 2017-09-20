@@ -14,8 +14,8 @@ public class DisplayHeart : MonoBehaviour {
 		fillImage = GetComponent<Image> ();
 		text = GetComponentInChildren<Text> ();
 
-		PlayerLoot.Instance.openInventory += HandleOnCardUpdate;
-		PlayerLoot.Instance.LootUI.useInventory += HandleUseInventory;
+		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
+		LootUI.useInventory += HandleUseInventory;
 
 	}
 

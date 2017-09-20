@@ -136,7 +136,7 @@ public class NavigationManager : MonoBehaviour {
 	}
 	public Directions getDirectionToPoint ( Vector2 point ) {
 
-		Vector2 direction = point - (Vector2)NavigationManager.CurrentCoords;
+		Vector2 direction = point - (Vector2)Boats.PlayerBoatInfo.CurrentCoords;
 
 		for (int i = 0; i < 8; ++i ) {
 			if ( Vector2.Angle ( direction , NavigationManager.Instance.getDir((Directions)i) ) < 45f ) {
@@ -313,12 +313,13 @@ public class NavigationManager : MonoBehaviour {
 
 	public static Coords CurrentCoords {
 		get {
-			return Boats.Instance.PlayerBoatInfo.CurrentCoords;
+			return Boats.PlayerBoatInfo.CurrentCoords;
 		}
 	}
+
 	public static Coords PreviousCoords {
 		get {
-			return Boats.Instance.PlayerBoatInfo.PreviousCoords;
+			return Boats.PlayerBoatInfo.PreviousCoords;
 		}
 	}
 

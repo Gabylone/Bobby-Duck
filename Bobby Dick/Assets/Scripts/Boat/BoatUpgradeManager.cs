@@ -66,7 +66,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 			upgradeLevels [i] = 1;
 		}
 
-		PlayerLoot.Instance.closeInventory += CloseUpgradeMenu;
+		CrewInventory.Instance.closeInventory += CloseUpgradeMenu;
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
@@ -85,9 +85,9 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		UpdateInfo ();
 
-		nameTextUI.text = Boats.Instance.PlayerBoatInfo.Name;
+		nameTextUI.text = Boats.PlayerBoatInfo.Name;
 
-		PlayerLoot.Instance.CloseLoot ();
+		CrewInventory.Instance.CloseLoot ();
 
 		Tween.Bounce (menuObj.transform, 0.2f, 1.05f);
 		Tween.ClearFade (menuObj.transform);
@@ -117,7 +117,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 			WeightManager.Instance.CurrentCapacity += 50;
 			break;
 		case UpgradeType.Longview:
-			Boats.Instance.PlayerBoatInfo.ShipRange++;
+			Boats.PlayerBoatInfo.ShipRange++;
 			break;
 		}
 

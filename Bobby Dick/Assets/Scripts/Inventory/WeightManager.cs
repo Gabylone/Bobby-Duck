@@ -36,16 +36,13 @@ public class WeightManager : MonoBehaviour {
 
 	public void Init () {
 //
-		PlayerLoot.Instance.openInventory += HandleOpenInventory;;
-		PlayerLoot.Instance.closeInventory += Hide;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;;
+		CrewInventory.Instance.closeInventory += Hide;
 
-		PlayerLoot.Instance.LootUI.useInventory += UpdateDisplay;
+		LootUI.useInventory += UpdateDisplay;
 
 		LootManager.Instance.updateLoot += UpdateDisplay;
-//
-//		CombatManager.Instance.fightStarting += Hide;
-//		CombatManager.Instance.fightEnding += Show;
-//
+
 		Hide();
 
 		UpdateDisplay ();
@@ -77,7 +74,6 @@ public class WeightManager : MonoBehaviour {
 		DisplayFeedback ();
 
 		if ( CurrentWeight + amount > currentCapacity ) {
-
 
 			SoundManager.Instance.PlaySound ( noRoomSound );
 

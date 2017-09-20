@@ -12,9 +12,9 @@ public class UiIcon : MonoBehaviour {
 		
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
-		PlayerLoot.Instance.closeInventory += HandleCloseInventory;
+		CrewInventory.Instance.closeInventory += HandleCloseInventory;
 
-		PlayerLoot.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
 
 		UpdateUI ();
 

@@ -1,4 +1,8 @@
-﻿public enum ChunkState {
+﻿
+using System.Collections;
+using System.Collections.Generic;
+
+public enum ChunkState {
 	//
 	UndiscoveredSea,
 	DiscoveredSea,
@@ -10,6 +14,8 @@
 
 public class Chunk
 {
+	public static Dictionary<Coords,Chunk> chunks = new Dictionary<Coords, Chunk>();
+
 	public int stateID;
 	private IslandData islandData;
 
@@ -34,6 +40,20 @@ public class Chunk
 		set {
 			stateID = (int)value;
 		}
+	}
+
+	public static Chunk currentChunk {
+		get {
+			return chunks[Boats.PlayerBoatInfo.CurrentCoords];
+		}
+	}
+
+	public static Chunk GetChunk (Coords c) {
+		if (chunks.ContainsKey (c) == false) {
+			return chunks [new Coords ()];
+		}
+
+		return chunks [c];
 	}
 }
 

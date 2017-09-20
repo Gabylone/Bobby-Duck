@@ -22,7 +22,7 @@ public class MenuManager : MonoBehaviour {
 	bool quit_Confirmed = false;
 
 	void Start () {
-		PlayerLoot.Instance.openInventory += HandleOpenInventory;;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;;
 	}
 
 	void HandleOpenInventory (CrewMember member)
@@ -34,7 +34,7 @@ public class MenuManager : MonoBehaviour {
 
 		menuGroup.SetActive (true);
 
-		PlayerLoot.Instance.HideInventory ();
+		CrewInventory.Instance.HideInventory ();
 
 		Tween.Bounce (menuGroup.transform , 0.2f , 1.1f);
 	}

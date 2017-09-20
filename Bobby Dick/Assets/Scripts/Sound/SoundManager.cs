@@ -45,8 +45,7 @@ public class SoundManager : MonoBehaviour {
 		
 		EnableSound = true;
 
-		PlayerLoot.Instance.LootUI.useInventory += HandleUsePlayerInventory;
-		OtherLoot.Instance.LootUi.useInventory += HandleUseEnemyInventory;
+		LootUI.useInventory += HandleUsePlayerInventory;
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
 		UpdateAmbiance ();
@@ -88,19 +87,14 @@ public class SoundManager : MonoBehaviour {
 		case InventoryActionType.Sell:
 			PlaySound (sellSound);
 			break;
+		case InventoryActionType.Buy:
+			PlaySound (lootSound);
+			break;
+		case InventoryActionType.PickUp:
+			PlaySound (lootSound);
+			break;
 		default:
 			throw new System.ArgumentOutOfRangeException ();
-		}
-	}
-	void HandleUseEnemyInventory (InventoryActionType actionType)
-	{
-		switch (actionType) {
-		case InventoryActionType.PickUp:
-			PlaySound (equipSound);
-			break;
-		case InventoryActionType.Buy:
-			PlaySound (sellSound);
-			break;
 		}
 	}
 	#endregion

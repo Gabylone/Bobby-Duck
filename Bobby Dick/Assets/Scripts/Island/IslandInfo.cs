@@ -14,8 +14,10 @@ public class IslandInfo : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
 		Visible = false;
-		MapImage.Instance.showIslandInfo += ShowIslandInfo;
+
+		//DisplayMap.Instance.showIslandInfo += ShowIslandInfo;
 	}
 	
 	public void ShowIslandInfo ( string info , Vector2 p ) {

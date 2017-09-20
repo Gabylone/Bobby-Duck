@@ -8,8 +8,8 @@ public class DisplayCrew : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		PlayerLoot.Instance.openInventory += HandleOpenInventory;
-		PlayerLoot.Instance.closeInventory += HandleCloseInventory;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.closeInventory += HandleCloseInventory;
 
 		HandleCloseInventory ();
 	}

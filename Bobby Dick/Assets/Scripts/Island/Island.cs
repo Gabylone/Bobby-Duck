@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Linq;
 
 public class Island : MonoBehaviour {
 
 	public static Island Instance;
 
-	public Transform getTransform;
+	public static Sprite[] sprites;
 
-	[SerializeField]
 	private Image image;
 
 	[SerializeField]
@@ -24,19 +24,29 @@ public class Island : MonoBehaviour {
 	[SerializeField]
 	private Vector3 flagDecal;
 
-	[SerializeField]
-	private Sprite[] sprites;
+
 
 	#region mono
-	void Awake () {
-		Instance = this;
+	void Start () {
+
+
+		Init ();
 	}
 
-	public void Init() {
-		getTransform = GetComponent<Transform>();
-		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
+	public void Init () {
+		sprites = Resources.LoadAll<Sprite> ("Graph/IslandSprites");
+
 		CombatManager.Instance.fightStarting += DeactivateCollider;
 		CombatManager.Instance.fightEnding += ActivateCollider;
+
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+
+		image = GetComponentInChildren<Image> ();
+	}
+
+	void HandleChunkEvent ()
+	{
+		UpdatePositionOnScreen (Boats.PlayerBoatInfo.currentCoords);
 	}
 
 	void DeactivateCollider ()
@@ -50,38 +60,58 @@ public class Island : MonoBehaviour {
 
 	#region story
 	public void Enter () {
-		StoryLauncher.Instance.PlayStory (MapGenerator.Instance.CurrentChunk.IslandData.storyManager,StoryLauncher.StorySource.island);
+		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager,StoryLauncher.StorySource.island);
 	}
 	#endregion
 
 	#region render
-	public void UpdatePositionOnScreen() {
+	public void UpdatePositionOnScreen(Coords coords) {
 
-		bool onIslandChunk = MapGenerator.Instance.CurrentChunk.State == ChunkState.DiscoveredIsland || MapGenerator.Instance.CurrentChunk.State == ChunkState.VisitedIsland || MapGenerator.Instance.CurrentChunk.State == ChunkState.UndiscoveredIsland;
-		gameObject.SetActive ( onIslandChunk );
+		Chunk chunk = Chunk.GetChunk (coords);
+
+		IslandData islandData = chunk.IslandData;
+
+		bool onIslandChunk = islandData != null;
 
 		if (onIslandChunk) {
-			getTransform.localPosition = MapGenerator.Instance.CurrentChunk.IslandData.positionOnScreen;
-			GetComponentInChildren<Image> ().sprite = sprites [MapGenerator.Instance.CurrentChunk.IslandData.SpriteID];
+
+			print ("spotted island");
+
+			gameObject.SetActive ( true );
+
+//			transform.localPosition = chunk.IslandData.positionOnScreen;
+			transform.localPosition = Vector2.zero;
+			GetComponentInChildren<Image>().sprite = sprites [islandData.SpriteID];
+
 		} else {
-			getTransform.localPosition = new Vector3 (10000f, 0, 0);
+			
+			gameObject.SetActive ( false );
+
+			transform.localPosition = new Vector3 (10000f, 0, 0);
 		}
 	}
 	#endregion
 
-	public Sprite[] Sprites {
-		get {
-			return sprites;
-		}
-	}
-
 	void OnCollisionStay2D ( Collision2D coll ) {
 		if ( coll.gameObject.tag == "Player" ) {
 			if (NavigationManager.Instance.FlagControl.TargetedIsland) {
-				Island.Instance.Enter ();
+				Enter ();
 				NavigationManager.Instance.FlagControl.TargetedIsland = false;
 			}
 		}
 	}
 
+	public delegate void OnTouchIsland ();
+	public static OnTouchIsland onTouchIsland;
+	public void Pointer_ClickIsland () {
+
+		Tween.Bounce (transform );
+
+		if ( onTouchIsland != null ) {
+			onTouchIsland ();
+		}
+
+
+
+	}
 }

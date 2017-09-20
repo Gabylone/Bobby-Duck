@@ -10,8 +10,8 @@ public class DisplayItem_Crew : DisplayItem {
 	public CrewMember.EquipmentPart part;
 
 	void Start () {
-		PlayerLoot.Instance.openInventory += HandleOpenInventory;
-		PlayerLoot.Instance.LootUI.useInventory+= HandleUseInventory;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		LootUI.useInventory+= HandleUseInventory;
 
 		Display ();
 	}
@@ -30,10 +30,8 @@ public class DisplayItem_Crew : DisplayItem {
 
 	void Display () {
 
-		CrewMember member = PlayerLoot.Instance.SelectedMember;
-
-		if ( member.GetEquipment(part)!= null) {
-			HandledItem = member.GetEquipment (part);
+		if ( CrewMember.selectedMember.GetEquipment(part)!= null) {
+			HandledItem = CrewMember.selectedMember.GetEquipment (part);
 		} else {
 			Clear ();
 		}
@@ -44,7 +42,7 @@ public class DisplayItem_Crew : DisplayItem {
 		if ( onRemoveItemFromMember != null )
 			onRemoveItemFromMember (HandledItem);
 
-		PlayerLoot.Instance.SelectedMember.SetEquipment (part, null);
+		CrewMember.selectedMember.SetEquipment (part, null);
 
 		Clear ();
 

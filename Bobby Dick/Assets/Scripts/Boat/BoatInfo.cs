@@ -6,7 +6,7 @@ public class BoatInfo {
 	public string Name = "bateau";
 
 	private Coords previousCoords;
-	private Coords currentCoords;
+	public Coords currentCoords;
 
 	public Directions currentDirection;
 

@@ -16,7 +16,7 @@ public class ClockUI : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		PlayerLoot.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
 
 		InitClock ();
 	}

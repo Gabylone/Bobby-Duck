@@ -27,8 +27,8 @@ public class ChoiceManager : MonoBehaviour {
 	void Start () {
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
 
-		PlayerLoot.Instance.openInventory += HandleOpenInventory;
-		PlayerLoot.Instance.closeInventory += HandleCloseInventory;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.closeInventory += HandleCloseInventory;
 	}
 
 	bool previousActive = false;

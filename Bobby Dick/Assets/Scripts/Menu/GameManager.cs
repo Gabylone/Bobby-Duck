@@ -43,12 +43,7 @@ public class GameManager : MonoBehaviour {
 
 		Boats.Instance.Init ();
 
-		MapImage.Instance.InitImage ();
-		MapImage.Instance.Init ();
-
-		Island.Instance.Init ();
-
-		PlayerLoot.Instance.Init ();
+		CrewInventory.Instance.Init ();
 
 		WeightManager.Instance.Init ();
 

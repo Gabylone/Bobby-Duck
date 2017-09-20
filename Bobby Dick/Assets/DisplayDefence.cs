@@ -14,8 +14,8 @@ public class DisplayDefence : MonoBehaviour {
 		image = GetComponent<Image> ();
 		uiText = GetComponentInChildren<Text> ();
 
-		PlayerLoot.Instance.openInventory += HandleOnCardUpdate;
-		PlayerLoot.Instance.LootUI.useInventory += HandleUseInventory;
+		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
+		LootUI.useInventory += HandleUseInventory;
 
 	}
 
@@ -27,7 +27,7 @@ public class DisplayDefence : MonoBehaviour {
 	void HandleUseInventory (InventoryActionType actionType)
 	{
 		if ( actionType == InventoryActionType.Equip ) {
-			if (PlayerLoot.Instance.LootUI.SelectedItem.category == ItemCategory.Clothes) {
+			if (LootUI.Instance.SelectedItem.category == ItemCategory.Clothes) {
 				Bounce ();
 			}
 		}

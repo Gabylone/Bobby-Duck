@@ -75,8 +75,7 @@ public class LootManager : MonoBehaviour {
 
 	public void CreateNewLoot () {
 		Loot playerLoot = new Loot (0, 0);
-//		playerLoot.Randomize (new ItemCategory[1] {ItemCategory.Provisions});
-		playerLoot.Randomize (ItemLoader.allCategories);
+		playerLoot.Randomize (new ItemCategory[1] {ItemCategory.Provisions});
 
 		setLoot (Crews.Side.Player, playerLoot);
 	}

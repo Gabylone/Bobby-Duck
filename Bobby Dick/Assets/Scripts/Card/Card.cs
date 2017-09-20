@@ -32,12 +32,12 @@ public class Card : MonoBehaviour {
 	public virtual void Init () {
 		HideCard ();
 
-		PlayerLoot.Instance.LootUI.useInventory+= HandleUseInventory;
+		LootUI.useInventory+= HandleUseInventory;
 	}
 
 	void HandleUseInventory (InventoryActionType actionType)
 	{
-		UpdateMember (PlayerLoot.Instance.SelectedMember);
+		UpdateMember (CrewMember.selectedMember);
 	}
 
 	public virtual void UpdateMember ( CrewMember member ) {

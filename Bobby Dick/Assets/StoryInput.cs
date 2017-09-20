@@ -10,8 +10,8 @@ public class StoryInput : MonoBehaviour {
 	void Start () {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
-		PlayerLoot.Instance.openInventory += HandleOpenInventory;
-		PlayerLoot.Instance.closeInventory += HandleCloseInventory;;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
 	}
 
 	void HandleCloseInventory ()

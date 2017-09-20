@@ -98,7 +98,7 @@ public class QuestManager : MonoBehaviour {
 
 	void ContinueQuest () {
 
-		Quest quest = CurrentQuests.Find (x => x.targetCoords == NavigationManager.CurrentCoords);
+		Quest quest = CurrentQuests.Find (x => x.targetCoords == Boats.PlayerBoatInfo.CurrentCoords);
 
 
 		if ( quest != null) {
@@ -177,7 +177,7 @@ public class QuestManager : MonoBehaviour {
 
 	public void SendPlayerBackToGiver () {
 		
-		Quest quest = CurrentQuests.Find (x => x.targetCoords == NavigationManager.CurrentCoords);
+		Quest quest = CurrentQuests.Find (x => x.targetCoords == Boats.PlayerBoatInfo.CurrentCoords);
 
 		if ( quest == null ) {
 			Debug.LogError ("il est sensé avoir une quete là non ?");
@@ -203,13 +203,13 @@ public class QuestManager : MonoBehaviour {
 					if (x == 0 && y == 0)
 						continue;
 
-					Coords coords = new Coords (NavigationManager.CurrentCoords.x + x, NavigationManager.CurrentCoords.y + y);
+					Coords coords = new Coords (Boats.PlayerBoatInfo.CurrentCoords.x + x, Boats.PlayerBoatInfo.CurrentCoords.y + y);
 
 					if (coords > MapGenerator.Instance.MapScale || coords <= 0) {
 						continue;
 					}
 
-					Chunk chunk = MapGenerator.Instance.GetChunk (coords);
+					Chunk chunk = Chunk.GetChunk (coords);
 
 					if (chunk.IslandData != null) {
 						return coords;
@@ -251,19 +251,19 @@ public class QuestManager : MonoBehaviour {
 
 	public Quest Coords_CheckForTargetQuest {
 		get {
-			return CurrentQuests.Find ( x=> x.targetCoords == NavigationManager.CurrentCoords);
+			return CurrentQuests.Find ( x=> x.targetCoords == Boats.PlayerBoatInfo.CurrentCoords);
 		}
 	}
 
 	Quest Coords_CheckForStartQuest {
 		get {
-			return CurrentQuests.Find ( x=> x.originCoords == NavigationManager.CurrentCoords);
+			return CurrentQuests.Find ( x=> x.originCoords == Boats.PlayerBoatInfo.CurrentCoords);
 		}
 	}
 
 	Quest Coords_CheckForFinishedQuest {
 		get {
-			return finishedQuests.Find ( x => x.originCoords == NavigationManager.CurrentCoords );
+			return finishedQuests.Find ( x => x.originCoords == Boats.PlayerBoatInfo.CurrentCoords );
 		}
 	}
 }

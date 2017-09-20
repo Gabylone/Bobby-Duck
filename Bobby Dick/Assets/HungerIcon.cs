@@ -19,10 +19,10 @@ public class HungerIcon : MonoBehaviour {
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
-		PlayerLoot.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
 		StoryLauncher.Instance.playStoryEvent += Hide;
 
-		PlayerLoot.Instance.closeInventory += HandleCloseInventory;;
+		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
 
 		linkedIcon = GetComponentInParent<CrewIcon> ();
 
@@ -51,7 +51,7 @@ public class HungerIcon : MonoBehaviour {
 
 	void UpdateIcon () {
 
-		float fillAmount = 1f - ((float)linkedIcon.Member.CurrentHunger / (float)linkedIcon.Member.MaxState);
+		float fillAmount = 1f - ((float)linkedIcon.Member.CurrentHunger / (float)linkedIcon.Member.maxHunger);
 
 		fullImage.fillAmount = fillAmount;
 
@@ -71,8 +71,8 @@ public class HungerIcon : MonoBehaviour {
 
 		NavigationManager.Instance.EnterNewChunk -= HandleChunkEvent;
 
-		PlayerLoot.Instance.openInventory -= HandleOpenInventory;
-		PlayerLoot.Instance.closeInventory -= HandleChunkEvent;
+		CrewInventory.Instance.openInventory -= HandleOpenInventory;
+		CrewInventory.Instance.closeInventory -= HandleChunkEvent;
 		StoryLauncher.Instance.playStoryEvent -= Hide;
 	}
 

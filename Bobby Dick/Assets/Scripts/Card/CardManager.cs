@@ -22,8 +22,8 @@ public class CardManager : MonoBehaviour {
 
 	#region fighting cards
 	public void ShowFightingCard ( CrewMember member ) {
-		combatCards [(int)member.Side].ShowCard ();
-		combatCards [(int)member.Side].UpdateMember (member);
+		combatCards [(int)member.side].ShowCard ();
+		combatCards [(int)member.side].UpdateMember (member);
 	}
 	public void HideFightingCards () {
 		foreach (var combatCard in combatCards) {

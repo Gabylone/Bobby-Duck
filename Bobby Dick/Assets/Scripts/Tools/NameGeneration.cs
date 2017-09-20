@@ -44,7 +44,7 @@ public class NameGeneration : MonoBehaviour {
 		}
 
 		if ( text.Contains ("NOMBATEAU") ) {
-			text = text.Replace ( "NOMBATEAU" , Boats.Instance.PlayerBoatInfo.Name);
+			text = text.Replace ( "NOMBATEAU" , Boats.PlayerBoatInfo.Name);
 		}
 
 		if ( text.Contains ("DIRECTIONTOFORMULA") ) {

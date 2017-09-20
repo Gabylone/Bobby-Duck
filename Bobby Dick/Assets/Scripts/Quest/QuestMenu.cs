@@ -72,7 +72,7 @@ public class QuestMenu : MonoBehaviour {
 		openButton.SetActive (false);
 		menuGroup.SetActive (true);
 
-		PlayerLoot.Instance.CloseLoot ();
+		CrewInventory.Instance.CloseLoot ();
 
 		Tween.ClearFade (menuGroup.transform);
 		Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);

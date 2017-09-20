@@ -15,16 +15,30 @@ public enum InventoryActionType {
 
 public class LootUI : MonoBehaviour {
 
+	public static LootUI Instance;
+	public Item SelectedItem {
+		get {
+			ItemCategory[] cats= CategoryContent.itemCategories [currentCat].categories;
+			Item[] items = LootManager.Instance.getLoot (side).getCategory (cats);
+
+			int index = (ItemPerPage * currentPage) + SelectionIndex;
+
+			return items[index];
+		}
+	}
+
 	private int currentCat = 0;
 
 	public delegate void UseInventory ( InventoryActionType actionType );
-	public UseInventory useInventory;
+	public static UseInventory useInventory;
 
 	[SerializeField]
 	private GameObject lootObj;
 
 	[SerializeField]
 	private Crews.Side side;
+
+	public GameObject closeButton;
 
 	bool visible = false;
 
@@ -58,7 +72,13 @@ public class LootUI : MonoBehaviour {
 	private ActionGroup actionGroup;
 
 	void Awake () {
+		Instance = this;
+
 		Init ();
+	}
+
+	void Start () {
+		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
 	}
 
 	private void Init () {
@@ -75,9 +95,12 @@ public class LootUI : MonoBehaviour {
 		Hide ();
 	}
 
+	#region show / hide
 	public void Show (CategoryContentType catContentType) {
 
 		categoryContent = LootManager.Instance.GetCategoryContent(catContentType);
+
+		InitCloseButton (catContentType);
 
 		displayItems [0].Select ();
 		SwitchCategory (0);
@@ -89,16 +112,36 @@ public class LootUI : MonoBehaviour {
 
 	}
 
+	void InitCloseButton (CategoryContentType catContentType)
+	{
+		switch (catContentType) {
+		case CategoryContentType.PlayerTrade:
+		case CategoryContentType.OtherTrade:
+		case CategoryContentType.PlayerLoot:
+		case CategoryContentType.OtherLoot:
+			closeButton.SetActive (true);
+			break;
+
+		case CategoryContentType.Inventory:
+		case CategoryContentType.Combat:
+			closeButton.SetActive (false);
+			break;
+		default:
+			break;
+		}
+
+	}
+
 	public void Hide () {
 
 		visible = false;
 		lootObj.SetActive (false);
 	}
+	#endregion
 
-	public bool Visible {
-		get {
-			return visible;
-		}
+	void HandleOnRemoveItemFromMember (Item item)
+	{
+		UpdateLootUI ();
 	}
 
 	#region item button	
@@ -166,6 +209,7 @@ public class LootUI : MonoBehaviour {
 
 			return categoryContent;
 		}
+			
 	}
 
 	private void UpdateCategoryButtons () {
@@ -229,15 +273,11 @@ public class LootUI : MonoBehaviour {
 		else
 			print ("no function liked to the event : use inventory");
 
+		UpdateLootUI ();
+
 	}
 	public void UpdateActionButton (int itemIndex) {
 
-		if ( currentCat >= CategoryContent.itemCategories.Length ) {
-
-			Debug.LogError ("Y AUN TRUC QUI VA PAS DANS L INVENTAIRE ET LES CATEGORIES");
-			Debug.LogError ("CURRENT CAT : " + currentCat);
-			Debug.LogError ("LONGUEUR DE LA LISTE : " + CategoryContent.itemCategories.Length);
-		}
 		bool enoughItemsOnPage = selectedItems.Length > CurrentPage * ItemPerPage;
 
 		actionGroup.Visible =  enoughItemsOnPage;
@@ -254,17 +294,7 @@ public class LootUI : MonoBehaviour {
 	}
 	#endregion
 
-	public Item SelectedItem {
-		get {
-			ItemCategory[] cats= CategoryContent.itemCategories [currentCat].categories;
-			Item[] items = LootManager.Instance.getLoot (side).getCategory (cats);
 
-			int index = (ItemPerPage * currentPage) + SelectionIndex;
-
-
-			return items[index];
-		}
-	}
 
 	public int CurrentPage {
 		get {
@@ -320,11 +350,6 @@ public class LootUI : MonoBehaviour {
 public class CategoryContent {
 
 	public Categories[] itemCategories;
-
-//	public string[] names;
-//	public Color[] colors;
-//	public bool[] interactable;
-
 	public CategoryButtonType[] catButtonType = new CategoryButtonType[4];
 
 

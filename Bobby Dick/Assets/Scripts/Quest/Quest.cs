@@ -34,7 +34,7 @@ public class Quest {
 	{
 		goldValue = Random.Range(10,50);
 
-		originCoords = NavigationManager.CurrentCoords;
+		originCoords = Boats.PlayerBoatInfo.CurrentCoords;
 
 		SetRandomCoords ();
 
@@ -70,20 +70,20 @@ public class Quest {
 	#region map & coords
 	public void ShowOnMap ()
 	{
-		MapImage.Instance.OpenMap ();
-		MapImage.Instance.CenterOnCoords (targetCoords);
-		MapImage.Instance.HighlightPixel (targetCoords);
+		DisplayMap.Instance.OpenMap ();
+		DisplayMap.Instance.CenterOnCoords (targetCoords);
+		DisplayMap.Instance.HighlightPixel (targetCoords);
 	}
 
 	public void SetRandomCoords () {
 
 		targetCoords = QuestManager.Instance.GetClosestIslandCoords ();
 
-		Coords boatCoords = NavigationManager.CurrentCoords;
+		Coords boatCoords = Boats.PlayerBoatInfo.CurrentCoords;
 		int distToQuest = (int)Vector2.Distance ( new Vector2(targetCoords.x,targetCoords.y) , new Vector2 (boatCoords.x , boatCoords.y) );
 
 		// show on map
-		MapGenerator.Instance.GetChunk (targetCoords).State = ChunkState.DiscoveredIsland;
+		Chunk.GetChunk (targetCoords).State = ChunkState.DiscoveredIsland;
 //		ShowOnMap ();
 		goldValue += (10 * distToQuest);
 	}
