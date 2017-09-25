@@ -117,6 +117,8 @@ public class NavigationManager : MonoBehaviour {
 	public void ChangeChunk ( Directions newDirection ) {
 
 		currentDirection = newDirection;
+
+
 		if (EnterNewChunk != null) {
 			EnterNewChunk ();
 		}
@@ -136,7 +138,7 @@ public class NavigationManager : MonoBehaviour {
 	}
 	public Directions getDirectionToPoint ( Vector2 point ) {
 
-		Vector2 direction = point - (Vector2)Boats.PlayerBoatInfo.CurrentCoords;
+		Vector2 direction = point - (Vector2)Boats.PlayerBoatInfo.coords;
 
 		for (int i = 0; i < 8; ++i ) {
 			if ( Vector2.Angle ( direction , NavigationManager.Instance.getDir((Directions)i) ) < 45f ) {
@@ -313,7 +315,7 @@ public class NavigationManager : MonoBehaviour {
 
 	public static Coords CurrentCoords {
 		get {
-			return Boats.PlayerBoatInfo.CurrentCoords;
+			return Boats.PlayerBoatInfo.coords;
 		}
 	}
 

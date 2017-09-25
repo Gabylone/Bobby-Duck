@@ -20,6 +20,8 @@ public class CrewInventory : MonoBehaviour {
 	[SerializeField]
 	private GameObject closeButtonObj;
 
+	public GameObject menuGroup;
+
 	public void Lock () {
 		canOpen = false;
 	}
@@ -166,6 +168,10 @@ public class CrewInventory : MonoBehaviour {
 			return;
 		}
 
+		if (catContentType == CategoryContentType.Inventory) {
+			LootUI.Instance.Hide ();
+		}
+
 		CrewMember.setSelectedMember (crewMember);
 
 			// set bool
@@ -176,6 +182,8 @@ public class CrewInventory : MonoBehaviour {
 
 			// update crew position
 		Crews.getCrew (Crews.Side.Player).UpdateCrew (Crews.PlacingType.Map);
+
+		menuGroup.SetActive (true);
 
 			// show elements
 		ShowCrewGroup();
@@ -211,14 +219,17 @@ public class CrewInventory : MonoBehaviour {
 
 	public void Open () {
 		
-		LootUI.Instance.Show (CategoryContentType.Inventory);
+		LootUI.Instance.Show (CategoryContentType.Inventory,Crews.Side.Player);
 
 		QuestMenu.Instance.Close ();
 		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
+
+		menuGroup.SetActive (false);
 	}
 
 	public void CloseLoot () {
 		LootUI.Instance.Hide ();
+		menuGroup.SetActive (true);
 	}
 
 	public bool Opened {

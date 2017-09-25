@@ -43,7 +43,7 @@ public class MainMenuManager : MonoBehaviour {
 	}
 	private void NewGameDelay () {
 		KeepOnLoad.dataToLoad = -1;
-		SceneManager.LoadScene ("Main");
+		SceneManager.LoadScene (1);
 	}
 	public void QuitButton () {
 
@@ -66,7 +66,8 @@ public class MainMenuManager : MonoBehaviour {
 		Invoke ("LoadDelay" , Transitions.Instance.ScreenTransition.Duration);
 	}
 	private void LoadDelay () {
-		SceneManager.LoadScene ("Main");
+		SceneManager.LoadScene (1);
+//		SceneManager.LoadScene ("Main");
 	}
 
 	public void OpenLoadMenu () {

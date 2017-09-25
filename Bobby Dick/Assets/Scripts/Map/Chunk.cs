@@ -44,7 +44,7 @@ public class Chunk
 
 	public static Chunk currentChunk {
 		get {
-			return chunks[Boats.PlayerBoatInfo.CurrentCoords];
+			return chunks[Boats.PlayerBoatInfo.coords];
 		}
 	}
 

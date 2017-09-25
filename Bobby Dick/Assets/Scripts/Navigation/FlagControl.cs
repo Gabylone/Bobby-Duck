@@ -4,7 +4,7 @@ using System.Collections;
 
 public class FlagControl : MonoBehaviour {
 
-	[Header ("Flag")]
+	[Header ("Flag UI")]
 	[SerializeField]
 	private Image flagImage;
 	private RectTransform flagRect;

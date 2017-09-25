@@ -23,8 +23,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 	private Text nameTextUI;
 	[SerializeField]
 	private Text levelTextUI;
-	[SerializeField]
-	private Image levelImage;
+
 	private int currentLevel = 1;
 
 	[Header("UI Groups")]
@@ -146,7 +145,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 			goldTexts[i].text = "" + upgradePrices[i];
 
 		levelTextUI.text = "" + currentLevel;
-		levelImage.fillAmount = (float)currentLevel / (float)(upgradeMaxLevel*3);
+//		levelImage.fillAmount = (float)currentLevel / (float)(upgradeMaxLevel*3);
 
 		for (int i = 0; i < crewIcons.Length; ++i ) {
 			crewIcons [i].SetActive (i <= Crews.playerCrew.MemberCapacity);

@@ -9,17 +9,19 @@ public class DisplayHeart : MonoBehaviour {
 	Text text;
 
 	// Use this for initialization
-	void Awake () {
+	void Start () {
 
 		fillImage = GetComponent<Image> ();
 		text = GetComponentInChildren<Text> ();
 
-		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
 		LootUI.useInventory += HandleUseInventory;
+
+		HandleOpenInventory (CrewMember.selectedMember);
 
 	}
 
-	void HandleOnCardUpdate (CrewMember crewMember)
+	void HandleOpenInventory (CrewMember crewMember)
 	{
 		fillImage.fillAmount = (float)crewMember.Health / (float)crewMember.MemberID.maxHealth;
 		text.text = crewMember.Health.ToString ();

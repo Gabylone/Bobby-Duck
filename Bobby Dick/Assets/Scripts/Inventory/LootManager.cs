@@ -186,11 +186,11 @@ public class LootManager : MonoBehaviour {
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 		StoryReader.Instance.NextCell ();
 
-		Item item = LootManager.Instance.getLoot(Crews.Side.Player).loot [(int)targetCat] [0];
+		Item item = LootManager.Instance.getLoot(Crews.Side.Player).allItems [(int)targetCat] [0];
 		if (cellParams.Contains ("<")) {
 			string itemName = cellParams.Split ('<') [1];
 			itemName = itemName.Remove (itemName.Length - 6);
-			item = System.Array.Find (LootManager.Instance.getLoot(Crews.Side.Player).loot [(int)targetCat], x => x.name == itemName);
+			item = LootManager.Instance.getLoot (Crews.Side.Player).allItems [(int)targetCat].Find (x => x.name == itemName);
 		}
 
 		if (onRemoveItemFromInventory != null) {
@@ -241,15 +241,18 @@ public class LootManager : MonoBehaviour {
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 
 		if (cellParams.Contains ("<")) {
+			
 			string itemName = cellParams.Split ('<') [1];
 			itemName = itemName.Remove (itemName.Length - 6);
-			Item item = System.Array.Find (LootManager.Instance.getLoot (Crews.Side.Player).getCategory (targetCat), x => x.name == itemName);
+
+			Item item = LootManager.Instance.getLoot (Crews.Side.Player).allItems [(int)targetCat].Find (x => x.name == itemName);
 
 			if (item == null) {
 				StoryReader.Instance.SetDecal (1);
 			}
+
 		} else {
-			if (LootManager.Instance.getLoot (Crews.Side.Player).getCategory (targetCat).Length == 0) {
+			if (LootManager.Instance.getLoot (Crews.Side.Player).allItems [(int)targetCat].Count == 0) {
 				StoryReader.Instance.SetDecal (1);
 			}
 		}

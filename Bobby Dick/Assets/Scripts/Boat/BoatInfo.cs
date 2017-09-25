@@ -22,7 +22,7 @@ public class BoatInfo {
 
 	}
 
-	public virtual Coords CurrentCoords {
+	public virtual Coords coords {
 		get {
 			return currentCoords;
 		}

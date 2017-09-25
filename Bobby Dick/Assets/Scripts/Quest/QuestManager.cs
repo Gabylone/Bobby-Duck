@@ -98,7 +98,7 @@ public class QuestManager : MonoBehaviour {
 
 	void ContinueQuest () {
 
-		Quest quest = CurrentQuests.Find (x => x.targetCoords == Boats.PlayerBoatInfo.CurrentCoords);
+		Quest quest = CurrentQuests.Find (x => x.targetCoords == Boats.PlayerBoatInfo.coords);
 
 
 		if ( quest != null) {
@@ -177,7 +177,7 @@ public class QuestManager : MonoBehaviour {
 
 	public void SendPlayerBackToGiver () {
 		
-		Quest quest = CurrentQuests.Find (x => x.targetCoords == Boats.PlayerBoatInfo.CurrentCoords);
+		Quest quest = CurrentQuests.Find (x => x.targetCoords == Boats.PlayerBoatInfo.coords);
 
 		if ( quest == null ) {
 			Debug.LogError ("il est sensé avoir une quete là non ?");
@@ -203,7 +203,7 @@ public class QuestManager : MonoBehaviour {
 					if (x == 0 && y == 0)
 						continue;
 
-					Coords coords = new Coords (Boats.PlayerBoatInfo.CurrentCoords.x + x, Boats.PlayerBoatInfo.CurrentCoords.y + y);
+					Coords coords = new Coords (Boats.PlayerBoatInfo.coords.x + x, Boats.PlayerBoatInfo.coords.y + y);
 
 					if (coords > MapGenerator.Instance.MapScale || coords <= 0) {
 						continue;
@@ -251,19 +251,19 @@ public class QuestManager : MonoBehaviour {
 
 	public Quest Coords_CheckForTargetQuest {
 		get {
-			return CurrentQuests.Find ( x=> x.targetCoords == Boats.PlayerBoatInfo.CurrentCoords);
+			return CurrentQuests.Find ( x=> x.targetCoords == Boats.PlayerBoatInfo.coords);
 		}
 	}
 
 	Quest Coords_CheckForStartQuest {
 		get {
-			return CurrentQuests.Find ( x=> x.originCoords == Boats.PlayerBoatInfo.CurrentCoords);
+			return CurrentQuests.Find ( x=> x.originCoords == Boats.PlayerBoatInfo.coords);
 		}
 	}
 
 	Quest Coords_CheckForFinishedQuest {
 		get {
-			return finishedQuests.Find ( x => x.originCoords == Boats.PlayerBoatInfo.CurrentCoords );
+			return finishedQuests.Find ( x => x.originCoords == Boats.PlayerBoatInfo.coords );
 		}
 	}
 }

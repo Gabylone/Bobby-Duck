@@ -158,6 +158,8 @@ public class CombatManager : MonoBehaviour {
 
 		fightStarting ();
 
+		CrewMember.selectedMember = currentMember;
+
 		ChangeState (States.StartTurn);
 	}
 
@@ -575,7 +577,7 @@ public class CombatManager : MonoBehaviour {
 	private void Eating_Start () {
 		eatingMenuButton.SetActive (true);
 		CrewMember.setSelectedMember(currentFighter.CrewMember);
-		LootUI.Instance.Show (CategoryContentType.Combat);
+		LootUI.Instance.Show (CategoryContentType.Combat,Crews.Side.Player);
 	}
 	private void Eating_Update () {
 	}
@@ -605,7 +607,10 @@ public class CombatManager : MonoBehaviour {
 		fightEnding ();
 		Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Hidden);
 		ChangeState (States.None);
+
 		CardManager.Instance.HideFightingCards ();
+		HideFighters (Crews.Side.Player);
+		HideFighters (Crews.Side.Enemy);
 
 	}
 	public void WinFight ( float delay ) {
@@ -638,6 +643,16 @@ public class CombatManager : MonoBehaviour {
 		StoryLauncher.Instance.EndStory ();
 
 		SoundManager.Instance.PlaySound (escapeSound);
+
+	}
+	public void EndFight () {
+
+		fighting = false;
+
+		CardManager.Instance.HideFightingCards ();
+
+		Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
+		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 
 	}
 	#endregion
@@ -809,19 +824,7 @@ public class CombatManager : MonoBehaviour {
 
 	}
 
-	public void EndFight () {
 
-		fighting = false;
-
-		HideFighters (Crews.Side.Player);
-		HideFighters (Crews.Side.Enemy);
-
-		CardManager.Instance.HideFightingCards ();
-
-		Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
-		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-
-	}
 
 	public bool Fighting {
 		get {

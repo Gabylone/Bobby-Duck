@@ -48,13 +48,27 @@ public class SoundManager : MonoBehaviour {
 		LootUI.useInventory += HandleUsePlayerInventory;
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+
 		UpdateAmbiance ();
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.SetWeather:
+		case FunctionType.ChangeTimeOfDay:
+			UpdateAmbiance ();
+			break;
+		default:
+			break;
+		}
 	}
 
 	#region time
 	void HandleChunkEvent ()
 	{
-		UpdateAmbiance ();
+		
 	}
 
 	void UpdateAmbiance ()

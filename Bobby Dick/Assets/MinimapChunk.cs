@@ -18,5 +18,6 @@ public class MinimapChunk : MonoBehaviour {
 		} else {
 			islandGroup.SetActive (false);
 		}
+
 	}
 }

@@ -89,6 +89,7 @@ public class Crews : MonoBehaviour {
 		crewParams.amount = startMemberAmount;
 		crewParams.overideGenre = false;
 		crewParams.male = false;
+//		crewParams.level = 10;
 		crewParams.level = 1;
 
 

@@ -9,17 +9,19 @@ public class DisplayDefence : MonoBehaviour {
 	Text uiText;
 
 	// Use this for initialization
-	void Awake () {
+	void Start () {
 
 		image = GetComponent<Image> ();
 		uiText = GetComponentInChildren<Text> ();
 
-		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
 		LootUI.useInventory += HandleUseInventory;
+
+		HandleOpenInventory (CrewMember.selectedMember);
 
 	}
 
-	void HandleOnCardUpdate (CrewMember crewMember)
+	void HandleOpenInventory (CrewMember crewMember)
 	{
 		uiText.text = crewMember.Defense.ToString ();
 	}

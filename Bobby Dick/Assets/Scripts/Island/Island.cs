@@ -21,40 +21,45 @@ public class Island : MonoBehaviour {
 	[SerializeField]
 	private float distanceToTrigger = 1f;
 
-	[SerializeField]
-	private Vector3 flagDecal;
+	Vector2 scale = Vector2.zero;
 
-
+	public RectTransform anchor;
 
 	#region mono
-	void Start () {
 
+	void Awake () {
+		Instance = this;
+	}
 
+	void Start () {	
 		Init ();
 	}
 
 	public void Init () {
 		sprites = Resources.LoadAll<Sprite> ("Graph/IslandSprites");
 
-		CombatManager.Instance.fightStarting += DeactivateCollider;
-		CombatManager.Instance.fightEnding += ActivateCollider;
+		CombatManager.Instance.fightStarting 	+= DeactivateCollider;
+		CombatManager.Instance.fightEnding 		+= ActivateCollider;
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
 		image = GetComponentInChildren<Image> ();
+
+		UpdatePositionOnScreen (Boats.PlayerBoatInfo.coords);
 	}
 
 	void HandleChunkEvent ()
 	{
 		UpdatePositionOnScreen (Boats.PlayerBoatInfo.currentCoords);
+
 	}
 
 	void DeactivateCollider ()
 	{
-		GetComponentInChildren<PolygonCollider2D> ().enabled = false;
+		GetComponentInChildren<BoxCollider2D> ().enabled = false;
 	}
 	void ActivateCollider () {
-		GetComponentInChildren<PolygonCollider2D> ().enabled = true;
+		GetComponentInChildren<BoxCollider2D> ().enabled = true;
 	}
 	#endregion
 
@@ -65,7 +70,7 @@ public class Island : MonoBehaviour {
 	#endregion
 
 	#region render
-	public void UpdatePositionOnScreen(Coords coords) {
+	void UpdatePositionOnScreen(Coords coords) {
 
 		Chunk chunk = Chunk.GetChunk (coords);
 
@@ -75,12 +80,10 @@ public class Island : MonoBehaviour {
 
 		if (onIslandChunk) {
 
-			print ("spotted island");
-
 			gameObject.SetActive ( true );
 
-//			transform.localPosition = chunk.IslandData.positionOnScreen;
-			transform.localPosition = Vector2.zero;
+			GetComponent<RectTransform> ().anchoredPosition = chunk.IslandData.positionOnScreen;
+
 			GetComponentInChildren<Image>().sprite = sprites [islandData.SpriteID];
 
 		} else {
@@ -113,5 +116,12 @@ public class Island : MonoBehaviour {
 
 
 
+	}
+
+	public Vector2 GetRandomPosition () {
+		float x = Random.Range (GetComponent<RectTransform> ().rect.width/2,anchor.rect.width-GetComponent<RectTransform> ().rect.width);
+		float y = Random.Range (GetComponent<RectTransform> ().rect.height/2,anchor.rect.height-GetComponent<RectTransform> ().rect.height);
+
+		return new Vector2 (x,y);
 	}
 }

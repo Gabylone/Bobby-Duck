@@ -67,7 +67,7 @@ public class Boats : MonoBehaviour {
 			
 			boat.UpdatePosition ();
 
-			if ( boat.CurrentCoords == Boats.PlayerBoatInfo.CurrentCoords ) {
+			if ( boat.coords == Boats.PlayerBoatInfo.coords ) {
 
 				ShowBoat (boat);
 

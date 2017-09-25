@@ -16,14 +16,19 @@ public enum InventoryActionType {
 public class LootUI : MonoBehaviour {
 
 	public static LootUI Instance;
+
+	Loot handledLoot;
+
 	public Item SelectedItem {
 		get {
-			ItemCategory[] cats= CategoryContent.itemCategories [currentCat].categories;
-			Item[] items = LootManager.Instance.getLoot (side).getCategory (cats);
-
 			int index = (ItemPerPage * currentPage) + SelectionIndex;
 
-			return items[index];
+			return handledLoot.allItems [currentCat] [index];
+		}
+	}
+	private Item[] selectedItems {
+		get {
+			return handledLoot.allItems [currentCat].ToArray();
 		}
 	}
 
@@ -35,10 +40,9 @@ public class LootUI : MonoBehaviour {
 	[SerializeField]
 	private GameObject lootObj;
 
-	[SerializeField]
-	private Crews.Side side;
-
 	public GameObject closeButton;
+	public GameObject switchToPlayer;
+	public GameObject switchToOther;
 
 	bool visible = false;
 
@@ -46,14 +50,8 @@ public class LootUI : MonoBehaviour {
 	[SerializeField]
 	private GameObject itemButtonGroup;
 	private DisplayItem_Loot[] displayItems = new DisplayItem_Loot[0];
-	private Item[] selectedItems {
-		get {
-			ItemCategory[] categories = CategoryContent.itemCategories [currentCat].categories;
-			return LootManager.Instance.getLoot (side).getCategory (categories);
-		}
-	}
-	private int selectionIndex = 0;
 
+	private int selectionIndex = 0;
 
 	[Header("Categories")]
 	[SerializeField] private Button[] categoryButtons;
@@ -96,11 +94,13 @@ public class LootUI : MonoBehaviour {
 	}
 
 	#region show / hide
-	public void Show (CategoryContentType catContentType) {
+	public void Show (CategoryContentType catContentType,Crews.Side side) {
+
+		handledLoot = LootManager.Instance.getLoot(side);
 
 		categoryContent = LootManager.Instance.GetCategoryContent(catContentType);
 
-		InitCloseButton (catContentType);
+		InitButtons (catContentType);
 
 		displayItems [0].Select ();
 		SwitchCategory (0);
@@ -112,28 +112,35 @@ public class LootUI : MonoBehaviour {
 
 	}
 
-	void InitCloseButton (CategoryContentType catContentType)
+	void InitButtons (CategoryContentType catContentType)
 	{
 		switch (catContentType) {
 		case CategoryContentType.PlayerTrade:
-		case CategoryContentType.OtherTrade:
 		case CategoryContentType.PlayerLoot:
+//			closeButton.SetActive (true);
+			switchToOther.SetActive (true);
+			switchToPlayer.SetActive (false);
+			break;
+
+		case CategoryContentType.OtherTrade:
 		case CategoryContentType.OtherLoot:
-			closeButton.SetActive (true);
+//			closeButton.SetActive (true);
+			switchToOther.SetActive (false);
+			switchToPlayer.SetActive (true);
 			break;
 
 		case CategoryContentType.Inventory:
 		case CategoryContentType.Combat:
-			closeButton.SetActive (false);
+//			closeButton.SetActive (false);
+			switchToOther.SetActive (false);
+			switchToPlayer.SetActive (false);
 			break;
 		default:
 			break;
 		}
-
 	}
 
 	public void Hide () {
-
 		visible = false;
 		lootObj.SetActive (false);
 	}
@@ -302,24 +309,6 @@ public class LootUI : MonoBehaviour {
 		}
 	}
 
-	public int ItemIndex {
-		get {
-
-			int l = 0;
-			 
-			if ( CategoryContent.itemCategories[currentCat].categories.Length > 1 ) {
-				for (int i = 0; i < CategoryContent.itemCategories[currentCat].categories.Length; ++i ) {
-
-					ItemCategory category = CategoryContent.itemCategories [currentCat].categories [i];
-					Item[] items = LootManager.Instance.getLoot (side).getCategory (category);
-					l += items.Length;
-				}
-			}
-
-			return l + currentPage + SelectionIndex;
-		}
-	}
-
 	public int SelectionIndex {
 		get {
 			return selectionIndex;
@@ -348,10 +337,8 @@ public class LootUI : MonoBehaviour {
 
 [System.Serializable]
 public class CategoryContent {
-
 	public Categories[] itemCategories;
 	public CategoryButtonType[] catButtonType = new CategoryButtonType[4];
-
 
 }
 

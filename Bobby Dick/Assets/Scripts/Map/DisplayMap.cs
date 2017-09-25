@@ -169,7 +169,7 @@ public class DisplayMap : MonoBehaviour {
 
 			for (int y = -shipRange; y <= shipRange; ++y ) {
 
-				Coords c = Boats.PlayerBoatInfo.CurrentCoords + new Coords (x, y);
+				Coords c = Boats.PlayerBoatInfo.coords + new Coords (x, y);
 
 				if ( c.x < mapScale && c.x >= 0 &&
 					c.y < mapScale && c.y >= 0) {
@@ -199,7 +199,7 @@ public class DisplayMap : MonoBehaviour {
 
 		}
 
-		SetPixel (texture,Boats.PlayerBoatInfo.CurrentCoords, Color.red);
+		SetPixel (texture,Boats.PlayerBoatInfo.coords, Color.red);
 
 		UpdateTexture (texture);
 
@@ -214,12 +214,12 @@ public class DisplayMap : MonoBehaviour {
 		Texture2D texture = (Texture2D)targetImage.mainTexture;
 
 		foreach ( OtherBoatInfo boatInfo in Boats.Instance.OtherBoatInfos ) {
-			if ( boatInfo.CurrentCoords <= Boats.PlayerBoatInfo.CurrentCoords + Boats.PlayerBoatInfo.ShipRange
-				&& boatInfo.CurrentCoords >= Boats.PlayerBoatInfo.CurrentCoords - Boats.PlayerBoatInfo.ShipRange ) {
-				SetPixel (texture,boatInfo.CurrentCoords, Color.green);
+			if ( boatInfo.coords <= Boats.PlayerBoatInfo.coords + Boats.PlayerBoatInfo.ShipRange
+				&& boatInfo.coords >= Boats.PlayerBoatInfo.coords - Boats.PlayerBoatInfo.ShipRange ) {
+				SetPixel (texture,boatInfo.coords, Color.green);
 			} else {
 				SetPixel (texture,boatInfo.PreviousCoords, getChunkColor(Chunk.GetChunk(boatInfo.PreviousCoords) ));
-				SetPixel (texture,boatInfo.CurrentCoords, getChunkColor(Chunk.GetChunk(boatInfo.CurrentCoords) ));
+				SetPixel (texture,boatInfo.coords, getChunkColor(Chunk.GetChunk(boatInfo.coords) ));
 			}
 		}
 
@@ -261,7 +261,7 @@ public class DisplayMap : MonoBehaviour {
 		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, MapGenerator.Instance.MapScale,  MapGenerator.Instance.MapScale) , Vector2.one * 0.5f );
 	}
 	public void CenterOnBoat () {
-		CenterOnCoords (Boats.PlayerBoatInfo.CurrentCoords);
+		CenterOnCoords (Boats.PlayerBoatInfo.coords);
 	}
 
 	public void CenterOnCoords (Coords coords) {

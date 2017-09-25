@@ -142,6 +142,7 @@ public class WeightManager : MonoBehaviour {
 		Visible = true;
 	}
 	public void Hide () {
+		return;
 		Visible = false;
 	}
 

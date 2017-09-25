@@ -64,6 +64,9 @@ public class CrewManager : MonoBehaviour {
 			placingDuration = value;
 		}
 	}
+
+	public Transform[] mapAnchors;
+
 	public Transform[] CrewAnchors {
 		get {
 			return crewAnchors;

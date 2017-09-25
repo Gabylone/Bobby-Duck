@@ -33,8 +33,6 @@ public class Karma : MonoBehaviour {
 	float timer = 0f;
 	[SerializeField]
 	private float lerpDuration = 0.5f;
-	[SerializeField]
-	private float appearDuration = 1.5f;
 	private Color initColor;
 
 	[Header("Sound")]
@@ -50,14 +48,14 @@ public class Karma : MonoBehaviour {
 
 	void Start () {
 
-		UpdateUI ();
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;;
-		CrewInventory.Instance.closeInventory += Hide;
-
-		Visible = false;
+//		CrewInventory.Instance.openInventory += HandleOpenInventory;;
+//		CrewInventory.Instance.closeInventory += Hide;
 
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
+
+		UpdateUI ();
+
 	}
 
 	void HandleOpenInventory (CrewMember member)
@@ -198,7 +196,7 @@ public class Karma : MonoBehaviour {
 	{
 		if (Visible && lerping) {
 
-			if (timer <= lerpDuration) {
+			if (timer < lerpDuration) {
 
 				float targetFillAmount = ((float)currentKarma / (float)maxKarma);
 
@@ -221,8 +219,7 @@ public class Karma : MonoBehaviour {
 
 			}
 
-			if (timer >= appearDuration) {
-				Visible = false;
+			if (timer >= lerpDuration) {
 				lerping = false;
 			}
 			timer += Time.deltaTime;

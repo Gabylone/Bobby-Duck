@@ -11,6 +11,8 @@ public class DisplayName : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
+
+		HandleOpenInventory (CrewMember.selectedMember);
 	}
 
 	void HandleOpenInventory (CrewMember member)

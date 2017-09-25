@@ -190,6 +190,7 @@ public class GoldManager : MonoBehaviour {
 		Visible = true;
 	}
 	public void Hide () {
+		return;
 		Visible = false;
 	}
 

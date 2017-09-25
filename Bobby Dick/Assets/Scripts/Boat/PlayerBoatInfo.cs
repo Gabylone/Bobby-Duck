@@ -13,7 +13,7 @@ public class PlayerBoatInfo : BoatInfo {
 	{
 		base.Randomize ();
 
-		CurrentCoords = MapData.Instance.homeIslandCoords;
+		coords = MapData.Instance.homeIslandCoords;
 	}
 
 	public override void UpdatePosition ()
@@ -21,14 +21,14 @@ public class PlayerBoatInfo : BoatInfo {
 		base.UpdatePosition ();
 
 		currentDirection = NavigationManager.Instance.CurrentDirection;
-		CurrentCoords += NavigationManager.Instance.getNewCoords (currentDirection);
+		coords += NavigationManager.Instance.getNewCoords (currentDirection);
 	}
 
 	public void CheckForNoMansSea () {
 		
 		bool isInNoMansSea =
-			CurrentCoords.y > (MapGenerator.Instance.MapScale / 2) - (MapGenerator.Instance.NoManSeaScale/2)
-			&& CurrentCoords.y < (MapGenerator.Instance.MapScale / 2) + (MapGenerator.Instance.NoManSeaScale/2);
+			coords.y > (MapGenerator.Instance.MapScale / 2) - (MapGenerator.Instance.NoManSeaScale/2)
+			&& coords.y < (MapGenerator.Instance.MapScale / 2) + (MapGenerator.Instance.NoManSeaScale/2);
 
 		if (isInNoMansSea ) {
 
@@ -65,17 +65,16 @@ public class PlayerBoatInfo : BoatInfo {
 		}
 	}
 
-	public override Coords CurrentCoords {
+	public override Coords coords {
 		get {
-			return base.CurrentCoords;
+			return base.coords;
 		}
 		set {
-			base.CurrentCoords = value;
+			base.coords = value;
 
 			if (value.x < 0 || value.x > MapGenerator.Instance.MapScale - 1 || value.y < 0 || value.y > MapGenerator.Instance.MapScale - 1) {
 				Narrator.Instance.ShowNarratorTimed("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
 			}
 		}
 	}
-
 }

@@ -16,13 +16,11 @@ public class ClockUI : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
+//		CrewInventory.Instance.openInventory += HandleOpenInventory;
+
+		NavigationManager.Instance.EnterNewChunk += UpdateNeedle;
 
 		InitClock ();
-	}
-
-	void HandleOpenInventory (CrewMember member)
-	{
 		UpdateNeedle ();
 	}
 

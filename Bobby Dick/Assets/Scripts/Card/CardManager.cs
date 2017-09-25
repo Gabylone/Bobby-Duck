@@ -22,6 +22,7 @@ public class CardManager : MonoBehaviour {
 
 	#region fighting cards
 	public void ShowFightingCard ( CrewMember member ) {
+		print ("show fighting card");
 		combatCards [(int)member.side].ShowCard ();
 		combatCards [(int)member.side].UpdateMember (member);
 	}

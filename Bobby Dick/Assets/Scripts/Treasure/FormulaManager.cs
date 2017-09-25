@@ -127,7 +127,7 @@ public class FormulaManager : MonoBehaviour {
 
 	public string getFormula () {
 
-		Formula formula = System.Array.Find(formulas,x=>x.coords == Boats.PlayerBoatInfo.CurrentCoords);
+		Formula formula = System.Array.Find(formulas,x=>x.coords == Boats.PlayerBoatInfo.coords);
 
 		formula.found = true;
 

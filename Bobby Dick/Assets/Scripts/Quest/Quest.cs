@@ -34,7 +34,7 @@ public class Quest {
 	{
 		goldValue = Random.Range(10,50);
 
-		originCoords = Boats.PlayerBoatInfo.CurrentCoords;
+		originCoords = Boats.PlayerBoatInfo.coords;
 
 		SetRandomCoords ();
 
@@ -79,7 +79,7 @@ public class Quest {
 
 		targetCoords = QuestManager.Instance.GetClosestIslandCoords ();
 
-		Coords boatCoords = Boats.PlayerBoatInfo.CurrentCoords;
+		Coords boatCoords = Boats.PlayerBoatInfo.coords;
 		int distToQuest = (int)Vector2.Distance ( new Vector2(targetCoords.x,targetCoords.y) , new Vector2 (boatCoords.x , boatCoords.y) );
 
 		// show on map

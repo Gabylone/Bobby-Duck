@@ -10,24 +10,27 @@ public class DisplayHunger : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
 		LootUI.useInventory += HandleUseInventory;
 
+		HandleOpenInventory (CrewMember.selectedMember);
 	}
 
-	void HandleOnCardUpdate (CrewMember crewMember)
+	void HandleOpenInventory (CrewMember crewMember)
 	{
-		fillImage.fillAmount = 1 - ( (float)crewMember.CurrentHunger / (float)crewMember.maxHunger );
+		UpdateImage ();
 	}
 
-	void Bounce() {
+	void UpdateImage ()
+	{
+		fillImage.fillAmount = 1 - ( (float)CrewMember.selectedMember.CurrentHunger / (float)CrewMember.selectedMember.maxHunger );
 		Tween.Bounce (fillImage.transform);
 	}
 
 	void HandleUseInventory (InventoryActionType actionType)
 	{
 		if ( actionType == InventoryActionType.Eat ) {
-			Bounce ();
+			UpdateImage ();
 		}
 	}
 }

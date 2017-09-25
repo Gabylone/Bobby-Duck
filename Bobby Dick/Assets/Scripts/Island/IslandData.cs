@@ -22,10 +22,7 @@ public class IslandData {
 
 		storyManager.InitHandler (storyType);
 
-		float islandPosX = Random.Range (-appearRange.x , appearRange.x);
-		float islandPosY = Random.Range (-appearRange.y , appearRange.y);
-
-		positionOnScreen = new Vector2 (islandPosX, islandPosY);
+		positionOnScreen = Island.Instance.GetRandomPosition ();
 
 	}
 

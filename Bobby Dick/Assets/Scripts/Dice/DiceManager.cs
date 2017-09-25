@@ -158,7 +158,6 @@ public class DiceManager : MonoBehaviour {
 	#region settling
 	private void Settling_Start () {
 		for (int diceIndex = 0; diceIndex < currentThrow.diceAmount; diceIndex++) {
-			print ("die result : " + dices [diceIndex].result);
 			dices[diceIndex].TurnToDirection (dices[diceIndex].result);
 		}
 	}
@@ -186,7 +185,6 @@ public class DiceManager : MonoBehaviour {
 		}
 
 		highestDie.SettleUp ();
-		print ("HIGHEST DIE : " + highestDie.result);
 		Throwing = false;
 	}
 	private void ShowingHighest_Update () {
@@ -197,7 +195,7 @@ public class DiceManager : MonoBehaviour {
 		}
 	}
 	private void ShowingHighest_Exit () {
-		
+		ResetDice ();
 	}
 	#endregion
 

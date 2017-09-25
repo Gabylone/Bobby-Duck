@@ -140,12 +140,15 @@ public class CrewIcon : MonoBehaviour {
 			ShowBody ();
 		}
 
+		Vector3 targetPos = Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].position + Crews.playerCrew.CrewAnchors [(int)targetPlacingType].up * decal;
+
 		if (targetPlacingType == Crews.PlacingType.Combat || targetPlacingType == Crews.PlacingType.Map) {
 			HideBody();
-			decal = member.GetIndex * placementDecal;
+//			decal = member.GetIndex * placementDecal;
+
+			targetPos = Crews.getCrew (member.side).mapAnchors [member.GetIndex].position;
 		}
 
-		Vector3 targetPos = Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].position + Crews.playerCrew.CrewAnchors [(int)targetPlacingType].up * decal;
 
 		HOTween.To ( GetTransform , moveDuration , "position" , targetPos , false , EaseType.Linear , 0f );
 	}

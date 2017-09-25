@@ -16,7 +16,7 @@ public class OtherBoatInfo : BoatInfo {
 	{
 		base.Randomize ();
 
-		CurrentCoords = MapGenerator.Instance.RandomCoords;
+		coords = MapGenerator.Instance.RandomCoords;
 
 		currentDirection = (Directions)Random.Range (0,8);
 
@@ -41,22 +41,22 @@ public class OtherBoatInfo : BoatInfo {
 
 		if (newCoords.x >= MapGenerator.Instance.MapScale - 1) {
 
-			newCoords.x = CurrentCoords.x;
+			newCoords.x = coords.x;
 			SwitchDirection ();
 
 		} else if (newCoords.x < 0) {
 
-			newCoords.x = CurrentCoords.x;
+			newCoords.x = coords.x;
 			SwitchDirection ();
 			//
 		} else if (newCoords.y>= MapGenerator.Instance.MapScale - 1) {
 
-			newCoords.y = CurrentCoords.y;
+			newCoords.y = coords.y;
 			SwitchDirection ();
 
 		} else if (newCoords.y < 0) {
 
-			newCoords.y = CurrentCoords.y;
+			newCoords.y = coords.y;
 			SwitchDirection ();
 
 		} else {
@@ -65,7 +65,7 @@ public class OtherBoatInfo : BoatInfo {
 			}
 		}
 
-		CurrentCoords = newCoords;
+		coords = newCoords;
 
 	}
 

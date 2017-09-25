@@ -28,7 +28,7 @@ public class SetOrder : MonoBehaviour {
 
 		Vector3 pos = getTransform.localPosition;
 
-		int posY = (int)pos.y + screenHeight;
+		int posY = (int)(screenHeight/2f) + ( (int)pos.y + screenHeight);
 
 		pos.z = ( factor * posY ) / (screenHeight * 2);
 
