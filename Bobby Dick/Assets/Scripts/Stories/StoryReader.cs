@@ -185,7 +185,7 @@ public class StoryReader : MonoBehaviour {
 		storyName = storyName.Remove (storyName.IndexOf ('['));
 
 		// get second story
-		Story secondStory = StoryLoader.Instance.FindByName (storyName,IslandType.Normal);
+		Story secondStory = StoryLoader.Instance.FindByName (storyName,StoryType.Normal);
 
 		// extract nodes
 		string nodes = text.Remove (0,text.IndexOf ('[')+1);
@@ -198,10 +198,10 @@ public class StoryReader : MonoBehaviour {
 		string targetNodeTXT = nodes.Split ('/') [0];
 		Node targetNode = GetNodeFromText (secondStory,targetNodeTXT);
 
-		SetNewStory (secondStory, IslandType.Normal, targetNode, fallBackNode);
+		SetNewStory (secondStory, StoryType.Normal, targetNode, fallBackNode);
 	}
 
-	public void SetNewStory (Story story, IslandType storyType , Node targetNode , Node fallbackNode) {
+	public void SetNewStory (Story story, StoryType storyType , Node targetNode , Node fallbackNode) {
 
 		int secondStoryID = StoryLoader.Instance.FindIndexByName (story.name,storyType);
 
@@ -231,8 +231,6 @@ public class StoryReader : MonoBehaviour {
 	}
 
 	public void FallBackToPreviousStory () {
-
-
 
 		Node fallbackNode = CurrentStoryHandler.fallbackNode;
 

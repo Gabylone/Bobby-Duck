@@ -13,14 +13,14 @@ public class MemberFeedback : MonoBehaviour {
 	[SerializeField] private float targetScale = 1.5f;
 	private Vector3 initPos = Vector3.zero;
 
-	CrewIcon icon;
+	MemberIcon icon;
 
 	bool displaying = false;
 
 	float timer = 0f;
 
 	void Start () {
-		icon = GetComponent<CrewIcon> ();
+		icon = GetComponent<MemberIcon> ();
 
 		initPos = infoTransform.localPosition;
 		infoTransform.gameObject.SetActive (false);

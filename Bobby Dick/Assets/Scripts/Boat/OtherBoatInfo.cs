@@ -9,7 +9,16 @@ public class OtherBoatInfo : BoatInfo {
 
 	private StoryManager storyManager;
 
-	public bool metPlayer = false;
+	public override void Init ()
+	{
+		base.Init ();
+
+		// assign story
+		storyManager = new StoryManager ();
+		storyManager.InitHandler (StoryType.Boat);
+
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+	}
 
 
 	public override void Randomize ()
@@ -17,13 +26,7 @@ public class OtherBoatInfo : BoatInfo {
 		base.Randomize ();
 
 		coords = MapGenerator.Instance.RandomCoords;
-
 		currentDirection = (Directions)Random.Range (0,8);
-
-		// assign story
-		storyManager = new StoryManager ();
-		storyManager.InitHandler (IslandType.Boat);
-
 	}
 
 	public override void UpdatePosition ()
@@ -35,9 +38,19 @@ public class OtherBoatInfo : BoatInfo {
 		}
 	}
 
+	void HandleChunkEvent ()
+	{
+		UpdatePosition ();
+
+		if ( coords == Boats.PlayerBoatInfo.coords ) {
+			//
+			ShowOnScreen();
+		}
+	}
+
 	void MoveToOtherChunk ()
 	{
-		Coords newCoords = NavigationManager.Instance.getNewCoords (currentDirection);
+		Coords newCoords = coords + NavigationManager.Instance.getNewCoords (currentDirection);
 
 		if (newCoords.x >= MapGenerator.Instance.MapScale - 1) {
 
@@ -72,14 +85,22 @@ public class OtherBoatInfo : BoatInfo {
 	private void SwitchDirection () {
 //		Debug.Log ("switching direction from " + currentDirection.ToString () + " ...");
 
-		currentDirection = NavigationManager.Instance.SwitchDirection (currentDirection);
+		currentDirection = NavigationManager.GetOppositeDirection (currentDirection);
 
 //		Debug.Log ("... to " + currentDirection.ToString ());
+	}
+
+	public void ShowOnScreen () {
+		EnemyBoat.Instance.Show (this);
 	}
 
 	public StoryManager StoryHandlers {
 		get {
 			return storyManager;
 		}
+	}
+
+	void OnDestroy() {
+		NavigationManager.Instance.EnterNewChunk -= HandleChunkEvent;
 	}
 }

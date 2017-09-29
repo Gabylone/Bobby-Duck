@@ -35,47 +35,19 @@ public class NavigationManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject navigationTriggers;
 
-	/// <summary>
-	/// Navigation system.
-	/// </summary>
-	public enum NavigationSystem
-	{
-		Wheel,
-		Flag
-	}
-
-	[SerializeField]
-	private NavigationSystem navigationSystem;
-
 	[SerializeField]
 	private Transform[] anchors;
 
 	[SerializeField]
 	private Transform[] otherAnchors;
-
-	[SerializeField]
-	private WheelControl wheelControl;
-
-	[SerializeField]
-	private FlagControl flagControl;
-
 	public delegate void ChunkEvent ();
 	public ChunkEvent EnterNewChunk;
-
-	private Directions currentDirection;
-
-	public Directions CurrentDirection {
-		get {
-			return currentDirection;
-		}
-	}
 
 	void Awake () {
 		Instance = this;
 	}
 
 	void Start () {
-		InitPlayerBoatConctrol ();
 		StoryLauncher.Instance.playStoryEvent += HandlePlayStory;
 		StoryLauncher.Instance.endStoryEvent += HandleEndStory;
 	}
@@ -107,17 +79,10 @@ public class NavigationManager : MonoBehaviour {
 		}
 	}
 
-	private void InitPlayerBoatConctrol ()
-	{
-		flagControl.FlagImage.gameObject.SetActive (navigationSystem == NavigationSystem.Flag);
-		flagControl.gameObject.SetActive (navigationSystem == NavigationSystem.Flag);
-	}
-
-	#region movement
+	#region movementf
 	public void ChangeChunk ( Directions newDirection ) {
 
-		currentDirection = newDirection;
-
+		Boats.PlayerBoatInfo.Move (newDirection);
 
 		if (EnterNewChunk != null) {
 			EnterNewChunk ();
@@ -228,7 +193,45 @@ public class NavigationManager : MonoBehaviour {
 		return Vector2.zero;
 
 	}
-	public Directions SwitchDirection ( Directions direction ) {
+	public Transform GetOppositeAnchor ( Directions direction ) {
+		return otherAnchors[(int)GetOppositeDirection(direction)];
+	}
+
+	#endregion
+
+	#region properties
+	public GameObject NavigationTriggers {
+		get {
+			return navigationTriggers;
+		}
+	}
+	#endregion
+
+	public Transform[] Anchors {
+		get {
+			return anchors;
+		}
+	}
+
+	public Transform[] OtherAnchors {
+		get {
+			return otherAnchors;
+		}
+	}
+
+	public static Coords CurrentCoords {
+		get {
+			return Boats.PlayerBoatInfo.coords;
+		}
+	}
+
+	public static Coords PreviousCoords {
+		get {
+			return Boats.PlayerBoatInfo.PreviousCoords;
+		}
+	}
+
+	public static Directions GetOppositeDirection ( Directions direction ) {
 
 		switch (direction) {
 		case Directions.North:
@@ -263,66 +266,6 @@ public class NavigationManager : MonoBehaviour {
 			break;
 		}
 
-	}
-	#endregion
-
-	#region properties
-	public GameObject NavigationTriggers {
-		get {
-			return navigationTriggers;
-		}
-	}
-
-	public NavigationSystem CurrentNavigationSystem {
-		get {
-			return navigationSystem;
-		}
-		set {
-			navigationSystem = value;
-		}
-	}
-
-	public WheelControl WheelControl {
-		get {
-			return wheelControl;
-		}
-		set {
-			wheelControl = value;
-		}
-	}
-
-	public FlagControl FlagControl {
-		get {
-			return flagControl;
-		}
-		set {
-			flagControl = value;
-		}
-	}
-	#endregion
-
-	public Transform[] Anchors {
-		get {
-			return anchors;
-		}
-	}
-
-	public Transform[] OtherAnchors {
-		get {
-			return otherAnchors;
-		}
-	}
-
-	public static Coords CurrentCoords {
-		get {
-			return Boats.PlayerBoatInfo.coords;
-		}
-	}
-
-	public static Coords PreviousCoords {
-		get {
-			return Boats.PlayerBoatInfo.PreviousCoords;
-		}
 	}
 
 }

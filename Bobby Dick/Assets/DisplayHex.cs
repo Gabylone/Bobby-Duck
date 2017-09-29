@@ -16,7 +16,6 @@ public class DisplayHex : MonoBehaviour {
 
 		Chunk chunk = Chunk.GetChunk (Boats.PlayerBoatInfo.coords);
 
-		island.Init ();
 //		island.UpdatePositionOnScreen (coords);
 	}
 }

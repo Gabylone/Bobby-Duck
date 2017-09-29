@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum ItemCategory {
 	Provisions,
@@ -34,8 +35,6 @@ public class ItemLoader : MonoBehaviour {
 	int[][] levelRange;
 
 	int currentID = 0;
-
-	public int levelTest = 1;
 
 	void Awake () {
 		Instance = this;
@@ -126,82 +125,54 @@ public class ItemLoader : MonoBehaviour {
 	}
 
 	#region random items
-	int mult = 1;
+	// ONLY 1 CATEGORY
+	public Item[] getRandomLoot ( ItemCategory category , int mult ) {
 
-	public int Mult {
-		get {
-			return mult;
+		int itemType = (int)category;
+
+		int itemAmount = Random.Range (amountRange_Min[itemType],amountRange_Max[itemType]) * mult;
+
+		Item[] tmpItems = new Item[itemAmount];
+
+		// reset mult
+		for (int i = 0; i < itemAmount; ++i)
+		{
+		
+			// c'est ici que je dis :  !!! LES OBJETS PEUVENT ETRENT DE TOUS LES NIVEAUX !!!
+			int level = Random.Range ( 0, 11 );
+
+			tmpItems[i] = GetRandomItemOfCertainLevel ((ItemCategory)itemType,level);
 		}
-		set {
-			mult = value;
-		}
+
+		return tmpItems;
 	}
 
-	public Item[][] getRandomLoot ( ItemCategory[] categories ) {
+	public Item getRandomItem ( ItemCategory category ) {
 
-		Item[][] randomItems = new Item[categoryAmount][];
-		for (int i = 0; i < randomItems.Length; ++i ) {
-			randomItems[i] = new Item[0];
-		}
-
-		// get item amount
-		foreach ( ItemCategory cat in categories ) {
-
-			int itemType = (int)cat;
-
-			int itemAmount = Random.Range (amountRange_Min[itemType],amountRange_Max[itemType]) * mult;
-
-			// reset mult
-			if ( mult > 1 )
-				mult = 1;
-
-			randomItems [itemType] = new Item[itemAmount];
-			
-			for (int i = 0; i < itemAmount; ++i)
-			{
-				int level = Random.Range ( 0, 11 );
-				randomItems [itemType] [i] = getRandomItemSpecLevel ((ItemCategory)itemType,level);
-			}
-
-		}
-
-		return randomItems;
-	}
-
-	public Item getRandomItem ( ItemCategory itemType ) {
-
-		int l = items [(int)itemType].Length;
+		int l = items [(int)category].Length;
 		int index = Random.Range (0, l);
 
-		return items[(int)itemType][index];
+		return items[(int)category][index];
 	}
 
-	public Item getRandomItemSpecLevel ( ItemCategory itemType , int level = 0 ) {
+	public Item GetRandomItemOfCertainLevel ( ItemCategory itemType , int targetLevel = 0 ) {
 
 		int range1 = 0;
+
 		int range2 = items [(int)itemType].Length;
-		if ( level > 0 && level < LevelRange[(int)itemType].Length ) {
-			range1 = LevelRange [(int)itemType][level-1];
-			if ( LevelRange [(int)itemType][level] > 0 )
-				range2 = LevelRange [(int)itemType][level];
+
+		if ( targetLevel > 0 && targetLevel < LevelRange[(int)itemType].Length ) {
+			
+			range1 = LevelRange [(int)itemType][targetLevel-1];
+
+			if ( LevelRange [(int)itemType][targetLevel] > 0 )
+				range2 = LevelRange [(int)itemType][targetLevel];
+			
 		}
 
 		int index = Random.Range (range1, range2);
 
 		return items[(int)itemType][index];
-	}
-
-	public int getRandomIDSpecLevel ( ItemCategory itemType , int level = 0 ) {
-
-		int range1 = 0;
-		int range2 = items [(int)itemType].Length;
-		if ( level > 0 && level < LevelRange[(int)itemType].Length ) {
-			range1 = LevelRange [(int)itemType][level-1];
-			if ( LevelRange [(int)itemType][level] > 0 )
-				range2 = LevelRange [(int)itemType][level];
-		}
-
-		return Random.Range (range1, range2);
 	}
 
 	public Item[] getItems ( ItemCategory itemType ) {

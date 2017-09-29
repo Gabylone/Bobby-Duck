@@ -24,12 +24,13 @@ public class DisplayHunger : MonoBehaviour {
 	void UpdateImage ()
 	{
 		fillImage.fillAmount = 1 - ( (float)CrewMember.selectedMember.CurrentHunger / (float)CrewMember.selectedMember.maxHunger );
-		Tween.Bounce (fillImage.transform);
+		Tween.Bounce (transform);
 	}
 
 	void HandleUseInventory (InventoryActionType actionType)
 	{
 		if ( actionType == InventoryActionType.Eat ) {
+			print ("updating eat");
 			UpdateImage ();
 		}
 	}

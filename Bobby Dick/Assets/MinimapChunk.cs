@@ -5,18 +5,28 @@ using UnityEngine.UI;
 
 public class MinimapChunk : MonoBehaviour {
 
+	public delegate void OnTouchMinimapChunk (Chunk chunk);
+	public static OnTouchMinimapChunk onToucnMinimapChunk;
+
+	public Coords coords;
+
 	public GameObject islandGroup;
 
-
-	public void UpdateChunk (Coords worldCoords)
+	public void InitChunk (Coords worldCoords)
 	{
-		IslandData islandData = Chunk.GetChunk (worldCoords).IslandData;
+		coords = worldCoords;
 
-		if (islandData != null) {
-			islandGroup.SetActive (true);
-			islandGroup.GetComponent<Image> ().sprite = Island.sprites [islandData.SpriteID];
-		} else {
-			islandGroup.SetActive (false);
+		IslandData islandData = Chunk.GetChunk (worldCoords).IslandData;
+		islandGroup.GetComponent<Image> ().sprite = Island.sprites [islandData.SpriteID];
+
+	}
+
+	public void TouchMinimapChunk () {
+		
+		Tween.Bounce (islandGroup.transform);
+
+		if (onToucnMinimapChunk != null) {
+			onToucnMinimapChunk (Chunk.GetChunk (coords));
 		}
 
 	}

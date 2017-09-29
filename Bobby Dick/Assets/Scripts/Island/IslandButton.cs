@@ -28,8 +28,6 @@ public class IslandButton : MonoBehaviour {
 			name = Chunk.GetChunk(coords).IslandData.storyManager.storyHandlers [0].Story.name;
 		else
 			name = "Ile inconnue";
-
-		DisplayMap.Instance.showIslandInfo (name,(Vector2)transform.localPosition);
 	}
 
 	public bool Visible {

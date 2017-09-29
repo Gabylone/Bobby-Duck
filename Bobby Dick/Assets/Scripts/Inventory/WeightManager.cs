@@ -79,12 +79,12 @@ public class WeightManager : MonoBehaviour {
 
 			Bounce ();
 
-			currentWeightText.color = Color.red;
+//			currentWeightText.color = Color.red;
 
 			return false;
 		}
 
-		currentWeightText.color = Color.white;
+//		currentWeightText.color = Color.white;
 
 		return true;
 
@@ -93,7 +93,7 @@ public class WeightManager : MonoBehaviour {
 		UpdateDisplay ();
 	}
 	public void UpdateDisplay () {
-		currentWeightText.text = "" + CurrentWeight;
+//		currentWeightText.text = "" + CurrentWeight;
 		weightImage.fillAmount = ((float)CurrentWeight / (float)CurrentCapacity);
 	}
 	#endregion
@@ -116,7 +116,7 @@ public class WeightManager : MonoBehaviour {
 
 		Visible = wasActive;
 
-		currentWeightText.color = Color.white;
+//		currentWeightText.color = Color.white;
 
 		displayingFeedback = false;
 	}

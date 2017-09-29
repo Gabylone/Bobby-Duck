@@ -26,6 +26,9 @@ public class Quest {
 
 	public MemberID giver;
 
+	public delegate void ShowQuestOnMap (Quest quest);
+	public static ShowQuestOnMap showQuestOnMap;
+
 	public Quest () {
 		//
 
@@ -38,19 +41,24 @@ public class Quest {
 
 		SetRandomCoords ();
 
-		questID = StoryLoader.Instance.getStoryIndexFromPercentage (IslandType.Quest);
+		questID = StoryLoader.Instance.getStoryIndexFromPercentage (StoryType.Quest);
+
+		// set values
+		level = Random.Range(1,11);
+		goldValue = level * 10 + Random.Range(1,9);
+		experience = level * 5 + Random.Range (1, 9);
 
 		GetNewQuestnode ();
 
 		Node targetNode = Story.GetNode ("debut");
 
-		StoryReader.Instance.SetNewStory (Story, IslandType.Quest, targetNode, newQuest_FallbackNode);
+		StoryReader.Instance.SetNewStory (Story, StoryType.Quest, targetNode, newQuest_FallbackNode);
 
 	}
 
 	public void ReturnToGiver() {
 
-		StoryReader.Instance.SetNewStory (Story, IslandType.Quest, Story.GetNode("fin") , newQuest_FallbackNode);
+		StoryReader.Instance.SetNewStory (Story, StoryType.Quest, Story.GetNode("fin") , newQuest_FallbackNode);
 		//
 	}
 
@@ -63,16 +71,15 @@ public class Quest {
 
 		checkQuest_FallbackNode = StoryReader.Instance.GetNodeFromText ( nodeText );
 
-		StoryReader.Instance.SetNewStory (Story, IslandType.Quest, Story.GetNode("suite"), checkQuest_FallbackNode);
+		StoryReader.Instance.SetNewStory (Story, StoryType.Quest, Story.GetNode("suite"), checkQuest_FallbackNode);
 
 	}
 
 	#region map & coords
 	public void ShowOnMap ()
 	{
-		DisplayMap.Instance.OpenMap ();
-		DisplayMap.Instance.CenterOnCoords (targetCoords);
-		DisplayMap.Instance.HighlightPixel (targetCoords);
+		if (showQuestOnMap != null)
+			showQuestOnMap (this);
 	}
 
 	public void SetRandomCoords () {

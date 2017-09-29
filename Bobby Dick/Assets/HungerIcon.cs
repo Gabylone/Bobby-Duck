@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HungerIcon : MonoBehaviour {
 
-	private CrewIcon linkedIcon;
+	private MemberIcon linkedIcon;
 
 	public int hungerToAppear = 50;
 
@@ -24,7 +24,7 @@ public class HungerIcon : MonoBehaviour {
 
 		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
 
-		linkedIcon = GetComponentInParent<CrewIcon> ();
+		linkedIcon = GetComponentInParent<MemberIcon> ();
 
 		Hide ();
 	}

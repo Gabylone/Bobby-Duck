@@ -144,34 +144,34 @@ public class SaveManager : MonoBehaviour
 public class GameData
 {
 	// crew
-	public Crew 			playerCrew;
+	public Crew 				playerCrew;
 
-	public Chunk[][] 		chunks;
+	public Chunk[][] 			chunks;
 
 	// islands
-	public MapData 			mapData;
+	public MapData 				mapData;
 
-	public Formula[] 		formulas;
+	public Formula[] 			formulas;
 
-	public PlayerBoatInfo 	playerBoatInfo;
-	public OtherBoatInfo[] 	otherBoatInfos;
+	public PlayerBoatInfo 		playerBoatInfo;
+	public List<OtherBoatInfo>	otherBoatInfos;
 
-	public StoryHandler 	storyHandler;
+	public StoryHandler 		storyHandler;
 
-	public Loot 			playerLoot;
+	public Loot 				playerLoot;
 
-	public List<Quest> 		currentQuests;
-	public List<Quest>		finishedQuests;
+	public List<Quest> 			currentQuests;
+	public List<Quest>			finishedQuests;
 
-	public int 				playerWeight = 0;
-	public int 				playerGold = 0;
+	public int 					playerWeight = 0;
+	public int 					playerGold = 0;
 
 		// time
-	public bool 			raining = false;
-	public int 				currentRain = 0;
+	public bool 				raining = false;
+	public int 					currentRain = 0;
 
-	public bool 			night = false;
-	public int 				timeOfDay = 0;
+	public bool 				night = false;
+	public int 					timeOfDay = 0;
 
 	public GameData()
 	{

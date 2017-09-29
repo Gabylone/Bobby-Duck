@@ -127,7 +127,7 @@ public class Crews : MonoBehaviour {
 			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 		}
 
-		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.MoveDuration);
+		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.moveDuration);
 	}
 
 	public Crew GetCrewFromCurrentCell () {

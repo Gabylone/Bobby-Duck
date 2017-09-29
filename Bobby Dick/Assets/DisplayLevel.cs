@@ -16,12 +16,21 @@ public class DisplayLevel : MonoBehaviour {
 
 		LootManager.Instance.onWrongLevelEvent += HandleOnWrongLevelEvent;
 
-		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
+
+		StatButton.onClickStatButton += UpdateUI;
+
 	}
 
-	#region level icons
-	void HandleOnCardUpdate (CrewMember crewMember)
+	void HandleOpenInventory (CrewMember member)
 	{
+		UpdateUI ();
+	}
+
+	void UpdateUI (){
+
+		CrewMember crewMember = CrewMember.selectedMember;
+
 		// INFO
 		text.text = crewMember.Level.ToString ();
 
@@ -30,7 +39,12 @@ public class DisplayLevel : MonoBehaviour {
 		}
 
 		fillImage.fillAmount = ((float)crewMember.CurrentXp / (float)crewMember.xpToLevelUp);
+
+		BounceLevel ();
+
 	}
+
+	#region level icons
 	void BounceLevel () {
 		Tween.Bounce (fillImage.transform);
 	}

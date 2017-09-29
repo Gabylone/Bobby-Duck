@@ -60,6 +60,7 @@ public class StoryLoader : MonoBehaviour {
 		minFreq = 0f;
 
 		GetFiles (path);
+
 		for (int i = 0; i < storyFiles.Length; ++i )
 			storyList.Add(LoadSheet (i));
 	}
@@ -100,8 +101,9 @@ public class StoryLoader : MonoBehaviour {
 
 				minFreq += newStory.freq;
 
-				bool spriteIDParsable = int.TryParse (rowContent [2], out newStory.spriteID);
-				if (spriteIDParsable == false ) {
+				bool containsParam = int.TryParse (rowContent [2], out newStory.param);
+				if (containsParam == false ) {
+					
 					print("sprite id pas parcable : (" + rowContent[2] + ") dans l'histoire " + newStory.name);
 
 					print (rowContent [0]);
@@ -153,25 +155,25 @@ public class StoryLoader : MonoBehaviour {
 	public Story RandomStory (Coords c) {
 		return IslandStories[RandomStoryIndex (c)];
 	}
-	public IslandType GetTypeFromPos (Coords coords)
+	public StoryType GetTypeFromPos (Coords coords)
 	{
 		if (coords == MapData.Instance.treasureIslandCoords ) {
-			return IslandType.Treasure;
+			return StoryType.Treasure;
 		}
 
 		// check for home island
 		if (coords == MapData.Instance.homeIslandCoords ) {
-			return IslandType.Home;
+			return StoryType.Home;
 		}
 
 		// check if clue island
 		foreach (var formula in FormulaManager.Instance.formulas) {
 			if ( coords == formula.coords){
-				return IslandType.Clue;
+				return StoryType.Clue;
 			}
 		}
 
-		return IslandType.Normal;
+		return StoryType.Normal;
 	}
 	public int RandomStoryIndex (Coords c)
 	{
@@ -208,25 +210,25 @@ public class StoryLoader : MonoBehaviour {
 	#endregion
 
 	#region percentage
-	public List<Story> getStories ( IslandType storyType ) {
+	public List<Story> getStories ( StoryType storyType ) {
 
 		switch (storyType) {
-		case IslandType.Normal:
+		case StoryType.Normal:
 			return IslandStories;
 			break;
-		case IslandType.Treasure:
+		case StoryType.Treasure:
 			return TreasureStories;
 			break;
-		case IslandType.Home:
+		case StoryType.Home:
 			return HomeStories;
 			break;
-		case IslandType.Clue:
+		case StoryType.Clue:
 			return ClueStories;
 			break;
-		case IslandType.Boat:
+		case StoryType.Boat:
 			return BoatStories;
 			break;
-		case IslandType.Quest:
+		case StoryType.Quest:
 			return Quests;
 			break;
 		default:
@@ -234,7 +236,7 @@ public class StoryLoader : MonoBehaviour {
 			break;
 		}
 	}
-	public int getStoryIndexFromPercentage ( IslandType type ) {
+	public int getStoryIndexFromPercentage ( StoryType type ) {
 		return getStoryIndexFromPercentage (getStories(type));
 	}
 	public int getStoryIndexFromPercentage ( List<Story> stories ) {
@@ -257,7 +259,7 @@ public class StoryLoader : MonoBehaviour {
 
 
 
-	public Story FindByName (string storyName, IslandType type)
+	public Story FindByName (string storyName, StoryType type)
 	{
 		int index = FindIndexByName (storyName,type);
 
@@ -267,7 +269,7 @@ public class StoryLoader : MonoBehaviour {
 		return getStories(type)[index];
 	}
 
-	public int FindIndexByName (string storyName,IslandType storyType)
+	public int FindIndexByName (string storyName,StoryType storyType)
 	{
 		int storyIndex = getStories (storyType).FindIndex (x => x.name == storyName);
 

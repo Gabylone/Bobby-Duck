@@ -9,19 +9,22 @@ public class PlayerBoatInfo : BoatInfo {
 	public bool isInNoMansSea = false;
 	public bool hasBeenWarned = false;
 
-	public override void Randomize ()
+	public override void Init ()
 	{
-		base.Randomize ();
+		base.Init ();
 
 		coords = MapData.Instance.homeIslandCoords;
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;;
+	}
+
+	void HandleChunkEvent ()
+	{
+		UpdatePosition ();
 	}
 
 	public override void UpdatePosition ()
 	{
 		base.UpdatePosition ();
-
-		currentDirection = NavigationManager.Instance.CurrentDirection;
-		coords += NavigationManager.Instance.getNewCoords (currentDirection);
 	}
 
 	public void CheckForNoMansSea () {
@@ -57,7 +60,7 @@ public class PlayerBoatInfo : BoatInfo {
 			if (TimeManager.Instance.IsNight)
 				range--;
 
-			return Mathf.Clamp (range,1,10);
+			return Mathf.Clamp (range,0,10);
 
 		}
 		set {

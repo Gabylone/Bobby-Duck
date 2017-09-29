@@ -6,12 +6,16 @@ public class BoatInfo {
 	public string Name = "bateau";
 
 	private Coords previousCoords;
-	public Coords currentCoords;
+	private Coords currentCoords;
 
 	public Directions currentDirection;
 
 	public BoatInfo () {
 		
+	}
+
+	public virtual void Init () {
+		//
 	}
 
 	public virtual void Randomize () {
@@ -44,5 +48,10 @@ public class BoatInfo {
 		set {
 			previousCoords = value;
 		}
+	}
+
+	public void Move ( Directions dir ) {
+		currentDirection = dir;
+		coords += NavigationManager.Instance.getNewCoords (currentDirection);
 	}
 }

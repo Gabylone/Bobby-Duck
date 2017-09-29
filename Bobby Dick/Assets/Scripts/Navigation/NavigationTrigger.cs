@@ -11,38 +11,33 @@ public class NavigationTrigger : MonoBehaviour {
 
 	bool targeted = false;
 
-	bool inside = false;
-
 	void Start () {
+	
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 		Swipe.onSwipe += HandleOnSwipe;
+
+		WorldTouch.onTouchWorld += HandleOnTouchWorld;
 	}
 
-	void Update () {
-		if (targeted) {
+	void HandleOnTouchWorld ()
+	{
+		Targeted = false;
+	}
 
-			if (NavigationManager.Instance.FlagControl.UpdatingPosition) {
-				if (!inside) {
-					NavigationManager.Instance.FlagControl.PlaceFlagOnScreen ();
-					Targeted = false;
-				}
-			}
-
-		}
+	void HandleChunkEvent ()
+	{
+		Targeted = false;
 	}
 
 	void HandleOnSwipe (Directions direction)
 	{
 		if ( direction == this.direction ) {
-
-			NavigationManager.Instance.FlagControl.UpdatingPosition = false;
-			NavigationManager.Instance.FlagControl.FlagImage.transform.position = arrowGroup.transform.position;
-//			NavigationManager.Instance.FlagControl.PlaceFlagOnWorld (transform.localPosition);
-
+			PlayerBoat.Instance.SetTargetPos (GetComponent<RectTransform>());
 			Target ();
 		}
 	}
 
-	void OnTriggerStay2D ( Collider2D other ) {
+	void OnTriggerEnter2D ( Collider2D other ) {
 		if (other.tag == "Player" && targeted ) {
 			NavigationManager.Instance.ChangeChunk (direction);
 			Targeted = false;
@@ -51,26 +46,9 @@ public class NavigationTrigger : MonoBehaviour {
 
 	void Target ()
 	{
-		
+		Tween.Bounce (arrowGroup.transform);
 
 		Targeted = true;
-
-		Tween.Bounce (NavigationManager.Instance.FlagControl.FlagImage.transform);
-	}
-
-	public void OnMouseOver() {
-
-		if (targeted == false) {
-			if (NavigationManager.Instance.FlagControl.UpdatingPosition) {
-				Target ();
-			}
-		}
-
-		inside = true;
-	}
-
-	public void OnMouseExit () {
-		inside = false;
 	}
 
 	public bool Targeted {
@@ -79,12 +57,7 @@ public class NavigationTrigger : MonoBehaviour {
 		}
 		set {
 			targeted = value;
-
-			if (value == false) {
-				arrowGroup.SetActive (false);
-			}
-			NavigationManager.Instance.FlagControl.FlagImage.sprite = targeted ? NavigationManager.Instance.arrowSprites [(int)direction] : NavigationManager.Instance.flagSprite;
-
+			arrowGroup.SetActive (value);
 		}
 	}
 }

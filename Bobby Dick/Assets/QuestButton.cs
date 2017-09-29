@@ -17,6 +17,9 @@ public class QuestButton : MonoBehaviour {
 	[SerializeField]
 	private Text experienceText;
 
+	[SerializeField]
+	private Text levelText;
+
 	public void Select () {
 
 		Quest quest = QuestManager.Instance.CurrentQuests [id];
@@ -37,6 +40,7 @@ public class QuestButton : MonoBehaviour {
 
 		experienceText.text = quest.experience.ToString ();
 
+		levelText.text = quest.level.ToString ();
 
 	}
 

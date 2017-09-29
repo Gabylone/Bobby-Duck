@@ -51,10 +51,12 @@ public class MemberID {
 
 			Lvl = Random.Range (Crews.playerCrew.captain.Level - 3, Crews.playerCrew.captain.Level + 3);
 
-			if ( StoryReader.Instance.CurrentStoryHandler.storyType == IslandType.Quest ) {
+			if ( StoryReader.Instance.CurrentStoryHandler.storyType == StoryType.Quest ) {
 				Debug.Log ("l'histoire est une quete, donc la crew est du meme niveau que ma quete");
-				QuestManager.Instance.Coords_CheckForTargetQuest.goldValue += (Lvl * 10);
-				QuestManager.Instance.Coords_CheckForTargetQuest.experience += (Lvl * 10);
+//				QuestManager.Instance.Coords_CheckForTargetQuest.goldValue += (Lvl * 10);
+//				QuestManager.Instance.Coords_CheckForTargetQuest.experience += (Lvl * 10);
+
+				Lvl = QuestManager.Instance.Coords_CheckForTargetQuest.level;
 			}
 		}
 
@@ -89,8 +91,8 @@ public class MemberID {
 
 		VoiceID 		= Random.Range ( 0 , DialogueManager.Instance.SpeakSounds.Length );
 
-		equipedWeapon = ItemLoader.Instance.getRandomItemSpecLevel (ItemCategory.Weapon, Lvl);
-		equipedCloth = ItemLoader.Instance.getRandomItemSpecLevel (ItemCategory.Clothes, Lvl);
+		equipedWeapon = ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Weapon, Lvl);
+		equipedCloth = ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Clothes, Lvl);
 
 	}
 

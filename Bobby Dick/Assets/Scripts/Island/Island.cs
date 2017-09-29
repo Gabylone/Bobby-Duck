@@ -12,54 +12,78 @@ public class Island : MonoBehaviour {
 	private Image image;
 
 	[SerializeField]
-	private Transform boat;
-
-	[SerializeField] private float decal = 0f;
-
-	[SerializeField] private GameObject group;
+	private float decal = 0f;
 
 	[SerializeField]
-	private float distanceToTrigger = 1f;
+	private GameObject group;
+
+	[SerializeField]
+	Collider2D collider2D = null;
 
 	Vector2 scale = Vector2.zero;
 
-	public RectTransform anchor;
+	public RectTransform uiBackground;
+
+	private RectTransform rectTransform;
+
+	[SerializeField]
+	private RectTransform gameViewCenter;
 
 	#region mono
-
 	void Awake () {
 		Instance = this;
 	}
 
 	void Start () {	
+
+		rectTransform = GetComponent<RectTransform> ();
+		image = GetComponentInChildren<Image> ();
+
 		Init ();
+	
 	}
 
-	public void Init () {
+
+	void Init () {
+
+
 		sprites = Resources.LoadAll<Sprite> ("Graph/IslandSprites");
 
 		CombatManager.Instance.fightStarting 	+= DeactivateCollider;
 		CombatManager.Instance.fightEnding 		+= ActivateCollider;
 
+		Swipe.onSwipe += HandleOnSwipe;
+
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
-		image = GetComponentInChildren<Image> ();
+		WorldTouch.onTouchWorld += HandleOnTouchWorld;
 
 		UpdatePositionOnScreen (Boats.PlayerBoatInfo.coords);
 	}
 
+	void HandleOnSwipe (Directions direction)
+	{
+		collider2D.enabled = false;
+	}
+
+	void HandleOnTouchWorld ()
+	{
+		targeted = false;
+		collider2D.enabled = false;
+	}
+
 	void HandleChunkEvent ()
 	{
-		UpdatePositionOnScreen (Boats.PlayerBoatInfo.currentCoords);
+		UpdatePositionOnScreen (Boats.PlayerBoatInfo.coords);
 
 	}
 
 	void DeactivateCollider ()
 	{
-		GetComponentInChildren<BoxCollider2D> ().enabled = false;
+		collider2D.enabled = false;
 	}
 	void ActivateCollider () {
-		GetComponentInChildren<BoxCollider2D> ().enabled = true;
+		collider2D.enabled = true;
 	}
 	#endregion
 
@@ -97,15 +121,18 @@ public class Island : MonoBehaviour {
 
 	void OnCollisionStay2D ( Collision2D coll ) {
 		if ( coll.gameObject.tag == "Player" ) {
-			if (NavigationManager.Instance.FlagControl.TargetedIsland) {
+			if (targeted) {
 				Enter ();
-				NavigationManager.Instance.FlagControl.TargetedIsland = false;
+				targeted = false;
 			}
 		}
 	}
 
 	public delegate void OnTouchIsland ();
 	public static OnTouchIsland onTouchIsland;
+
+	public bool targeted = false;
+
 	public void Pointer_ClickIsland () {
 
 		Tween.Bounce (transform );
@@ -114,14 +141,30 @@ public class Island : MonoBehaviour {
 			onTouchIsland ();
 		}
 
+		collider2D.enabled = true;
 
-
+		targeted = true;
 	}
 
 	public Vector2 GetRandomPosition () {
-		float x = Random.Range (GetComponent<RectTransform> ().rect.width/2,anchor.rect.width-GetComponent<RectTransform> ().rect.width);
-		float y = Random.Range (GetComponent<RectTransform> ().rect.height/2,anchor.rect.height-GetComponent<RectTransform> ().rect.height);
+
+		if ( rectTransform == null )
+			rectTransform = GetComponent<RectTransform> ();
+
+//		float minX = uiBackground.rect.width + rectTransform.rect.width/2f;
+//		float maxX = Screen.width - rectTransform.rect.width/2f;
+//
+//		float minY = rectTransform.rect.height/2f;
+//		float maxY = Screen.height - rectTransform.rect.height/2f;
+//
+//		float x = Random.Range ( minX ,	maxX);
+//		float y = Random.Range (minY, maxY);
+
+		float x = Random.Range ( rectTransform.rect.width/2f , gameViewCenter.rect.width- (rectTransform.rect.width/2f) );
+		float y = Random.Range ( rectTransform.rect.height/2f , gameViewCenter.rect.height - rectTransform.rect.height/2f );
 
 		return new Vector2 (x,y);
+
 	}
 }
+ 

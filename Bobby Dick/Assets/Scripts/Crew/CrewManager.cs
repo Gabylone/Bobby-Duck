@@ -13,9 +13,8 @@ public class CrewManager : MonoBehaviour {
 	[SerializeField] private Crews.Side side;
 	[SerializeField] private Transform[] crewAnchors;
 
-	private int memberCapacity = 2;
-	[SerializeField]
-	private int maxMember = 8;
+	private int currentMemberCapacity = 2;
+	private int maxMemberCapacity = 4;
 
 	private bool placingCrew = false;
 
@@ -35,6 +34,7 @@ public class CrewManager : MonoBehaviour {
 	{
 		if (func == FunctionType.ChangeTimeOfDay)
 			AddToStates ();
+
 	}
 
 	void AddToStates ()
@@ -47,7 +47,7 @@ public class CrewManager : MonoBehaviour {
 	#region crew placement
 	public void ShowCrew () {
 		foreach (CrewMember member in crewMembers) {
-			member.Icon.MoveToPoint (member.Icon.PreviousPlacingType);
+			member.Icon.MoveToPoint (member.Icon.previousPlacingType);
 		}
 	}
 	public void UpdateCrew ( Crews.PlacingType placingType ) {
@@ -77,7 +77,7 @@ public class CrewManager : MonoBehaviour {
 	#region crew list
 	public void AddMember ( CrewMember member ) {
 
-		if (crewMembers.Count == memberCapacity)
+		if (crewMembers.Count == currentMemberCapacity)
 			return;
 
 		managedCrew.Add (member.MemberID);
@@ -95,7 +95,7 @@ public class CrewManager : MonoBehaviour {
 	}
 	public void RemoveMember ( CrewMember member ) {
 
-		Destroy (member.IconObj);
+		member.Icon.MoveToPoint (Crews.PlacingType.Hidden);
 
 		managedCrew.Remove (member.MemberID);
 		crewMembers.Remove (member);
@@ -108,11 +108,8 @@ public class CrewManager : MonoBehaviour {
 	}
 	public void DeleteCrew () {
 
-		if (crewMembers.Count == 0)
-			return;
-
-		foreach ( CrewMember member in CrewMembers )
-			Destroy (member.IconObj);
+		foreach (CrewMember member in CrewMembers)
+			member.Icon.MoveToPoint (Crews.PlacingType.Hidden);
 
 		crewMembers.Clear ();
 	}
@@ -130,27 +127,29 @@ public class CrewManager : MonoBehaviour {
 
 			CrewMember member = CrewCreator.Instance.NewMember (crew.MemberIDs [i]);
 			CrewMembers.Add (member);
+
+			member.Icon.MoveToPoint (Crews.PlacingType.Map);
 		}
 
 		ManagedCrew = crew;
 
-		UpdateCrew (Crews.PlacingType.Combat);
+		UpdateCrew (Crews.PlacingType.Map);
 	}
 	#endregion
 
 	#region property
 	public int MaxMember {
 		get {
-			return maxMember;
+			return maxMemberCapacity;
 		}
 	}
 
 	public int MemberCapacity {
 		get {
-			return memberCapacity;
+			return currentMemberCapacity;
 		}
 		set {
-			memberCapacity = Mathf.Clamp (value, 0, MaxMember);
+			currentMemberCapacity = Mathf.Clamp (value, 0, MaxMember);
 			BoatUpgradeManager.Instance.UpdateInfo ();
 		}
 	}

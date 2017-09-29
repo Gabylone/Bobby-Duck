@@ -16,8 +16,8 @@ public class DisplayLevelUp : MonoBehaviour {
 
 		group.SetActive (false);
 
-		GetComponentInParent<CrewIcon> ().Member.onLevelUp += HandleOnLevelUp;
-		GetComponentInParent<CrewIcon> ().Member.onLevelUpStat += HandleOnLevelUpStat;
+		GetComponentInParent<MemberIcon> ().Member.onLevelUp += HandleOnLevelUp;
+		GetComponentInParent<MemberIcon> ().Member.onLevelUpStat += HandleOnLevelUpStat;
 
 	}
 

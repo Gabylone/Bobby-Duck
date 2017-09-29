@@ -18,7 +18,7 @@ public class Card : MonoBehaviour {
 	private Image heartImage;
 
 	[SerializeField]
-	private Text heartText;
+	private GameObject heartGroup;
 
 	[SerializeField]
 	private Text defenceText;
@@ -42,14 +42,13 @@ public class Card : MonoBehaviour {
 
 	public virtual void UpdateMember ( CrewMember member ) {
 
-		Tween.Bounce (heartText.transform);
+		Tween.Bounce (heartGroup.transform);
 
 		nameText.text = member.MemberName;
 
 		levelText.text = member.Level.ToString ();
 
 		heartImage.fillAmount = (float)member.Health / (float)member.MemberID.maxHealth;
-		heartText.text = member.Health.ToString ();
 
 		attackText.text = member.Attack.ToString ();
 

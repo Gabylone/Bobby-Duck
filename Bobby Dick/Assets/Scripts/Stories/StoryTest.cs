@@ -13,7 +13,7 @@ public class StoryTest : MonoBehaviour {
 	public bool launchStoryOnStart;
 
 	public string testStoryName = "Maison";
-	public IslandType testStoryType;
+	public StoryType testStoryType;
 	public string nodeName = "";
 
 	public int X1 = 0;

@@ -15,9 +15,9 @@ RandomRange2;Node=>entrée maison;PlayerSpeak : C'est fermé…;;;;;Fade;;;[vie
 Node=>entrée maison;Node=>porte fermée;SetChoices3;;;;;Node=>entrée maison;;;OtherSpeak : De la compagnie !;Node=>salon vielle dame;
 ;;Choice : (défoncer la porte)(str);;Choice : (chercher une clé);;Choice : (repartir);;;;OtherSpeak : Venez boire un thé dans mon salon !;;
 ;;CheckStatSTR;;CheckInInventory<Clé>/Misc;;Fade;;;;Switch=>debut salon;;
-;;PlayerSpeak : BIM !;PlayerSpeak : Aie !;RemoveFromInventory<Clé>/Misc;PlayerSpeak : Je n'ai pas de clé et…;Leave;;;;Switch=>check bandits;;
-;;Switch=>ouvrir porte;RemoveHealth25;PlayerSpeak : Bingo !;Node=>porte fermée;;;;;Switch=>vielle dame à la porte ?;;
-;;Node=>entrée maison;Node=>choix porte;Node=>entrée maison;;;;;;HideOther;;
+;;PlayerSpeak : BIM !;PlayerSpeak : Elle ne bouge pas !;RemoveFromInventory<Clé>/Misc;PlayerSpeak : Je n'ai pas de clé et…;Leave;;;;Switch=>check bandits;;
+;;Switch=>ouvrir porte;Node=>choix porte;PlayerSpeak : Bingo !;Node=>porte fermée;;;;;Switch=>vielle dame à la porte ?;;
+;;Node=>entrée maison;;Node=>entrée maison;;;;;;HideOther;;
 ;;;;;;;;;;Fade;;
 ;;;;;;;;;;Node=>maison vide;;
 [entrée maison];;;;;;;;;;;;

@@ -75,7 +75,7 @@ public class LootManager : MonoBehaviour {
 
 	public void CreateNewLoot () {
 		Loot playerLoot = new Loot (0, 0);
-		playerLoot.Randomize (new ItemCategory[1] {ItemCategory.Provisions});
+		playerLoot.Randomize (new ItemCategory[1] {ItemCategory.Provisions},1);
 
 		setLoot (Crews.Side.Player, playerLoot);
 	}
@@ -105,6 +105,9 @@ public class LootManager : MonoBehaviour {
 	}
 
 	public Loot GetIslandLoot () {
+		return GetIslandLoot (1);
+	}
+	public Loot GetIslandLoot (int mult) {
 
 		int row = StoryReader.Instance.Decal;
 		int col = StoryReader.Instance.Index;
@@ -117,7 +120,7 @@ public class LootManager : MonoBehaviour {
 
 			ItemCategory[] categories = getLootCategoriesFromCell ();
 
-			newLoot.Randomize (categories);
+			newLoot.Randomize (categories,mult);
 
 			StoryReader.Instance.CurrentStoryHandler.SetLoot (newLoot);
 
@@ -133,7 +136,6 @@ public class LootManager : MonoBehaviour {
 		string cellParams = StoryFunctions.Instance.CellParams;
 
 		if ( cellParams.Length < 2 ) {
-			print ("pas de parms, toutes les cats");
 			return ItemLoader.allCategories;
 		}
 

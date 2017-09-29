@@ -6,8 +6,6 @@ public class MapGenerator : MonoBehaviour {
 
 	public static MapGenerator Instance;
 
-	[SerializeField]
-	private DisplayMap mapImage;
 
 	[SerializeField]
 	private int mapScale = 100;
@@ -32,6 +30,8 @@ public class MapGenerator : MonoBehaviour {
 
 	#region map data
 	private void CreateMapData () {
+
+		Chunk.chunks.Clear ();
 
 		for (int x = 0; x < mapScale; x++) {
 			for (int y = 0; y < mapScale; y++) {
@@ -62,7 +62,7 @@ public class MapGenerator : MonoBehaviour {
 					Coords c = new Coords ( x , y );
 
 					if (Chunk.GetChunk(c).State == ChunkState.UndiscoveredSea) {
-						Chunk.GetChunk(c).IslandData = new IslandData(IslandType.Normal);
+						Chunk.GetChunk(c).IslandData = new IslandData(StoryType.Normal);
 					}
 				}
 			}

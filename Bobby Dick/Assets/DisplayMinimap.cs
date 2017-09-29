@@ -6,106 +6,115 @@ using Holoville.HOTween;
 
 public class DisplayMinimap : MonoBehaviour {
 
+	// minimap chunks
 	public GameObject minimapChunkPrefab;
+	Dictionary<Coords,MinimapChunk> minimapChunks = new Dictionary<Coords, MinimapChunk>();
+	public GameObject minimapChunkParent;
 
-	public GameObject parent;
+	// minimap
+	public RectTransform overallRectTranfsorm;
+	public RectTransform scrollViewRectTransform;
 
-	public Image minimapImage;
-
+	// boat feedback
 	public RectTransform boatRectTransform;
-
-	public RectTransform scrollView;
-
-	public float overallDecal = 100f;
-
-	public Transform minimapChunkParent;
-
-	private Vector2 initScale = Vector2.zero;
-	private Vector2 initPos = Vector2.zero;
-
 	public float centerTweenDuration = 0.5f;
 
-	public float openOverallMapDuration = 0.5f;
+	private Vector2 minimapChunkScale;
 
-	Vector2 scale;
-
-	public int range = 1;
-
-	public float mapScaleBuffer;
+	public GameObject enemyBoatIconPrefab;
+	public List<RectTransform> enemyBoatIcons = new List<RectTransform>();
 
 	// Use this for initialization
 	void Start () {
-//		scale = minimapChunkPrefab.GetComponent<RectTransform>().sizeDelta;
 
 		InitMap ();
-		UpdateBackgroundImage ();
 
-		initPos = scrollView.anchoredPosition;
-		initScale = scrollView.sizeDelta;
+		InitBoatIcons ();
+		// subscribe
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;;
+		Quest.showQuestOnMap += HandleShowQuestOnMap;
 
-		boatRectTransform.sizeDelta = scale;
-
-		NavigationManager.Instance.EnterNewChunk += UpdateMinimap;
-
-		UpdateMinimap ();
+		HandleChunkEvent ();
 	}
 
-	void Update () {
-		if ( Input.GetKeyDown(KeyCode.L) ) {
-			OpenOverallMap ();
+	void HandleChunkEvent ()
+	{
+
+		UpdateBoatRange ();
+
+		CenterOnBoat ();
+		MovePlayerIcon ();
+
+		CheckForOtherBoats ();
+	}
+
+	void InitMap ()
+	{
+
+		print (Boats.PlayerBoatInfo.coords.ToString());
+
+		// get minimap chunk scale
+		//		minimapChunkScale = minimapChunkPrefab.GetComponent<RectTransform> ().rect.size;
+		minimapChunkScale = new Vector2(minimapChunkPrefab.GetComponent<RectTransform> ().rect.width,minimapChunkPrefab.GetComponent<RectTransform> ().rect.height);
+
+		overallRectTranfsorm.sizeDelta = minimapChunkScale * (MapGenerator.Instance.MapScale);
+
+		for (int x = 0; x <= MapGenerator.Instance.MapScale; x++) {
+
+			for (int y = 0; y <= MapGenerator.Instance.MapScale; y++) {
+
+				Coords chunk = new Coords (x, y);
+
+				if (Chunk.GetChunk (chunk).State == ChunkState.DiscoveredIsland
+					|| Chunk.GetChunk (chunk).State == ChunkState.VisitedIsland) {
+
+					PlaceMapChunk (chunk);
+				}
+			}
 		}
+
 	}
 
+	// QUEST
+	#region quest
+	void HandleShowQuestOnMap (Quest quest)
+	{
+		CenterMap (quest.targetCoords);
+		UpdateSingleChunk (quest.targetCoords);
+	}
+	#endregion
+
+	#region center
+	// CENTER
 	void CenterOnBoat() {
 		CenterMap (Boats.PlayerBoatInfo.coords);
 	}
 	void CenterMap (Coords coords)
 	{
-		float x = minimapImage.rectTransform.rect.width * (float)coords.x / MapGenerator.Instance.MapScale;
-		x -= scale.x/2f;
-		x = Mathf.Clamp (x,0, minimapImage.rectTransform.rect.width - scrollView.rect.width);
+		float x = overallRectTranfsorm.rect.width * (float)coords.x / MapGenerator.Instance.MapScale;
+		x -= minimapChunkScale.x/2f;
+		x = Mathf.Clamp (x,0, overallRectTranfsorm.rect.width - scrollViewRectTransform.rect.width);
 
-		float y = minimapImage.rectTransform.rect.height * (float)coords.y / MapGenerator.Instance.MapScale;
-		y -= scale.y/2f;
-		y = Mathf.Clamp (y,0, minimapImage.rectTransform.rect.height - scrollView.rect.height);
+		float y = overallRectTranfsorm.rect.height * (float)coords.y / MapGenerator.Instance.MapScale;
+		y -= minimapChunkScale.y/2f;
+		y = Mathf.Clamp (y,0, overallRectTranfsorm.rect.height - scrollViewRectTransform.rect.height);
 
-		Vector2 targetPos = new Vector2(-x,-y) + scale;
+		Vector2 targetPos = new Vector2(-x,-y) + minimapChunkScale;
 
-		HOTween.To (minimapImage.rectTransform, centerTweenDuration, "anchoredPosition", targetPos, false, EaseType.Linear, 0f);
+		HOTween.To (overallRectTranfsorm, centerTweenDuration, "anchoredPosition", targetPos, false, EaseType.Linear, 0f);
 	}
+	#endregion
 
-	#region init
-	void InitMap ()
-	{
-
-		scale = new Vector2(minimapChunkPrefab.GetComponent<RectTransform>().rect.width,minimapChunkPrefab.GetComponent<RectTransform>().rect.height);
-
-		minimapImage.rectTransform.sizeDelta = scale * (MapGenerator.Instance.MapScale + (mapScaleBuffer*2f));
-//		minimapImage.rectTransform.sizeDelta = scale * (MapGenerator.Instance.MapScale);
-
-		for (int x = 0; x <= MapGenerator.Instance.MapScale; x++) {
-			for (int y = 0; y <= MapGenerator.Instance.MapScale; y++) {
-				
-				Coords c = new Coords (x, y);
-
-				if (Chunk.GetChunk (c).State == ChunkState.DiscoveredIsland
-					|| Chunk.GetChunk (c).State == ChunkState.VisitedIsland) {
-					PlaceMapChunk (c);
-				}
-			}
-		}
-//
-//
-//		UpdateMinimap ();
-
-	}
-
+	#region map range
 	void UpdateBoatRange ()
 	{
-		Debug.Log ("updating ship range");
+		int boatRange = Boats.PlayerBoatInfo.ShipRange;
+		print ("boat range : " + boatRange);
+//		int boatRange = Boats.PlayerBoatInfo.ShipRange;
 
-		for (int x = -Boats.PlayerBoatInfo.ShipRange; x <= Boats.PlayerBoatInfo.ShipRange; x++) {
-			for (int y = -Boats.PlayerBoatInfo.ShipRange; y <= Boats.PlayerBoatInfo.ShipRange; y++) {
+		for (int x = -boatRange; x <= boatRange; x++) {
+			
+			for (int y = -boatRange; y <= boatRange; y++) {
 
 				Coords c = Boats.PlayerBoatInfo.coords + new Coords (x, y);
 
@@ -132,104 +141,124 @@ public class DisplayMinimap : MonoBehaviour {
 
 				}
 			}
+
 		}
 	}
-	#endregion
 
-	#region overall
-	void OpenOverallMap () {
-		HOTween.To (scrollView, openOverallMapDuration , "sizeDelta" , new Vector2(Screen.width , Screen.height) );
-		HOTween.To (scrollView, openOverallMapDuration , "anchoredPosition" , new Vector2(Screen.width , Screen.height)/2f );
+	void UpdateSingleChunk (Coords coords) {
 
-		print ("screen x : " + Screen.width);
-		print ("screen y : " + Screen.height);
+		Chunk chunk = Chunk.GetChunk (coords);
+
+		switch (chunk.State) {
+		case ChunkState.UndiscoveredIsland:
+			print ("it is undiscoved island");
+			chunk.State = ChunkState.DiscoveredIsland;
+			PlaceMapChunk (coords);
+			break;
+		default:
+			break;
+
+		}
+
 	}
 	#endregion
 
-	#region minimap
-	void UpdateMinimap ()
-	{
-		print ("oui?");
-		UpdateBoatRange ();
 
-		CenterOnBoat ();
-		MoveBoatIcon ();
-		UpdateBackgroundImage ();
-	}
-
-	void MoveBoatIcon () {
-
-		Vector2 boatPos = new Vector2 ((scale.x / 2f) + Boats.PlayerBoatInfo.coords.x * scale.x, (scale.y / 2f) + Boats.PlayerBoatInfo.coords.y * scale.y);
-
-		HOTween.To (boatRectTransform, centerTweenDuration-0.2f, "anchoredPosition", boatPos, false, EaseType.Linear, 0.2f);
-//		HOTween.To (boatRectTransform, centerTweenDuration, "anchoredPosition", boatPos, false, EaseType.Linear, centerTweenDuration);
-
-//		boatRectTransform.anchoredPosition = boatPos;
-
-		Tween.Bounce (boatRectTransform.transform);
-		//
-	}
-
+	#region map chunk
 	void PlaceMapChunk(Coords c) {
 
+		if ( minimapChunks.ContainsKey(c) ) {
+			Debug.LogError ("WHOOPS ! trying to place a minimap chunk where there's already one !");
+			return;
+		}
+
 		// INST
-		GameObject minimapChunk = Instantiate (minimapChunkPrefab, parent.transform);
+		GameObject minimapChunk = Instantiate (minimapChunkPrefab, minimapChunkParent.transform);
 
 		// SCALE
 		minimapChunk.transform.localScale = Vector3.one;
 
 		// POS
-		Vector3 pos;
-
 		//Vector2 decal = scale / (Boats.PlayerBoatInfo.ShipRange * 2 + 1);
-		pos = new Vector3 ( (scale.x/2) + (c.x * minimapImage.rectTransform.rect.width / MapGenerator.Instance.MapScale) , (scale.y/2) +  c.y * scale.y, 0f);
+		float x = (minimapChunkScale.x/2) 	+ (c.x * overallRectTranfsorm.rect.width / MapGenerator.Instance.MapScale);
+		float y = (minimapChunkScale.y / 2) + c.y * minimapChunkScale.y;
+		Vector2 pos = new Vector2 (x,y);
 
+		//		minimapChunk.GetComponent<RectTransform>().anchoredPosition = getPosFromCoords (c);
 		minimapChunk.GetComponent<RectTransform>().anchoredPosition = pos;
-//		minimapChunk.GetComponent<RectTransform> ().sizeDelta = new Vector2(10,10);
 
-//		Coords worldCoords = Boats.PlayerBoatInfo.CurrentCoords + new Coords(c.x,-c.y);
+		minimapChunk.GetComponent<MinimapChunk> ().InitChunk (c);
 
-		minimapChunk.GetComponent<MinimapChunk> ().UpdateChunk (c);
+		minimapChunks.Add (c, minimapChunk.GetComponent<MinimapChunk> ());
+
 	}
 	#endregion
 
-	#region make background image
-	public Image targetImage;
-	public Color color_VisitedSea;
-	public Color color_UnvisitedSea;
+	#region boatIcons
+	void InitBoatIcons() {
+		boatRectTransform.sizeDelta = minimapChunkScale;
+	}
+	Vector2 getPosFromCoords (Coords coords) {
 
-	void UpdateBackgroundImage () {
+		return new Vector2 ((minimapChunkScale.x / 2f) + coords.x * minimapChunkScale.x, (minimapChunkScale.y / 2f) + coords.y * minimapChunkScale.y);
 
-		Texture2D texture = new Texture2D (MapGenerator.Instance.MapScale, MapGenerator.Instance.MapScale);
+	}
+	void MovePlayerIcon () {
 
-		texture.filterMode = FilterMode.Point;
-		texture.anisoLevel = 0;
-		texture.mipMapBias = 0;
-		texture.wrapMode = TextureWrapMode.Clamp;
+		Vector2 boatPos = getPosFromCoords (Boats.PlayerBoatInfo.coords);
+		HOTween.To (boatRectTransform, centerTweenDuration-0.2f, "anchoredPosition", boatPos, false, EaseType.Linear, 0.2f);
 
-		texture.Resize (MapGenerator.Instance.MapScale, MapGenerator.Instance.MapScale);
+		Tween.Bounce (boatRectTransform.transform);
+	}
 
-		for (int x = 0; x < MapGenerator.Instance.MapScale; x++) {
-			for (int y = 0; y < MapGenerator.Instance.MapScale; y++) {
 
-				Chunk chunk = Chunk.GetChunk (new Coords (x, y));
+	void CheckForOtherBoats ()
+	{
 
-				if (chunk.State == ChunkState.DiscoveredSea
-					|| chunk.State == ChunkState.VisitedIsland
-					|| chunk.State == ChunkState.DiscoveredIsland) {
-
-					texture.SetPixel (x, y, color_VisitedSea);
-
-				} else {
-					texture.SetPixel (x, y, color_UnvisitedSea);
-				}
-			}
+		foreach (var item in enemyBoatIcons) {
+			item.gameObject.SetActive (false);
 		}
 
-		texture.Apply ();
+		int boatIndexInRange = 0;
 
-		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, MapGenerator.Instance.MapScale,  MapGenerator.Instance.MapScale) , Vector2.one * 0.5f );
+		int boatRange = Boats.PlayerBoatInfo.ShipRange;
+
+		foreach ( OtherBoatInfo boatInfo in Boats.Instance.OtherBoatInfos ) {
+
+
+			if ( boatInfo.coords <= Boats.PlayerBoatInfo.coords + boatRange&& boatInfo.coords >= Boats.PlayerBoatInfo.coords - boatRange ) {
+
+				PlaceOtherBoatIcon (boatInfo,boatIndexInRange);
+
+				++boatIndexInRange;
+
+			}
+
+		}
+	}
+
+
+	void PlaceOtherBoatIcon (OtherBoatInfo boatInfo, int boatIndexInRange ) {
+
+		if ( boatIndexInRange >= enemyBoatIcons.Count ) {
+			CreateEnemyIcon ();
+		}
+
+		enemyBoatIcons [boatIndexInRange].gameObject.SetActive (true);
+		enemyBoatIcons [boatIndexInRange].anchoredPosition = getPosFromCoords (boatInfo.coords);
 
 	}
+	void CreateEnemyIcon() {
+
+		GameObject boatIcon = Instantiate (enemyBoatIconPrefab, minimapChunkParent.transform);
+
+		boatIcon.transform.localScale = Vector3.one;
+
+		boatIcon.GetComponent<RectTransform> ().sizeDelta = minimapChunkScale;
+
+		enemyBoatIcons.Add (boatIcon.GetComponent<RectTransform>());
+	}
 	#endregion
+
+
 }

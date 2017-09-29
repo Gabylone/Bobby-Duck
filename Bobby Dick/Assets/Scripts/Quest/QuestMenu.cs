@@ -36,9 +36,11 @@ public class QuestMenu : MonoBehaviour {
 	}
 
 	void Start () {
+		
 		QuestManager.Instance.newQuestEvent += HandleNewQuestEvent;
 		QuestManager.onGiveUpQuest += HandleOnFinishQuest;
 		QuestManager.onFinishQuest += HandleOnFinishQuest;
+
 	}
 
 	void HandleOnFinishQuest (Quest quest)
@@ -73,6 +75,7 @@ public class QuestMenu : MonoBehaviour {
 		menuGroup.SetActive (true);
 
 		CrewInventory.Instance.CloseLoot ();
+		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
 
 		Tween.ClearFade (menuGroup.transform);
 		Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
@@ -93,6 +96,8 @@ public class QuestMenu : MonoBehaviour {
 
 	void InitButtons () {
 
+
+		/// CREATE BUTTONS
 		for (int buttonIndex = 0; buttonIndex < QuestManager.Instance.CurrentQuests.Count; buttonIndex++) {
 
 			if ( buttonIndex >= buttons.Count ) {
@@ -102,25 +107,23 @@ public class QuestMenu : MonoBehaviour {
 				buttons [buttonIndex].GetComponent<RectTransform> ().localPosition = Vector2.up * -(buttonDecal * buttonIndex);
 			}
 
-			if (buttonIndex < QuestManager.Instance.CurrentQuests.Count) {
+		}
 
-				buttons [buttonIndex].gameObject.SetActive (true);
-				buttons [buttonIndex].GetComponent<QuestButton> ().SetQuest (buttonIndex);
+		/// UPDATE BUTTON TO QUESTS
+		for (int questIndex = 0; questIndex < buttons.Count; questIndex++) {
+			
+			if (questIndex < QuestManager.Instance.CurrentQuests.Count) {
 
-
+				buttons [questIndex].gameObject.SetActive (true);
+				buttons [questIndex].GetComponent<QuestButton> ().SetQuest (questIndex);
 
 			} else {
 
-				buttons [buttonIndex].gameObject.SetActive (false);
+				buttons [questIndex].gameObject.SetActive (false);
 
 
 			}
-
 		}
-
-		float scale = (-anchor.localPosition.y) + (buttonPrefab.GetComponent<RectTransform>().rect.height*QuestManager.Instance.CurrentQuests.Count);
-
-		contentTransform.sizeDelta = new Vector2 (contentTransform.sizeDelta.x , scale);
 
 	}
 

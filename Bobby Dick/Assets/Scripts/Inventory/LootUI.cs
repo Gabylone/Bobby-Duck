@@ -23,16 +23,16 @@ public class LootUI : MonoBehaviour {
 		get {
 			int index = (ItemPerPage * currentPage) + SelectionIndex;
 
-			return handledLoot.allItems [currentCat] [index];
+			return handledLoot.allItems [(int)currentCat] [index];
 		}
 	}
 	private Item[] selectedItems {
 		get {
-			return handledLoot.allItems [currentCat].ToArray();
+			return handledLoot.allItems [(int)currentCat].ToArray();
 		}
 	}
 
-	private int currentCat = 0;
+	private ItemCategory currentCat;
 
 	public delegate void UseInventory ( InventoryActionType actionType );
 	public static UseInventory useInventory;
@@ -56,8 +56,6 @@ public class LootUI : MonoBehaviour {
 	[Header("Categories")]
 	[SerializeField] private Button[] categoryButtons;
 	private CategoryContent categoryContent;
-	[SerializeField]
-	private Sprite[] categorySprites;
 
 	[Header("Pages")]
 	[SerializeField] private GameObject previousPageButton;
@@ -103,7 +101,8 @@ public class LootUI : MonoBehaviour {
 		InitButtons (catContentType);
 
 		displayItems [0].Select ();
-		SwitchCategory (0);
+
+		InitCategory();
 
 		visible = true;
 		lootObj.SetActive (true);
@@ -179,15 +178,26 @@ public class LootUI : MonoBehaviour {
 
 
 	#region category navigation
-	public void SwitchCategory ( int cat ) {
 
-		categoryButtons [currentCat].interactable = true;
+	void InitCategory ()
+	{
+		for (int catIndex = 0; catIndex < categoryButtons.Length; catIndex++) {
+
+			if ( handledLoot.allItems[catIndex].Count > 0 ) {
+				currentCat = (ItemCategory)catIndex;
+				return;
+			}
+
+		}
+	}
+	public void SwitchCategory ( int cat ) {
+		SwitchCategory ((ItemCategory)cat);
+	}
+	public void SwitchCategory ( ItemCategory cat ) {
 
 		currentCat = cat;
 
-		categoryButtons [cat].interactable = false;
-
-		Tween.Bounce (categoryButtons[cat].transform, 0.2f , 1.1f);
+		Tween.Bounce (categoryButtons[(int)cat].transform, 0.2f , 1.1f);
 
 		currentPage = 0;
 
@@ -200,7 +210,7 @@ public class LootUI : MonoBehaviour {
 		if (!visible)
 			return;
 
-		UpdatePages ();
+		UpdateNavigationButtons ();
 		UpdateItemButtons ();
 		UpdateActionButton (0);
 		UpdateCategoryButtons ();
@@ -221,27 +231,20 @@ public class LootUI : MonoBehaviour {
 
 	private void UpdateCategoryButtons () {
 
-		for (int i = 0; i < categoryButtons.Length; ++i ) {
+		for (int buttonIndex = 0; buttonIndex < categoryButtons.Length; ++buttonIndex) {
 
-			categoryButtons [i].gameObject.SetActive ( false );
+			categoryButtons [buttonIndex].image.color = Color.white;
 
-			if (i < CategoryContent.itemCategories.Length) {
-
-				categoryButtons [i].gameObject.SetActive ( true );
-
-				Sprite sprite;
-
-				if (CategoryContent.itemCategories [0].categories.Length > 1)
-					sprite = categorySprites [(int)ItemCategory.Misc];
-				else
-					sprite = categorySprites [(int)CategoryContent.itemCategories [i].categories [0]];
-
-				categoryButtons [i].GetComponentsInChildren<Image> () [1].sprite = sprite;
-
-
+			// no items in category
+			if ( handledLoot.allItems[buttonIndex].Count == 0 ) {
+				categoryButtons [buttonIndex].interactable = false;
 			}
-
+			else {
+				categoryButtons [buttonIndex].interactable = true;
+			}
 		}
+
+		categoryButtons [(int)currentCat].image.color = Color.yellow;
 	}
 	#endregion
 
@@ -257,7 +260,7 @@ public class LootUI : MonoBehaviour {
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 	}
 
-	private void UpdatePages () {
+	private void UpdateNavigationButtons () {
 		maxPage = Mathf.CeilToInt ( selectedItems.Length / ItemPerPage);
 
 		previousPageButton.SetActive( currentPage > 0 );
@@ -288,7 +291,7 @@ public class LootUI : MonoBehaviour {
 		bool enoughItemsOnPage = selectedItems.Length > CurrentPage * ItemPerPage;
 
 		actionGroup.Visible =  enoughItemsOnPage;
-		actionGroup.UpdateButtons (CategoryContent.catButtonType[currentCat].buttonTypes);
+		actionGroup.UpdateButtons (CategoryContent.catButtonType[(int)currentCat].buttonTypes);
 
 
 		foreach (DisplayItem_Loot displayItem in displayItems)
@@ -337,23 +340,7 @@ public class LootUI : MonoBehaviour {
 
 [System.Serializable]
 public class CategoryContent {
-	public Categories[] itemCategories;
 	public CategoryButtonType[] catButtonType = new CategoryButtonType[4];
-
-}
-
-[System.Serializable]
-public class Categories {
-	public ItemCategory[] categories;
-
-	public ItemCategory this [int i] {
-		get {
-			return categories [i];
-		}
-		set {
-			categories [i] = value;
-		}
-	}
 }
 
 [System.Serializable]

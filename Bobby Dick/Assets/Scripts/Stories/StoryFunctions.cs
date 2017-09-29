@@ -51,6 +51,7 @@ public enum FunctionType {
 	SendPlayerBackToGiver,
 	FinishQuest,
 	ShowQuestOnMap,
+	DestroyShip
 
 }
 

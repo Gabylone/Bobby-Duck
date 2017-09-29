@@ -6,8 +6,6 @@ using System.Collections.Generic;
 public class IslandData {
 
 	public Vector2 positionOnScreen;
-	[System.NonSerialized]
-	private Vector2 appearRange = new Vector2 ( 241f , 125f );
 
 	public StoryManager storyManager;
 
@@ -16,7 +14,7 @@ public class IslandData {
 
 	}
 
-	public IslandData (IslandType storyType)
+	public IslandData (StoryType storyType)
 	{
 		storyManager = new StoryManager ();
 
@@ -28,7 +26,7 @@ public class IslandData {
 
 	public int SpriteID {
 		get {
-			return storyManager.storyHandlers [0].Story.spriteID;
+			return storyManager.storyHandlers [0].Story.param;
 		}
 	}
 }

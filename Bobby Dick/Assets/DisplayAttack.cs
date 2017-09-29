@@ -16,28 +16,34 @@ public class DisplayAttack : MonoBehaviour {
 
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
 		LootUI.useInventory += HandleUseInventory;
+		StatButton.onClickStatButton += HandleOnClickStatButton;
 
-		HandleOpenInventory (CrewMember.selectedMember);
+		UpdateUI (CrewMember.selectedMember);
 
+	}
+
+	void HandleOnClickStatButton ()
+	{
+		UpdateUI (CrewMember.selectedMember);
 	}
 
 	void HandleOpenInventory (CrewMember crewMember)
 	{
+		UpdateUI (crewMember);
+	}
+
+	void UpdateUI (CrewMember crewMember) {
 		uiText.text = crewMember.Attack.ToString ();
+		Tween.Bounce (transform);
 	}
 
 	void HandleUseInventory (InventoryActionType actionType)
 	{
 		if ( actionType == InventoryActionType.Equip ) {
 			if (LootUI.Instance.SelectedItem.category == ItemCategory.Weapon) {
-				Bounce ();
+				UpdateUI (CrewMember.selectedMember);
 			}
 		}
 
-	}
-
-	void Bounce () 
-	{
-		Tween.Bounce (transform);
 	}
 }

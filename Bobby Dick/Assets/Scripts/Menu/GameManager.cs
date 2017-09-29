@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour {
 		FormulaManager.Instance.Init ();
 		Crews.Instance.Init ();
 
+
+
 		if (KeepOnLoad.dataToLoad < 0) {
 
 			MapGenerator.Instance.GenerateIslands ();
@@ -40,8 +42,6 @@ public class GameManager : MonoBehaviour {
 		} else {
 			SaveManager.Instance.LoadGame (KeepOnLoad.dataToLoad);
 		}
-
-		Boats.Instance.Init ();
 
 		CrewInventory.Instance.Init ();
 

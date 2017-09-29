@@ -22,17 +22,17 @@ public class StoryCheck : MonoBehaviour {
 
 	IEnumerator CheckErrorInStories ()
 	{
-		CheckStoryType (StoryLoader.Instance.getStories(IslandType.Normal));
+		CheckStoryType (StoryLoader.Instance.getStories(StoryType.Normal));
 		yield return new WaitForEndOfFrame ();
-		CheckStoryType (StoryLoader.Instance.getStories(IslandType.Boat));
+		CheckStoryType (StoryLoader.Instance.getStories(StoryType.Boat));
 		yield return new WaitForEndOfFrame ();
-		CheckStoryType (StoryLoader.Instance.getStories(IslandType.Clue));
+		CheckStoryType (StoryLoader.Instance.getStories(StoryType.Clue));
 		yield return new WaitForEndOfFrame ();
-		CheckStoryType (StoryLoader.Instance.getStories(IslandType.Home));
+		CheckStoryType (StoryLoader.Instance.getStories(StoryType.Home));
 		yield return new WaitForEndOfFrame ();
-		CheckStoryType (StoryLoader.Instance.getStories(IslandType.Quest));
+		CheckStoryType (StoryLoader.Instance.getStories(StoryType.Quest));
 		yield return new WaitForEndOfFrame ();
-		CheckStoryType (StoryLoader.Instance.getStories(IslandType.Treasure));
+		CheckStoryType (StoryLoader.Instance.getStories(StoryType.Treasure));
 
 		if (!theresAnError) {
 			Debug.Log ("Stories & Quests are perfect");
@@ -168,7 +168,7 @@ public class StoryCheck : MonoBehaviour {
 			DisplayError ("the fallback node text : " + nodes[1] + " has no link",cellContent);
 		}
 
-		Story secondStory = StoryLoader.Instance.FindByName (storyName,IslandType.Normal);
+		Story secondStory = StoryLoader.Instance.FindByName (storyName,StoryType.Normal);
 		if ( secondStory == null ) {
 			DisplayError ("Story " + storyName + " doesn't exist ",cellContent);
 			return;

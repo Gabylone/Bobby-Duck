@@ -18,10 +18,9 @@ public class StatButton : MonoBehaviour {
 		text = GetComponentInChildren<Text> ();
 
 		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
-
 		StatButton.onClickStatButton += HandleOnClickStatButton;
 
-		Disable ();
+		Display (CrewMember.selectedMember);
 
 	}
 

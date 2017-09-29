@@ -26,34 +26,19 @@ public class CrewMember {
 	// COMPONENTS
 	public Crews.Side side;
 	private MemberID memberID;
-	private CrewIcon icon;
 	private MemberFeedback info;
-	private GameObject iconObj;
 
 	// HUNGER
 	private int stepsToHunger = 5;
 	private int hungerDamage = 5;
 	public int maxHunger = 100;
 
-	// INIT
-	private void Init () {
-
-		// icon
-		icon = iconObj.GetComponent<CrewIcon> ();
-		icon.Member = this;
-
-	}
-
 	// CONSTRUCTOR
-	public CrewMember (MemberID _memberID, Crews.Side _side, GameObject _iconObj )
+	public CrewMember (MemberID _memberID, Crews.Side _side )
 	{
 		memberID = _memberID;
 
-		iconObj = _iconObj;
-
 		side = _side;
-
-		Init ();
 	}
 
 	#region level
@@ -216,27 +201,9 @@ public class CrewMember {
 	#endregion
 
 	#region icon
-	public GameObject IconObj {
+	public MemberIcon Icon {
 		get {
-			return iconObj;
-		}
-		set {
-			iconObj = value;
-		}
-	}
-
-	public Vector3 IconPos {
-		get {
-			return iconObj.transform.position;
-		}
-	}
-
-	public CrewIcon Icon {
-		get {
-			return icon;
-		}
-		set {
-			icon = value;
+			return DisplayMemberIcons.GetInstance(side).memberIcons[GetIndex];
 		}
 	}
 	public int GetIndex {

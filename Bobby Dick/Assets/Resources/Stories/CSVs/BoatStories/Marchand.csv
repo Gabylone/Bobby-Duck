@@ -1,13 +1,13 @@
 Nom;Fréquence / 5;Boat Type;;;;;;;;;;;;;
-Marchand;26,92;0;;;;;;;;;;;;;
+Marchand;25;0;;;;;;;;;;;;;
 [debut];;;;;;;;;;;;;;;
-Narrator : Un petit bateau s'approche du NOMBATEAU. Il n'y a pas beaucoup de gens à bord mais ;;;;;;;;;;;;;;;
+Narrator : Un petit bateau s'approche du NOMBATEAU. Il n'y a pas beaucoup de gens à bord mais il est d’une taille considérable.;;;;;;;;;;;;;;;
 NewCrew1;;;;;[bobby];;;[combat];;[bateau vide];;;;;
 OtherSpeak : Salut voyageur !;Node=>bateau vide;Node=>combat;;;RandomPercent20;;;OtherSpeak : Bandit !;;Narrator : Le bateau est vide.;;;;;
 [choix];;;;;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;;RemoveKarma;;SetChoices2;;;;;
 RandomRange4;;;;;Node=>choix;Node=>choix;;LaunchCombat;;Choice : (partir);Choice : (fouiller);;;;
-Node=>vetement;Node=>armes;Node=>nourriture;Node=>babiole;;;;;Node=>bateau vide;;Leave;Fade;;;;
-;;;;;;;;;;;RandomPercent20;;;;
+Node=>vetement;Node=>armes;Node=>nourriture;Node=>babiole;;;;;Node=>bateau vide;;DestroyShip;Fade;;;;
+;;;;;;;;;;Leave;RandomPercent20;;;;
 ;;;;;;;;;;;PlayerSpeak : Rien de bien beau…;[fouille];;;
 ;;;;;;;;;;;Leave;RandomRange3;;;PlayerSpeak : Il n'y a plus rien.
 [vetement];;;;[autre];;;;;;;;PlayerSpeak : Des armes ! ;PlayerSpeak : De quoi manger.;PlayerSpeak : Des babioles;Leave

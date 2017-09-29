@@ -8,44 +8,43 @@ public class IslandInfo : MonoBehaviour {
 	[SerializeField]
 	private GameObject obj;
 	[SerializeField]
-	private RectTransform rect;
-	[SerializeField]
 	private Text uiText;
+
+	public float displayDuration = 1f;
 
 	// Use this for initialization
 	void Start () {
+
+		MinimapChunk.onToucnMinimapChunk += HandleOnTouchMinimapChunk;
+
+		Hide ();
+
+	}
+
+	void HandleOnTouchMinimapChunk (Chunk chunk)
+	{
+		if (chunk.State == ChunkState.VisitedIsland) {
+
+			uiText.text = chunk.IslandData.storyManager.CurrentStoryHandler.Story.name;
+
+		} else {
+
+			uiText.text = "Ile inconnue";
 		
-		Visible = false;
-
-		//DisplayMap.Instance.showIslandInfo += ShowIslandInfo;
-	}
-	
-	public void ShowIslandInfo ( string info , Vector2 p ) {
-		
-		Visible = true;
-
-		if ( p.x > 0 ) {
-			p.x -= rect.rect.width;
 		}
 
-		if ( p.y > 0 ) {
-			p.y -= rect.rect.height;
-		}
+		Show ();
 
-		rect.transform.localPosition = p;
-		uiText.text = info;
-		//
-	}
-	public void HideIslandInfo () {
-		Visible = false;
+		Tween.Bounce (transform);
+
+		CancelInvoke ();
+		Invoke ("Hide" , displayDuration);
 	}
 
-	public bool Visible {
-		get {
-			return obj.activeSelf;
-		}
-		set {
-			obj.SetActive (value);
-		}
+	public void Show () {
+		obj.SetActive (true);
+	}
+	public void Hide() {
+		obj.SetActive (false);
 	}
 }

@@ -5,30 +5,74 @@ public class PlayerBoat : Boat {
 
 	public static PlayerBoat Instance;
 
+	public delegate void OnEndMovement ();
+	public OnEndMovement onEndMovement;
+
+	[SerializeField]
+	private RectTransform defaultRecTransform;
+
+	public override void Start ()
+	{
+		base.Start();
+
+		WorldTouch.onTouchWorld += HandleOnTouchWorld;
+
+		Island.onTouchIsland += HandleOnTouchIsland;
+
+		StoryLauncher.Instance.playStoryEvent += EndMovenent;
+		StoryLauncher.Instance.endStoryEvent += EndMovenent;
+
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+
+		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
+
+	}
+
 	void Awake () {
 		Instance = this;
 	}
 
-	public override void Init ()
+	void HandleChunkEvent ()
 	{
-		base.Init();
+		SetTargetPos (defaultRecTransform);
+	}
 
-		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
+	void HandleOnTouchIsland ()
+	{
+		SetTargetPos (Island.Instance.GetComponent<RectTransform>());
+	}
 
+	void HandleOnTouchWorld ()
+	{
+		Vector2 pos = Camera.main.ScreenToWorldPoint (InputManager.Instance.GetInputPosition ());
+
+		SetTargetPos (Flag.Instance.rectTransform);
+	}
+
+	public override void Update ()
+	{
+		base.Update ();
+	}
+
+	public override void EndMovenent ()
+	{
+		base.EndMovenent ();
+
+		if ( onEndMovement != null )
+			onEndMovement ();
 	}
 
 	public override void UpdatePositionOnScreen ()
 	{
 		base.UpdatePositionOnScreen ();
 
-		Vector2 getDir = NavigationManager.Instance.getDir(Boats.PlayerBoatInfo.currentDirection);
-		GetTransform.position = NavigationManager.Instance.Anchors[(int)Boats.PlayerBoatInfo.currentDirection].position;
+		getTransform.position = NavigationManager.Instance.Anchors[(int)Boats.PlayerBoatInfo.currentDirection].position;
+
 	}
 
-	public override void Update ()
-	{
-		if (StoryLauncher.Instance.PlayingStory == false) {
-			base.Update ();
+	void OnTriggerEnter2D (Collider2D collider) {
+		if (collider.tag == "Flag") {
+			EndMovenent ();
 		}
 	}
 }

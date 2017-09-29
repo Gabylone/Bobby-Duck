@@ -21,15 +21,25 @@ public class Swipe : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		WorldTouch.pointerDownEvent += HandlePointerDownEvent;
+	}
+
+	void HandlePointerDownEvent ()
+	{
+		Swipe_Start ();
+	}
+
+	void HandleOnTouchWorld ()
+	{
+//		Swipe_Start ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if ( InputManager.Instance.OnInputDown() ) {
-			Swipe_Start ();
-		}
+//		if ( InputManager.Instance.OnInputDown() ) {
+//			Swipe_Start ();
+//		}
 
 		if (swiping) {
 			Swipe_Update ();

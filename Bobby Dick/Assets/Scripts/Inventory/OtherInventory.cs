@@ -99,8 +99,7 @@ public class OtherInventory : MonoBehaviour {
 	#region trade
 	public void StartTrade () {
 			// get loot
-		ItemLoader.Instance.Mult = 2;
-		Loot loot = LootManager.Instance.GetIslandLoot ();
+		Loot loot = LootManager.Instance.GetIslandLoot (2);
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, loot);
 
 		CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerLoot);

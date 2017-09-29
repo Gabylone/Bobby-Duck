@@ -17,8 +17,7 @@ public class Karma : MonoBehaviour {
 	[SerializeField]
 	private int bountyStep = 10;
 
-	[SerializeField]
-	private int maxKarma = 10;
+	public int maxKarma = 10;
 
 	[Header("UI")]
 	[SerializeField]
@@ -182,6 +181,8 @@ public class Karma : MonoBehaviour {
 		initColor = progressionImage.color;
 		lerping = true;
 		timer = 0f;
+
+		Tween.Bounce (group.transform);
 
 		SoundManager.Instance.PlaySound ( currentKarma < previousKarma ? karmaBadSound : karmaGoodSound );
 

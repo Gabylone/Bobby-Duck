@@ -102,38 +102,12 @@ public class CrewCreator : MonoBehaviour {
 			memberID,
 
 			// side
-			targetSide,
-
-			/// icon
-			NewIcon (memberID)
+			targetSide
 
 		);
 
-		crewMember.IconObj.GetComponent<CrewIcon> ().Member = crewMember;
-
 		return crewMember;
 	}
-
-	#region icons
-	public GameObject NewIcon (MemberID memberID) {
-
-		GameObject iconObj = Instantiate (memberPrefab) as GameObject;
-		CrewIcon icon = iconObj.GetComponent<CrewIcon> ();
-
-			// set object transform
-		iconObj.transform.SetParent (crewParent);
-		iconObj.transform.localScale = Vector3.one;
-		iconObj.transform.position = Crews.getCrew (targetSide).CrewAnchors [(int)Crews.PlacingType.Hidden].position;
-
-		Vector3 scale = new Vector3 ( TargetSide == Crews.Side.Enemy ? 1 : -1 , 1 , 1);
-
-		icon.ControllerTransform.transform.localScale = scale;
-
-		icon.HideBody ();
-
-		return iconObj;
-	}
-	#endregion
 
 	public Crews.Side TargetSide {
 		get {

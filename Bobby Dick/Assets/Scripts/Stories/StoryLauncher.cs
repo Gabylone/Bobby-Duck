@@ -76,6 +76,7 @@ public class StoryLauncher : MonoBehaviour {
 	public void EndStory () {
 
 			// hides crew when leaving ISLAND AND STORY
+		if ( StoryReader.Instance.CurrentStoryHandler.storyType != StoryType.Quest )
 		Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Hidden);
 
 		if ( StoryReader.Instance.CurrentStoryLayer > 0 ) {
@@ -97,9 +98,6 @@ public class StoryLauncher : MonoBehaviour {
 			break;
 		case StorySource.island:
 			Chunk.currentChunk.State = ChunkState.VisitedIsland;
-			break;
-		case StorySource.boat:
-			Boats.Instance.OtherBoat.Leave ();
 			break;
 		default:
 			break;

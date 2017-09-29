@@ -57,7 +57,7 @@ public class FormulaManager : MonoBehaviour {
 			newFormula.coords = MapGenerator.Instance.RandomCoords;
 
 
-			Chunk.GetChunk (newFormula.coords).IslandData = new IslandData (IslandType.Clue);
+			Chunk.GetChunk (newFormula.coords).IslandData = new IslandData (StoryType.Clue);
 
 			formulas [i] = newFormula;
 

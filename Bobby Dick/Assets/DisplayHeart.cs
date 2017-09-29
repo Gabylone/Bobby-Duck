@@ -5,26 +5,30 @@ using UnityEngine.UI;
 
 public class DisplayHeart : MonoBehaviour {
 
-	Image fillImage;
-	Text text;
+	public Image fillImage;
 
 	// Use this for initialization
 	void Start () {
 
-		fillImage = GetComponent<Image> ();
-		text = GetComponentInChildren<Text> ();
-
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
 		LootUI.useInventory += HandleUseInventory;
 
-		HandleOpenInventory (CrewMember.selectedMember);
-
+		UpdateUI ();
 	}
 
 	void HandleOpenInventory (CrewMember crewMember)
 	{
-		fillImage.fillAmount = (float)crewMember.Health / (float)crewMember.MemberID.maxHealth;
-		text.text = crewMember.Health.ToString ();
+		UpdateUI ();
+	}
+
+	void UpdateUI () {
+
+		CrewMember member = CrewMember.selectedMember;
+
+		fillImage.fillAmount = (float)member.Health / (float)member.MemberID.maxHealth;
+//		text.text = member.Health.ToString ();
+
+		BounceHeart ();
 	}
 
 	void BounceHeart() {
@@ -34,7 +38,7 @@ public class DisplayHeart : MonoBehaviour {
 	void HandleUseInventory (InventoryActionType actionType)
 	{
 		if ( actionType == InventoryActionType.Eat ) {
-			BounceHeart ();
+			UpdateUI ();
 		}
 	}
 }

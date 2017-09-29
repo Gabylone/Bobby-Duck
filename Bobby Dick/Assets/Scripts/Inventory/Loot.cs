@@ -30,12 +30,19 @@ public class Loot {
 
 	}
 
-	public void Randomize ( ItemCategory[] categories ) {
+	public void Randomize ( ItemCategory[] categories, int mult) {
 
-		foreach ( Item[] items in ItemLoader.Instance.getRandomLoot (categories) ) {
-			foreach ( Item item in items )
+		// for each categories in cell
+		foreach (var category in categories) {
+			
+			Item[] items = ItemLoader.Instance.getRandomLoot (category, mult);
+
+			foreach ( Item item in items ) {
 				AddItem (item);
+			}
+
 		}
+
 
 	}
 

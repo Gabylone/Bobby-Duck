@@ -151,7 +151,7 @@ public class CombatManager : MonoBehaviour {
 	private void CombatStart_Start () {
 
 		foreach (CrewMember member in Crews.enemyCrew.CrewMembers)
-			member.Icon.Overable = true;
+			member.Icon.overable = true;
 
 		SortFighters ();
 		ShowFighters ();
@@ -385,7 +385,7 @@ public class CombatManager : MonoBehaviour {
 			if (fighter.CrewMember.side == Crews.Side.Enemy) {
 				
 				fighter.ChooseButton.SetActive (b);
-				fighter.CrewMember.Icon.Overable = b;
+				fighter.CrewMember.Icon.overable = b;
 				fighter.ChooseButton.GetComponent<Button> ().interactable = b;
 			}
 		}

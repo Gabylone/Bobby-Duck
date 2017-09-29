@@ -1,20 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Boats : MonoBehaviour {
 
 	public static Boats Instance;
 
 	public static PlayerBoatInfo PlayerBoatInfo;
-	[SerializeField]
-	private OtherBoatInfo[] otherBoatInfos;
 
-	[Header("Boats")]
-	[SerializeField]
-	private PlayerBoat playerBoat;
-
-	[SerializeField]
-	private EnemyBoat otherBoat;
+	public List<OtherBoatInfo> otherBoatInfos = new List<OtherBoatInfo> ();
 
 	[SerializeField]
 	private int otherBoatAmount = 10;
@@ -27,79 +21,67 @@ public class Boats : MonoBehaviour {
 	private float timeToMove = 20f;
 
 	private float timer = 0f;
-	private bool metBoat = false;
 
 	void Awake () {
 		Instance = this;
 	}
 
-	// Use this for initialization
-	public void Init () {
+	void Start () {
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
 
-		NavigationManager.Instance.EnterNewChunk += HideBoat;
-		NavigationManager.Instance.EnterNewChunk += UpdatePlayerBoatPosition;
-		NavigationManager.Instance.EnterNewChunk += UpdateEnemyBoatPosition;
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.AddKarma:
+			if (Karma.Instance.CurrentKarma < 0) {
+				RemoveImperialBoat ();
+			}
+			break;
+		case FunctionType.RemoveKarma:
+			if ( Karma.Instance.CurrentKarma > -Karma.Instance.maxKarma )
+				AddImperialBoat ();
+			break;
+		default:
+			break;
+		}
+	}
 
-		playerBoat.Init ();
-		otherBoat.Init ();
+	void AddImperialBoat ()
+	{
+		print ("adding imperial boat");
+
+		OtherBoatInfo otherBoatInfo = new OtherBoatInfo ();
+		otherBoatInfo.Init ();
+		otherBoatInfo.Randomize ();
+
+		int imperialID = StoryLoader.Instance.FindIndexByName ("Impériaux",StoryType.Boat);
+
+		otherBoatInfo.StoryHandlers.CurrentStoryHandler.storyID = imperialID;
+
+		otherBoatInfos.Add(otherBoatInfo);
+
 
 	}
 
-	public int amountMult = 1;
+	void RemoveImperialBoat ()
+	{
+		print ("removing imperial boat");
+
+		otherBoatInfos.RemoveAt(OtherBoatInfos.Count-1);
+	}
 
 	public void RandomizeBoats( ) {
-		
+
 		PlayerBoatInfo = new PlayerBoatInfo ();
-		PlayerBoatInfo.Randomize ();
+		PlayerBoatInfo.Init ();
 
-		otherBoatAmount = MapGenerator.Instance.MapScale * amountMult;
-
-		otherBoatInfos = new OtherBoatInfo[otherBoatAmount];
-		for (int i = 0; i < otherBoatInfos.Length; i++) {
-			otherBoatInfos [i] = new OtherBoatInfo ();
-			otherBoatInfos [i].Randomize ();
+		for (int i = 0; i < otherBoatAmount; i++) {
+			OtherBoatInfo otherBoatInfo = new OtherBoatInfo ();
+			otherBoatInfo.Init ();
+			otherBoatInfo.Randomize ();
+			otherBoatInfos.Add(otherBoatInfo);
 		}
-	}
-
-	void UpdateEnemyBoatPosition ()
-	{
-		foreach (OtherBoatInfo boat in OtherBoatInfos) {
-			
-			boat.UpdatePosition ();
-
-			if ( boat.coords == Boats.PlayerBoatInfo.coords ) {
-
-				ShowBoat (boat);
-
-			}
-		}
-
-	}
-
-	void UpdatePlayerBoatPosition () {
-		PlayerBoatInfo.UpdatePosition ();
-
-	}
-
-	public void ShowBoat (OtherBoatInfo boatInfo)
-	{
-		otherBoat.OtherBoatInfo = boatInfo;
-
-		otherBoat.UpdatePositionOnScreen ();
-
-		metBoat = true;
-
-		otherBoat.Visible = true;
-
-	}
-
-	public void HideBoat () {
-
-		otherBoat.OtherBoatInfo = null;
-		otherBoat.Visible = false;
-
-		metBoat = false;
-
 	}
 
 	public void LoadBoats () {
@@ -111,18 +93,12 @@ public class Boats : MonoBehaviour {
 		SaveManager.Instance.CurrentData.otherBoatInfos = OtherBoatInfos;
 	}
 
-	public OtherBoatInfo[] OtherBoatInfos {
+	public List<OtherBoatInfo> OtherBoatInfos {
 		get {
 			return otherBoatInfos;
 		}
 		set {
 			otherBoatInfos = value;
-		}
-	}
-
-	public EnemyBoat OtherBoat {
-		get {
-			return otherBoat;
 		}
 	}
 }
