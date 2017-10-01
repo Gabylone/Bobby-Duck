@@ -6,14 +6,12 @@ public class CameraBehavior : MonoBehaviour {
 
 	[SerializeField]
 	private Vector2 cameraDecal = Vector2.zero;
-	public static Vector2 staticCameraDecal;
 	[SerializeField]
 	private Vector2 buffer;
 
 	// Use this for initialization
 	void Start () {
 //		CameraTrigger.touchBorder += MoveCam;
-		staticCameraDecal = cameraDecal;
 		transform.position = CenterCam (Character.Instance.GetTransform.position);
 	}
 
@@ -57,12 +55,13 @@ public class CameraBehavior : MonoBehaviour {
 		}
 	}
 
-	public static Vector2 CenterCam ( Vector2 pos )
+	Vector2 CenterCam ( Vector2 pos )
 	{
-		float x = Mathf.Round(pos.x / staticCameraDecal.x) * staticCameraDecal.x;
-		float y = Mathf.Round(pos.y / staticCameraDecal.y) * staticCameraDecal.y;
+		float x = Mathf.Round(pos.x / cameraDecal.x) * cameraDecal.x;
+		float y = Mathf.Round(pos.y / cameraDecal.y) * cameraDecal.y;
 
-		return new Vector2(x , y);
+		return new
+			Vector2(x , y);
 	}
 
 	#region Grid
