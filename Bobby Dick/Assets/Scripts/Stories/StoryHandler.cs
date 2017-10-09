@@ -33,7 +33,11 @@ public class StoryManager {
 
 	public StoryHandler CurrentStoryHandler {
 		get {
-			return storyHandlers [StoryReader.Instance.CurrentStoryLayer];
+			if ( StoryReader.Instance.currentStoryLayer >= storyHandlers.Count ) {
+				Debug.LogError ("Le layer d'histoire est au dessus du nombre de story handlers");
+				return storyHandlers [0];
+			}
+			return storyHandlers [StoryReader.Instance.currentStoryLayer];
 		}
 	}
 }
@@ -119,26 +123,17 @@ public class StoryHandler {
 		}
 	}
 
-	public void SetDecal (int i) {
-		SaveDecal = i;
+	public void SaveDecal (int i) {
+		contentDecals.Add (new contentDecal(StoryReader.Instance.Decal , StoryReader.Instance.Index , i) );
 	}
 	public int GetDecal() {
-		return SaveDecal;
-	}
+		contentDecal cDecal = contentDecals.Find ((contentDecal obj) => (obj.x == StoryReader.Instance.Decal) && (obj.y == StoryReader.Instance.Index) );
 
-	private int SaveDecal {
-		get {
-			contentDecal cDecal = contentDecals.Find ((contentDecal obj) => (obj.x == StoryReader.Instance.Decal) && (obj.y == StoryReader.Instance.Index) );
-
-			if (cDecal == default(contentDecal)) {
-				return -1;
-			}
-
-			return cDecal.decal;
+		if (cDecal == default(contentDecal)) {
+			return -1;
 		}
-		set {
-			contentDecals.Add (new contentDecal(StoryReader.Instance.Decal , StoryReader.Instance.Index , value) );
-		}
+
+		return cDecal.decal;
 	}
 }
 

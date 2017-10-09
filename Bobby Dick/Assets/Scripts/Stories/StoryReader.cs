@@ -11,8 +11,8 @@ public class StoryReader : MonoBehaviour {
 	private int index = 0;
 	private int decal = 0;
 
-	private int currentStoryLayer = 0;
-	private int previousStoryLayer = 0;
+	public int currentStoryLayer = 0;
+	public int previousStoryLayer = 0;
 
 	private bool waitToNextCell = false;
 	private float timer = 0f;
@@ -214,7 +214,7 @@ public class StoryReader : MonoBehaviour {
 		if ( targetStoryLayer < 0 ) {
 			
 			StoryHandler newHandler = new StoryHandler ( secondStoryID,storyType);
-			newHandler.fallBackLayer = CurrentStoryLayer;
+			newHandler.fallBackLayer = currentStoryLayer;
 			newHandler.decal = decal;
 			newHandler.index = index;
 			newHandler.fallbackNode = fallbackNode;
@@ -224,15 +224,18 @@ public class StoryReader : MonoBehaviour {
 			targetStoryLayer = CurrentStoryManager.storyHandlers.Count - 1;
 		}
 
-
+		previousStoryLayer = currentStoryLayer;
 		currentStoryLayer = targetStoryLayer;
 
 		GoToNode (targetNode);
 	}
 
 	public void FallBackToPreviousStory () {
-
+		
 		Node fallbackNode = CurrentStoryHandler.fallbackNode;
+
+		print ("falling back to node : " + fallbackNode.name);
+
 
 		currentStoryLayer = CurrentStoryHandler.fallBackLayer;
 		StoryReader.Instance.GoToNode (fallbackNode);
@@ -302,12 +305,6 @@ public class StoryReader : MonoBehaviour {
 	}
 	#endregion
 
-	public int CurrentStoryLayer {
-		get {
-			return currentStoryLayer;
-		}
-	}
-
 	public StoryManager CurrentStoryManager {
 		get {
 			return currentStoryManager;
@@ -319,10 +316,10 @@ public class StoryReader : MonoBehaviour {
 
 	public StoryHandler CurrentStoryHandler {
 		get {
-			return CurrentStoryManager.storyHandlers[CurrentStoryLayer];
+			return CurrentStoryManager.storyHandlers[currentStoryLayer];
 		}
 		set {
-			CurrentStoryManager.storyHandlers[CurrentStoryLayer] = value;
+			CurrentStoryManager.storyHandlers[currentStoryLayer] = value;
 		}
 	}
 }

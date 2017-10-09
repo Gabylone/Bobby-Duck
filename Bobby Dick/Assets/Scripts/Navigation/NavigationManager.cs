@@ -272,6 +272,7 @@ public class NavigationManager : MonoBehaviour {
 
 [System.Serializable]
 public struct Coords {
+	
 	public int x;
 	public int y;
 
@@ -398,5 +399,41 @@ public struct Coords {
 	{
 		return "X : " + x + " / Y : " + y;
 	}
-	   
+
+	public static Coords GetClosest ( Coords originCoords ) {
+		
+		int radius = 1;
+
+		while ( radius < MapGenerator.Instance.MapScale ) {
+
+			for (int x = -radius; x < radius; x++) {
+				for (int y = -radius; y < radius; y++) {
+
+					if (x == 0 && y == 0)
+						continue;
+
+					Coords coords = new Coords (originCoords.x + x, originCoords.y + y);
+
+					if (coords > MapGenerator.Instance.MapScale || coords <= 0) {
+						continue;
+					}
+
+					Chunk chunk = Chunk.GetChunk (coords);
+
+					if (chunk.IslandData != null) {
+						return coords;
+					}
+
+
+				}
+			}
+
+			++radius;
+		}
+
+		Debug.Log ("could not find closest island");
+
+		return new Coords (20,20);
+
+	}
 }

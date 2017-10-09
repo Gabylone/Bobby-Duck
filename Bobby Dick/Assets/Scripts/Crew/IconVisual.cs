@@ -4,7 +4,7 @@ using System.Collections;
 
 public class IconVisual : MonoBehaviour {
 	
-	public void UpdateVisual (MemberID memberID) {
+	public void UpdateVisual (Member memberID) {
 
 		FaceImage.color = CrewCreator.Instance.Beige;
 

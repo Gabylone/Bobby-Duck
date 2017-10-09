@@ -89,6 +89,18 @@ public class StoryFunctions : MonoBehaviour {
 			StoryLauncher.Instance.EndStory ();
 			return;
 		}
+
+
+//		// GET DECAL
+		int decal = StoryReader.Instance.CurrentStoryHandler.GetDecal();
+		if ( decal >= 0 ) {
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.SetDecal (decal);
+
+			StoryReader.Instance.UpdateStory ();
+			//
+			return;
+		}
 	
 		if ( content[0] == '[' ) {
 

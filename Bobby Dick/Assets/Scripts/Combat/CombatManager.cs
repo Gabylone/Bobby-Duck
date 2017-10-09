@@ -34,6 +34,7 @@ public class CombatManager : MonoBehaviour {
 		Charming,
 		Eating,
 	}
+
 	private States previousState = States.None;
 	private States currentState = States.None;
 	public delegate void UpdateState();
@@ -168,15 +169,16 @@ public class CombatManager : MonoBehaviour {
 		fighters.Clear ();
 		currPlayerFighters.Clear ();
 		currEnemyFighters.Clear ();
+
 		for (int fighterIndex = 0; fighterIndex < Crews.playerCrew.CrewMembers.Count; fighterIndex++) {
 			fighters.Add (initPlayerFighters[fighterIndex]);
 			currPlayerFighters.Add (initPlayerFighters [fighterIndex]);
 		}
+
 		for (int fighterIndex = 0; fighterIndex < Crews.enemyCrew.CrewMembers.Count; fighterIndex++) {
 			fighters.Add (initEnemyFighters[fighterIndex]);
 			currEnemyFighters.Add (initEnemyFighters [fighterIndex]);
 		}
-
 	}
 
 	private void CombatStart_Update () {}
@@ -338,10 +340,10 @@ public class CombatManager : MonoBehaviour {
 	{
 		ActionType tmpType = ActionType.Attacking;
 
-		float maxChanceOfCharisma = 0.45f;
-		float currentChanceOfCharisma = (currentMember.GetStat(Stat.Charisma) * maxChanceOfCharisma) / currentMember.maxStat;
-		if ( Random.value < currentChanceOfCharisma )
-			tmpType = ActionType.Charming;
+//		float maxChanceOfCharisma = 0.45f;
+//		float currentChanceOfCharisma = (currentMember.GetStat(Stat.Charisma) * maxChanceOfCharisma) / currentMember.maxStat;
+//		if ( Random.value < currentChanceOfCharisma )
+//			tmpType = ActionType.Charming;
 
 		if ( currentMember.Health <= (float)currentMember.MemberID.maxHealth / 4f ) {
 
@@ -620,7 +622,7 @@ public class CombatManager : MonoBehaviour {
 
 		StopFight ();
 
-		int po = crewValue * Random.Range (2, 4);
+		int po = crewValue * Random.Range (10, 20);
 
 		string phrase = "Il avait " + po + " pièces d'or";
 		DialogueManager.Instance.SetDialogue (phrase, CombatManager.Instance.currPlayerFighters[0].dialogueAnchor);
@@ -817,6 +819,8 @@ public class CombatManager : MonoBehaviour {
 	}
 
 	public void StartFight () {
+
+		Crews.enemyCrew.managedCrew.hostile = true;
 
 		fighting = true;
 

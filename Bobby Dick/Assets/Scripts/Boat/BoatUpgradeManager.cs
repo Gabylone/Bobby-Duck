@@ -43,6 +43,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 	private GameObject[] crewIcons;
 
 	[Header("Prices")]
+	public Button[] goldButtons;
 	[SerializeField]
 	private Text[] goldTexts;
 	[SerializeField]
@@ -52,7 +53,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 	[SerializeField]
 	private Image[] upgradeImages;
 	private int [] upgradeLevels = new int[3] {1,1,1};
-	private int upgradeMaxLevel = 5;
+	public int[] upgradeMaxLevel;
 
 	[Header("Sounds")]
 	[SerializeField] private AudioClip upgradeSound;
@@ -65,9 +66,16 @@ public class BoatUpgradeManager : MonoBehaviour {
 			upgradeLevels [i] = 1;
 		}
 
-		CrewInventory.Instance.closeInventory += CloseUpgradeMenu;
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
+
+		goldButtons = tradingGroup.GetComponentsInChildren<Button> ();
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleOpenInventory (CrewMember member)
+	{
+		CloseUpgradeMenu ();
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -86,7 +94,8 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		nameTextUI.text = Boats.PlayerBoatInfo.Name;
 
-		CrewInventory.Instance.CloseLoot ();
+		CrewInventory.Instance.HideInventory ();
+
 		QuestMenu.Instance.Close ();
 
 		Tween.Bounce (menuObj.transform, 0.2f, 1.05f);
@@ -111,7 +120,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		switch ( (UpgradeType)i ) {
 		case UpgradeType.Crew:
-			Crews.playerCrew.MemberCapacity += 1;
+			Crews.playerCrew.currentMemberCapacity += 1;
 			break;
 		case UpgradeType.Cargo:
 			WeightManager.Instance.CurrentCapacity += 50;
@@ -139,18 +148,29 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		for (int i = 0; i < levelTexts.Length; ++i ) {
 			levelTexts [i].text = "" + upgradeLevels [i];
-			upgradeImages [i].fillAmount = (float)upgradeLevels [i] / (float)upgradeMaxLevel;
+			upgradeImages [i].fillAmount = (float)upgradeLevels [i] / (float)upgradeMaxLevel[i];
 		}
 
-		for (int i = 0; i < goldTexts.Length; ++i)
-			goldTexts[i].text = "" + upgradePrices[i];
+		for (int i = 0; i < goldButtons.Length; ++i) {
+			if ( upgradeLevels[i] >= upgradeMaxLevel[i] ) {
+				goldButtons [i].interactable = false;
+				goldTexts [i].text = "MAX";
+			} else {
+				goldTexts[i].text = "" + upgradePrices[i];
+			}
+		}
+
 
 		levelTextUI.text = "" + currentLevel;
 //		levelImage.fillAmount = (float)currentLevel / (float)(upgradeMaxLevel*3);
 
 		for (int i = 0; i < crewIcons.Length; ++i ) {
-			crewIcons [i].SetActive (i <= Crews.playerCrew.MemberCapacity);
-			crewIcons [i].GetComponentInChildren<Image>().color = i == Crews.playerCrew.MemberCapacity ? Color.white : Color.black;
+//			crewIcons [i].SetActive (i <= Crews.playerCrew.currentMemberCapacity);
+			if ( i < Crews.playerCrew.currentMemberCapacity ) {
+				crewIcons [i].GetComponentInChildren<Image> ().color = Color.white;
+			} else {
+				crewIcons [i].GetComponentInChildren<Image> ().color = Color.black;
+			}
 		}
 	}
 
@@ -161,7 +181,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 		set {
 			trading = value;
 
-			infoGroup.SetActive (!value);
+//			infoGroup.SetActive (!value);
 			tradingGroup.SetActive (value);
 
 		}

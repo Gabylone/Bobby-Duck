@@ -13,8 +13,6 @@ public class SaveManager : MonoBehaviour
 	public delegate void SaveGameData ();
 	public event SaveGameData saveData;
 
-	public int currentIndex;
-
 	void Awake () {
 		Instance = this;
 	}
@@ -27,30 +25,31 @@ public class SaveManager : MonoBehaviour
 
 	int saveLimit = 10;
 	int saveCount = 0;
+
 	void HandleChunkEvent ()
 	{
 		++saveCount;
 
 		if (saveCount > saveLimit) {
-			SaveGame (1);
+			SaveGame ();
 
 			saveCount = 0;
 		}
 	}
 
 	#region action
-	public void LoadGame (int index) {
+	public void LoadGame () {
 
-		currentData = SaveTool.Instance.Load (index);
+		currentData = SaveTool.Instance.Load ();
 
 		LoadEveryThing ();
 
 	}
-	public void LoadGameCoroutine (int index) {
+	public void LoadGameCoroutine() {
 
-		currentData = SaveTool.Instance.Load (index);
+		currentData = SaveTool.Instance.Load ();
 
-		StartCoroutine (LoadGameCoroutine ());
+		StartCoroutine (LoadGameCoroutine_Coroutine ());
 
 	}
 	public void LoadEveryThing () {
@@ -84,7 +83,7 @@ public class SaveManager : MonoBehaviour
 		NavigationManager.Instance.ChangeChunk (Directions.None);
 
 	}
-	IEnumerator LoadGameCoroutine () {
+	IEnumerator LoadGameCoroutine_Coroutine () {
 
 		Transitions.Instance.ScreenTransition.Fade = true;
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
@@ -98,7 +97,7 @@ public class SaveManager : MonoBehaviour
 		Transitions.Instance.ScreenTransition.Fade = false;
 
 	}
-	public void SaveGame (int index) {
+	public void SaveGame () {
 
 		// player crew
 		Crews.Instance.SavePlayerCrew ();
@@ -113,7 +112,6 @@ public class SaveManager : MonoBehaviour
 
 		FormulaManager.Instance.SaveFormulas ();
 
-
 		currentData.playerLoot = LootManager.Instance.getLoot (Crews.Side.Player);
 
 		currentData.currentQuests = QuestManager.Instance.CurrentQuests;
@@ -124,7 +122,7 @@ public class SaveManager : MonoBehaviour
 
 		TimeManager.Instance.SaveWeather ();
 
-		SaveTool.Instance.Save (index);
+		SaveTool.Instance.Save ();
 
 	}
 	#endregion

@@ -352,7 +352,7 @@ public class DiceManager : MonoBehaviour {
 
 		int decal = captainHighest >= 5 ? 0 : 1;
 
-		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);
+		StoryReader.Instance.CurrentStoryHandler.SaveDecal (decal);
 
 		StoryReader.Instance.NextCell ();
 

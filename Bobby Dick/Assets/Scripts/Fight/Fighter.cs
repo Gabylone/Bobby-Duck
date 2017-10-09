@@ -96,6 +96,10 @@ public class Fighter : MonoBehaviour {
 	[SerializeField]
 	private float blocked_Duration = 0.5f;
 
+	[Header("Dodge")]
+	[SerializeField]
+	private float maxDodgeChance = 20;
+
 	[Header ("Guard")]
 	[SerializeField]
 	private float guard_TimeToEffective = 0.2f;
@@ -469,6 +473,17 @@ public class Fighter : MonoBehaviour {
 	}
 	public void GetHit (Fighter otherFighter) {
 
+		float dodgeChange = Random.value * 100f;
+
+		float dodgeSkill = (float)crewMember.GetStat(Stat.Dexterity) / 6f;
+		dodgeSkill *= maxDodgeChance;
+		print ("dodge chance : " + dodgeSkill);
+
+		if ( dodgeChange < dodgeSkill ) {
+			animator.SetTrigger("dodge");
+			return;
+		}
+
 		float dam = otherFighter.CrewMember.currentAttack;
 
 		if ( DiceManager.Instance.HighestResult == 6 ) {
@@ -497,7 +512,6 @@ public class Fighter : MonoBehaviour {
 		impactEffect.SetActive (true);
 
 		impactEffect.transform.position = otherFighter.WeaponCollider.transform.position;
-
 
 		crewMember.GetHit (dam);
 

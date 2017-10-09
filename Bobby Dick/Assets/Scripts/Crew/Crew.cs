@@ -16,7 +16,7 @@ public struct CrewParams {
 public class Crew {
 
 	public bool hostile = false;
-	List<MemberID> memberIDs = new List<MemberID>();
+	List<Member> memberIDs = new List<Member>();
 
 	public int row = 0;
 	public int col = 0;
@@ -37,7 +37,7 @@ public class Crew {
 		}
 
 		for (int i = 0; i < crewParams.amount; ++i) {
-			MemberID id = new MemberID (crewParams);
+			Member id = new Member (crewParams);
 			if (crewParams.overideGenre) {
 				id.Male = crewParams.male;
 			}
@@ -47,15 +47,15 @@ public class Crew {
 
 	}
 
-	public void Add ( MemberID id ) {
+	public void Add ( Member id ) {
 		memberIDs.Add (id);
 	}
 
-	public void Remove ( MemberID id ) {
+	public void Remove ( Member id ) {
 		memberIDs.Remove (id);
 	}
 
-	public List<MemberID> MemberIDs {
+	public List<Member> MemberIDs {
 		get {
 			return memberIDs;
 		}

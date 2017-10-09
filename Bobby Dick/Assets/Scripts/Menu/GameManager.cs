@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour {
 			GoldManager.Instance.InitGold ();
 
 		} else {
-			SaveManager.Instance.LoadGame (KeepOnLoad.dataToLoad);
+			SaveManager.Instance.LoadGame ();
 		}
 
 		CrewInventory.Instance.Init ();

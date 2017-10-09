@@ -52,7 +52,7 @@ public class ItemLoader : MonoBehaviour {
 		}
 
 		items = new Item[categoryAmount][];
-		LevelRange = new int[categoryAmount][];
+		levelRange = new int[categoryAmount][];
 
 		files = new TextAsset[Resources.LoadAll (pathToCSVs, typeof(TextAsset)).Length];
 		int index = 0;
@@ -74,12 +74,11 @@ public class ItemLoader : MonoBehaviour {
 
 		items[(int)currentType] = new Item[rows.Length-2];
 
-		string maxLevelTxt = rows [rows.Length - 3].Split (';')[5];
+		string maxLevelTxt = rows [rows.Length - 2].Split (';')[5];
 		int maxLevel = int.Parse (maxLevelTxt);
-		LevelRange[(int)currentType] = new int[maxLevel+1];
+		levelRange[(int)currentType] = new int[maxLevel+1];
 
 		int currentLevel = 0;
-
 
 		for ( int i = 1; i < items[(int)currentType].Length+1 ;++i ) {
 
@@ -109,19 +108,17 @@ public class ItemLoader : MonoBehaviour {
 			if ( newItem.level > currentLevel && newItem.level > 0) {
 
 				if ( (int)currentType >= levelRange.Length )
-					Debug.LogError ( "Level Range out of range : CURRENT TYPE : " + currentType + " LENGHT : " + LevelRange.Length );
+					Debug.LogError ( "Level Range out of range : CURRENT TYPE : " + currentType + " LENGHT : " + levelRange.Length );
 
 				if (  newItem.level-1 >= levelRange[(int)currentType].Length)
-					Debug.LogError ( "Level Range out of range : "+ currentType + " ITEM LVL : " + (newItem.level-1) + " LENGHT : " + LevelRange[(int)currentType].Length);
+					Debug.LogError ( "Level Range out of range : "+ currentType + " ITEM LVL : " + (newItem.level-1) + " LENGHT : " + levelRange[(int)currentType].Length);
 				
-				LevelRange [(int)currentType] [newItem.level-1] = i - 1;
+				levelRange [(int)currentType] [newItem.level-1] = i - 1;
 				++currentLevel;
 			}
 
 			currentID++;
 		}
-
-
 	}
 
 	#region random items
@@ -161,18 +158,20 @@ public class ItemLoader : MonoBehaviour {
 
 		int range2 = items [(int)itemType].Length;
 
-		if ( targetLevel > 0 && targetLevel < LevelRange[(int)itemType].Length ) {
-			
-			range1 = LevelRange [(int)itemType][targetLevel-1];
+		if ( targetLevel > 0 && targetLevel < levelRange[(int)itemType].Length ) {
 
-			if ( LevelRange [(int)itemType][targetLevel] > 0 )
-				range2 = LevelRange [(int)itemType][targetLevel];
+			range1 = levelRange [(int)itemType][targetLevel-1];
+
+			if ( levelRange [(int)itemType][targetLevel] > 0 )
+				range2 = levelRange [(int)itemType][targetLevel];
 			
 		}
 
 		int index = Random.Range (range1, range2);
 
-		return items[(int)itemType][index];
+		Item item = items[(int)itemType][index];
+
+		return item;
 	}
 
 	public Item[] getItems ( ItemCategory itemType ) {
@@ -213,15 +212,6 @@ public class ItemLoader : MonoBehaviour {
 	public int CategoryAmount {
 		get {
 			return categoryAmount;
-		}
-	}
-
-	public int[][] LevelRange {
-		get {
-			return levelRange;
-		}
-		set {
-			levelRange = value;
 		}
 	}
 }

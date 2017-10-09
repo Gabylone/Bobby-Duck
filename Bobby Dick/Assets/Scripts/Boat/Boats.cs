@@ -57,7 +57,7 @@ public class Boats : MonoBehaviour {
 
 		int imperialID = StoryLoader.Instance.FindIndexByName ("Impériaux",StoryType.Boat);
 
-		otherBoatInfo.StoryHandlers.CurrentStoryHandler.storyID = imperialID;
+		otherBoatInfo.StoryHandlers.storyHandlers[0].storyID = imperialID;
 
 		otherBoatInfos.Add(otherBoatInfo);
 

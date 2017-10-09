@@ -51,28 +51,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\BubbleTest.cs" />
-     <Compile Include="Assets\ClockUI.cs" />
-     <Compile Include="Assets\DisplayAttack.cs" />
-     <Compile Include="Assets\DisplayCrew.cs" />
-     <Compile Include="Assets\DisplayDefence.cs" />
-     <Compile Include="Assets\DisplayHeart.cs" />
-     <Compile Include="Assets\DisplayHexes.cs" />
-     <Compile Include="Assets\DisplayHunger.cs" />
-     <Compile Include="Assets\DisplayLevel.cs" />
-     <Compile Include="Assets\DisplayLevelUp.cs" />
-     <Compile Include="Assets\DisplayMap.cs" />
-     <Compile Include="Assets\DisplayName.cs" />
-     <Compile Include="Assets\DisplayStoryItem.cs" />
-     <Compile Include="Assets\FoodUI.cs" />
-     <Compile Include="Assets\HOTween\_Demo\HOTweenDemoBrain.cs" />
-     <Compile Include="Assets\HungerIcon.cs" />
-     <Compile Include="Assets\MessageDisplay.cs" />
-     <Compile Include="Assets\Narrator.cs" />
-     <Compile Include="Assets\QuestButton.cs" />
+     <Compile Include="Assets\Graphics\Sprites\UI\Map\MapImage.cs" />
+     <Compile Include="Assets\MinimapCenterFeedback.cs" />
      <Compile Include="Assets\Scripts\Boat\Boat.cs" />
      <Compile Include="Assets\Scripts\Boat\BoatInfo.cs" />
-     <Compile Include="Assets\Scripts\Boat\BoatLight.cs" />
      <Compile Include="Assets\Scripts\Boat\Boats.cs" />
      <Compile Include="Assets\Scripts\Boat\BoatUpgradeManager.cs" />
      <Compile Include="Assets\Scripts\Boat\EnemyBoat.cs" />
@@ -88,24 +70,26 @@
      <Compile Include="Assets\Scripts\Combat\StateMachine.cs" />
      <Compile Include="Assets\Scripts\Crew\Crew.cs" />
      <Compile Include="Assets\Scripts\Crew\CrewCreator.cs" />
-     <Compile Include="Assets\Scripts\Crew\CrewIcon.cs" />
      <Compile Include="Assets\Scripts\Crew\CrewManager.cs" />
      <Compile Include="Assets\Scripts\Crew\CrewMember.cs" />
      <Compile Include="Assets\Scripts\Crew\Crews.cs" />
      <Compile Include="Assets\Scripts\Crew\IconVisual.cs" />
+     <Compile Include="Assets\Scripts\Crew\Member.cs" />
      <Compile Include="Assets\Scripts\Crew\MemberCreator.cs" />
      <Compile Include="Assets\Scripts\Crew\MemberFeedback.cs" />
-     <Compile Include="Assets\Scripts\Crew\MemberID.cs" />
+     <Compile Include="Assets\Scripts\Crew\MemberIcon.cs" />
      <Compile Include="Assets\Scripts\Dialogues\ChoiceManager.cs" />
      <Compile Include="Assets\Scripts\Dialogues\DialogueManager.cs" />
      <Compile Include="Assets\Scripts\Dice\Dice.cs" />
      <Compile Include="Assets\Scripts\Dice\DiceManager.cs" />
      <Compile Include="Assets\Scripts\Fight\Fighter.cs" />
      <Compile Include="Assets\Scripts\Fight\WeaponCollider.cs" />
+     <Compile Include="Assets\Scripts\Flag.cs" />
      <Compile Include="Assets\Scripts\Gold\GoldManager.cs" />
      <Compile Include="Assets\Scripts\Input\InputManager.cs" />
      <Compile Include="Assets\Scripts\Input\VirtualJoystick.cs" />
      <Compile Include="Assets\Scripts\Inventory\ActionGroup.cs" />
+     <Compile Include="Assets\Scripts\Inventory\CrewInventory.cs" />
      <Compile Include="Assets\Scripts\Inventory\Item.cs" />
      <Compile Include="Assets\Scripts\Inventory\Item\DisplayItem.cs" />
      <Compile Include="Assets\Scripts\Inventory\Item\DisplayItem_Crew.cs" />
@@ -114,8 +98,7 @@
      <Compile Include="Assets\Scripts\Inventory\Loot.cs" />
      <Compile Include="Assets\Scripts\Inventory\LootManager.cs" />
      <Compile Include="Assets\Scripts\Inventory\LootUI.cs" />
-     <Compile Include="Assets\Scripts\Inventory\OtherLoot.cs" />
-     <Compile Include="Assets\Scripts\Inventory\PlayerLoot.cs" />
+     <Compile Include="Assets\Scripts\Inventory\OtherInventory.cs" />
      <Compile Include="Assets\Scripts\Inventory\WeightManager.cs" />
      <Compile Include="Assets\Scripts\Island\Island.cs" />
      <Compile Include="Assets\Scripts\Island\IslandButton.cs" />
@@ -125,17 +108,18 @@
      <Compile Include="Assets\Scripts\Map\Chunk.cs" />
      <Compile Include="Assets\Scripts\Map\MapData.cs" />
      <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
-     <Compile Include="Assets\Scripts\Map\MapImage.cs" />
+     <Compile Include="Assets\Scripts\Map\MinimapChunk.cs" />
+     <Compile Include="Assets\Scripts\Map\MinimapTexture.cs" />
      <Compile Include="Assets\Scripts\Map\TimeManager.cs" />
      <Compile Include="Assets\Scripts\Menu\GameManager.cs" />
      <Compile Include="Assets\Scripts\Menu\KeepOnLoad.cs" />
      <Compile Include="Assets\Scripts\Menu\MainMenuManager.cs" />
      <Compile Include="Assets\Scripts\Menu\MenuManager.cs" />
-     <Compile Include="Assets\Scripts\Navigation\FlagControl.cs" />
+     <Compile Include="Assets\Scripts\Narrator.cs" />
      <Compile Include="Assets\Scripts\Navigation\NavigationManager.cs" />
      <Compile Include="Assets\Scripts\Navigation\NavigationTrigger.cs" />
-     <Compile Include="Assets\Scripts\Navigation\WheelControl.cs" />
      <Compile Include="Assets\Scripts\Quest\Quest.cs" />
+     <Compile Include="Assets\Scripts\Quest\QuestButton.cs" />
      <Compile Include="Assets\Scripts\Quest\QuestManager.cs" />
      <Compile Include="Assets\Scripts\Quest\QuestMenu.cs" />
      <Compile Include="Assets\Scripts\Save\SaveManager.cs" />
@@ -144,8 +128,10 @@
      <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Stories\Node.cs" />
      <Compile Include="Assets\Scripts\Stories\Story.cs" />
+     <Compile Include="Assets\Scripts\Stories\StoryCheck.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryFunctions.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryHandler.cs" />
+     <Compile Include="Assets\Scripts\Stories\StoryInput.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryLauncher.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryLoader.cs" />
      <Compile Include="Assets\Scripts\Stories\StoryReader.cs" />
@@ -155,20 +141,35 @@
      <Compile Include="Assets\Scripts\Tools\RandomManager.cs" />
      <Compile Include="Assets\Scripts\Tools\SetOrder.cs" />
      <Compile Include="Assets\Scripts\Tools\StickToRectTransform.cs" />
+     <Compile Include="Assets\Scripts\Tools\Swipe.cs" />
+     <Compile Include="Assets\Scripts\Tools\Tween.cs" />
      <Compile Include="Assets\Scripts\Tools\UI_Target.cs" />
+     <Compile Include="Assets\Scripts\Tools\WorldTouch.cs" />
      <Compile Include="Assets\Scripts\Transition\Transition.cs" />
      <Compile Include="Assets\Scripts\Transition\Transitions.cs" />
      <Compile Include="Assets\Scripts\Transition\UIButton.cs" />
      <Compile Include="Assets\Scripts\Treasure\FormulaManager.cs" />
-     <Compile Include="Assets\StatButton.cs" />
-     <Compile Include="Assets\StoryCheck.cs" />
-     <Compile Include="Assets\StoryInput.cs" />
-     <Compile Include="Assets\Swipe.cs" />
-     <Compile Include="Assets\Tween.cs" />
-     <Compile Include="Assets\UiIcon.cs" />
+     <Compile Include="Assets\Scripts\UI\ClockUI.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayAttack.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayCrew.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayDefence.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayHeart.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayHex.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayHexes.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayHunger.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayLevel.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayLevelUp.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayMinimap.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayName.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplayStoryItem.cs" />
+     <Compile Include="Assets\Scripts\UI\DisplaySurroundingHexes.cs" />
+     <Compile Include="Assets\Scripts\UI\HungerIcon.cs" />
+     <Compile Include="Assets\Scripts\UI\MessageDisplay.cs" />
+     <Compile Include="Assets\Scripts\UI\StatButton.cs" />
+     <Compile Include="Assets\Scripts\UI\UiIcon.cs" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
-     <None Include="Assets\HOTween\readme.txt" />
-     <None Include="Assets\GameSaveData1.xml" />
+     <None Include="Assets\Plugins\HOTween\readme.txt" />
+     <None Include="Assets\GameSaveData.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -191,8 +192,12 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
  <Reference Include="HOTween">
- <HintPath>C:/Users/gabri/OneDrive/Documents/Unity/Bobby Dick/trunk/Bobby Dick/Assets/HOTween/Plugins/HOTween.dll</HintPath>
+ <HintPath>C:/Users/gabri/OneDrive/Documents/Unity/Bobby Dick/trunk/Bobby Dick/Assets/Plugins/HOTween/Plugins/HOTween.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{89CC6AE2-2DCA-D4E8-6D4A-0702DC181D86}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

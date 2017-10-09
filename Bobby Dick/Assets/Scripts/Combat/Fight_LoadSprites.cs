@@ -31,7 +31,7 @@ public class Fight_LoadSprites : MonoBehaviour {
 		GetSpriteColors ();
 	}
 
-	public void UpdateSprites ( MemberID memberID ) {
+	public void UpdateSprites ( Member memberID ) {
 
 		ResetColors ();
 

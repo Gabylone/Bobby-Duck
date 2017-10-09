@@ -24,17 +24,26 @@ public class MemberIcon : MonoBehaviour {
 
 	public Transform dialogueAnchor;
 
+	public CrewMember member;
+
 	void Start () {
 		_transform = transform;
+	}
+
+	public void SetMember (CrewMember member) {
+
+		this.member = member;
+
+		UpdateVisual (member.MemberID);
 	}
 
 	#region overing
 	public void OnPointerDown() {
 		
-		if (Member.side == Crews.Side.Enemy)
+		if (member.side == Crews.Side.Enemy)
 			return;
 
-		if (CrewInventory.Instance.Opened && CrewMember.selectedMember == Member) {
+		if (CrewInventory.Instance.Opened && CrewMember.selectedMember == member) {
 
 			if ( OtherInventory.Instance.type != OtherInventory.Type.None ) {
 				return;
@@ -55,18 +64,18 @@ public class MemberIcon : MonoBehaviour {
 				
 				switch (OtherInventory.Instance.type) {
 				case OtherInventory.Type.None:
-					CrewInventory.Instance.ShowInventory (CategoryContentType.Inventory , Member);
+					CrewInventory.Instance.ShowInventory (CategoryContentType.Inventory , member);
 					break;
 				case OtherInventory.Type.Loot:
-					CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerLoot, Member);
+					CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerLoot, member);
 					break;
 				case OtherInventory.Type.Trade:
-					CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerTrade, Member);
+					CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerTrade, member);
 					break;
 				}
 
 			} else {
-				CrewInventory.Instance.ShowInventory (CategoryContentType.Inventory , Member);
+				CrewInventory.Instance.ShowInventory (CategoryContentType.Inventory , member);
 			}
 
 		}
@@ -107,13 +116,13 @@ public class MemberIcon : MonoBehaviour {
 			ShowBody ();
 		}
 
-		print (Member.MemberName);
-		Vector3 targetPos = Crews.getCrew(Member.side).CrewAnchors [(int)targetPlacingType].position + Crews.playerCrew.CrewAnchors [(int)targetPlacingType].up * decal;
+		Vector3 targetPos = Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].position;
 
 		if (targetPlacingType == Crews.PlacingType.Combat || targetPlacingType == Crews.PlacingType.Map) {
+			
 			HideBody();
 
-			targetPos = Crews.getCrew (Member.side).mapAnchors [Member.GetIndex].position;
+			targetPos = Crews.getCrew (member.side).mapAnchors [member.GetIndex].position;
 		}
 
 
@@ -128,18 +137,9 @@ public class MemberIcon : MonoBehaviour {
 	public void ShowBody () {
 		bodyGroup.SetActive (true);
 	}
-	public void UpdateVisual (MemberID memberID)
+	public void UpdateVisual (Member memberID)
 	{
 		GetComponent<IconVisual> ().UpdateVisual (memberID);
-	}
-	#endregion
-
-	#region properties
-	public CrewMember Member {
-		get {
-			print ("crew : " + Crews.playerCrew.name);
-			return Crews.playerCrew.CrewMembers[index];
-		}
 	}
 	#endregion
 }

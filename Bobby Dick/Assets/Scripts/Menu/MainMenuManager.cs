@@ -5,8 +5,6 @@ using System.Collections;
 
 public class MainMenuManager : MonoBehaviour {
 
-	[SerializeField]
-	private Button[] loadButtons;
 
 	[SerializeField]
 	private GameObject quitButton;
@@ -27,7 +25,7 @@ public class MainMenuManager : MonoBehaviour {
 
 		Screen.orientation = ScreenOrientation.Landscape;
 
-		if (SaveTool.Instance.FileExists (1)) {
+		if (SaveTool.Instance.FileExists ()) {
 			loadButton.SetActive (true);
 		} else {
 			loadButton.SetActive (false);
@@ -57,17 +55,15 @@ public class MainMenuManager : MonoBehaviour {
 		//
 	}
 
-	public void Load (int index) {
-		
-		Tween.Bounce (loadButtons[index-1].transform);
+	public void Load () {
+		Tween.Bounce (loadButton.transform);
 
-		KeepOnLoad.dataToLoad = index;
+		KeepOnLoad.dataToLoad = 0;
 		Transitions.Instance.ScreenTransition.Fade = true;
 		Invoke ("LoadDelay" , Transitions.Instance.ScreenTransition.Duration);
 	}
 	private void LoadDelay () {
 		SceneManager.LoadScene (1);
-//		SceneManager.LoadScene ("Main");
 	}
 
 	public void OpenLoadMenu () {
@@ -75,39 +71,10 @@ public class MainMenuManager : MonoBehaviour {
 		loadButton.SetActive (false);
 
 		Tween.Bounce (loadMenu.transform, 0.1f , 1.05f );
-
-		UpdateButtons ();
 	}
 
 	public void CloseLoadMenu () {
 		loadMenu.SetActive (false);
 		loadButton.SetActive (true);
-	}
-
-	public void UpdateButtons ()
-	{
-		int loadIndex = 1;
-
-		for (int buttonIndex = 0; buttonIndex < loadButtons.Length; buttonIndex++) {
-
-			if (SaveTool.Instance.FileExists (loadIndex)) {
-
-				loadButtons[buttonIndex].GetComponentInChildren<Text> ().text = "SAVE " + loadIndex;
-				loadButtons[buttonIndex].GetComponentInChildren<Text> ().color = Color.black;
-				loadButtons[buttonIndex].image.color = Color.white;
-				loadButtons[buttonIndex].interactable = true;
-
-
-			} else {
-
-				loadButtons[buttonIndex].GetComponentInChildren<Text> ().text = "aucun";
-				loadButtons[buttonIndex].GetComponentInChildren<Text> ().color = Color.white;
-				loadButtons[buttonIndex].image.color = Color.black;
-				loadButtons[buttonIndex].interactable = false;
-
-			}
-
-			++loadIndex;
-		}
 	}
 }

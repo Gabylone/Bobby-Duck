@@ -6,24 +6,20 @@ using System.Collections.Generic;
 public class CrewManager : MonoBehaviour {
 
 		// managed crew
-	Crew managedCrew;
+	public Crew managedCrew;
 
 	List<CrewMember> crewMembers = new List<CrewMember> ();
 
 	[SerializeField] private Crews.Side side;
 	[SerializeField] private Transform[] crewAnchors;
 
-	private int currentMemberCapacity = 2;
-	private int maxMemberCapacity = 4;
+	public int currentMemberCapacity = 2;
+	public int maxMemberCapacity = 4;
 
 	private bool placingCrew = false;
 
-	[SerializeField] private float placingDuration = 0.5f;
-
-	private float timer = 0f;
-
 	[SerializeField]
-	private Vector3[] crewDecals = new Vector3 [2] { new Vector3(0.3f,0f),new Vector3(0f, 0.35f)};
+	private float placingDuration = 0.5f;
 
 	void Start () {
 		NavigationManager.Instance.EnterNewChunk += AddToStates;
@@ -83,19 +79,9 @@ public class CrewManager : MonoBehaviour {
 		managedCrew.Add (member.MemberID);
 		crewMembers.Add (member);
 	}
-	public List<CrewMember> CrewMembers {
-		get {
-			return crewMembers;
-		}
-	}
-	public CrewMember captain {
-		get {
-			return crewMembers [0];
-		}
-	}
 	public void RemoveMember ( CrewMember member ) {
 
-		member.Icon.MoveToPoint (Crews.PlacingType.Hidden);
+		Destroy (member.Icon.gameObject);
 
 		managedCrew.Remove (member.MemberID);
 		crewMembers.Remove (member);
@@ -106,10 +92,22 @@ public class CrewManager : MonoBehaviour {
 			}
 		}
 	}
+
+	public List<CrewMember> CrewMembers {
+		get {
+			return crewMembers;
+		}
+	}
+	public CrewMember captain {
+		get {
+			return crewMembers [0];
+		}
+	}
+
 	public void DeleteCrew () {
 
-		foreach (CrewMember member in CrewMembers)
-			member.Icon.MoveToPoint (Crews.PlacingType.Hidden);
+		foreach ( CrewMember member in CrewMembers )
+			Destroy (member.Icon.gameObject);
 
 		crewMembers.Clear ();
 	}
@@ -117,50 +115,24 @@ public class CrewManager : MonoBehaviour {
 	#endregion
 
 	#region creation
-	public void setCrew (Crew crew) {
+	public void SetCrew (Crew crew) {
 
 		DeleteCrew ();
 
 		CrewCreator.Instance.TargetSide = side;
 
-		for (int i = 0; i < crew.MemberIDs.Count; ++i ) {
+		for (int memberIndex = 0; memberIndex < crew.MemberIDs.Count; ++memberIndex ) {
 
-			CrewMember member = CrewCreator.Instance.NewMember (crew.MemberIDs [i]);
+			Member memberID = crew.MemberIDs [memberIndex];
+
+			CrewMember member = CrewCreator.Instance.NewMember (memberID);
 			CrewMembers.Add (member);
 
-			member.Icon.MoveToPoint (Crews.PlacingType.Map);
 		}
 
-		ManagedCrew = crew;
+		managedCrew = crew;
 
 		UpdateCrew (Crews.PlacingType.Map);
 	}
 	#endregion
-
-	#region property
-	public int MaxMember {
-		get {
-			return maxMemberCapacity;
-		}
-	}
-
-	public int MemberCapacity {
-		get {
-			return currentMemberCapacity;
-		}
-		set {
-			currentMemberCapacity = Mathf.Clamp (value, 0, MaxMember);
-			BoatUpgradeManager.Instance.UpdateInfo ();
-		}
-	}
-	#endregion
-
-	public Crew ManagedCrew {
-		get {
-			return managedCrew;
-		}
-		set {
-			managedCrew = value;
-		}
-	}
 }

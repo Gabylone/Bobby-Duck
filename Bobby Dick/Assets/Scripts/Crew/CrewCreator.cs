@@ -27,7 +27,7 @@ public class CrewCreator : MonoBehaviour {
 	[SerializeField]
 	private Transform crewParent;
 	[SerializeField]
-	private GameObject memberPrefab;
+	private GameObject[] memberIconPrefabs;
 
 
 	public string[] maleNames = new string[51] {
@@ -95,19 +95,43 @@ public class CrewCreator : MonoBehaviour {
 		Instance = this;
 	}
 
-	public CrewMember NewMember (MemberID memberID) {
+	public CrewMember NewMember (Member memberID) {
 
 		CrewMember crewMember = new CrewMember (
 
 			memberID,
 
 			// side
-			targetSide
+			targetSide,
+
+			NewIcon(memberID)
 
 		);
 
 		return crewMember;
 	}
+
+	#region icons
+	public MemberIcon NewIcon (Member memberID) {
+
+		GameObject iconObj = Instantiate (memberIconPrefabs[(int)targetSide]) as GameObject;
+		MemberIcon icon = iconObj.GetComponent<MemberIcon> ();
+
+		// set object transform
+		iconObj.transform.SetParent (crewParent);
+		iconObj.transform.localScale = Vector3.one;
+		iconObj.transform.position = Crews.getCrew (targetSide).CrewAnchors [(int)Crews.PlacingType.Hidden].position;
+
+		Vector3 scale = new Vector3 ( TargetSide == Crews.Side.Enemy ? 1 : -1 , 1 , 1);
+
+		icon.group.transform.localScale = scale;
+
+		icon.HideBody ();
+
+
+		return iconObj.GetComponent<MemberIcon> ();
+	}
+	#endregion
 
 	public Crews.Side TargetSide {
 		get {

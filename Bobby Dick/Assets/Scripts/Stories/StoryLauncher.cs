@@ -75,11 +75,11 @@ public class StoryLauncher : MonoBehaviour {
 
 	public void EndStory () {
 
-			// hides crew when leaving ISLAND AND STORY
+		// hides crew when leaving ISLAND AND STORY
 		if ( StoryReader.Instance.CurrentStoryHandler.storyType != StoryType.Quest )
-		Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Hidden);
+			Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Hidden);
 
-		if ( StoryReader.Instance.CurrentStoryLayer > 0 ) {
+		if ( StoryReader.Instance.currentStoryLayer > 0 ) {
 			print ("fallin back to other story");
 			StoryReader.Instance.FallBackToPreviousStory ();
 			return;

@@ -21,17 +21,20 @@ public class SaveTool : MonoBehaviour
 	}
 
 	#region Save
-	public void Save(int index)
+	public void Save()
     {
-		string path = getPath (index);
+		string path = getPath ();
 //		string path = PathToSave + "/GameSave.xml";
 
 		byte[] bytes = Encoding.Unicode.GetBytes(path);
 		path = Encoding.Unicode.GetString(bytes);
 
-		FileStream file = File.Open(path, FileMode.OpenOrCreate);
+		File.Delete(path);
+
+		FileStream file = File.Open(path, FileMode.CreateNew);
 		XmlSerializer serializer = new XmlSerializer(typeof(GameData));
 
+//		file = file.
 		serializer.Serialize(file, SaveManager.Instance.CurrentData);
 
 		file.Close();
@@ -39,18 +42,18 @@ public class SaveTool : MonoBehaviour
 	#endregion
 
 	#region Load
-	public string getPath ( int index ) {
-		string path = Application.dataPath + dataPathSave + index.ToString () + ".xml";
+	public string getPath () {
+		string path = Application.dataPath + dataPathSave + ".xml";
 		if ( Application.isMobilePlatform )
-			path = Application.persistentDataPath + dataPathSave + index.ToString () + ".xml";
+			path = Application.persistentDataPath + dataPathSave + ".xml";
 
 		return path;
 	}
-	public GameData Load(int index)
+	public GameData Load()
     {
 		GameData gameSaveData = new GameData();
 
-		string path = getPath (index);
+		string path = getPath ();
 
 		byte[] bytes = Encoding.Unicode.GetBytes(path);
 		path = Encoding.Unicode.GetString(bytes);
@@ -66,9 +69,9 @@ public class SaveTool : MonoBehaviour
 	}
 	#endregion
 
-	public bool FileExists(int index)
+	public bool FileExists()
     {
-		string path = getPath (index);
+		string path = getPath ();
 
         byte[] bytes = Encoding.Unicode.GetBytes(path);
         path = Encoding.Unicode.GetString(bytes);

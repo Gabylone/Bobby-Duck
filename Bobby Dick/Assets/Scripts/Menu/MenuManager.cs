@@ -62,7 +62,7 @@ public class MenuManager : MonoBehaviour {
 
 	void HandleOnValidate ()
 	{
-		SaveManager.Instance.SaveGame (1);
+		SaveManager.Instance.SaveGame ();
 	}
 //	public void SaveButton () {
 //		saveMenu.Saving = true;

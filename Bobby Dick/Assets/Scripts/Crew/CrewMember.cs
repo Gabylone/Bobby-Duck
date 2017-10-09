@@ -7,6 +7,7 @@ public class CrewMember {
 	// SELECTED MEMBER IN INVENTORY
 	public static CrewMember selectedMember;
 	public static void setSelectedMember (CrewMember crewMember) {
+		
 		if (selectedMember != null) {
 			selectedMember.Icon.Down ();
 		}
@@ -18,6 +19,7 @@ public class CrewMember {
 
 	// STATS
 	public int maxStat = 6;
+	public int maxLevel = 10;
 	public int currentAttack = 0;
 
 	// EXPERIENCE
@@ -25,7 +27,7 @@ public class CrewMember {
 
 	// COMPONENTS
 	public Crews.Side side;
-	private MemberID memberID;
+	private Member memberID;
 	private MemberFeedback info;
 
 	// HUNGER
@@ -33,22 +35,35 @@ public class CrewMember {
 	private int hungerDamage = 5;
 	public int maxHunger = 100;
 
+	// ICON
+	public MemberIcon memberIcon;
+
 	// CONSTRUCTOR
-	public CrewMember (MemberID _memberID, Crews.Side _side )
+	public CrewMember (Member _memberID, Crews.Side _side , MemberIcon memberIcon )
 	{
 		memberID = _memberID;
 
 		side = _side;
+
+		this.memberIcon = memberIcon;
+		this.memberIcon.SetMember (this);
+
 	}
 
 	#region level
 	public void AddXP ( int _xp ) {
-		
+
+		if ( Level == maxLevel ) {
+			return;
+		}
+
 		CurrentXp += _xp;
 
 		if ( CurrentXp >= xpToLevelUp ) {
 			LevelUp ();
 		}
+
+
 	}
 
 	public delegate void OnLevelUpStat (CrewMember member);
@@ -75,6 +90,10 @@ public class CrewMember {
 
 		++StatPoints;
 
+		if ( Level == maxLevel ) {
+			CurrentXp = 0;
+		}
+
 		if (onLevelUp != null) {
 			onLevelUp (this);
 		}
@@ -97,10 +116,10 @@ public class CrewMember {
 		float damageTaken = damage;
 
 		damageTaken = Mathf.CeilToInt (damageTaken);
-		damageTaken = Mathf.Clamp ( damageTaken , 1 , 200 );
 
-		string smallText = damage + " / " + Defense;
-		string bigText = damageTaken.ToString ();
+		// defense
+		damageTaken -= Defense;
+		damageTaken = Mathf.Clamp ( damageTaken , 1 , 200 );
 
 		Health -= (int)damageTaken;
 
@@ -170,7 +189,7 @@ public class CrewMember {
 	public int Attack {
 		get {
 
-			int i = GetStat(Stat.Strenght) * 5;
+			int i = GetStat(Stat.Strenght) * 3;
 
 			if (GetEquipment (EquipmentPart.Weapon) != null)
 				return i + GetEquipment (EquipmentPart.Weapon).value;
@@ -182,7 +201,7 @@ public class CrewMember {
 	public int Defense {
 		get {
 
-			int i = GetStat(Stat.Constitution) * 5;
+			int i = GetStat(Stat.Constitution) * 3;
 
 			if (GetEquipment (EquipmentPart.Clothes) != null)
 				return i + GetEquipment (EquipmentPart.Clothes).value;
@@ -203,7 +222,7 @@ public class CrewMember {
 	#region icon
 	public MemberIcon Icon {
 		get {
-			return DisplayMemberIcons.GetInstance(side).memberIcons[GetIndex];
+			return memberIcon;
 		}
 	}
 	public int GetIndex {
@@ -214,7 +233,7 @@ public class CrewMember {
 	#endregion
 
 	#region properties
-	public MemberID MemberID {
+	public Member MemberID {
 		get {
 			return memberID;
 		}
@@ -231,22 +250,6 @@ public class CrewMember {
 	public enum EquipmentPart {
 		Weapon,
 		Clothes,
-	}
-	public void SetRandomEquipment () {
-
-		const int l = 2;
-
-		ItemCategory[] equipmentCategories = new ItemCategory[l] {
-			ItemCategory.Weapon,
-			ItemCategory.Clothes
-		};
-
-		for (int i = 0; i < l; ++i) {
-
-			Item equipmentItem = ItemLoader.Instance.getRandomItem (equipmentCategories [i]);
-			SetEquipment ((EquipmentPart)i, equipmentItem);
-		}
-
 	}
 	public void SetEquipment ( EquipmentPart part , Item item ) {
 		switch (part) {

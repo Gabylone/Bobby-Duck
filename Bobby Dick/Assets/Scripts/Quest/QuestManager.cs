@@ -50,7 +50,7 @@ public class QuestManager : MonoBehaviour {
 
 		// check if quest is already finished
 		if ( quest != null ) {
-			HandleCompletedQuest ();
+			HandleCompletedQuest (quest);
 			return;
 		}
 
@@ -78,21 +78,12 @@ public class QuestManager : MonoBehaviour {
 	#endregion
 
 	#region completed quest
-	void HandleCompletedQuest ()
+	void HandleCompletedQuest (Quest quest )
 	{
 		string phrase = "Merci beaucoup de m'avoir aidé !";
 		DialogueManager.Instance.SetDialogueTimed (phrase, Crews.enemyCrew.captain);
-		Invoke ("GoToFallbackNode", 0.5f);
-	}
-	private void GoToFallbackNode () {
-		string s = StoryFunctions.Instance.CellParams;
 
-		s = s.Remove (0, 1);
-		s = s.Remove (s.Length - 1);
-		string nodeText = s;
-
-		Node fallbackNode = StoryReader.Instance.GetNodeFromText (nodeText);
-		StoryReader.Instance.GoToNode (fallbackNode);
+		StoryReader.Instance.GoToNode (quest.newQuest_FallbackNode);
 	}
 	#endregion
 
@@ -120,14 +111,7 @@ public class QuestManager : MonoBehaviour {
 	public static OnFinishQuest onFinishQuest;
 	void FinishQuest ()
 	{
-		Quest quest = Coords_CheckForTargetQuest;
-
-		if (quest == null)
-			quest = Coords_CheckForStartQuest;
-		if (quest == null) {
-			print ("quest arr pourq uoi tu fai aàarret...");
-			return;
-		}
+		Quest quest = Quest.currentQuest;
 		
 		GoldManager.Instance.GoldAmount += quest.goldValue;
 
@@ -166,13 +150,7 @@ public class QuestManager : MonoBehaviour {
 
 	#region map stuff
 	public void ShowQuestOnMap () {
-		Quest quest = Coords_CheckForStartQuest;
-
-		if (quest == null) {
-			Debug.Log ("SHOW QUEST ON MAP : coudn't find quest");
-		} else {
-			quest.ShowOnMap ();
-		}
+		Quest.currentQuest.ShowOnMap ();
 	}
 
 	public void SendPlayerBackToGiver () {
@@ -190,42 +168,6 @@ public class QuestManager : MonoBehaviour {
 
 		StoryReader.Instance.NextCell();
 		StoryReader.Instance.UpdateStory ();
-	}
-	public Coords GetClosestIslandCoords () {
-
-		int radius = 1;
-
-		while ( radius < MapGenerator.Instance.MapScale ) {
-
-			for (int x = -radius; x < radius; x++) {
-				for (int y = -radius; y < radius; y++) {
-
-					if (x == 0 && y == 0)
-						continue;
-
-					Coords coords = new Coords (Boats.PlayerBoatInfo.coords.x + x, Boats.PlayerBoatInfo.coords.y + y);
-
-					if (coords > MapGenerator.Instance.MapScale || coords <= 0) {
-						continue;
-					}
-
-					Chunk chunk = Chunk.GetChunk (coords);
-
-					if (chunk.IslandData != null) {
-						return coords;
-					}
-
-
-				}
-			}
-
-			++radius;
-		}
-
-		Debug.Log ("could not find closest island");
-
-		return new Coords (-1,-1);
-
 	}
 	#endregion
 
@@ -257,13 +199,44 @@ public class QuestManager : MonoBehaviour {
 
 	Quest Coords_CheckForStartQuest {
 		get {
-			return CurrentQuests.Find ( x=> x.originCoords == Boats.PlayerBoatInfo.coords);
+
+			foreach (Quest quest in CurrentQuests) {
+				print (quest.Story.name);
+				print (quest.layer);
+			}
+
+			int storyLayer = StoryReader.Instance.currentStoryLayer;
+
+			if (StoryReader.Instance.CurrentStoryHandler.storyType == StoryType.Quest ) {
+				storyLayer = StoryReader.Instance.previousStoryLayer;
+			}
+
+//			return currentQuests.Find ( x=> x.originCoords == Boats.PlayerBoatInfo.coords);
+			return currentQuests.Find ( x => 
+				x.originCoords == Boats.PlayerBoatInfo.coords && 
+				storyLayer == x.layer &&
+				x.row == StoryReader.Instance.Index &&
+				x.col == StoryReader.Instance.Decal
+			);
 		}
 	}
 
 	Quest Coords_CheckForFinishedQuest {
 		get {
-			return finishedQuests.Find ( x => x.originCoords == Boats.PlayerBoatInfo.coords );
+
+			int storyLayer = StoryReader.Instance.currentStoryLayer;
+
+			if (StoryReader.Instance.CurrentStoryHandler.storyType == StoryType.Quest ) {
+				storyLayer = StoryReader.Instance.previousStoryLayer;
+			}
+
+			return finishedQuests.Find ( x => 
+				x.originCoords == Boats.PlayerBoatInfo.coords && 
+				storyLayer == x.layer &&
+				x.row == StoryReader.Instance.Index &&
+				x.col == StoryReader.Instance.Decal
+			);
+//			return finishedQuests.Find ( x => x.originCoords == Boats.PlayerBoatInfo.coords );
 		}
 	}
 }

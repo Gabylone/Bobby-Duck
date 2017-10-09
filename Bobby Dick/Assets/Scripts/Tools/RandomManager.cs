@@ -42,7 +42,6 @@ public class RandomManager : MonoBehaviour {
 
 		int randomDecal = value < chance ? 0 : 1;
 
-		StoryReader.Instance.NextCell ();
 
 		int decal = 0;
 
@@ -52,33 +51,35 @@ public class RandomManager : MonoBehaviour {
 			decal = randomDecal;
 		}
 
-		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);
+		StoryReader.Instance.CurrentStoryHandler.SaveDecal (decal);
 
+		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.SetDecal (decal);
 
 		StoryReader.Instance.UpdateStory ();
 
 	}
+
 	void RandomRange (string cellParams) {
 
 		int range = int.Parse (cellParams);
 		int randomDecal = Random.Range (0, range);
 
+
+//		int decal = 0;
+//
+//		if (StoryReader.Instance.CurrentStoryHandler.GetDecal() > -1) {
+//			decal = StoryReader.Instance.CurrentStoryHandler.GetDecal();
+//		} else {
+//			decal = randomDecal;
+//		}
+
+		StoryReader.Instance.CurrentStoryHandler.SaveDecal (randomDecal);
+
 		StoryReader.Instance.NextCell ();
-
-		int decal = 0;
-
-		if (StoryReader.Instance.CurrentStoryHandler.GetDecal() > -1) {
-			decal = StoryReader.Instance.CurrentStoryHandler.GetDecal();
-		} else {
-			decal = randomDecal;
-		}
-
-		StoryReader.Instance.CurrentStoryHandler.SetDecal (decal);
-		StoryReader.Instance.SetDecal (decal);
+		StoryReader.Instance.SetDecal (randomDecal);
 
 		StoryReader.Instance.UpdateStory ();
-
 	}
 
 	void RandomRedoPercent (string cellParams) {
@@ -101,7 +102,6 @@ public class RandomManager : MonoBehaviour {
 		int randomDecal = Random.Range (0, range);
 
 		StoryReader.Instance.NextCell ();
-
 		StoryReader.Instance.SetDecal (randomDecal);
 
 		StoryReader.Instance.UpdateStory ();

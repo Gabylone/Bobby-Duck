@@ -46,7 +46,7 @@ public class SaveMenu : MonoBehaviour {
 
 			} else {
 
-				if ( SaveTool.Instance.FileExists (index) ) {
+				if ( SaveTool.Instance.FileExists () ) {
 
 					saveFeedback.SetActive (true);
 					Tween.Bounce ( saveFeedback.transform , 0.2f , 1.1f );
@@ -62,7 +62,7 @@ public class SaveMenu : MonoBehaviour {
 
 		} else {
 
-			SaveManager.Instance.LoadGameCoroutine (index);
+			SaveManager.Instance.LoadGameCoroutine ();
 
 		}
 
@@ -70,7 +70,7 @@ public class SaveMenu : MonoBehaviour {
 
 	private void Save (int index) {
 		
-		SaveManager.Instance.SaveGame (index);
+		SaveManager.Instance.SaveGame ();
 		save_Confirmed = false;
 		saveFeedback.SetActive (false);
 
@@ -89,9 +89,9 @@ public class SaveMenu : MonoBehaviour {
 
 		foreach (Button button in saveButtons) {
 
-			if (SaveTool.Instance.FileExists (loadIndex)) {
+			if (SaveTool.Instance.FileExists ()) {
 
-				GameData tempData =SaveTool.Instance.Load (loadIndex);
+				GameData tempData =SaveTool.Instance.Load ();
 
 				saveButtons [buttonIndex].GetComponentInChildren<Text> ().text = tempData.playerCrew.MemberIDs [0].Name;
 				saveButtons [buttonIndex].GetComponentInChildren<Text> ().color = Color.black;

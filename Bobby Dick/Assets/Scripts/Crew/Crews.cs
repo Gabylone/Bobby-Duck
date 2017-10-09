@@ -23,6 +23,7 @@ public class Crews : MonoBehaviour {
 
 	public static CrewManager[] crews = new CrewManager[2];
 
+	[Range(0,4)]
 	public int startMemberAmount = 1;
 
 	void Awake () {
@@ -82,44 +83,43 @@ public class Crews : MonoBehaviour {
 
 	#region save / load crews
 	public void SavePlayerCrew () {
-		SaveManager.Instance.CurrentData.playerCrew = playerCrew.ManagedCrew;
+		SaveManager.Instance.CurrentData.playerCrew = playerCrew.managedCrew;
 	}
 	public void RandomizePlayerCrew () {
 		CrewParams crewParams = new CrewParams ();
 		crewParams.amount = startMemberAmount;
 		crewParams.overideGenre = false;
 		crewParams.male = false;
-//		crewParams.level = 10;
-		crewParams.level = 1;
-
+		crewParams.level = 10;
+//		crewParams.level = 1;
 
 		Crew playerCrew = new Crew (crewParams,0,0);
-		crews [0].setCrew (playerCrew);
+		crews [0].SetCrew (playerCrew);
 		crews [0].UpdateCrew (PlacingType.Map);
 	}
 	public void LoadPlayerCrew () {
-		playerCrew.ManagedCrew = SaveManager.Instance.CurrentData.playerCrew;
+		playerCrew.managedCrew = SaveManager.Instance.CurrentData.playerCrew;
 
-		crews [0].setCrew (playerCrew.ManagedCrew);
+		crews [0].SetCrew (playerCrew.managedCrew);
 		crews [0].UpdateCrew (PlacingType.Map);
 	}
 	#endregion
 
 	#region crew tools
 	public void CreateNewCrew () {
-		
+
 		StoryReader.Instance.NextCell ();
 
-		Crew islandCrew = Crews.Instance.GetCrewFromCurrentCell ();
+		Crew storyCrew = Crews.Instance.GetCrewFromCurrentCell ();
 
 		// set decal
-		if (islandCrew.MemberIDs.Count == 0) {
+		if (storyCrew.MemberIDs.Count == 0) {
 			StoryReader.Instance.SetDecal (1);
 		} else {
 
-			Crews.enemyCrew.setCrew (islandCrew);
+			Crews.enemyCrew.SetCrew (storyCrew);
 
-			if (islandCrew.hostile) {
+			if (storyCrew.hostile) {
 				DialogueManager.Instance.SetDialogueTimed ("Le revoilà !", Crews.enemyCrew.captain);
 				StoryReader.Instance.SetDecal (2);
 			}
@@ -138,7 +138,7 @@ public class Crews : MonoBehaviour {
 		var tmp = StoryReader.Instance.CurrentStoryHandler.GetCrew (row, col);
 
 		if (tmp == null) {
-
+			
 			CrewParams crewParams = GetCrewFromText (StoryFunctions.Instance.CellParams);
 
 			Crew newCrew = new Crew (crewParams, row, col);
@@ -195,7 +195,7 @@ public class Crews : MonoBehaviour {
 
 	public void AddMemberToCrew () {
 		
-		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.MemberCapacity) {
+		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.maxMemberCapacity) {
 
 			string phrase = "Oh non, le bateau est trop petit";
 			DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain);

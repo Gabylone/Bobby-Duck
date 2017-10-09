@@ -47,6 +47,8 @@ public class Card : MonoBehaviour {
 		nameText.text = member.MemberName;
 
 		levelText.text = member.Level.ToString ();
+		if (member.Level == member.maxLevel)
+			levelText.text = "MAX";
 
 		heartImage.fillAmount = (float)member.Health / (float)member.MemberID.maxHealth;
 

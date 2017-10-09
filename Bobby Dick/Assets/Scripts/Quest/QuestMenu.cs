@@ -41,6 +41,12 @@ public class QuestMenu : MonoBehaviour {
 		QuestManager.onGiveUpQuest += HandleOnFinishQuest;
 		QuestManager.onFinishQuest += HandleOnFinishQuest;
 
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
+	}
+
+	void HandleOpenInventory (CrewMember member)
+	{
+		Close ();
 	}
 
 	void HandleOnFinishQuest (Quest quest)
@@ -74,7 +80,8 @@ public class QuestMenu : MonoBehaviour {
 		openButton.SetActive (false);
 		menuGroup.SetActive (true);
 
-		CrewInventory.Instance.CloseLoot ();
+//		CrewInventory.Instance.CloseLoot ();
+		CrewInventory.Instance.HideInventory();
 		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
 
 		Tween.ClearFade (menuGroup.transform);
