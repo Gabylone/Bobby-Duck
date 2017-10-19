@@ -131,7 +131,7 @@ PlayerSpeak : !!!!;Node=>trésor;;;;;;;
 Narrator : Le couloir mène à une salle de taille démentielle, au milieu de laquelle brille un coffre immense.;;;;;;;;
 Narrator : Les murs tremblent et le tonnerre gronde.;;;;;;;;
 Narrator : De derrière CAPITAINE, cinq hommes aux visages putrides tiennent des lames pleine de sang.;;;;;;;;
-NewCrew5/?/10;;;;;;;;
+NewCrew4/?/10;;;;;;;;
 OtherSpeak : C'est fini pour vous humain.;Node=>trésor;LaunchCombat;;;;;;
 LaunchCombat;;;;;;;;
 Node=>trésor;;;;;;;;

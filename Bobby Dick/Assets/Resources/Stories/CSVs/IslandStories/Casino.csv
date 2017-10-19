@@ -11,7 +11,7 @@ Leave;CheckQuest=>entrée casino;;;;;;
 ;;;;;;;
 ;;;;;;;
 [entrée casino];;;;;;;
-NewCrew5;;;;;;;
+NewCrew4;;;;;;;
 Narrator : L'ambiance est joviale. Des gens sont assis à des tables, ils jouent aux cartes. Un serveur se tient derrière le comptoir.;Node=>salleVide;Node=>combatSalle;;;;;
 [choix salle];;;OtherSpeak : Allez DIRECTIONTOFORMULA, vous en saurez plus.;;;;
 SetChoices4;;;;;;;

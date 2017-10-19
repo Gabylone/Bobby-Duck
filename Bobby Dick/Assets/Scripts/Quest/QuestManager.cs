@@ -215,8 +215,8 @@ public class QuestManager : MonoBehaviour {
 			return currentQuests.Find ( x => 
 				x.originCoords == Boats.PlayerBoatInfo.coords && 
 				storyLayer == x.layer &&
-				x.row == StoryReader.Instance.Index &&
-				x.col == StoryReader.Instance.Decal
+				x.row == StoryReader.Instance.Col &&
+				x.col == StoryReader.Instance.Row
 			);
 		}
 	}
@@ -233,8 +233,8 @@ public class QuestManager : MonoBehaviour {
 			return finishedQuests.Find ( x => 
 				x.originCoords == Boats.PlayerBoatInfo.coords && 
 				storyLayer == x.layer &&
-				x.row == StoryReader.Instance.Index &&
-				x.col == StoryReader.Instance.Decal
+				x.row == StoryReader.Instance.Col &&
+				x.col == StoryReader.Instance.Row
 			);
 //			return finishedQuests.Find ( x => x.originCoords == Boats.PlayerBoatInfo.coords );
 		}

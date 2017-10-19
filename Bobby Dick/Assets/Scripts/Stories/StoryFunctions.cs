@@ -61,8 +61,6 @@ public class StoryFunctions : MonoBehaviour {
 
 	string cellParams = "";
 
-	float waitDuration = 0.35f;
-
 	public delegate void GetFunction (FunctionType func, string cellParameters );
 	public GetFunction getFunction;
 
@@ -81,8 +79,8 @@ public class StoryFunctions : MonoBehaviour {
 		if (content.Length == 0) {
 			
 			string text = "cell is empty on story " + StoryReader.Instance.CurrentStoryHandler.Story.name + "" +
-				"\n at row : " + (StoryReader.Instance.Index+2) + "" +
-				"\n and collumn : " + StoryReader.Instance.Decal;
+				"\n at row : " + (StoryReader.Instance.Col+2) + "" +
+				"\n and collumn : " + StoryReader.Instance.Row;
 
 			Debug.LogError (text);
 
@@ -90,10 +88,10 @@ public class StoryFunctions : MonoBehaviour {
 			return;
 		}
 
-
 //		// GET DECAL
 		int decal = StoryReader.Instance.CurrentStoryHandler.GetDecal();
 		if ( decal >= 0 ) {
+
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.SetDecal (decal);
 
@@ -103,17 +101,8 @@ public class StoryFunctions : MonoBehaviour {
 		}
 	
 		if ( content[0] == '[' ) {
-
-			string nodeName = content.Remove (0, 1);
-			nodeName = nodeName.Remove (nodeName.Length-1);
-
-			Node node = StoryReader.Instance.GetNodeFromText (nodeName);
-
+			
 			StoryReader.Instance.NextCell ();
-
-			if (node.decal > 0)
-				StoryReader.Instance.SetDecal (node.decal);
-
 			StoryReader.Instance.UpdateStory ();
 			return;
 		}
@@ -133,8 +122,8 @@ public class StoryFunctions : MonoBehaviour {
 		}
 
 		Debug.LogError (
-			"cell returns no function at decal\n" + StoryReader.Instance.Decal + "\n" +
-			"index : " + StoryReader.Instance.Index + "\n" +
+			"cell returns no function at decal\n" + StoryReader.Instance.Row + "\n" +
+			"index : " + StoryReader.Instance.Col + "\n" +
 			"qui contient : " + content);
 
 		StoryLauncher.Instance.EndStory ();

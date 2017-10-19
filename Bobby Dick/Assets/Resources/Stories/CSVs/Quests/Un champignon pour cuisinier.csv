@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID
-Champignon pour cuisinier;50;0
+Le livre de recettes;50;0
 [debut];;
 OtherSpeak : C'est terrible !;;
 OtherSpeak : J'attends des invités pour très bientôt !;;
@@ -27,7 +27,7 @@ OtherSpeak : Vous avez mon champignon ?;;
 SetChoices2;;
 Choice : Non…;Choice : Le voilà !;
 OtherSpeak : Vous revenez bredouille ?;CheckInInventory<Champignon>/Food;
-Leave;RemoveFromInventory<Champignon>/Misc;OtherSpeak : Vous revenez bredouille ?
+Leave;RemoveFromInventory<Champignon>/Food;OtherSpeak : Vous revenez bredouille ?
 ;PlayerSpeak : Tenez, votre champignon;Leave
 ;OtherSpeak : Génial, ça fera l'affaire !;
 ;FinishQuest;

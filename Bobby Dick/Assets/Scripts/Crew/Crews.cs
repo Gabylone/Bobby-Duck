@@ -23,8 +23,10 @@ public class Crews : MonoBehaviour {
 
 	public static CrewManager[] crews = new CrewManager[2];
 
-	[Range(0,4)]
+	[Range(1,4)]
 	public int startMemberAmount = 1;
+	[Range(1,10)]
+	public int startLevel = 1;
 
 	void Awake () {
 		Instance = this;
@@ -90,8 +92,7 @@ public class Crews : MonoBehaviour {
 		crewParams.amount = startMemberAmount;
 		crewParams.overideGenre = false;
 		crewParams.male = false;
-		crewParams.level = 10;
-//		crewParams.level = 1;
+		crewParams.level = startLevel;
 
 		Crew playerCrew = new Crew (crewParams,0,0);
 		crews [0].SetCrew (playerCrew);
@@ -132,8 +133,8 @@ public class Crews : MonoBehaviour {
 
 	public Crew GetCrewFromCurrentCell () {
 
-		int row = StoryReader.Instance.Decal;
-		int col = StoryReader.Instance.Index;
+		int row = StoryReader.Instance.Row;
+		int col = StoryReader.Instance.Col;
 
 		var tmp = StoryReader.Instance.CurrentStoryHandler.GetCrew (row, col);
 

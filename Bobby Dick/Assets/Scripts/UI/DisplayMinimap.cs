@@ -41,6 +41,11 @@ public class DisplayMinimap : MonoBehaviour {
 		Quest.showQuestOnMap += HandleShowQuestOnMap;
 
 		HandleChunkEvent ();
+
+		Show ();
+
+		CombatManager.Instance.onFightStart += Hide;
+		CombatManager.Instance.onFightEnd += Show;
 	}
 
 	void HandleChunkEvent ()
@@ -88,9 +93,6 @@ public class DisplayMinimap : MonoBehaviour {
 	#endregion
 
 	#region center
-	// CENTER
-	public delegate void OnCenterMap (Coords coords);
-	public OnCenterMap onCenterMap;
 	void CenterOnBoat() {
 		CenterMap (Boats.PlayerBoatInfo.coords);
 	}
@@ -107,16 +109,13 @@ public class DisplayMinimap : MonoBehaviour {
 		Vector2 targetPos = new Vector2(-x,-y) + minimapChunkScale;
 
 		HOTween.To (overallRectTranfsorm, centerTweenDuration, "anchoredPosition", targetPos, false, EaseType.Linear, 0f);
-
-		if ( onCenterMap != null )
-			onCenterMap (coords);
 	}
 	#endregion
 
 	#region map range
 	void UpdateBoatRange ()
 	{
-		int boatRange = Boats.PlayerBoatInfo.ShipRange;
+		int boatRange = currentShipRange;
 
 		for (int x = -boatRange; x <= boatRange; x++) {
 			
@@ -200,6 +199,19 @@ public class DisplayMinimap : MonoBehaviour {
 		Tween.Bounce (boatRectTransform.transform);
 	}
 
+	int currentShipRange {
+		get {
+			int range = Boats.PlayerBoatInfo.shipRange;
+
+			if (TimeManager.Instance.Raining)
+				range--;
+			
+			if (TimeManager.Instance.IsNight)
+				range--;
+
+			return range;
+		}
+	}
 
 	void CheckForOtherBoats ()
 	{
@@ -210,10 +222,9 @@ public class DisplayMinimap : MonoBehaviour {
 
 		int boatIndexInRange = 0;
 
-		int boatRange = Boats.PlayerBoatInfo.ShipRange;
+		int boatRange = currentShipRange;
 
 		foreach ( OtherBoatInfo boatInfo in Boats.Instance.OtherBoatInfos ) {
-
 
 			if ( boatInfo.coords <= Boats.PlayerBoatInfo.coords + boatRange&& boatInfo.coords >= Boats.PlayerBoatInfo.coords - boatRange ) {
 
@@ -249,5 +260,11 @@ public class DisplayMinimap : MonoBehaviour {
 	}
 	#endregion
 
+	void Show () {
+		scrollViewRectTransform.gameObject.SetActive (true);
+	}
 
+	void Hide () {
+		scrollViewRectTransform.gameObject.SetActive (false);
+	}
 }

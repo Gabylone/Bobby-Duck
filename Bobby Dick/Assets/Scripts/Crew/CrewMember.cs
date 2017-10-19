@@ -9,7 +9,12 @@ public class CrewMember {
 	public static void setSelectedMember (CrewMember crewMember) {
 		
 		if (selectedMember != null) {
-			selectedMember.Icon.Down ();
+			if (selectedMember.Icon == null) {
+				Debug.LogError ("le probleme de la mort après combat sur : " + selectedMember.MemberName);
+				return;
+			} else {
+				selectedMember.Icon.Down ();
+			}
 		}
 
 		selectedMember = crewMember;
@@ -20,7 +25,6 @@ public class CrewMember {
 	// STATS
 	public int maxStat = 6;
 	public int maxLevel = 10;
-	public int currentAttack = 0;
 
 	// EXPERIENCE
 	public int xpToLevelUp = 100;
@@ -85,8 +89,10 @@ public class CrewMember {
 	public delegate void OnLevelUp (CrewMember member);
 	public OnLevelUp onLevelUp;
 	public void LevelUp () {
+		
 		++Level;
-		CurrentXp = xpToLevelUp - CurrentXp;
+
+		CurrentXp = CurrentXp - xpToLevelUp;
 
 		++StatPoints;
 
@@ -111,17 +117,32 @@ public class CrewMember {
 	#endregion
 
 	#region health
-	public void GetHit (float damage) {
-		
-		float damageTaken = damage;
+	public float getDamage ( float incomingAttack ) {
+//		float maxHits = 16;
+		float maxHits = 10;
+		float minHits = 2;
 
-		damageTaken = Mathf.CeilToInt (damageTaken);
+		float dif = (Defense - incomingAttack) / 10f;
+				Debug.Log("dif : " + dif);
+
+		float lerp = (dif + (maxHits / 2f)) / maxHits;
+				Debug.Log ("lerp : " + lerp);
+
+		float hits = minHits + ((maxHits - minHits) * lerp);
+				Debug.Log ("hits : " + hits);
+
+		float damageTaken = 100f / hits;
+				Debug.Log ("damage : " + damageTaken);
+
+		int roundedDamage = Mathf.CeilToInt(damageTaken);
+
+		return roundedDamage;
+				Debug.Log ("rounded damage : " + roundedDamage);
+	}
+	public void GetHit (float incomingDamage) {
 
 		// defense
-		damageTaken -= Defense;
-		damageTaken = Mathf.Clamp ( damageTaken , 1 , 200 );
-
-		Health -= (int)damageTaken;
+		Health -= Mathf.RoundToInt(incomingDamage);
 
 	}
 
@@ -133,7 +154,7 @@ public class CrewMember {
 	#region states
 	public void UpdateHunger () {
 
-		AddXP (3);
+		AddXP (4);
 
 		CurrentHunger += stepsToHunger;
 

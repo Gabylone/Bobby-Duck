@@ -43,13 +43,15 @@ public class Quest {
 	{
 		// ID
 		layer = StoryReader.Instance.currentStoryLayer;
-		row = StoryReader.Instance.Index;
-		col = StoryReader.Instance.Decal;
+		row = StoryReader.Instance.Col;
+		col = StoryReader.Instance.Row;
 
 		goldValue = Random.Range(10,50);
 		level = Random.Range(1,11);
 		goldValue = level * 10 + Random.Range(1,9);
-		experience = level * 5 + Random.Range (1, 9);
+
+		experience = 30;
+
 		questID = StoryLoader.Instance.getStoryIndexFromPercentage (StoryType.Quest);
 
 		originCoords = Boats.PlayerBoatInfo.coords;

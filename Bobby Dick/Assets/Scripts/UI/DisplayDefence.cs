@@ -40,9 +40,7 @@ public class DisplayDefence : MonoBehaviour {
 	void HandleUseInventory (InventoryActionType actionType)
 	{
 		if ( actionType == InventoryActionType.Equip ) {
-			if (LootUI.Instance.SelectedItem.category == ItemCategory.Clothes) {
-				UpdateUI (CrewMember.selectedMember);
-			}
+			UpdateUI (CrewMember.selectedMember);
 		}
 
 	}

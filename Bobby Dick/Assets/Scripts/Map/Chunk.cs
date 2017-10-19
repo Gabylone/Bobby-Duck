@@ -16,7 +16,7 @@ public class Chunk
 {
 	public static Dictionary<Coords,Chunk> chunks = new Dictionary<Coords, Chunk>();
 
-	public int stateID;
+	public ChunkState State;
 	private IslandData islandData;
 
 	public Chunk () {
@@ -30,15 +30,6 @@ public class Chunk
 			islandData = value;
 
 			State = ChunkState.UndiscoveredIsland;
-		}
-	}
-
-	public ChunkState State {
-		get {
-			return (ChunkState)stateID;
-		}
-		set {
-			stateID = (int)value;
 		}
 	}
 

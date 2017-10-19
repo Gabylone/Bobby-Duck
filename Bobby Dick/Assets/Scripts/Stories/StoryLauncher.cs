@@ -55,6 +55,8 @@ public class StoryLauncher : MonoBehaviour {
 		if (playingStory)
 			return;
 
+		StoryReader.Instance.Reset ();
+
 		StoryReader.Instance.CurrentStoryManager = storyManager;
 
 		CurrentStorySource = source;
@@ -65,8 +67,6 @@ public class StoryLauncher : MonoBehaviour {
 
 		// place captain
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-
-		StoryReader.Instance.Reset ();
 		StoryReader.Instance.UpdateStory ();
 
 		if (playStoryEvent != null)
@@ -80,7 +80,6 @@ public class StoryLauncher : MonoBehaviour {
 			Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Hidden);
 
 		if ( StoryReader.Instance.currentStoryLayer > 0 ) {
-			print ("fallin back to other story");
 			StoryReader.Instance.FallBackToPreviousStory ();
 			return;
 		}
@@ -105,6 +104,7 @@ public class StoryLauncher : MonoBehaviour {
 
 		if (endStoryEvent != null)
 			endStoryEvent ();
+
 	}
 
 	public bool PlayingStory {

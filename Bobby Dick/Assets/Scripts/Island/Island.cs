@@ -49,8 +49,8 @@ public class Island : MonoBehaviour {
 
 		sprites = Resources.LoadAll<Sprite> ("Graph/IslandSprites");
 
-		CombatManager.Instance.fightStarting 	+= DeactivateCollider;
-		CombatManager.Instance.fightEnding 		+= ActivateCollider;
+		CombatManager.Instance.onFightStart 	+= DeactivateCollider;
+		CombatManager.Instance.onFightEnd 		+= ActivateCollider;
 
 		Swipe.onSwipe += HandleOnSwipe;
 

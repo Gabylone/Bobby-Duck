@@ -109,8 +109,8 @@ public class LootManager : MonoBehaviour {
 	}
 	public Loot GetIslandLoot (int mult) {
 
-		int row = StoryReader.Instance.Decal;
-		int col = StoryReader.Instance.Index;
+		int row = StoryReader.Instance.Row;
+		int col = StoryReader.Instance.Col;
 
 		var tmpLoot = StoryReader.Instance.CurrentStoryHandler.GetLoot (row, col);
 
@@ -187,6 +187,12 @@ public class LootManager : MonoBehaviour {
 
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 		StoryReader.Instance.NextCell ();
+
+		if ( LootManager.Instance.getLoot(Crews.Side.Player).allItems [(int)targetCat].Count == 0 ) {
+			Debug.LogError ( "REMOVE IN INVENTORY : la catégorie visée est vide : ignorement" );
+			StoryReader.Instance.UpdateStory ();
+			return;
+		}
 
 		Item item = LootManager.Instance.getLoot(Crews.Side.Player).allItems [(int)targetCat] [0];
 		if (cellParams.Contains ("<")) {

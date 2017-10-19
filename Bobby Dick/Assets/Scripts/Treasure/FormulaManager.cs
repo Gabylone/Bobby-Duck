@@ -139,7 +139,6 @@ public class FormulaManager : MonoBehaviour {
 			int a = 0;
 			foreach (var form in formulas) {
 				if ( !form.found ) {
-					print (a.ToString ());
 					return (Vector2)form.coords;
 				}
 				++a;

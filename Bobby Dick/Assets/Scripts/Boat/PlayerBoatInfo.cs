@@ -4,7 +4,7 @@ using System.Collections;
 [System.Serializable]
 public class PlayerBoatInfo : BoatInfo {
 	
-	private int shipRange = 1;
+	public int shipRange = 1;
 
 	public bool isInNoMansSea = false;
 	public bool hasBeenWarned = false;
@@ -47,24 +47,6 @@ public class PlayerBoatInfo : BoatInfo {
 
 			hasBeenWarned = false;
 
-		}
-	}
-
-	public int ShipRange {
-		get {
-
-			int range = shipRange;
-
-			if (TimeManager.Instance.Raining)
-				range--;
-			if (TimeManager.Instance.IsNight)
-				range--;
-
-			return Mathf.Clamp (range,0,10);
-
-		}
-		set {
-			shipRange = value;
 		}
 	}
 

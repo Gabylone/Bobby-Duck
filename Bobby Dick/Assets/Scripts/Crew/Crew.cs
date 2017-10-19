@@ -32,8 +32,9 @@ public class Crew {
 		col = c;
 
 		if (crewParams.amount == 0) {
-			int a = Random.Range ( Crews.playerCrew.CrewMembers.Count -1 ,Crews.playerCrew.CrewMembers.Count +1 );
-			crewParams.amount = Mathf.Clamp (crewParams.amount, 1, 6);
+			int amount = Random.Range ( Crews.playerCrew.CrewMembers.Count -1 ,Crews.playerCrew.CrewMembers.Count +1 );
+//			Debug.Log ("");
+			crewParams.amount = Mathf.Clamp (amount, 1, 4);
 		}
 
 		for (int i = 0; i < crewParams.amount; ++i) {
@@ -43,6 +44,8 @@ public class Crew {
 			}
 
 			memberIDs.Add (id);
+
+
 		}
 
 	}

@@ -36,6 +36,8 @@ public class Fighter : MonoBehaviour {
 
 	private int ID = 0;
 
+	public GameObject group;
+
 	[Header ("Components")]
 	[SerializeField]
 	private Transform bodyTransform;
@@ -43,7 +45,7 @@ public class Fighter : MonoBehaviour {
 	private CrewMember crewMember;
 //	[SerializeField]
 //	private MemberFeedback feedback;
-	public Transform dialogueAnchor;
+	public Transform arrowAnchor;
 
 	private Fight_LoadSprites fightSprites;
 
@@ -63,8 +65,6 @@ public class Fighter : MonoBehaviour {
 	private float hit_Duration = 0.5f;
 	public float Hit_Duration { get { return hit_Duration; } }
 
-	[SerializeField]
-	private float hit_TimeToDisableCollider = 0.6f;
 	[SerializeField]
 	private float hit_TimeToEnableCollider = 0.5f;
 	public float Hit_TimeToEnableCollider {
@@ -86,23 +86,19 @@ public class Fighter : MonoBehaviour {
 
 	[Header ("Get Hit")]
 	[SerializeField]
-	private float getHit_Speed = 2.5f;
-	[SerializeField]
 	private float getHit_Duration = 0.3f;
-	[SerializeField]
-	private float getHit_TimetoStop = 0.2f;
 
 	[Header ("Blocked")]
 	[SerializeField]
 	private float blocked_Duration = 0.5f;
+
+	public bool pickable = false;
 
 	[Header("Dodge")]
 	[SerializeField]
 	private float maxDodgeChance = 20;
 
 	[Header ("Guard")]
-	[SerializeField]
-	private float guard_TimeToEffective = 0.2f;
 	private bool guard_Active = false;
 	[SerializeField]
 	private GameObject guard_Feedback;
@@ -144,12 +140,7 @@ public class Fighter : MonoBehaviour {
 	private float hitDistance = 1f; 
 	[SerializeField]
 	private float stopBuffer = 0.2f;
-	[SerializeField]
-	private GameObject chooseButton;
 	bool hitting = false;
-
-	bool reachedTarget = false;
-	bool backToInitPos = false;
 
 	[Header("Info Button")]
 	[SerializeField]
@@ -158,13 +149,12 @@ public class Fighter : MonoBehaviour {
 	private int turnsToSkip;
 
 	// Use this for initialization
-	public virtual void Start () {
+	void Start () {
 
 		animator = GetComponentInChildren<Animator> ();
 		bodyCollider = GetComponent<BoxCollider2D> ();
 		weaponCollider.enabled = false;
 		Guard_Active = false;
-		gameObject.SetActive (false);
 
 		fightSprites = GetComponentInChildren<Fight_LoadSprites> ();
 		fightSprites.Init ();
@@ -173,15 +163,13 @@ public class Fighter : MonoBehaviour {
 
 		initPos = transform.position;
 
-		infoButton.SetActive (false);
-
-		chooseButton.SetActive (false);
+		Hide ();
 
 
 	}
 
 	// Update is called once per frame
-	public virtual void Update () {
+	void FixedUpdate () {
 
 		if ( updateState != null )
 			updateState ();
@@ -201,6 +189,8 @@ public class Fighter : MonoBehaviour {
 	bool started = false;
 
 	#region initalization
+	public delegate void OnInit ();
+	public OnInit onInit;
 	public void Init (CrewMember crewMember, int id )
 	{
 		if (!started) {
@@ -210,33 +200,97 @@ public class Fighter : MonoBehaviour {
 
 		ID = id;
 
-		gameObject.SetActive (true);
-
 		CrewMember = crewMember;
+
+		Show ();
 
 		fightSprites.UpdateOrder (Crews.getCrew(crewMember.side).CrewMembers.Count-id);
 		fightSprites.UpdateSprites (CrewMember.MemberID);
 
-		infoButton.SetActive (true);
-
 		Reset ();
+
+		if ( onInit != null )
+			onInit ();
+	}
+
+	public delegate void OnSetTurn ();
+	public OnSetTurn onSetTurn;
+	public void SetTurn () {
+
+		// go up in hierarchy
+		Transform t = transform.parent.parent;
+
+		transform.parent.SetParent(transform.parent.parent.parent);
+
+		transform.parent.SetParent(t);
+
+		if ( TurnsToSkip > 0 ) {
+
+			TurnsToSkip--;
+
+			if (TurnsToSkip == 0) {
+				CombatFeedback.Display ("DEBOUT !");
+			} else {
+				CombatFeedback.Display ("Encore\n" + TurnsToSkip + " Tours");
+			}
+			return;
+		}
+
+		Tween.Bounce (transform);
+
+		ChangeState (Fighter.states.none);
+
+		if ( onSetTurn != null ) {
+			onSetTurn ();
+		}
+	}
+
+	public delegate void OnEndTurn ();
+	public OnEndTurn onEndTurn;
+	public void EndTurn ()
+	{
+		if (onEndTurn != null)
+			onEndTurn ();
+	}
+
+	public delegate void OnSelect ();
+	public OnSelect onSelect;
+	public void Select () {
+
+		CombatManager.Instance.currentFighter.TargetFighter = this;
+		targetFighter = CombatManager.Instance.currentFighter;
+
+		Tween.Bounce (transform);
+
+		if (onSelect != null)
+			onSelect ();
 	}
 
 	public void Hide ()
 	{
 		ChangeState (states.none);
 
+		group.SetActive (false);
 		gameObject.SetActive (false);
 
-		infoButton.SetActive (false);
+	}
 
-		chooseButton.SetActive (false);
+	public void Fade () {
+		ChangeState (states.none);
 
+		group.SetActive (false);
+		fightSprites.FadeSprites (1);
+	}
+
+	void Show () {
+		group.SetActive (true);
+		gameObject.SetActive (true);
 	}
 
 	public void Reset () {
 		ChangeState (states.none);
 		animator.SetBool("dead",false);
+		transform.position = initPos;
 	}
 
 	public virtual void Die () {
@@ -244,12 +298,13 @@ public class Fighter : MonoBehaviour {
 			// self
 		ChangeState (states.dead);
 		Animator.SetBool ("dead", true);
-		infoButton.SetActive (false);
 
-		CombatManager.Instance.currentMember.AddXP (CrewMember.Level * 25);
+		CombatManager.Instance.currentMember.AddXP (20);
 
 			// combat flow
 		CombatManager.Instance.DeleteFighter (this);
+
+		Fade ();
 
 		CrewMember.Kill ();
 
@@ -269,14 +324,12 @@ public class Fighter : MonoBehaviour {
 	}
 
 	public virtual void MoveToTarget_Start () {
-		ChooseButton.SetActive (false);
-		reachedTarget = false;
 	}
 	public virtual void MoveToTarget_Update () {
 		
 		Vector2 direction = ((Vector2)targetFighter.BodyTransform.position - (Vector2)transform.position).normalized;
 		if (!ReachedTarget) {
-			transform.Translate (direction * Speed * Time.deltaTime);
+			transform.Translate (direction * speed * Time.deltaTime);
 		}
 
 		Animator.SetFloat ("move", ReachedTarget ? 0 : 1);
@@ -306,7 +359,7 @@ public class Fighter : MonoBehaviour {
 	public virtual void MoveBack_Update () {
 		if (!BackToInitPos) {
 			Vector2 direction = (initPos - (Vector2)transform.position).normalized;
-			transform.Translate (direction * Speed * Time.deltaTime);
+			transform.Translate (direction * speed * Time.deltaTime);
 		}
 
 		Animator.SetFloat ("move", 1);
@@ -363,8 +416,6 @@ public class Fighter : MonoBehaviour {
 
 		weaponCollider.enabled = false;
 
-		animator.speed = 1f;
-
 	}
 	#endregion
 
@@ -392,10 +443,6 @@ public class Fighter : MonoBehaviour {
 	}
 
 	public virtual void blocked_Update () {
-
-		if ( timeInState > 1f ) {
-			animator.speed = 1f;
-		}
 
 		if (timeInState > blocked_Duration) {
 			ChangeState (states.none);
@@ -434,26 +481,26 @@ public class Fighter : MonoBehaviour {
 		}
 	}
 
-	public void ShowInfo (Transform t) {
-		CardManager.Instance.ShowFightingCard (CrewMember);
-	}
+	public delegate void OnShowInfo();
+	public OnShowInfo onShowInfo;
+	public void ShowInfo () {
 
-	public virtual void OnTriggerEnter2D (Collider2D other) {
-		
-		if ( other.tag == hitTag) {
+		print ("clicking on showing info...");
 
-			if ( currentState == states.getHit ) {
-				Debug.Log ("didn't touch parce que déjà en get hit");
-				return;
-			}
-
-//			GetHit (other.GetComponentInParent<Fighter>());
+		if ( pickable ) {
+			CombatManager.Instance.ChoseTargetMember (this);
+			Tween.Bounce (transform);
+			print ("EEEEH");
+			return;
 		}
+
+		if (onShowInfo != null)
+			onShowInfo ();
 	}
 
 	public void Speak (string txt)
 	{
-		DialogueManager.Instance.SetDialogueTimed (txt, dialogueAnchor);
+		DialogueManager.Instance.SetDialogueTimed (txt, arrowAnchor);
 	}
 
 	#region get hit
@@ -471,31 +518,50 @@ public class Fighter : MonoBehaviour {
 	public virtual void getHit_Exit () {
 		//
 	}
+
+	public delegate void OnGetHit ();
+	public OnGetHit onGetHit;
 	public void GetHit (Fighter otherFighter) {
 
+
+		// DODGE
 		float dodgeChange = Random.value * 100f;
 
 		float dodgeSkill = (float)crewMember.GetStat(Stat.Dexterity) / 6f;
 		dodgeSkill *= maxDodgeChance;
-		print ("dodge chance : " + dodgeSkill);
 
 		if ( dodgeChange < dodgeSkill ) {
 			animator.SetTrigger("dodge");
+			combatFeedback.Display ("ESQUIVE !");
 			return;
 		}
+		//
 
-		float dam = otherFighter.CrewMember.currentAttack;
+		otherFighter.ChangeState (states.moveBack);
+
+		float dam = otherFighter.CrewMember.Attack;
 
 		if ( DiceManager.Instance.HighestResult == 6 ) {
+
+			dam = dam * 1.5f;
+
 			SoundManager.Instance.PlaySound (hurtSound);
 			impactEffect.transform.localScale = Vector3.one * 2f;
+
+		} else if ( DiceManager.Instance.HighestResult == 1 ) {
+
+			dam = dam * 0.5f;
+
+			SoundManager.Instance.PlaySound (hitSound);
+			impactEffect.transform.localScale = Vector3.one * 0.5f;
+
 		} else {
 			SoundManager.Instance.PlaySound (hitSound);
 			impactEffect.transform.localScale = Vector3.one * 0.75f;
 		}
 
 		if (Guard_Active) {
-			dam = Mathf.Round(dam/5f);
+			dam = dam / 2f;
 			ChangeState (states.blocked);
 			impactEffect.GetComponent<SpriteRenderer> ().color = Color.black;
 		} else {
@@ -505,22 +571,24 @@ public class Fighter : MonoBehaviour {
 
 		BodyCollider.enabled = false;
 
-//		CombatFeedback.Display (dam.ToString (),impactEffect.GetComponent<SpriteRenderer> ().color);
-
 		// collision effect
 		impactEffect.SetActive (false);
 		impactEffect.SetActive (true);
 
 		impactEffect.transform.position = otherFighter.WeaponCollider.transform.position;
 
-		crewMember.GetHit (dam);
+		float damage = crewMember.getDamage (dam);
+		crewMember.GetHit (damage);
+		combatFeedback.Display (damage.ToString() , Color.red);
 
-		CardManager.Instance.ShowFightingCard (CrewMember);
+		if (onGetHit != null)
+			onGetHit ();
 
 		if (crewMember.Health <= 0) {
 			Die ();
 		}
 	}
+
 	#endregion
 
 	#region getters
@@ -528,9 +596,6 @@ public class Fighter : MonoBehaviour {
 		get {
 			return animator;
 		}
-	}
-	public float Speed {
-		get { return speed; }
 	}
 	public Transform BodyTransform {
 		get {
@@ -654,12 +719,6 @@ public class Fighter : MonoBehaviour {
 	public BoxCollider2D WeaponCollider {
 		get {
 			return weaponCollider;
-		}
-	}
-
-	public GameObject ChooseButton {
-		get {
-			return chooseButton;
 		}
 	}
 

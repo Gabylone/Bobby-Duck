@@ -29,16 +29,10 @@ public class Karma : MonoBehaviour {
 	[SerializeField]
 	private Image progressionImage;
 
-	float timer = 0f;
-	[SerializeField]
-	private float lerpDuration = 0.5f;
-	private Color initColor;
-
 	[Header("Sound")]
 	[SerializeField] private AudioClip karmaGoodSound;
 	[SerializeField] private AudioClip karmaBadSound;
 
-	bool lerping = false;
 
 	void Awake () {
 		Instance = this;
@@ -55,16 +49,13 @@ public class Karma : MonoBehaviour {
 
 		UpdateUI ();
 
+		print ("updateint ui");
+
 	}
 
 	void HandleOpenInventory (CrewMember member)
 	{
 		Show ();
-	}
-
-	void Update () {
-
-		UpdateLerp ();
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -165,6 +156,7 @@ public class Karma : MonoBehaviour {
 
 	public void UpdateUI () {
 
+		print (currentKarma);
 		float fill = ((float)currentKarma / (float)maxKarma);
 
 		if ( fill < 0.5 && fill > -0.5f ) {
@@ -175,12 +167,13 @@ public class Karma : MonoBehaviour {
 			feedbackImage.sprite = sprites [0];
 		}
 
-
 		Visible = true;
 
-		initColor = progressionImage.color;
-		lerping = true;
-		timer = 0f;
+		float targetFillAmount = ((float)currentKarma / (float)maxKarma);
+		progressionImage.fillAmount = targetFillAmount;
+
+		Color endColor = targetFillAmount < 0f ? Color.red : Color.green;
+		progressionImage.color = endColor;
 
 		Tween.Bounce (group.transform);
 
@@ -193,42 +186,6 @@ public class Karma : MonoBehaviour {
 	}
 
 
-	void UpdateLerp ()
-	{
-		if (Visible && lerping) {
-
-			if (timer < lerpDuration) {
-
-				float targetFillAmount = ((float)currentKarma / (float)maxKarma);
-
-				float lerp = timer / lerpDuration;
-
-				float bef = (float)previousKarma / (float)maxKarma;
-				float currentFillAmount = Mathf.Lerp (bef, targetFillAmount, lerp);
-
-				progressionImage.fillClockwise = currentFillAmount > 0f;
-
-				Color endColor = currentFillAmount < 0f ? Color.red : Color.green;
-
-				if (currentFillAmount < 0)
-					currentFillAmount = -currentFillAmount;
-
-				Color targetColor = Color.Lerp (Color.white, endColor, currentFillAmount);
-				progressionImage.color = Color.Lerp (initColor, targetColor, lerp);
-
-				progressionImage.fillAmount = currentFillAmount;
-
-			}
-
-			if (timer >= lerpDuration) {
-				lerping = false;
-			}
-			timer += Time.deltaTime;
-
-		}
-			
-	}
-
 	public int Bounty {
 		get {
 			return bounty;
@@ -236,13 +193,13 @@ public class Karma : MonoBehaviour {
 	}
 
 	public void Show () {
-		lerping = false;
 		Visible = true;
 	}
+
 	public void Hide () {
-		lerping = false;
 		Visible = false;
 	}
+
 	public bool Visible {
 		get {
 			return visible;
@@ -252,5 +209,18 @@ public class Karma : MonoBehaviour {
 
 			group.SetActive (value);
 		}
+	}
+
+	public void SaveKarma ()
+	{
+		SaveManager.Instance.CurrentData.karma = CurrentKarma;
+		SaveManager.Instance.CurrentData.bounty = Bounty;
+	}
+
+	public void LoadKarma ()
+	{
+		print ("loading kjar");
+		CurrentKarma = SaveManager.Instance.CurrentData.karma;
+		bounty = SaveManager.Instance.CurrentData.bounty;
 	}
 }

@@ -1,52 +1,52 @@
 Vêtement;Description;Value;$;W;LVL;Sprite ID
-Marcel;C'est un marcel;4;15;3;1;1
-Toge en tissu;C'est un toge en tissu;5;10;3;1;1
-Habit de paysan;C'est un habit de paysan;3;10;2;1;1
-Tenue de voyageur;C'est un tenue de voyageur;2;7;1;1;1
-Fourrure;C'est un fourrure;2;10;1;1;2
-Salopette;C'est un salopette;4;9;3;1;1
-Chemise de maille;C'est un chemise de maille;4;8;3;2;2
-Armure de parade;C'est un armure de parade;7;14;5;2;2
-Armure de bois;C'est un armure de bois;6;9;4;2;2
-Cuirasse rouillée;C'est un cuirasse rouillée;5;14;3;2;2
-Harnais de cuir;C'est un harnais de cuir;5;15;3;2;1
-Veste renforcée;C'est un veste renforcée;7;15;5;2;2
-Plastron de cuir;C'est un plastron de cuir;7;17;5;3;2
-Tenue d'officier;C'est un tenue d'officier;8;14;5;3;1
-Habit de bandit;C'est un habit de bandit;9;20;6;3;1
-Plastron de fer;C'est un plastron de fer;7;19;5;3;3
-Cotte de maille;C'est un cotte de maille;7;14;5;3;3
-Chemise de maille;C'est un chemise de maille;10;24;7;4;2
-Armure de parade;C'est un armure de parade;11;23;7;4;3
-Armure de bois;C'est un armure de bois;11;21;7;4;1
-Cuirasse rouillée;C'est un cuirasse rouillée;8;20;5;4;2
-Harnais de cuir;C'est un harnais de cuir;10;18;7;4;2
-Veste renforcée;C'est un veste renforcée;8;18;5;4;2
-Plastron de cuir;C'est un plastron de cuir;13;23;9;5;2
-Tenue d'officier;C'est un tenue d'officier;13;30;9;5;1
-Habit de bandit;C'est un habit de bandit;11;26;7;5;1
-Plastron de fer;C'est un plastron de fer;10;17;7;5;3
-Cotte de maille;C'est un cotte de maille;12;28;8;5;3
-Chemise de maille;C'est un chemise de maille;14;28;9;6;3
-Armure de parade;C'est un armure de parade;15;31;10;6;3
-Armure de bois;C'est un armure de bois;14;25;9;6;2
-Cuirasse rouillée;C'est un cuirasse rouillée;12;18;8;6;2
-Harnais de cuir;C'est un harnais de cuir;13;28;9;6;2
-Veste renforcée;C'est un veste renforcée;15;28;10;6;2
-Plastron de cuir;C'est un plastron de cuir;17;36;11;7;2
-Tenue d'officier;C'est un tenue d'officier;17;28;11;7;1
-Habit de bandit;C'est un habit de bandit;15;24;10;7;1
-Plastron de fer;C'est un plastron de fer;17;35;11;7;3
-Cotte de maille;C'est un cotte de maille;16;27;11;7;3
-Chemise de maille;C'est un chemise de maille;17;32;11;8;2
-Armure de parade;C'est un armure de parade;17;27;11;8;2
-Armure de bois;C'est un armure de bois;19;34;13;8;2
-Cuirasse rouillée;C'est un cuirasse rouillée;16;30;11;8;2
-Harnais de cuir;C'est un harnais de cuir;16;29;11;8;2
-Veste renforcée;C'est un veste renforcée;19;35;13;8;2
-Plastron de cuir;C'est un plastron de cuir;18;29;12;9;2
-Tenue d'officier;C'est un tenue d'officier;18;35;12;9;1
-Habit de bandit;C'est un habit de bandit;20;33;13;9;1
-Plastron de fer;C'est un plastron de fer;20;39;13;9;3
-Cotte de maille;C'est un cotte de maille;19;33;13;9;3
-Armure du roi pirate;C'est un armure du roi pirate;23;43;15;10;3
+Marcel;C'est un marcel;10;23;7;1;1
+Toge en tissu;C'est un toge en tissu;12;20;8;1;1
+Habit de paysan;C'est un habit de paysan;8;15;5;1;1
+Tenue de voyageur;C'est un tenue de voyageur;8;13;5;1;1
+Fourrure;C'est un fourrure;11;18;7;1;2
+Salopette;C'est un salopette;9;15;6;1;1
+Chemise de maille;C'est un chemise de maille;18;28;12;2;2
+Armure de parade;C'est un armure de parade;17;28;11;2;2
+Armure de bois;C'est un armure de bois;19;31;13;2;2
+Cuirasse rouillée;C'est un cuirasse rouillée;20;32;13;2;2
+Harnais de cuir;C'est un harnais de cuir;21;36;14;2;1
+Veste renforcée;C'est un veste renforcée;17;26;11;2;2
+Plastron de cuir;C'est un plastron de cuir;27;46;18;3;2
+Tenue d'officier;C'est un tenue d'officier;26;41;17;3;1
+Habit de bandit;C'est un habit de bandit;27;47;18;3;1
+Plastron de fer;C'est un plastron de fer;29;51;19;3;3
+Cotte de maille;C'est un cotte de maille;32;55;21;3;3
+Chemise de maille;C'est un chemise de maille;40;66;27;4;2
+Armure de parade;C'est un armure de parade;38;63;25;4;3
+Armure de bois;C'est un armure de bois;41;71;27;4;1
+Cuirasse rouillée;C'est un cuirasse rouillée;39;64;26;4;2
+Harnais de cuir;C'est un harnais de cuir;42;69;28;4;2
+Veste renforcée;C'est un veste renforcée;43;72;29;4;2
+Plastron de cuir;C'est un plastron de cuir;46;74;31;5;2
+Tenue d'officier;C'est un tenue d'officier;47;77;31;5;1
+Habit de bandit;C'est un habit de bandit;48;73;32;5;1
+Plastron de fer;C'est un plastron de fer;52;80;35;5;3
+Cotte de maille;C'est un cotte de maille;54;86;36;5;3
+Chemise de maille;C'est un chemise de maille;57;93;38;6;3
+Armure de parade;C'est un armure de parade;60;94;40;6;3
+Armure de bois;C'est un armure de bois;60;91;40;6;2
+Cuirasse rouillée;C'est un cuirasse rouillée;64;106;43;6;2
+Harnais de cuir;C'est un harnais de cuir;58;95;39;6;2
+Veste renforcée;C'est un veste renforcée;61;97;41;6;2
+Plastron de cuir;C'est un plastron de cuir;69;108;46;7;2
+Tenue d'officier;C'est un tenue d'officier;67;103;45;7;1
+Habit de bandit;C'est un habit de bandit;69;114;46;7;1
+Plastron de fer;C'est un plastron de fer;66;104;44;7;3
+Cotte de maille;C'est un cotte de maille;73;115;49;7;3
+Chemise de maille;C'est un chemise de maille;84;132;56;8;2
+Armure de parade;C'est un armure de parade;79;125;53;8;2
+Armure de bois;C'est un armure de bois;76;115;51;8;2
+Cuirasse rouillée;C'est un cuirasse rouillée;83;133;55;8;2
+Harnais de cuir;C'est un harnais de cuir;79;128;53;8;2
+Veste renforcée;C'est un veste renforcée;76;116;51;8;2
+Plastron de cuir;C'est un plastron de cuir;90;144;60;9;2
+Tenue d'officier;C'est un tenue d'officier;88;141;59;9;1
+Habit de bandit;C'est un habit de bandit;88;138;59;9;1
+Plastron de fer;C'est un plastron de fer;92;143;61;9;3
+Cotte de maille;C'est un cotte de maille;93;149;62;9;3
+Armure du roi pirate;C'est un armure du roi pirate;99;159;66;10;3

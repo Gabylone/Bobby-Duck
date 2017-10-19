@@ -50,7 +50,6 @@ public class Member {
 		} else {
 
 			Lvl = Random.Range (Crews.playerCrew.captain.Level - 3, Crews.playerCrew.captain.Level + 3);
-
 			if ( StoryReader.Instance.CurrentStoryHandler.storyType == StoryType.Quest ) {
 				Debug.Log ("l'histoire est une quete, donc la crew est du meme niveau que ma quete");
 //				QuestManager.Instance.Coords_CheckForTargetQuest.goldValue += (Lvl * 10);
@@ -68,10 +67,6 @@ public class Member {
 			++stats [Random.Range (0, 4)];
 			--statAmount;
 		}
-
-		int con = stats[(int)Stat.Constitution];
-		maxHealth = 100 + (con * 10);
-		health = maxHealth;
 
 		// il a 35% de chance d'être noir
 		BodyColorID 	= Random.value < 0.35f ? 0 : 1;

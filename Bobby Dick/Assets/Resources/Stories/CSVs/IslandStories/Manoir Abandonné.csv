@@ -8,10 +8,10 @@ SetChoices3;;;;;;;[toquer];;;;;
 Choice : (repartir);Choice : (ouvrir porte maison);Choice : (toquer à la porte);;;;;RandomRange3;;;;;
 Leave;Fade;Node=>toquer;;;;;Narrator : …;;;Narrator : Une vielle dame ouvre la porte…;Narrator : Personne ne répond…;
 ;Node=>ouvrir porte;;;;;;Narrator : Après quelques secondes, la porte s'ouvre. Elle est grande ouverte, mais personne n'est derrière.;;;[vielle dame];Node=>choix porte;
-;;;;;;;SetChoices2;;;[switch quete];;
-;;;;;;;Choice : (entrer);Choice : (repartir);;NewCrew1/F;Node=>la quete;
-[ouvrir porte];;[porte fermée];;;;;Switch=>debut salon;Leave;;Node=>vielle dame à la porte ?;Node=>salon vide;LaunchCombat
-RandomRange2;Node=>entrée maison;PlayerSpeak : C'est fermé…;;;;;Fade;;;[vielle dame à la porte ?];;Node=>salon vide
+;;;;;;;SetChoices2;;;NewCrew1/F;;
+;;;;;;;Choice : (entrer);Choice : (repartir);;Node=>vielle dame à la porte ?;Node=>salon vide;LaunchCombat
+[ouvrir porte];;[porte fermée];;;;;Switch=>debut salon;Leave;;[switch quete];;Node=>salon vide
+RandomRange2;Node=>entrée maison;PlayerSpeak : C'est fermé…;;;;;Fade;;;[vielle dame à la porte ?];Node=>la quete;
 Node=>entrée maison;Node=>porte fermée;SetChoices3;;;;;Node=>entrée maison;;;OtherSpeak : De la compagnie !;Node=>salon vielle dame;
 ;;Choice : (défoncer la porte)(str);;Choice : (chercher une clé);;Choice : (repartir);;;;OtherSpeak : Venez boire un thé dans mon salon !;;
 ;;CheckStatSTR;;CheckInInventory<Clé>/Misc;;Fade;;;;Switch=>debut salon;;
@@ -127,18 +127,18 @@ Node=>salon vide;PlayerSpeak : A l'attaque !;CheckStatDEX;;;;;;;;;;
 ;;Node=>maison vide;Node=>salon vide;;;;;;;;;
 ;;;;;;;;;;;;
 [cuisine];;;;;;;;;;;;
-Narrator : La pièce est très large, il devait y avoir une dizaine de serveurs et cuisiniers.;;;;;;;;;;;;
+Narrator : La pièce est très large, elle à l’air de pouvoir accueillir beaucoup de gens.;;;;;;;;;;;;
 SetChoices3;;;;;;;;;;;;
 Choice : (fouiller garde manger);Choice : (retourner à l'entrée);Choice : (regarder vaiselle);;[vaisselle];;;;;;;;
 Node=>garde manger;Fade;RandomRange2;;Node=>encore vaisselle;Node=>plus vaisselle;;;;;;;
 ;Node=>maison vide;Node=>vaisselle;Node=>plus vaisselle;;;;;;;;;
 ;;;;[encore vaisselle];[plus vaisselle];;;;;;;
-[garde manger];;;;AddToInventory/Food;PlayerSpeak : Il n'y a plus rien !;;;;;;;
-PlayerSpeak : Yes !;PlayerSpeak : Rien du tout;;;PlayerSpeak : Un LASTITEM !;Node=>cuisine;;;;;;;
-LootFood;Node=>cuisine;;;Switch=>vaisselle;;;;;;;;
-Node=>cuisine;;;;Node=>cuisine;;;;;;;;
-;;;;;;;;;;;;
-;;;;;;;;;;;;
+[garde manger];;;;AddToInventory/Misc;PlayerSpeak : Il n'y a plus rien !;;;;;;;
+RandomRange2;[rien dans le garde manger];;;PlayerSpeak : Des babioles !;Node=>cuisine;;;;;;;
+PlayerSpeak : Yes !;PlayerSpeak : Rien du tout;;;Switch=>vaisselle;;;;;;;;
+LootFood;Node=>cuisine;;;Node=>cuisine;;;;;;;;
+Switch=>garde manger;;;;;;;;;;;;
+Node=>cuisine;;;;;;;;;;;;
 ;;;;;;;;;;;;
 [étage];;;;[chambre enfant];;;;;;;;
 Node=>grenier;Node=>chambre enfant;;;PlayerSpeak : La chambre d'enfant est vide…;;;;;;;;

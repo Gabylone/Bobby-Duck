@@ -31,8 +31,8 @@ public class Boat : MonoBehaviour {
 
 		cam = Camera.main;
 
-		CombatManager.Instance.fightStarting += DeactivateCollider;
-		CombatManager.Instance.fightEnding += ActivateCollider;
+		CombatManager.Instance.onFightStart += DeactivateCollider;
+		CombatManager.Instance.onFightEnd += ActivateCollider;
 
 		startSpeed = speed;
 

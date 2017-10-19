@@ -8,8 +8,8 @@ public class StoryReader : MonoBehaviour {
 	public static StoryReader Instance;
 
 	// the coords of the story being read.
-	private int index = 0;
-	private int decal = 0;
+	private int col = 0;
+	private int row = 0;
 
 	public int currentStoryLayer = 0;
 	public int previousStoryLayer = 0;
@@ -19,7 +19,6 @@ public class StoryReader : MonoBehaviour {
 
 	private StoryManager currentStoryManager;
 
-	private bool waitForInput = false;
 
 	[SerializeField]
 	private AudioClip pressInputButton;
@@ -61,21 +60,21 @@ public class StoryReader : MonoBehaviour {
 
 	#region story flow
 	public void Reset () {
-		index = 0;
-		decal = 0;
+		col = 0;
+		row = 0;
 	}
 	#endregion
 
 	#region navigation
 	public void NextCell () {
-		++index;
+		++col;
 	}
 	public void UpdateStory () {
 
 		string content = GetContent;
 
 		if ( content == null) {
-			Debug.LogError ( " no function at index : " + index.ToString () + " / decal : " + decal.ToString () );
+			Debug.LogError ( " no function at index : " + col.ToString () + " / decal : " + row.ToString () );
 		}
 
 		StoryFunctions.Instance.Read ( content );
@@ -95,14 +94,10 @@ public class StoryReader : MonoBehaviour {
 
 	public void GoToNode (Node node) {
 
-		StoryReader.Instance.Decal = node.x;
-		StoryReader.Instance.Index = node.y;
+		StoryReader.Instance.Row = node.row;
+		StoryReader.Instance.Col = node.col;
 
-		StoryReader.Instance.NextCell ();
-
-		if (node.decal > 0) {
-			StoryReader.Instance.SetDecal (node.decal);
-		}
+//		StoryReader.Instance.NextCell ();
 
 		StoryReader.Instance.UpdateStory ();
 
@@ -114,22 +109,17 @@ public class StoryReader : MonoBehaviour {
 
 		int decal = 1;
 
-		if ( text[text.Length-2] == '/' ) {
-
-			decal = int.Parse (text.Remove(0,text.Length - 1));
-
-			text = text.Remove (text.Length - 2);
-
-		}
-
 		string nodeName = text.Remove (0, 2);
 
 		Node node = GetNodeFromText (nodeName);
 
-		node.decal = decal;
+		CurrentStoryHandler.SaveDecal (decal,node.row,node.col);
+
+		print ("switching node : " + node.name);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
+
 
 	}
 
@@ -156,7 +146,7 @@ public class StoryReader : MonoBehaviour {
 
 		while (steps > 0) {
 
-			++decal;
+			++row;
 			string content = GetContent;
 
 			if (content.Length > 0) {
@@ -169,7 +159,7 @@ public class StoryReader : MonoBehaviour {
 	public string ReadDecal (int decal) {
 		return CurrentStoryHandler.Story.content
 			[decal]
-			[StoryReader.Instance.Index]; 
+			[StoryReader.Instance.Col]; 
 
 	}
 	#endregion
@@ -203,20 +193,23 @@ public class StoryReader : MonoBehaviour {
 
 	public void SetNewStory (Story story, StoryType storyType , Node targetNode , Node fallbackNode) {
 
+		// rechercher l'id de l'histoire désirée
 		int secondStoryID = StoryLoader.Instance.FindIndexByName (story.name,storyType);
 
+		// rechercher si l'ile comprend déjà l'histoire désirée
 		int targetStoryLayer = CurrentStoryManager.storyHandlers.FindIndex (handler => (handler.storyID == secondStoryID) );
 		if ( targetStoryLayer >= 0 ) {
-			targetStoryLayer = CurrentStoryManager.storyHandlers.FindIndex (handler => (handler.decal == decal) && (handler.index == index));
+			// rechercher si l'histoire trouvée est bien à la rangée et collonne de la cellule actuelle.
+			targetStoryLayer = CurrentStoryManager.storyHandlers.FindIndex (handler => (handler.row == row) && (handler.col == col));
 		}
 
-		// si la story n'apparait pas dans le truc
+		// si l'histoire n'apparait pas déjà dans l'ile
 		if ( targetStoryLayer < 0 ) {
 			
 			StoryHandler newHandler = new StoryHandler ( secondStoryID,storyType);
 			newHandler.fallBackLayer = currentStoryLayer;
-			newHandler.decal = decal;
-			newHandler.index = index;
+			newHandler.row = row;
+			newHandler.col = col;
 			newHandler.fallbackNode = fallbackNode;
 
 			CurrentStoryManager.AddStoryHandler (newHandler);
@@ -233,9 +226,6 @@ public class StoryReader : MonoBehaviour {
 	public void FallBackToPreviousStory () {
 		
 		Node fallbackNode = CurrentStoryHandler.fallbackNode;
-
-		print ("falling back to node : " + fallbackNode.name);
-
 
 		currentStoryLayer = CurrentStoryHandler.fallBackLayer;
 		StoryReader.Instance.GoToNode (fallbackNode);
@@ -259,29 +249,30 @@ public class StoryReader : MonoBehaviour {
 	}
 
 	#region properties
-	public int Index {
+	public int Col {
 		get {
-			return index;
+			return col;
 		}
 		set {
-			index = value;
+			col = value;
 		}
 	}
 
-	public int Decal {
+	public int Row {
 		get {
-			return decal;
+			return row;
 		}
 		set {
-			decal = value;
+			row = value;
 		}
 	}
 
 	public string GetContent {
 		get {
-			if ( Decal >= CurrentStoryHandler.Story.content.Count ) {
+			
+			if ( Row >= CurrentStoryHandler.Story.content.Count ) {
 
-				Debug.LogError ("DECAL is outside of story << " + CurrentStoryHandler.Story.name + " >> content : DECAL : " + Decal + " /// COUNT : " + CurrentStoryHandler.Story.content.Count);
+				Debug.LogError ("ROW is outside of story << " + CurrentStoryHandler.Story.name + " >> content : ROW : " + Row + " /// STORY CONTENT : " + CurrentStoryHandler.Story.content.Count);
 
 				return CurrentStoryHandler.Story.content
 					[0]
@@ -289,18 +280,18 @@ public class StoryReader : MonoBehaviour {
 
 			}
 
-			if ( Index >= CurrentStoryHandler.Story.content [Decal].Count ) {
+			if ( Col >= CurrentStoryHandler.Story.content [Row].Count ) {
 
-				Debug.LogError ("INDEX is outside of story content : INDEX : " + Index + " /// COUNT : " + CurrentStoryHandler.Story.content[Decal].Count);
+				Debug.LogError ("INDEX is outside of story content : INDEX : " + Col + " /// COUNT : " + CurrentStoryHandler.Story.content[Row].Count);
 
 				return CurrentStoryHandler.Story.content
-					[Decal]
+					[Row]
 					[0]; 
 			}
 
 			return CurrentStoryHandler.Story.content
-				[Decal]
-				[Index];
+				[Row]
+				[Col];
 		}
 	}
 	#endregion

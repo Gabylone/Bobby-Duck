@@ -5,9 +5,6 @@ public class StoryTest : MonoBehaviour {
 
 	public static StoryTest Instance;
 
-	int lign = 0;
-	int decal = 0;
-
 	public int storyID = 0;
 
 	public bool launchStoryOnStart;
@@ -35,8 +32,10 @@ public class StoryTest : MonoBehaviour {
 		
 		if (Input.GetKeyDown(KeyCode.PageUp) ) {
 
-			StoryReader.Instance.CurrentStoryManager.storyHandlers [0].storyType = testStoryType;
-			StoryReader.Instance.CurrentStoryManager.storyHandlers[0].storyID = StoryLoader.Instance.FindIndexByName (testStoryName,testStoryType);
+			int storyID = StoryLoader.Instance.FindIndexByName (testStoryName,testStoryType);
+
+			StoryReader.Instance.CurrentStoryManager.InitHandler (testStoryType, storyID);
+
 			StoryLauncher.Instance.PlayStory (StoryReader.Instance.CurrentStoryManager,StoryLauncher.StorySource.island);
 
 		}

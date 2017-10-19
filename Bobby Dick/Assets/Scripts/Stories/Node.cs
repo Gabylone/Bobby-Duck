@@ -2,9 +2,7 @@
 public class Node {
 
 	public string name;
-	public int x, y;
-
-	public int decal;
+	public int row, col;
 
 	public Node () {
 		
@@ -12,9 +10,8 @@ public class Node {
 
 	public Node ( string n, int p1 , int p2 ) {
 		name = n;
-		x = p1;
-		y = p2;
-		decal = 0;
+		row = p1;
+		col = p2;
 	}
 
 }

@@ -50,6 +50,7 @@ public class NavigationManager : MonoBehaviour {
 	void Start () {
 		StoryLauncher.Instance.playStoryEvent += HandlePlayStory;
 		StoryLauncher.Instance.endStoryEvent += HandleEndStory;
+
 	}
 
 	#region event handler
@@ -281,6 +282,12 @@ public struct Coords {
 		this.y = y;
 	}
 
+	public static Coords current {
+		get {
+			return Boats.PlayerBoatInfo.coords;
+		}
+	}
+
 	public static Coords Zero {
 		get {
 			return new Coords (0, 0);
@@ -429,11 +436,17 @@ public struct Coords {
 			}
 
 			++radius;
+
+			if (radius > 10) {
+				Debug.Log ("Get closest island reached 10 : breaking");
+				break;
+			}
+
 		}
 
-		Debug.Log ("could not find closest island");
+		Debug.Log ("could not find closest island, returning current");
 
-		return new Coords (20,20);
+		return current;
 
 	}
 }

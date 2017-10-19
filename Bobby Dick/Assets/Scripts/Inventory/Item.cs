@@ -7,11 +7,11 @@ public class Item {
 	public int ID = 0;
 
 	public string 	name 		= "";
-	public string 	description = "";
 	public int 		value 		= 0;
 	public int 		price 		= 0;
 	public int 		weight 		= 0;
 	public int 		level 		= 0;
+	[System.NonSerialized]
 	public int		spriteID 	= 0;
 
 	public ItemCategory category;
@@ -38,7 +38,6 @@ public class Item {
 		ID = _id;
 
 		name = _name;
-		description = _description;
 		value = _value;
 		price = _price;
 		weight = _weight;

@@ -123,7 +123,7 @@ public class ItemLoader : MonoBehaviour {
 
 	#region random items
 	// ONLY 1 CATEGORY
-	public Item[] getRandomLoot ( ItemCategory category , int mult ) {
+	public Item[] getRandomCategoryOfItem ( ItemCategory category , int mult ) {
 
 		int itemType = (int)category;
 
@@ -136,7 +136,9 @@ public class ItemLoader : MonoBehaviour {
 		{
 		
 			// c'est ici que je dis :  !!! LES OBJETS PEUVENT ETRENT DE TOUS LES NIVEAUX !!!
-			int level = Random.Range ( 0, 11 );
+//			int level = Random.Range ( 0, 11 );
+			int level = Random.Range ( 0, Crews.playerCrew.captain.Level + 3 );
+			level = Mathf.Clamp (level, 0, 11);
 
 			tmpItems[i] = GetRandomItemOfCertainLevel ((ItemCategory)itemType,level);
 		}

@@ -40,9 +40,7 @@ public class DisplayAttack : MonoBehaviour {
 	void HandleUseInventory (InventoryActionType actionType)
 	{
 		if ( actionType == InventoryActionType.Equip ) {
-			if (LootUI.Instance.SelectedItem.category == ItemCategory.Weapon) {
-				UpdateUI (CrewMember.selectedMember);
-			}
+			UpdateUI (CrewMember.selectedMember);
 		}
 
 	}

@@ -23,12 +23,18 @@ public class StoryManager {
 		storyHandlers.Add (handler);
 	}
 
-	public void InitHandler ( StoryType storyType ) {
+	public void InitHandler ( StoryType storyType , int storyID ) {
 		
-		int storyId = StoryLoader.Instance.getStoryIndexFromPercentage (storyType);
+		storyHandlers.Clear ();
 
-		StoryHandler handler = new StoryHandler (storyId,storyType);
+		StoryHandler handler = new StoryHandler (storyID,storyType);
 		storyHandlers.Add (handler);
+	}
+
+	public void InitHandler ( StoryType storyType ) {
+
+		int storyId = StoryLoader.Instance.getStoryIndexFromPercentage (storyType);
+		InitHandler (storyType, storyId);
 	}
 
 	public StoryHandler CurrentStoryHandler {
@@ -45,8 +51,8 @@ public class StoryManager {
 [System.Serializable]
 public class StoryHandler {
 
-	public int decal = 0;
-	public int index = 0;
+	public int row = 0;
+	public int col = 0;
 
 		// serialisation
 	public int fallBackLayer = 0;
@@ -74,25 +80,18 @@ public class StoryHandler {
 			switch (storyType) {
 			case StoryType.Normal:
 				return StoryLoader.Instance.IslandStories[storyID];
-				break;
 			case StoryType.Treasure:
 				return StoryLoader.Instance.TreasureStories[storyID];
-				break;
 			case StoryType.Home:
 				return StoryLoader.Instance.HomeStories[storyID];
-				break;
 			case StoryType.Clue:
 				return StoryLoader.Instance.ClueStories[storyID];
-				break;
 			case StoryType.Boat:
 				return StoryLoader.Instance.BoatStories[storyID];
-				break;
 			case StoryType.Quest:
 				return StoryLoader.Instance.Quests[storyID];
-				break;
 			default:
 				return StoryLoader.Instance.IslandStories[storyID];
-				break;
 			}
 
 		}
@@ -123,11 +122,18 @@ public class StoryHandler {
 		}
 	}
 
-	public void SaveDecal (int i) {
-		contentDecals.Add (new contentDecal(StoryReader.Instance.Decal , StoryReader.Instance.Index , i) );
+	public void SaveDecal (int decal) {
+		
+		SaveDecal (decal, StoryReader.Instance.Row, StoryReader.Instance.Col);
+
 	}
+
+	public void SaveDecal (int _decal , int _row , int _col ) {
+		contentDecals.Add (new contentDecal(_row, _col , _decal) );
+	}
+
 	public int GetDecal() {
-		contentDecal cDecal = contentDecals.Find ((contentDecal obj) => (obj.x == StoryReader.Instance.Decal) && (obj.y == StoryReader.Instance.Index) );
+		contentDecal cDecal = contentDecals.Find ((contentDecal obj) => (obj.row == StoryReader.Instance.Row) && (obj.col == StoryReader.Instance.Col) );
 
 		if (cDecal == default(contentDecal)) {
 			return -1;
@@ -137,21 +143,24 @@ public class StoryHandler {
 	}
 }
 
+[System.Serializable]
 public struct contentDecal {
 	
-	public int x;
-	public int y;
+	public int row;
+
+	public int col;
 
 	public int decal;
+
 	public contentDecal (int x,int y, int decal) {
-		this.x 		= x;
-		this.y 		= y;
+		this.row 		= x;
+		this.col 		= y;
 		this.decal 	= decal;
 	}
 
 	public static bool operator ==( contentDecal cd1, contentDecal cd2) 
 	{
-		return cd1.x == cd2.x && cd1.y == cd2.y && cd1.decal == cd2.decal;
+		return cd1.row == cd2.row && cd1.col == cd2.col && cd1.decal == cd2.decal;
 	}
 	public static bool operator != (contentDecal cd1 , contentDecal cd2) 
 	{

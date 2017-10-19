@@ -41,8 +41,8 @@ public class GoldManager : MonoBehaviour {
 //		PlayerLoot.Instance.openInventory += Show;
 //		PlayerLoot.Instance.closeInventory += Hide;
 
-		CombatManager.Instance.fightStarting += Hide;
-		CombatManager.Instance.fightEnding+= Show;
+		CombatManager.Instance.onFightStart += Hide;
+		CombatManager.Instance.onFightEnd+= Show;
 	}
 
 	public void InitGold ()

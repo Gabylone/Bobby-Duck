@@ -35,7 +35,7 @@ public class Loot {
 		// for each categories in cell
 		foreach (var category in categories) {
 			
-			Item[] items = ItemLoader.Instance.getRandomLoot (category, mult);
+			Item[] items = ItemLoader.Instance.getRandomCategoryOfItem (category, mult);
 
 			foreach ( Item item in items ) {
 				AddItem (item);

@@ -4,54 +4,53 @@ using System.Collections;
 
 public class CombatFeedback : MonoBehaviour {
 
-	Animator animator;
-
 	public Text text;
 
 	public float fadeDuration = 1f;
 
-	Color initColor;
+	public GameObject group;
+
+	public Image backgroundImage;
 
 	// Use this for initialization
 	void Start () {
-		animator = GetComponent<Animator> ();
-		text = GetComponentInChildren<Text> ();
-	}
-
-	float timer;
-
-	void Update () {
-
-		if ( displaying ) {
-
-			text.color = Color.Lerp (initColor, Color.clear, timer / fadeDuration);
-
-			timer += Time.deltaTime;
-
-			if (timer >= fadeDuration) {
-				displaying = false;
-				gameObject.SetActive (false);
-			}
-		}
+		Hide ();
 	}
 
 	bool displaying;
-	
+
 	public void Display (string content) {
 		Display (content, Color.white);
 	}
+
 	public void Display (string content, Color color) {
-		text.color = color;
+
+		Show ();
+
+		Tween.Bounce (transform);
+
+//		backgroundImage.color = color;
+
 		text.text = content;
+//		if (color != Color.white) {
+//			text.color = Color.black;
+//		} else {
+//			text.color = Color.black;
+//		}
 
-		initColor = text.color;
+		Invoke ("Hide", fadeDuration);
 
+	}
+
+	void Show () {
 		displaying = true;
+		group.SetActive (true);
+		Tween.Bounce (transform);
+	}
 
-		timer = 0f;
-
-		gameObject.SetActive (true);
-
+	void Hide () {
+		displaying = false;
+		group.SetActive (false);
 	}
 
 }

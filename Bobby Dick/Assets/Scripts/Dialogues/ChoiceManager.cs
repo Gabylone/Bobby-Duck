@@ -111,7 +111,7 @@ public class ChoiceManager : MonoBehaviour {
 
 		string[] choices = new string[amount];
 
-		int tmpDecal = StoryReader.Instance.Decal;
+		int tmpDecal = StoryReader.Instance.Row;
 		int a = amount;
 
 		int index = 0;

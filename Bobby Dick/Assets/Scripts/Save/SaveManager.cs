@@ -23,17 +23,18 @@ public class SaveManager : MonoBehaviour
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 	}
 
-	int saveLimit = 10;
+	int saveLimit = 0;
 	int saveCount = 0;
 
 	void HandleChunkEvent ()
 	{
 		++saveCount;
 
-		if (saveCount > saveLimit) {
+		if (saveCount > 3) {
+			
 			SaveGame ();
 
-			saveCount = 0;
+//			saveCount = 0;
 		}
 	}
 
@@ -78,6 +79,8 @@ public class SaveManager : MonoBehaviour
 		// gold
 		GoldManager.Instance.LoadGold();
 
+		Karma.Instance.LoadKarma ();
+
 		TimeManager.Instance.LoadWeather ();
 
 		NavigationManager.Instance.ChangeChunk (Directions.None);
@@ -119,6 +122,8 @@ public class SaveManager : MonoBehaviour
 
 		// gold
 		CurrentData.playerGold = GoldManager.Instance.GoldAmount;
+
+		Karma.Instance.SaveKarma ();
 
 		TimeManager.Instance.SaveWeather ();
 
@@ -170,6 +175,9 @@ public class GameData
 
 	public bool 				night = false;
 	public int 					timeOfDay = 0;
+
+	public int 					karma = 0;
+	public int 					bounty = 0;
 
 	public GameData()
 	{
