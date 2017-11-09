@@ -13,11 +13,11 @@ Leave;;
 [suite];;
 Narrator : CAPITAINE remarque un petit tas de mousse, quelques pas plus loin.;;
 SetChoices2;;
-Choice : (fouiller);Choice : (continuer son chemin);
-AddToInventory<Champignon>/Food;Leave;
-PlayerSpeak : Plus qu'à ramener ça au cuisinier;;
-SendPlayerBackToGiver;;
-Leave;;
+Choice : (continuer son chemin)(partir);Choice : (fouiller)(loot);
+Leave;AddToInventory<Champignon>/Food;
+;PlayerSpeak : Plus qu'à ramener ça au cuisinier;
+;SendPlayerBackToGiver;
+;Leave;
 ;;
 ;;
 ;;
@@ -25,7 +25,7 @@ Leave;;
 OtherSpeak : Oh ! C’est vous !;;
 OtherSpeak : Vous avez mon champignon ?;;
 SetChoices2;;
-Choice : Non…;Choice : Le voilà !;
+Choice : Non…(partir);Choice : Le voilà !(loot);
 OtherSpeak : Vous revenez bredouille ?;CheckInInventory<Champignon>/Food;
 Leave;RemoveFromInventory<Champignon>/Food;OtherSpeak : Vous revenez bredouille ?
 ;PlayerSpeak : Tenez, votre champignon;Leave

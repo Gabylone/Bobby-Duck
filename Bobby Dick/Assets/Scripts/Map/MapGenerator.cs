@@ -107,8 +107,12 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	public void SaveIslandsData () {
+		
 		SaveManager.Instance.CurrentData.mapData = MapData.Instance;
+
+
 		SaveManager.Instance.CurrentData.chunks = toChunkArray(Chunk.chunks);
+
 	}
 
 	public Chunk[][] toChunkArray ( Dictionary<Coords,Chunk> chunkDico ) {

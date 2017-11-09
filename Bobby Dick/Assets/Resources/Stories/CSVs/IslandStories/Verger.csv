@@ -8,21 +8,21 @@ CheckQuest=>switch verger;;;;
 Node=>choix verger;Node=>consequence;;;
 [choix verger];;;;
 SetChoices2;;;;
-Choice : (cueillir les fruits);Choice : (partir);;;
-RandomRange4;Leave;;;
-PlayerSpeak : Des pommes !;PlayerSpeak : Des oranges !;PlayerSpeak : Des abricots !;PlayerSpeak : On dirait que des saletés de bêtes ont tout mangé !;
-AddToInventory<Pomme>/Food;AddToInventory<Orange>/Food;AddToInventory<Abricot>/Food;Node=>choix verger;
-AddToInventory<Pomme>/Food;AddToInventory<Orange>/Food;AddToInventory<Abricot>/Food;;
-AddToInventory<Pomme>/Food;AddToInventory<Orange>/Food;AddToInventory<Abricot>/Food;;
-AddToInventory<Pomme>/Food;AddToInventory<Orange>/Food;AddToInventory<Abricot>/Food;;
-Switch=>switch verger;Switch=>switch verger;Switch=>switch verger;;
-Node=>consequence;Node=>consequence;Node=>consequence;;
+Choice : (partir);Choice : (cueillir les fruits)(loot);;;
+Leave;RandomRange4;;;
+;PlayerSpeak : Des pommes !;PlayerSpeak : Des oranges !;PlayerSpeak : Des abricots !;PlayerSpeak : On dirait que des saletés de bêtes ont tout mangé !
+;AddToInventory<Pomme>/Food;AddToInventory<Orange>/Food;AddToInventory<Abricot>/Food;Node=>choix verger
+;AddToInventory<Pomme>/Food;AddToInventory<Orange>/Food;AddToInventory<Abricot>/Food;
+;AddToInventory<Pomme>/Food;AddToInventory<Orange>/Food;AddToInventory<Abricot>/Food;
+;AddToInventory<Pomme>/Food;AddToInventory<Orange>/Food;AddToInventory<Abricot>/Food;
+;Switch=>switch verger;Switch=>switch verger;Switch=>switch verger;
+;Node=>consequence;Node=>consequence;Node=>consequence;
 ;;;;
 [consequence];;;;
 RandomRange2;;;;
 Node=>fermier;[choix consequence];;;
 ;SetChoices2;;;
-;Choice : (repartir);Choice : (faire un tour sur l'île);;
+;Choice : (partir);Choice : (faire un tour sur l'île);;
 ;PlayerSpeak : Allons y avant que quelqu'un nous voie.;PlayerSpeak : Il n'y a pas l'air n'avoir grands choses d'autres.;;
 ;Leave;Node=>choix consequence;;
 ;;;;
@@ -55,7 +55,7 @@ Node=>combat fermier;;;;
 OtherSpeak : Payez ces pommes !;;;;
 OtherSpeak : 15 pièces et on en parle plus;;;;
 SetChoices2;;;;
-Choice : OK;;;;Choice : Hors de question
+Choice : OK;;;;Choice : Hors de question(attaquer)
 CheckGold15;;;;OtherSpeak : Je vais te TUER !
 RemoveGold15;OtherSpeak : T'as meme pas assez.;;;RemoveKarma
 OtherSpeak : Bien !;RandomRange2;;;Node=>combat fermier

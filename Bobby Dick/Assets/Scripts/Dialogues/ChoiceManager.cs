@@ -6,6 +6,8 @@ public class ChoiceManager : MonoBehaviour {
 
 	public static ChoiceManager Instance;
 
+	public static Sprite[] feedbackSprites;
+
 	[Header("Choices")]
 	[SerializeField]
 	private GameObject[] choiceButtons;
@@ -25,6 +27,9 @@ public class ChoiceManager : MonoBehaviour {
 	}
 
 	void Start () {
+
+		feedbackSprites = Resources.LoadAll<Sprite> ("Graph/ChoiceBubbleFeedbackSprites");
+
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
 
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
@@ -68,7 +73,13 @@ public class ChoiceManager : MonoBehaviour {
 
 		for (int i = 0; i < amount ; ++i ) {
 			choiceButtons [i].SetActive (true);
-			choiceButtons [i].GetComponentInChildren<Text> ().text = content [i];
+
+//			string str = content [i];
+			string str = FitText(content [i]);
+			str = choiceButtons [i].GetComponentInChildren<ChoiceBubbleFeedback> ().SetSprite(str);
+
+			choiceButtons [i].GetComponentInChildren<Text> ().text = str;
+
 			Tween.Bounce ( choiceButtons[i].transform , 0.2f , 1.1f );
 		}
 
@@ -170,5 +181,40 @@ public class ChoiceManager : MonoBehaviour {
 		get {
 			return choiceButtons;
 		}
+	}
+
+	public int startIndex = 20;
+
+
+	// DE LA MERDE
+	string FitText (string str)
+	{
+		int currStartIndex = startIndex;
+
+		if (currStartIndex >= str.Length)
+			return str;
+
+		int spaceIndex = str.IndexOf (" ", currStartIndex);
+
+		while (spaceIndex >= startIndex) {
+
+			str = str.Insert (spaceIndex, "\n");
+
+			currStartIndex += startIndex;
+
+			if (currStartIndex >= str.Length) {
+				break;
+			}
+
+			spaceIndex = str.IndexOf (" ", currStartIndex);
+
+			//			print (spaceIndex);
+
+			if (startIndex >= 100) {
+				break;
+			}
+		}
+
+		return str;
 	}
 }

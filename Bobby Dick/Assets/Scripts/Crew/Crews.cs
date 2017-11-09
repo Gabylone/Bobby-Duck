@@ -195,11 +195,11 @@ public class Crews : MonoBehaviour {
 	}
 
 	public void AddMemberToCrew () {
-		
-		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.maxMemberCapacity) {
+
+		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.currentMemberCapacity) {
 
 			string phrase = "Oh non, le bateau est trop petit";
-			DialogueManager.Instance.SetDialogue (phrase, Crews.enemyCrew.captain);
+			DialogueManager.Instance.SetDialogueTimed (phrase, Crews.enemyCrew.captain);
 
 		} else {
 
@@ -212,14 +212,13 @@ public class Crews : MonoBehaviour {
 
 			newMember.Icon.MoveToPoint (Crews.PlacingType.Map);
 
-
-
 		}
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (0.5f);
-	}
+		StoryReader.Instance.Wait (DialogueManager.Instance.DisplayTime);
 
+	}
+	
 	public void RemoveMemberFromCrew () {
 		int removeIndex = Random.Range (0,Crews.playerCrew.CrewMembers.Count);
 		CrewMember memberToRemove = Crews.playerCrew.CrewMembers [removeIndex];

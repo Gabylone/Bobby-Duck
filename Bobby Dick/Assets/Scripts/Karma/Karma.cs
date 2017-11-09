@@ -49,8 +49,6 @@ public class Karma : MonoBehaviour {
 
 		UpdateUI ();
 
-		print ("updateint ui");
-
 	}
 
 	void HandleOpenInventory (CrewMember member)
@@ -156,7 +154,6 @@ public class Karma : MonoBehaviour {
 
 	public void UpdateUI () {
 
-		print (currentKarma);
 		float fill = ((float)currentKarma / (float)maxKarma);
 
 		if ( fill < 0.5 && fill > -0.5f ) {

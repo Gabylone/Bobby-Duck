@@ -27,17 +27,14 @@ public class QuestMenu : MonoBehaviour {
 	[SerializeField]
 	private GameObject openButton;
 
-	// feedback
-	public GameObject feedbackObject;
-	float feedbackDuration = 1f;
-
+	[SerializeField]
+	DisplayFormulas displayFormulas;
 	void Awake () {
 		Instance = this;
 	}
 
 	void Start () {
 		
-		QuestManager.Instance.newQuestEvent += HandleNewQuestEvent;
 		QuestManager.onGiveUpQuest += HandleOnFinishQuest;
 		QuestManager.onFinishQuest += HandleOnFinishQuest;
 
@@ -54,23 +51,6 @@ public class QuestMenu : MonoBehaviour {
 		InitButtons ();
 	}
 
-	#region feedback
-	void HandleNewQuestEvent ()
-	{
-		feedbackObject.SetActive (true);
-
-		Tween.Bounce (feedbackObject.transform);
-
-		Invoke ("HideFeedback" , feedbackDuration );
-
-		InitButtons ();
-	}
-
-	void HideFeedback () {
-		feedbackObject.SetActive (false);
-	}
-	#endregion
-
 	public void Init () {
 		InitButtons ();
 	}
@@ -83,6 +63,8 @@ public class QuestMenu : MonoBehaviour {
 //		CrewInventory.Instance.CloseLoot ();
 		CrewInventory.Instance.HideInventory();
 		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
+
+		displayFormulas.ShowFormulas ();
 
 		Tween.ClearFade (menuGroup.transform);
 		Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
@@ -102,7 +84,6 @@ public class QuestMenu : MonoBehaviour {
 	}
 
 	void InitButtons () {
-
 
 		/// CREATE BUTTONS
 		for (int buttonIndex = 0; buttonIndex < QuestManager.Instance.CurrentQuests.Count; buttonIndex++) {

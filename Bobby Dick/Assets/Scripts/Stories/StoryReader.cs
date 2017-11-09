@@ -28,8 +28,8 @@ public class StoryReader : MonoBehaviour {
 	}
 
 	void Start () {
+		StoryInput.onPressInput += StoryReader.Instance.HandleOnPressInput;
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
-		StoryInput.onPressInput += HandleOnPressInput;
 	}
 
 	void HandleOnPressInput ()
@@ -114,8 +114,6 @@ public class StoryReader : MonoBehaviour {
 		Node node = GetNodeFromText (nodeName);
 
 		CurrentStoryHandler.SaveDecal (decal,node.row,node.col);
-
-		print ("switching node : " + node.name);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();

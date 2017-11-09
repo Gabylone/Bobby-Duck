@@ -119,6 +119,9 @@ public class CombatManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+		enemyFighters_Parent.SetActive (true);
+		playerFighters_Parent.SetActive (true);
+
 		initEnemyFighters = enemyFighters_Parent.GetComponentsInChildren<Fighter> (true);
 		initPlayerFighters = playerFighters_Parent.GetComponentsInChildren<Fighter> (true);
 
@@ -147,8 +150,6 @@ public class CombatManager : MonoBehaviour {
 	}
 	#region Combat Start
 	private void CombatStart_Start () {
-
-		print ("combat start");
 
 		foreach (CrewMember member in Crews.enemyCrew.CrewMembers)
 			member.Icon.overable = true;
@@ -186,8 +187,6 @@ public class CombatManager : MonoBehaviour {
 
 	#region StartTurn
 	private void StartTurn_Start () {
-
-		print ("starting turn");
 
 		currentFighter.SetTurn ();
 
@@ -252,7 +251,6 @@ public class CombatManager : MonoBehaviour {
 
 	#region PlayerAction
 	private void PlayerAction_Start () {
-		print ("player chooses actions");
 
 	}
 	private void PlayerAction_Update () {}
@@ -289,8 +287,6 @@ public class CombatManager : MonoBehaviour {
 
 	#region Enemy Action
 	private void EnemyAction_Start () {
-
-		print ("rnrmy chooses actions");
 
 		actionType = Enemy_GetAction ();
 
@@ -346,7 +342,6 @@ public class CombatManager : MonoBehaviour {
 
 	#region Player Member Choice 
 	private void PlayerMemberChoice_Start () {
-		print ("player chooses members");
 		ChoosingEnemyTarget (true);
 	}
 	private void PlayerMemberChoice_Update () {}
@@ -364,7 +359,6 @@ public class CombatManager : MonoBehaviour {
 	public void ChoosingEnemyTarget ( bool b ) {
 		foreach ( Fighter fighter in fighters ) {
 			if (fighter.CrewMember.side == Crews.Side.Enemy) {
-				print ("seeting pickable to " + b);
 				fighter.pickable = b;
 			}
 		}
@@ -374,8 +368,6 @@ public class CombatManager : MonoBehaviour {
 	#region Enemy Member Choice 
 	private void EnemyMemberChoice_Start () {
 		
-		print ("enemy chooses members");
-
 		int randomIndex = Random.Range (0, currPlayerFighters.Count);
 
 		currPlayerFighters [randomIndex].Select ();
@@ -412,7 +404,6 @@ public class CombatManager : MonoBehaviour {
 
 	#region attacking
 	private void Attacking_Start () {
-		print ("attacking...");
 		currentFighter.ChangeState (Fighter.states.moveToTarget);
 	}
 	private void Attacking_Update () {
@@ -656,7 +647,7 @@ public class CombatManager : MonoBehaviour {
 		Fighter[] fighters = side == Crews.Side.Player ? initPlayerFighters : initEnemyFighters;
 
 		foreach (Fighter f in fighters)
-			f.Fade ();
+			f.Hide ();
 	}
 	public void DeleteFighter (Fighter fighter) {
 		fighters.Remove (fighter);
@@ -797,8 +788,6 @@ public class CombatManager : MonoBehaviour {
 	}
 
 	public void StartFight () {
-
-		print ("starting fight");
 
 		Crews.enemyCrew.managedCrew.hostile = true;
 

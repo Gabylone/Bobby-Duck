@@ -23,7 +23,6 @@ public class CrewMember {
 	}
 
 	// STATS
-	public int maxStat = 6;
 	public int maxLevel = 10;
 
 	// EXPERIENCE
@@ -123,21 +122,21 @@ public class CrewMember {
 		float minHits = 2;
 
 		float dif = (Defense - incomingAttack) / 10f;
-				Debug.Log("dif : " + dif);
+//				Debug.Log("dif : " + dif);
 
 		float lerp = (dif + (maxHits / 2f)) / maxHits;
-				Debug.Log ("lerp : " + lerp);
+//				Debug.Log ("lerp : " + lerp);
 
 		float hits = minHits + ((maxHits - minHits) * lerp);
-				Debug.Log ("hits : " + hits);
+//				Debug.Log ("hits : " + hits);
 
 		float damageTaken = 100f / hits;
-				Debug.Log ("damage : " + damageTaken);
+//				Debug.Log ("damage : " + damageTaken);
 
 		int roundedDamage = Mathf.CeilToInt(damageTaken);
 
 		return roundedDamage;
-				Debug.Log ("rounded damage : " + roundedDamage);
+//				Debug.Log ("rounded damage : " + roundedDamage);
 	}
 	public void GetHit (float incomingDamage) {
 
@@ -210,7 +209,7 @@ public class CrewMember {
 	public int Attack {
 		get {
 
-			int i = GetStat(Stat.Strenght) * 3;
+			int i = GetStat(Stat.Strenght) * 5;
 
 			if (GetEquipment (EquipmentPart.Weapon) != null)
 				return i + GetEquipment (EquipmentPart.Weapon).value;
@@ -222,7 +221,7 @@ public class CrewMember {
 	public int Defense {
 		get {
 
-			int i = GetStat(Stat.Constitution) * 3;
+			int i = GetStat(Stat.Constitution) * 5;
 
 			if (GetEquipment (EquipmentPart.Clothes) != null)
 				return i + GetEquipment (EquipmentPart.Clothes).value;

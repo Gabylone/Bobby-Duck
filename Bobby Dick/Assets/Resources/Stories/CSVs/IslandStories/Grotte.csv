@@ -3,9 +3,9 @@ Grotte;1,49;0;;;;
 Narrator : L'île n'a aucune plage. La côte mène directement à un petit bois.;;;;;;
 [debut];;;;;;
 SetChoices3;;;;;;
-Choice : (faire un campement);Choice : (partir);Choice : (entrer dans bois);;;;
-ChangeTimeOfDay;PlayerSpeak : Tayo !;Fade;;;;
-Node=>debut;Leave;Node=>bois;;;;
+Choice : (partir);Choice : (faire un campement)(dormir);Choice : (entrer dans bois);;;;
+PlayerSpeak : Tayo !;ChangeTimeOfDay;Fade;;;;
+Leave;Node=>debut;Node=>bois;;;;
 ;;;;;;
 [bois];;;;;;
 CheckQuest=>bois;;;;;;
@@ -19,12 +19,12 @@ Narrator : Les oiseaux chantent, les branches dansent paisiblement et l'atmosph
 Narrator : Un peu plus loin, une porte est solidement enfoncée dans un énorme rocher. Elle est entourée de symboles et de dessins.;;;;Narrator : Un peu plus loin, une porte est solidement enfoncée dans un énorme rocher. Elle est entourée de symboles et de dessins.;;
 [devant porte jour];;;;[devant porte nuit];;
 SetChoices3;;;;SetChoices2;;
-Choice : (ouvrir la porte);Choice : (observer les dessins);Choice : (retourner sur la plage);;Choice : (ouvrir la porte);;Choice : (retourner sur la plage)
-PlayerSpeak : YAH ! ça ne s'ouvre pas.;PlayerSpeak : Hmmmm;Fade;;Narrator : La porte s'ouvre grandement, et calmement. Elle donne sur un escalier descendant. On n'en voit pas le fond.;;Fade
-Node=>devant porte jour;PlayerSpeak : On dirait des étoiles… Et la lune…;Node=>debut;;SetChoices2;;Node=>debut
-;Node=>devant porte jour;;;Choice : (retourner sur la plage);Choice : (entrer);
-;;;;Fade;Fade;
-;;;;Node=>debut;Node=>grotte;
+Choice : (retourner sur la plage)(partir);Choice : (observer les dessins);Choice : (ouvrir la porte);;Choice : (retourner sur la plage)(partir);Choice : (ouvrir la porte);
+Fade;PlayerSpeak : Hmmmm;PlayerSpeak : YAH ! ça ne s'ouvre pas.;;Fade;Narrator : La porte s'ouvre grandement, et calmement. Elle donne sur un escalier descendant. On n'en voit pas le fond.;
+Node=>debut;PlayerSpeak : On dirait des étoiles… Et la lune…;Node=>devant porte jour;;Node=>debut;SetChoices2;
+;Node=>devant porte jour;;;;Choice : (retourner sur la plage)(partir);Choice : (entrer)
+;;;;;Fade;Fade
+;;;;;Node=>debut;Node=>grotte
 ;;;;;;
 ;;;;;;
 ;;;;;;
@@ -58,7 +58,7 @@ Node=>end foret;;;;;;
 ;;;;;;
 [end foret];;;;;;
 SetChoices1;;;;;;
-Choice : (revenir en arrière);;;;;;
+Choice : (revenir en arrière)(partir);;;;;;
 Fade;;;;;;
 CheckDay;;;;;;
 Node=>bois jour;Node=>bois nuit;;;;;

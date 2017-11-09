@@ -26,10 +26,10 @@ public class DialogueManager : MonoBehaviour {
 	private int maxCharactersPerLine = 20;
 
 	private int TextIndex = 0;
-	private string[] TextsToDisplay = new string[2] {"Rentrer","Dialogues"};
 
-	[SerializeField]
-	private float DisplayTime = 2.5f;
+	public string dialogueText = "";
+
+	public float DisplayTime = 2f;
 	private float CurrentTime = 0f;
 
 	[Header("Sounds")]
@@ -112,16 +112,11 @@ public class DialogueManager : MonoBehaviour {
 
 		phrase = NameGeneration.CheckForKeyWords (phrase);
 
-		DialogueTexts = new string[1] {phrase};
+		dialogueText = phrase;
 
 		target = _target;
 
 		StartDialogue ();
-	}
-
-	public string[] DialogueTexts {
-		get { return TextsToDisplay; }
-		set { TextsToDisplay = value; }
 	}
 	#endregion
 
@@ -132,7 +127,9 @@ public class DialogueManager : MonoBehaviour {
 
 		// reset text
 		TextIndex = 0;
-		bubble_Text.text = TextsToDisplay[TextIndex];
+
+		bubble_Text.text = dialogueText;
+
 		CurrentTime = DisplayTime;
 
 		DisplayingText = true;
@@ -157,17 +154,10 @@ public class DialogueManager : MonoBehaviour {
 				CurrentTime -= Time.deltaTime;
 			}
 
-			UpdateBubblePosition ();
-
 		}
 		else
 		{
-			if (TextIndex < TextsToDisplay.Length - 1)
-				NextPhrase ();
-			else
-				EndDialogue ();
-
-			CurrentTime = DisplayTime;
+			EndDialogue ();
 		}
 	}
 	public void EndDialogue ()
@@ -179,17 +169,6 @@ public class DialogueManager : MonoBehaviour {
 		timed = false;
 	}
 	#endregion
-
-
-	private void NextPhrase ()
-	{
-		++TextIndex;
-		UpdateText ();
-	}
-
-	private void UpdateText () {
-		bubble_Text.text = TextsToDisplay[TextIndex];
-	}
 
 	void UpdateBubbleScale ()
 	{

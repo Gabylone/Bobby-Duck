@@ -27,13 +27,14 @@ public class Fight_LoadSprites : MonoBehaviour {
 	public void Init ()
 	{
 		allSprites = GetComponentsInChildren<SpriteRenderer> (true);
-
 		GetSpriteColors ();
+		print ("getting sprite colors");
 	}
 
 	public void UpdateSprites ( Member memberID ) {
 
 		ResetColors ();
+		print ("resetting colors");
 
 		if (memberID.HairSpriteID > -1)
 			allSprites[(int)SpriteIndex.hair].sprite = memberID.Male ? CrewCreator.Instance.HairSprites_Male [memberID.HairSpriteID] : CrewCreator.Instance.HairSprites_Female [memberID.HairSpriteID];
@@ -84,6 +85,7 @@ public class Fight_LoadSprites : MonoBehaviour {
 	#region fade
 	public void FadeSprites (float dur) {
 
+		print ("fading sprites");
 		foreach ( SpriteRenderer sprite in allSprites ) {
 			HOTween.To (sprite , dur , "color" , Color.clear);
 		}

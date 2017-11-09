@@ -4,10 +4,10 @@ Narrator : L'île est minuscule. Un petit bâteau s'est échoué sur les rocher
 CheckQuest=>debut;;;;;
 [debut];;;;;
 SetChoices3;;;;;
-Choice : (passer la nuit ici);;Choice : (partir);Choice : (fouiller l'épave);;
-RandomRange2;;PlayerSpeak : Tayo !;Fade;;
-Narrator : L'île est trop petite pour pouvoir y installer un campement.;ChangeTimeOfDay;Leave;Node=>épave;;
-Node=>debut;Node=>debut;;;;
+Choice : (partir);Choice : (fouiller l'épave)(loot);Choice : (passer la nuit ici)(dormir);;;
+PlayerSpeak : Tayo !;Fade;RandomRange2;;;
+Leave;Node=>épave;Narrator : L'île est trop petite pour pouvoir y installer un campement.;ChangeTimeOfDay;;
+;;Node=>debut;Node=>debut;;
 ;;;;;
 [épave];;;;;
 RandomRange6;;;;;

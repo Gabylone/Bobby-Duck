@@ -20,7 +20,10 @@ public class SaveTool : MonoBehaviour
 		Instance = this;
 	}
 
-	#region Save
+	/// <summary>
+	/// save
+	/// </summary>
+	#region Save gen data
 	public void Save()
     {
 		string path = getPath ();
@@ -41,7 +44,67 @@ public class SaveTool : MonoBehaviour
     }
 	#endregion
 
-	#region Load
+//	#region Save gen data
+//	public void SaveCurrentChunks() {
+//		
+//		string path = getChunkPath(Coords.current);
+//
+//		byte[] bytes = Encoding.Unicode.GetBytes(path);
+//		path = Encoding.Unicode.GetString(bytes);
+//
+//		File.Delete(path);
+//
+//		FileStream file = File.Open(path, FileMode.CreateNew);
+//		XmlSerializer serializer = new XmlSerializer(typeof(ChunkGroupData));
+//
+//
+//
+//		//		file = file.
+//		serializer.Serialize(file, chunks);
+//
+//		file.Close();
+//	}
+//	public void Update()
+//	{
+//		if ( Input.GetKeyDown(KeyCode.K) ) {
+//			int overallX = 0;
+//			while (overallX <= MapGenerator.Instance.MapScale) {
+//				
+//				int overallY = 0;
+//				while (overallY <= MapGenerator.Instance.MapScale) {
+//
+////					print (new Coords (overallX , overallY).ToString ());
+//					print (getChunkPath (new Coords(overallX,overallY)));
+//
+//
+//					overallY += chunkLimit;
+//
+//
+//				}
+//
+//				overallX += chunkLimit;
+//
+//			}
+////
+////			for (int chunkX = x; chunkX < x + chunkLimit; chunkX++) {
+////
+////				for (int chunkY = y; chunkY < y + chunkLimit; chunkY++) {
+////
+////					currentChunks.Add ( Chunk.GetChunk(new Coords(chunkX,chunkY) ) );
+////					print ("adding chunk : " + new Coords (chunkX, chunkY));
+////				}
+////			}
+//		}
+//
+//
+//	}
+//	#endregion
+
+	//// <summary>
+	/// path
+	/// </summary>
+
+	#region path
 	public string getPath () {
 		string path = Application.dataPath + dataPathSave + ".xml";
 		if ( Application.isMobilePlatform )
@@ -49,6 +112,13 @@ public class SaveTool : MonoBehaviour
 
 		return path;
 	}
+	#endregion
+
+	/// <summary>
+	/// load
+	/// </summary>
+	#region Load
+
 	public GameData Load()
     {
 		GameData gameSaveData = new GameData();
@@ -81,6 +151,66 @@ public class SaveTool : MonoBehaviour
 		return exists;
     }
 
+
+	#region chunk
+	int chunkLimit = 10;
+	public class ChunkGroupData
+	{
+		public Chunk[][] chunks;
+
+		public ChunkGroupData()
+		{
+			// islands ids
+		}
+	}
+//	public ChunkGroupData GetChunkGroupData ( Coords c ) {
+//		int x = 0;
+//		int y = 0;
+//
+//		while ( c.x >= x+chunkLimit ) {
+//			x += chunkLimit;
+//		}
+//		while ( c.y >= y+chunkLimit ) {
+//			y += chunkLimit;
+//		}
+//
+//		Chunk[][] chunks = new Chunk[chunkLimit-1][chunkLimit-1];
+//
+//		for (int chunkX = 0; chunkX < x+chunkLimit; chunkX++) {
+//
+//			for (int chunkY = 0; chunkY < y+chunkLimit; chunkY++) {
+//
+//				chunks [chunkX] [chunkY] = Chunk.GetChunk (new Coords(chunkX , chunkY) );
+//
+//
+//
+//			}
+//
+//		}
+//	}
+
+	public string getChunkPath ( Coords c ) {
+
+		int x = 0;
+		int y = 0;
+
+		while ( c.x >= x+chunkLimit ) {
+			x += chunkLimit;
+		}
+		while ( c.y >= y+chunkLimit ) {
+			y += chunkLimit;
+		}
+
+		string chunkString = "Chunk_X_" + x + "_" + (x + chunkLimit) + "_" + "Y_" + y + "_" + (y + chunkLimit);
+
+		string path = "/Chunks/" + chunkString + ".xml";
+
+		if (Application.isMobilePlatform)
+			return Application.persistentDataPath + path;
+
+		return Application.dataPath + path;
+	}
+	#endregion
 
 }
 

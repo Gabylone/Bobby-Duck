@@ -20,7 +20,7 @@ public class CrewInventory : MonoBehaviour {
 	[SerializeField]
 	private GameObject closeButtonObj;
 
-	public GameObject menuGroup;
+	public GameObject statGroup;
 
 	public void Lock () {
 		canOpen = false;
@@ -170,6 +170,7 @@ public class CrewInventory : MonoBehaviour {
 
 		if (catContentType == CategoryContentType.Inventory) {
 			LootUI.Instance.Hide ();
+			ShowStats ();
 		}
 
 		CrewMember.setSelectedMember (crewMember);
@@ -183,7 +184,6 @@ public class CrewInventory : MonoBehaviour {
 			// update crew position
 		Crews.getCrew (Crews.Side.Player).UpdateCrew (Crews.PlacingType.Map);
 
-		menuGroup.SetActive (true);
 
 			// show elements
 		ShowCrewGroup();
@@ -217,6 +217,15 @@ public class CrewInventory : MonoBehaviour {
 
 	}
 
+	void ShowStats () {
+		statGroup.SetActive (true);
+
+	}
+	void HideStats () {
+		statGroup.SetActive (false);
+
+	}
+
 	public void Open () {
 		
 		LootUI.Instance.Show (CategoryContentType.Inventory,Crews.Side.Player);
@@ -224,12 +233,12 @@ public class CrewInventory : MonoBehaviour {
 		QuestMenu.Instance.Close ();
 		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
 
-		menuGroup.SetActive (false);
+		HideStats ();
 	}
 
 	public void CloseLoot () {
 		LootUI.Instance.Hide ();
-		menuGroup.SetActive (true);
+		ShowStats ();
 	}
 
 	public bool Opened {

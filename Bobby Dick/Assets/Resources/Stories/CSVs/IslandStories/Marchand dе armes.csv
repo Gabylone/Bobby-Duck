@@ -5,9 +5,9 @@ CheckQuest=>debut;;;;;;;
 [debut];;;;;;;
 Narrator : Sur la plage un panneau indique une direction : « Vendeur d'armes tout genre »;;;;;;;
 SetChoices2;;;;;;;
-Choice : (suivre panneau);Choice : (repartir);;;;;;
-Fade;Leave;;;;;;
-Node=>marchand;;;;;;;
+Choice : (partir);Choice : (suivre panneau);;;;;;
+Leave;Fade;;;;;;
+;Node=>marchand;;;;;;
 ;;;;;;;
 ;;;;;;;
 [marchand];;;;;;;
@@ -16,7 +16,7 @@ NewCrew1;;;;;;;
 OtherSpeak : Salut voyageur !;Node=>la quete;;;;;;
 [choix];;;;;;;
 SetChoices4;;;;;;;
-Choice : Montrez moi votre marchandise;Choice : Le trésor de Bobby Dick ?;;Choice : (partir);Choice : Tout va bien pour vous ?;;;[la quete]
+Choice : Montrez moi votre marchandise(trade);Choice : Le trésor de Bobby Dick ?;;Choice : (partir);Choice : Tout va bien pour vous ?(quete);;;[la quete]
 TradeWeapons;RandomPercent20;;OtherSpeak : Au revoir !;RandomRange2;;;NewQuest=>choix
 Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;Leave;OtherSpeak : La conscience vous voulez dire ? ;OtherSpeak : Pas vraiment.;;
 ;Node=>choix;Node=>choix;;OtherSpeak : J'ai pas eu la chance de voir ce que les gens faisaient de mes armes.;OtherSpeak : J'aurais bien besoin d'un petit coup de pouce.;;

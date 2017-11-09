@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class StoryInput : MonoBehaviour {
 
+	public static StoryInput Instance;
+
 	bool waitForInput = false;
 
-	// Use this for initialization
+	void Awake () {
+		Instance = this;
+	}
+
 	void Start () {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
@@ -16,15 +21,21 @@ public class StoryInput : MonoBehaviour {
 
 	void HandleCloseInventory ()
 	{
-		Invoke ("Unlock_Delay", 0.01f);
+		Invoke ("Unlock", 0.01f);
 	}
-	void Unlock_Delay () {
+
+	void Unlock () {
 		locked = false;
 	}
 
 	void HandleOpenInventory (CrewMember member)
 	{
 		locked = true;
+	}
+
+	public void Lock () {
+		locked = true;
+		Invoke ("Unlock", 0.01f);
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -37,11 +48,12 @@ public class StoryInput : MonoBehaviour {
 		case FunctionType.AddToInventory:
 		case FunctionType.RemoveFromInventory:
 		case FunctionType.ShowQuestOnMap:
-			Invoke ("WaitForSomeReason",0.01f);
+			Invoke ("Story_WaitForInput",0.01f);
 			break;
 		}
 	}
-	void WaitForSomeReason () {
+
+	void Story_WaitForInput () {
 		WaitForInput ();
 	}
 
@@ -68,7 +80,6 @@ public class StoryInput : MonoBehaviour {
 		if (locked) {
 			return;
 		}
-
 
 		if (onPressInput != null) {
 			onPressInput ();

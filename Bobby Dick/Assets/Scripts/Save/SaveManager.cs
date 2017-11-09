@@ -20,22 +20,7 @@ public class SaveManager : MonoBehaviour
 	void Start () {
 		currentData = new GameData ();
 
-		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
-	}
-
-	int saveLimit = 0;
-	int saveCount = 0;
-
-	void HandleChunkEvent ()
-	{
-		++saveCount;
-
-		if (saveCount > 3) {
-			
-			SaveGame ();
-
-//			saveCount = 0;
-		}
+//		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 	}
 
 	#region action
@@ -184,3 +169,43 @@ public class GameData
 		// islands ids
 	}
 }
+
+
+
+//public class WorldData {
+//
+//	// islands
+//	public MapData 				mapData;
+//	public Formula[] 			formulas;
+//	public List<OtherBoatInfo>	otherBoatInfos;
+//
+//	// time
+//	public bool 				raining = false;
+//	public int 					currentRain = 0;
+//
+//	public bool 				night = false;
+//	public int 					timeOfDay = 0;
+//
+//	public WorldData() {
+//		//
+//	}
+//}
+//
+//public class PlayerData
+//{
+//	public Crew 				playerCrew;
+//	public PlayerBoatInfo 		playerBoatInfo;
+//	public Loot 				playerLoot;
+//	public List<Quest> 			currentQuests;
+//	public List<Quest>			finishedQuests;
+//
+//	public int 					playerWeight = 0;
+//	public int 					playerGold = 0;
+//	public int 					karma = 0;
+//	public int 					bounty = 0;
+//
+//	public PlayerData()
+//	{
+//		// islands ids
+//	}
+//}

@@ -83,14 +83,16 @@ public class QuestManager : MonoBehaviour {
 		string phrase = "Merci beaucoup de m'avoir aidé !";
 		DialogueManager.Instance.SetDialogueTimed (phrase, Crews.enemyCrew.captain);
 
-		StoryReader.Instance.GoToNode (quest.newQuest_FallbackNode);
+		Invoke ("HandleCompletedQuest_Delay", DialogueManager.Instance.DisplayTime);
+	}
+	void HandleCompletedQuest_Delay () {
+		StoryReader.Instance.GoToNode (Coords_CheckForFinishedQuest.newQuest_FallbackNode);
 	}
 	#endregion
 
 	void ContinueQuest () {
 
 		Quest quest = CurrentQuests.Find (x => x.targetCoords == Boats.PlayerBoatInfo.coords);
-
 
 		if ( quest != null) {
 
@@ -182,6 +184,7 @@ public class QuestManager : MonoBehaviour {
 	}
 
 	public List<Quest> FinishedQuests {
+		
 		get {
 			return finishedQuests;
 		}
@@ -236,7 +239,6 @@ public class QuestManager : MonoBehaviour {
 				x.row == StoryReader.Instance.Col &&
 				x.col == StoryReader.Instance.Row
 			);
-//			return finishedQuests.Find ( x => x.originCoords == Boats.PlayerBoatInfo.coords );
 		}
 	}
 }

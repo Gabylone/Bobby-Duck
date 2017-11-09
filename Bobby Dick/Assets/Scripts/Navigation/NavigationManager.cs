@@ -288,6 +288,12 @@ public struct Coords {
 		}
 	}
 
+	public static Coords random {
+		get {
+			return MapGenerator.Instance.RandomCoords;
+		}
+	}
+
 	public static Coords Zero {
 		get {
 			return new Coords (0, 0);

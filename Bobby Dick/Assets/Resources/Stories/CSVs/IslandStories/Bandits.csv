@@ -16,7 +16,7 @@ Node=>chantage;Node=>a payé;;;;
 [chantage];;;;;
 OtherSpeak : C'est simple : 30 pièces d'or ou c'est fini !;;;;;
 SetChoices3;;;;;
-Choice : Tenez…;;Choice : Plutôt mourir !;Choice : J'ai pas assez d'argent!(cha);;
+Choice : Tenez…(trade);;Choice : Plutôt mourir !(attaquer);Choice : J'ai pas assez d'argent!(cha);;
 Switch=>payed ?;;LaunchCombat;CheckStatCHA;;
 CheckGold30;OtherSpeak : Vous vous foutez de moi ?;Node=>bandits morts;OtherSpeak : Tu me rappelles moi à ton âge.;OtherSpeak : On me la fait pas celle là.;
 RemoveGold30;OtherSpeak : Déglingez les, les gars !;;OtherSpeak : On est tous dans la mouise !;LaunchCombat;
@@ -29,7 +29,7 @@ OtherSpeak : Qu'est-ce que tu fais là toi.;Node=>la quete;;;;
 OtherSpeak : Tu veux qu'on te prenne plus d'argent ?;;;;;
 [choix payé];;;;;[la quete]
 SetChoices4;;;;;NewQuest=>choix payé
-Choice : (repartir);Choice : (se battre);Choice : (regarder l'île);Choice : Je peux faire quelque chose pour vous ?;;
+Choice : (partir);Choice : (se battre)(attaquer);Choice : (regarder l'île);Choice : Je peux faire quelque chose pour vous ?(quete);;
 Leave;LaunchCombat;Node=>ile vide;RandomRange2;;
 ;Node=>bandits morts;;OtherSpeak : Dégages de là.;OtherSpeak : Vous pouvez bien me donner un coup de main…;
 ;;;Node=>choix payé;Switch=>a payé;
@@ -39,7 +39,7 @@ Leave;LaunchCombat;Node=>ile vide;RandomRange2;;
 Narrator : Le sol est jonché de corps de bandits;;;;;
 [ile vide];;;;;
 SetChoices3;;;;;
-Choice : (partir);Choice : (rester pour la nuit);Choice : (regarder l'île);;;
+Choice : (partir);Choice : (rester pour la nuit)(dormir);Choice : (regarder l'île);;;
 Leave;ChangeTimeOfDay;PlayerSpeak : Il y a pas grands choses.;;;
 ;Node=>bandits morts;CheckQuest=>ile vide;;;
 ;;Node=>ile vide;;;

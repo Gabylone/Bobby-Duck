@@ -177,12 +177,6 @@ public class Fighter : MonoBehaviour {
 		timeInState += Time.deltaTime;
 
 		ClampPos ();
-//
-//		if (Input.GetKeyDown (KeyCode.G))
-//			ChangeState (states.guard);
-//
-//		if (Input.GetKeyDown (KeyCode.F))
-//			ChangeState (states.hit);
 	}
 
 	// c'est pour que le start se fasse qu'on fois seulement pour ça c'est idiot mais bon
@@ -205,9 +199,9 @@ public class Fighter : MonoBehaviour {
 		Show ();
 
 		fightSprites.UpdateOrder (Crews.getCrew(crewMember.side).CrewMembers.Count-id);
-		fightSprites.UpdateSprites (CrewMember.MemberID);
 
 		Reset ();
+		fightSprites.UpdateSprites (CrewMember.MemberID);
 
 		if ( onInit != null )
 			onInit ();
@@ -276,6 +270,7 @@ public class Fighter : MonoBehaviour {
 	}
 
 	public void Fade () {
+		
 		ChangeState (states.none);
 
 		group.SetActive (false);
@@ -457,7 +452,7 @@ public class Fighter : MonoBehaviour {
 	#region dead
 	void dead_Start ()
 	{
-		fightSprites.FadeSprites (1);
+//		fightSprites.FadeSprites (1);
 	}
 	void dead_Update ()
 	{
@@ -490,7 +485,6 @@ public class Fighter : MonoBehaviour {
 		if ( pickable ) {
 			CombatManager.Instance.ChoseTargetMember (this);
 			Tween.Bounce (transform);
-			print ("EEEEH");
 			return;
 		}
 

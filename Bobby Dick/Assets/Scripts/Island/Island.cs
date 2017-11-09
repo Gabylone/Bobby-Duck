@@ -8,6 +8,7 @@ public class Island : MonoBehaviour {
 	public static Island Instance;
 
 	public static Sprite[] sprites;
+	public static Sprite[] minimapSprites;
 
 	private Image image;
 
@@ -46,8 +47,8 @@ public class Island : MonoBehaviour {
 
 	void Init () {
 
-
 		sprites = Resources.LoadAll<Sprite> ("Graph/IslandSprites");
+		minimapSprites = Resources.LoadAll<Sprite> ("Graph/IslandMinimapSprites");
 
 		CombatManager.Instance.onFightStart 	+= DeactivateCollider;
 		CombatManager.Instance.onFightEnd 		+= ActivateCollider;

@@ -5,9 +5,9 @@ CheckQuest=>debut;;;;;;;
 [debut];;;;;;;
 Narrator : Sur la plage un panneau indique une direction : « Marchand d'étoffe et de cuir »;;;;;;;
 SetChoices2;;;;;;;
-Choice : (suivre panneau);Choice : (repartir);;;;;;
-Fade;Leave;;;;;;
-Node=>marchand;;;;;;;
+Choice : (partir);Choice : (suivre panneau);;;;;;
+Leave;Fade;;;;;;
+;Node=>marchand;;;;;;
 ;;;;;;;
 ;;;;;;;
 [marchand];;;;;;;
@@ -16,7 +16,7 @@ NewCrew1;;;;;;;
 OtherSpeak : Salut voyageur !;Node=>la quete;;;;;;
 [choix];;;;;;;
 SetChoices4;;;;;;;
-Choice : Montrez moi votre marchandise;Choice : Le trésor de Bobby Dick ?;;Choice : (partir);Choice : Les affaires vont bien ?;;;[la quete]
+Choice : Montrez moi votre marchandise(trade);Choice : Le trésor de Bobby Dick ?;;Choice : (partir);Choice : Les affaires vont bien ?(quete);;;[la quete]
 TradeClothes;RandomPercent20;;OtherSpeak : Au revoir !;RandomRange2;;;NewQuest=>choix
 Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;Leave;OtherSpeak : Très bien.;OtherSpeak : Pas génialement.;;
 ;Node=>choix;Node=>choix;;OtherSpeak : Les pirates comme les soldats viennent s'habiller ici.;OtherSpeak : J'ai un soucis.;;

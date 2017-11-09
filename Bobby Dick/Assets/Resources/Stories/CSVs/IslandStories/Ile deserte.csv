@@ -8,7 +8,7 @@ Narrator : Le bateau accoste sur un îlot plus petit que NOMBATEAU. La plage es
 CheckQuest=>choix;;;
 [choix];;;
 SetChoices2;;;
-Choice : On lève l'ancre !;Choice : On va rester ici pour la nuit;;
+Choice : On lève l'ancre !(partir);Choice : On va rester ici pour la nuit(dormir);;
 Leave;ChangeTimeOfDay;;
 ;Narrator : Le bateau est sur une petite île. L'air est frais et matinal.;;
 ;Node=>choix;;
@@ -17,7 +17,7 @@ Narrator : Le bateau accoste sur une petite île. Quelques arbustes ont poussé
 CheckQuest=>choix food;;;
 [choix food];;;
 SetChoices3;;;
-Choice : On lève l'ancre !;Choice : On va rester ici pour la nuit;Choice : (Chercher de la nourriture);
+Choice : On lève l'ancre !(partir);Choice : On va rester ici pour la nuit(dormir);Choice : (Chercher de la nourriture)(loot);
 Leave;ChangeTimeOfDay;RandomPercent35;
 ;Narrator : Le bateau est sur une petite île. L'air est frais et matinal.;PlayerSpeak : Bingo !;PlayerSpeak : Il n'y a rien de comestible ici !
 ;Node=>choix food;LootFood;Node=>choix food

@@ -33,6 +33,10 @@ public class NameGeneration : MonoBehaviour {
 		}
 	}
 
+
+	public delegate void OnDiscoverFormula(Formula Formula);
+	public static OnDiscoverFormula onDiscoverFormula;
+
 	public static string CheckForKeyWords ( string text ) {
 
 		if ( text.Contains ("CAPITAINE") ) {
@@ -56,7 +60,18 @@ public class NameGeneration : MonoBehaviour {
 		}
 
 		if ( text.Contains ("FORMULA") ) {
-			text = text.Replace ( "FORMULA" , FormulaManager.Instance.getFormula () );
+
+			Formula formula = System.Array.Find(FormulaManager.Instance.formulas,x=>x.coords == Boats.PlayerBoatInfo.coords);
+
+			if ( formula.found == false ) {
+				if ( onDiscoverFormula != null ) {
+					onDiscoverFormula(formula);
+				}
+			}
+
+			formula.found = true;
+
+			text = text.Replace ( "FORMULA" , formula.name.ToUpper() );
 		}
 
 		if ( text.Contains ("RANDOMFEMALENAME") ) {

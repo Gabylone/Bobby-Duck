@@ -13,28 +13,28 @@ PlayerSpeak : C'est chez moi !;;;;;;;;;
 CheckQuest=>salon;;;;;;;;;
 [salon];;;;;;;;;
 SetChoices4;;;;;;;;;
-Choice : (partir);Choice : (dormir jusqu'au lendemain);Choice : (aller cuisine);;Choice : (aller jardin);;;;;
+Choice : (partir);Choice : (dormir jusqu'au lendemain)(dormir);Choice : (aller cuisine);;Choice : (aller jardin);;;;;
 PlayerSpeak : Hop !;ChangeTimeOfDay;RandomRange2;;RandomRange2;;;;;
 Leave;Node=>salon;Fade;Fade;Fade;Fade;;;;
 ;;Node=>cuisine;Node=>cuisine-mère;Node=>jardin;Node=>jardin-père;;;;
 ;;;;;;;;;
 [cuisine];;;[cuisine-mère];;;[mère partie];[cuisine-mère-morte];;[attaqua mère]
 SetChoices2;;;NewCrew1/F/10;Node=>mère partie;;PlayerSpeak : Maman;Narrator : Votre mère par terre, une épée dans le dos.;;PlayerSpeak : Désolé maman
-Choice : Retourner salon;Choice : Regarder garde manger;;OtherSpeak : Coucou mon poussin !;Node=>cuisine-mère-morte;Node=>attaqua mère;Narrator : Votre mère mère est sous doute partie à la vue de son fils, tuant son propre père.;Node=>cuisine;;OtherSpeak : C'est rien
+Choice : (retourner salon)(partir);Choice : (regarder garde manger)(loot);;OtherSpeak : Coucou mon poussin !;Node=>cuisine-mère-morte;Node=>attaqua mère;Narrator : Votre mère mère est sous doute partie à la vue de son fils, tuant son propre père.;Node=>cuisine;;OtherSpeak : C'est rien
 Fade;LootFood;;[choix-cuisine];;;Node=>cuisine;;;Node=>choix-mère
 Node=>salon;Node=>cuisine;;SetChoices3;;;;;;
-;;;Choice : (retourner salon);Choice : (regarder garde manger);;Choice : Maman ?;;;
+;;;Choice : (retourner salon)(partir);Choice : (regarder garde manger)(loot);;Choice : Maman ?;;;
 ;;;HideOther;RandomRange2;;OtherSpeak : Oui ?;;;
 ;;;Fade;OtherSpeak : Sers toi !;OtherSpeak : Désolé je n'ai pas encore fais les courses !;Node=>choix-mère;;;
 ;;;Node=>salon;LootFood;Node=>choix-cuisine;;;;
 ;;;;Node=>choix-cuisine;;;;;
 ;;;[choix-mère];;;;;;
 ;;;SetChoices3;;;;;;
-;;;Choice : Tu sais ou c'est Bobby Dick toi ?;;Choice : Tu as un petit conseil ?;Choice : Non rien !;;;
-;;;RandomRange2;;GiveTip;HideOther;;;
-;;;OtherSpeak : Les histoires que je te racontais.;OtherSpeak : Arrête avec ces bêtises mon fils.;Node=>choix-mère;Fade;;;
-;;;OtherSpeak : se passent toutes DIRECTIONTOFORMULA;Node=>choix-mère;;Node=>salon;;;
-;;;Node=>choix-mère;;;;;;
+;;;Choice : Non rien !(partir);Choice : Tu sais ou c'est Bobby Dick toi ?;;Choice : Tu as un petit conseil ?;;;
+;;;HideOther;RandomRange2;;GiveTip;;;
+;;;Fade;OtherSpeak : Les histoires que je te racontais.;OtherSpeak : Arrête avec ces bêtises mon fils.;Node=>choix-mère;;;
+;;;Node=>salon;OtherSpeak : se passent toutes DIRECTIONTOFORMULA;Node=>choix-mère;;;;
+;;;;Node=>choix-mère;;;;;
 ;;;;;;;;;
 ;;;;;;;;;
 ;;;;;;;;;
@@ -46,13 +46,13 @@ Node=>choix jardin;Node=>choix jardin;;Node=>père;Node=>père;;;;;
 ;;;;;;;;;
 [choix jardin];;;[père];;;;;;
 SetChoices2;;;NewCrew1/M;;;;;;
-Choice : (retourner salon);Choice : (observer le jardin);;OtherSpeak : Salut fiston;Node=>jardin-père-mort;Node=>attaqua père;;;;
+Choice : (retourner salon)(partir);Choice : (observer le jardin);;OtherSpeak : Salut fiston;Node=>jardin-père-mort;Node=>attaqua père;;;;
 Fade;Node=>jardin;;Node=>choix-père;;;;;;
 Node=>salon;;;;;;;;;
 ;;;;;;;;;
 ;;;[choix-père];;;;[jardin-père-mort];;[attaqua père]
 ;;;SetChoices4;;;;Narrator : Le corps de votre père gît sur l'herbe.;;OtherSpeak : T'es revenu ptit con
-;;;Choice : (retourner au salon);Choice : Un petit conseil ?;Choice : (attaquer);Choice : Je peux faire quelques chose pour toi ?;Node=>jardin;;LaunchCombat
+;;;Choice : (retourner au salon)(partir);Choice : Un petit conseil ?;Choice : (attaquer);Choice : Je peux faire quelques chose pour toi ?(quete);Node=>jardin;;LaunchCombat
 ;;;Fade;GiveTip;Node=>combat père;RandomRange2;;;Node=>jardin-père-mort
 ;;;HideOther;Node=>choix-père;;OtherSpeak : Tout va bien ici merci !;NewQuest=>choix-père;;
 ;;;Node=>salon;;;Node=>choix-père;;;

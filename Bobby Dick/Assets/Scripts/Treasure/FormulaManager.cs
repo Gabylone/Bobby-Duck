@@ -9,8 +9,6 @@ public class FormulaManager : MonoBehaviour {
 	[SerializeField]
 	private int formulaAmount = 2;
 
-
-
 	public Formula[] formulas;
 
 	[SerializeField]
@@ -113,8 +111,6 @@ public class FormulaManager : MonoBehaviour {
 			StoryReader.Instance.UpdateStory ();
 		}
 
-
-
 	}
 	#endregion
 
@@ -123,15 +119,6 @@ public class FormulaManager : MonoBehaviour {
 		string directionPhrase = NavigationManager.Instance.getDirName (dir);
 
 		return directionPhrase;
-	}
-
-	public string getFormula () {
-
-		Formula formula = System.Array.Find(formulas,x=>x.coords == Boats.PlayerBoatInfo.coords);
-
-		formula.found = true;
-
-		return "<b>" + formula.name.ToUpper() + "</b>";
 	}
 
 	public Vector2 GetNextClueIslandPos {

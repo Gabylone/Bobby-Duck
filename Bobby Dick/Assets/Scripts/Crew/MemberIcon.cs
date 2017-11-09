@@ -40,8 +40,11 @@ public class MemberIcon : MonoBehaviour {
 	#region overing
 	public void OnPointerDown() {
 		
-		if (member.side == Crews.Side.Enemy)
+		if (member.side == Crews.Side.Enemy) {
+			StoryInput.Instance.Lock ();
+			GetComponentInChildren<StatGroup> ().Display (member);
 			return;
+		}
 
 		if (CrewInventory.Instance.Opened && CrewMember.selectedMember == member) {
 

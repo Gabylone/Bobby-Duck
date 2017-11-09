@@ -15,6 +15,8 @@ public class HungerIcon : MonoBehaviour {
 
 	public Image heartImage;
 
+	public GameObject heartGroup;
+
 	void Start () {
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
@@ -55,15 +57,23 @@ public class HungerIcon : MonoBehaviour {
 
 		fullImage.fillAmount = fillAmount;
 
+		heartImage.fillAmount = (float)linkedIcon.member.Health / (float)linkedIcon.member.MemberID.maxHealth;
+
 		if (fillAmount < 0.4f) {
 			Show ();
-			heartImage.fillAmount = (float)linkedIcon.member.Health / (float)linkedIcon.member.MemberID.maxHealth;
 		} else {
 			Hide ();
 		}
 
 		if (fillAmount < 0.3f) {
 			Tween.Bounce (group.transform, 0.2f, 1.2f);
+		}
+
+		if ( fillAmount <= 0.05f ) {
+			heartGroup.SetActive (true);
+			//
+		} else {
+			heartGroup.SetActive (false);
 		}
 	}
 
