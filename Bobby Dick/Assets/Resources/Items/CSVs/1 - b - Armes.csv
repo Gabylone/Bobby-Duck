@@ -1,58 +1,58 @@
-Arme;Description;Value;$;W;LVL
-Epée rouillée;C'est un epée rouillée;8;20;4;1
-Pioche de mineur;C'est un pioche de mineur;14;28;7;1
-Dague cassée;C'est un dague cassée;10;22;5;1
-Vielle hachette;C'est un vielle hachette;9;20;5;1
-Bâton solide;C'est un bâton solide;14;28;7;1
-Pieu de bois;C'est un pieu de bois;13;29;7;1
-Matraque en bois;C'est un matraque en bois;14;29;7;1
-Petite épée;C'est un petite épée;23;37;12;2
-Dague en acier;C'est un dague en acier;20;39;10;2
-Matraque en fer;C'est un matraque en fer;21;35;11;2
-Machette;C'est un machette;24;37;12;2
-Bâton en fer;C'est un bâton en fer;16;30;8;2
-Hachette d'acier;C'est un hachette d'acier;23;38;12;2
-Grande épée en acier;C'est un grande épée en acier;27;47;14;3
-Longue Rapière;C'est un longue rapière;29;50;15;3
-Cimeterre;C'est un cimeterre;29;45;15;3
-Massue de pierre;C'est un massue de pierre;29;53;15;3
-Longue épée en fer;C'est un longue épée en fer;27;51;14;3
-Gourdin barbelé;C'est un gourdin barbelé;28;46;14;3
-Lance courte;C'est un lance courte;33;59;17;3
-Claymore;C'est un claymore;40;66;20;4
-Etoile du matin;C'est un etoile du matin;44;72;22;4
-Epée batarde;C'est un epée batarde;43;65;22;4
-Fléau d'ames;C'est un fléau d'ames;42;73;21;4
-Sabre d'acier;C'est un sabre d'acier;41;65;21;4
-Grande serpe;C'est un grande serpe;36;60;18;4
-Lance en acier;C'est un lance en acier;53;90;27;5
-Marteau de guerre;C'est un marteau de guerre;50;84;25;5
-Double hache;C'est un double hache;52;82;26;5
-Trident;C'est un trident;50;82;25;5
-Coutelas;C'est un coutelas;48;76;24;5
-Massue immense;C'est un massue immense;54;84;27;5
-Epée immense;C'est un epée immense;58;92;29;6
-Epée batarde;C'est un epée batarde;59;93;30;6
-Rapière;C'est un rapière;58;97;29;6
-Glaive en or;C'est un glaive en or;57;89;29;6
-Lame incurvée;C'est un lame incurvée;60;99;30;6
-Ceste;C'est un ceste;62;93;31;6
-Lance en acier;C'est un lance en acier;72;112;36;7
-Marteau de guerre;C'est un marteau de guerre;71;108;36;7
-Double hache;C'est un double hache;66;109;33;7
-Trident;C'est un trident;70;105;35;7
-Coutelas;C'est un coutelas;74;119;37;7
-Massue immense;C'est un massue immense;74;117;37;7
-Epée immense;C'est un epée immense;83;128;42;8
-Epée batarde;C'est un epée batarde;84;127;42;8
-Rapière;C'est un rapière;83;125;42;8
-Glaive en or;C'est un glaive en or;79;125;40;8
-Lame incurvée;C'est un lame incurvée;81;129;41;8
-Ceste;C'est un ceste;78;125;39;8
-Lance en acier;C'est un lance en acier;87;138;44;9
-Marteau de guerre;C'est un marteau de guerre;93;141;47;9
-Double hache;C'est un double hache;88;134;44;9
-Trident;C'est un trident;88;133;44;9
-Coutelas;C'est un coutelas;92;138;46;9
-Massue immense;C'est un massue immense;86;135;43;9
-Epée du roi pirate;C'est un epée du roi pirate;99;156;50;10
+Arme;Description;Value;$;W;LVL;Sprite ID
+Epée rouillée;C'est un epée rouillée;8;12;8;1;1
+Pioche de mineur;C'est un pioche de mineur;10;19;5;1;1
+Dague cassée;C'est un dague cassée;11;17;6;1;1
+Vielle hachette;C'est un vielle hachette;12;24;8;1;1
+Bâton solide;C'est un bâton solide;7;11;6;1;1
+Pieu de bois;C'est un pieu de bois;13;29;4;1;1
+Matraque en bois;C'est un matraque en bois;8;12;4;1;1
+Petite épée;C'est un petite épée;18;34;9;2;1
+Dague en acier;C'est un dague en acier;16;32;8;2;1
+Matraque en fer;C'est un matraque en fer;23;44;10;2;1
+Machette;C'est un machette;17;26;11;2;1
+Bâton en fer;C'est un bâton en fer;23;38;8;2;1
+Hachette d'acier;C'est un hachette d'acier;16;32;10;2;1
+Grande épée en acier;C'est un grande épée en acier;33;59;12;3;1
+Longue Rapière;C'est un longue rapière;29;51;14;3;1
+Cimeterre;C'est un cimeterre;32;55;10;3;1
+Massue de pierre;C'est un massue de pierre;27;47;13;3;1
+Longue épée en fer;C'est un longue épée en fer;34;60;11;3;1
+Gourdin barbelé;C'est un gourdin barbelé;31;48;10;3;1
+Lance courte;C'est un lance courte;34;52;12;3;1
+Claymore;C'est un claymore;44;69;13;4;1
+Etoile du matin;C'est un etoile du matin;38;63;17;4;1
+Epée batarde;C'est un epée batarde;36;55;13;4;1
+Fléau d'ames;C'est un fléau d'ames;37;58;13;4;1
+Sabre d'acier;C'est un sabre d'acier;37;58;14;4;1
+Grande serpe;C'est un grande serpe;43;71;16;4;1
+Lance en acier;C'est un lance en acier;52;82;19;5;1
+Marteau de guerre;C'est un marteau de guerre;53;87;17;5;1
+Double hache;C'est un double hache;53;90;18;5;1
+Trident;C'est un trident;46;73;20;5;1
+Coutelas;C'est un coutelas;48;72;17;5;1
+Massue immense;C'est un massue immense;49;84;17;5;1
+Epée immense;C'est un epée immense;58;93;19;6;1
+Epée batarde;C'est un epée batarde;60;92;23;6;1
+Rapière;C'est un rapière;59;94;20;6;1
+Glaive en or;C'est un glaive en or;63;97;21;6;1
+Lame incurvée;C'est un lame incurvée;58;93;21;6;1
+Ceste;C'est un ceste;63;95;19;6;1
+Lance en acier;C'est un lance en acier;73;112;23;7;1
+Marteau de guerre;C'est un marteau de guerre;67;111;25;7;1
+Double hache;C'est un double hache;71;114;25;7;1
+Trident;C'est un trident;68;111;25;7;1
+Coutelas;C'est un coutelas;73;112;23;7;1
+Massue immense;C'est un massue immense;70;109;22;7;1
+Epée immense;C'est un epée immense;81;132;25;8;1
+Epée batarde;C'est un epée batarde;83;132;29;8;1
+Rapière;C'est un rapière;82;123;29;8;1
+Glaive en or;C'est un glaive en or;82;123;27;8;1
+Lame incurvée;C'est un lame incurvée;81;123;27;8;1
+Ceste;C'est un ceste;77;123;25;8;1
+Lance en acier;C'est un lance en acier;90;135;30;9;1
+Marteau de guerre;C'est un marteau de guerre;93;141;32;9;1
+Double hache;C'est un double hache;91;142;30;9;1
+Trident;C'est un trident;89;134;29;9;1
+Coutelas;C'est un coutelas;89;141;29;9;1
+Massue immense;C'est un massue immense;88;132;30;9;1
+Epée du roi pirate;C'est un epée du roi pirate;101;158;31;10;1

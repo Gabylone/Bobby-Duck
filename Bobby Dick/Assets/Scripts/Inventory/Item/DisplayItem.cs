@@ -47,8 +47,12 @@ public class DisplayItem : MonoBehaviour {
 			return name;
 		}
 		set {
+			if (nameText == null)
+				return;
+
 			name = value;
 			nameText.text = name;
+
 		}
 	}
 
@@ -57,7 +61,14 @@ public class DisplayItem : MonoBehaviour {
 			return param;
 		}
 		set {
+
+			if (paramObj == null)
+				return;
+
 			param = value;
+
+			Tween.Bounce (paramObj.transform);
+
 			paramText.text = param.ToString ();
 			paramObj.SetActive ( value > 0 );
 		}
@@ -68,11 +79,16 @@ public class DisplayItem : MonoBehaviour {
 			return price;
 		}
 		set {
+
+			if (priceObj == null)
+				return;
+
 			price = value;
-			if (priceObj != null) {
-				priceText.text = price.ToString ();
-				priceObj.SetActive (value > 0);
-			}
+
+			Tween.Bounce (priceObj.transform);
+
+			priceText.text = price.ToString ();
+			priceObj.SetActive (value > 0);
 		}
 	}
 
@@ -81,11 +97,16 @@ public class DisplayItem : MonoBehaviour {
 			return weight;
 		}
 		set {
+
+			if (weightObj == null)
+				return;
+
 			weight = value;
-			if (weightObj != null) {
-				weightText.text = weight.ToString ();
-				weightObj.SetActive (value > 0);
-			}
+
+			Tween.Bounce (weightObj.transform);
+
+			weightText.text = weight.ToString ();
+			weightObj.SetActive (value > 0);
 		}
 	}
 
@@ -94,6 +115,10 @@ public class DisplayItem : MonoBehaviour {
 			return level;
 		}
 		set {
+
+			if (lvlObj == null)
+				return;
+
 			level = value;
 			lvlText.text = level.ToString ();
 			lvlObj.SetActive (value > 0);
@@ -113,6 +138,7 @@ public class DisplayItem : MonoBehaviour {
 		set {
 
 			Tween.ClearFade (transform);
+
 			if (handledItem == null) {
 				Tween.Bounce (transform, 0.2f, 1.05f);
 			}

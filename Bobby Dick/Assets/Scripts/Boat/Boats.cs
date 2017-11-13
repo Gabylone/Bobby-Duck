@@ -49,8 +49,6 @@ public class Boats : MonoBehaviour {
 
 	void AddImperialBoat ()
 	{
-		print ("adding imperial boat");
-
 		OtherBoatInfo otherBoatInfo = new OtherBoatInfo ();
 		otherBoatInfo.Init ();
 		otherBoatInfo.Randomize ();

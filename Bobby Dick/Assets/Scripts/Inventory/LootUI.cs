@@ -50,6 +50,7 @@ public class LootUI : MonoBehaviour {
 	[SerializeField]
 	private GameObject itemButtonGroup;
 	private DisplayItem_Loot[] displayItems = new DisplayItem_Loot[0];
+	public DisplayItem_Loot selectedItemDisplay;
 
 	private int selectionIndex = 0;
 
@@ -319,11 +320,12 @@ public class LootUI : MonoBehaviour {
 		set {
 
 			selectionIndex = value;
+
 			displayItems [selectionIndex].Enabled = false;
 
+			selectedItemDisplay.HandledItem = SelectedItem;
+
 			Tween.Bounce( displayItems[selectionIndex].transform , 0.2f , 1.1f);
-//			if ( bounce )
-//				Tween.Bounce( itemButtons[selectionIndex].transform , 0.2f , 1.1f);
 
 		}
 	}

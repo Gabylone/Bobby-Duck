@@ -28,13 +28,11 @@ public class Fight_LoadSprites : MonoBehaviour {
 	{
 		allSprites = GetComponentsInChildren<SpriteRenderer> (true);
 		GetSpriteColors ();
-		print ("getting sprite colors");
 	}
 
 	public void UpdateSprites ( Member memberID ) {
 
 		ResetColors ();
-		print ("resetting colors");
 
 		if (memberID.HairSpriteID > -1)
 			allSprites[(int)SpriteIndex.hair].sprite = memberID.Male ? CrewCreator.Instance.HairSprites_Male [memberID.HairSpriteID] : CrewCreator.Instance.HairSprites_Female [memberID.HairSpriteID];

@@ -25,7 +25,6 @@ public class ChoiceBubbleFeedback : MonoBehaviour {
 
 			if ( str.EndsWith(bubblePhrase) ) {
 				
-				print ("found bubble feedback : " + bubblePhrase);
 
 				GetComponent<Image>().enabled = true;
 				GetComponent<Image>().sprite = ChoiceManager.feedbackSprites [index];
@@ -41,7 +40,6 @@ public class ChoiceBubbleFeedback : MonoBehaviour {
 
 		}
 
-		print ("found no bubble feedback");
 
 		GetComponent<Image>().enabled = false;
 

@@ -30,7 +30,6 @@ public class DisplayHunger : MonoBehaviour {
 	void HandleUseInventory (InventoryActionType actionType)
 	{
 		if ( actionType == InventoryActionType.Eat ) {
-			print ("updating eat");
 			UpdateImage ();
 		}
 	}

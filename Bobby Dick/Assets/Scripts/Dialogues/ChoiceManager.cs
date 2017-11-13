@@ -7,6 +7,7 @@ public class ChoiceManager : MonoBehaviour {
 	public static ChoiceManager Instance;
 
 	public static Sprite[] feedbackSprites;
+	public Sprite[] bubbleSprites;
 
 	[Header("Choices")]
 	[SerializeField]
@@ -77,6 +78,13 @@ public class ChoiceManager : MonoBehaviour {
 //			string str = content [i];
 			string str = FitText(content [i]);
 			str = choiceButtons [i].GetComponentInChildren<ChoiceBubbleFeedback> ().SetSprite(str);
+
+			if (content [i].StartsWith ("(")) {
+				choiceButtons [i].GetComponent<Image> ().sprite = bubbleSprites [0];
+			} else {
+				choiceButtons [i].GetComponent<Image> ().sprite = bubbleSprites[1];
+
+			}
 
 			choiceButtons [i].GetComponentInChildren<Text> ().text = str;
 
@@ -167,7 +175,7 @@ public class ChoiceManager : MonoBehaviour {
 				break;
 		}
 
-		ChoiceManager.Instance.SetChoices (amount, choices);
+		SetChoices (amount, choices);
 	}
 	#endregion
 
