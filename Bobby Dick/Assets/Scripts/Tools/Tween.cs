@@ -7,6 +7,8 @@ public class Tween : MonoBehaviour {
 	public static float defaultAmount = 1.2f;
 	public static float defaultDuration = 0.2f;
 
+	public static Transform lastTransform;
+
 	public static void Scale (Transform t, float dur , float amount) {
 
 		EaseType eT = amount > 1 ? EaseType.EaseOutBounce : EaseType.Linear;

@@ -24,7 +24,11 @@ public class DisplayItem_Loot : DisplayItem {
 			return base.HandledItem;
 		}
 		set {
+			
 			base.HandledItem = value;
+
+			if (value == null)
+				return;
 
 			if (value.spriteID < 0) {
 				itemImage.enabled = false;

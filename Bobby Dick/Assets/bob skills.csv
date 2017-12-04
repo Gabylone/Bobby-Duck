@@ -1,0 +1,24 @@
+;nom;;;description;;;description
+;fr;en;Cout;Actif;Passif ( augmentable 2 fois );;
+;;;;;;;
+Brute;Matraque;Cosh;7;Assomme la cible pendant un tour;;;
+;Saillie;Wallop;7;Inflige la moitié des dégats de la brute à chaque membre de l'équipage adverse.;Ricochet;Ricochet;plus de dégâts aux adversaires adjacents pour raclée
+;Cabriole;Leap;7;La brute attend pendant un tour, puis inflige le triple de ses dégats.;Soubresaut;More Blip;plus de dégâts à la fin
+;Furie;Fury;10;Pendant 3 tours, la brute gagne deux fois plus d’énergie par tour.;Détraqué;Go Bonkers;perd moins de défense
+Chirurgien;Coup de bistouri;Bistoury Blow;5;Soigne un allié de l’équivalent des dégâts du chirurgien.;;;
+;Piquouze;Jag;4;Soigne 15 points de vie à la cible, chaque tour, pendant 3 tours.;Timide;Bashful;moins de chances d'attirer l'attention
+;Mort-au-rats;Rat Poison;6;Inflige 15 dégats à une cible pendant 3 tours.;Mauvais diagnostic;Wrong diagnostic;le poison inflige plus de dégâts par tour
+;Tournée de rhum;Rhum Round;8;Soigne tous les membres de 50 points de vie.;Cicatrisation;Tonic Liquor;les compétences de soin sont plus efficaces
+Cuistot;Provocation;Edgy Goading;3;Les 3 prochaines attaques sont dirigées vers le cuistôt.;;;
+;Parade;Parry;3;Le prochain attaquant du cuistôt est assomé pendant un tour.;;;
+;Piston;Helpmate;3;La cible ne reçoit plus que la moitié des dégats infligés pendant 3 tours.;Grande gueule;Big Mouth;+ de chance d'attirer adversaire
+;Toast;Toast Up;3;La puissance d'attaque de la cible est doublée.;Larme à l’oeil;Awe-Inspiring;+ de motivation pour le toast
+;Promesse de festin;Pledge of feast;3;Remplit la barre d'énergie d'un membre.;Cordon bleu;Cordon bleu;+ d'energie pour promesse de festin
+Flibustier;Tir à la tête;Headshot;5;Le flibustier attend pendant un tour, puis inflige le triple de ses dégats.;;;
+;Mitraille;Grape Shot;6;Le flibustier inflige le tiers des ses dégats à 4 cibles aléatoires.;Cible Facile;Easy Target;plus de dégâts aux affaiblis
+;Piège à loup;Bear Trap;4;Pose un piège aux pieds qui inflige le double des dégats du flibustier au prochain attaquant.;Hyperactif;Hyperactive;+ d'energie par tour
+;Dynamite;Dynamite;7;Inflige 50 dégats à tous les ennmmis.;Conservation de poudre;Powder Conservation;50 % de dégat aux ennemis
+Joueur;Pile ou face;Heads or Tails;3;Lance une pièce. Si l'escroc fait face, il inflige le double de ses dégats, sinon, la moitié.;;;
+;Vol;Robbery;5;Vol 15 pièces d'or à l'adversaire.;Doigt de fée;Golden Fingers;+ d'argent volé
+;Juron;Cuss;3;Réduit la puissance d'attaque de la cible. Annule l'effet « Toast »;Fieffé coquin;Naughty Boï;+ de chance de coup critique
+;Langue de bois;Double Talk;10;L'escroc fait un jet de dé qui, si réussit, fait fuir tous l'équipage.;Sous la manche;Up my sleeve;octroi un dé au dessus du max

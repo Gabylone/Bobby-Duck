@@ -5,39 +5,105 @@ using UnityEngine.UI;
 
 public class CombatButtons : MonoBehaviour {
 
-	public GameObject feedbackGroup;
-	public Text feedbackText;
+	SkillButton[] defaultSkillButtons;
+	SkillButton[] skillButtons;
 
-	public GameObject group;
+	public Button openSkillButton;
+	public Image jobImage;
+
+	public GameObject defaultGroup;
+	public GameObject skillGroup;
+
 
 	// Use this for initialization
 	void Start () {
+		
 		CombatManager.Instance.onChangeState += HandleOnChangeState;
 
-		group.SetActive (false);
-		feedbackGroup.SetActive (false);
+		defaultSkillButtons = defaultGroup.GetComponentsInChildren<SkillButton> (true);
+		skillButtons = skillGroup.GetComponentsInChildren<SkillButton> (true);
+
+		defaultGroup.SetActive (false);
+		skillGroup.SetActive (false);
+
 	}
 
 	void HandleOnChangeState (CombatManager.States currState, CombatManager.States prevState)
 	{
-		group.SetActive (false);
-		feedbackGroup.SetActive (false);
+		defaultGroup.SetActive (false);
+		skillGroup.SetActive (false);
 
-		if ( currState == CombatManager.States.PlayerAction ) {
-			Tween.Bounce (group.transform);
-			group.SetActive (true);
+		if ( currState == CombatManager.States.PlayerActionChoice ) {
 
-			DisplayFeedback ("Choisir action");
+			defaultGroup.SetActive (true);
+
+			UpdateDefaultButtons ();
 		}
 
-		if ( currState == CombatManager.States.PlayerMemberChoice ) {
-			DisplayFeedback ("Choisir cible");
-		}
 	}
 
-	void DisplayFeedback (string str) {
-		feedbackGroup.SetActive (true);
-		feedbackText.text = str;
-		Tween.Bounce (feedbackGroup.transform);
+	public void OpenSkills () {
+		
+		defaultGroup.SetActive (false);
+		skillGroup.SetActive (true);
+
+		UpdateSkillButtons ();
+
+		foreach (var item in skillButtons) {
+			Tween.Bounce (item.transform);
+		}
+
+	}
+
+	public void CloseSkills () {
+		defaultGroup.SetActive (true);
+		skillGroup.SetActive (false);
+
+		Tween.Bounce (defaultGroup.transform);
+
+	}
+
+	void UpdateSkillButtons ()
+	{
+		CrewMember member = CombatManager.Instance.currentFighter.crewMember;
+
+		int skillIndex = 0;
+
+		foreach (var item in skillButtons) {
+
+			if (skillIndex < member.skills.Count) {
+
+				item.gameObject.SetActive (true);
+
+				item.SetSkill (member.skills[skillIndex]);
+
+			} else {
+				item.gameObject.SetActive (false);
+			}
+
+			skillIndex++;
+		}
+
+	}
+
+	void UpdateDefaultButtons ()
+	{
+		// check if player has enought energy
+		CrewMember member = CombatManager.Instance.currentFighter.crewMember;
+
+		foreach (var item in defaultSkillButtons) {
+			item.SetSkill (item.skill);
+			Tween.Bounce (item.transform);
+		}
+
+		openSkillButton.interactable = false;
+		foreach (var item in member.skills ) {
+			if ( member.energy >= item.energyCost ) {
+				openSkillButton.interactable = true;
+				break;
+			}
+		}
+
+		jobImage.sprite = SkillManager.jobSprites[(int)member.job];
 	}
 }

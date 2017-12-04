@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class CrewMember {
@@ -38,6 +39,33 @@ public class CrewMember {
 	private int hungerDamage = 5;
 	public int maxHunger = 100;
 
+	// JOB
+	public Job job {
+		get {
+			return memberID.job;
+		}
+	}
+
+	public List<Skill> skills {
+		get {
+			return memberID.skills;
+		}
+	}
+
+	/// <summary>
+	/// energy
+	/// </summary>
+	public int energy = 0;
+	public int energyPerTurn = 6;
+	public int maxEnergy = 10;
+
+	public void AddEnergy (int _energy)
+	{
+		energy += _energy;
+
+		energy = Mathf.Clamp (energy, 0, maxEnergy);
+	}
+
 	// ICON
 	public MemberIcon memberIcon;
 
@@ -49,6 +77,7 @@ public class CrewMember {
 		side = _side;
 
 		this.memberIcon = memberIcon;
+
 		this.memberIcon.SetMember (this);
 
 	}
@@ -138,11 +167,11 @@ public class CrewMember {
 		return roundedDamage;
 //				Debug.Log ("rounded damage : " + roundedDamage);
 	}
-	public void GetHit (float incomingDamage) {
-
-		// defense
+	public void AddHealth (float incomingDamage) {
+		Health += Mathf.RoundToInt(incomingDamage);
+	}
+	public void RemoveHealth (float incomingDamage) {
 		Health -= Mathf.RoundToInt(incomingDamage);
-
 	}
 
 	public void Kill () {
@@ -344,4 +373,14 @@ public enum Stat {
 	Dexterity,
 	Charisma,
 	Constitution
+}
+
+public enum Job {
+	Brute,
+	Surgeon,
+	Cook,
+	Flibuster,
+	Gambler,
+
+	None,
 }

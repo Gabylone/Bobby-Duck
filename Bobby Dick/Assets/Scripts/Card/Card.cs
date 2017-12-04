@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Holoville.HOTween;
 
 public class Card : MonoBehaviour {
 
@@ -22,6 +23,11 @@ public class Card : MonoBehaviour {
 	private Image heartImage;
 
 	[SerializeField]
+	private GameObject energyGroup;
+	[SerializeField]
+	private GameObject[] energyPoints;
+
+	[SerializeField]
 	private GameObject heartGroup;
 
 	[SerializeField]
@@ -38,19 +44,25 @@ public class Card : MonoBehaviour {
 
 	public Fighter linkedFighter;
 
+	public Image jobImage;
+
 	float maxWidth = 0f;
 
-
-	void Start () {
+//	void Awake () {
+	void Start() {
 
 		linkedFighter.onInit += HandleOnInit;
 		linkedFighter.onSelect += HandleOnSelect;
 		linkedFighter.onSetTurn += HandleOnSetTurn;
 		linkedFighter.onEndTurn += HandleOnEndTurn;
+
 		linkedFighter.onShowInfo += HandleOnShowInfo;
 		linkedFighter.onGetHit += HandleOnGetHit;
 
-		if (linkedFighter.CrewMember != null)
+		linkedFighter.onChangeState += HandleOnChangeState;
+
+
+		if (linkedFighter.crewMember != null)
 			UpdateMember ();
 
 		LootUI.useInventory+= HandleUseInventory;
@@ -59,6 +71,16 @@ public class Card : MonoBehaviour {
 
 	}
 
+	void HandleOnChangeState (Fighter.states currState, Fighter.states prevState)
+	{
+		if (currState == Fighter.states.triggerSkill) {
+			UpdateEnergyBar (linkedFighter.crewMember);
+
+			Tween.Bounce (energyGroup.transform);
+		}
+	}
+
+
 	void HandleOnEndTurn ()
 	{
 		Tween.Scale (transform, 0.2f, 1f);
@@ -66,7 +88,7 @@ public class Card : MonoBehaviour {
 
 	void HandleOnInit () {
 
-		UpdateMember (linkedFighter.CrewMember);
+		UpdateMember (linkedFighter.crewMember);
 	}
 
 	void HandleOnGetHit ()
@@ -77,6 +99,7 @@ public class Card : MonoBehaviour {
 	void HandleOnShowInfo ()
 	{
 		if (previouslySelectedCard == this) {
+			previouslySelectedCard = null;
 			HideInfo ();
 			return;
 		}
@@ -114,7 +137,7 @@ public class Card : MonoBehaviour {
 	}
 
 	void UpdateMember() {
-		UpdateMember (linkedFighter.CrewMember);
+		UpdateMember (linkedFighter.crewMember);
 	}
 
 	public virtual void UpdateMember ( CrewMember member ) {
@@ -125,16 +148,55 @@ public class Card : MonoBehaviour {
 		if (member.Level == member.maxLevel)
 			levelText.text = "MAX";
 
-//		heartImage.fillAmount = (float)member.Health / (float)member.MemberID.maxHealth;
 		maxWidth = heartBackground.sizeDelta.x;
-		float x = maxWidth * (float)member.Health / member.MemberID.maxHealth;
-		heartImage.rectTransform.sizeDelta = new Vector2 ( x - maxWidth , heartImage.rectTransform.sizeDelta.y);
+
+		float health_Width = maxWidth * (float)member.Health / (float)member.MemberID.maxHealth;
+		heartImage.rectTransform.sizeDelta = new Vector2 ( health_Width , heartImage.rectTransform.sizeDelta.y);
+
+		attackText.text = member.Attack.ToString ();
+		defenceText.text = member.Defense.ToString ();
+
+		if (SkillManager.jobSprites.Length <= (int)member.job)
+			print ("skill l : " + SkillManager.jobSprites.Length + " / member job " + (int)member.job);
+		jobImage.sprite = SkillManager.jobSprites[(int)member.job];
+
+		UpdateEnergyBar (member);
 
 		Tween.Bounce (transform);
 
-		attackText.text = member.Attack.ToString ();
+	}
+	public Color energyColor_Full;
+	public Color energyColor_Empty;
+	int currentEnergy = 0;
+	void UpdateEnergyBar(CrewMember member) {
 
-		defenceText.text = member.Defense.ToString ();
+		float scaleAmount = 0.8f;
+
+		float dur = 0.5f;
+
+		int a = 0;
+
+		foreach (var item in energyPoints) {
+			
+			if (a < member.energy) {
+				
+				item.transform.localScale = Vector3.one * scaleAmount;
+
+				HOTween.To ( item.transform , dur , "localScale" , Vector3.one );
+				HOTween.To ( item.GetComponent<Image>() , dur , "color" , energyColor_Full);
+
+//				item.SetActive (true);
+			} else {
+
+				HOTween.To ( item.transform , dur , "localScale" , Vector3.one * scaleAmount);
+				HOTween.To ( item.GetComponent<Image>() , dur , "color" , energyColor_Empty);
+
+//				item.SetActive (false);
+			}
+			++a;
+		}
+
+//		currentEnergy = member.energy;
 	}
 
 	public void ShowStats () {
@@ -146,7 +208,6 @@ public class Card : MonoBehaviour {
 	}
 
 	public void ShowCard () {
-		//
 		cardObject.SetActive (true);
 
 	}

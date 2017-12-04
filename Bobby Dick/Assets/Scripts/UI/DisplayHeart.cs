@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class DisplayHeart : MonoBehaviour {
 
+	public Image backGround;
 	public Image fillImage;
 
 	// Use this for initialization
@@ -25,8 +26,8 @@ public class DisplayHeart : MonoBehaviour {
 
 		CrewMember member = CrewMember.selectedMember;
 
-		fillImage.fillAmount = (float)member.Health / (float)member.MemberID.maxHealth;
-//		text.text = member.Health.ToString ();
+		float health_Width = backGround.rectTransform.sizeDelta.x * (float)member.Health / (float)member.MemberID.maxHealth;
+		fillImage.rectTransform.sizeDelta = new Vector2 ( health_Width , fillImage.rectTransform.sizeDelta.y);
 
 		BounceHeart ();
 	}

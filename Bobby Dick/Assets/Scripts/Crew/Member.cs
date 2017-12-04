@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Member {
 
@@ -17,6 +19,9 @@ public class Member {
 	public int xp 		= 0; 
 	public int statPoints = 0;
 
+	public Job job;
+	public List<Skill> skills = new List<Skill> ();
+
 	// stats
 	public int[] stats = new int[4] {
 		1,1,1,1
@@ -33,18 +38,25 @@ public class Member {
 
 	public Member (CrewParams crewParams) {
 
+		// GENRE
 		if (crewParams.overideGenre) {
 			Male = crewParams.male;
 		} else {
 			Male = Random.value < 0.5f;
 		}
 
+		// NAME
 		if (Male) {
 			Name = CrewCreator.Instance.MaleNames[Random.Range (0, CrewCreator.Instance.MaleNames.Length)];
 		} else {
 			Name = CrewCreator.Instance.FemaleNames[Random.Range (0, CrewCreator.Instance.FemaleNames.Length)];
 		}
 
+		// JOB & SKILLS
+		job = (Job)Random.Range(0,5);
+		skills = SkillManager.getJobSkills (job);
+
+		// LEVEL
 		if (crewParams.level > 0) {
 			Lvl = crewParams.level;
 		} else {

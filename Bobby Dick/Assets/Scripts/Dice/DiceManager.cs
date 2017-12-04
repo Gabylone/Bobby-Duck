@@ -171,6 +171,8 @@ public class DiceManager : MonoBehaviour {
 	#endregion
 
 	#region showing highest
+	public delegate void OnEndThrow ();
+	public OnEndThrow onEndThrow;
 	private void ShowingHighest_Start () {
 
 		Dice highestDie = dices [0];
@@ -186,6 +188,9 @@ public class DiceManager : MonoBehaviour {
 
 		highestDie.SettleUp ();
 		Throwing = false;
+
+		if (onEndThrow != null)
+			onEndThrow ();
 	}
 	private void ShowingHighest_Update () {
 		

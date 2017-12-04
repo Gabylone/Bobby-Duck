@@ -174,7 +174,7 @@ public class OtherInventory : MonoBehaviour {
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
 
-			if ( CombatManager.Instance.Fighting ) {
+			if ( CombatManager.Instance.fighting ) {
 				CombatManager.Instance.EndFight ();
 			}
 		}

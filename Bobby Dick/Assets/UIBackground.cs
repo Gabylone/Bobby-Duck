@@ -29,14 +29,14 @@ public class UIBackground : MonoBehaviour {
 	{
 		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( -initXPos , 0f ) );
 
-//		uiGroup.SetActive (true);
+		uiGroup.SetActive (true);
 	}
 
 	void HandleOnFightStart ()
 	{
-		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( 0f , 0f ) );
+		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( targetX , 0f ) );
 
-//		uiGroup.SetActive (false);
+		uiGroup.SetActive (false);
 
 	}
 }

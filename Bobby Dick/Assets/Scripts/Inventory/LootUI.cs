@@ -21,11 +21,18 @@ public class LootUI : MonoBehaviour {
 
 	public Item SelectedItem {
 		get {
+			
 			int index = (ItemPerPage * currentPage) + SelectionIndex;
+
+			if ( index >= handledLoot.allItems [(int)currentCat].Count ) {
+				print ("apparmeent pas d'objet dans la catégorie :  " + currentCat + " INDEX : " + index);
+				return null;
+			}
 
 			return handledLoot.allItems [(int)currentCat] [index];
 		}
 	}
+
 	private Item[] selectedItems {
 		get {
 			return handledLoot.allItems [(int)currentCat].ToArray();

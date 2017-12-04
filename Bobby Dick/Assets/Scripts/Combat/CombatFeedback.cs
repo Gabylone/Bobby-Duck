@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Holoville.HOTween;
 
 public class CombatFeedback : MonoBehaviour {
 
@@ -10,11 +11,17 @@ public class CombatFeedback : MonoBehaviour {
 
 	public GameObject group;
 
+	public float decalUp = 1f;
+
 	public Image backgroundImage;
+
+	Vector3 initPos;
 
 	// Use this for initialization
 	void Start () {
 		Hide ();
+
+		initPos = transform.position;
 	}
 
 	bool displaying;
@@ -25,18 +32,24 @@ public class CombatFeedback : MonoBehaviour {
 
 	public void Display (string content, Color color) {
 
+
+		HOTween.Kill (transform);
+		HOTween.Kill (text);
+		HOTween.Kill (backgroundImage);
+
 		Show ();
 
 		Tween.Bounce (transform);
 
-//		backgroundImage.color = color;
+		transform.position = initPos;
+		HOTween.To (transform , fadeDuration , "position" , initPos + Vector3.up * decalUp);
 
 		text.text = content;
-//		if (color != Color.white) {
-//			text.color = Color.black;
-//		} else {
-//			text.color = Color.black;
-//		}
+		text.color = Color.black;
+		HOTween.To (text, fadeDuration/2, "color", Color.clear, false , EaseType.Linear , fadeDuration/2);
+
+		backgroundImage.color = color;
+		HOTween.To (backgroundImage, fadeDuration/2, "color", Color.clear, false , EaseType.Linear , fadeDuration/2);
 
 		Invoke ("Hide", fadeDuration);
 

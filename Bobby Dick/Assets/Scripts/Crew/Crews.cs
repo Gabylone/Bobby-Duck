@@ -10,6 +10,10 @@ public class Crews : MonoBehaviour {
 		Enemy,
 	}
 
+	public static Side otherSide (Side side) {
+		return side == Side.Player ? Side.Enemy : Side.Player;
+	}
+			
 	private Side[] sides = new Side[2] {Side.Player,Side.Enemy};
 	public Side[] Sides {get {return sides;}}
 

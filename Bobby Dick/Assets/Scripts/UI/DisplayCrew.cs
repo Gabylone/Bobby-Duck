@@ -25,9 +25,5 @@ public class DisplayCrew : MonoBehaviour {
 
 		Tween.Bounce (transform,0.05f,1.03f);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

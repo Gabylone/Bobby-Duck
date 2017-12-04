@@ -180,6 +180,7 @@ public class GoldManager : MonoBehaviour {
 			return goldAmount;
 		}
 		set {
+			
 			goldAmount = Mathf.Clamp (value, 0 , value );
 			UpdateUI ();
 

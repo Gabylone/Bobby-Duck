@@ -45,7 +45,7 @@ public class TurnFeedback : MonoBehaviour {
 	{
 		if ( currState == CombatManager.States.StartTurn ) {
 
-			if ( CombatManager.Instance.currentFighter.CrewMember.side == Crews.Side.Player ) {
+			if ( CombatManager.Instance.currentFighter.crewMember.side == Crews.Side.Player ) {
 				HOTween.To ( rectTransform , duration , "eulerAngles" , Vector3.forward * initZAngle );
 			} else {
 				HOTween.To ( rectTransform , duration , "eulerAngles" , Vector3.forward * -initZAngle );

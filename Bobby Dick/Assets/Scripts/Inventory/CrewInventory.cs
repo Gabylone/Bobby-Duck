@@ -197,7 +197,6 @@ public class CrewInventory : MonoBehaviour {
 			// set bool
 		opened = false;
 
-
 		if (StoryLauncher.Instance.PlayingStory) {
 			Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 		} else {
