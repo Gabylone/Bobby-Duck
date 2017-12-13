@@ -9,6 +9,14 @@ public class SkillManager : MonoBehaviour {
 	public static Sprite[] skillSprites;
 	public static Sprite[] jobSprites;
 
+	public static string[] jobNames = new string[5] {
+		"Brute",
+		"Medecin",
+		"Cuistot",
+		"Flibustier",
+		"Escroc"
+	};
+
 	public TextAsset skillData;
 
 	// Use this for initialization
@@ -30,7 +38,8 @@ public class SkillManager : MonoBehaviour {
 			
 			item.name = cells [1];
 			item.energyCost = int.Parse ( cells[3] );
-			item.description = cells [4];
+			item.priority = int.Parse ( cells[4] );
+			item.description = cells [5];
 
 			++skillIndex;
 		}
@@ -73,7 +82,9 @@ public class SkillManager : MonoBehaviour {
 		foreach (var skill in skills) {
 
 			if (skill.linkedJob == job) {
+				
 				jobSkills.Add (skill);
+
 			}
 
 		}
@@ -83,5 +94,53 @@ public class SkillManager : MonoBehaviour {
 
 		return jobSkills;
 
+	}
+
+	public static Skill RandomSkill ( CrewMember member ) {
+
+		List<Skill> fittingSkills = new List<Skill> ();
+
+		int priority = 0;
+
+		List<Skill> memberSkills = member.defaultSkills;
+		foreach (var item in member.specialSkills) {
+			memberSkills.Add (item);
+		}
+
+		// dans tous les skills du membre
+		foreach (var item in memberSkills) {
+
+			print ("skill du membre : " + item.name);
+
+			if ( item.MeetsConditions(member) ) {
+
+//				print (item.name + " rempli les conditions");
+
+//				if (item.priority < priority) {
+//					print (item.name + " a une priorité inférieure");
+//				}
+//
+				if (item.priority == priority) {
+//					print (item.name + " a une priorité supérieure");
+					fittingSkills.Add (item);
+				}
+
+				if ( item.priority > priority ) {
+
+//					print (item.name + " a une priorité supérieure");
+
+					fittingSkills.Clear ();
+					fittingSkills.Add (item);
+					priority = item.priority;
+
+				}
+			}
+		}
+
+		Skill skill = fittingSkills[Random.Range(0,fittingSkills.Count)];
+
+		print ("enemy chose skill : " + skill);
+
+		return skill;
 	}
 }

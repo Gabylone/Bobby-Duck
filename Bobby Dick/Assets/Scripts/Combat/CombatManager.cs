@@ -11,6 +11,7 @@ public class CombatManager : MonoBehaviour {
 
 	// stsatesyes ?
 	public enum States {
+		
 		None,
 
 		CombatStart,
@@ -22,6 +23,7 @@ public class CombatManager : MonoBehaviour {
 
 		PlayerAction,
 		EnemyAction,
+
 	}
 
 	private States previousState = States.None;
@@ -230,15 +232,21 @@ public class CombatManager : MonoBehaviour {
 	}
 	public void ChoseTargetMember (Fighter fighter) {
 
-		ChoosingTarget (false, Crews.Side.Player);
-		ChoosingTarget (false, Crews.Side.Enemy);
-
 		fighter.SetAsTarget ();
 
 		ChangeState (States.PlayerAction);
 	}
 
-	public void ChoosingTarget ( bool b , Crews.Side side) {
+	public void DisablePickable () {
+		foreach (Fighter fighter in getCurrentFighters (Crews.Side.Player)) {
+			fighter.pickable = false;
+		}
+		foreach (Fighter fighter in getCurrentFighters (Crews.Side.Enemy)) {
+			fighter.pickable = false;
+		}
+	}
+
+	public void ChoosingTarget (Crews.Side side) {
 
 		if (side == Crews.Side.Enemy) {
 			
@@ -254,14 +262,14 @@ public class CombatManager : MonoBehaviour {
 				
 				foreach (Fighter fighter in getCurrentFighters (side)) {
 					if (fighter.HasStatus (Fighter.Status.Provoking)) {
-						fighter.pickable = b;
+						fighter.pickable = true;
 					}
 				}
 
 			} else {
 
 				foreach (Fighter fighter in getCurrentFighters (side)) {
-					fighter.pickable = b;
+					fighter.pickable = true;
 				}
 
 			}
@@ -271,10 +279,10 @@ public class CombatManager : MonoBehaviour {
 				if (!currentSkill.canTargetSelf) {
 
 					if ( fighter != currentFighter )
-						fighter.pickable = b;
+						fighter.pickable = true;
 
 				} else {
-					fighter.pickable = b;
+					fighter.pickable = true;
 				}
 			}
 
@@ -282,24 +290,35 @@ public class CombatManager : MonoBehaviour {
 	}
 	#endregion
 
-	#region Player Action 
+	#region Player Action Choice
 	private void PlayerActionChoice_Start () {}
 	private void PlayerActionChoice_Update () {}
 	private void PlayerActionChoice_Exit () {}
 	#endregion
 
 	#region Player Member Choice 
+	public GameObject cancelPlayerMemberChoiceButton;
 	private void PlayerMemberChoice_Start () {
 
+		cancelPlayerMemberChoiceButton.SetActive (true);
+		Tween.Bounce (cancelPlayerMemberChoiceButton.transform);
+
 		if (currentSkill.targetType == Skill.TargetType.Self) {
-			ChoosingTarget (true, Crews.Side.Player);
+			ChoosingTarget (Crews.Side.Player);
 		} else {
-			ChoosingTarget (true, Crews.Side.Enemy);
+			ChoosingTarget (Crews.Side.Enemy);
 		}
 
 	}
 	private void PlayerMemberChoice_Update () {}
-	private void PlayerMemberChoice_Exit () {}
+	private void PlayerMemberChoice_Exit () {
+		DisablePickable ();
+		cancelPlayerMemberChoiceButton.SetActive (false);
+
+	}
+	public void CancelPlayerMemberChoice () {
+		ChangeState (States.PlayerActionChoice);
+	}
 	#endregion
 
 	#region Player Action
@@ -311,21 +330,14 @@ public class CombatManager : MonoBehaviour {
 	#endregion
 
 	#region Enemy Action Choice
-	public delegate void OnEnemyTriggerSkill (Skill.Type type);
+	public delegate void OnEnemyTriggerSkill (Skill skill);
 	public OnEnemyTriggerSkill onEnemyTriggerSkill;
-	public Skill.Type currentSkillType;
 	private void EnemyActionChoice_Start () {
 
-		Skill.Type skillType = currentSkillType;
-
-		if ( SkillManager.getSkill(skillType).energyCost > currentFighter.crewMember.energy ) {
-		
-			skillType = Skill.Type.SkipTurn;
-
-		}
+		Skill skill = SkillManager.RandomSkill (currentMember);
 
 		if ( onEnemyTriggerSkill != null ) {
-			onEnemyTriggerSkill (skillType);
+			onEnemyTriggerSkill (skill);
 		}
 
 	}
@@ -336,6 +348,12 @@ public class CombatManager : MonoBehaviour {
 
 	#region Enemy Member Choice 
 	private void EnemyMemberChoice_Start () {
+
+		if ( currentSkill.preferedTarget != null ) {
+			currentSkill.preferedTarget.SetAsTarget ();
+			currentSkill.preferedTarget = null;
+			return;
+		}
 
 		if (currentSkill.targetType == Skill.TargetType.Self) {
 
@@ -587,5 +605,6 @@ public class CombatManager : MonoBehaviour {
 			memberIndex = fighters.Count-1;
 	}
 	#endregion
+
 
 }

@@ -268,8 +268,6 @@ public class Fighter : MonoBehaviour {
 
 		Fade ();
 
-		crewMember.Kill ();
-
 		CombatManager.Instance.NextTurn ();
 
 	}
@@ -511,32 +509,36 @@ public class Fighter : MonoBehaviour {
 
 		float damage = crewMember.getDamage (attack);
 
-		crewMember.RemoveHealth (damage);
-
 		combatFeedback.Display (damage.ToString() , Color.red);
+
+		crewMember.RemoveHealth (damage);
 
 		if (onGetHit != null)
 			onGetHit ();
 
 		if (crewMember.Health <= 0) {
 			Die ();
+			crewMember.Kill ();
 		}
 	}
 
 
 	public void Hurt (float amount) {
 
-		crewMember.RemoveHealth (amount);
-
 		combatFeedback.Display ("" + amount , Color.red);
+
+		crewMember.RemoveHealth (amount);
 
 		if (onGetHit != null)
 			onGetHit ();
+
+		if (crewMember.Health <= 0) {
+			crewMember.Kill ();
+		}
+
 	}
 
 	public void Heal (float amount) {
-
-		print ("heal ?");
 
 		crewMember.AddHealth (amount);
 

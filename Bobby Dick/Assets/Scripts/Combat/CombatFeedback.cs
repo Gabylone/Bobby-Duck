@@ -21,7 +21,7 @@ public class CombatFeedback : MonoBehaviour {
 	void Start () {
 		Hide ();
 
-		initPos = transform.position;
+		initPos = transform.localPosition;
 	}
 
 	bool displaying;
@@ -32,7 +32,6 @@ public class CombatFeedback : MonoBehaviour {
 
 	public void Display (string content, Color color) {
 
-
 		HOTween.Kill (transform);
 		HOTween.Kill (text);
 		HOTween.Kill (backgroundImage);
@@ -41,8 +40,8 @@ public class CombatFeedback : MonoBehaviour {
 
 		Tween.Bounce (transform);
 
-		transform.position = initPos;
-		HOTween.To (transform , fadeDuration , "position" , initPos + Vector3.up * decalUp);
+		transform.localPosition = initPos;
+		HOTween.To (transform , fadeDuration , "localPosition" , initPos + Vector3.up * decalUp);
 
 		text.text = content;
 		text.color = Color.black;

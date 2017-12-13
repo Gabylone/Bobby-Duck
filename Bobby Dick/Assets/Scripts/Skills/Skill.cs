@@ -5,6 +5,7 @@ using UnityEngine;
 public class Skill : MonoBehaviour {
 
 	public Fighter fighter;
+	public Fighter preferedTarget;
 
 	public string name = "";
 	public string description = "";
@@ -15,6 +16,7 @@ public class Skill : MonoBehaviour {
 	public bool goToTarget = true;
 	public bool canTargetSelf = true;
 	public TargetType targetType;
+	public int priority = 0;
 
 	public Job linkedJob;
 
@@ -35,14 +37,13 @@ public class Skill : MonoBehaviour {
 	/// <summary>
 	/// TRIGGER
 	/// </summary>
-	void HandleOnTriggerSkill (Type type)
+	void HandleOnTriggerSkill (Skill skill)
 	{
-		if (type == this.type) {
+		if (skill.type == this.type) {
 
 			Fighter fighter = CombatManager.Instance.currentFighter;
 
 			if ( fighter.crewMember.energy < energyCost ) {
-				
 				return;
 			}
 
@@ -154,7 +155,6 @@ public class Skill : MonoBehaviour {
 	/// </summary>
 	public virtual void EndSkill () {
 
-
 		if ( SkillManager.CanUseSkill (fighter.crewMember.energy) ) {
 
 			if ( fighter.crewMember.side == Crews.Side.Player )
@@ -167,6 +167,12 @@ public class Skill : MonoBehaviour {
 			CombatManager.Instance.NextTurn ();
 
 		}
+	}
+
+	public virtual bool MeetsConditions (CrewMember member) {
+
+		// assez d'énergie
+		return member.energy >= energyCost;
 	}
 
 	// ENUM //

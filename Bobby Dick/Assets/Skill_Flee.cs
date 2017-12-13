@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Skill_Flee : Skill {
 
+	public int healthToFlee = 30;
+
 	public override void Start ()
 	{
 		base.Start ();
@@ -43,5 +45,13 @@ public class Skill_Flee : Skill {
 		DiceManager.Instance.onEndThrow -= HandleOnEndThrow;
 
 		EndSkill ();
+	}
+
+	public override bool MeetsConditions (CrewMember member)
+	{
+
+		bool fewHealth = member.Health < healthToFlee;
+
+		return fewHealth && base.MeetsConditions (member);
 	}
 }

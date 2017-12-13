@@ -46,9 +46,15 @@ public class CrewMember {
 		}
 	}
 
-	public List<Skill> skills {
+	public List<Skill> specialSkills {
 		get {
-			return memberID.skills;
+			return memberID.specialSkills;
+		}
+	}
+
+	public List<Skill> defaultSkills {
+		get {
+			return memberID.defaultSkills;
 		}
 	}
 
@@ -193,7 +199,12 @@ public class CrewMember {
 				Narrator.Instance.ShowNarratorTimed (" Après " + daysOnBoard + " jours à bord, " + MemberName + " est mort d'une faim atroce");
 			}
 
-			Health -= hungerDamage;
+			RemoveHealth(hungerDamage);
+
+			if (Health <= 0) {
+				Kill ();
+			}
+
 
 		}
 
@@ -217,9 +228,9 @@ public class CrewMember {
 		}
 		set {
 			memberID.health = Mathf.Clamp (value , 0 , memberID.maxHealth);
-
-			if (memberID.health <= 0)
-				Kill ();
+//
+//			if (memberID.health <= 0)
+//				Kill ();
 		}
 	}
 

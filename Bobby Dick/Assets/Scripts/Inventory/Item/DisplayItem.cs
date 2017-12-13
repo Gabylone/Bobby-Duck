@@ -146,6 +146,11 @@ public class DisplayItem : MonoBehaviour {
 			handledItem = value;
 
 			if (value == null) {
+				Name = "";
+				Value = 0;
+				Price = 0;
+				Weight = 0;
+				Level = 0;
 				return;
 			}
 

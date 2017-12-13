@@ -9,34 +9,34 @@ public class IconVisual : MonoBehaviour {
 		FaceImage.color = CrewCreator.Instance.Beige;
 
 		// hair
-		if (memberID.HairSpriteID > -1) {
-			HairImage.sprite = memberID.Male ? CrewCreator.Instance.HairSprites_Male [memberID.HairSpriteID] : CrewCreator.Instance.HairSprites_Female [memberID.HairSpriteID];
+		if (memberID.hairSpriteID > -1) {
+			HairImage.sprite = memberID.Male ? CrewCreator.Instance.HairSprites_Male [memberID.hairSpriteID] : CrewCreator.Instance.HairSprites_Female [memberID.hairSpriteID];
 			HairImage.enabled = true;
 		} else {
 			HairImage.enabled = false;
 		}
 
-		HairImage.color = CrewCreator.Instance.HairColors [memberID.HairColorID];
+		HairImage.color = CrewCreator.Instance.HairColors [memberID.hairColorID];
 
-		if (memberID.BeardSpriteID > -1) {
+		if (memberID.beardSpriteID > -1) {
 			BeardImage.enabled = true;
-			BeardImage.sprite = CrewCreator.Instance.BeardSprites [memberID.BeardSpriteID];
+			BeardImage.sprite = CrewCreator.Instance.BeardSprites [memberID.beardSpriteID];
 		} else {
 			BeardImage.enabled = false;
 
 		}
-		BeardImage.color = CrewCreator.Instance.HairColors [memberID.HairColorID];
+		BeardImage.color = CrewCreator.Instance.HairColors [memberID.hairColorID];
 
 		// eyes
-		EyesImage.sprite = CrewCreator.Instance.EyesSprites [memberID.EyeSpriteID];
-		EyebrowsImage.sprite = CrewCreator.Instance.EyebrowsSprites [memberID.EyebrowsSpriteID];
-		EyebrowsImage.color = CrewCreator.Instance.HairColors [memberID.HairColorID];
+		EyesImage.sprite = CrewCreator.Instance.EyesSprites [memberID.eyeSpriteID];
+		EyebrowsImage.sprite = CrewCreator.Instance.EyebrowsSprites [memberID.eyebrowsSpriteID];
+		EyebrowsImage.color = CrewCreator.Instance.HairColors [memberID.hairColorID];
 
 		// nose
-		NoseImage.sprite = CrewCreator.Instance.NoseSprites[memberID.NoseSpriteID];
+		NoseImage.sprite = CrewCreator.Instance.NoseSprites[memberID.noseSpriteID];
 
 		// mouth
-		MouthImage.sprite = CrewCreator.Instance.MouthSprites [memberID.MouthSpriteID];
+		MouthImage.sprite = CrewCreator.Instance.MouthSprites [memberID.mouthSpriteID];
 		MouthImage.color = CrewCreator.Instance.Beige;
 
 		// body

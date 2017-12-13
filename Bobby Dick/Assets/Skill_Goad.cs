@@ -19,4 +19,19 @@ public class Skill_Goad : Skill {
 		EndSkill ();
 
 	}
+
+	public override bool MeetsConditions (CrewMember member)
+	{
+		bool hasTarget = false;
+
+//		foreach (var item in CombatManager.Instance.getCurrentFighters(Crews.otherSide(member.side)) ) {
+		foreach (var item in CombatManager.Instance.getCurrentFighters(member.side) ) {
+			if (item.HasStatus(Fighter.Status.Provoking) == false ) {
+				hasTarget = true;
+				preferedTarget = item;
+			}
+		}
+
+		return hasTarget && base.MeetsConditions (member);
+	}
 }

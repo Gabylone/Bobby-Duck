@@ -24,4 +24,12 @@ public class Skill_Dynamite : Skill {
 
 	}
 
+	public override bool MeetsConditions (CrewMember member)
+	{
+
+		bool moreThanOneMember = CombatManager.Instance.getCurrentFighters (Crews.otherSide (member.side)).Count > 1;
+
+		return moreThanOneMember && base.MeetsConditions (member);
+	}
+
 }

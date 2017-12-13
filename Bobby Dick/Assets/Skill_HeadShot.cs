@@ -6,6 +6,8 @@ public class Skill_HeadShot : Skill {
 
 	bool onDelay = false;
 
+	public int healthToAttack = 30;
+
 	public override void Start ()
 	{
 		base.Start ();
@@ -47,5 +49,19 @@ public class Skill_HeadShot : Skill {
 		Trigger (delayFighter);
 
 
+	}
+
+	public override bool MeetsConditions (CrewMember member)
+	{
+
+		bool allyHealthIsCritical = false;
+
+		foreach (var item in Crews.getCrew(Crews.otherSide(member.side)).CrewMembers) {
+			if (item.Health > healthToAttack) {
+				allyHealthIsCritical = true;
+			}
+		}
+
+		return allyHealthIsCritical && base.MeetsConditions (member);
 	}
 }

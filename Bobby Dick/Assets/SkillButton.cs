@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SkillButton : MonoBehaviour {
 
-	public delegate void OnTriggerSkill ( Skill.Type type );
+	public delegate void OnTriggerSkill ( Skill skill );
 	public static OnTriggerSkill onTriggerSKill;
 
 	public Image skillImage;
@@ -49,7 +49,7 @@ public class SkillButton : MonoBehaviour {
 		if (touching) {
 
 			if (onTriggerSKill != null)
-				onTriggerSKill (skill.type);
+				onTriggerSKill (skill);
 
 		} else {
 			HideDescription ();
@@ -66,6 +66,12 @@ public class SkillButton : MonoBehaviour {
 	void ShowDescription ()
 	{
 		descriptionGroup.SetActive (true);
+
+		Transform p = transform.parent;
+
+		transform.SetParent (null);
+
+		transform.SetParent (p);
 
 		uiText_SkillName.text = skill.name;
 		uiText_Description.text = skill.description;

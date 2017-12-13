@@ -114,9 +114,14 @@ public class Card : MonoBehaviour {
 		Tween.Bounce (transform);
 	}
 
+	public delegate void OnHideInfo ();
+	public OnHideInfo onHideInfo;
 	public void HideInfo ()
 	{
 		statGroup.SetActive (false);
+
+		if (onHideInfo != null)
+			onHideInfo ();
 	}
 
 	void HandleOnSelect ()

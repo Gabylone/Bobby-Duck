@@ -137,8 +137,9 @@ public class DialogueManager : MonoBehaviour {
 		UpdateBubblePosition ();
 		UpdateBubbleScale ();
 
-		if ( talkingMember != null )
-			SoundManager.Instance.PlaySound ( speakSounds[talkingMember.MemberID.VoiceID] );
+//		if ( talkingMember != null )
+//			SoundManager.Instance.PlaySound ( speakSounds[talkingMember.MemberID.voiceID] );
+//	
 	}
 
 	private void UpdateDialogue () {

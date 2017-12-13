@@ -71,11 +71,11 @@ public class CombatButtons : MonoBehaviour {
 
 		foreach (var item in skillButtons) {
 
-			if (skillIndex < member.skills.Count) {
+			if (skillIndex < member.specialSkills.Count) {
 
 				item.gameObject.SetActive (true);
 
-				item.SetSkill (member.skills[skillIndex]);
+				item.SetSkill (member.specialSkills[skillIndex]);
 
 			} else {
 				item.gameObject.SetActive (false);
@@ -97,7 +97,7 @@ public class CombatButtons : MonoBehaviour {
 		}
 
 		openSkillButton.interactable = false;
-		foreach (var item in member.skills ) {
+		foreach (var item in member.specialSkills ) {
 			if ( member.energy >= item.energyCost ) {
 				openSkillButton.interactable = true;
 				break;

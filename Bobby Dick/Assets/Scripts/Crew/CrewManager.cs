@@ -81,7 +81,8 @@ public class CrewManager : MonoBehaviour {
 	}
 	public void RemoveMember ( CrewMember member ) {
 
-		Destroy (member.Icon.gameObject);
+		if ( member.Icon != null )
+			Destroy (member.Icon.gameObject);
 
 		managedCrew.Remove (member.MemberID);
 		crewMembers.Remove (member);

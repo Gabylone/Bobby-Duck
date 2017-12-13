@@ -8,15 +8,6 @@ public class DisplayJob : MonoBehaviour {
 	public Image jobImage;
 
 	public Text jobText;
-
-	public string[] jobNames = new string[5] {
-		"Brute",
-		"Medecin",
-		"Cuistot",
-		"Flibustier",
-		"Escroc"
-	};
-
 	void Start () {
 		
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
@@ -38,13 +29,8 @@ public class DisplayJob : MonoBehaviour {
 			print ("skill l : " + SkillManager.jobSprites.Length + " / member job " + (int)member.job);
 
 		jobImage.sprite = SkillManager.jobSprites [(int)member.job];
-		jobText.text = jobNames [(int)member.job];
+		jobText.text = SkillManager.jobNames [(int)member.job];
 
-		Bounce ();
-	}
-
-	void Bounce ()
-	{
 		Tween.Bounce (jobImage.transform);
 	}
 }

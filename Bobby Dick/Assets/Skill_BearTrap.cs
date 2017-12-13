@@ -30,4 +30,11 @@ public class Skill_BearTrap : Skill {
 		EndSkill ();
 
 	}
+
+	public override bool MeetsConditions (CrewMember member)
+	{
+		bool bearTrapped = CombatManager.Instance.currentFighter.HasStatus (Fighter.Status.BearTrapped);
+
+		return !bearTrapped && base.MeetsConditions (member);
+	}
 }

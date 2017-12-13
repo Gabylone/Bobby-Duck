@@ -28,6 +28,7 @@ public class DisplayItem_Loot : DisplayItem {
 			base.HandledItem = value;
 
 			if (value == null)
+				itemImage.enabled = false;
 				return;
 
 			if (value.spriteID < 0) {

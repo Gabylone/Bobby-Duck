@@ -239,7 +239,7 @@ public class Crews : MonoBehaviour {
 
 		string cellParams = StoryFunctions.Instance.CellParams;
 		int health = int.Parse ( cellParams );
-		Crews.getCrew (Crews.Side.Player).captain.Health += health;
+		Crews.getCrew (Crews.Side.Player).captain.AddHealth (health);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
@@ -247,7 +247,10 @@ public class Crews : MonoBehaviour {
 	private void RemoveHealth () {
 		string cellParams = StoryFunctions.Instance.CellParams;
 		int health = int.Parse ( cellParams );
-		Crews.getCrew (Crews.Side.Player).captain.Health -= health;
+		Crews.getCrew (Crews.Side.Player).captain.RemoveHealth(health);
+
+		if (Crews.getCrew (Crews.Side.Player).captain.Health <= 0)
+			Crews.getCrew (Crews.Side.Player).captain.Kill ();
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();

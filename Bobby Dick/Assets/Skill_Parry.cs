@@ -18,4 +18,11 @@ public class Skill_Parry : Skill {
 		EndSkill ();
 
 	}
+
+	public override bool MeetsConditions (CrewMember member)
+	{
+		bool parrying = CombatManager.Instance.currentFighter.HasStatus (Fighter.Status.Parrying);
+
+		return !parrying && base.MeetsConditions (member);
+	}
 }

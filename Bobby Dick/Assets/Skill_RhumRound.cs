@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Skill_RhumRound : Skill {
 
+	public int healthToHeal = 60;
+
 	public override void Start ()
 	{
 		base.Start ();
@@ -22,5 +24,23 @@ public class Skill_RhumRound : Skill {
 
 		EndSkill ();
 
+	}
+
+	public override bool MeetsConditions (CrewMember member)
+	{
+
+		bool allyInHelp = false;
+
+		int count = 0;
+
+		foreach (var item in Crews.getCrew(member.side).CrewMembers) {
+			if (item.Health < healthToHeal) {
+				++count;
+				if ( count > 1 )
+					allyInHelp = true;
+			}
+		}
+
+		return allyInHelp && base.MeetsConditions (member);
 	}
 }
