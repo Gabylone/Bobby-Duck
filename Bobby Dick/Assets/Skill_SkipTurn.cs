@@ -9,10 +9,10 @@ public class Skill_SkipTurn: Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
 
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		CombatManager.Instance.NextTurn ();
 	}

@@ -17,10 +17,8 @@ public class Member {
 	public int Lvl 		= 0;
 	public int xp 		= 0; 
 	public int statPoints = 0;
-
-
-	public List<Skill> specialSkills = new List<Skill> ();
-	public List<Skill> defaultSkills = new List<Skill> ();
+	public List<int> specialSkillsIndexes = new List<int> ();
+//	public List<Skill> defaultSkills = new List<Skill> ();
 
 	// stats
 	public int[] stats = new int[4] {
@@ -34,6 +32,31 @@ public class Member {
 
 	public Member () {
 
+	}
+
+	public void SetJob ( Job _job ) {
+		
+		this.job = _job;
+
+//		defaultSkills.Clear ();
+		specialSkillsIndexes.Clear();
+//		specialSkills.Clear ();
+
+		// special
+		List<Skill> jobSkills = SkillManager.getJobSkills (job);
+		for (int skillIndex = 0; skillIndex < jobSkills.Count; skillIndex++) {
+			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [skillIndex]));
+		}
+
+//		foreach (var item in specialSkills) {
+//			Debug.Log (item.name);
+//		}
+
+		// default
+//		defaultSkills.Add (SkillManager.getSkill (Skill.Type.Flee));
+//		defaultSkills.Add (SkillManager.getSkill (Skill.Type.CloseAttack));
+//		defaultSkills.Add (SkillManager.getSkill (Skill.Type.SkipTurn));
+//
 	}
 
 	public Member (CrewParams crewParams) {
@@ -52,14 +75,9 @@ public class Member {
 			Name = CrewCreator.Instance.FemaleNames[Random.Range (0, CrewCreator.Instance.FemaleNames.Length)];
 		}
 
+	
 		// JOB & SKILLS
-		job = (Job)Random.Range(0,5);
-		// special
-		specialSkills = SkillManager.getJobSkills (job);
-		// default
-		defaultSkills.Add(SkillManager.getSkill(Skill.Type.Flee));
-		defaultSkills.Add(SkillManager.getSkill(Skill.Type.CloseAttack));
-		defaultSkills.Add(SkillManager.getSkill(Skill.Type.SkipTurn));
+		SetJob( (Job)Random.Range (0, 5) );
 
 		// LEVEL
 		if (crewParams.level > 0) {
@@ -101,8 +119,16 @@ public class Member {
 		noseSpriteID 	= Random.Range (0 , CrewCreator.Instance.NoseSprites.Length);
 		mouthSpriteID 	= Random.Range (0 , CrewCreator.Instance.MouthSprites.Length);
 
-		equipedWeapon = ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Weapon, Lvl);
-		equipedCloth = ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Clothes, Lvl);
+		Item weapon = ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Weapon, Lvl);
+		Item cloth = ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Clothes, Lvl);
+//		LootManager.Instance.getLoot (Crews.Side.Player).AddItem (weapon);
+//		LootManager.Instance.getLoot (Crews.Side.Player).AddItem (cloth);
+//
+//		LootManager.Instance.getLoot (Crews.Side.Player).AddItem (ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Clothes, Lvl));
+//		LootManager.Instance.getLoot (Crews.Side.Player).AddItem (ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Clothes, Lvl));
+//		LootManager.Instance.getLoot (Crews.Side.Player).AddItem (ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Clothes, Lvl));
+		equipedWeapon = weapon;
+		equipedCloth = cloth;
 
 	}
 

@@ -83,7 +83,6 @@ public class Fight_LoadSprites : MonoBehaviour {
 	#region fade
 	public void FadeSprites (float dur) {
 
-		print ("fading sprites");
 		foreach ( SpriteRenderer sprite in allSprites ) {
 			HOTween.To (sprite , dur , "color" , Color.clear);
 		}

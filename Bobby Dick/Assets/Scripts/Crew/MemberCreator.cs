@@ -176,11 +176,16 @@ public class MemberCreator : MonoBehaviour {
 				Crews.playerCrew.captain.MemberID.mouthSpriteID = 0;
 			break;
 		case Apparence.jobID:
-			Crews.playerCrew.captain.MemberID.job++;
-			if ((int)Crews.playerCrew.captain.MemberID.job == 5)
-				Crews.playerCrew.captain.MemberID.job = Job.Brute;
+
+			int jobIndex = (int)Crews.playerCrew.captain.MemberID.job + 1;
+
+			if ((int)Crews.playerCrew.captain.MemberID.job == 4)
+				jobIndex = 0;
+
+			Crews.playerCrew.captain.MemberID.SetJob ( (Job)jobIndex );
 
 			UpdateJob ();
+
 			break;
 		default:
 			break;

@@ -9,10 +9,10 @@ public class Skill_Dynamite : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
 
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		foreach (var targetFighter in CombatManager.Instance.getCurrentFighters (Crews.otherSide (fighter.crewMember.side))) {
 

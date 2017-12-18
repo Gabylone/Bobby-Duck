@@ -11,9 +11,9 @@ public class Skill_GrapeShot : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		StartCoroutine (SkillCoroutine ());
 

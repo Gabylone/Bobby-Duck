@@ -67,13 +67,7 @@ public class SkillButton : MonoBehaviour {
 	{
 		descriptionGroup.SetActive (true);
 
-		Transform p = transform.parent;
-
-		transform.SetParent (null);
-
-		transform.SetParent (p);
-
-		uiText_SkillName.text = skill.name;
+ 		uiText_SkillName.text = skill.name;
 		uiText_Description.text = skill.description;
 
 		Tween.Bounce ( descriptionGroup.transform );

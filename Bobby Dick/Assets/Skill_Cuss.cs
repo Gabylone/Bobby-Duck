@@ -9,10 +9,10 @@ public class Skill_Cuss : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
 
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		if ( fighter.TargetFighter.HasStatus(Fighter.Status.Toasted) ) {
 			fighter.TargetFighter.RemoveStatus (Fighter.Status.Toasted,3);

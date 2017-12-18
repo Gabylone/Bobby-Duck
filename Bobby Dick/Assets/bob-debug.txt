@@ -1,0 +1,46 @@
+XXX - member crea - létier pas bounce en entier
+XXX - brute : trop d'energie
+XXX - mettre les attaques normales au meme niveau que les skills pour qu'ils soirnty choisis pareil.
+XXX - bearTrapped - s'en va au bout d'un momnet
+XXX - bearTrapped - replacer, et chanfer côté pour ennemi;z
+XXX - feedback - ennemi est mal placé
+XXX - status - ennemi mal placé
+XXX - knocked - affiche rqu'on est knocked out pour le tour.
+XXX - double feedback : si en meme temps - mettre un peu d'attente/
+XXX - gros gros probleme Invoke Skip Turn !!!!
+XXX - équipe adverse s'enfuit : gros bordel
+XXX - victoire normal : "l'advsaire s'enfuit" affiché
+XXX - les ennemis peuvent mourrir quand ils veulent
+XXX - afficher l'or et l'xp à la fin du combat
+XXX - rajouter animations au icons ( bouger, parler )
+XXX - déplacer description skill button 
+- fair ele pistolet
+XXX - status tween : tout doit fader.
+
+XXX - réduire image joib
+- fin combat : choisir action toujours affiché :
+- fin combat skills toujours affichés
+- peut -etre ne pas rentre directement après l'attaquue : wait avant move back
+- save skills bordel ( fighter )
+- feedback pour Robbery
+- ne montrer background ui que quand on choisit les actions
+- member creation ne pas bouncer le text de job
+- appliqyer changements headshot à leap, pas de go to target
+
+feedback interface.
+animations.
+sons.
+
+les choses : 
+
+arbre skills
+
+tuto
+
+overall map
+
+gagner des choses ( histoires, classes, skins )
+
+plus d'histoires
+
+tests

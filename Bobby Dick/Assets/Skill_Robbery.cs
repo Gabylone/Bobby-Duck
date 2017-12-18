@@ -13,9 +13,9 @@ public class Skill_Robbery : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		if ( fighter.crewMember.side == Crews.Side.Enemy ) {
 
@@ -24,8 +24,12 @@ public class Skill_Robbery : Skill {
 		} else {
 
 			GoldManager.Instance.GoldAmount += goldStolen;
+
 			//
 		}
+
+		fighter.combatFeedback.Display ("+ " + goldStolen + " or", Color.yellow);
+		fighter.TargetFighter.combatFeedback.Display ("- " + goldStolen + " or", Color.red);
 
 		EndSkill ();
 

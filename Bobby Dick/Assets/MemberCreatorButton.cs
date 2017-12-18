@@ -8,11 +8,12 @@ public class MemberCreatorButton : MonoBehaviour {
 	public MemberCreator.Apparence apparence;
 	public Image image;
 
+
 	public void OnPointerDown () {
 
 		MemberCreator.Instance.ChangeApparence (apparence);
 
-		Tween.Bounce (transform);
+		Tween.Bounce (image.transform);
 
 	}
 

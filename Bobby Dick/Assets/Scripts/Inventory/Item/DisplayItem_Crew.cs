@@ -39,12 +39,14 @@ public class DisplayItem_Crew : DisplayItem {
 
 	public void RemoveItem () {
 
-		if ( onRemoveItemFromMember != null )
-			onRemoveItemFromMember (HandledItem);
+		LootManager.Instance.getLoot(Crews.Side.Player).AddItem (HandledItem);
 
 		CrewMember.selectedMember.SetEquipment (part, null);
 
 		Clear ();
+
+		if ( onRemoveItemFromMember != null )
+			onRemoveItemFromMember (HandledItem);
 
 	}
 }

@@ -11,10 +11,10 @@ public class Skill_RhumRound : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
 
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		foreach (var targetFighter in CombatManager.Instance.getCurrentFighters (fighter.crewMember.side) ) {
 

@@ -1,13 +1,21 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using Holoville.HOTween;
 
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
 
 	[SerializeField]
-	private GameObject gameOver_Object;
+	private GameObject overallObj;
+
+	public GameObject textObj;
+
+	public Image image;
+
+	public float fadeDuration = 1f;
 
 	void Start () {
 
@@ -30,8 +38,9 @@ public class GameManager : MonoBehaviour {
 
 			MapGenerator.Instance.GenerateIslands ();
 
-			Crews.Instance.RandomizePlayerCrew ();
 			LootManager.Instance.CreateNewLoot ();
+
+			Crews.Instance.RandomizePlayerCrew ();
 
 			FormulaManager.Instance.CreateNewClues ();
 
@@ -73,6 +82,19 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void GameOver () {
-		gameOver_Object.SetActive (true);
+
+		overallObj.SetActive (true);
+
+		image.color = Color.clear;
+		HOTween.To ( image , fadeDuration , "color" , Color.black  );
+
+		textObj.SetActive (false);
+
+		Invoke ("GameOverDelay",fadeDuration);
+	}
+
+	void GameOverDelay () {
+		textObj.SetActive (true);
+		Tween.Bounce ( textObj.transform );
 	}
 }

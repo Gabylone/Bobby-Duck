@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Skill_Jag : Skill {
 
+//	public float healthAdded = 
+	public float healthNeeded = 50;
+
 	public override void Start ()
 	{
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
 
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		fighter.TargetFighter.AddStatus (Fighter.Status.Jagged, 3);
 		fighter.TargetFighter.RemoveStatus (Fighter.Status.Poisonned, 3);
@@ -25,9 +28,14 @@ public class Skill_Jag : Skill {
 	{
 		bool hasTarget = false;
 
+
 		//		foreach (var item in CombatManager.Instance.getCurrentFighters(Crews.otherSide(member.side)) ) {
 		foreach (var item in CombatManager.Instance.getCurrentFighters(member.side) ) {
-			if (item.HasStatus(Fighter.Status.Jagged) == false ) {
+
+			bool targetIsntJagged = item.HasStatus (Fighter.Status.Jagged) == false;
+			bool targetNeedsHealing = item.crewMember.Health < healthNeeded;
+
+			if ( targetIsntJagged && targetNeedsHealing ) {
 				hasTarget = true;
 				preferedTarget = item;
 			}

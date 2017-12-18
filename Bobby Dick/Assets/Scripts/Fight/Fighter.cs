@@ -90,7 +90,6 @@ public class Fighter : MonoBehaviour {
 	[SerializeField]
 	private float blocked_Duration = 0.5f;
 
-	public bool pickable = false;
 
 	[Header("Dodge")]
 	[SerializeField]
@@ -119,6 +118,22 @@ public class Fighter : MonoBehaviour {
 	[SerializeField]
 	private float stopBuffer = 0.2f;
 	private bool hitting = false;
+
+	private bool pickable = false;
+	public delegate void OnSetPickable ( bool b );
+	public OnSetPickable onSetPickable;
+	public bool Pickable {
+		get {
+			return pickable;
+		}
+		set {
+			pickable = value;
+
+			if (onSetPickable != null)
+				onSetPickable (value);
+		}
+	}
+
 
 	// Use this for initialization
 	void Start () {
@@ -198,12 +213,16 @@ public class Fighter : MonoBehaviour {
 		if ( onSetTurn != null ) {
 			onSetTurn ();
 		}
+
+
 	}
 
 	public delegate void OnEndTurn ();
 	public OnEndTurn onEndTurn;
 	public void EndTurn ()
 	{
+		combatFeedback.Display ("fin du tour");
+
 		if (onEndTurn != null)
 			onEndTurn ();
 	}
@@ -264,9 +283,9 @@ public class Fighter : MonoBehaviour {
 		Animator.SetBool ("dead", true);
 
 			// combat flow
-		CombatManager.Instance.DeleteFighter (this);
-
 		Fade ();
+
+		CombatManager.Instance.DeleteFighter (this);
 
 		CombatManager.Instance.NextTurn ();
 
@@ -422,7 +441,7 @@ public class Fighter : MonoBehaviour {
 	public OnShowInfo onShowInfo;
 	public void ShowInfo () {
 
-		if ( pickable ) {
+		if ( Pickable ) {
 			CombatManager.Instance.ChoseTargetMember (this);
 			Tween.Bounce (transform);
 			return;
@@ -457,24 +476,21 @@ public class Fighter : MonoBehaviour {
 	public OnGetHit onGetHit;
 	public void GetHit (Fighter otherFighter, float attack) {
 
+//		// je l'ai cuté pour l'instant; on comprend rien et c'est pété.
+//		if ( HasStatus(Status.Parrying) ) {
+//
+//			RemoveStatus (Status.Parrying);
+//
+//			otherFighter.AddStatus (Status.KnockedOut);
+//
+//			return;
+//		}
+
 		if (HasStatus (Status.BearTrapped)) {
 
-			RemoveStatus (Status.BearTrapped);
+			RemoveStatus (Status.BearTrapped, 1);
 
-			otherFighter.GetHit (this, crewMember.Attack * 1.5f);
-
-
-
-			return;
-		}
-
-		if ( HasStatus(Status.Parrying) ) {
-
-			RemoveStatus (Status.Parrying);
-
-			otherFighter.AddStatus (Status.KnockedOut);
-
-			return;
+			otherFighter.Hurt (15);
 		}
 
 		if ( otherFighter.HasStatus(Status.Cussed) ) {
@@ -517,8 +533,8 @@ public class Fighter : MonoBehaviour {
 			onGetHit ();
 
 		if (crewMember.Health <= 0) {
-			Die ();
 			crewMember.Kill ();
+			Die ();
 		}
 	}
 
@@ -681,29 +697,39 @@ public class Fighter : MonoBehaviour {
 
 	void CheckStatus () {
 
+		if ( HasStatus(Status.KnockedOut) ) {
+
+			RemoveStatus (Status.KnockedOut);
+
+			combatFeedback.Display ("Skip Turn !");
+
+			CombatManager.Instance.ChangeState (CombatManager.States.None);
+
+			CombatManager.Instance.NextTurn ();
+
+			return;
+			//
+		} else if ( animator.GetBool("uncounscious") ) {
+			animator.SetBool ("uncounscious", false);
+		}
+
+//		if ( HasStatus(Status.BearTrapped) ) {
+//			RemoveStatus (Status.bear);
+//			Hurt (15);
+//		}
+
 		if ( HasStatus(Status.Poisonned) ) {
 			RemoveStatus (Status.Poisonned);
 			Hurt (15);
-			return;
 		}
 
 		if ( HasStatus(Status.Jagged) ) {
 			RemoveStatus (Status.Jagged);
 			Heal (10);
-			return;
 		}
 
 		if ( HasStatus(Status.Enraged) ) {
 			RemoveStatus (Status.Enraged);
-			return;
-		}
-
-		if ( HasStatus(Status.KnockedOut) ) {
-			RemoveStatus (Status.KnockedOut);
-			CombatManager.Instance.ChangeState (CombatManager.States.None);
-			Invoke ("NextTurn", 1f);
-			return;
-			//
 		}
 
 		if ( HasStatus(Status.PreparingAttack) ) {
@@ -712,13 +738,10 @@ public class Fighter : MonoBehaviour {
 				onSkillDelay (this);
 			}
 
+
 			RemoveStatus (Status.PreparingAttack);
 			//
 		}
-	}
-
-	void NextTurn() {
-		CombatManager.Instance.NextTurn ();
 	}
 
 	public delegate void OnAddStatus (Status status, int count);
@@ -758,14 +781,6 @@ public class Fighter : MonoBehaviour {
 
 	public void RemoveStatus (Status status, int count) {
 
-		switch (status) {
-		case Status.KnockedOut:
-			animator.SetBool ("uncounscious", false);
-			break;
-		default:
-			break;
-		}
-
 		statusCount[(int)status] -= count;
 		statusCount [(int)status] = Mathf.Clamp (statusCount [(int)status], 0, 10);
 
@@ -793,7 +808,7 @@ public class Fighter : MonoBehaviour {
 
 		Provoking,
 
-		Parrying,
+//		Parrying,
 
 		Protected,
 

@@ -15,6 +15,9 @@ public class Card : MonoBehaviour {
 	private GameObject cardObject;
 
 	[SerializeField]
+	private Image targetFeedbackImage;
+
+	[SerializeField]
 	private Text nameText;
 
 	[SerializeField]
@@ -61,6 +64,8 @@ public class Card : MonoBehaviour {
 
 		linkedFighter.onChangeState += HandleOnChangeState;
 
+		linkedFighter.onSetPickable += HandleOnSetPickable;;
+
 
 		if (linkedFighter.crewMember != null)
 			UpdateMember ();
@@ -69,6 +74,16 @@ public class Card : MonoBehaviour {
 
 		maxWidth = heartImage.rectTransform.rect.width;
 
+	}
+
+	void HandleOnSetPickable (bool pickable)
+	{
+		if (pickable) {
+			targetFeedbackImage.gameObject.SetActive (true);
+			Tween.Bounce (targetFeedbackImage.transform);
+		} else {
+			targetFeedbackImage.gameObject.SetActive (false);
+		}
 	}
 
 	void HandleOnChangeState (Fighter.states currState, Fighter.states prevState)
@@ -83,7 +98,7 @@ public class Card : MonoBehaviour {
 
 	void HandleOnEndTurn ()
 	{
-		Tween.Scale (transform, 0.2f, 1f);
+//		Tween.Scale (transform, 0.2f, 1f);
 	}
 
 	void HandleOnInit () {
@@ -133,7 +148,7 @@ public class Card : MonoBehaviour {
 	{
 		UpdateMember ();
 
-		Tween.Scale (transform, 0.2f, 1.6f);
+//		Tween.Scale (transform, 0.2f, 1.6f);
 	}
 
 	void HandleUseInventory (InventoryActionType actionType)

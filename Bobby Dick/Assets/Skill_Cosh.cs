@@ -1,22 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class Skill_Cosh : Skill {
+
+	public float knockedOutChance = 0.3f;
 
 	public override void Start ()
 	{
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
-		base.TriggerSkill ();
+		base.ApplyEffect ();
+
+
+		if ( Random.value < knockedOutChance) {
+			fighter.TargetFighter.AddStatus (Fighter.Status.KnockedOut);
+		} else {
+			fighter.combatFeedback.Display ( "Raté !" );
+		}
 
 		fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack);
 
-		fighter.TargetFighter.AddStatus (Fighter.Status.KnockedOut);
 
 		EndSkill ();
 

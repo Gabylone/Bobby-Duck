@@ -13,6 +13,8 @@ public class MemberIcon : MonoBehaviour {
 	public GameObject faceGroup;
 	public GameObject bodyGroup;
 
+	public Animator animator;
+
 	private Transform _transform;
 
 	public bool overable = true;
@@ -34,7 +36,10 @@ public class MemberIcon : MonoBehaviour {
 
 		this.member = member;
 
+		animator = GetComponentInChildren<Animator> ();
+	
 		UpdateVisual (member.MemberID);
+
 	}
 
 	#region overing
@@ -116,7 +121,10 @@ public class MemberIcon : MonoBehaviour {
 
 		if (currentPlacingType == Crews.PlacingType.Discussion
 			||currentPlacingType == Crews.PlacingType.SoloCombat) {
+			animator.SetBool ("enabled", true);
 			ShowBody ();
+		} else {
+			animator.SetBool ("enabled", false);
 		}
 
 		Vector3 targetPos = Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].position;

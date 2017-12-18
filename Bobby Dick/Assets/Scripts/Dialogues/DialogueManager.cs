@@ -95,15 +95,20 @@ public class DialogueManager : MonoBehaviour {
 	}
 
 	#region set dialogue
+	// TIMED
 	public void SetDialogueTimed (string phrase, Transform _target) {
 		timed = true;
-		phrase = NameGeneration.CheckForKeyWords (phrase);
 		SetDialogue (phrase, _target);
 	}
 	public void SetDialogueTimed (string phrase, CrewMember crewMember) {
 		SetDialogueTimed (phrase, crewMember.Icon.dialogueAnchor);
 	}
+
+
+	// INPUT
 	public void SetDialogue (string phrase, CrewMember crewMember) {
+		crewMember.Icon.animator.SetTrigger ("speak");
+		crewMember.Icon.animator.SetInteger ("speakIndex",Random.Range(0,3) );
 		SetDialogue (phrase, crewMember.Icon.dialogueAnchor);
 	}
 

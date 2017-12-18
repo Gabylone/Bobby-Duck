@@ -32,7 +32,6 @@ public class CrewMember {
 	// COMPONENTS
 	public Crews.Side side;
 	private Member memberID;
-	private MemberFeedback info;
 
 	// HUNGER
 	private int stepsToHunger = 5;
@@ -46,17 +45,13 @@ public class CrewMember {
 		}
 	}
 
-	public List<Skill> specialSkills {
-		get {
-			return memberID.specialSkills;
-		}
-	}
-
-	public List<Skill> defaultSkills {
-		get {
-			return memberID.defaultSkills;
-		}
-	}
+	public List<Skill> specialSkills = new List<Skill>();
+//
+//	public List<Skill> defaultSkills {
+//		get {
+//			return memberID.defaultSkills;
+//		}
+//	}
 
 	/// <summary>
 	/// energy
@@ -85,6 +80,12 @@ public class CrewMember {
 		this.memberIcon = memberIcon;
 
 		this.memberIcon.SetMember (this);
+
+		// skill place holder
+		foreach (var item in memberID.specialSkillsIndexes) {
+			Debug.Log (SkillManager.skills.Length);
+			specialSkills.Add (SkillManager.skills [item]);
+		}
 
 	}
 
@@ -182,6 +183,7 @@ public class CrewMember {
 
 	public void Kill () {
 		Crews.getCrew(side).RemoveMember (this);
+
 	}
 	#endregion
 
@@ -204,7 +206,6 @@ public class CrewMember {
 			if (Health <= 0) {
 				Kill ();
 			}
-
 
 		}
 
@@ -296,12 +297,6 @@ public class CrewMember {
 	public Member MemberID {
 		get {
 			return memberID;
-		}
-	}
-
-	public MemberFeedback Info {
-		get {
-			return info;
 		}
 	}
 	#endregion

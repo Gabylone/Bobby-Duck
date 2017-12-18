@@ -9,20 +9,20 @@ public class Skill_Parry : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
-		fighter.AddStatus (Fighter.Status.Parrying);
+//		fighter.AddStatus (Fighter.Status.Parrying);
 
 		EndSkill ();
 
 	}
-
-	public override bool MeetsConditions (CrewMember member)
-	{
-		bool parrying = CombatManager.Instance.currentFighter.HasStatus (Fighter.Status.Parrying);
-
-		return !parrying && base.MeetsConditions (member);
-	}
+//
+//	public override bool MeetsConditions (CrewMember member)
+////	{
+//		bool parrying = CombatManager.Instance.currentFighter.HasStatus (Fighter.Status.Parrying);
+//
+//		return !parrying && base.MeetsConditions (member);
+//	}
 }

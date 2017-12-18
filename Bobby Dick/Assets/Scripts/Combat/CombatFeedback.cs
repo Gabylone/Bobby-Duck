@@ -9,11 +9,17 @@ public class CombatFeedback : MonoBehaviour {
 
 	public float fadeDuration = 1f;
 
+
+	public CombatFeedback secondCombatFeedback;
+	float secondFeedbackDelay = 0.8f;
+
 	public GameObject group;
 
 	public float decalUp = 1f;
 
 	public Image backgroundImage;
+
+	bool displaying = false;
 
 	Vector3 initPos;
 
@@ -24,18 +30,37 @@ public class CombatFeedback : MonoBehaviour {
 		initPos = transform.localPosition;
 	}
 
-	bool displaying;
-
 	public void Display (string content) {
 		Display (content, Color.white);
 	}
 
 	public void Display (string content, Color color) {
+		Display (content, color, 0f);
+	}
 
-		HOTween.Kill (transform);
-		HOTween.Kill (text);
-		HOTween.Kill (backgroundImage);
+	public void Display (string content, Color color, float delay) {
 
+		if ( displaying ) {
+			if (secondCombatFeedback != null) {
+				secondCombatFeedback.Display (content, color, secondFeedbackDelay);
+			}
+			else
+				Debug.LogError ("tenté de display combat feedback mais le second était nul");
+
+			return;
+
+		}
+
+		displaying = true;
+
+		text.text = content;
+		backgroundImage.color = color;
+
+		Invoke ("DisplayDelay", delay);
+	}
+//
+	void DisplayDelay () {
+		
 		Show ();
 
 		Tween.Bounce (transform);
@@ -43,11 +68,9 @@ public class CombatFeedback : MonoBehaviour {
 		transform.localPosition = initPos;
 		HOTween.To (transform , fadeDuration , "localPosition" , initPos + Vector3.up * decalUp);
 
-		text.text = content;
 		text.color = Color.black;
 		HOTween.To (text, fadeDuration/2, "color", Color.clear, false , EaseType.Linear , fadeDuration/2);
 
-		backgroundImage.color = color;
 		HOTween.To (backgroundImage, fadeDuration/2, "color", Color.clear, false , EaseType.Linear , fadeDuration/2);
 
 		Invoke ("Hide", fadeDuration);
@@ -55,14 +78,16 @@ public class CombatFeedback : MonoBehaviour {
 	}
 
 	void Show () {
-		displaying = true;
 		group.SetActive (true);
 		Tween.Bounce (transform);
 	}
 
 	void Hide () {
+		
 		displaying = false;
+
 		group.SetActive (false);
+
 	}
 
 }

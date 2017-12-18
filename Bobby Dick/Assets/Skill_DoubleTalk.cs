@@ -11,9 +11,9 @@ public class Skill_DoubleTalk : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		DiceManager.Instance.onEndThrow += HandleOnEndThrow;
 

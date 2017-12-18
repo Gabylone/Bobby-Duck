@@ -13,6 +13,8 @@ public class Item {
 	public int 		level 		= 0;
 	[System.NonSerialized]
 	public int		spriteID 	= 0;
+	[System.NonSerialized]
+	public int 		type 		= 0;
 
 	public ItemCategory category;
 		
@@ -31,6 +33,7 @@ public class Item {
 		int _weight,
 		int _level,
 		int _spriteID,
+//		int _type,
 
 		ItemCategory _cat
 		)

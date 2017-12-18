@@ -9,9 +9,9 @@ public class Skill_HeadsOrTail : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		if (Random.value > 0.5f) {
 			fighter.combatFeedback.Display ("FACE !");

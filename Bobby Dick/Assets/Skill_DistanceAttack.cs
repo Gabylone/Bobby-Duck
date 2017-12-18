@@ -9,9 +9,9 @@ public class Skill_DistanceAttack : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack);
 

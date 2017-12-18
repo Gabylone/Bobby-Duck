@@ -8,8 +8,7 @@ public class DisplayItem_Loot : DisplayItem {
 	[SerializeField]
 	LootUI lootUI;
 
-	[SerializeField]
-	private Image itemImage;
+	public Image itemImage;
 
 	public int index = 0;
 
@@ -27,9 +26,10 @@ public class DisplayItem_Loot : DisplayItem {
 			
 			base.HandledItem = value;
 
-			if (value == null)
+			if (value == null) {
 				itemImage.enabled = false;
 				return;
+			}
 
 			if (value.spriteID < 0) {
 				itemImage.enabled = false;
@@ -38,7 +38,7 @@ public class DisplayItem_Loot : DisplayItem {
 				itemImage.sprite = LootManager.Instance.getItemSprite (value.category, value.spriteID);
 			}
 
-			itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-20, 20)));
+			itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-30, 30)));
 		}
 	}
 }

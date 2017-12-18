@@ -33,7 +33,7 @@ public class DisplayHeart : MonoBehaviour {
 	}
 
 	void BounceHeart() {
-		Tween.Bounce (fillImage.transform);
+//		Tween.Bounce (backGround.transform);
 	}
 
 	void HandleUseInventory (InventoryActionType actionType)

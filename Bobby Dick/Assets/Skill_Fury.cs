@@ -11,10 +11,10 @@ public class Skill_Fury: Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
 
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		fighter.AddStatus (Fighter.Status.Enraged, 3);
 

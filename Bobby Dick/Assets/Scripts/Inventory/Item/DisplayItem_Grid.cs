@@ -3,21 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DisplayItem_Grid: DisplayItem {
-
-	[SerializeField]
-	LootUI lootUI;
-
-	[SerializeField]
-	private Image itemImage;
-
-	public int index = 0;
-
-	public void Select () {
-		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
-
-		lootUI.UpdateActionButton (index);
-	}
+public class DisplayItem_Grid: DisplayItem_Loot {
 
 	public override Item HandledItem {
 		get {
@@ -27,14 +13,11 @@ public class DisplayItem_Grid: DisplayItem {
 			
 			base.HandledItem = value;
 
-			if (value.spriteID < 0) {
-				itemImage.enabled = false;
-			} else {
-				itemImage.enabled = true;
-				itemImage.sprite = LootManager.Instance.getItemSprite (value.category, value.spriteID);
+			if ( value == null ) {
+				return;
 			}
 
-			itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-20, 20)));
+			Tween.Bounce (itemImage.transform);
 		}
 	}
 }

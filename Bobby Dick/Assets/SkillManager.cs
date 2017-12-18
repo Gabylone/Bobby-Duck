@@ -9,6 +9,8 @@ public class SkillManager : MonoBehaviour {
 	public static Sprite[] skillSprites;
 	public static Sprite[] jobSprites;
 
+	public static List<Skill> defaultSkills = new List<Skill> ();
+
 	public static string[] jobNames = new string[5] {
 		"Brute",
 		"Medecin",
@@ -47,6 +49,11 @@ public class SkillManager : MonoBehaviour {
 		skillSprites = Resources.LoadAll<Sprite> ("Graph/SkillsSprites");
 		jobSprites = Resources.LoadAll<Sprite> ("Graph/JobSprites");
 
+		defaultSkills.Add (SkillManager.getSkill (Skill.Type.Flee));
+		defaultSkills.Add (SkillManager.getSkill (Skill.Type.CloseAttack));
+		defaultSkills.Add (SkillManager.getSkill (Skill.Type.SkipTurn));
+		
+
 	}
 
 	public static Skill getSkill ( Skill.Type type ) {
@@ -57,6 +64,13 @@ public class SkillManager : MonoBehaviour {
 			print ("getting skill : " + type + " is null");
 
 		return skill;
+	}
+
+	public static int getSkillIndex ( Skill skill ) {
+
+		int skillIndex = System.Array.FindIndex (skills, x => x.type == skill.type);
+
+		return skillIndex;
 	}
 
 	public static bool CanUseSkill ( int energy ) {
@@ -102,7 +116,7 @@ public class SkillManager : MonoBehaviour {
 
 		int priority = 0;
 
-		List<Skill> memberSkills = member.defaultSkills;
+		List<Skill> memberSkills = defaultSkills;
 		foreach (var item in member.specialSkills) {
 			memberSkills.Add (item);
 		}
@@ -110,7 +124,6 @@ public class SkillManager : MonoBehaviour {
 		// dans tous les skills du membre
 		foreach (var item in memberSkills) {
 
-			print ("skill du membre : " + item.name);
 
 			if ( item.MeetsConditions(member) ) {
 
@@ -138,8 +151,6 @@ public class SkillManager : MonoBehaviour {
 		}
 
 		Skill skill = fittingSkills[Random.Range(0,fittingSkills.Count)];
-
-		print ("enemy chose skill : " + skill);
 
 		return skill;
 	}

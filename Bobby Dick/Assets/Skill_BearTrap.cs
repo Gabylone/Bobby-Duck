@@ -6,22 +6,33 @@ public class Skill_BearTrap : Skill {
 
 	public GameObject beapTrapPrefab;
 
+	public float healthLost = 15f;
+
+	public Vector2 decalToFighter = new Vector2(130,70);
+
 	public override void Start ()
 	{
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
 		if (fighter.HasStatus (Fighter.Status.BearTrapped))
 			return;
 
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		fighter.AddStatus (Fighter.Status.BearTrapped);
 
 		GameObject bearTrapObj = Instantiate (beapTrapPrefab, fighter.transform.parent) as GameObject;
-		bearTrapObj.transform.position = fighter.transform.position + (fighter.BodyTransform.right * 1.5f) - (Vector3.up * 1.24f);
+
+		if (fighter.crewMember.side == Crews.Side.Enemy) {
+			bearTrapObj.transform.localPosition = new Vector2 (-decalToFighter.x , decalToFighter.y );
+		} else {
+			bearTrapObj.transform.localPosition = new Vector2 (decalToFighter.x , decalToFighter.y );
+		}
+
+
 		bearTrapObj.transform.localScale = Vector3.one;
 
 		fighter.onRemoveStatus += bearTrapObj.GetComponent<BearTrap> ().HandleOnRemoveFighterStatus;

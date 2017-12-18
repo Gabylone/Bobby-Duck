@@ -171,11 +171,16 @@ public class LootUI : MonoBehaviour {
 
 			if ( a < selectedItems.Length ) {
 
-//				Debug.Log (a.ToString ());
 				Item item = selectedItems[a];
 				displayItem.HandledItem = item;
 
+//				displayItem.Button.image.color = Color.white;
+//				if ( item == CrewMember.selectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes) ) {
+//					print ("trouvé équipement");
+//					displayItem.Button.image.color = Color.black;
+//				}
 			}
+
 
 			a++;
 		}

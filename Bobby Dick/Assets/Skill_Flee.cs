@@ -11,9 +11,9 @@ public class Skill_Flee : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		DiceManager.Instance.onEndThrow += HandleOnEndThrow;
 
@@ -26,25 +26,35 @@ public class Skill_Flee : Skill {
 
 		if ( DiceManager.Instance.HighestResult == 6 ) {
 
+
 			fighter.Fade ();
 			fighter.combatFeedback.Display("Sucess!", Color.green);
 
 			CombatManager.Instance.DeleteFighter (fighter);
 
+			CombatManager.Instance.NextTurn ();
+
+
 		} else if ( DiceManager.Instance.HighestResult == 1 ) {
+
 
 			fighter.combatFeedback.Display("Crit\nFail!", Color.magenta);
 			fighter.AddStatus (Fighter.Status.KnockedOut);
+
+			EndSkill ();
+
 
 		} else {
 
 			fighter.combatFeedback.Display("Fail!",Color.red);
 
+			EndSkill ();
+
+
 		}
 
 		DiceManager.Instance.onEndThrow -= HandleOnEndThrow;
 
-		EndSkill ();
 	}
 
 	public override bool MeetsConditions (CrewMember member)

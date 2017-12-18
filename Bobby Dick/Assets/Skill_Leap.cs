@@ -13,17 +13,27 @@ public class Skill_Leap: Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void InvokeSkill ()
+	{
+		if (onDelay) {
+			print ("lui donne de l'energie");
+			fighter.crewMember.energy += energyCost;
+		}
+		base.InvokeSkill ();
+	}
+
+	public override void ApplyEffect ()
 	{
 
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		if (onDelay) {
 
 			onDelay = false;
 			hasTarget = false;
+			goToTarget = false;
 
-			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack * 3f);
+			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack * 6f);
 
 			EndSkill ();
 			//
@@ -42,9 +52,9 @@ public class Skill_Leap: Skill {
 
 	void HandleOnSkillDelay (Fighter delayFighter)
 	{
+		onDelay = true;
 		hasTarget = true;
 		goToTarget = true;
-		onDelay = true;
 
 		Trigger (delayFighter);
 
@@ -53,14 +63,14 @@ public class Skill_Leap: Skill {
 	public override bool MeetsConditions (CrewMember member)
 	{
 
-		bool allyHealthIsCritical = false;
+		bool allyHealthIsCritical = true;
 
 		foreach (var item in Crews.getCrew(Crews.otherSide(member.side)).CrewMembers) {
 			if (item.Health > healthToAttack) {
-				allyHealthIsCritical = true;
+				allyHealthIsCritical = false;
 			}
 		}
 
-		return allyHealthIsCritical && base.MeetsConditions (member);
+		return allyHealthIsCritical == false && base.MeetsConditions (member);
 	}
 }

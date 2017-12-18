@@ -137,7 +137,10 @@ public class ItemLoader : MonoBehaviour {
 		
 			// c'est ici que je dis :  !!! LES OBJETS PEUVENT ETRENT DE TOUS LES NIVEAUX !!!
 //			int level = Random.Range ( 0, 11 );
-			int level = Random.Range ( 0, Crews.playerCrew.captain.Level + 3 );
+			int level = 0;
+			if ( Crews.playerCrew.CrewMembers.Count > 0)
+				level = Random.Range ( 0, Crews.playerCrew.captain.Level + 3 );
+			
 			level = Mathf.Clamp (level, 0, 11);
 
 			tmpItems[i] = GetRandomItemOfCertainLevel ((ItemCategory)itemType,level);

@@ -48,12 +48,6 @@ public class LootManager : MonoBehaviour {
 
 	void Start () {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
-		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
-	}
-
-	void HandleOnRemoveItemFromMember (Item item)
-	{
-		getLoot(Crews.Side.Player).AddItem (item);
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)

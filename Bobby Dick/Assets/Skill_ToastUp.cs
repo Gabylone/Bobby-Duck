@@ -9,9 +9,9 @@ public class Skill_ToastUp : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		fighter.TargetFighter.AddStatus (Fighter.Status.Toasted);
 

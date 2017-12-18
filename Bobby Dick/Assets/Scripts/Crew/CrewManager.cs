@@ -88,9 +88,9 @@ public class CrewManager : MonoBehaviour {
 		crewMembers.Remove (member);
 
 		if ( CrewMembers.Count == 0 && side == Crews.Side.Player) {
-			if (CombatManager.Instance.fighting == false) {
-				GameManager.Instance.GameOver ();
-			}
+			GameManager.Instance.GameOver (1f);
+//			if (CombatManager.Instance.fighting == false) {
+//			}
 		}
 	}
 

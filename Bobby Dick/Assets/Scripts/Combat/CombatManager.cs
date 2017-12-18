@@ -115,6 +115,14 @@ public class CombatManager : MonoBehaviour {
 			timeInState += Time.deltaTime;
 		}
 
+		if ( Input.GetKeyDown(KeyCode.O) ) {
+			currPlayerFighters[0].GetHit (currEnemyFighters[0],20f);
+		}
+
+		if ( Input.GetKeyDown(KeyCode.P) ) {
+			currEnemyFighters[0].GetHit (currPlayerFighters[0],20f);
+		}
+
 	}
 	#region Combat Start
 	private void CombatStart_Start () {
@@ -158,25 +166,36 @@ public class CombatManager : MonoBehaviour {
 
 		NextMember ();
 
-		print ("turn start");
+		currentFighter.SetTurn ();
 
 	}
 	private void StartTurn_Update () {
 
 		if (timeInState > 1f) {
 
-			currentFighter.SetTurn ();
-
-			print ("aaaah");
-
 			States state = currentMember.side == Crews.Side.Player ? States.PlayerActionChoice : States.EnemyActionChoice;
 
 			ChangeState (state);
+
 		}
 
 	}
+
 	private void StartTurn_Exit () {}
+
+	bool skipingTurn = false;
+
 	public void NextTurn () {
+
+		if (skipingTurn) {
+			Invoke ("NextTurn" , 1.5f);
+			print ("déja en train de sauter le tour");
+			return;
+		} else
+			print ("saute le tour");
+
+
+		skipingTurn = true;
 
 		CheckMembers ();
 
@@ -189,31 +208,77 @@ public class CombatManager : MonoBehaviour {
 
 		currentFighter.EndTurn ();
 
+		Invoke ("NextTurnDelay", 1f);
+
+	}
+
+	void NextTurnDelay () {
 		ChangeState (States.StartTurn);
+
+		skipingTurn = false;
+		//
 	}
 
 	void CheckMembers ()
 	{
 		if ( currPlayerFighters.Count == 0 ) {
 
+			print ("plus de combattants joueurs");
+
 			if (Crews.getCrew (Crews.Side.Player).CrewMembers.Count == 0) {
-				StopFight ();
-				GameManager.Instance.GameOver (1);
+
+				print ("plus de membres joueurs : donc mort");
+
 			} else {
+
+				print ("il reste des membres joueurs : donc fuite joueur");
+
 				Escape ();
+
+				Invoke ("ExitFight",1f);
+
+
 			}
 			return;
 		}
 
 		if ( currEnemyFighters.Count == 0 ) {
+
+			print ("plus de combattants ennemis");
+
 			if (Crews.getCrew (Crews.Side.Enemy).CrewMembers.Count == 0) {
-				WinFight ();
+
+				print ("plus de membres ennemis : donc victoire");
+
+				ReceiveXp ();
+				ReceiveGold ();
+
+				Invoke ("ExitFight",3f);
+				Invoke ("ShowLoot", 3f);
+
 			} else {
+
+				print ("il reste des membres ennemis : donc fuite ennemie");
+
 				Narrator.Instance.ShowNarratorTimed ("L'équipe adverse s'enfuit");
+
+				Invoke ("ExitFight",1f);
 				Escape ();
+//				Invoke ("Escape",1f);
+
+
 			}
+
 			return;
 		}
+	}
+	void NoMorePlayersDelay() {
+		
+	
+	}
+	void NoMoreEnnemiesDelay() {
+		
+
 	}
 	#endregion
 
@@ -239,10 +304,10 @@ public class CombatManager : MonoBehaviour {
 
 	public void DisablePickable () {
 		foreach (Fighter fighter in getCurrentFighters (Crews.Side.Player)) {
-			fighter.pickable = false;
+			fighter.Pickable = false;
 		}
 		foreach (Fighter fighter in getCurrentFighters (Crews.Side.Enemy)) {
-			fighter.pickable = false;
+			fighter.Pickable = false;
 		}
 	}
 
@@ -262,14 +327,14 @@ public class CombatManager : MonoBehaviour {
 				
 				foreach (Fighter fighter in getCurrentFighters (side)) {
 					if (fighter.HasStatus (Fighter.Status.Provoking)) {
-						fighter.pickable = true;
+						fighter.Pickable = true;
 					}
 				}
 
 			} else {
 
 				foreach (Fighter fighter in getCurrentFighters (side)) {
-					fighter.pickable = true;
+					fighter.Pickable = true;
 				}
 
 			}
@@ -279,10 +344,10 @@ public class CombatManager : MonoBehaviour {
 				if (!currentSkill.canTargetSelf) {
 
 					if ( fighter != currentFighter )
-						fighter.pickable = true;
+						fighter.Pickable = true;
 
 				} else {
-					fighter.pickable = true;
+					fighter.Pickable = true;
 				}
 			}
 
@@ -361,7 +426,12 @@ public class CombatManager : MonoBehaviour {
 
 			int randomIndex = Random.Range (0, currEnemyFighters.Count);
 
-			currEnemyFighters [randomIndex].SetAsTarget ();
+			List<Fighter> targetFighters = currEnemyFighters;
+
+			if ( currentSkill.canTargetSelf == false )
+				targetFighters.Remove (currentFighter);
+
+			targetFighters [randomIndex].SetAsTarget ();
 
 		} else {
 
@@ -399,60 +469,54 @@ public class CombatManager : MonoBehaviour {
 	private void EnemyAction_Exit () {}
 	#endregion
 
-	#region fight end
-	void StopFight ()
-	{
-		onFightEnd ();
-
-		Crews.enemyCrew.UpdateCrew (Crews.PlacingType.Hidden);
-		ChangeState (States.None);
-
-		HideFighters (Crews.Side.Player);
-		HideFighters (Crews.Side.Enemy);
-
-	}
-	public void WinFight ( float delay ) {
-		Invoke("WinFight",delay);
-	}
-	public void WinFight () {
-
-		StopFight ();
+	#region loot & xp
+	public void ReceiveGold () {
 
 		int po = crewValue * Random.Range (10, 20);
 
-		foreach (var item in Crews.playerCrew.CrewMembers) {
-			item.AddXP (20);
-		}
-
-		string phrase = "Il avait " + po + " pièces d'or";
-		DialogueManager.Instance.SetDialogue (phrase, CombatManager.Instance.currPlayerFighters[0].arrowAnchor);
+		currPlayerFighters [0].combatFeedback.Display ("+ " + po + " or" ,Color.yellow);
 
 		GoldManager.Instance.GoldAmount += po;
 
-		Invoke ("ShowLoot", 1);
+	}
+	public void ReceiveXp() {
+
+		foreach (var item in currPlayerFighters) {
+
+			item.combatFeedback.Display ("+ 20 xp",Color.blue);
+
+			item.crewMember.AddXP (20);
+		}
+
 	}
 
 	void ShowLoot () {
 		OtherInventory.Instance.StartLooting ();
 	}
+	#endregion 
 
+	#region fight end
 	public void Escape () {
-
-		StopFight ();
-
-		EndFight ();
 
 		StoryLauncher.Instance.EndStory ();
 
 		SoundManager.Instance.PlaySound (escapeSound);
 
 	}
-	public void EndFight () {
+
+	public void ExitFight () {
+
+		onFightEnd ();
+
+		ChangeState (States.None);
+
+		HideFighters (Crews.Side.Player);
+		HideFighters (Crews.Side.Enemy);
 
 		fighting = false;
 
 		Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
-		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+//		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 
 	}
 	#endregion
@@ -495,7 +559,8 @@ public class CombatManager : MonoBehaviour {
 	public delegate void OnChangeState (States currState , States prevState);
 	public OnChangeState onChangeState;
 	public void ChangeState ( States newState ) {
-		
+
+
 		previousState = currentState;
 		currentState = newState;
 

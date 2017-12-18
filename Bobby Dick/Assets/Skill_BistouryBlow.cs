@@ -12,10 +12,10 @@ public class Skill_BistouryBlow : Skill {
 		base.Start ();
 	}
 
-	public override void TriggerSkill ()
+	public override void ApplyEffect ()
 	{
 
-		base.TriggerSkill ();
+		base.ApplyEffect ();
 
 		fighter.TargetFighter.Heal (healAmount);
 

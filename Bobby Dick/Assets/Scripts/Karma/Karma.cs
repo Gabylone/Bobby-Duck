@@ -216,7 +216,6 @@ public class Karma : MonoBehaviour {
 
 	public void LoadKarma ()
 	{
-		print ("loading kjar");
 		CurrentKarma = SaveManager.Instance.CurrentData.karma;
 		bounty = SaveManager.Instance.CurrentData.bounty;
 	}

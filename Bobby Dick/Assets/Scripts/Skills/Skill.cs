@@ -44,14 +44,18 @@ public class Skill : MonoBehaviour {
 			Fighter fighter = CombatManager.Instance.currentFighter;
 
 			if ( fighter.crewMember.energy < energyCost ) {
+				print ("doenst has enough energy");
 				return;
 			}
-
-			fighter.crewMember.energy -= energyCost;
 
 			Trigger (fighter);
 		}
 
+	}
+
+	void UseEnergy () {
+		fighter.crewMember.energy -= energyCost;
+		print ("uses energy");
 	}
 
 	public virtual void Trigger (Fighter fighter) {
@@ -63,13 +67,13 @@ public class Skill : MonoBehaviour {
 		} else {
 			SkipTarget ();
 		}
+
 	}
 
 	/// <summary>
 	/// no target
 	/// </summary>
 	void SkipTarget (){
-
 
 		if (CombatManager.Instance.currentFighter.crewMember.side == Crews.Side.Enemy) { 
 			CombatManager.Instance.ChangeState (CombatManager.States.EnemyAction);
@@ -110,6 +114,7 @@ public class Skill : MonoBehaviour {
 				fighter.onReachTarget += HandleOnReachTarget;
 				fighter.ChangeState (Fighter.states.moveToTarget);
 			} else {
+				print ("invoking skill");
 				InvokeSkill ();
 			}
 
@@ -122,13 +127,15 @@ public class Skill : MonoBehaviour {
 		InvokeSkill ();
 	}
 
-	void InvokeSkill () {
+	public virtual void InvokeSkill () {
+
+		UseEnergy ();
 
 		fighter.ChangeState (Fighter.states.triggerSkill);
 
 		TriggerAnimation ();
 
-		Invoke ("TriggerSkill", animationTime);
+		Invoke ("ApplyEffect", animationTime);
 	}
 
 	public void TriggerAnimation () {
@@ -143,7 +150,7 @@ public class Skill : MonoBehaviour {
 	/// <summary>
 	/// Triggers the skill.
 	/// </summary>
-	public virtual void TriggerSkill ()
+	public virtual void ApplyEffect ()
 	{
 		if (goToTarget) {
 			fighter.ChangeState (Fighter.states.moveBack);
@@ -170,6 +177,10 @@ public class Skill : MonoBehaviour {
 	}
 
 	public virtual bool MeetsConditions (CrewMember member) {
+
+		if ( canTargetSelf == false ) {
+			return member.energy >= energyCost && Crews.enemyCrew.CrewMembers.Count > 1;
+		}
 
 		// assez d'énergie
 		return member.energy >= energyCost;
@@ -198,7 +209,7 @@ public class Skill : MonoBehaviour {
 
 		// COOK
 		Goad,
-		Parry,
+//		Parry,
 		HelpMate,
 		ToastUp,
 		PledgeOfFeast,
