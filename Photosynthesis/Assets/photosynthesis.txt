@@ -1,0 +1,33 @@
+terrain clickable
+
+Soil
+Soil value
+
+Game : turn
+2 phase
+	photosyntesis
+		each player
+		points soleil
+	life cycle
+		each player
+
+
+light
+
+Game : number of turns
+
+first turn : 2 trees
+
+Life cycle 
+
+objet "Arbre"
+4 states
+	seed
+	small
+	medium
+	tall
+action : plant seed
+	possible soil
+action : grow / collect
+
+score
