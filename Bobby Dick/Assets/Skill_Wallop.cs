@@ -14,15 +14,22 @@ public class Skill_Wallop : Skill {
 
 		base.ApplyEffect ();
 
-		foreach (var targetFighter in CombatManager.Instance.getCurrentFighters (Crews.otherSide (fighter.crewMember.side))) {
-
-			targetFighter.GetHit (fighter, fighter.crewMember.Attack / 2f);
+		List<Fighter> fighters = CombatManager.Instance.getCurrentFighters (Crews.otherSide (fighter.crewMember.side));
+		for (int fighterIndex = 0; fighterIndex < fighters.Count; fighterIndex++) {
+			
+			fighters[fighterIndex].GetHit (fighter, fighter.crewMember.Attack , 0.5f);
 
 		}
 
 		EndSkill ();
 
 	}
+
+	public override bool MeetsRestrictions (CrewMember member)
+	{
+		return base.MeetsRestrictions (member) && member.GetEquipment(CrewMember.EquipmentPart.Weapon).spriteID == 1;
+	}
+
 
 	public override bool MeetsConditions (CrewMember member)
 	{

@@ -47,7 +47,6 @@ public class Member {
 		for (int skillIndex = 0; skillIndex < jobSkills.Count; skillIndex++) {
 			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [skillIndex]));
 		}
-
 //		foreach (var item in specialSkills) {
 //			Debug.Log (item.name);
 //		}

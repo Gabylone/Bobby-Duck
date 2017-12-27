@@ -7,6 +7,7 @@ public class SkillManager : MonoBehaviour {
 	public static Skill[] skills;
 
 	public static Sprite[] skillSprites;
+	public static Sprite[] statusSprites;
 	public static Sprite[] jobSprites;
 
 	public static List<Skill> defaultSkills = new List<Skill> ();
@@ -48,9 +49,10 @@ public class SkillManager : MonoBehaviour {
 
 		skillSprites = Resources.LoadAll<Sprite> ("Graph/SkillsSprites");
 		jobSprites = Resources.LoadAll<Sprite> ("Graph/JobSprites");
+		statusSprites = Resources.LoadAll<Sprite> ("Graph/StatusSprites");
 
-		defaultSkills.Add (SkillManager.getSkill (Skill.Type.Flee));
 		defaultSkills.Add (SkillManager.getSkill (Skill.Type.CloseAttack));
+		defaultSkills.Add (SkillManager.getSkill (Skill.Type.Flee));
 		defaultSkills.Add (SkillManager.getSkill (Skill.Type.SkipTurn));
 		
 
@@ -112,11 +114,21 @@ public class SkillManager : MonoBehaviour {
 
 	public static Skill RandomSkill ( CrewMember member ) {
 
+//		print ("il le fait qu'une fois ?");
+
 		List<Skill> fittingSkills = new List<Skill> ();
 
 		int priority = 0;
 
-		List<Skill> memberSkills = defaultSkills;
+		if (member.GetEquipment (CrewMember.EquipmentPart.Weapon).spriteID == 0)
+			defaultSkills [0] = getSkill (Skill.Type.DistanceAttack);
+		else
+			defaultSkills [0] = getSkill (Skill.Type.CloseAttack);
+
+		List<Skill> memberSkills = new List<Skill>();
+		foreach (var item in defaultSkills) {
+			memberSkills.Add (item);
+		}
 		foreach (var item in member.specialSkills) {
 			memberSkills.Add (item);
 		}
@@ -148,10 +160,21 @@ public class SkillManager : MonoBehaviour {
 
 				}
 			}
+
+
 		}
 
 		Skill skill = fittingSkills[Random.Range(0,fittingSkills.Count)];
 
+		print ("chosen skill : " + skill.name);
+
 		return skill;
+	}
+
+	public enum AnimationType {
+
+		CloseAttack,
+		Shoot,
+
 	}
 }

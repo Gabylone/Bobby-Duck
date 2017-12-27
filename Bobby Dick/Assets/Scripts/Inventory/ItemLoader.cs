@@ -85,8 +85,12 @@ public class ItemLoader : MonoBehaviour {
 			string[] cells = rows[i].Split (';');
 
 			int spriteID = -1;
-			if ( cells.Length > 6 ) {
+			if (cells.Length > 6) {
 				spriteID = int.Parse (cells [6]) - 1;
+
+				if (int.TryParse (cells [6], out spriteID) == false) {
+					Debug.LogError ("does not parse " + cells [6]);
+				}
 			}
 
 			Item newItem =
@@ -104,6 +108,10 @@ public class ItemLoader : MonoBehaviour {
 				);
 
 			items[(int)currentType][i-1] = newItem;
+
+//			if ( currentType == ItemCategory.Weapon) {
+//				Debug.Log ("item : " + newItem.name + " sprite : " + newItem.spriteID);
+//			}
 
 			if ( newItem.level > currentLevel && newItem.level > 0) {
 

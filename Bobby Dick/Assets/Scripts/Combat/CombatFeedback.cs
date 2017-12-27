@@ -21,6 +21,8 @@ public class CombatFeedback : MonoBehaviour {
 
 	bool displaying = false;
 
+	bool right = false;
+
 	Vector3 initPos;
 
 	// Use this for initialization
@@ -28,6 +30,8 @@ public class CombatFeedback : MonoBehaviour {
 		Hide ();
 
 		initPos = transform.localPosition;
+
+		right = transform.position.x > 0;
 	}
 
 	public void Display (string content) {
@@ -66,7 +70,12 @@ public class CombatFeedback : MonoBehaviour {
 		Tween.Bounce (transform);
 
 		transform.localPosition = initPos;
-		HOTween.To (transform , fadeDuration , "localPosition" , initPos + Vector3.up * decalUp);
+
+		if (right) {
+			HOTween.To (transform, fadeDuration, "localPosition", initPos + Vector3.right * decalUp);
+		} else {
+			HOTween.To (transform, fadeDuration, "localPosition", initPos + Vector3.left * decalUp);
+		}
 
 		text.color = Color.black;
 		HOTween.To (text, fadeDuration/2, "color", Color.clear, false , EaseType.Linear , fadeDuration/2);

@@ -15,7 +15,7 @@ public class Skill_HeadsOrTail : Skill {
 
 		if (Random.value > 0.5f) {
 			fighter.combatFeedback.Display ("FACE !");
-			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack * 2.5f);
+			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack , 3f);
 		} else {
 			fighter.combatFeedback.Display ("PILE !");
 		}

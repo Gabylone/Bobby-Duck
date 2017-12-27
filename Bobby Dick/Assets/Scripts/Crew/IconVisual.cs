@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class IconVisual : MonoBehaviour {
-	
+
 	public void UpdateVisual (Member memberID) {
 
 		FaceImage.color = CrewCreator.Instance.Beige;
@@ -25,6 +25,7 @@ public class IconVisual : MonoBehaviour {
 			BeardImage.enabled = false;
 
 		}
+
 		BeardImage.color = CrewCreator.Instance.HairColors [memberID.hairColorID];
 
 		// eyes
@@ -41,6 +42,48 @@ public class IconVisual : MonoBehaviour {
 
 		// body
 		BodyImage.sprite = CrewCreator.Instance.BodySprites[memberID.Male ? 0:1];
+
+		LootUI.useInventory+= HandleUseInventory;
+		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+
+//		Debug.Log (memberID.equipedWeapon.name);
+		UpdateWeaponSprite (memberID.equipedWeapon.spriteID);
+
+	}
+
+	void HandleOnRemoveItemFromMember (Item item)
+	{
+		if (item.category == ItemCategory.Clothes) {
+			//
+		} else {
+			weaponImage.sprite = CrewCreator.Instance.handSprite;
+		}
+	}
+
+	void HandleUseInventory (InventoryActionType actionType)
+	{
+		if (actionType == InventoryActionType.Equip) {
+
+			if (CrewMember.selectedMember.GetEquipment (CrewMember.EquipmentPart.Weapon) != null) {
+				weaponImage.enabled = true;
+				UpdateWeaponSprite (CrewMember.selectedMember.GetEquipment (CrewMember.EquipmentPart.Weapon).spriteID);
+			}
+
+//			if (CrewMember.selectedMember.GetEquipment (CrewMember.EquipmentPart.Clothes) != null) {
+//				weaponImage.enabled = true;
+//				UpdateWeaponSprite (CrewMember.selectedMember.GetEquipment (CrewMember.EquipmentPart.Clothes).spriteID);
+//				//
+//			} else {
+//				weaponImage.enabled = false;
+//				//
+//			}
+		}
+	}
+
+	public void UpdateWeaponSprite (int spriteID) {
+//		if (spriteID >= CrewCreator.Instance.weaponSprites.Length)
+//			Debug.Log ("sprite id : " + spriteID + " .... " +  CrewCreator.Instance.weaponSprites.Length);
+		weaponImage.sprite = CrewCreator.Instance.weaponSprites[spriteID];
 	}
 
 	[Header("BobyParts")]
@@ -60,10 +103,18 @@ public class IconVisual : MonoBehaviour {
 	private Image mouthImage;
 	[SerializeField]
 	private Image noseImage;
+	[SerializeField]
+	private Image weaponImage;
 
 	public Image FaceImage {
 		get {
 			return faceImage;
+		}
+	}
+
+	public Image WeaponImage {
+		get {
+			return weaponImage;
 		}
 	}
 

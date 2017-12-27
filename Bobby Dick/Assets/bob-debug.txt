@@ -6,7 +6,7 @@ XXX - bearTrapped - replacer, et chanfer côté pour ennemi;z
 XXX - feedback - ennemi est mal placé
 XXX - status - ennemi mal placé
 XXX - knocked - affiche rqu'on est knocked out pour le tour.
-XXX - double feedback : si en meme temps - mettre un peu d'attente/
+XXX - double feedback : si en meme temps - mettre un peu  d'attente/
 XXX - gros gros probleme Invoke Skip Turn !!!!
 XXX - équipe adverse s'enfuit : gros bordel
 XXX - victoire normal : "l'advsaire s'enfuit" affiché
@@ -14,26 +14,100 @@ XXX - les ennemis peuvent mourrir quand ils veulent
 XXX - afficher l'or et l'xp à la fin du combat
 XXX - rajouter animations au icons ( bouger, parler )
 XXX - déplacer description skill button 
-- fair ele pistolet
 XXX - status tween : tout doit fader.
-
 XXX - réduire image joib
-- fin combat : choisir action toujours affiché :
-- fin combat skills toujours affichés
-- peut -etre ne pas rentre directement après l'attaquue : wait avant move back
-- save skills bordel ( fighter )
-- feedback pour Robbery
-- ne montrer background ui que quand on choisit les actions
-- member creation ne pas bouncer le text de job
-- appliqyer changements headshot à leap, pas de go to target
+XXX - peut -etre ne pas rentre directement après l'attaquue : wait avant move back
+XXX - save skills bordel ( fighter )
+XXX - feedback pour Robbery
+XXX - ne montrer background ui que quand on choisit les actions
+XXX - member creation ne pas bouncer le text de job
+XXX - appliqyer changements headshot à leap, pas de go to target
+XXX - map mask
+XXX - bouger bouton annuller
+XXX - grandir les icones
+XXX - accelerer les animations
+XXX - pistolet
+XXX - combat : attaque à distance 
+XXX - remove effects aussi quand simplement poison et tout
+XXX - certaine compétence nécessite pistolet ?
+XXX - liste des animations et des longueurs.
+XXX - pistolet pour flibustier et docteur armes pour autres
+XXX - remettre skill buttons en place
+XXX - remettre sattus feeback text bonne place
+XXX - virer job stat
+XXX - knocked out flee : prochain tour
+XXX - probleme : le premier ne commence pas ?
+XXX - l'énergie disprait quand y'en a pas mais elle se remet aps 
+XXX - les dés ne devraient pas du tout avoir de physqiue
+XXX - not bounce every thing on skill description
+XXX - réduire skill image button taille$
+XXX - show status fait apparaitre energie
 
-feedback interface.
+XXX - déplacer comabt card anchor des enemius vers gauche
+XXX - grape shot pas assez energie et trop dégat
+XXX - revoir façon dont les dégats sont multifplié s ou divisés ( grape shot, leap etc... )
+XXX - enlever play animation pour leap & head shot
+XXX - flee trop
+XXX - headshot &  leap : quand sa cible meurt, y'a un probeleme
+XXX - reset tous les status et tout le tintouin 
+XXX - moins de temps upodate start turn
+XXX - noter que leap & headshot sautent le tour
+XXX - régler quand un membre meurt et qu'on revient sur la map
+XXX - enlever les bear traps à la fin du match
+XXX - on ne peut pas faire un membre chauve
+XXX - probele wallop
+XXX - energy group ne se cache pas quand ça se ferme
+XXX - quand on annulle qqchose : feedbacl turn disparait
+XXX - monter tout : mettre les card vers le bas pour les membres du bas
+XXX - feedback vers la droite ?
+XXX - provoking is the highest health
+XXX - protected if provoking
+XXX - trouver une autre icon provoking / cussed et un autre non ?
+XXX status ne se montre plus après clique
+XXX protégé pendant 3 tours ?
+XXX pas de sprite provocation ?
+XXX le texte apprait n'importe comment
+XXX remettre un feedback job juste pour test
+XXX baisser text stats vers le bas
+XXX bear trap meme sprite que fighter
+XXX bear trap restriction : pas de bear trap
+XXX pledge of feast fait apparaitre energy pendnat x temps
+
+XXX leap & head shot ne s'active pas direction mais sinon y'a du bon
+XXX les boutons sont toujours cliqubles meme resteints ? cou couilee
+faire dessin bear trap
+dice : 1 dé et c'est foutu +????? 
+les skills sont choisis mais quoi bonjour randoim skill
+
+quand t'as FIx : tu COMMIT et tu te lances sur l'invenataire ou sur plus de test. non et ensuite tu finis le jeu pdpdpdppdd
+
+INVENTAIRE :: 
+- séparer parts of inventory
+- voir le membre quand on a l'inventaire , et oui
+- faire disparaitre le display loot quand rien;
+- pouvoir séléctionner rien
+- plus de feedback quand mauvais niveau
+- tout le temps metre l'inventaire sur le côté
+- si on peut pas mettre un objet : le mettre en rouge ?
+
+- mettre le smétiers sur les habits
+- cliquer sur un stauts : voir effet
+- associer une couleur à tous les métiers
+
 animations.
 sons.
 
 les choses : 
 
+- peut être : cacher toutes les autre informations de temps en temps
+
+compétences passives
+
+Fury utilisable une fois par combat
+
 arbre skills
+
+- enlever les get components
 
 tuto
 

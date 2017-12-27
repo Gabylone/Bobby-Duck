@@ -51,8 +51,12 @@ public class Card : MonoBehaviour {
 
 	float maxWidth = 0f;
 
+	bool playingTurn = false;
+
 //	void Awake () {
-	void Start() {
+	public void Init() {
+
+//		print ("oui?");
 
 		linkedFighter.onInit += HandleOnInit;
 		linkedFighter.onSelect += HandleOnSelect;
@@ -66,24 +70,48 @@ public class Card : MonoBehaviour {
 
 		linkedFighter.onSetPickable += HandleOnSetPickable;;
 
-
-		if (linkedFighter.crewMember != null)
-			UpdateMember ();
+//		if (linkedFighter.crewMember != null)
+//			UpdateMember ();
 
 		LootUI.useInventory+= HandleUseInventory;
 
 		maxWidth = heartImage.rectTransform.rect.width;
+
+		HideTargetFeedback ();
+
+		energyGroup.SetActive (false);
+
 
 	}
 
 	void HandleOnSetPickable (bool pickable)
 	{
 		if (pickable) {
-			targetFeedbackImage.gameObject.SetActive (true);
-			Tween.Bounce (targetFeedbackImage.transform);
+			ShowTargetFeedback (Color.yellow);
 		} else {
-			targetFeedbackImage.gameObject.SetActive (false);
+
+			if ( playingTurn ) {
+				ShowTargetFeedback (Color.magenta);
+				//
+			} else {
+				HideTargetFeedback ();
+				//
+			}
+
 		}
+	}
+
+	void ShowTargetFeedback(Color color) {
+		targetFeedbackImage.color = color;
+
+		targetFeedbackImage.gameObject.SetActive (true);
+		Tween.Bounce (targetFeedbackImage.transform);
+	}
+
+	void HideTargetFeedback () {
+		targetFeedbackImage.gameObject.SetActive (false);
+//		print ("dOUDOUDOUDOUODU?====");
+		//
 	}
 
 	void HandleOnChangeState (Fighter.states currState, Fighter.states prevState)
@@ -98,7 +126,13 @@ public class Card : MonoBehaviour {
 
 	void HandleOnEndTurn ()
 	{
-//		Tween.Scale (transform, 0.2f, 1f);
+		Tween.Scale (transform, 0.2f, 1f);
+
+		HideTargetFeedback ();
+
+		energyGroup.SetActive (false);
+
+		playingTurn = false;
 	}
 
 	void HandleOnInit () {
@@ -125,6 +159,7 @@ public class Card : MonoBehaviour {
 		previouslySelectedCard = this;
 
 		statGroup.SetActive (true);
+		energyGroup.SetActive (true);
 
 		Tween.Bounce (transform);
 	}
@@ -134,6 +169,8 @@ public class Card : MonoBehaviour {
 	public void HideInfo ()
 	{
 		statGroup.SetActive (false);
+		energyGroup.SetActive (false);
+
 
 		if (onHideInfo != null)
 			onHideInfo ();
@@ -146,9 +183,16 @@ public class Card : MonoBehaviour {
 
 	void HandleOnSetTurn ()
 	{
+
+		playingTurn = true;
+
 		UpdateMember ();
 
-//		Tween.Scale (transform, 0.2f, 1.6f);
+		ShowTargetFeedback (Color.magenta);
+
+		energyGroup.SetActive (true);
+
+		Tween.Scale (transform, 0.2f, 1.15f);
 	}
 
 	void HandleUseInventory (InventoryActionType actionType)
@@ -185,9 +229,11 @@ public class Card : MonoBehaviour {
 		Tween.Bounce (transform);
 
 	}
+
 	public Color energyColor_Full;
 	public Color energyColor_Empty;
 	int currentEnergy = 0;
+	public Text energyText;
 	void UpdateEnergyBar(CrewMember member) {
 
 		float scaleAmount = 0.8f;
@@ -196,25 +242,27 @@ public class Card : MonoBehaviour {
 
 		int a = 0;
 
-		foreach (var item in energyPoints) {
-			
-			if (a < member.energy) {
-				
-				item.transform.localScale = Vector3.one * scaleAmount;
+		energyText.text = "" + member.energy;
 
-				HOTween.To ( item.transform , dur , "localScale" , Vector3.one );
-				HOTween.To ( item.GetComponent<Image>() , dur , "color" , energyColor_Full);
-
-//				item.SetActive (true);
-			} else {
-
-				HOTween.To ( item.transform , dur , "localScale" , Vector3.one * scaleAmount);
-				HOTween.To ( item.GetComponent<Image>() , dur , "color" , energyColor_Empty);
-
-//				item.SetActive (false);
-			}
-			++a;
-		}
+//		foreach (var item in energyPoints) {
+//			
+//			if (a < member.energy) {
+//				
+//				item.transform.localScale = Vector3.one * scaleAmount;
+//
+//				HOTween.To ( item.transform , dur , "localScale" , Vector3.one );
+//				HOTween.To ( item.GetComponent<Image>() , dur , "color" , energyColor_Full);
+//
+////				item.SetActive (true);
+//			} else {
+//
+//				HOTween.To ( item.transform , dur , "localScale" , Vector3.one * scaleAmount);
+//				HOTween.To ( item.GetComponent<Image>() , dur , "color" , energyColor_Empty);
+//
+////				item.SetActive (false);
+//			}
+//			++a;
+//		}
 
 //		currentEnergy = member.energy;
 	}

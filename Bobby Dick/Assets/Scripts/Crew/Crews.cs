@@ -99,6 +99,7 @@ public class Crews : MonoBehaviour {
 		crewParams.level = startLevel;
 
 		Crew playerCrew = new Crew (crewParams,0,0);
+		Canvas.ForceUpdateCanvases ();
 		crews [0].SetCrew (playerCrew);
 		crews [0].UpdateCrew (PlacingType.Map);
 	}

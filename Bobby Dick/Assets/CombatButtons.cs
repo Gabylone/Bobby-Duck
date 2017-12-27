@@ -35,9 +35,7 @@ public class CombatButtons : MonoBehaviour {
 
 		if ( currState == CombatManager.States.PlayerActionChoice ) {
 
-			defaultGroup.SetActive (true);
-
-			UpdateDefaultButtons ();
+			OpenDefaultButtons ();
 		}
 
 	}
@@ -56,11 +54,16 @@ public class CombatButtons : MonoBehaviour {
 	}
 
 	public void CloseSkills () {
-		defaultGroup.SetActive (true);
 		skillGroup.SetActive (false);
 
-		Tween.Bounce (defaultGroup.transform);
+		OpenDefaultButtons ();
 
+	}
+
+	void OpenDefaultButtons () {
+		defaultGroup.SetActive (true);
+
+		UpdateDefaultButtons ();
 	}
 
 	void UpdateSkillButtons ()
@@ -91,10 +94,21 @@ public class CombatButtons : MonoBehaviour {
 		// check if player has enought energy
 		CrewMember member = CombatManager.Instance.currentFighter.crewMember;
 
+		if ( member.GetEquipment(CrewMember.EquipmentPart.Weapon).spriteID == 0 ) {
+			// pistolet
+			defaultSkillButtons[0].SetSkill( SkillManager.getSkill(Skill.Type.DistanceAttack) );
+//			Debug.Log ("il a un pistolet");
+		} else {
+			// sword
+			defaultSkillButtons[0].SetSkill (SkillManager.getSkill(Skill.Type.CloseAttack));
+//			Debug.Log ("il a une épée");
+		}
+
 		foreach (var item in defaultSkillButtons) {
 			item.SetSkill (item.skill);
 			Tween.Bounce (item.transform);
 		}
+		Tween.Bounce (openSkillButton.transform);
 
 		openSkillButton.interactable = false;
 		foreach (var item in member.specialSkills ) {

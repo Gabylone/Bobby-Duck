@@ -69,7 +69,10 @@ public class Dice : MonoBehaviour {
 
 	public void Throw () {
 
-		targetResult = Random.Range(1,7);
+		if (DiceManager.Instance.outcome < 1)
+			targetResult = Random.Range (1, 7);
+		else
+			targetResult = DiceManager.Instance.outcome;
 
 		thrown = true;
 
@@ -165,7 +168,7 @@ public class Dice : MonoBehaviour {
 //		GetComponent<Rigidbody> ().velocity = Vector3.zero;
 //		GetComponent<Rigidbody> ().angularVelocity = Vector3.zero;
 
-//		DisablePhysics ();
+		DisablePhysics ();
 
 		thrown = false;
 

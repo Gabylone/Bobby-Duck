@@ -16,6 +16,7 @@ public class Skill_PledgeOfFeast : Skill {
 		base.ApplyEffect ();
 
 		fighter.TargetFighter.crewMember.AddEnergy (energyAmount);
+		fighter.TargetFighter.ShowInfo ();
 
 		EndSkill ();
 

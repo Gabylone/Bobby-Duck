@@ -21,6 +21,10 @@ public class MemberIcon : MonoBehaviour {
 
 	public float moveDuration = 1f;
 
+	public float bodyScale = 1f;
+
+	Vector3 initScale;
+
 	public Crews.PlacingType currentPlacingType;
 	public Crews.PlacingType previousPlacingType;
 
@@ -37,7 +41,9 @@ public class MemberIcon : MonoBehaviour {
 		this.member = member;
 
 		animator = GetComponentInChildren<Animator> ();
+		initScale = group.transform.localScale;
 	
+		HideBody ();
 		UpdateVisual (member.MemberID);
 
 	}
@@ -109,6 +115,7 @@ public class MemberIcon : MonoBehaviour {
 		Tween.Scale ( transform , 0.3f  , 1f);
 
 	}
+
 	#endregion
 
 	#region movement
@@ -119,23 +126,19 @@ public class MemberIcon : MonoBehaviour {
 
 		float decal = 0f;
 
-		if (currentPlacingType == Crews.PlacingType.Discussion
-			||currentPlacingType == Crews.PlacingType.SoloCombat) {
-			animator.SetBool ("enabled", true);
-			ShowBody ();
-		} else {
-			animator.SetBool ("enabled", false);
-		}
-
 		Vector3 targetPos = Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].position;
 
-		if (targetPlacingType == Crews.PlacingType.Combat || targetPlacingType == Crews.PlacingType.Map) {
-			
+		if (currentPlacingType == Crews.PlacingType.Discussion
+			||currentPlacingType == Crews.PlacingType.SoloCombat) {
+			ShowBody ();
+		} else {
 			HideBody();
-
-			targetPos = Crews.getCrew (member.side).mapAnchors [member.GetIndex].position;
 		}
 
+		if ( currentPlacingType == Crews.PlacingType.Map )
+			targetPos = Crews.getCrew (member.side).mapAnchors [member.GetIndex].position;
+
+//		print ("moviong target : " + Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].name);
 
 		HOTween.To ( transform , moveDuration , "position" , targetPos , false , EaseType.Linear , 0f );
 	}
@@ -144,10 +147,28 @@ public class MemberIcon : MonoBehaviour {
 	#region body
 	public void HideBody () {
 		bodyGroup.SetActive (false);
+		animator.SetBool ("enabled", false);
+
+		Vector3 targetScale = Vector3.one;
+//		Vector3 targetScale = Vector3.one * initScale;
+		if (member.side == Crews.Side.Player)
+			targetScale.x = -1;
+
+		HOTween.To ( group.transform , moveDuration / 2f , "localScale" , targetScale );
+
 	}
 	public void ShowBody () {
 		bodyGroup.SetActive (true);
+		animator.SetBool ("enabled", true);
+
+		Vector3 targetScale = Vector3.one * bodyScale;
+		if (member.side == Crews.Side.Player)
+			targetScale.x = -bodyScale;
+		
+		HOTween.To (group.transform, moveDuration / 2f, "localScale", targetScale);
+
 	}
+
 	public void UpdateVisual (Member memberID)
 	{
 		GetComponent<IconVisual> ().UpdateVisual (memberID);

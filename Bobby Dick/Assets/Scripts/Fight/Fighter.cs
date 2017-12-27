@@ -127,6 +127,9 @@ public class Fighter : MonoBehaviour {
 			return pickable;
 		}
 		set {
+			if (pickable == value)
+				return;
+
 			pickable = value;
 
 			if (onSetPickable != null)
@@ -138,11 +141,14 @@ public class Fighter : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+//		print ("fightrer start " + transform.parent.name);
 		animator = GetComponentInChildren<Animator> ();
 		weaponCollider.enabled = false;
 
 		fightSprites = GetComponentInChildren<Fight_LoadSprites> ();
 		fightSprites.Init ();
+
+		transform.parent.GetComponentInChildren<Card> ().Init ();
 
 		dir = direction == Direction.Left ? 1 : -1;
 
@@ -160,7 +166,7 @@ public class Fighter : MonoBehaviour {
 
 		timeInState += Time.deltaTime;
 
-		ClampPos ();
+//		ClampPos ();
 	}
 
 	// c'est pour que le start se fasse qu'on fois seulement pour ça c'est idiot mais bon
@@ -171,14 +177,15 @@ public class Fighter : MonoBehaviour {
 	public OnInit onInit;
 	public void Init ( CrewMember crewMember, int id )
 	{
-		if (!started) {
-			Start ();
-			started = true;
-		}
+//		if (!started) {
+//			Start ();
+//			started = true;
+//		}
 
 		ID = id;
 
 		this.crewMember = crewMember;
+
 
 		Show ();
 
@@ -210,7 +217,7 @@ public class Fighter : MonoBehaviour {
 
 		crewMember.AddEnergy (crewMember.energyPerTurn);
 
-		if ( onSetTurn != null ) {
+		if (onSetTurn != null) {
 			onSetTurn ();
 		}
 
@@ -237,7 +244,7 @@ public class Fighter : MonoBehaviour {
 			
 
 		CombatManager.Instance.currentFighter.TargetFighter = this;
-		targetFighter = CombatManager.Instance.currentFighter;
+//		targetFighter = CombatManager.Instance.currentFighter;
 
 		Tween.Bounce (transform);
 
@@ -274,6 +281,11 @@ public class Fighter : MonoBehaviour {
 
 //		crewMember.energy = crewMember.energyPerTurn;
 		crewMember.energy = 0;
+		onSkillDelay = null;
+
+		for (int i = 0; i < statusCount.Length; i++) {
+			statusCount [i] = 0;
+		}
 	}
 
 	public virtual void Die () {
@@ -286,8 +298,7 @@ public class Fighter : MonoBehaviour {
 		Fade ();
 
 		CombatManager.Instance.DeleteFighter (this);
-
-		CombatManager.Instance.NextTurn ();
+		CombatManager.Instance.StartNewTurn ();
 
 	}
 	#endregion
@@ -309,9 +320,9 @@ public class Fighter : MonoBehaviour {
 
 		Animator.SetFloat ("move", 1);
 
-		Vector3 dir = new Vector3 ( targetFighter.crewMember.side == Crews.Side.Enemy ? -1 : 1 , 0 , 0 ); 
+		Vector3 dir = new Vector3 ( TargetFighter.crewMember.side == Crews.Side.Enemy ? -1 : 1 , 0 , 0 ); 
 
-		Vector3 targetPos = targetFighter.transform.position + dir * stopDistance;
+		Vector3 targetPos = TargetFighter.transform.position + dir * stopDistance;
 
 		HOTween.To ( transform , moveToTargetDuration , "position" , targetPos , false , EaseType.Linear , 0f);
 
@@ -335,12 +346,12 @@ public class Fighter : MonoBehaviour {
 		}
 
 	}
-	public void ClampPos () {
-		Vector3 pos = transform.localPosition;
-		pos.x = Mathf.Clamp (pos.x, leftAnchor.localPosition.x , rightAnchor.localPosition.x);
-
-		transform.localPosition = pos;
-	}
+//	public void ClampPos () {
+//		Vector3 pos = transform.localPosition;
+//		pos.x = Mathf.Clamp (pos.x, leftAnchor.localPosition.x , rightAnchor.localPosition.x);
+//
+//		transform.localPosition = pos;
+//	}
 	#endregion
 
 	#region move back
@@ -475,38 +486,10 @@ public class Fighter : MonoBehaviour {
 	public delegate void OnGetHit ();
 	public OnGetHit onGetHit;
 	public void GetHit (Fighter otherFighter, float attack) {
+		GetHit (otherFighter, attack, 1);
+	}
 
-//		// je l'ai cuté pour l'instant; on comprend rien et c'est pété.
-//		if ( HasStatus(Status.Parrying) ) {
-//
-//			RemoveStatus (Status.Parrying);
-//
-//			otherFighter.AddStatus (Status.KnockedOut);
-//
-//			return;
-//		}
-
-		if (HasStatus (Status.BearTrapped)) {
-
-			RemoveStatus (Status.BearTrapped, 1);
-
-			otherFighter.Hurt (15);
-		}
-
-		if ( otherFighter.HasStatus(Status.Cussed) ) {
-			otherFighter.RemoveStatus (Status.Cussed);
-			attack = attack * 0.5f;
-		}
-
-		if ( otherFighter.HasStatus(Status.Toasted) ) {
-			otherFighter.RemoveStatus (Status.Toasted);
-			attack = attack * 1.5f;
-		}
-
-		if ( HasStatus(Status.Protected) ) {
-			attack = attack / 2f;
-			RemoveStatus (Status.Protected);
-		}
+	public void GetHit (Fighter otherFighter, float attack, float mult) {
 
 		if (SucceedDodge() == true) {
 			return;
@@ -527,6 +510,24 @@ public class Fighter : MonoBehaviour {
 
 		combatFeedback.Display (damage.ToString() , Color.red);
 
+		damage *= mult;
+
+			// reduced damage
+		if ( otherFighter.HasStatus(Status.Cussed) ) {
+			otherFighter.RemoveStatus (Status.Cussed);
+			damage = damage * 0.5f;
+		}
+
+		if ( otherFighter.HasStatus(Status.Toasted) ) {
+			otherFighter.RemoveStatus (Status.Toasted);
+			damage = damage * 1.5f;
+		}
+
+		if ( HasStatus(Status.Protected) ) {
+			damage = damage * 0.5f;
+			RemoveStatus (Status.Protected);
+		}
+
 		crewMember.RemoveHealth (damage);
 
 		if (onGetHit != null)
@@ -535,6 +536,16 @@ public class Fighter : MonoBehaviour {
 		if (crewMember.Health <= 0) {
 			crewMember.Kill ();
 			Die ();
+		}
+	}
+
+
+	public void CheckContact (Fighter otherFighter) {
+		if (HasStatus (Status.BearTrapped)) {
+
+			RemoveStatus (Status.BearTrapped, 1);
+
+			otherFighter.Hurt (15);
 		}
 	}
 
@@ -604,6 +615,8 @@ public class Fighter : MonoBehaviour {
 
 		previousState = currentState;
 		currentState = targetState;
+
+		print ("new state : " + targetState);
 
 		timeInState = 0f;
 
@@ -738,7 +751,6 @@ public class Fighter : MonoBehaviour {
 				onSkillDelay (this);
 			}
 
-
 			RemoveStatus (Status.PreparingAttack);
 			//
 		}
@@ -751,9 +763,9 @@ public class Fighter : MonoBehaviour {
 	}
 
 	public void AddStatus (Status status, int count) {
-
-		if (HasStatus (status))
-			return;
+//
+//		if (HasStatus (status))
+//			return;
 
 		switch (status) {
 		case Status.KnockedOut:
@@ -765,7 +777,7 @@ public class Fighter : MonoBehaviour {
 
 		combatFeedback.Display (status.ToString(), Color.white);
 
-		statusCount[(int)status] += count;
+		statusCount[(int)status] = count;
 		statusCount [(int)status] = Mathf.Clamp (statusCount [(int)status], 0, 10);
 
 		if (onAddStatus != null)
@@ -794,7 +806,6 @@ public class Fighter : MonoBehaviour {
 	}
 
 	public enum Status {
-		
 
 		KnockedOut,
 
@@ -817,6 +828,8 @@ public class Fighter : MonoBehaviour {
 		BearTrapped,
 
 		Cussed,
+
+		None
 
 	}
 	#endregion

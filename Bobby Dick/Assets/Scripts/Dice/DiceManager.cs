@@ -30,6 +30,8 @@ public class DiceManager : MonoBehaviour {
 	private delegate void UpdateState ();
 	UpdateState updateState;
 
+	public int outcome = -1;
+
 		// STATES
 
 	[Header("Dice")]
@@ -107,7 +109,12 @@ public class DiceManager : MonoBehaviour {
 
 		int[] quickDices = new int[diceAmount];
 		for (int i = 0; i < diceAmount; i++) {
-			quickDices [i] = Random.Range (1, 7);
+			if (outcome < 1) {
+				quickDices [i] = Random.Range (1, 7);
+			} else {
+				quickDices [i] = outcome;
+				//
+			}
 		}
 
 		for (int diceIndex = 0; diceIndex < diceAmount; diceIndex++) {

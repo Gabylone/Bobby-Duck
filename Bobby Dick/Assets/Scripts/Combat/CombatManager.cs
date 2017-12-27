@@ -116,12 +116,16 @@ public class CombatManager : MonoBehaviour {
 		}
 
 		if ( Input.GetKeyDown(KeyCode.O) ) {
-			currPlayerFighters[0].GetHit (currEnemyFighters[0],20f);
+//			currPlayerFighters[0].GetHit (currEnemyFighters[0],20f);
+			currPlayerFighters[currPlayerFighters.Count-1].crewMember.Kill();
+			currPlayerFighters[currPlayerFighters.Count-1].Die();
+		}
+		if ( Input.GetKeyDown(KeyCode.P) ) {
+			//			currPlayerFighters[0].GetHit (currEnemyFighters[0],20f);
+			currPlayerFighters[0].crewMember.Kill();
+			currPlayerFighters[0].Die();
 		}
 
-		if ( Input.GetKeyDown(KeyCode.P) ) {
-			currEnemyFighters[0].GetHit (currPlayerFighters[0],20f);
-		}
 
 	}
 	#region Combat Start
@@ -164,20 +168,22 @@ public class CombatManager : MonoBehaviour {
 	#region StartTurn
 	private void StartTurn_Start () {
 
-		NextMember ();
-
 		currentFighter.SetTurn ();
+
+		States state = currentMember.side == Crews.Side.Player ? States.PlayerActionChoice : States.EnemyActionChoice;
+
+		ChangeState (state);
 
 	}
 	private void StartTurn_Update () {
 
-		if (timeInState > 1f) {
-
-			States state = currentMember.side == Crews.Side.Player ? States.PlayerActionChoice : States.EnemyActionChoice;
-
-			ChangeState (state);
-
-		}
+//		if (timeInState > 1f) {
+//
+//			States state = currentMember.side == Crews.Side.Player ? States.PlayerActionChoice : States.EnemyActionChoice;
+//
+//			ChangeState (state);
+//
+//		}
 
 	}
 
@@ -187,35 +193,44 @@ public class CombatManager : MonoBehaviour {
 
 	public void NextTurn () {
 
+//		print (" je saute le tour");
+
 		if (skipingTurn) {
 			Invoke ("NextTurn" , 1.5f);
-			print ("déja en train de sauter le tour");
+			Debug.LogError ("déja en train de sauter le tour");
 			return;
-		} else
-			print ("saute le tour");
+		}
 
+//		print ("next turn : d'ou vient - il ?");
 
 		skipingTurn = true;
 
-		CheckMembers ();
-
-		if (currEnemyFighters.Count == 0) {
-			return;
-		}
-		if (currPlayerFighters.Count == 0) {
-			return;
-		}
-
 		currentFighter.EndTurn ();
 
-		Invoke ("NextTurnDelay", 1f);
+		NextMember ();
+
+		StartNewTurn ();
 
 	}
 
-	void NextTurnDelay () {
-		ChangeState (States.StartTurn);
+	public void StartNewTurn () {
+
+		if (currEnemyFighters.Count == 0) {
+			print ("on continue pas parce qu'il y a plus de membres joueurs");
+			return;
+		}
+		if (currPlayerFighters.Count == 0) {
+			print ("on continue pas parce qu'il y a plus de membres adversaires");
+			return;
+		}
 
 		skipingTurn = false;
+		Invoke ("StartNewTurnDelay" , 1f);
+		//
+	}
+
+	void StartNewTurnDelay () {
+		ChangeState (States.StartTurn);
 		//
 	}
 
@@ -320,11 +335,14 @@ public class CombatManager : MonoBehaviour {
 			foreach (Fighter fighter in getCurrentFighters (side)) {
 				if ( fighter.HasStatus(Fighter.Status.Provoking) ) {
 					provoking = true;
+					break;
 				}
 			}
 
 			if (provoking) {
-				
+
+				print ("y'a eu provocation apparemment, donc y'en a qui sont pas pickable ?");
+
 				foreach (Fighter fighter in getCurrentFighters (side)) {
 					if (fighter.HasStatus (Fighter.Status.Provoking)) {
 						fighter.Pickable = true;
@@ -423,13 +441,12 @@ public class CombatManager : MonoBehaviour {
 		if (currentSkill.targetType == Skill.TargetType.Self) {
 
 			// attention au pledge of feast.
-
-			int randomIndex = Random.Range (0, currEnemyFighters.Count);
-
 			List<Fighter> targetFighters = currEnemyFighters;
 
 			if ( currentSkill.canTargetSelf == false )
 				targetFighters.Remove (currentFighter);
+
+			int randomIndex = Random.Range (0, targetFighters.Count);
 
 			targetFighters [randomIndex].SetAsTarget ();
 
@@ -506,12 +523,12 @@ public class CombatManager : MonoBehaviour {
 
 	public void ExitFight () {
 
-		onFightEnd ();
-
 		ChangeState (States.None);
 
 		HideFighters (Crews.Side.Player);
 		HideFighters (Crews.Side.Enemy);
+
+		onFightEnd ();
 
 		fighting = false;
 
@@ -552,6 +569,8 @@ public class CombatManager : MonoBehaviour {
 			currPlayerFighters.Remove (fighter);
 		else
 			currEnemyFighters.Remove (fighter);
+
+		CheckMembers ();
 	}
 	#endregion
 

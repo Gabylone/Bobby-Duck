@@ -10,8 +10,11 @@ public class Skill : MonoBehaviour {
 	public string name = "";
 	public string description = "";
 	public int energyCost = 5;
-	public float animationTime = 0.79f;
-	public string animationName = "hit";
+	public float animationDelay = 0.6f;
+
+	public bool playAnim = true;
+	public SkillManager.AnimationType animationType;
+
 	public bool hasTarget = false;
 	public bool goToTarget = true;
 	public bool canTargetSelf = true;
@@ -55,7 +58,6 @@ public class Skill : MonoBehaviour {
 
 	void UseEnergy () {
 		fighter.crewMember.energy -= energyCost;
-		print ("uses energy");
 	}
 
 	public virtual void Trigger (Fighter fighter) {
@@ -114,7 +116,6 @@ public class Skill : MonoBehaviour {
 				fighter.onReachTarget += HandleOnReachTarget;
 				fighter.ChangeState (Fighter.states.moveToTarget);
 			} else {
-				print ("invoking skill");
 				InvokeSkill ();
 			}
 
@@ -135,15 +136,15 @@ public class Skill : MonoBehaviour {
 
 		TriggerAnimation ();
 
-		Invoke ("ApplyEffect", animationTime);
+		Invoke ("ApplyEffect", animationDelay);
 	}
 
 	public void TriggerAnimation () {
-		if (animationName == "")
+		if (!playAnim)
 			return;
 
-		fighter.Animator.SetTrigger ( animationName );
-//		print ("triggerting animation");
+		fighter.Animator.SetInteger("hitType",(int)animationType);
+		fighter.Animator.SetTrigger ( "hit" );
 		//
 	}
 
@@ -153,8 +154,16 @@ public class Skill : MonoBehaviour {
 	public virtual void ApplyEffect ()
 	{
 		if (goToTarget) {
-			fighter.ChangeState (Fighter.states.moveBack);
+
+			fighter.TargetFighter.CheckContact (fighter);
+
+			Invoke ("InvokeMoveBack",1f);
 		}
+	}
+
+	void InvokeMoveBack()  {
+		fighter.ChangeState (Fighter.states.moveBack);
+		//
 	}
 
 	/// <summary>
@@ -176,6 +185,12 @@ public class Skill : MonoBehaviour {
 		}
 	}
 
+	public virtual bool MeetsRestrictions ( CrewMember member ) {
+
+
+		return true;
+	}
+
 	public virtual bool MeetsConditions (CrewMember member) {
 
 		if ( canTargetSelf == false ) {
@@ -183,7 +198,7 @@ public class Skill : MonoBehaviour {
 		}
 
 		// assez d'énergie
-		return member.energy >= energyCost;
+		return member.energy >= energyCost && MeetsRestrictions(member);
 	}
 
 	// ENUM //

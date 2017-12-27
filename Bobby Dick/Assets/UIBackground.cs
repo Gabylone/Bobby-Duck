@@ -7,11 +7,11 @@ public class UIBackground : MonoBehaviour {
 
 	RectTransform rectTransform;
 
-	float initXPos = 0f;
+	public float initXPos = 0f;
+	public float skillX = 0f;
+	public float hiddenX = 0f;
 
-	float duration = 1f;
-
-	public float targetX = 0f;
+	public float duration = 0.3f;
 
 	public GameObject uiGroup;
 
@@ -19,24 +19,42 @@ public class UIBackground : MonoBehaviour {
 	void Start () {
 		rectTransform = GetComponent<RectTransform> ();
 
-		CombatManager.Instance.onFightStart += HandleOnFightStart;
-		CombatManager.Instance.onFightEnd += HandleOnFightEnd;
+		CombatManager.Instance.onFightStart += MoveBackGround;
+		CombatManager.Instance.onFightEnd += ShowBackGround;
+		CombatManager.Instance.onChangeState += HandleOnChangeState;
 
 		initXPos = rectTransform.rect.position.x;
 	}
 
-	void HandleOnFightEnd ()
+	void ShowBackGround ()
 	{
-		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( -initXPos , 0f ) );
+		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( initXPos , 0f ) );
 
 		uiGroup.SetActive (true);
 	}
 
-	void HandleOnFightStart ()
+	void MoveBackGround ()
 	{
-		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( targetX , 0f ) );
+		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( skillX , 0f ) );
 
 		uiGroup.SetActive (false);
+	}
+
+	void HideBackground ()
+	{
+		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( hiddenX , 0f ) );
+
+		uiGroup.SetActive (false);
+
+	}
+
+	void HandleOnChangeState (CombatManager.States currState, CombatManager.States prevState)
+	{
+		if (currState == CombatManager.States.PlayerActionChoice) {
+			MoveBackGround ();
+		} else if ( currState != CombatManager.States.None ) {
+//			HideBackground ();
+		}
 
 	}
 }

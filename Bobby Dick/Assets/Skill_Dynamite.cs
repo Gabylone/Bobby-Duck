@@ -14,9 +14,10 @@ public class Skill_Dynamite : Skill {
 
 		base.ApplyEffect ();
 
-		foreach (var targetFighter in CombatManager.Instance.getCurrentFighters (Crews.otherSide (fighter.crewMember.side))) {
+		List<Fighter> fighters = CombatManager.Instance.getCurrentFighters (Crews.otherSide (fighter.crewMember.side));
+		for (int fighterIndex = 0; fighterIndex < fighters.Count; fighterIndex++) {
 
-			targetFighter.GetHit (fighter, fighter.crewMember.Attack / 2f);
+			fighters[fighterIndex].GetHit (fighter, fighter.crewMember.Attack , 0.5f);
 
 		}
 

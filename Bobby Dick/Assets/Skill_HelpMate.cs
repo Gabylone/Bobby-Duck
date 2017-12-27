@@ -23,11 +23,13 @@ public class Skill_HelpMate : Skill {
 	{
 		bool hasTarget = false;
 
-		//		foreach (var item in CombatManager.Instance.getCurrentFighters(Crews.otherSide(member.side)) ) {
 		foreach (var item in CombatManager.Instance.getCurrentFighters(member.side) ) {
 			if (item.HasStatus(Fighter.Status.Protected) == false ) {
 				hasTarget = true;
 				preferedTarget = item;
+
+				if (item.HasStatus (Fighter.Status.Provoking))
+					break;
 			}
 		}
 

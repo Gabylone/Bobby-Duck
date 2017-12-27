@@ -36,16 +36,19 @@ public class MemberCreatorButton : MonoBehaviour {
 			break;
 		case MemberCreator.Apparence.hairSpriteID:
 			if (Crews.playerCrew.captain.MemberID.Male) {
+
+				Enable ();
+
 				if (member.hairSpriteID >= 0) {
 					image.enabled = true;
-					if (member.hairSpriteID >= CrewCreator.Instance.HairSprites_Male.Length)
-						print ("ID : " + member.hairSpriteID + " /  LEN : " + CrewCreator.Instance.HairSprites_Male.Length);
 					image.sprite = CrewCreator.Instance.HairSprites_Male [member.hairSpriteID];
 				} else {
 					image.enabled = false;
 				}
+
 			} else {
-				image.sprite = CrewCreator.Instance.HairSprites_Female [member.hairSpriteID];
+//				image.sprite = CrewCreator.Instance.HairSprites_Female [member.hairSpriteID];
+				Disable ();
 			}
 			break;
 		case MemberCreator.Apparence.hairColorID:
@@ -60,7 +63,7 @@ public class MemberCreatorButton : MonoBehaviour {
 		case MemberCreator.Apparence.beardSpriteID:
 			if (member.Male) {
 
-				GetComponent<Button> ().enabled = true;
+				Enable ();
 
 				if (member.beardSpriteID >= 0) {
 
@@ -70,8 +73,7 @@ public class MemberCreatorButton : MonoBehaviour {
 					image.enabled = false;
 				}
 			} else {
-				GetComponent<Button> ().enabled = false;
-				image.enabled = false;
+				Disable ();
 			}
 			break;
 		case MemberCreator.Apparence.noseSpriteID:
@@ -81,5 +83,17 @@ public class MemberCreatorButton : MonoBehaviour {
 			image.sprite = CrewCreator.Instance.MouthSprites [member.mouthSpriteID];
 			break;
 		}
+	}
+
+	void Enable () {
+		GetComponent<Button> ().enabled = true;
+		GetComponent<Button> ().image.enabled = true;
+		image.enabled = true;
+	}
+
+	void Disable () {
+		GetComponent<Button> ().enabled = false;
+		GetComponent<Button> ().image.enabled = false;
+		image.enabled = false;
 	}
 }

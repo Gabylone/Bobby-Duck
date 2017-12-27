@@ -25,10 +25,14 @@ public class Skill_Goad : Skill {
 		bool hasTarget = false;
 
 //		foreach (var item in CombatManager.Instance.getCurrentFighters(Crews.otherSide(member.side)) ) {
+		float highestHealth = CombatManager.Instance.getCurrentFighters(member.side)[0].crewMember.Health;
 		foreach (var item in CombatManager.Instance.getCurrentFighters(member.side) ) {
 			if (item.HasStatus(Fighter.Status.Provoking) == false ) {
-				hasTarget = true;
-				preferedTarget = item;
+				if (item.crewMember.Health > highestHealth) {
+					highestHealth = item.crewMember.Health;
+					hasTarget = true;
+					preferedTarget = item;
+				}
 			}
 		}
 

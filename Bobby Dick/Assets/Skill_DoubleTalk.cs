@@ -27,11 +27,11 @@ public class Skill_DoubleTalk : Skill {
 
 			fighter.combatFeedback.Display("Sucess!", Color.green);
 
-			foreach ( var fighterItem in CombatManager.Instance.getCurrentFighters(fighter.crewMember.side) ) {
-				fighterItem.Fade ();
-				CombatManager.Instance.DeleteFighter (fighterItem);
+			for (int fighterIndex = 0; fighterIndex < CombatManager.Instance.getCurrentFighters(fighter.crewMember.side).Count; fighterIndex++) {
+				
+				CombatManager.Instance.getCurrentFighters(fighter.crewMember.side)[0].Fade();
+				CombatManager.Instance.DeleteFighter (CombatManager.Instance.getCurrentFighters(fighter.crewMember.side)[0]);
 			}
-
 
 		} else {
 

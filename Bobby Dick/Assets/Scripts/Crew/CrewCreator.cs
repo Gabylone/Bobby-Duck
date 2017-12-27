@@ -29,7 +29,6 @@ public class CrewCreator : MonoBehaviour {
 	[SerializeField]
 	private GameObject[] memberIconPrefabs;
 
-
 	public string[] maleNames = new string[51] {
 		"Jean","Eric", "Nathan", "Jacques", "Benoit", "Jeremy", "Jerome", "Bertrand", "Vladimir", "Dimitri", "Jean-Jacques", "Gérard", "Nestor", "Etienne", "Leon", "Henry", "David", "Esteban", "Louis", "Carles", "Victor", "Michel", "Gabriel", "Pierre", "André", "Fred", "Cassius", "César", "Paul", "Martin", "Claude", "Levis", "Alex", "Olivier", "Mustafa", "Nicolas", "Chris", "Oleg", "Emile", "Richard", "Romulus", "Rufus", "Stan", "Charles", "Quincy", "Antoine", "Virgile", "Boromir", "Archibald", "Eddy", "Kenneth"
 	};
@@ -49,6 +48,8 @@ public class CrewCreator : MonoBehaviour {
 	[SerializeField]
 	private Sprite[] bodySprites;
 
+	public Sprite[] weaponSprites;
+	public Sprite handSprite;
 
 	[Header("FaceParts")]
 	[SerializeField]
@@ -125,9 +126,6 @@ public class CrewCreator : MonoBehaviour {
 		Vector3 scale = new Vector3 ( TargetSide == Crews.Side.Enemy ? 1 : -1 , 1 , 1);
 
 		icon.group.transform.localScale = scale;
-
-		icon.HideBody ();
-
 
 		return iconObj.GetComponent<MemberIcon> ();
 	}

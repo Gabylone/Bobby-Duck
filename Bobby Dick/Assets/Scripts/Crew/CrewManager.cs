@@ -41,11 +41,6 @@ public class CrewManager : MonoBehaviour {
 	}
 
 	#region crew placement
-	public void ShowCrew () {
-		foreach (CrewMember member in crewMembers) {
-			member.Icon.MoveToPoint (member.Icon.previousPlacingType);
-		}
-	}
 	public void UpdateCrew ( Crews.PlacingType placingType ) {
 
 		foreach ( CrewMember member in crewMembers ) {
@@ -89,9 +84,11 @@ public class CrewManager : MonoBehaviour {
 
 		if ( CrewMembers.Count == 0 && side == Crews.Side.Player) {
 			GameManager.Instance.GameOver (1f);
-//			if (CombatManager.Instance.fighting == false) {
-//			}
+			return;
 		}
+
+		CrewMember.selectedMember = crewMembers [0];
+
 	}
 
 	public List<CrewMember> CrewMembers {

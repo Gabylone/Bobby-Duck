@@ -26,11 +26,11 @@ public class Skill_GrapeShot : Skill {
 			Fighter targetFighter = CombatManager.Instance.getCurrentFighters (Crews.otherSide (fighter.crewMember.side))
 				[Random.Range (0, CombatManager.Instance.getCurrentFighters (Crews.otherSide (fighter.crewMember.side)).Count)];
 
-			targetFighter.GetHit (fighter, fighter.crewMember.Attack * 0.3f);
+			targetFighter.GetHit (fighter, fighter.crewMember.Attack , 0.33f);
 
 			TriggerAnimation ();
 
-			yield return new WaitForSeconds ( animationTime );
+			yield return new WaitForSeconds ( animationDelay );
 
 
 		}
@@ -39,6 +39,13 @@ public class Skill_GrapeShot : Skill {
 
 		EndSkill ();
 
+	}
+
+	public override bool MeetsRestrictions (CrewMember member)
+	{
+
+
+		return base.MeetsRestrictions (member) && member.GetEquipment(CrewMember.EquipmentPart.Weapon).spriteID == 0;
 	}
 
 	public override bool MeetsConditions (CrewMember member)

@@ -32,6 +32,9 @@ public class Skill_BearTrap : Skill {
 			bearTrapObj.transform.localPosition = new Vector2 (decalToFighter.x , decalToFighter.y );
 		}
 
+//		foreach (var bearTrapImage in  bearTrapObj.GetComponentsInChildren<Image>()) {
+//			
+//		}
 
 		bearTrapObj.transform.localScale = Vector3.one;
 
@@ -40,6 +43,13 @@ public class Skill_BearTrap : Skill {
 
 		EndSkill ();
 
+	}
+
+	public override bool MeetsRestrictions (CrewMember member)
+	{
+		bool bearTrapped = CombatManager.Instance.currentFighter.HasStatus (Fighter.Status.BearTrapped);
+
+		return bearTrapped == false && base.MeetsRestrictions (member);
 	}
 
 	public override bool MeetsConditions (CrewMember member)

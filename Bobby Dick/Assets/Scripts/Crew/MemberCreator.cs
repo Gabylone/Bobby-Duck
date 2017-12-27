@@ -67,7 +67,23 @@ public class MemberCreator : MonoBehaviour {
 		jobImage.sprite = SkillManager.jobSprites [(int)member.job];
 		jobText.text = SkillManager.jobNames [(int)member.job];
 
-//		Tween.Bounce (jobImage.transform);
+		if (member.job == Job.Flibuster) {
+			Item anyGun = System.Array.Find(ItemLoader.Instance.getItems(ItemCategory.Weapon), x => x.spriteID == 0 );
+//			print ("setting any gun : " + anyGun.name);
+			member.SetEquipment (CrewMember.EquipmentPart.Weapon, anyGun);
+			Crews.playerCrew.captain.Icon.GetComponent<IconVisual> ().UpdateWeaponSprite (0);
+		}
+
+		if (member.job == Job.Brute) {
+			Item anySword = System.Array.Find(ItemLoader.Instance.getItems(ItemCategory.Weapon), x => x.spriteID == 1 );
+//			print ("setting any sword : " + anySword.name);
+			member.SetEquipment (CrewMember.EquipmentPart.Weapon, anySword);
+			Crews.playerCrew.captain.Icon.GetComponent<IconVisual> ().UpdateWeaponSprite (1);
+		}
+
+
+
+//		Tween.Boun		ce (jobImage.transform);
 	}
 
 	private void UpdateButtons () {
@@ -182,7 +198,8 @@ public class MemberCreator : MonoBehaviour {
 			if ((int)Crews.playerCrew.captain.MemberID.job == 4)
 				jobIndex = 0;
 
-			Crews.playerCrew.captain.MemberID.SetJob ( (Job)jobIndex );
+			Crews.playerCrew.captain.MemberID.SetJob ((Job)jobIndex);
+			Crews.playerCrew.captain.InitJob ();
 
 			UpdateJob ();
 

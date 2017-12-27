@@ -71,7 +71,7 @@ public class SkillButton : MonoBehaviour {
 		uiText_Description.text = skill.description;
 
 		Tween.Bounce ( descriptionGroup.transform );
-		Tween.Bounce ( transform );
+//		Tween.Bounce ( transform );
 	}
 
 	void HideDescription ()
@@ -87,16 +87,27 @@ public class SkillButton : MonoBehaviour {
 
 		uiText_SkillName.text = _skill.type.ToString ();
 
-		if ( skill.energyCost == 0 )
+		if (skill.energyCost == 0) {
 			energyGroup.SetActive (false);
-		else
+		} else {
+			energyGroup.SetActive (true);
 			uiText_Energy.text = "" + skill.energyCost;
 
+		}
+
 		Fighter fighter = CombatManager.Instance.currentFighter;
-		if ( skill.energyCost > fighter.crewMember.energy ) {
-			GetComponent<Button> ().interactable = false;
+		if ( skill.energyCost > fighter.crewMember.energy || skill.MeetsRestrictions(fighter.crewMember) == false ) {
+//			print ("not interactable");
+//			GetComponent<Button> ().interactable = false;
+
+			GetComponent<Image> ().raycastTarget = false;
 		} else {
-			GetComponent<Button> ().interactable = true;
+
+//			print ("interactable : restriction : " + skill.MeetsRestrictions(fighter.crewMember) );
+
+			GetComponent<Image> ().raycastTarget = true;
+
+//			GetComponent<Button> ().interactable = true;
 		}
 	}
 

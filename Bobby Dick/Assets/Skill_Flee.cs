@@ -26,13 +26,11 @@ public class Skill_Flee : Skill {
 
 		if ( DiceManager.Instance.HighestResult == 6 ) {
 
-
 			fighter.Fade ();
 			fighter.combatFeedback.Display("Sucess!", Color.green);
 
 			CombatManager.Instance.DeleteFighter (fighter);
-
-			CombatManager.Instance.NextTurn ();
+			CombatManager.Instance.StartNewTurn ();
 
 
 		} else if ( DiceManager.Instance.HighestResult == 1 ) {
@@ -40,6 +38,8 @@ public class Skill_Flee : Skill {
 
 			fighter.combatFeedback.Display("Crit\nFail!", Color.magenta);
 			fighter.AddStatus (Fighter.Status.KnockedOut);
+
+			fighter.crewMember.energy = 0;
 
 			EndSkill ();
 

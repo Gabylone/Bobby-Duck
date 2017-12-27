@@ -10,6 +10,8 @@ public class CrewMember {
 	public static void setSelectedMember (CrewMember crewMember) {
 		
 		if (selectedMember != null) {
+
+//			selectedMember.print
 			if (selectedMember.Icon == null) {
 				Debug.LogError ("le probleme de la mort après combat sur : " + selectedMember.MemberName);
 				return;
@@ -65,6 +67,7 @@ public class CrewMember {
 		energy += _energy;
 
 		energy = Mathf.Clamp (energy, 0, maxEnergy);
+
 	}
 
 	// ICON
@@ -82,11 +85,17 @@ public class CrewMember {
 		this.memberIcon.SetMember (this);
 
 		// skill place holder
+		InitJob();
+
+	}
+
+	public void InitJob () {
+		specialSkills.Clear ();
 		foreach (var item in memberID.specialSkillsIndexes) {
-			Debug.Log (SkillManager.skills.Length);
+//			Debug.Log (SkillManager.skills.Length);
+
 			specialSkills.Add (SkillManager.skills [item]);
 		}
-
 	}
 
 	#region level
@@ -157,19 +166,26 @@ public class CrewMember {
 		float maxHits = 10;
 		float minHits = 2;
 
-		float dif = (Defense - incomingAttack) / 10f;
-//				Debug.Log("dif : " + dif);
+		float maxAttack = 120f;
 
-		float lerp = (dif + (maxHits / 2f)) / maxHits;
-//				Debug.Log ("lerp : " + lerp);
+		incomingAttack = Mathf.Clamp (incomingAttack, 0, maxAttack);
+
+		float dif = ((float)Defense - incomingAttack);
+
+		float lerp = (dif + maxAttack) / (maxAttack*2);
 
 		float hits = minHits + ((maxHits - minHits) * lerp);
-//				Debug.Log ("hits : " + hits);
 
-		float damageTaken = 100f / hits;
-//				Debug.Log ("damage : " + damageTaken);
+		float damageTaken = maxAttack / hits;
 
-		int roundedDamage = Mathf.CeilToInt(damageTaken);
+		int roundedDamage = Mathf.RoundToInt(damageTaken);
+
+//			Debug.Log ("attack : " + incomingAttack);
+//			Debug.Log ("defense : " + Defense);
+//			Debug.Log ("dif : " + dif);
+//			Debug.Log ("lerp : " + lerp);
+//			Debug.Log ("hits : " + hits);
+//			Debug.Log ("damageTaken : " + damageTaken);
 
 		return roundedDamage;
 //				Debug.Log ("rounded damage : " + roundedDamage);

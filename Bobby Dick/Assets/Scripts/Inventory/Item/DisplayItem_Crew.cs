@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DisplayItem_Crew : DisplayItem {
 
@@ -8,6 +9,8 @@ public class DisplayItem_Crew : DisplayItem {
 	public static OnRemoveItemFromMember onRemoveItemFromMember;
 
 	public CrewMember.EquipmentPart part;
+
+	public Image itemImage;
 
 	void Start () {
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
@@ -41,12 +44,36 @@ public class DisplayItem_Crew : DisplayItem {
 
 		LootManager.Instance.getLoot(Crews.Side.Player).AddItem (HandledItem);
 
+		if ( onRemoveItemFromMember != null )
+			onRemoveItemFromMember (HandledItem);
+
 		CrewMember.selectedMember.SetEquipment (part, null);
 
 		Clear ();
 
-		if ( onRemoveItemFromMember != null )
-			onRemoveItemFromMember (HandledItem);
+	}
 
+	public override Item HandledItem {
+		get {
+			return base.HandledItem;
+		}
+		set {
+
+			base.HandledItem = value;
+
+			if (value == null) {
+				itemImage.enabled = false;
+				return;
+			}
+
+			if (value.spriteID < 0) {
+				itemImage.enabled = false;
+			} else {
+				itemImage.enabled = true;
+				itemImage.sprite = LootManager.Instance.getItemSprite (value.category, value.spriteID);
+			}
+
+			itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-30, 30)));
+		}
 	}
 }

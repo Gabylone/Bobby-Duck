@@ -32,8 +32,9 @@ public class Skill_Leap: Skill {
 			onDelay = false;
 			hasTarget = false;
 			goToTarget = false;
+			playAnim = false;
 
-			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack * 6f);
+			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack , 3f);
 
 			EndSkill ();
 			//
@@ -49,28 +50,41 @@ public class Skill_Leap: Skill {
 		}
 
 	}
-
-	void HandleOnSkillDelay (Fighter delayFighter)
+	Fighter delayFighter;
+	void HandleOnSkillDelay (Fighter _delayFighter)
 	{
+		Invoke ("TriggerDelay",0.1f);
+		this.delayFighter = _delayFighter;
+		delayFighter.combatFeedback.Display (base.name);
+	}
+
+	void TriggerDelay () {
 		onDelay = true;
 		hasTarget = true;
 		goToTarget = true;
+		playAnim = true;
 
 		Trigger (delayFighter);
-
 	}
+
+	public override bool MeetsRestrictions (CrewMember member)
+	{
+		return base.MeetsRestrictions (member) && member.GetEquipment(CrewMember.EquipmentPart.Weapon).spriteID == 1;
+	}
+
 
 	public override bool MeetsConditions (CrewMember member)
 	{
 
-		bool allyHealthIsCritical = true;
+		bool hasTarget = false;
 
-		foreach (var item in Crews.getCrew(Crews.otherSide(member.side)).CrewMembers) {
-			if (item.Health > healthToAttack) {
-				allyHealthIsCritical = false;
+		foreach (var item in CombatManager.Instance.getCurrentFighters(Crews.otherSide(member.side)) ) {
+			if (item.crewMember.Health < healthToAttack) {
+				hasTarget = true;
+				preferedTarget = item;
 			}
 		}
 
-		return allyHealthIsCritical == false && base.MeetsConditions (member);
+		return hasTarget && base.MeetsConditions (member);
 	}
 }
