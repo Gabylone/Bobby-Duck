@@ -38,11 +38,12 @@ public class QuestMenu : MonoBehaviour {
 		QuestManager.onGiveUpQuest += HandleOnFinishQuest;
 		QuestManager.onFinishQuest += HandleOnFinishQuest;
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.closeInventory += HandleCloseInventory;
 	}
 
-	void HandleOpenInventory (CrewMember member)
+	void HandleCloseInventory ()
 	{
+		
 		Close ();
 	}
 
@@ -61,8 +62,10 @@ public class QuestMenu : MonoBehaviour {
 		menuGroup.SetActive (true);
 
 //		CrewInventory.Instance.CloseLoot ();
-		CrewInventory.Instance.HideInventory();
-		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
+//		CrewInventory.Instance.HideInventory();
+//		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
+
+		CrewInventory.Instance.HideMenuButtons ();
 
 		displayFormulas.ShowFormulas ();
 
@@ -71,7 +74,10 @@ public class QuestMenu : MonoBehaviour {
 	}
 
 	public void Close () {
+		
 		openButton.SetActive (true);
+
+		CrewInventory.Instance.ShowMenuButtons ();
 
 		Tween.Scale (menuGroup.transform , 0.2f , 0.8f);
 		Tween.Fade (menuGroup.transform , 0.2f );

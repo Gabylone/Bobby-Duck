@@ -223,9 +223,8 @@ public class Skill : MonoBehaviour {
 		RhumRound,
 
 		// COOK
-		Goad,
-//		Parry,
 		HelpMate,
+		Goad,
 		ToastUp,
 		PledgeOfFeast,
 

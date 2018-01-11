@@ -94,15 +94,7 @@ public class CombatButtons : MonoBehaviour {
 		// check if player has enought energy
 		CrewMember member = CombatManager.Instance.currentFighter.crewMember;
 
-		if ( member.GetEquipment(CrewMember.EquipmentPart.Weapon).spriteID == 0 ) {
-			// pistolet
-			defaultSkillButtons[0].SetSkill( SkillManager.getSkill(Skill.Type.DistanceAttack) );
-//			Debug.Log ("il a un pistolet");
-		} else {
-			// sword
-			defaultSkillButtons[0].SetSkill (SkillManager.getSkill(Skill.Type.CloseAttack));
-//			Debug.Log ("il a une épée");
-		}
+		defaultSkillButtons[0].SetSkill(SkillManager.GetDefaultAttackSkill(member));
 
 		foreach (var item in defaultSkillButtons) {
 			item.SetSkill (item.skill);

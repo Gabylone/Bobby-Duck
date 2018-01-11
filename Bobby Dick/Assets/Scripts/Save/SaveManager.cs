@@ -7,28 +7,29 @@ public class SaveManager : MonoBehaviour
 {
 	public static SaveManager Instance;
 
-	public delegate void LoadGameData ();
-	public event LoadGameData loadData;
-
-	public delegate void SaveGameData ();
-	public event SaveGameData saveData;
-
 	void Awake () {
 		Instance = this;
 	}
 
 	void Start () {
+		
 		currentData = new GameData ();
 
-//		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+
 	}
 
-	#region action
+	void HandleChunkEvent ()
+	{
+		SaveOverallGame ();
+	}
+
+	#region load
 	public void LoadGame () {
 
 		currentData = SaveTool.Instance.Load ();
 
-		LoadEveryThing ();
+		LoadOverallGame ();
 
 	}
 	public void LoadGameCoroutine() {
@@ -38,7 +39,7 @@ public class SaveManager : MonoBehaviour
 		StartCoroutine (LoadGameCoroutine_Coroutine ());
 
 	}
-	public void LoadEveryThing () {
+	public void LoadOverallGame () {
 		// player crew
 		Crews.Instance.LoadPlayerCrew ();
 
@@ -79,24 +80,32 @@ public class SaveManager : MonoBehaviour
 		if (StoryLauncher.Instance.PlayingStory)
 			StoryLauncher.Instance.EndStory ();
 
-		LoadEveryThing ();
+		LoadOverallGame ();
 
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
 		Transitions.Instance.ScreenTransition.Fade = false;
 
 	}
-	public void SaveGame () {
+	#endregion
+
+	#region save
+	public void SaveOverallGame () {
+
+		SaveGameData ();
+
+		SaveAllChunks ();
+
+		SaveTool.Instance.Save ();
+
+	}
+
+	public void SaveGameData () {
 
 		// player crew
 		Crews.Instance.SavePlayerCrew ();
 
 		// save boats
 		Boats.Instance.SaveBoats();
-
-		// island ids
-		// island datas
-		// special island positions
-		MapGenerator.Instance.SaveIslandsData ();
 
 		FormulaManager.Instance.SaveFormulas ();
 
@@ -112,7 +121,14 @@ public class SaveManager : MonoBehaviour
 
 		TimeManager.Instance.SaveWeather ();
 
-		SaveTool.Instance.Save ();
+	}
+
+	public void SaveAllChunks () {
+
+		// island ids
+		// island datas
+		// special island positions
+		MapGenerator.Instance.SaveIslandsData ();
 
 	}
 	#endregion
@@ -131,10 +147,17 @@ public class SaveManager : MonoBehaviour
 //[System.Serializable]
 public class GameData
 {
-	// crew
+	// crew & loot
 	public Crew 				playerCrew;
+	public Loot 				playerLoot;
+
+	public int 					playerWeight = 0;
+	public int 					playerGold = 0;
 
 	public Chunk[][] 			chunks;
+
+	public int 					karma = 0;
+	public int 					bounty = 0;
 
 	// islands
 	public MapData 				mapData;
@@ -144,15 +167,9 @@ public class GameData
 	public PlayerBoatInfo 		playerBoatInfo;
 	public List<OtherBoatInfo>	otherBoatInfos;
 
-	public StoryHandler 		storyHandler;
-
-	public Loot 				playerLoot;
-
+	// quests
 	public List<Quest> 			currentQuests;
 	public List<Quest>			finishedQuests;
-
-	public int 					playerWeight = 0;
-	public int 					playerGold = 0;
 
 		// time
 	public bool 				raining = false;
@@ -161,51 +178,9 @@ public class GameData
 	public bool 				night = false;
 	public int 					timeOfDay = 0;
 
-	public int 					karma = 0;
-	public int 					bounty = 0;
 
 	public GameData()
 	{
 		// islands ids
 	}
 }
-
-
-
-//public class WorldData {
-//
-//	// islands
-//	public MapData 				mapData;
-//	public Formula[] 			formulas;
-//	public List<OtherBoatInfo>	otherBoatInfos;
-//
-//	// time
-//	public bool 				raining = false;
-//	public int 					currentRain = 0;
-//
-//	public bool 				night = false;
-//	public int 					timeOfDay = 0;
-//
-//	public WorldData() {
-//		//
-//	}
-//}
-//
-//public class PlayerData
-//{
-//	public Crew 				playerCrew;
-//	public PlayerBoatInfo 		playerBoatInfo;
-//	public Loot 				playerLoot;
-//	public List<Quest> 			currentQuests;
-//	public List<Quest>			finishedQuests;
-//
-//	public int 					playerWeight = 0;
-//	public int 					playerGold = 0;
-//	public int 					karma = 0;
-//	public int 					bounty = 0;
-//
-//	public PlayerData()
-//	{
-//		// islands ids
-//	}
-//}

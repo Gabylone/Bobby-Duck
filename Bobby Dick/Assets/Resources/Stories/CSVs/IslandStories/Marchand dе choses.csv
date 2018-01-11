@@ -1,0 +1,28 @@
+Nom histoire;Fréquence %;Sprite ID;;;;;;;;;;;
+Marchand dе choses;5,48;1;;;;;;;;;;;
+Narrator : L'île est petite, plate et verte. ;;;;;;;;;;;;;
+CheckQuest=>debut;;;;;;;;;;;;;
+[debut];;;;;;;;;;;;;
+Narrator : Sur la plage un panneau indique une direction : « Vendeur de choses et d’autres »;;;;;;;;;;;;;
+SetChoices2;;;;;;;;;;;;;
+Choice : (partir);Choice : (suivre panneau);;;;;;;;;;;;
+Leave;Fade;;;;;;;;;;;;
+;Node=>marchand;;;;;;;;;;;;
+;;;[la quete];;;;;;;;;;
+;;;NewQuest=>choix;;;;;;;;;;
+[marchand];;;;;;;;;;;;;
+NewCrew1;;;;;;;;;;;;;
+[switch quete];Node=>combat;Node=>mort;;;;;;;;;;;
+OtherSpeak : Salut voyageur !;Node=>la quete;;;;;;;;;;;;
+[choix];;;;;;[choix autre];;;;;;[combat];
+SetChoices4;;;;;;SetChoices3;;;;;;OtherSpeak : ?!?;
+Choice : (partir);Choice : Montrez moi votre marchandise(trade);Choice : Le trésor de Bobby Dick ?;;Choice : (autre);;Choice : Donnez tout ! (attaquer);Choice : Tout va bien pour vous ?(quete);;;Choice : (autre);;LaunchCombat;
+OtherSpeak : Au revoir !;TradeMisc;RandomPercent20;;Node=>choix autre;;Node=>combat;RandomRange2;;;Node=>choix;;RemoveKarma;
+Leave;Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;;;;OtherSpeak : Les gens ne traversent pas des océans;OtherSpeak : Pas vraiment.;;;;[mort];
+;;Node=>choix;Node=>choix;;;;OtherSpeak : Pour des choses que j’ai trouvé au fond de l’océan.;OtherSpeak : J'aurais bien besoin d'un petit coup de pouce.;;;;PlayerSpeak : Le voilà mort !;
+;;;;;;;OtherSpeak : A part ça, oui.;SetChoices2;;;;SetChoices2;
+;;;;;;;Node=>choix;Choice : Je suis préssé…;Choice : Je peux faire quelque chose peut être.;;;Choice : (partir);Choice : (fouiller l’échope)
+;;;;;;;;OtherSpeak : D'accord.;Switch=>switch quete;;;Leave;TradeMisc
+;;;;;;;;Node=>choix;Node=>la quete;;;;PlayerSpeak : Des choses et d’autres…
+;;;;;;;;;;;;;PlayerSpeak : Je savais pas à quoi je m’attendais
+;;;;;;;;;;;;;Leave

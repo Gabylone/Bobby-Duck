@@ -11,6 +11,7 @@ public class SkillButton : MonoBehaviour {
 	public Image skillImage;
 
 	public GameObject energyGroup;
+	public GameObject descriptionGroup;
 
 	public Text uiText_SkillName;
 	public Text uiText_Description;
@@ -19,11 +20,14 @@ public class SkillButton : MonoBehaviour {
 
 	public Skill skill;
 
+	public Image image;
+	public Button button;
+
 	bool touching = false;
 
 	public float timeToShowDescription = 0.5f;
 
-	void Start () {
+	public virtual void Start () {
 		HideDescription ();
 	}
 
@@ -31,7 +35,7 @@ public class SkillButton : MonoBehaviour {
 
 		touching = true;
 
-		Invoke ("TriggerSkillDelay" , timeToShowDescription);
+		Invoke ("TriggerSkillDelay" , timeToShowDescription);	
 
 	}
 
@@ -61,9 +65,8 @@ public class SkillButton : MonoBehaviour {
 
 	}
 
-	public GameObject descriptionGroup;
-
-	void ShowDescription ()
+	#region description
+	public void ShowDescription ()
 	{
 		descriptionGroup.SetActive (true);
 
@@ -71,15 +74,15 @@ public class SkillButton : MonoBehaviour {
 		uiText_Description.text = skill.description;
 
 		Tween.Bounce ( descriptionGroup.transform );
-//		Tween.Bounce ( transform );
 	}
 
-	void HideDescription ()
+	public void HideDescription ()
 	{
 		descriptionGroup.SetActive (false);
 	}
+	#endregion
 
-	public void SetSkill (Skill _skill)
+	public virtual void SetSkill (Skill _skill)
 	{
 		skill = _skill;
 
@@ -87,28 +90,40 @@ public class SkillButton : MonoBehaviour {
 
 		uiText_SkillName.text = _skill.type.ToString ();
 
+		UpdateEnergyCost ();
+	}
+
+	void UpdateEnergyCost ()
+	{
+		if (energyGroup == null)
+			return;
+
 		if (skill.energyCost == 0) {
 			energyGroup.SetActive (false);
 		} else {
 			energyGroup.SetActive (true);
 			uiText_Energy.text = "" + skill.energyCost;
-
 		}
 
 		Fighter fighter = CombatManager.Instance.currentFighter;
-		if ( skill.energyCost > fighter.crewMember.energy || skill.MeetsRestrictions(fighter.crewMember) == false ) {
-//			print ("not interactable");
-//			GetComponent<Button> ().interactable = false;
 
+		if ( skill.energyCost > fighter.crewMember.energy || skill.MeetsRestrictions(fighter.crewMember) == false ) {
 			GetComponent<Image> ().raycastTarget = false;
 		} else {
 
-//			print ("interactable : restriction : " + skill.MeetsRestrictions(fighter.crewMember) );
-
 			GetComponent<Image> ().raycastTarget = true;
 
-//			GetComponent<Button> ().interactable = true;
 		}
+	}
+
+	public void Show () {
+		gameObject.SetActive (true);
+		Tween.Bounce (transform);
+	}
+
+	public void Hide () 
+	{
+		gameObject.SetActive (false);
 	}
 
 }

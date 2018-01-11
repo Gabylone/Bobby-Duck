@@ -44,7 +44,11 @@ public class StatButton : MonoBehaviour {
 	}
 
 	void Display (CrewMember member) {
-		if (member.StatPoints > 0 && member.GetStat(stat) < 7) {
+
+		if (member == null)
+			return;
+
+		if (member.SkillPoints > 0 && member.GetStat(stat) < 7) {
 			Enable ();
 		} else {
 			Disable ();

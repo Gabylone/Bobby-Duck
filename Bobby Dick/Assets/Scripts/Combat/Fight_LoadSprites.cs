@@ -58,7 +58,10 @@ public class Fight_LoadSprites : MonoBehaviour {
 		// body
 		allSprites[(int)SpriteIndex.body].sprite = CrewCreator.Instance.BodySprites[memberID.Male ? 0:1];
 
-		allSprites [(int)SpriteIndex.weapon].sprite = CrewCreator.Instance.weaponSprites [memberID.equipedWeapon.spriteID];
+		if (memberID.equipedWeapon == null)
+			allSprites [(int)SpriteIndex.weapon].sprite = CrewCreator.Instance.handSprite;
+		else
+			allSprites [(int)SpriteIndex.weapon].sprite = CrewCreator.Instance.weaponSprites [memberID.equipedWeapon.spriteID];
 
 	}
 

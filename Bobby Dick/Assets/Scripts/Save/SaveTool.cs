@@ -27,7 +27,6 @@ public class SaveTool : MonoBehaviour
 	public void Save()
     {
 		string path = getPath ();
-//		string path = PathToSave + "/GameSave.xml";
 
 		byte[] bytes = Encoding.Unicode.GetBytes(path);
 		path = Encoding.Unicode.GetString(bytes);
@@ -163,6 +162,7 @@ public class SaveTool : MonoBehaviour
 			// islands ids
 		}
 	}
+
 //	public ChunkGroupData GetChunkGroupData ( Coords c ) {
 //		int x = 0;
 //		int y = 0;

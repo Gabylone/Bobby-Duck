@@ -112,6 +112,13 @@ public class SkillManager : MonoBehaviour {
 
 	}
 
+	public static Skill GetDefaultAttackSkill (CrewMember member) {
+		if ( member.GetEquipment(CrewMember.EquipmentPart.Weapon) == null || member.GetEquipment (CrewMember.EquipmentPart.Weapon).spriteID == 0)
+			return getSkill (Skill.Type.DistanceAttack);
+		else
+			return getSkill (Skill.Type.CloseAttack);
+	}
+
 	public static Skill RandomSkill ( CrewMember member ) {
 
 //		print ("il le fait qu'une fois ?");
@@ -120,10 +127,7 @@ public class SkillManager : MonoBehaviour {
 
 		int priority = 0;
 
-		if (member.GetEquipment (CrewMember.EquipmentPart.Weapon).spriteID == 0)
-			defaultSkills [0] = getSkill (Skill.Type.DistanceAttack);
-		else
-			defaultSkills [0] = getSkill (Skill.Type.CloseAttack);
+		defaultSkills [0] = GetDefaultAttackSkill (member);
 
 		List<Skill> memberSkills = new List<Skill>();
 		foreach (var item in defaultSkills) {

@@ -16,7 +16,7 @@ public class Member {
 	// lvl
 	public int Lvl 		= 0;
 	public int xp 		= 0; 
-	public int statPoints = 0;
+	public int skillPoints = 0;
 	public List<int> specialSkillsIndexes = new List<int> ();
 //	public List<Skill> defaultSkills = new List<Skill> ();
 
@@ -44,9 +44,13 @@ public class Member {
 
 		// special
 		List<Skill> jobSkills = SkillManager.getJobSkills (job);
-		for (int skillIndex = 0; skillIndex < jobSkills.Count; skillIndex++) {
-			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [skillIndex]));
-		}
+//		for (int skillIndex = 0; skillIndex < jobSkills.Count; skillIndex++) {
+//			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [skillIndex]));
+//		}
+		specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [0]));
+
+
+
 //		foreach (var item in specialSkills) {
 //			Debug.Log (item.name);
 //		}

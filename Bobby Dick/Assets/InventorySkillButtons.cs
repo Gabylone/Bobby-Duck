@@ -1,0 +1,75 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class InventorySkillButtons : MonoBehaviour {
+
+	SkillButton_Inventory[] skillButtons;
+
+	// Use this for initialization
+	void Start () {
+		
+		skillButtons = GetComponentsInChildren<SkillButton_Inventory> (true);
+
+		CrewInventory.onShowCharacterStats += HandleOnShowCharacterStats;
+		HandleOnShowCharacterStats ();
+	}
+
+	void HandleOnShowCharacterStats ()
+	{
+		if (CrewMember.selectedMember == null)
+			return;
+
+		StartCoroutine (ShowSkillButtonsCoroutine ());
+	}
+
+	public float timeBetweenButtons = 0.5f;
+
+	IEnumerator ShowSkillButtonsCoroutine () {
+
+		HideButtons ();
+
+		List<Skill> skills = SkillManager.getJobSkills (CrewMember.selectedMember.job);
+
+		int a = 0;
+
+		foreach (var item in skillButtons) {
+
+			item.Show ();
+
+			item.HideDescription ();
+
+			item.SetSkill (skills [a]);
+
+			item.Invoke ("ShowDescription", timeBetweenButtons / 1.5f );
+
+			++a;
+
+			yield return new WaitForSeconds (timeBetweenButtons);
+
+		}
+
+		yield return new WaitForEndOfFrame ();
+	}
+
+	void HideButtons ()
+	{
+		foreach (var item in skillButtons) {
+			item.gameObject.SetActive (false);
+		}
+	}
+
+	void UpdateSkillButtons () {
+
+		Skill[] skills;
+
+		for (int skillButtonIndex = 0; skillButtonIndex < skillButtons.Length; skillButtonIndex++) {
+
+			skillButtons [0].SetSkill ( SkillManager.getJobSkills ( CrewMember.selectedMember.job)[skillButtonIndex] );
+
+
+		}
+
+	}
+
+}

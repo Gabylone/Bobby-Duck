@@ -7,6 +7,7 @@ public class CrewMember {
 
 	// SELECTED MEMBER IN INVENTORY
 	public static CrewMember selectedMember;
+	public static CrewMember previousMember;
 	public static void setSelectedMember (CrewMember crewMember) {
 		
 		if (selectedMember != null) {
@@ -15,21 +16,24 @@ public class CrewMember {
 			if (selectedMember.Icon == null) {
 				Debug.LogError ("le probleme de la mort après combat sur : " + selectedMember.MemberName);
 				return;
-			} else {
-				selectedMember.Icon.Down ();
 			}
+
 		}
 
+		if (selectedMember != null )
+			previousMember = selectedMember;
 		selectedMember = crewMember;
-
-		selectedMember.Icon.Up ();
 	}
 
 	// STATS
 	public int maxLevel = 10;
 
 	// EXPERIENCE
-	public int xpToLevelUp = 100;
+	public int xpToLevelUp {
+		get {
+			return 100 + (5 * (Level-1) );
+		}
+	}
 
 	// COMPONENTS
 	public Crews.Side side;
@@ -47,7 +51,21 @@ public class CrewMember {
 		}
 	}
 
-	public List<Skill> specialSkills = new List<Skill>();
+	public List<Skill> specialSkills {
+
+		get {
+
+			List<Skill> tmpskills = new List<Skill> ();
+
+			foreach (var item in memberID.specialSkillsIndexes) {
+				tmpskills.Add (SkillManager.skills [item]);
+			}
+
+			return tmpskills;
+
+		}
+
+	}
 //
 //	public List<Skill> defaultSkills {
 //		get {
@@ -84,16 +102,11 @@ public class CrewMember {
 
 		this.memberIcon.SetMember (this);
 
-		// skill place holder
-		InitJob();
-
 	}
 
 	public void InitJob () {
 		specialSkills.Clear ();
 		foreach (var item in memberID.specialSkillsIndexes) {
-//			Debug.Log (SkillManager.skills.Length);
-
 			specialSkills.Add (SkillManager.skills [item]);
 		}
 	}
@@ -111,7 +124,6 @@ public class CrewMember {
 			LevelUp ();
 		}
 
-
 	}
 
 	public delegate void OnLevelUpStat (CrewMember member);
@@ -122,7 +134,7 @@ public class CrewMember {
 
 		SetStat(stat, newValue);
 
-		--StatPoints;
+		--SkillPoints;
 
 		if (onLevelUp != null) {
 			onLevelUpStat (this);
@@ -138,7 +150,7 @@ public class CrewMember {
 
 		CurrentXp = CurrentXp - xpToLevelUp;
 
-		++StatPoints;
+		SkillPoints += 2;
 
 		if ( Level == maxLevel ) {
 			CurrentXp = 0;
@@ -205,8 +217,6 @@ public class CrewMember {
 
 	#region states
 	public void UpdateHunger () {
-
-		AddXP (4);
 
 		CurrentHunger += stepsToHunger;
 
@@ -379,12 +389,12 @@ public class CrewMember {
 		}
 	}
 
-	public int StatPoints {
+	public int SkillPoints {
 		get {
-			return memberID.statPoints;
+			return memberID.skillPoints;
 		}
 		set {
-			memberID.statPoints = value;
+			memberID.skillPoints = value;
 		}
 	}
 	#endregion

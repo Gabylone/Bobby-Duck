@@ -1,5 +1,5 @@
 Nom histoire;Fréquence %;Sprite ID;;;;;;;;;;
-Manoir Abandonné;4,48;1;;;;;;;;;;
+Manoir Abandonné;4,11;1;;;;;;;;;;
 [debut];;;;;;;;;;;;
 Narrator : Au milieu d'une petit plaine se tient une immense baraque. Elle est vielle et dans un piteux état.;;;;;;;;;;;;
 CheckQuest=>choix porte;;;;;;;;;;;;

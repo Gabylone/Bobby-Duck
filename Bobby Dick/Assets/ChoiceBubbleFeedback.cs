@@ -5,23 +5,11 @@ using UnityEngine.UI;
 
 public class ChoiceBubbleFeedback : MonoBehaviour {
 
-	private string[] bubblePhrases = new string[8] {
-		"(partir)",
-		"(attaquer)",
-		"(trade)",
-		"(autre)",
-		"(dormir)",
-		"(nouveau membre)",
-		"(loot)",
-		"(quete)"
-	};
-
-
 	public string SetSprite (string str) {
 
 		int index = 0;
 
-		foreach (var bubblePhrase in bubblePhrases) {
+		foreach (var bubblePhrase in ChoiceManager.bubblePhrases) {
 
 			if ( str.EndsWith(bubblePhrase) ) {
 				

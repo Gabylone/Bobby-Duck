@@ -4,10 +4,6 @@ using System.Collections;
 
 public class MenuManager : MonoBehaviour {
 
-
-	[SerializeField]
-	private SaveMenu saveMenu;
-
 	[SerializeField]
 	private GameObject quitFeedback;
 
@@ -22,10 +18,10 @@ public class MenuManager : MonoBehaviour {
 	bool quit_Confirmed = false;
 
 	void Start () {
-		CrewInventory.Instance.openInventory += HandleOpenInventory;;
+		CrewInventory.Instance.closeInventory += HandleCloseInventory;
 	}
 
-	void HandleOpenInventory (CrewMember member)
+	void HandleCloseInventory ()
 	{
 		Close ();
 	}
@@ -34,18 +30,16 @@ public class MenuManager : MonoBehaviour {
 
 		menuGroup.SetActive (true);
 
-		CrewInventory.Instance.HideInventory ();
+		CrewInventory.Instance.HideMenuButtons ();
 
 		Tween.Bounce (menuGroup.transform , 0.2f , 1.1f);
 	}
 
 	public void Close () {
+
+		CrewInventory.Instance.ShowMenuButtons ();
 		
 		menuGroup.SetActive (false);
-
-		saveMenu.Opened = false;
-
-		quitFeedback.SetActive (false);
 
 		quit_Confirmed = false;
 
@@ -62,26 +56,23 @@ public class MenuManager : MonoBehaviour {
 
 	void HandleOnValidate ()
 	{
-		SaveManager.Instance.SaveGame ();
-	}
-//	public void SaveButton () {
-//		saveMenu.Saving = true;
-//		saveMenu.Opened = !saveMenu.Opened;
-//	}
-	public void LoadButton () {
-		saveMenu.Saving = false;
-		saveMenu.Opened = !saveMenu.Opened;
+		SaveManager.Instance.SaveOverallGame ();
 	}
 	public void QuitButton () {
 
-		if (quit_Confirmed) {
-
-			Application.Quit ();
-		} else {
-			quit_Confirmed = true;
-			quitFeedback.SetActive (true);
-			Tween.Bounce (quitFeedback.transform, 0.2f, 1.2f);
-		}
+		Tween.Bounce (transform);
+		Invoke ("Quit",Tween.defaultDuration);
+//
+//		if (quit_Confirmed) {
+//
+//		} else {
+//			quit_Confirmed = true;
+//			quitFeedback.SetActive (true);
+//			Tween.Bounce (quitFeedback.transform, 0.2f, 1.2f);
+//		}
+	}
+	void Quit () {
+		Application.Quit ();
 	}
 	#endregion
 }

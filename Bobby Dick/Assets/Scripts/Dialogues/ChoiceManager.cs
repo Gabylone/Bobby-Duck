@@ -9,6 +9,17 @@ public class ChoiceManager : MonoBehaviour {
 	public static Sprite[] feedbackSprites;
 	public Sprite[] bubbleSprites;
 
+	public static string[] bubblePhrases = new string[8] {
+		"(partir)",
+		"(attaquer)",
+		"(trade)",
+		"(autre)",
+		"(dormir)",
+		"(nouveau membre)",
+		"(loot)",
+		"(quete)"
+	};
+
 	[Header("Choices")]
 	[SerializeField]
 	private GameObject[] choiceButtons;

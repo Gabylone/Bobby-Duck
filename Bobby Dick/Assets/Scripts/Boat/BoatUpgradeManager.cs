@@ -66,14 +66,14 @@ public class BoatUpgradeManager : MonoBehaviour {
 			upgradeLevels [i] = 1;
 		}
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
 
 		goldButtons = tradingGroup.GetComponentsInChildren<Button> ();
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
 
-	void HandleOpenInventory (CrewMember member)
+	void HandleCloseInventory ()
 	{
 		CloseUpgradeMenu ();
 	}
@@ -94,15 +94,17 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		nameTextUI.text = Boats.PlayerBoatInfo.Name;
 
-		CrewInventory.Instance.HideInventory ();
-
-		QuestMenu.Instance.Close ();
+//		CrewInventory.Instance.HideInventory ();
+		CrewInventory.Instance.HideMenuButtons();
 
 		Tween.Bounce (menuObj.transform, 0.2f, 1.05f);
 		Tween.ClearFade (menuObj.transform);
 	}
 
 	public void CloseUpgradeMenu () {
+
+		CrewInventory.Instance.ShowMenuButtons();
+
 		Tween.Scale (menuObj.transform,0.2f, 0.8f);
 		Tween.Fade (menuObj.transform, 0.2f);
 

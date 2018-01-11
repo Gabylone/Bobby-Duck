@@ -18,11 +18,15 @@ public class Crews : MonoBehaviour {
 	public Side[] Sides {get {return sides;}}
 
 	public enum PlacingType {
+
 		Map,
 		Combat,
 		SoloCombat,
 		Discussion,
-		Hidden
+		Hidden,
+
+		None
+
 	}
 
 	public static CrewManager[] crews = new CrewManager[2];
@@ -41,6 +45,54 @@ public class Crews : MonoBehaviour {
 		crews [1] = GetComponentsInChildren<CrewManager> () [1];
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
+
+		CrewInventory.Instance.closeInventory+= HandleCloseInventory;
+		CrewInventory.Instance.openInventory+= HandleOpenInventory;;
+	}
+
+	void Update () 
+	{
+		if ( Input.GetKeyDown(KeyCode.L)) {
+			Crews.playerCrew.captain.AddXP (25);
+		}
+	}
+
+	void HandleOpenInventory (CrewMember member)
+	{
+		if (CrewMember.previousMember != null) {
+
+			if (StoryLauncher.Instance.PlayingStory) {
+
+				if (CrewMember.selectedMember != Crews.playerCrew.captain) {
+					Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Map);
+//					CrewMember.selectedMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+				}
+
+				CrewMember.previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+
+			} else {
+				
+				CrewMember.previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+
+			}
+
+		}
+
+		CrewMember.selectedMember.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+	}
+
+	void HandleCloseInventory ()
+	{
+		if (StoryLauncher.Instance.PlayingStory) {
+
+			if (CrewMember.selectedMember != Crews.playerCrew.captain) {
+				Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+				CrewMember.selectedMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+			}
+
+		} else {
+			CrewMember.selectedMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+		}
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -201,7 +253,7 @@ public class Crews : MonoBehaviour {
 
 	public void AddMemberToCrew () {
 
-		if (Crews.playerCrew.CrewMembers.Count == Crews.playerCrew.currentMemberCapacity) {
+		if (Crews.playerCrew.CrewMembers.Count >= Crews.playerCrew.currentMemberCapacity) {
 
 			string phrase = "Oh non, le bateau est trop petit";
 			DialogueManager.Instance.SetDialogueTimed (phrase, Crews.enemyCrew.captain);
@@ -211,7 +263,7 @@ public class Crews : MonoBehaviour {
 			CrewMember targetMember = Crews.enemyCrew.captain;
 
 			CrewCreator.Instance.TargetSide = Crews.Side.Player;
-			CrewMember newMember = CrewCreator.Instance.NewMember (Crews.enemyCrew.captain.MemberID);
+			CrewMember newMember = CrewCreator.Instance.NewMember (targetMember.MemberID);
 			Crews.playerCrew.AddMember (newMember);
 			Crews.enemyCrew.RemoveMember (targetMember);
 

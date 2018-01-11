@@ -31,7 +31,7 @@ public class OtherInventory : MonoBehaviour {
 	// 
 	public void SwitchToPlayer () {
 
-		HOTween.To (LootUI.Instance.transform , 0.2f , "position" , targetPos_Player.position, false , EaseType.Linear,0f);
+//		HOTween.To (LootUI.Instance.transform , 0.2f , "position" , targetPos_Player.position, false , EaseType.Linear,0f);
 //		HOTween.To (LootUI.Instance.transform , 0.5f , "position" , targetPos_Player.position, false , EaseType.EaseOutBounce,0f);
 
 		switch (type) {
@@ -51,9 +51,9 @@ public class OtherInventory : MonoBehaviour {
 
 	public void SwitchToOther () {
 
-		CrewInventory.Instance.statGroup.SetActive (false);
+		CrewInventory.Instance.characterStatGroup.SetActive (false);
 
-		HOTween.To (LootUI.Instance.transform , 0.2f , "position" , targetPos_Other.position, false , EaseType.Linear,0f);
+//		HOTween.To (LootUI.Instance.transform , 0.2f , "position" , targetPos_Other.position, false , EaseType.Linear,0f);
 //		HOTween.To (LootUI.Instance.transform , 0.5f , "position" , targetPos_Other.position, false , EaseType.EaseOutBounce,0f);
 
 		switch (type) {

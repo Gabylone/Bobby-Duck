@@ -13,15 +13,32 @@ public class StoryInput : MonoBehaviour {
 	}
 
 	void Start () {
-		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
 		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
+
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+
+		WorldTouch.pointerDownEvent += HandlePointerDownEvent;
+
+	}
+
+	void HandlePointerDownEvent ()
+	{
+		if ( waitForInput ) {
+
+			PressInput ();
+//			Invoke("PressInput",0.1f);
+//
+//			if (InputManager.Instance.OnInputDown ()) {
+//				//				PressInput ();
+//			}
+		}
 	}
 
 	void HandleCloseInventory ()
 	{
-		Invoke ("Unlock", 0.01f);
+		Invoke ("Unlock", 0.2f);
 	}
 
 	void Unlock () {
@@ -33,9 +50,9 @@ public class StoryInput : MonoBehaviour {
 		locked = true;
 	}
 
-	public void Lock () {
+	public void LockFromMember () {
 		locked = true;
-		Invoke ("Unlock", 0.01f);
+		Invoke ("Unlock", 0.3f);
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -48,24 +65,23 @@ public class StoryInput : MonoBehaviour {
 		case FunctionType.AddToInventory:
 		case FunctionType.RemoveFromInventory:
 		case FunctionType.ShowQuestOnMap:
-			Invoke ("Story_WaitForInput",0.01f);
+			Invoke ("WaitForInput", 0.1f);
 			break;
 		}
 	}
 
-	void Story_WaitForInput () {
-		WaitForInput ();
-	}
-
 	// Update is called once per frame
 	void Update () {
+		 
 		if ( waitForInput ) {
+
 			if (InputManager.Instance.OnInputDown ()) {
-				PressInput ();
+//				PressInput ();
+				Invoke("PressInput",0.1f);
 			}
 		}
 	}
-
+//
 	public bool locked = false;
 
 	public delegate void OnPressInput ();
@@ -80,6 +96,7 @@ public class StoryInput : MonoBehaviour {
 		if (locked) {
 			return;
 		}
+
 
 		if (onPressInput != null) {
 			onPressInput ();

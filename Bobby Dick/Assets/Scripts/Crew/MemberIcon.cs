@@ -25,8 +25,8 @@ public class MemberIcon : MonoBehaviour {
 
 	Vector3 initScale;
 
-	public Crews.PlacingType currentPlacingType;
-	public Crews.PlacingType previousPlacingType;
+	public Crews.PlacingType currentPlacingType = Crews.PlacingType.None;
+	public Crews.PlacingType previousPlacingType  = Crews.PlacingType.None;
 
 	public Transform dialogueAnchor;
 
@@ -50,9 +50,9 @@ public class MemberIcon : MonoBehaviour {
 
 	#region overing
 	public void OnPointerDown() {
-		
+
 		if (member.side == Crews.Side.Enemy) {
-			StoryInput.Instance.Lock ();
+			StoryInput.Instance.LockFromMember ();
 			GetComponentInChildren<StatGroup> ().Display (member);
 			return;
 		}
@@ -64,8 +64,6 @@ public class MemberIcon : MonoBehaviour {
 			}
 
 			CrewInventory.Instance.HideInventory ();
-
-			Down ();
 
 		} else {
 
@@ -100,19 +98,23 @@ public class MemberIcon : MonoBehaviour {
 	#region bounce
 	public void Up () {
 
-		Transform t = transform.parent;
+//		Transform t = transform.parent;
+//
+//		transform.SetParent(transform.parent.parent);
+//
+//		transform.SetParent(t);
+//
+//		Tween.Scale ( transform , 0.3f  , 1.3f);
 
-		transform.SetParent(transform.parent.parent);
-
-		transform.SetParent(t);
-
-		Tween.Scale ( transform , 0.3f  , 1.3f);
+//		MoveToPoint (Crews.PlacingType.Discussion);
 
 	}
 
 	public void Down () {
-		
-		Tween.Scale ( transform , 0.3f  , 1f);
+
+//		MoveToPoint (Crews.PlacingType.Map);
+
+//		Tween.Scale ( transform , 0.3f  , 1f);
 
 	}
 
@@ -149,12 +151,12 @@ public class MemberIcon : MonoBehaviour {
 		bodyGroup.SetActive (false);
 		animator.SetBool ("enabled", false);
 
-		Vector3 targetScale = Vector3.one;
+		Vector3 targetScale = initScale;
 //		Vector3 targetScale = Vector3.one * initScale;
-		if (member.side == Crews.Side.Player)
-			targetScale.x = -1;
+//		if (member.side == Crews.Side.Player)
+//			targetScale.x = -1;
 
-		HOTween.To ( group.transform , moveDuration / 2f , "localScale" , targetScale );
+//		HOTween.To ( group.transform , moveDuration / 2f , "localScale" , targetScale );
 
 	}
 	public void ShowBody () {
@@ -165,7 +167,7 @@ public class MemberIcon : MonoBehaviour {
 		if (member.side == Crews.Side.Player)
 			targetScale.x = -bodyScale;
 		
-		HOTween.To (group.transform, moveDuration / 2f, "localScale", targetScale);
+//		HOTween.To (group.transform, moveDuration / 2f, "localScale", targetScale);
 
 	}
 

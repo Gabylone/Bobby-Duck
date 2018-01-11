@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID;;;
-Epave;7,46;0;;;
+Epave;6,85;0;;;
 Narrator : L'île est minuscule. Un petit bâteau s'est échoué sur les rocher qui l'entoure.;;;;;
 CheckQuest=>debut;;;;;
 [debut];;;;;

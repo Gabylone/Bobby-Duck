@@ -1,5 +1,5 @@
 Nom histoire;Fréquence %;Sprite ID;;;;;;
-Labyrinthe;1,49;1;;;;;;
+Labyrinthe;1,37;1;;;;;;
 Narrator : L'ile est couverte de sapins à perte de vue. On ne voit pas à quelques mètres derrière les arbres.;;;;;;;;
 [choix bateau];;;;;;;;
 SetChoices2;;;;;;;;
@@ -61,7 +61,7 @@ Node=>lieu 5;Node=>fin;Node=>lieu 5;;;;;;
 ;;;;;;;;
 ;;;;;;;;
 [fin];;;;;;;;
-RandomRange2;;;;;;;;
+RandomRange2;;e;;;;;;
 Node=>bateau;Node=>butin;;;;;;;
 ;;;;;;;;
 [bateau];;[butin];;;;;;

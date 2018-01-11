@@ -17,6 +17,9 @@ public class DisplayName : MonoBehaviour {
 
 	void HandleOpenInventory (CrewMember member)
 	{
+		if (CrewMember.selectedMember == null)
+			return;
+
 		textUI_Name.text = member.MemberName;
 	}
 }

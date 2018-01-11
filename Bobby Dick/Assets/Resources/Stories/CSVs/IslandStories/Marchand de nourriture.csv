@@ -1,0 +1,26 @@
+Nom histoire;Fréquence %;Sprite ID;;;;;;;;;;;
+Marchand dе nourriture;4,11;1;;;;;;;;;;;
+Narrator : L'île est assez vaste, mais vous en voyez le bout. Elle est couverte de champs de blé.;;;;;;;;;;;;;
+CheckQuest=>debut;;;;;;;;;;;;;
+[debut];;;;;;;;;;;;;
+Narrator : Sur la plage un panneau indique une direction : « A boire et à manger »;;;;;;;;;;;;;
+SetChoices2;;;;;;;;;;;;;
+Choice : (partir);Choice : (suivre panneau);;;;;;;;;;;;
+Leave;Fade;;;;;;;;;;;;
+;Node=>marchand;;;;;;;;;;;;
+;;;[la quete];;;;;;;;;;
+;;;NewQuest=>choix;;;;;;;;;;
+[marchand];;;;;;;;;;;;;
+NewCrew1;;;;;;;;;;;;;
+[switch quete];Node=>combat;Node=>mort;;;;;;;;;;;
+OtherSpeak : Salut voyageur !;Node=>la quete;;;;;;;;;;;;
+[choix];;;;;;[choix autre];;;;;;[combat];
+SetChoices4;;;;;;SetChoices3;;;;;;OtherSpeak : ?!?;
+Choice : (partir);Choice : Montrez moi votre marchandise(trade);Choice : Le trésor de Bobby Dick ?;;Choice : (autre);;Choice : Aboule la bouffe ! (attaquer) ;Choice : Tout va bien pour vous ?(quete);;;Choice : (autre);;LaunchCombat;
+OtherSpeak : Au revoir !;TradeFood;RandomPercent20;;Node=>choix autre;;Node=>combat;RandomRange2;;;Node=>choix;;RemoveKarma;
+Leave;Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;;;;OtherSpeak : Plus gros est le rire, plus gros est le ventre.;OtherSpeak : Pas vraiment.;;;;[mort];
+;;Node=>choix;Node=>choix;;;;OtherSpeak : Comme on dit dans le milieu;OtherSpeak : J'aurais bien besoin d'un petit coup de pouce.;;;;PlayerSpeak : Le voilà mort !;
+;;;;;;;Node=>choix;SetChoices2;;;;SetChoices2;
+;;;;;;;;Choice : Je suis préssé…;Choice : Je peux faire quelque chose peut être.;;;Choice : (partir);Choice : (fouiller la ferme)
+;;;;;;;;OtherSpeak : D'accord.;Switch=>switch quete;;;Leave;LootFood
+;;;;;;;;Node=>choix;Node=>la quete;;;;Leave

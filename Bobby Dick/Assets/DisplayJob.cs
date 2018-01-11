@@ -23,6 +23,9 @@ public class DisplayJob : MonoBehaviour {
 
 	void UpdateUI ()
 	{
+		if (CrewMember.selectedMember == null)
+			return;
+
 		CrewMember member = CrewMember.selectedMember;
 
 		if (SkillManager.jobSprites.Length <= (int)member.job)

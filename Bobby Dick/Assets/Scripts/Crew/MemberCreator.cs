@@ -199,7 +199,6 @@ public class MemberCreator : MonoBehaviour {
 				jobIndex = 0;
 
 			Crews.playerCrew.captain.MemberID.SetJob ((Job)jobIndex);
-			Crews.playerCrew.captain.InitJob ();
 
 			UpdateJob ();
 

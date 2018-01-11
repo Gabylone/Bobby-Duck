@@ -500,9 +500,11 @@ public class CombatManager : MonoBehaviour {
 
 		foreach (var item in currPlayerFighters) {
 
-			item.combatFeedback.Display ("+ 20 xp",Color.blue);
+			int xpPerMember = 25;
 
-			item.crewMember.AddXP (20);
+			item.combatFeedback.Display ("+ " + xpPerMember + " xp",Color.blue);
+
+			item.crewMember.AddXP (xpPerMember);
 		}
 
 	}

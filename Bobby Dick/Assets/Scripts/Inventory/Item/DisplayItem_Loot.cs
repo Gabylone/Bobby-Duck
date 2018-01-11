@@ -5,17 +5,76 @@ using UnityEngine.UI;
 
 public class DisplayItem_Loot : DisplayItem {
 
-	[SerializeField]
-	LootUI lootUI;
+	public GameObject group;
+
+	public static DisplayItem_Loot selectedDisplayItem = null;
 
 	public Image itemImage;
 
 	public int index = 0;
 
+
+	public bool selected = false;
+
+	void Start () {
+		itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-30, 30)));
+	}
+
 	public void Select () {
+
+		if ( selected ) {
+			Deselect ();
+			return;
+		}
+
+		if (selectedDisplayItem != null) {
+			selectedDisplayItem.Deselect ();
+		}
+
+		selected = true;
+
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
 
-		lootUI.UpdateActionButton (index);
+		LootUI.Instance.SelectedItem = HandledItem;
+
+		selectedDisplayItem = this;
+
+		Tween.Bounce (transform);
+
+		button.image.color = Color.blue;
+
+	}
+
+	public void Deselect () {
+
+		selectedDisplayItem = null;
+
+		selected = false;
+
+		LootUI.Instance.SelectedItem = null;
+
+		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
+
+		UpdateColor ();
+
+	}
+
+	void UpdateColor ()
+	{
+
+		if (HandledItem == null) {
+			return;
+		}
+
+		float a = 0.7f;
+
+		if ( HandledItem.level > CrewMember.selectedMember.Level ) {
+			image.color = new Color(1f, a , a);
+		} else if ( HandledItem.level < CrewMember.selectedMember.Level && HandledItem.level > 0 ) {
+			image.color = new Color(a, 1f, a);
+		} else {
+			image.color = Color.white;
+		}
 	}
 
 	public override Item HandledItem {
@@ -27,9 +86,14 @@ public class DisplayItem_Loot : DisplayItem {
 			base.HandledItem = value;
 
 			if (value == null) {
+				group.SetActive (false);
 				itemImage.enabled = false;
 				return;
 			}
+
+			group.SetActive (true);
+
+			UpdateColor ();
 
 			if (value.spriteID < 0) {
 				itemImage.enabled = false;
@@ -38,7 +102,6 @@ public class DisplayItem_Loot : DisplayItem {
 				itemImage.sprite = LootManager.Instance.getItemSprite (value.category, value.spriteID);
 			}
 
-			itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-30, 30)));
 		}
 	}
 }

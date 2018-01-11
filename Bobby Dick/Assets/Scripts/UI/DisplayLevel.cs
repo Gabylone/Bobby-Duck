@@ -5,13 +5,12 @@ using UnityEngine.UI;
 
 public class DisplayLevel : MonoBehaviour {
 
-	Image fillImage;
+	public Image fillImage;
 	Text text;
 
 	// Use this for initialization
-	void Awake () {
+	void Start () {
 
-		fillImage = GetComponent<Image> ();
 		text = GetComponentInChildren<Text> ();
 
 		LootManager.Instance.onWrongLevelEvent += HandleOnWrongLevelEvent;
@@ -31,24 +30,23 @@ public class DisplayLevel : MonoBehaviour {
 
 	void UpdateUI (){
 
+		if (CrewMember.selectedMember == null)
+			return;
+
 		CrewMember crewMember = CrewMember.selectedMember;
 
 		// INFO
 		text.text = crewMember.Level.ToString ();
 
-		if ( crewMember.StatPoints > 0 ) {
-			text.text += "<b>("+crewMember.StatPoints+")</b>";
-		}
-
 		fillImage.fillAmount = ((float)crewMember.CurrentXp / (float)crewMember.xpToLevelUp);
 
 		BounceLevel ();
 
-		if (crewMember.Level == crewMember.maxLevel) {
-			text.text = "MAX";
-			return;
-		}
-
+//		if (crewMember.Level == crewMember.maxLevel) {
+//			text.text = "MAX";
+//			return;
+//		}
+//
 	}
 
 	#region level icons

@@ -1,26 +1,26 @@
-Nom histoire;Fréquence %;Sprite ID;;;;;
-Marchand dе armes;5,97;1;;;;;
-Narrator : L'île est petite, plate et verte. ;;;;;;;
-CheckQuest=>debut;;;;;;;
-[debut];;;;;;;
-Narrator : Sur la plage un panneau indique une direction : « Vendeur d'armes tout genre »;;;;;;;
-SetChoices2;;;;;;;
-Choice : (partir);Choice : (suivre panneau);;;;;;
-Leave;Fade;;;;;;
-;Node=>marchand;;;;;;
-;;;;;;;
-;;;;;;;
-[marchand];;;;;;;
-NewCrew1;;;;;;;
-[switch quete];;;;;;;
-OtherSpeak : Salut voyageur !;Node=>la quete;;;;;;
-[choix];;;;;;;
-SetChoices4;;;;;;;
-Choice : Montrez moi votre marchandise(trade);Choice : Le trésor de Bobby Dick ?;;Choice : (partir);Choice : Tout va bien pour vous ?(quete);;;[la quete]
-TradeWeapons;RandomPercent20;;OtherSpeak : Au revoir !;RandomRange2;;;NewQuest=>choix
-Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;Leave;OtherSpeak : La conscience vous voulez dire ? ;OtherSpeak : Pas vraiment.;;
-;Node=>choix;Node=>choix;;OtherSpeak : J'ai pas eu la chance de voir ce que les gens faisaient de mes armes.;OtherSpeak : J'aurais bien besoin d'un petit coup de pouce.;;
-;;;;OtherSpeak : Donc oui.;SetChoices2;;
-;;;;Node=>choix;Choice : Je suis préssé…;Choice : Je peux faire quelque chose peut être.;
-;;;;;OtherSpeak : D'accord.;Switch=>switch quete;
-;;;;;Node=>choix;Node=>la quete;
+Nom histoire;Fréquence %;Sprite ID;;;;;;;;;;;
+Marchand dе armes;5,48;1;;;;;;;;;;;
+Narrator : L'île est petite, plate et verte. ;;;;;;;;;;;;;
+CheckQuest=>debut;;;;;;;;;;;;;
+[debut];;;;;;;;;;;;;
+Narrator : Sur la plage un panneau indique une direction : « Vendeur d'armes tout genre »;;;;;;;;;;;;;
+SetChoices2;;;;;;;;;;;;;
+Choice : (partir);Choice : (suivre panneau);;;;;;;;;;;;
+Leave;Fade;;;;;;;;;;;;
+;Node=>marchand;;;;;;;;;;;;
+;;;[la quete];;;;;;;;;;
+;;;NewQuest=>choix;;;;;;;;;;
+[marchand];;;;;;;;;;;;;
+NewCrew1;;;;;;;;;;;;;
+[switch quete];Node=>combat;Node=>mort;;;;;;;;;;;
+OtherSpeak : Salut voyageur !;Node=>la quete;;;;;;;;;;;;
+[choix];;;;;;[choix autre];;;;;;[combat];
+SetChoices4;;;;;;SetChoices3;;;;;;OtherSpeak : ?!?;
+Choice : (partir);Choice : Montrez moi votre marchandise(trade);Choice : Le trésor de Bobby Dick ?;;Choice : (autre);;Choice : Cambriolage ! (attaquer);Choice : Tout va bien pour vous ?(quete);;;Choice : (autre);;LaunchCombat;
+OtherSpeak : Au revoir !;TradeWeapons;RandomPercent20;;Node=>choix autre;;Node=>combat;RandomRange2;;;Node=>choix;;RemoveKarma;
+Leave;Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;;;;OtherSpeak : La conscience vous voulez dire ? ;OtherSpeak : Pas vraiment.;;;;[mort];
+;;Node=>choix;Node=>choix;;;;OtherSpeak : J'ai pas eu la chance de voir ce que les gens faisaient de mes armes.;OtherSpeak : J'aurais bien besoin d'un petit coup de pouce.;;;;PlayerSpeak : Le voilà mort !;
+;;;;;;;OtherSpeak : Donc oui.;SetChoices2;;;;SetChoices2;
+;;;;;;;Node=>choix;Choice : Je suis préssé…;Choice : Je peux faire quelque chose peut être.;;;Choice : (partir);Choice : (fouiller l’armurerie)
+;;;;;;;;OtherSpeak : D'accord.;Switch=>switch quete;;;Leave;LootWeapons
+;;;;;;;;Node=>choix;Node=>la quete;;;;Leave

@@ -32,9 +32,12 @@ public class ActionGroup : MonoBehaviour {
 		}
 
 		buttonObjects [(int)buttonTypes[0]].SetActive (true);
+		Tween.Bounce (buttonObjects [(int)buttonTypes [0]].transform);
 
-		if ( buttonTypes.Length > 1 )
-			buttonObjects [(int)buttonTypes[1]].SetActive (true);
+		if (buttonTypes.Length > 1) {
+			buttonObjects [(int)buttonTypes [1]].SetActive (true);
+			Tween.Bounce (buttonObjects [(int)buttonTypes [1]].transform);
+		}
 
 	}
 

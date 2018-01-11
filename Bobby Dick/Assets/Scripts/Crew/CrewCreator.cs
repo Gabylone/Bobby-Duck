@@ -123,9 +123,9 @@ public class CrewCreator : MonoBehaviour {
 		iconObj.transform.localScale = Vector3.one;
 		iconObj.transform.position = Crews.getCrew (targetSide).CrewAnchors [(int)Crews.PlacingType.Hidden].position;
 
-		Vector3 scale = new Vector3 ( TargetSide == Crews.Side.Enemy ? 1 : -1 , 1 , 1);
-
-		icon.group.transform.localScale = scale;
+//		Vector3 scale = new Vector3 ( TargetSide == Crews.Side.Enemy ? 1 : -1 , 1 , 1);
+//
+//		icon.group.transform.localScale = scale;
 
 		return iconObj.GetComponent<MemberIcon> ();
 	}

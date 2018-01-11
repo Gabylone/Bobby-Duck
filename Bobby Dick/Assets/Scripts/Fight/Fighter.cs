@@ -534,6 +534,12 @@ public class Fighter : MonoBehaviour {
 			onGetHit ();
 
 		if (crewMember.Health <= 0) {
+
+			int xpPerMember = 25;
+
+			otherFighter.crewMember.AddXP (xpPerMember);
+			otherFighter.combatFeedback.Display ("+ " + xpPerMember + " xp",Color.blue);
+
 			crewMember.Kill ();
 			Die ();
 		}
@@ -615,8 +621,6 @@ public class Fighter : MonoBehaviour {
 
 		previousState = currentState;
 		currentState = targetState;
-
-		print ("new state : " + targetState);
 
 		timeInState = 0f;
 

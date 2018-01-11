@@ -39,7 +39,42 @@ public class QuestManager : MonoBehaviour {
 		case FunctionType.FinishQuest:
 			FinishQuest ();
 			break;
+		case FunctionType.AccomplishQuest:
+			AccomplishQuest ();
+			break;
+		case FunctionType.IsQuestAccomplished:
+			CheckIfQuestIsAccomplished ();
+			break;
+		case FunctionType.GiveUpQuest:
+			GiveUpQuest (Quest.currentQuest);
+			break;
 		}
+	}
+
+	void CheckIfQuestIsAccomplished ()
+	{
+		if ( Quest.currentQuest == null ) {
+			Debug.LogError ("QUEST IS NULL : CheckIfQuestIsAccomplished");
+			return;
+		}
+
+		int decal = Quest.currentQuest.accomplished ? 0 : 1;
+
+		StoryReader.Instance.NextCell ();
+
+		StoryReader.Instance.SetDecal (decal);
+
+		StoryReader.Instance.UpdateStory ();
+	}
+
+	void AccomplishQuest ()
+	{
+		if ( Quest.currentQuest == null ) {
+			Debug.LogError ("QUEST IS NULL : accomplish quest");
+			return;
+		}
+
+		Quest.currentQuest.accomplished = true;
 	}
 	#endregion
 

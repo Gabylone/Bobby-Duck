@@ -46,11 +46,18 @@ public enum FunctionType {
 	RemoveKarma,
 	CheckKarma,
 	PayBounty,
+
+	// quest
 	NewQuest,
 	CheckQuest,
 	SendPlayerBackToGiver,
 	FinishQuest,
 	ShowQuestOnMap,
+	AccomplishQuest,
+	IsQuestAccomplished,
+	GiveUpQuest,
+
+	// ship
 	DestroyShip
 
 }

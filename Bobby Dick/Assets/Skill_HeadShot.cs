@@ -68,6 +68,9 @@ public class Skill_HeadShot : Skill {
 
 	public override bool MeetsRestrictions (CrewMember member)
 	{
+		if (member.GetEquipment (CrewMember.EquipmentPart.Weapon) == null)
+			return false;
+
 		if (member.GetEquipment(CrewMember.EquipmentPart.Weapon).spriteID == 1)  {
 //			print ("il a une épée alors qu'il devrait avoir un pistolet");
 		}

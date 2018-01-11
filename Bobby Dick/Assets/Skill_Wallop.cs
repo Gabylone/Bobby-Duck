@@ -27,6 +27,9 @@ public class Skill_Wallop : Skill {
 
 	public override bool MeetsRestrictions (CrewMember member)
 	{
+		if (member.GetEquipment (CrewMember.EquipmentPart.Weapon) == null)
+			return false;
+
 		return base.MeetsRestrictions (member) && member.GetEquipment(CrewMember.EquipmentPart.Weapon).spriteID == 1;
 	}
 

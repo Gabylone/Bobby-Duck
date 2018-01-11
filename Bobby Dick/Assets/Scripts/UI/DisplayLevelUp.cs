@@ -18,21 +18,35 @@ public class DisplayLevelUp : MonoBehaviour {
 
 		GetComponentInParent<MemberIcon> ().member.onLevelUp += HandleOnLevelUp;
 		GetComponentInParent<MemberIcon> ().member.onLevelUpStat += HandleOnLevelUpStat;
+		SkillButton_Inventory.onUnlockSkill += HandleOnUnlockSkill;
 
+
+	}
+
+	void HandleOnUnlockSkill ()
+	{
+		if (GetComponentInParent<MemberIcon> ().member == CrewMember.selectedMember) {
+			UpdateStatText (CrewMember.selectedMember);
+		}
 	}
 
 	void HandleOnLevelUp (CrewMember member)
 	{
 		Show ();
 
-		statText.text = member.StatPoints.ToString();
+		statText.text = member.SkillPoints.ToString();
 	}
 
 	void HandleOnLevelUpStat (CrewMember member)
 	{
-		statText.text = member.StatPoints.ToString();
+		UpdateStatText (member);
+	}
 
-		if (member.StatPoints == 0) {
+	void UpdateStatText (CrewMember member)
+	{
+		statText.text = member.SkillPoints.ToString();
+
+		if (member.SkillPoints == 0) {
 			Hide ();
 		}
 	}

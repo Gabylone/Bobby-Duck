@@ -30,7 +30,7 @@ public class Quest {
 	public Node newQuest_FallbackNode;
 	public Node checkQuest_FallbackNode;
 
-	public Member giver;
+	public bool accomplished = false;
 
 	public delegate void ShowQuestOnMap (Quest quest);
 	public static ShowQuestOnMap showQuestOnMap;
@@ -50,7 +50,7 @@ public class Quest {
 		level = Random.Range(1,11);
 		goldValue = level * 10 + Random.Range(1,9);
 
-		experience = 30;
+		experience = 15;
 
 		questID = StoryLoader.Instance.getStoryIndexFromPercentage (StoryType.Quest);
 

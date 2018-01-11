@@ -82,12 +82,17 @@ public class CrewManager : MonoBehaviour {
 		managedCrew.Remove (member.MemberID);
 		crewMembers.Remove (member);
 
-		if ( CrewMembers.Count == 0 && side == Crews.Side.Player) {
-			GameManager.Instance.GameOver (1f);
-			return;
+		if ( side == Crews.Side.Player) {
+
+			if (CrewMembers.Count == 0) {
+				GameManager.Instance.GameOver (1f);
+				return;
+			}
+
+			CrewMember.selectedMember = crewMembers [0];
+
 		}
 
-		CrewMember.selectedMember = crewMembers [0];
 
 	}
 

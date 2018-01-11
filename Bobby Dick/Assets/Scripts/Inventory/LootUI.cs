@@ -19,17 +19,31 @@ public class LootUI : MonoBehaviour {
 
 	Loot handledLoot;
 
+	private Item selectedItem = null;
+
 	public Item SelectedItem {
+		
 		get {
 			
-			int index = (ItemPerPage * currentPage) + SelectionIndex;
+//			int index = (ItemPerPage * currentPage) + SelectionIndex;
+//
+//			if ( index >= handledLoot.allItems [(int)currentCat].Count ) {
+//				print ("apparmeent pas d'objet dans la catégorie :  " + currentCat + " INDEX : " + index);
+//				return null;
+//			}
+//
+//			return handledLoot.allItems [(int)currentCat] [index];
 
-			if ( index >= handledLoot.allItems [(int)currentCat].Count ) {
-				print ("apparmeent pas d'objet dans la catégorie :  " + currentCat + " INDEX : " + index);
-				return null;
-			}
+			return selectedItem;
+		}
 
-			return handledLoot.allItems [(int)currentCat] [index];
+		set {
+			
+			selectedItem = value;
+			selectedItemDisplay.HandledItem = value;
+
+			UpdateActionButton (value);
+
 		}
 	}
 
@@ -58,8 +72,6 @@ public class LootUI : MonoBehaviour {
 	private GameObject itemButtonGroup;
 	private DisplayItem_Loot[] displayItems = new DisplayItem_Loot[0];
 	public DisplayItem_Loot selectedItemDisplay;
-
-	private int selectionIndex = 0;
 
 	[Header("Categories")]
 	[SerializeField] private Button[] categoryButtons;
@@ -102,20 +114,24 @@ public class LootUI : MonoBehaviour {
 	#region show / hide
 	public void Show (CategoryContentType catContentType,Crews.Side side) {
 
+		SelectedItem = null;
+
 		handledLoot = LootManager.Instance.getLoot(side);
 
 		categoryContent = LootManager.Instance.GetCategoryContent(catContentType);
 
 		InitButtons (catContentType);
-
-		displayItems [0].Select ();
-
 		InitCategory();
 
 		visible = true;
 		lootObj.SetActive (true);
 
 		UpdateLootUI ();
+
+		Tween.Bounce ( lootObj.transform , 0.2f , 1.05f);
+
+		CrewInventory.Instance.HideMenuButtons ();
+
 
 	}
 
@@ -150,6 +166,8 @@ public class LootUI : MonoBehaviour {
 	public void Hide () {
 		visible = false;
 		lootObj.SetActive (false);
+
+		CrewInventory.Instance.ShowMenuButtons ();
 	}
 	#endregion
 
@@ -174,11 +192,6 @@ public class LootUI : MonoBehaviour {
 				Item item = selectedItems[a];
 				displayItem.HandledItem = item;
 
-//				displayItem.Button.image.color = Color.white;
-//				if ( item == CrewMember.selectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes) ) {
-//					print ("trouvé équipement");
-//					displayItem.Button.image.color = Color.black;
-//				}
 			}
 
 
@@ -208,11 +221,16 @@ public class LootUI : MonoBehaviour {
 	}
 	public void SwitchCategory ( ItemCategory cat ) {
 
+		if ( DisplayItem_Loot.selectedDisplayItem != null )
+			DisplayItem_Loot.selectedDisplayItem.Deselect ();
+
 		currentCat = cat;
 
 		Tween.Bounce (categoryButtons[(int)cat].transform, 0.2f , 1.1f);
 
 		currentPage = 0;
+
+		SelectedItem = null;
 
 		UpdateLootUI ();
 
@@ -225,7 +243,6 @@ public class LootUI : MonoBehaviour {
 
 		UpdateNavigationButtons ();
 		UpdateItemButtons ();
-		UpdateActionButton (0);
 		UpdateCategoryButtons ();
 	}
 
@@ -289,30 +306,35 @@ public class LootUI : MonoBehaviour {
 
 	#region action button
 	public void InventoryAction ( int i ) {
-		Tween.Bounce (actionGroup.ButtonObjects[i].transform );
+		
 
 		if (useInventory != null)
 			useInventory ((InventoryActionType)i);
 		else
 			print ("no function liked to the event : use inventory");
 
+		Tween.Bounce (actionGroup.ButtonObjects[i].transform );
+
 		UpdateLootUI ();
 
+		if (DisplayItem_Loot.selectedDisplayItem != null)
+			DisplayItem_Loot.selectedDisplayItem.Deselect ();
+
+		SelectedItem = null;
+
 	}
-	public void UpdateActionButton (int itemIndex) {
+	public void UpdateActionButton (Item item) {
 
-		bool enoughItemsOnPage = selectedItems.Length > CurrentPage * ItemPerPage;
+		if ( item == null ) {
+			actionGroup.Visible =  false;
+			return;
+			//
+		}
 
-		actionGroup.Visible =  enoughItemsOnPage;
+//		bool enoughItemsOnPage = selectedItems.Length > CurrentPage * ItemPerPage;
+
+		actionGroup.Visible =  true;
 		actionGroup.UpdateButtons (CategoryContent.catButtonType[(int)currentCat].buttonTypes);
-
-
-		foreach (DisplayItem_Loot displayItem in displayItems)
-			displayItem.Enabled = true;
-
-
-		// set group index
-		SelectionIndex = itemIndex;
 
 	}
 	#endregion
@@ -322,23 +344,6 @@ public class LootUI : MonoBehaviour {
 	public int CurrentPage {
 		get {
 			return currentPage;
-		}
-	}
-
-	public int SelectionIndex {
-		get {
-			return selectionIndex;
-		}
-		set {
-
-			selectionIndex = value;
-
-			displayItems [selectionIndex].Enabled = false;
-
-			selectedItemDisplay.HandledItem = SelectedItem;
-
-			Tween.Bounce( displayItems[selectionIndex].transform , 0.2f , 1.1f);
-
 		}
 	}
 

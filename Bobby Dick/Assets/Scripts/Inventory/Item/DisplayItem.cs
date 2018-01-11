@@ -8,7 +8,8 @@ public class DisplayItem : MonoBehaviour {
 	private Item handledItem;
 
 	[Header("UI elements")]
-	[SerializeField] private Button button;
+	public Button button;
+	public Image image;
 
 	[SerializeField] private Text nameText;
 
@@ -29,20 +30,8 @@ public class DisplayItem : MonoBehaviour {
 	private int weight = 0;
 	private int level = 0;
 
-	bool enabled = false;
-
-	public bool Enabled {
-		get {
-			return enabled;
-		}
-		set {
-			enabled = value;
-			GetComponent<Button> ().interactable = value;
-		}
-	}
-
 	#region params
-	public string Name {
+	 public string Name {
 		get {
 			return name;
 		}
