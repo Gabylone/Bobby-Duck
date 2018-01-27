@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Skill_Dynamite : Skill {
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
-
 	public override void ApplyEffect ()
 	{
 

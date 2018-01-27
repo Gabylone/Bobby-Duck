@@ -19,19 +19,19 @@ public class DisplayAttack : MonoBehaviour {
 		StatButton.onClickStatButton += HandleOnClickStatButton;
 		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
 
-		UpdateUI (CrewMember.selectedMember);
+		UpdateUI (CrewMember.GetSelectedMember);
 
 	}
 
 
 	void HandleOnRemoveItemFromMember (Item item)
 	{
-		UpdateUI (CrewMember.selectedMember);	
+		UpdateUI (CrewMember.GetSelectedMember);	
 	}
 
 	void HandleOnClickStatButton ()
 	{
-		UpdateUI (CrewMember.selectedMember);
+		UpdateUI (CrewMember.GetSelectedMember);
 	}
 
 	void HandleOpenInventory (CrewMember crewMember)
@@ -46,9 +46,14 @@ public class DisplayAttack : MonoBehaviour {
 
 	void HandleUseInventory (InventoryActionType actionType)
 	{
-		if ( actionType == InventoryActionType.Equip ) {
-			UpdateUI (CrewMember.selectedMember);
-		}
 
+		switch (actionType) {
+		case InventoryActionType.Equip:
+		case InventoryActionType.PurchaseAndEquip:
+			UpdateUI (CrewMember.GetSelectedMember);
+			break;
+		default:
+			break;
+		}
 	}
 }

@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
 
 	public Image image;
 
+	public bool loadOnStart = false;
+
 	public float fadeDuration = 1f;
 
 	void Start () {
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour {
 		Instance = this;
 
 		LoadGame ();
+
 	}
 
 	public void LoadGame () {
@@ -32,9 +35,16 @@ public class GameManager : MonoBehaviour {
 		FormulaManager.Instance.Init ();
 		Crews.Instance.Init ();
 
+		if (loadOnStart) {
+			
+			KeepOnLoad.dataToLoad = 0;
+			SaveManager.Instance.LoadGame ();
 
+		} else if (KeepOnLoad.dataToLoad >= 0) {
 
-		if (KeepOnLoad.dataToLoad < 0) {
+			SaveManager.Instance.LoadGame ();
+
+		} else {
 
 			MapGenerator.Instance.GenerateIslands ();
 
@@ -48,28 +58,25 @@ public class GameManager : MonoBehaviour {
 
 			GoldManager.Instance.InitGold ();
 
-		} else {
-			SaveManager.Instance.LoadGame ();
+			TimeManager.Instance.Reset ();
+
+			SaveManager.Instance.SaveOverallGame ();
 		}
 
 		CrewInventory.Instance.Init ();
 
 		WeightManager.Instance.Init ();
 
-		TimeManager.Instance.Init ();
-
 		QuestMenu.Instance.Init ();
 
 		NavigationManager.Instance.ChangeChunk (Directions.None);
 
 		if (KeepOnLoad.dataToLoad < 0) {
+			
 			MemberCreator.Instance.Show ();
 			Transitions.Instance.ActionTransition.Fade = true;
 
-//			SaveManager.Instance.SaveGame (1);
-
 		}
-
 
 	}
 

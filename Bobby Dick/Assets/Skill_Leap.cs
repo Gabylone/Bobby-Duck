@@ -7,12 +7,6 @@ public class Skill_Leap: Skill {
 	bool onDelay = false;
 
 	public int healthToAttack = 30;
-
-	public override void Start ()
-	{
-		base.Start ();
-	}
-
 	public override void InvokeSkill ()
 	{
 		if (onDelay) {

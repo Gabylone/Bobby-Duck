@@ -78,6 +78,7 @@ public class DialogueManager : MonoBehaviour {
 		case FunctionType.OtherSpeak:
 			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 			SetDialogue (cellParameters.Remove (0, 2), Crews.enemyCrew.captain);
+
 			break;
 		case FunctionType.PlayerSpeak:
 			Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
@@ -90,6 +91,7 @@ public class DialogueManager : MonoBehaviour {
 	{
 		if (DisplayingText == true) {
 			UpdateDialogue ();
+			UpdateBubblePosition ();
 		}
 
 	}
@@ -111,8 +113,6 @@ public class DialogueManager : MonoBehaviour {
 		crewMember.Icon.animator.SetInteger ("speakIndex",Random.Range(0,3) );
 		SetDialogue (phrase, crewMember.Icon.dialogueAnchor);
 	}
-
-	// MAIN
 	public void SetDialogue (string phrase, Transform _target) {
 
 		phrase = NameGeneration.CheckForKeyWords (phrase);
@@ -156,6 +156,7 @@ public class DialogueManager : MonoBehaviour {
 
 		if (CurrentTime > 0)
 		{
+			
 			if (timed) {
 				CurrentTime -= Time.deltaTime;
 			}

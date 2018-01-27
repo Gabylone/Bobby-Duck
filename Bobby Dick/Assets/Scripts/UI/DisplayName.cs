@@ -12,12 +12,12 @@ public class DisplayName : MonoBehaviour {
 	void Start () {
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
 
-		HandleOpenInventory (CrewMember.selectedMember);
+		HandleOpenInventory (CrewMember.GetSelectedMember);
 	}
 
 	void HandleOpenInventory (CrewMember member)
 	{
-		if (CrewMember.selectedMember == null)
+		if (CrewMember.GetSelectedMember == null)
 			return;
 
 		textUI_Name.text = member.MemberName;

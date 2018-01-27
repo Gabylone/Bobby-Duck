@@ -4,7 +4,19 @@ using System.Collections;
 
 public class IconVisual : MonoBehaviour {
 
-	public void UpdateVisual (Member memberID) {
+	void Start () {
+
+		LootUI.useInventory += HandleUseInventory;
+		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+	}
+
+	void OnDestroy () {
+
+		LootUI.useInventory -= HandleUseInventory;
+		DisplayItem_Crew.onRemoveItemFromMember -= HandleOnRemoveItemFromMember;
+	}
+
+	public void InitVisual (Member memberID) {
 
 		FaceImage.color = CrewCreator.Instance.Beige;
 
@@ -43,9 +55,6 @@ public class IconVisual : MonoBehaviour {
 		// body
 		BodyImage.sprite = CrewCreator.Instance.BodySprites[memberID.Male ? 0:1];
 
-		LootUI.useInventory+= HandleUseInventory;
-		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
-
 //		Debug.Log (memberID.equipedWeapon.name);
 		UpdateWeaponSprite (memberID.equipedWeapon.spriteID);
 
@@ -62,22 +71,19 @@ public class IconVisual : MonoBehaviour {
 
 	void HandleUseInventory (InventoryActionType actionType)
 	{
-		if (actionType == InventoryActionType.Equip) {
-
-			if (CrewMember.selectedMember.GetEquipment (CrewMember.EquipmentPart.Weapon) != null) {
+		switch (actionType) {
+		case InventoryActionType.Equip:
+		case InventoryActionType.PurchaseAndEquip:
+			if (CrewMember.GetSelectedMember.GetEquipment (CrewMember.EquipmentPart.Weapon) != null && LootUI.Instance.SelectedItem.category == ItemCategory.Weapon) {
 				weaponImage.enabled = true;
-				UpdateWeaponSprite (CrewMember.selectedMember.GetEquipment (CrewMember.EquipmentPart.Weapon).spriteID);
+				UpdateWeaponSprite (CrewMember.GetSelectedMember.GetEquipment (CrewMember.EquipmentPart.Weapon).spriteID);
 			}
-
-//			if (CrewMember.selectedMember.GetEquipment (CrewMember.EquipmentPart.Clothes) != null) {
-//				weaponImage.enabled = true;
-//				UpdateWeaponSprite (CrewMember.selectedMember.GetEquipment (CrewMember.EquipmentPart.Clothes).spriteID);
-//				//
-//			} else {
-//				weaponImage.enabled = false;
-//				//
-//			}
+			break;
+		default:
+			break;
 		}
+
+
 	}
 
 	public void UpdateWeaponSprite (int spriteID) {

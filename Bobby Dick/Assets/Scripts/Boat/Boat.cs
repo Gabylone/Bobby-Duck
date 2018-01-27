@@ -17,8 +17,8 @@ public class Boat : MonoBehaviour {
 	public float speed = 5f;
 	public float startSpeed = 5f;
 
-	private RectTransform targetRectTransform;
-	Vector2 targetDir;
+	public RectTransform targetRectTransform;
+	private Vector2 targetDir;
 
 	public Camera cam;
 
@@ -33,8 +33,6 @@ public class Boat : MonoBehaviour {
 
 		CombatManager.Instance.onFightStart += DeactivateCollider;
 		CombatManager.Instance.onFightEnd += ActivateCollider;
-
-		startSpeed = speed;
 
 	}
 

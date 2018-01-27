@@ -5,7 +5,7 @@ public class BoatInfo {
 
 	public string Name = "bateau";
 
-	private Coords previousCoords;
+	public Coords previousCoords;
 	private Coords currentCoords;
 
 	public Directions currentDirection;
@@ -32,21 +32,12 @@ public class BoatInfo {
 		}
 		set {
 
-			PreviousCoords = currentCoords;
+			previousCoords = currentCoords;
 
 			currentCoords = value;
 
 			currentCoords.x = Mathf.Clamp (value.x , 0, MapGenerator.Instance.MapScale-1);
 			currentCoords.y = Mathf.Clamp (value.y , 0, MapGenerator.Instance.MapScale-1);
-		}
-	}
-
-	public virtual Coords PreviousCoords {
-		get {
-			return previousCoords;
-		}
-		set {
-			previousCoords = value;
 		}
 	}
 

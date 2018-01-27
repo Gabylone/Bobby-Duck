@@ -6,11 +6,6 @@ public class Skill_DoubleTalk : Skill {
 
 	public int healthToFlee = 60;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
-
 	public override void ApplyEffect ()
 	{
 		base.ApplyEffect ();

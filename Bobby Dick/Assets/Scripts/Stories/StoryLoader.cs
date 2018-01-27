@@ -84,18 +84,18 @@ public class StoryLoader : MonoBehaviour {
 			{
 				newStory.name = rowContent [0];
 
-				float frequence = 0f;
+				decimal frequence;
 
-				bool canParse = float.TryParse (rowContent [1] ,out frequence);
+				string value = rowContent [1].Replace (',', '.');
+
+				bool canParse = decimal.TryParse (value ,out frequence);
 
 				if ( canParse== false){ 
 					print ("ne peut pas parse la freq dans : " + newStory.name + " TRY PARSE : " + rowContent[1]);
 				}
 
-				frequence = (frequence/100);
-
 					// set story frequence
-				newStory.freq = frequence;
+				newStory.freq = (float)frequence;
 				newStory.rangeMin = minFreq;
 				newStory.rangeMax = minFreq + newStory.freq;
 
@@ -150,64 +150,6 @@ public class StoryLoader : MonoBehaviour {
 		return newStory;
 	}
 	#endregion
-//
-	#region random story from position
-	public Story RandomStory (Coords c) {
-		return IslandStories[RandomStoryIndex (c)];
-	}
-	public StoryType GetTypeFromPos (Coords coords)
-	{
-		if (coords == MapData.Instance.treasureIslandCoords ) {
-			return StoryType.Treasure;
-		}
-
-		// check for home island
-		if (coords == MapData.Instance.homeIslandCoords ) {
-			return StoryType.Home;
-		}
-
-		// check if clue island
-		foreach (var formula in FormulaManager.Instance.formulas) {
-			if ( coords == formula.coords){
-				return StoryType.Clue;
-			}
-		}
-
-		return StoryType.Normal;
-	}
-	public int RandomStoryIndex (Coords c)
-	{
-		if (c == MapData.Instance.treasureIslandCoords ) {
-
-			if (treasureStories.Count == 0)
-				Debug.LogError ("no treasure stories");
-
-			return getStoryIndexFromPercentage(treasureStories);
-
-		}
-
-		// check for home island
-		if (c == MapData.Instance.homeIslandCoords ) {
-
-			if (homeStories.Count == 0)
-				Debug.LogError ("no home stories");
-
-			return getStoryIndexFromPercentage (homeStories);
-
-		}
-
-		foreach (var formula in FormulaManager.Instance.formulas) {
-			if ( c == formula.coords){
-				if (clueStories.Count == 0)
-					Debug.LogError ("no clue stories");
-
-				return getStoryIndexFromPercentage (clueStories);
-			}
-		}
-
-		return getStoryIndexFromPercentage (islandStories);
-	}
-	#endregion
 
 	#region percentage
 	public List<Story> getStories ( StoryType storyType ) {
@@ -237,27 +179,26 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 	public int getStoryIndexFromPercentage ( StoryType type ) {
-		return getStoryIndexFromPercentage (getStories(type));
-	}
-	public int getStoryIndexFromPercentage ( List<Story> stories ) {
-
 		float random = Random.value * 100f;
 
 		int a = 0;
 
-		foreach (Story story in stories) {
+		foreach (Story story in getStories(type)) {
 			if (random < story.rangeMax && random >= story.rangeMin) {
+//				print ("oui random : " + random);
 				return a;
 			}
 
 			++a;
 		}
 
-		return Random.Range (0,stories.Count);
+		Debug.LogError ("percentage is outside of range : " + random + " story type : (" + type + ")");
+		Debug.LogError ("RANGE MIN : " + getStories(type)[getStories(type).Count-1].rangeMin);
+		Debug.LogError ("RANGE MAX : " + getStories(type)[getStories(type).Count-1].rangeMax);
+
+		return Random.Range (0,getStories(type).Count);
 	}
 	#endregion
-
-
 
 	public Story FindByName (string storyName, StoryType type)
 	{

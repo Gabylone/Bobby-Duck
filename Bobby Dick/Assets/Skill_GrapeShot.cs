@@ -6,10 +6,7 @@ public class Skill_GrapeShot : Skill {
 	
 	public int attackCount = 4;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
+	
 
 	public override void ApplyEffect ()
 	{

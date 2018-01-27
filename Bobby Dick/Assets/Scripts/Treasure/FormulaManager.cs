@@ -25,12 +25,6 @@ public class FormulaManager : MonoBehaviour {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
 
-	void Update () {
-		if ( Input.GetKeyDown(KeyCode.J) ) {
-			print ( getDirectionToFormula() );
-		}
-	}
-
 	void HandleGetFunction (FunctionType func, string cellParameters)
 	{
 		switch (func) {
@@ -55,7 +49,7 @@ public class FormulaManager : MonoBehaviour {
 			newFormula.coords = MapGenerator.Instance.RandomCoords;
 
 
-			Chunk.GetChunk (newFormula.coords).IslandData = new IslandData (StoryType.Clue);
+			Chunk.GetChunk (newFormula.coords).SetIslandData (new IslandData (StoryType.Clue));
 
 			formulas [i] = newFormula;
 
@@ -138,11 +132,11 @@ public class FormulaManager : MonoBehaviour {
 
 	public void LoadFormulas ()
 	{
-		formulas = SaveManager.Instance.CurrentData.formulas;
+		formulas = SaveManager.Instance.GameData.formulas;
 	}
 
 	public void SaveFormulas () {
-		SaveManager.Instance.CurrentData.formulas = formulas;
+		SaveManager.Instance.GameData.formulas = formulas;
 	}
 }
 

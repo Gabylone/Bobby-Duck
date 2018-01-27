@@ -8,10 +8,7 @@ public class Skill_Robbery : Skill {
 
 	public int minimumGoldToSteal = 15;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
+	
 
 	public override void ApplyEffect ()
 	{

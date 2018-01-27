@@ -17,7 +17,7 @@ public class InventorySkillButtons : MonoBehaviour {
 
 	void HandleOnShowCharacterStats ()
 	{
-		if (CrewMember.selectedMember == null)
+		if (CrewMember.GetSelectedMember == null)
 			return;
 
 		StartCoroutine (ShowSkillButtonsCoroutine ());
@@ -29,7 +29,7 @@ public class InventorySkillButtons : MonoBehaviour {
 
 		HideButtons ();
 
-		List<Skill> skills = SkillManager.getJobSkills (CrewMember.selectedMember.job);
+		List<Skill> skills = SkillManager.getJobSkills (CrewMember.GetSelectedMember.job);
 
 		int a = 0;
 
@@ -65,7 +65,7 @@ public class InventorySkillButtons : MonoBehaviour {
 
 		for (int skillButtonIndex = 0; skillButtonIndex < skillButtons.Length; skillButtonIndex++) {
 
-			skillButtons [0].SetSkill ( SkillManager.getJobSkills ( CrewMember.selectedMember.job)[skillButtonIndex] );
+			skillButtons [0].SetSkill ( SkillManager.getJobSkills ( CrewMember.GetSelectedMember.job)[skillButtonIndex] );
 
 
 		}

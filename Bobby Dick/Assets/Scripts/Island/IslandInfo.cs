@@ -35,7 +35,7 @@ public class IslandInfo : MonoBehaviour {
 
 		Show ();
 
-		Tween.Bounce (transform);
+		Tween.Bounce (transform, 0.2f , 1.05f);
 
 		CancelInvoke ();
 		Invoke ("Hide" , displayDuration);

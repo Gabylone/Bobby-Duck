@@ -38,11 +38,21 @@ public class GoldManager : MonoBehaviour {
 	void Start () {
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
-//		PlayerLoot.Instance.openInventory += Show;
-//		PlayerLoot.Instance.closeInventory += Hide;
 
-		CombatManager.Instance.onFightStart += Hide;
-		CombatManager.Instance.onFightEnd+= Show;
+		LootUI.useInventory+=HandleUseInventory;
+	}
+
+	void HandleUseInventory (InventoryActionType actionType)
+	{
+		switch (actionType) {
+		case InventoryActionType.Sell:
+//		case InventoryActionType.Buy:
+//		case InventoryActionType.PurchaseAndEquip:
+			Tween.Bounce (goldGroup.transform);
+			break;
+		default:
+			break;
+		}	
 	}
 
 	public void InitGold ()
@@ -52,7 +62,7 @@ public class GoldManager : MonoBehaviour {
 
 	public void LoadGold ()
 	{
-		GoldAmount = SaveManager.Instance.CurrentData.playerGold;
+		GoldAmount = SaveManager.Instance.GameData.playerGold;
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -82,19 +92,13 @@ public class GoldManager : MonoBehaviour {
 			}
 		}
 	}
-
-	private void Bounce () {
-		HOTween.To ( goldGroup.transform , feedbackBounceDuration , "localScale" , Vector3.one * feedbackScaleAmount, false , EaseType.EaseOutBounce , 0f);
-		HOTween.To ( goldGroup.transform , feedbackBounceDuration , "localScale" , Vector3.one , false , EaseType.Linear , feedbackBounceDuration );
-	}
 	private void DisplayFeedback () {
 
 
 		feedbackActive = true;
 		timer = 0f;
 
-		Bounce();
-//		Show ();
+		Tween.Bounce (goldGroup.transform);
 
 	}
 	private void HideFeedback () {
@@ -125,7 +129,7 @@ public class GoldManager : MonoBehaviour {
 
 	public bool CheckGold ( float amount ) {
 
-		Bounce();
+		Tween.Bounce (goldGroup.transform);
 
 		if ( amount > GoldAmount ) {
 

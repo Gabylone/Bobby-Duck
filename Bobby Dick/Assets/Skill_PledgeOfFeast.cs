@@ -6,10 +6,7 @@ public class Skill_PledgeOfFeast : Skill {
 
 	public int energyAmount = 10;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
+	
 
 	public override void ApplyEffect ()
 	{

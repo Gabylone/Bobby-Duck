@@ -8,7 +8,7 @@ PlayerSpeak : Tayo !;ChangeTimeOfDay;Fade;;;;
 Leave;Node=>debut;Node=>bois;;;;
 ;;;;;;
 [bois];;;;;;
-CheckQuest=>bois;;;;;;
+CheckQuest=>bois jour;;;;;;
 CheckDay;;;;;;
 Node=>bois jour;Node=>bois nuit;;;;;
 ;;;;;;

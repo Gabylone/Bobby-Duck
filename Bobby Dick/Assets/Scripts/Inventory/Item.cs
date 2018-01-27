@@ -50,4 +50,20 @@ public class Item {
 
 		category = _cat;
 	}
+
+	public CrewMember.EquipmentPart EquipmentPart {
+		get {
+			switch (category) {
+			case ItemCategory.Weapon:
+				return CrewMember.EquipmentPart.Weapon;
+				break;
+			case ItemCategory.Clothes:
+				return CrewMember.EquipmentPart.Clothes;
+				break;
+			default:
+				return CrewMember.EquipmentPart.None;
+				break;
+			}
+		}
+	}
 }

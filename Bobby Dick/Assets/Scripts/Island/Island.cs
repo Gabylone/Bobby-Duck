@@ -59,7 +59,7 @@ public class Island : MonoBehaviour {
 
 		WorldTouch.onTouchWorld += HandleOnTouchWorld;
 
-		UpdatePositionOnScreen (Boats.PlayerBoatInfo.coords);
+		UpdatePositionOnScreen (Boats.playerBoatInfo.coords);
 	}
 
 	void HandleOnSwipe (Directions direction)
@@ -75,7 +75,7 @@ public class Island : MonoBehaviour {
 
 	void HandleChunkEvent ()
 	{
-		UpdatePositionOnScreen (Boats.PlayerBoatInfo.coords);
+		UpdatePositionOnScreen (Boats.playerBoatInfo.coords);
 
 	}
 
@@ -90,6 +90,10 @@ public class Island : MonoBehaviour {
 
 	#region story
 	public void Enter () {
+
+		print ("new story : " + Chunk.currentChunk.IslandData.storyManager.CurrentStoryHandler.Story.name);
+		print ("new story type : " + Chunk.currentChunk.IslandData.storyManager.CurrentStoryHandler.storyType);
+
 		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager,StoryLauncher.StorySource.island);
 	}
 	#endregion

@@ -42,6 +42,10 @@ public class CrewInventory : MonoBehaviour {
 		Instance = this;
 	}
 
+	void Start () {
+		HideCharacterStats ();
+	}
+
 	public void Init () {
 
 		LootUI.useInventory += HandleUseInventory;
@@ -101,46 +105,42 @@ public class CrewInventory : MonoBehaviour {
 	#region button action
 	public void EatItem () {
 
-		CrewMember.selectedMember.AddHealth (LootUI.Instance.SelectedItem.value);
+		CrewMember.GetSelectedMember.AddHealth (LootUI.Instance.SelectedItem.value);
 
 		int i = (int)(LootUI.Instance.SelectedItem.value * 1.5f);
 
-		CrewMember.selectedMember.CurrentHunger -= i;
+		CrewMember.GetSelectedMember.CurrentHunger -= i;
 
-		RemoveSelectedItem ();
+		if ( OtherInventory.Instance.type == OtherInventory.Type.None )
+			LootManager.Instance.PlayerLoot.RemoveItem (LootUI.Instance.SelectedItem);
+		else
+			LootManager.Instance.OtherLoot.RemoveItem (LootUI.Instance.SelectedItem);
 
 	}
 
-	public void EquipItem () {
+	void EquipItem ()
+	{
+		Item item = LootUI.Instance.SelectedItem;
 
-		CrewMember targetMember = CrewMember.selectedMember;
-
-		if (!targetMember.CheckLevel (LootUI.Instance.SelectedItem.level)) {
+		if ( CrewMember.GetSelectedMember.CheckLevel (item.level) == false ) {
 			return;
 		}
 
-		CrewMember.EquipmentPart part = CrewMember.EquipmentPart.Clothes;
-		switch (LootUI.Instance.SelectedItem.category) {
-		case ItemCategory.Weapon:
-			part = CrewMember.EquipmentPart.Weapon;
-			break;
-		case ItemCategory.Clothes:
-			part = CrewMember.EquipmentPart.Clothes;
-			break;
-		}
+		if (CrewMember.GetSelectedMember.GetEquipment(item.EquipmentPart) != null)
+			LootManager.Instance.PlayerLoot.AddItem (CrewMember.GetSelectedMember.GetEquipment(item.EquipmentPart) );
 
-		if (targetMember.GetEquipment(part) != null)
-			LootManager.Instance.PlayerLoot.AddItem (targetMember.GetEquipment(part) );
+		CrewMember.GetSelectedMember.SetEquipment (item);
 
-		targetMember.SetEquipment (part, LootUI.Instance.SelectedItem);
-
-		RemoveSelectedItem ();
+		if ( OtherInventory.Instance.type == OtherInventory.Type.None )
+			LootManager.Instance.PlayerLoot.RemoveItem (item);
+		else 
+			LootManager.Instance.OtherLoot.RemoveItem (item);
 
 	}
 
 	public void ThrowItem () {
 
-		RemoveSelectedItem ();
+		LootManager.Instance.PlayerLoot.RemoveItem (LootUI.Instance.SelectedItem);
 	}
 
 	public void SellItem () {
@@ -150,10 +150,6 @@ public class CrewInventory : MonoBehaviour {
 		LootManager.Instance.OtherLoot.AddItem (LootUI.Instance.SelectedItem);
 		LootManager.Instance.PlayerLoot.RemoveItem (LootUI.Instance.SelectedItem);
 
-	}
-
-	private void RemoveSelectedItem () {
-		LootManager.Instance.PlayerLoot.RemoveItem (LootUI.Instance.SelectedItem);
 	}
 	#endregion
 
@@ -174,7 +170,7 @@ public class CrewInventory : MonoBehaviour {
 		}
 
 		// return
-		CrewMember.setSelectedMember (crewMember);
+		CrewMember.SetSelectedMember (crewMember);
 
 			// set bool
 		opened = true;

@@ -14,7 +14,7 @@ public class DisplayHex : MonoBehaviour {
 	
 		island = GetComponentInChildren<Island> ();
 
-		Chunk chunk = Chunk.GetChunk (Boats.PlayerBoatInfo.coords);
+		Chunk chunk = Chunk.GetChunk (Boats.playerBoatInfo.coords);
 
 //		island.UpdatePositionOnScreen (coords);
 	}

@@ -33,8 +33,8 @@ Node=>choix1;;;;;;;;;;;;
 ;;;;;;;;;;;;
 [choix1];;;;[choix2];;;;;;;;
 SetChoices4;;;;SetChoices4;;;;;[nouvelles];;;
-Choice : Ça ira pour aujourdh'ui(partir);Choice : On a faim !(trade);Choice : (autre);Choice : Des chambres pour dormir !(trade);Choice : C'est quoi les nouvelles de la région ?;Choice : (attaquer);Choice : Bobby Dick, ça vous parle ?;;Choice : (autre);RandomRange2;Node=>la quete;;[la quete]
-OtherSpeak : Bon bah à la prochaine !;OtherSpeak : Regardez voir ce que j'ai;Node=>choix2;Node=>chambre;Node=>nouvelles;RemoveKarma;RandomRange2;;Node=>choix1;GiveTip;OtherSpeak : Que des problèmes !;;NewQuest=>choix2
+Choice : Ça ira pour aujourdh'ui(partir);Choice : On a faim !(trade);Choice : Des chambres pour dormir !(trade);Choice : (autre);Choice : C'est quoi les nouvelles de la région ?;Choice : (attaquer);Choice : Bobby Dick, ça vous parle ?;;Choice : (autre);RandomRange2;Node=>la quete;;[la quete]
+OtherSpeak : Bon bah à la prochaine !;OtherSpeak : Regardez voir ce que j'ai;Node=>chambre;Node=>choix2;Node=>nouvelles;RemoveKarma;RandomRange2;;Node=>choix1;GiveTip;OtherSpeak : Que des problèmes !;;NewQuest=>choix2
 HideOther;TradeFood;;;;Node=>combat tavernier;OtherSpeak : Non pas du tout.;OtherSpeak : Bien sûr ! Tous les alcooliques ici en parlent.;;Node=>choix2;OtherSpeak : Ça vous dirait de nous donner un coup de main ?;;
 Fade;Node=>choix1;;;;;Node=>choix2;OtherSpeak : Il partent toujours DIRECTIONTOFORMULA;;;SetChoices2;;
 Leave;;;;;;;Node=>choix2;;;Choice : Non merci;Choice : Avec plaisir(quete);

@@ -48,7 +48,7 @@ public class NameGeneration : MonoBehaviour {
 		}
 
 		if ( text.Contains ("NOMBATEAU") ) {
-			text = text.Replace ( "NOMBATEAU" , Boats.PlayerBoatInfo.Name);
+			text = text.Replace ( "NOMBATEAU" , Boats.playerBoatInfo.Name);
 		}
 
 		if ( text.Contains ("DIRECTIONTOFORMULA") ) {
@@ -61,7 +61,7 @@ public class NameGeneration : MonoBehaviour {
 
 		if ( text.Contains ("FORMULA") ) {
 
-			Formula formula = System.Array.Find(FormulaManager.Instance.formulas,x=>x.coords == Boats.PlayerBoatInfo.coords);
+			Formula formula = System.Array.Find(FormulaManager.Instance.formulas,x=>x.coords == Boats.playerBoatInfo.coords);
 
 			if ( formula.found == false ) {
 				if ( onDiscoverFormula != null ) {

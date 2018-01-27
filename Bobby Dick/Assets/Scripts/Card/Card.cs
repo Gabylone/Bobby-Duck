@@ -40,10 +40,10 @@ public class Card : MonoBehaviour {
 	private Text attackText;
 
 	[SerializeField]
-	private Text levelText;
+	private Image levelImage;
 
 	[SerializeField]
-	private GameObject statGroup;
+	private Text levelText;
 
 	public Fighter linkedFighter;
 
@@ -52,6 +52,9 @@ public class Card : MonoBehaviour {
 	float maxWidth = 0f;
 
 	bool playingTurn = false;
+
+	public Transform endTurnFeedback;
+	float endTurnFeedbackDuration = 0.7f;
 
 //	void Awake () {
 	public void Init() {
@@ -78,6 +81,7 @@ public class Card : MonoBehaviour {
 		maxWidth = heartImage.rectTransform.rect.width;
 
 		HideTargetFeedback ();
+		HideEndTurnFeedback ();
 
 		energyGroup.SetActive (false);
 
@@ -130,9 +134,21 @@ public class Card : MonoBehaviour {
 
 		HideTargetFeedback ();
 
+		endTurnFeedback.gameObject.SetActive (true);
+
+		endTurnFeedback.localEulerAngles = Vector3.zero;
+		HOTween.To (endTurnFeedback , endTurnFeedbackDuration , "localEulerAngles" , Vector3.forward * 89 , false , EaseType.EaseInOutQuad , 0f );
+		Tween.Bounce (endTurnFeedback, 1f , 1.5f);
+
 		energyGroup.SetActive (false);
 
 		playingTurn = false;
+
+		Invoke ("HideEndTurnFeedback", endTurnFeedbackDuration);
+	}
+
+	void HideEndTurnFeedback () {
+		endTurnFeedback.gameObject.SetActive (false);
 	}
 
 	void HandleOnInit () {
@@ -147,18 +163,17 @@ public class Card : MonoBehaviour {
 
 	void HandleOnShowInfo ()
 	{
-		if (previouslySelectedCard == this) {
-			previouslySelectedCard = null;
-			HideInfo ();
-			return;
-		}
+//		if (previouslySelectedCard == this) {
+//			previouslySelectedCard = null;
+//			HideInfo ();
+//			return;
+//		}
+//
+//		if (previouslySelectedCard != null)
+//			previouslySelectedCard.HideInfo ();
+//
+//		previouslySelectedCard = this;
 
-		if (previouslySelectedCard != null)
-			previouslySelectedCard.HideInfo ();
-
-		previouslySelectedCard = this;
-
-		statGroup.SetActive (true);
 		energyGroup.SetActive (true);
 
 		Tween.Bounce (transform);
@@ -168,9 +183,7 @@ public class Card : MonoBehaviour {
 	public OnHideInfo onHideInfo;
 	public void HideInfo ()
 	{
-		statGroup.SetActive (false);
 		energyGroup.SetActive (false);
-
 
 		if (onHideInfo != null)
 			onHideInfo ();
@@ -197,7 +210,7 @@ public class Card : MonoBehaviour {
 
 	void HandleUseInventory (InventoryActionType actionType)
 	{
-		UpdateMember (CrewMember.selectedMember);
+		UpdateMember (CrewMember.GetSelectedMember);
 	}
 
 	void UpdateMember() {
@@ -209,8 +222,10 @@ public class Card : MonoBehaviour {
 		nameText.text = member.MemberName;
 
 		levelText.text = member.Level.ToString ();
-		if (member.Level == member.maxLevel)
-			levelText.text = "MAX";
+
+		if( member.side == Crews.Side.Enemy ) {
+			levelImage.color = member.GetLevelColor ();
+		}
 
 		maxWidth = heartBackground.sizeDelta.x;
 
@@ -265,14 +280,6 @@ public class Card : MonoBehaviour {
 //		}
 
 //		currentEnergy = member.energy;
-	}
-
-	public void ShowStats () {
-		statGroup.SetActive (true);
-	}
-
-	public void HideStats () {
-		statGroup.SetActive (false);
 	}
 
 	public void ShowCard () {

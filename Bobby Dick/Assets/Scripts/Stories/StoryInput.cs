@@ -65,7 +65,7 @@ public class StoryInput : MonoBehaviour {
 		case FunctionType.AddToInventory:
 		case FunctionType.RemoveFromInventory:
 		case FunctionType.ShowQuestOnMap:
-			Invoke ("WaitForInput", 0.1f);
+			WaitForInput ();
 			break;
 		}
 	}
@@ -87,7 +87,11 @@ public class StoryInput : MonoBehaviour {
 	public delegate void OnPressInput ();
 	public static OnPressInput onPressInput;
 
-	void WaitForInput () {
+	public void WaitForInput () {
+		Invoke ("WaitForInputDelay", 0.1f);
+
+	}
+	void WaitForInputDelay () {
 		waitForInput = true;
 	}
 

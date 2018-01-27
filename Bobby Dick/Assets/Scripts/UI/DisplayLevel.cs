@@ -19,7 +19,7 @@ public class DisplayLevel : MonoBehaviour {
 
 		StatButton.onClickStatButton += UpdateUI;
 
-		HandleOpenInventory (CrewMember.selectedMember);
+		HandleOpenInventory (CrewMember.GetSelectedMember);
 
 	}
 
@@ -30,17 +30,17 @@ public class DisplayLevel : MonoBehaviour {
 
 	void UpdateUI (){
 
-		if (CrewMember.selectedMember == null)
+		if (CrewMember.GetSelectedMember == null)
 			return;
 
-		CrewMember crewMember = CrewMember.selectedMember;
+		CrewMember crewMember = CrewMember.GetSelectedMember;
 
 		// INFO
 		text.text = crewMember.Level.ToString ();
 
 		fillImage.fillAmount = ((float)crewMember.CurrentXp / (float)crewMember.xpToLevelUp);
 
-		BounceLevel ();
+		Tween.Bounce (transform);
 
 //		if (crewMember.Level == crewMember.maxLevel) {
 //			text.text = "MAX";
@@ -50,13 +50,9 @@ public class DisplayLevel : MonoBehaviour {
 	}
 
 	#region level icons
-	void BounceLevel () {
-		Tween.Bounce (fillImage.transform);
-	}
-
 	void HandleOnWrongLevelEvent ()
 	{
-		BounceLevel ();
+		Tween.Bounce (transform);
 		TaintLevelImage ();
 	}
 	void TaintLevelImage() {

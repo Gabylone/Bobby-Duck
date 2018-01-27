@@ -1,39 +1,39 @@
 Provisions;Description;Value;$;W;LVL;Sprite ID
-Hareng;C'est un hareng;12;4;2;0;1
-Sardine;C'est un sardine;11;3;1;0;1
-Thon;C'est un thon;19;6;2;0;1
-Palourde;C'est un palourde;17;5;4;0;1
-Lotte;C'est un lotte;9;3;4;0;1
-Morue;C'est un morue;17;5;3;0;1
-Crabe;C'est un crabe;11;3;3;0;1
-Crevette;C'est un crevette;15;5;2;0;1
-Saumon;C'est un saumon;11;3;4;0;1
-Cabillaud;C'est un cabillaud;19;6;3;0;1
-Homard;C'est un homard;18;5;4;0;1
-Maquereau;C'est un maquereau;12;4;2;0;1
-Esturgeon;C'est un esturgeon;15;5;3;0;1
-Colin;C'est un colin;12;4;2;0;1
-Lardon;C'est un lardon;20;6;2;0;2
-Lapin;C'est un lapin;20;6;5;0;2
-Poulet;C'est un poulet;21;6;4;0;2
-Boeuf;C'est un boeuf;28;8;4;0;2
-Porc;C'est un porc;20;6;3;0;2
-Cochon;C'est un cochon;29;9;5;0;2
-Gros jambon;C'est un gros jambon;23;7;4;0;2
-Petit jambon;C'est un petit jambon;24;7;4;0;2
-Rumsteak;C'est un rumsteak;25;8;4;0;2
-Saucisson;C'est un saucisson;25;8;4;0;2
-Betterave;C'est un betterave;-1;0;3;0;0
-Chou de Bruxelles;C'est un chou de bruxelles;8;2;2;0;0
-Châtaigne;C'est un châtaigne;1;0;1;0;0
-Citron;C'est un citron;6;2;1;0;0
-Poire;C'est un poire;9;3;1;0;0
-Maïs;C'est un maïs;1;0;2;0;0
-Carotte;C'est un carotte;2;1;2;0;0
-Ananas;C'est un ananas;6;2;3;0;0
-Clémentine;C'est un clémentine;5;2;2;0;0
-Orange;C'est un orange;4;1;2;0;0
-Champignon;C'est un champignon;0;0;2;0;0
-Pomme;C'est un pomme;4;1;1;0;0
-Asperges;C'est un asperges;0;0;2;0;0
-Abricot;C'est un abricot;3;1;1;0;0
+Hareng;C'est un hareng;44;20;2;0;1
+Sardine;C'est un sardine;38;17;1;0;1
+Thon;C'est un thon;41;18;2;0;1
+Palourde;C'est un palourde;38;17;4;0;1
+Lotte;C'est un lotte;41;18;4;0;1
+Morue;C'est un morue;36;16;3;0;1
+Crabe;C'est un crabe;42;19;3;0;1
+Crevette;C'est un crevette;37;17;2;0;1
+Saumon;C'est un saumon;43;19;4;0;1
+Cabillaud;C'est un cabillaud;40;18;3;0;1
+Homard;C'est un homard;39;18;4;0;1
+Maquereau;C'est un maquereau;44;20;10;0;1
+Esturgeon;C'est un esturgeon;40;18;9;0;1
+Colin;C'est un colin;35;16;8;0;1
+Lardon;C'est un lardon;48;22;2;0;2
+Lapin;C'est un lapin;45;20;5;0;2
+Poulet;C'est un poulet;50;23;4;0;2
+Boeuf;C'est un boeuf;50;23;12;0;2
+Porc;C'est un porc;47;21;11;0;2
+Cochon;C'est un cochon;54;24;12;0;2
+Gros jambon;C'est un gros jambon;47;21;11;0;2
+Petit jambon;C'est un petit jambon;54;24;12;0;2
+Rumsteak;C'est un rumsteak;50;23;12;0;2
+Saucisson;C'est un saucisson;54;24;12;0;2
+Betterave;C'est un betterave;29;13;3;0;0
+Chou de Bruxelles;C'est un chou de bruxelles;26;12;2;0;0
+Châtaigne;C'est un châtaigne;29;13;1;0;0
+Citron;C'est un citron;33;15;1;0;0
+Poire;C'est un poire;31;14;1;0;0
+Maïs;C'est un maïs;35;16;2;0;0
+Carotte;C'est un carotte;35;16;2;0;0
+Ananas;C'est un ananas;27;12;3;0;0
+Clémentine;C'est un clémentine;29;13;2;0;0
+Orange;C'est un orange;27;12;2;0;0
+Champignon;C'est un champignon;25;11;2;0;0
+Pomme;C'est un pomme;31;14;1;0;0
+Asperges;C'est un asperges;28;13;2;0;0
+Abricot;C'est un abricot;28;13;7;0;0

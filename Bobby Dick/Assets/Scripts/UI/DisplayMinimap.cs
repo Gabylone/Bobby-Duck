@@ -37,7 +37,7 @@ public class DisplayMinimap : MonoBehaviour {
 
 		InitBoatIcons ();
 		// subscribe
-		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;;
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 		Quest.showQuestOnMap += HandleShowQuestOnMap;
 
 		HandleChunkEvent ();
@@ -50,7 +50,6 @@ public class DisplayMinimap : MonoBehaviour {
 
 	void HandleChunkEvent ()
 	{
-
 		UpdateBoatRange ();
 
 		CenterOnBoat ();
@@ -68,9 +67,9 @@ public class DisplayMinimap : MonoBehaviour {
 
 		overallRectTranfsorm.sizeDelta = minimapChunkScale * (MapGenerator.Instance.MapScale);
 
-		for (int x = 0; x <= MapGenerator.Instance.MapScale; x++) {
+		for (int x = 0; x <= MapGenerator.Instance.MapScale-1	; x++) {
 
-			for (int y = 0; y <= MapGenerator.Instance.MapScale; y++) {
+			for (int y = 0; y <= MapGenerator.Instance.MapScale-1; y++) {
 
 				Coords chunk = new Coords (x, y);
 
@@ -94,9 +93,9 @@ public class DisplayMinimap : MonoBehaviour {
 
 	#region center
 	void CenterOnBoat() {
-		CenterMap (Boats.PlayerBoatInfo.coords);
+		CenterMap (Boats.playerBoatInfo.coords);
 	}
-	void CenterMap (Coords coords)
+	public void CenterMap (Coords coords)
 	{
 		float x = overallRectTranfsorm.rect.width * (float)coords.x / MapGenerator.Instance.MapScale;
 		x -= minimapChunkScale.x/2f;
@@ -121,7 +120,7 @@ public class DisplayMinimap : MonoBehaviour {
 			
 			for (int y = -boatRange; y <= boatRange; y++) {
 
-				Coords c = Boats.PlayerBoatInfo.coords + new Coords (x, y);
+				Coords c = Boats.playerBoatInfo.coords + new Coords (x, y);
 
 				Chunk chunk = Chunk.GetChunk (c);
 
@@ -150,7 +149,6 @@ public class DisplayMinimap : MonoBehaviour {
 		}
 	}
 	#endregion
-
 
 	#region map chunk
 	void PlaceMapChunk(Coords c) {
@@ -193,7 +191,7 @@ public class DisplayMinimap : MonoBehaviour {
 	}
 	void MovePlayerIcon () {
 
-		Vector2 boatPos = getPosFromCoords (Boats.PlayerBoatInfo.coords);
+		Vector2 boatPos = getPosFromCoords (Boats.playerBoatInfo.coords);
 		HOTween.To (boatRectTransform, centerTweenDuration-0.2f, "anchoredPosition", boatPos, false, EaseType.Linear, 0.2f);
 
 		Tween.Bounce (boatRectTransform.transform);
@@ -201,7 +199,7 @@ public class DisplayMinimap : MonoBehaviour {
 
 	int currentShipRange {
 		get {
-			int range = Boats.PlayerBoatInfo.shipRange;
+			int range = Boats.playerBoatInfo.shipRange;
 
 			if (TimeManager.Instance.Raining)
 				range--;
@@ -226,7 +224,7 @@ public class DisplayMinimap : MonoBehaviour {
 
 		foreach ( OtherBoatInfo boatInfo in Boats.Instance.OtherBoatInfos ) {
 
-			if ( boatInfo.coords <= Boats.PlayerBoatInfo.coords + boatRange&& boatInfo.coords >= Boats.PlayerBoatInfo.coords - boatRange ) {
+			if ( boatInfo.coords <= Boats.playerBoatInfo.coords + boatRange&& boatInfo.coords >= Boats.playerBoatInfo.coords - boatRange ) {
 
 				PlaceOtherBoatIcon (boatInfo,boatIndexInRange);
 

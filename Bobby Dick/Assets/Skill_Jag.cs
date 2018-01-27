@@ -7,10 +7,7 @@ public class Skill_Jag : Skill {
 //	public float healthAdded = 
 	public float healthNeeded = 50;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
+	
 
 	public override void ApplyEffect ()
 	{

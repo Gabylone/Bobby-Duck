@@ -47,9 +47,22 @@ public class Member {
 //		for (int skillIndex = 0; skillIndex < jobSkills.Count; skillIndex++) {
 //			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [skillIndex]));
 //		}
-		specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [0]));
 
+		if (Lvl >= 0) {
+			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [0]));
+		}
 
+		if (Lvl >= 3) {
+			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [1]));
+		}
+
+		if (Lvl >= 5) {
+			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [2]));
+		}
+
+		if (Lvl >= 7) {
+			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [3]));
+		}
 
 //		foreach (var item in specialSkills) {
 //			Debug.Log (item.name);
@@ -78,10 +91,6 @@ public class Member {
 			Name = CrewCreator.Instance.FemaleNames[Random.Range (0, CrewCreator.Instance.FemaleNames.Length)];
 		}
 
-	
-		// JOB & SKILLS
-		SetJob( (Job)Random.Range (0, 5) );
-
 		// LEVEL
 		if (crewParams.level > 0) {
 			Lvl = crewParams.level;
@@ -99,6 +108,10 @@ public class Member {
 
 		Lvl = Mathf.Clamp ( Lvl , 1 , 10 );
 
+		// JOB & SKILLS
+		SetJob( (Job)Random.Range (0, 5) );
+
+		// STATS
 		int statAmount = Lvl - 1;
 
 		while ( statAmount > 0 )  {

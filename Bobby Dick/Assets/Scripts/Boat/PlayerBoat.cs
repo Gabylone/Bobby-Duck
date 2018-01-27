@@ -8,15 +8,13 @@ public class PlayerBoat : Boat {
 	public delegate void OnEndMovement ();
 	public OnEndMovement onEndMovement;
 
-	[SerializeField]
-	private RectTransform defaultRecTransform;
+	public RectTransform defaultRecTransform;
 
 	public override void Start ()
 	{
 		base.Start();
 
 		WorldTouch.onTouchWorld += HandleOnTouchWorld;
-
 		Island.onTouchIsland += HandleOnTouchIsland;
 
 		StoryLauncher.Instance.playStoryEvent += EndMovenent;
@@ -66,7 +64,7 @@ public class PlayerBoat : Boat {
 	{
 		base.UpdatePositionOnScreen ();
 
-		getTransform.position = NavigationManager.Instance.Anchors[(int)Boats.PlayerBoatInfo.currentDirection].position;
+		getTransform.position = NavigationManager.Instance.Anchors[(int)Boats.playerBoatInfo.currentDirection].position;
 
 	}
 

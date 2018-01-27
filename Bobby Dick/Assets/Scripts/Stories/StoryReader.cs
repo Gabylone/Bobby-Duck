@@ -28,7 +28,7 @@ public class StoryReader : MonoBehaviour {
 	}
 
 	void Start () {
-		StoryInput.onPressInput += StoryReader.Instance.HandleOnPressInput;
+		StoryInput.onPressInput += HandleOnPressInput;
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
 
@@ -150,6 +150,8 @@ public class StoryReader : MonoBehaviour {
 			if (content.Length > 0) {
 				--steps;
 			}
+
+
 		}
 
 	}
@@ -191,6 +193,8 @@ public class StoryReader : MonoBehaviour {
 
 	public void SetNewStory (Story story, StoryType storyType , Node targetNode , Node fallbackNode) {
 
+
+
 		// rechercher l'id de l'histoire désirée
 		int secondStoryID = StoryLoader.Instance.FindIndexByName (story.name,storyType);
 
@@ -222,7 +226,7 @@ public class StoryReader : MonoBehaviour {
 	}
 
 	public void FallBackToPreviousStory () {
-		
+
 		Node fallbackNode = CurrentStoryHandler.fallbackNode;
 
 		currentStoryLayer = CurrentStoryHandler.fallBackLayer;
@@ -272,6 +276,8 @@ public class StoryReader : MonoBehaviour {
 
 				Debug.LogError ("ROW is outside of story << " + CurrentStoryHandler.Story.name + " >> content : ROW : " + Row + " /// STORY CONTENT : " + CurrentStoryHandler.Story.content.Count);
 
+				return "AAAAH";
+
 				return CurrentStoryHandler.Story.content
 					[0]
 					[0];
@@ -281,6 +287,8 @@ public class StoryReader : MonoBehaviour {
 			if ( Col >= CurrentStoryHandler.Story.content [Row].Count ) {
 
 				Debug.LogError ("INDEX is outside of story content : INDEX : " + Col + " /// COUNT : " + CurrentStoryHandler.Story.content[Row].Count);
+
+				return "AAAAH";
 
 				return CurrentStoryHandler.Story.content
 					[Row]

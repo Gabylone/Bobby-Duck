@@ -6,11 +6,6 @@ public class Skill_Fury: Skill {
 
 	public int energyPerTurnAdded = 20;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
-
 	public override void ApplyEffect ()
 	{
 

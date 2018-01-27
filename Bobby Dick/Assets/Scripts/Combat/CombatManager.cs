@@ -115,16 +115,6 @@ public class CombatManager : MonoBehaviour {
 			timeInState += Time.deltaTime;
 		}
 
-		if ( Input.GetKeyDown(KeyCode.O) ) {
-//			currPlayerFighters[0].GetHit (currEnemyFighters[0],20f);
-			currPlayerFighters[currPlayerFighters.Count-1].crewMember.Kill();
-			currPlayerFighters[currPlayerFighters.Count-1].Die();
-		}
-		if ( Input.GetKeyDown(KeyCode.P) ) {
-			//			currPlayerFighters[0].GetHit (currEnemyFighters[0],20f);
-			currPlayerFighters[0].crewMember.Kill();
-			currPlayerFighters[0].Die();
-		}
 
 
 	}
@@ -139,7 +129,7 @@ public class CombatManager : MonoBehaviour {
 
 		onFightStart ();
 
-		CrewMember.selectedMember = currentMember;
+		CrewMember.SetSelectedMember (currentMember);
 
 		ChangeState (States.StartTurn);
 	}
@@ -413,15 +403,10 @@ public class CombatManager : MonoBehaviour {
 	#endregion
 
 	#region Enemy Action Choice
-	public delegate void OnEnemyTriggerSkill (Skill skill);
-	public OnEnemyTriggerSkill onEnemyTriggerSkill;
 	private void EnemyActionChoice_Start () {
 
 		Skill skill = SkillManager.RandomSkill (currentMember);
-
-		if ( onEnemyTriggerSkill != null ) {
-			onEnemyTriggerSkill (skill);
-		}
+		skill.Trigger (CombatManager.Instance.currentFighter);
 
 	}
 	private void EnemyActionChoice_Update () {}
@@ -500,7 +485,7 @@ public class CombatManager : MonoBehaviour {
 
 		foreach (var item in currPlayerFighters) {
 
-			int xpPerMember = 25;
+			int xpPerMember = 40;
 
 			item.combatFeedback.Display ("+ " + xpPerMember + " xp",Color.blue);
 

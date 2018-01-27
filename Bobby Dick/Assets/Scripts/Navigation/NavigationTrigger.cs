@@ -9,10 +9,14 @@ public class NavigationTrigger : MonoBehaviour {
 
 	public Directions direction;
 
+	RectTransform rectTransform;
+
 	bool targeted = false;
 
 	void Start () {
 	
+		rectTransform = GetComponent<RectTransform> ();
+
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 		Swipe.onSwipe += HandleOnSwipe;
 
@@ -32,7 +36,7 @@ public class NavigationTrigger : MonoBehaviour {
 	void HandleOnSwipe (Directions direction)
 	{
 		if ( direction == this.direction ) {
-			PlayerBoat.Instance.SetTargetPos (GetComponent<RectTransform>());
+			PlayerBoat.Instance.SetTargetPos (rectTransform);
 			Target ();
 		}
 	}

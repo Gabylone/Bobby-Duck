@@ -9,7 +9,7 @@ public class HungerIcon : MonoBehaviour {
 
 	public int hungerToAppear = 50;
 
-	public GameObject group;
+	public GameObject hungerGroup;
 
 	public Image fullImage;
 
@@ -22,13 +22,27 @@ public class HungerIcon : MonoBehaviour {
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
-		StoryLauncher.Instance.playStoryEvent += Hide;
+
+		StoryLauncher.Instance.playStoryEvent += HandlePlayStoryEvent;
+		StoryLauncher.Instance.endStoryEvent += HandleEndStoryEvent;;
 
 		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
 
 		linkedIcon = GetComponentInParent<MemberIcon> ();
 
-		Hide ();
+		heartGroup.SetActive (false);
+		hungerGroup.SetActive (false);
+	}
+
+	void HandleEndStoryEvent ()
+	{
+		UpdateIcon ();
+	}
+
+	void HandlePlayStoryEvent ()
+	{
+		heartGroup.SetActive (false);
+		hungerGroup.SetActive (false);
 	}
 
 	void HandleCloseInventory ()
@@ -40,41 +54,38 @@ public class HungerIcon : MonoBehaviour {
 
 	void HandleOpenInventory (CrewMember member)
 	{
-		Hide ();
+		hungerGroup.SetActive (false);
+		heartGroup.SetActive (false);
 	}
 
 	void HandleChunkEvent ()
 	{
-		if ( linkedIcon.member.CurrentHunger> hungerToAppear ) {
-			UpdateIcon ();
-			Show ();
-		}
+		UpdateIcon ();
 	}
 
 	void UpdateIcon () {
 
 		float fillAmount = 1f - ((float)linkedIcon.member.CurrentHunger / (float)linkedIcon.member.maxHunger);
 
-		fullImage.fillAmount = fillAmount;
+		if (fillAmount < 0.45f) {
+			
+			if ( fillAmount <= 0.2f ) {
+				heartImage.fillAmount = (float)linkedIcon.member.Health / (float)linkedIcon.member.MemberID.maxHealth;
+				heartGroup.SetActive (true);
+				hungerGroup.SetActive (false);
 
-		heartImage.fillAmount = (float)linkedIcon.member.Health / (float)linkedIcon.member.MemberID.maxHealth;
+			} else {
+				fullImage.fillAmount = fillAmount;
+				heartGroup.SetActive (false);
+				hungerGroup.SetActive (true);
+			}
 
-		if (fillAmount < 0.4f) {
-			Show ();
+			Tween.Bounce (transform, 0.2f, 1.2f);
+
 		} else {
-			Hide ();
+			hungerGroup.SetActive (false);
 		}
 
-		if (fillAmount < 0.3f) {
-			Tween.Bounce (group.transform, 0.2f, 1.2f);
-		}
-
-		if ( fillAmount <= 0.05f ) {
-			heartGroup.SetActive (true);
-			//
-		} else {
-			heartGroup.SetActive (false);
-		}
 	}
 
 	void OnDestroy () {
@@ -83,14 +94,6 @@ public class HungerIcon : MonoBehaviour {
 
 		CrewInventory.Instance.openInventory -= HandleOpenInventory;
 		CrewInventory.Instance.closeInventory -= HandleChunkEvent;
-		StoryLauncher.Instance.playStoryEvent -= Hide;
-	}
-
-	void Show () {
-		group.SetActive (true);
-	}
-
-	void Hide () {
-		group.SetActive (false);
+		StoryLauncher.Instance.playStoryEvent -= HandlePlayStoryEvent;
 	}
 }

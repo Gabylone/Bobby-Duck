@@ -74,11 +74,11 @@ public class CombatButtons : MonoBehaviour {
 
 		foreach (var item in skillButtons) {
 
-			if (skillIndex < member.specialSkills.Count) {
+			if (skillIndex < member.SpecialSkills.Count) {
 
 				item.gameObject.SetActive (true);
 
-				item.SetSkill (member.specialSkills[skillIndex]);
+				item.SetSkill (member.SpecialSkills[skillIndex]);
 
 			} else {
 				item.gameObject.SetActive (false);
@@ -94,22 +94,32 @@ public class CombatButtons : MonoBehaviour {
 		// check if player has enought energy
 		CrewMember member = CombatManager.Instance.currentFighter.crewMember;
 
-		defaultSkillButtons[0].SetSkill(SkillManager.GetDefaultAttackSkill(member));
-
+		int a = 0;
 		foreach (var item in defaultSkillButtons) {
-			item.SetSkill (item.skill);
+			
+			item.SetSkill (member.DefaultSkills[a]);
 			Tween.Bounce (item.transform);
+
+			++a;
 		}
+
+		ResetOpenSkillButtons ();
+
+		jobImage.sprite = SkillManager.jobSprites[(int)member.job];
+	}
+
+	void ResetOpenSkillButtons ()
+	{
+		CrewMember member = CombatManager.Instance.currentFighter.crewMember;
+
 		Tween.Bounce (openSkillButton.transform);
 
 		openSkillButton.interactable = false;
-		foreach (var item in member.specialSkills ) {
+		foreach (var item in member.SpecialSkills ) {
 			if ( member.energy >= item.energyCost ) {
 				openSkillButton.interactable = true;
 				break;
 			}
 		}
-
-		jobImage.sprite = SkillManager.jobSprites[(int)member.job];
 	}
 }

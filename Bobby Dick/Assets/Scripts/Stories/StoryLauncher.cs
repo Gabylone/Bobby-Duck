@@ -58,6 +58,7 @@ public class StoryLauncher : MonoBehaviour {
 		StoryReader.Instance.Reset ();
 
 		StoryReader.Instance.CurrentStoryManager = storyManager;
+//		print ("launching story : " + StoryReader.Instance.CurrentStoryManager.CurrentStoryHandler.Story.name);
 
 		CurrentStorySource = source;
 

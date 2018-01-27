@@ -25,8 +25,8 @@ public class DisplayLevelUp : MonoBehaviour {
 
 	void HandleOnUnlockSkill ()
 	{
-		if (GetComponentInParent<MemberIcon> ().member == CrewMember.selectedMember) {
-			UpdateStatText (CrewMember.selectedMember);
+		if (GetComponentInParent<MemberIcon> ().member == CrewMember.GetSelectedMember) {
+			UpdateStatText (CrewMember.GetSelectedMember);
 		}
 	}
 

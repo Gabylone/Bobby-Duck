@@ -14,6 +14,7 @@ public class ActionGroup : MonoBehaviour {
 		Purchase,
 		Sell,
 		PickUp,
+		PurchaseAndEquip,
 
 		None
 	}

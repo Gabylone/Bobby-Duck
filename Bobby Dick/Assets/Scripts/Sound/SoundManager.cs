@@ -93,6 +93,7 @@ public class SoundManager : MonoBehaviour {
 			PlaySound (eatSound);
 			break;
 		case InventoryActionType.Equip:
+		case InventoryActionType.PurchaseAndEquip:
 			PlaySound (equipSound);
 			break;
 		case InventoryActionType.Throw:

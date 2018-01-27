@@ -29,14 +29,17 @@ public class Flag : MonoBehaviour {
 		Island.onTouchIsland += HandleOnTouchIsland;
 
 		PlayerBoat.Instance.onEndMovement += HandleOnEndMovement;
-
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
 	}
 
 	void HandleChunkEvent ()
 	{
-		ResetFlag ();
+//		ResetFlag ();
+
+		Vector2 p = Camera.main.WorldToScreenPoint (PlayerBoat.Instance.defaultRecTransform.position);
+//		p = Camera.main.inst
+		PlaceFlagOnScreen (p);
 	}
 
 	void HandleOnEndMovement ()
@@ -59,9 +62,7 @@ public class Flag : MonoBehaviour {
 	}
 	void HandleOnTouchWorld ()
 	{
-
-		PlaceFlagOnScreen ();
-
+		PlaceFlagOnScreen (InputManager.Instance.GetInputPosition ());
 	}
 
 	void ResetFlag ()
@@ -74,13 +75,13 @@ public class Flag : MonoBehaviour {
 		rectTransform.localPosition = defaultRectTransform.localPosition;	
 	}
 
-	void PlaceFlagOnScreen () {
+	void PlaceFlagOnScreen ( Vector2 p ) {
 
 		Show ();
 
 		rectTransform.anchoredPosition = Vector2.zero;	
 
-		Vector2 pos = Camera.main.ScreenToViewportPoint (InputManager.Instance.GetInputPosition ());
+		Vector2 pos = Camera.main.ScreenToViewportPoint (p);
 
 		rectTransform.anchorMin = pos;
 		rectTransform.anchorMax = pos;

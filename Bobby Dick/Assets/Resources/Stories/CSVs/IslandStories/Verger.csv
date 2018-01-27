@@ -35,7 +35,7 @@ OtherSpeak : AU VOLEUR !;Node=>fermier mort;OtherSpeak : AU VOLEUR !;;
 SetChoices3;;Node=>combat fermier;;
 Choice : J'ai rien fais !(cha);Choice : (attaquer);Choice : Qu'est-ce que tu vas faire !;;
 CheckStatCHA;Node=>combat fermier;RandomRange2;;
-OtherSpeak : C'est sûrement une de ces bêtes.;Node=>failcha;OtherSpeak : Je vais reprendre mes LASTITEM !;Node=>marchandage;
+OtherSpeak : C'est sûrement une de ces bêtes.;Node=>failcha;OtherSpeak : Je vais reprendre ma bouffe !;Node=>marchandage;
 OtherSpeak : Sortez de mon jardin maintenant !;;[combat fermier];;
 SetChoices2;;LaunchCombat;;
 Choice : (partir);Choice : (attaquer);[fermier mort];;

@@ -12,6 +12,8 @@ public class QuestManager : MonoBehaviour {
 	public delegate void NewQuestEvent ();
 	public NewQuestEvent newQuestEvent;
 
+	public int maxQuestAmount = 20;
+
 	void Awake () {
 		Instance = this;
 	}
@@ -46,7 +48,7 @@ public class QuestManager : MonoBehaviour {
 			CheckIfQuestIsAccomplished ();
 			break;
 		case FunctionType.GiveUpQuest:
-			GiveUpQuest (Quest.currentQuest);
+			GiveUpActiveQuest ();
 			break;
 		}
 	}
@@ -75,21 +77,31 @@ public class QuestManager : MonoBehaviour {
 		}
 
 		Quest.currentQuest.accomplished = true;
+
+		Quest.currentQuest.targetCoords = Quest.currentQuest.originCoords;
+
+		Quest.currentQuest.ShowOnMap ();
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
+
 	}
 	#endregion
 
 	#region new quest
 	void HandleNewQuest () {
 
+
+
+		// CHECK FINISHED QUESTS
 		Quest quest = Coords_CheckForFinishedQuest;
 
-		// check if quest is already finished
 		if ( quest != null ) {
 			HandleCompletedQuest (quest);
 			return;
 		}
 
-		// check if player already has quest
+		// CHECK CURRENT QUESTS
 		quest = Coords_CheckForStartQuest;
 
 		if (quest != null) {
@@ -103,12 +115,20 @@ public class QuestManager : MonoBehaviour {
 		// create quest
 		Quest newQuest = new Quest ();
 
-		currentQuests.Add (newQuest);
-
-		newQuest.Init ();
+		if (currentQuests.Count == maxQuestAmount) {
+			Invoke ("FallBackDelay",1f);
+		} else {
+			newQuest.Init ();
+			currentQuests.Add (newQuest);
+		}
 
 		if (newQuestEvent != null)
 			newQuestEvent ();
+	}
+	void FallBackDelay () {
+		Quest newQuest = new Quest ();
+		newQuest.GetNewQuestnode ();
+		StoryReader.Instance.GoToNode (newQuest.newQuest_FallbackNode);
 	}
 	#endregion
 
@@ -127,7 +147,7 @@ public class QuestManager : MonoBehaviour {
 
 	void ContinueQuest () {
 
-		Quest quest = CurrentQuests.Find (x => x.targetCoords == Boats.PlayerBoatInfo.coords);
+		Quest quest = CurrentQuests.Find (x => x.targetCoords == Boats.playerBoatInfo.coords);
 
 		if ( quest != null) {
 
@@ -156,7 +176,7 @@ public class QuestManager : MonoBehaviour {
 			member.AddXP (quest.experience);
 		}
 
-		Karma.Instance.CurrentKarma += 3;
+		Karma.Instance.AddKarma ();
 
 		finishedQuests.Add (quest);
 		currentQuests.Remove (quest);
@@ -182,7 +202,14 @@ public class QuestManager : MonoBehaviour {
 		if (onGiveUpQuest != null) {
 			onGiveUpQuest(quest);
 		}
+	}
 
+	void GiveUpActiveQuest ()
+	{
+		GiveUpQuest (Quest.currentQuest);
+
+		StoryReader.Instance.NextCell();
+		StoryReader.Instance.UpdateStory ();
 	}
 
 	#region map stuff
@@ -191,20 +218,7 @@ public class QuestManager : MonoBehaviour {
 	}
 
 	public void SendPlayerBackToGiver () {
-		
-		Quest quest = CurrentQuests.Find (x => x.targetCoords == Boats.PlayerBoatInfo.coords);
-
-		if ( quest == null ) {
-			Debug.LogError ("il est sensé avoir une quete là non ?");
-			return;
-		}
-
-		quest.targetCoords = quest.originCoords;
-
-		quest.ShowOnMap ();
-
-		StoryReader.Instance.NextCell();
-		StoryReader.Instance.UpdateStory ();
+		Debug.LogError ("SEND PLAYER BACK TO GIVER DOESNT EXIST ANYMORE");
 	}
 	#endregion
 
@@ -231,7 +245,7 @@ public class QuestManager : MonoBehaviour {
 
 	public Quest Coords_CheckForTargetQuest {
 		get {
-			return CurrentQuests.Find ( x=> x.targetCoords == Boats.PlayerBoatInfo.coords);
+			return CurrentQuests.Find ( x=> x.targetCoords == Boats.playerBoatInfo.coords);
 		}
 	}
 
@@ -251,7 +265,7 @@ public class QuestManager : MonoBehaviour {
 
 //			return currentQuests.Find ( x=> x.originCoords == Boats.PlayerBoatInfo.coords);
 			return currentQuests.Find ( x => 
-				x.originCoords == Boats.PlayerBoatInfo.coords && 
+				x.originCoords == Boats.playerBoatInfo.coords && 
 				storyLayer == x.layer &&
 				x.row == StoryReader.Instance.Col &&
 				x.col == StoryReader.Instance.Row
@@ -269,7 +283,7 @@ public class QuestManager : MonoBehaviour {
 			}
 
 			return finishedQuests.Find ( x => 
-				x.originCoords == Boats.PlayerBoatInfo.coords && 
+				x.originCoords == Boats.playerBoatInfo.coords && 
 				storyLayer == x.layer &&
 				x.row == StoryReader.Instance.Col &&
 				x.col == StoryReader.Instance.Row

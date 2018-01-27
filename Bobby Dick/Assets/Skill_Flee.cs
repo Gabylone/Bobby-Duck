@@ -6,11 +6,6 @@ public class Skill_Flee : Skill {
 
 	public int healthToFlee = 30;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
-
 	public override void ApplyEffect ()
 	{
 		base.ApplyEffect ();
@@ -50,7 +45,6 @@ public class Skill_Flee : Skill {
 
 			EndSkill ();
 
-
 		}
 
 		DiceManager.Instance.onEndThrow -= HandleOnEndThrow;
@@ -62,6 +56,8 @@ public class Skill_Flee : Skill {
 
 		bool fewHealth = member.Health < healthToFlee;
 
-		return fewHealth && base.MeetsConditions (member);
+		bool meetsChance = Random.value < 0.65f;
+
+		return meetsChance && fewHealth && base.MeetsConditions (member);
 	}
 }

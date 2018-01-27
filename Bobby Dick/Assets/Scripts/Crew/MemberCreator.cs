@@ -30,8 +30,17 @@ public class MemberCreator : MonoBehaviour {
 		memberCreatorButtons = memberCreatorButtonParent.GetComponentsInChildren<MemberCreatorButton> ();
 	}
 
+	void Start () {
+		Hide ();
+	}
+
 	public string[] boatNames;
 	public string[] captainNames;
+
+	void Hide ()
+	{
+		overall.SetActive (false);
+	}
 
 	public void Show ()
 	{
@@ -44,7 +53,7 @@ public class MemberCreator : MonoBehaviour {
 
 		int ID = Random.Range ( 0, boatNames.Length );
 
-		Boats.PlayerBoatInfo.Name = captainNames[ID];
+		Boats.playerBoatInfo.Name = captainNames[ID];
 		boatName.text = captainNames[ID];
 
 		Crews.playerCrew.captain.MemberID.Name = boatNames [ID];
@@ -58,6 +67,7 @@ public class MemberCreator : MonoBehaviour {
 
 		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
+
 	}
 
 	void UpdateJob ()
@@ -70,14 +80,15 @@ public class MemberCreator : MonoBehaviour {
 		if (member.job == Job.Flibuster) {
 			Item anyGun = System.Array.Find(ItemLoader.Instance.getItems(ItemCategory.Weapon), x => x.spriteID == 0 );
 //			print ("setting any gun : " + anyGun.name);
-			member.SetEquipment (CrewMember.EquipmentPart.Weapon, anyGun);
+			member.SetEquipment (anyGun);
 			Crews.playerCrew.captain.Icon.GetComponent<IconVisual> ().UpdateWeaponSprite (0);
+		
 		}
 
 		if (member.job == Job.Brute) {
 			Item anySword = System.Array.Find(ItemLoader.Instance.getItems(ItemCategory.Weapon), x => x.spriteID == 1 );
 //			print ("setting any sword : " + anySword.name);
-			member.SetEquipment (CrewMember.EquipmentPart.Weapon, anySword);
+			member.SetEquipment (anySword);
 			Crews.playerCrew.captain.Icon.GetComponent<IconVisual> ().UpdateWeaponSprite (1);
 		}
 
@@ -100,7 +111,7 @@ public class MemberCreator : MonoBehaviour {
 
 		Tween.Bounce ( boatName.transform );
 
-		Boats.PlayerBoatInfo.Name = boatName.text;
+		Boats.playerBoatInfo.Name = boatName.text;
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 	}
 
@@ -209,7 +220,7 @@ public class MemberCreator : MonoBehaviour {
 
 		UpdateButtons ();
 
-		Crews.playerCrew.captain.Icon.UpdateVisual (Crews.playerCrew.captain.MemberID);
+		Crews.playerCrew.captain.Icon.InitVisual (Crews.playerCrew.captain.MemberID);
 
 	}
 

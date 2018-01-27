@@ -18,6 +18,16 @@ public class DisplayItem_Loot : DisplayItem {
 
 	void Start () {
 		itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-30, 30)));
+
+		if (lvlObj != null) {
+			LootManager.Instance.onWrongLevelEvent += HandleOnWrongLevelEvent;
+//			group.SetActive (false);
+		}
+	}
+
+	void HandleOnWrongLevelEvent ()
+	{
+		Tween.Bounce (transform);
 	}
 
 	public void Select () {
@@ -62,15 +72,15 @@ public class DisplayItem_Loot : DisplayItem {
 	void UpdateColor ()
 	{
 
-		if (HandledItem == null) {
+		if (HandledItem == null || lvlObj != null) {
 			return;
 		}
 
 		float a = 0.7f;
 
-		if ( HandledItem.level > CrewMember.selectedMember.Level ) {
+		if ( HandledItem.level > CrewMember.GetSelectedMember.Level ) {
 			image.color = new Color(1f, a , a);
-		} else if ( HandledItem.level < CrewMember.selectedMember.Level && HandledItem.level > 0 ) {
+		} else if ( HandledItem.level < CrewMember.GetSelectedMember.Level && HandledItem.level > 0 ) {
 			image.color = new Color(a, 1f, a);
 		} else {
 			image.color = Color.white;
@@ -86,8 +96,8 @@ public class DisplayItem_Loot : DisplayItem {
 			base.HandledItem = value;
 
 			if (value == null) {
+//				itemImage.enabled = false;
 				group.SetActive (false);
-				itemImage.enabled = false;
 				return;
 			}
 

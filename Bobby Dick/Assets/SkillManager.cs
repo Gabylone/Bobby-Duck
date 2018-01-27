@@ -10,8 +10,6 @@ public class SkillManager : MonoBehaviour {
 	public static Sprite[] statusSprites;
 	public static Sprite[] jobSprites;
 
-	public static List<Skill> defaultSkills = new List<Skill> ();
-
 	public static string[] jobNames = new string[5] {
 		"Brute",
 		"Medecin",
@@ -41,8 +39,9 @@ public class SkillManager : MonoBehaviour {
 			
 			item.name = cells [1];
 			item.energyCost = int.Parse ( cells[3] );
-			item.priority = int.Parse ( cells[4] );
-			item.description = cells [5];
+			item.initCharge = int.Parse ( cells[4] );
+			item.priority = int.Parse ( cells[5] );
+			item.description = cells [6];
 
 			++skillIndex;
 		}
@@ -50,10 +49,6 @@ public class SkillManager : MonoBehaviour {
 		skillSprites = Resources.LoadAll<Sprite> ("Graph/SkillsSprites");
 		jobSprites = Resources.LoadAll<Sprite> ("Graph/JobSprites");
 		statusSprites = Resources.LoadAll<Sprite> ("Graph/StatusSprites");
-
-		defaultSkills.Add (SkillManager.getSkill (Skill.Type.CloseAttack));
-		defaultSkills.Add (SkillManager.getSkill (Skill.Type.Flee));
-		defaultSkills.Add (SkillManager.getSkill (Skill.Type.SkipTurn));
 		
 
 	}
@@ -121,56 +116,60 @@ public class SkillManager : MonoBehaviour {
 
 	public static Skill RandomSkill ( CrewMember member ) {
 
-//		print ("il le fait qu'une fois ?");
-
 		List<Skill> fittingSkills = new List<Skill> ();
 
 		int priority = 0;
 
-		defaultSkills [0] = GetDefaultAttackSkill (member);
-
 		List<Skill> memberSkills = new List<Skill>();
-		foreach (var item in defaultSkills) {
+		foreach (var item in member.DefaultSkills) {
 			memberSkills.Add (item);
+			Debug.LogError("j'ajoutte : " + item + " de default");
 		}
-		foreach (var item in member.specialSkills) {
+		foreach (var item in member.SpecialSkills) {
 			memberSkills.Add (item);
+			Debug.LogError("j'ajoutte : " + item + " de special");
 		}
 
 		// dans tous les skills du membre
 		foreach (var item in memberSkills) {
 
+			print ("il réfléchi à : " + item);
 
-			if ( item.MeetsConditions(member) ) {
+			if ( item.MeetsConditions(member) == false ) {
+				print (item.name + " ne rempli pas les conditions");
+				continue;
+			}
 
-//				print (item.name + " rempli les conditions");
+			if ( item.MeetsRestrictions(member) == false ) {
+				print (item.name + " ne rempli pas les resstrictions");
+				continue;
+			}
 
-//				if (item.priority < priority) {
-//					print (item.name + " a une priorité inférieure");
-//				}
-//
-				if (item.priority == priority) {
-//					print (item.name + " a une priorité supérieure");
-					fittingSkills.Add (item);
-				}
+			print (item.name + " rempli les conditions");
 
-				if ( item.priority > priority ) {
+			if (item.priority == priority) {
+				print (item.name + " a une priorité égale (prio : " + item.priority + ")");
+				fittingSkills.Add (item);
+			}
 
-//					print (item.name + " a une priorité supérieure");
+			if ( item.priority > priority ) {
 
-					fittingSkills.Clear ();
-					fittingSkills.Add (item);
-					priority = item.priority;
+				print (item.name + " a une priorité supérieure");
+				fittingSkills.Clear ();
+				fittingSkills.Add (item);
+				priority = item.priority;
 
-				}
 			}
 
 
 		}
 
-		Skill skill = fittingSkills[Random.Range(0,fittingSkills.Count)];
+		int skillIndex = Random.Range(0,fittingSkills.Count);
+			Debug.LogError("skill index : " + skillIndex);
+			Debug.LogError("fitting skills count : " + fittingSkills.Count);
+		Skill skill = fittingSkills[skillIndex];
 
-		print ("chosen skill : " + skill.name);
+		print(" skill choisi : "+ skill.name);
 
 		return skill;
 	}

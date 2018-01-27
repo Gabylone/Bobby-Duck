@@ -68,7 +68,24 @@ public class Loot {
 			LootManager.Instance.updateLoot ();
 
 	}
+//	public List<Item> GetItemsFromCategory ( ItemCategory cat ) {
+//		return allItems [(int)cat];
+//	}
+	public void EmptyCategory ( ItemCategory cat ) {
+//		for (int i = 0; i < allItems[(int)cat].Count; i++) {
+//			RemoveItem (allItems [(int)cat][i]);
+//		}
+
+	}
 	#endregion
 
+	public bool IsEmpty ()
+	{
+		foreach (var item in allItems) {
+			if (item.Count > 0)
+				return false;
+		}
 
+		return true;
+	}
 }

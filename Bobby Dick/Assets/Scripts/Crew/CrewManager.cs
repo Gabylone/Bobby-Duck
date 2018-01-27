@@ -24,6 +24,14 @@ public class CrewManager : MonoBehaviour {
 	void Start () {
 		NavigationManager.Instance.EnterNewChunk += AddToStates;
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
+		CombatManager.Instance.onFightStart += HandleFightStarting;
+	}
+
+	void HandleFightStarting ()
+	{
+		foreach (var item in crewMembers) {
+			item.ResetSkills ();
+		}
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -88,8 +96,6 @@ public class CrewManager : MonoBehaviour {
 				GameManager.Instance.GameOver (1f);
 				return;
 			}
-
-			CrewMember.selectedMember = crewMembers [0];
 
 		}
 

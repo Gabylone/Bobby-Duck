@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,6 +22,12 @@ public class Chunk
 	private IslandData islandData;
 
 	public Chunk () {
+		
+	}
+
+	public void SetIslandData (IslandData _islandData ) {
+		State = ChunkState.UndiscoveredIsland;
+		islandData = _islandData;
 	}
 
 	public IslandData IslandData {
@@ -28,18 +36,17 @@ public class Chunk
 		}
 		set {
 			islandData = value;
-
-			State = ChunkState.UndiscoveredIsland;
 		}
 	}
 
 	public static Chunk currentChunk {
 		get {
-			return chunks[Boats.PlayerBoatInfo.coords];
+			return chunks[Boats.playerBoatInfo.coords];
 		}
 	}
 
 	public static Chunk GetChunk (Coords c) {
+		
 		if (chunks.ContainsKey (c) == false) {
 			return chunks [new Coords ()];
 		}

@@ -65,15 +65,6 @@ public class RandomManager : MonoBehaviour {
 		int range = int.Parse (cellParams);
 		int randomDecal = Random.Range (0, range);
 
-
-//		int decal = 0;
-//
-//		if (StoryReader.Instance.CurrentStoryHandler.GetDecal() > -1) {
-//			decal = StoryReader.Instance.CurrentStoryHandler.GetDecal();
-//		} else {
-//			decal = randomDecal;
-//		}
-
 		StoryReader.Instance.CurrentStoryHandler.SaveDecal (randomDecal);
 
 		StoryReader.Instance.NextCell ();

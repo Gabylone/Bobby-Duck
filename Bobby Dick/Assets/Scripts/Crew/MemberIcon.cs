@@ -44,7 +44,7 @@ public class MemberIcon : MonoBehaviour {
 		initScale = group.transform.localScale;
 	
 		HideBody ();
-		UpdateVisual (member.MemberID);
+		InitVisual (member.MemberID);
 
 	}
 
@@ -57,7 +57,7 @@ public class MemberIcon : MonoBehaviour {
 			return;
 		}
 
-		if (CrewInventory.Instance.Opened && CrewMember.selectedMember == member) {
+		if (CrewInventory.Instance.Opened && CrewMember.GetSelectedMember == member) {
 
 			if ( OtherInventory.Instance.type != OtherInventory.Type.None ) {
 				return;
@@ -95,31 +95,6 @@ public class MemberIcon : MonoBehaviour {
 	}
 	#endregion
 
-	#region bounce
-	public void Up () {
-
-//		Transform t = transform.parent;
-//
-//		transform.SetParent(transform.parent.parent);
-//
-//		transform.SetParent(t);
-//
-//		Tween.Scale ( transform , 0.3f  , 1.3f);
-
-//		MoveToPoint (Crews.PlacingType.Discussion);
-
-	}
-
-	public void Down () {
-
-//		MoveToPoint (Crews.PlacingType.Map);
-
-//		Tween.Scale ( transform , 0.3f  , 1f);
-
-	}
-
-	#endregion
-
 	#region movement
 	public void MoveToPoint ( Crews.PlacingType targetPlacingType ) {
 
@@ -130,12 +105,6 @@ public class MemberIcon : MonoBehaviour {
 
 		Vector3 targetPos = Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].position;
 
-		if (currentPlacingType == Crews.PlacingType.Discussion
-			||currentPlacingType == Crews.PlacingType.SoloCombat) {
-			ShowBody ();
-		} else {
-			HideBody();
-		}
 
 		if ( currentPlacingType == Crews.PlacingType.Map )
 			targetPos = Crews.getCrew (member.side).mapAnchors [member.GetIndex].position;
@@ -143,11 +112,20 @@ public class MemberIcon : MonoBehaviour {
 //		print ("moviong target : " + Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].name);
 
 		HOTween.To ( transform , moveDuration , "position" , targetPos , false , EaseType.Linear , 0f );
+
+
+		if (currentPlacingType == Crews.PlacingType.Discussion
+			||currentPlacingType == Crews.PlacingType.Inventory) {
+			ShowBody ();
+		} else {
+			HideBody();
+		}
 	}
 	#endregion
 
 	#region body
 	public void HideBody () {
+		
 		bodyGroup.SetActive (false);
 		animator.SetBool ("enabled", false);
 
@@ -160,6 +138,7 @@ public class MemberIcon : MonoBehaviour {
 
 	}
 	public void ShowBody () {
+		
 		bodyGroup.SetActive (true);
 		animator.SetBool ("enabled", true);
 
@@ -171,9 +150,9 @@ public class MemberIcon : MonoBehaviour {
 
 	}
 
-	public void UpdateVisual (Member memberID)
+	public void InitVisual (Member memberID)
 	{
-		GetComponent<IconVisual> ().UpdateVisual (memberID);
+		GetComponent<IconVisual> ().InitVisual (memberID);
 	}
 	#endregion
 }

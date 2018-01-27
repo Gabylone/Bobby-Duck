@@ -10,11 +10,6 @@ public class Skill_BearTrap : Skill {
 
 	public Vector2 decalToFighter = new Vector2(130,70);
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
-
 	public override void ApplyEffect ()
 	{
 		if (fighter.HasStatus (Fighter.Status.BearTrapped))

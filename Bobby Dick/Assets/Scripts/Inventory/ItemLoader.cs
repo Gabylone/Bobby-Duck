@@ -32,14 +32,11 @@ public class ItemLoader : MonoBehaviour {
 	[SerializeField]
 	private int[] amountRange_Max;
 
-	int[][] levelRange;
-
 	int currentID = 0;
 
 	void Awake () {
 		Instance = this;
 	}
-
 
 	public void Init () {
 
@@ -52,7 +49,6 @@ public class ItemLoader : MonoBehaviour {
 		}
 
 		items = new Item[categoryAmount][];
-		levelRange = new int[categoryAmount][];
 
 		files = new TextAsset[Resources.LoadAll (pathToCSVs, typeof(TextAsset)).Length];
 		int index = 0;
@@ -76,7 +72,6 @@ public class ItemLoader : MonoBehaviour {
 
 		string maxLevelTxt = rows [rows.Length - 2].Split (';')[5];
 		int maxLevel = int.Parse (maxLevelTxt);
-		levelRange[(int)currentType] = new int[maxLevel+1];
 
 		int currentLevel = 0;
 
@@ -113,18 +108,6 @@ public class ItemLoader : MonoBehaviour {
 //				Debug.Log ("item : " + newItem.name + " sprite : " + newItem.spriteID);
 //			}
 
-			if ( newItem.level > currentLevel && newItem.level > 0) {
-
-				if ( (int)currentType >= levelRange.Length )
-					Debug.LogError ( "Level Range out of range : CURRENT TYPE : " + currentType + " LENGHT : " + levelRange.Length );
-
-				if (  newItem.level-1 >= levelRange[(int)currentType].Length)
-					Debug.LogError ( "Level Range out of range : "+ currentType + " ITEM LVL : " + (newItem.level-1) + " LENGHT : " + levelRange[(int)currentType].Length);
-				
-				levelRange [(int)currentType] [newItem.level-1] = i - 1;
-				++currentLevel;
-			}
-
 			currentID++;
 		}
 	}
@@ -147,7 +130,7 @@ public class ItemLoader : MonoBehaviour {
 //			int level = Random.Range ( 0, 11 );
 			int level = 0;
 			if ( Crews.playerCrew.CrewMembers.Count > 0)
-				level = Random.Range ( 0, Crews.playerCrew.captain.Level + 3 );
+				level = Random.Range ( Crews.playerCrew.captain.Level -2 , Crews.playerCrew.captain.Level + 3 );
 			
 			level = Mathf.Clamp (level, 0, 11);
 
@@ -165,26 +148,22 @@ public class ItemLoader : MonoBehaviour {
 		return items[(int)category][index];
 	}
 
-	public Item GetRandomItemOfCertainLevel ( ItemCategory itemType , int targetLevel = 0 ) {
+	public Item GetRandomItemOfCertainLevel ( ItemCategory category , int targetLevel = 0 ) {
 
-		int range1 = 0;
+		if (category == ItemCategory.Misc || category == ItemCategory.Provisions)
+			return items [(int)category] [Random.Range (0,items [(int)category].Length)];
 
-		int range2 = items [(int)itemType].Length;
-
-		if ( targetLevel > 0 && targetLevel < levelRange[(int)itemType].Length ) {
-
-			range1 = levelRange [(int)itemType][targetLevel-1];
-
-			if ( levelRange [(int)itemType][targetLevel] > 0 )
-				range2 = levelRange [(int)itemType][targetLevel];
+		if (targetLevel > 0) {
 			
+			Item[] tmpItems = System.Array.FindAll (items [(int)category], x => x.level == targetLevel);
+
+			print ("found : " + tmpItems.Length + " items of level " + targetLevel + " for category " + category);
+
+			return tmpItems [Random.Range (0, tmpItems.Length)];
+
+		} else {
+			return items [(int)category] [Random.Range (0,items [(int)category].Length)];
 		}
-
-		int index = Random.Range (range1, range2);
-
-		Item item = items[(int)itemType][index];
-
-		return item;
 	}
 
 	public Item[] getItems ( ItemCategory itemType ) {

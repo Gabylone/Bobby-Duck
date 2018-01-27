@@ -8,6 +8,8 @@ public class DisplayItem_Crew : DisplayItem {
 	public delegate void OnRemoveItemFromMember(Item item);
 	public static OnRemoveItemFromMember onRemoveItemFromMember;
 
+	public GameObject group;
+
 	public CrewMember.EquipmentPart part;
 
 	public Image itemImage;
@@ -21,8 +23,14 @@ public class DisplayItem_Crew : DisplayItem {
 
 	void HandleUseInventory (InventoryActionType actionType)
 	{
-		if (actionType == InventoryActionType.Equip) {
+
+		switch (actionType) {
+		case InventoryActionType.Equip:
+		case InventoryActionType.PurchaseAndEquip:
 			Display ();
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -33,8 +41,8 @@ public class DisplayItem_Crew : DisplayItem {
 
 	void Display () {
 
-		if ( CrewMember.selectedMember.GetEquipment(part)!= null) {
-			HandledItem = CrewMember.selectedMember.GetEquipment (part);
+		if ( CrewMember.GetSelectedMember.GetEquipment(part)!= null) {
+			HandledItem = CrewMember.GetSelectedMember.GetEquipment (part);
 		} else {
 			Clear ();
 		}
@@ -42,9 +50,13 @@ public class DisplayItem_Crew : DisplayItem {
 
 	public void RemoveItem () {
 
+		if ( HandledItem== null ) {
+			return;
+		}
+
 		LootManager.Instance.getLoot(Crews.Side.Player).AddItem (HandledItem);
 
-		CrewMember.selectedMember.SetEquipment (part, null);
+		CrewMember.GetSelectedMember.RemoveEquipment (part);
 
 		if ( onRemoveItemFromMember != null )
 			onRemoveItemFromMember (HandledItem);
@@ -52,6 +64,17 @@ public class DisplayItem_Crew : DisplayItem {
 
 		Clear ();
 
+	}
+	public override void Clear ()
+	{
+		base.Clear ();
+
+		Invoke ("Hide",0.3f);
+	}
+
+	void Hide () {
+		print ("hideing");
+		group.SetActive (false);
 	}
 
 	public override Item HandledItem {
@@ -67,6 +90,9 @@ public class DisplayItem_Crew : DisplayItem {
 				return;
 			}
 
+			group.SetActive (true);
+			Tween.ClearFade (transform);
+
 			if (value.spriteID < 0) {
 				itemImage.enabled = false;
 			} else {
@@ -75,6 +101,8 @@ public class DisplayItem_Crew : DisplayItem {
 			}
 
 			itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-30, 30)));
+
+
 		}
 	}
 }

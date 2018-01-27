@@ -28,8 +28,11 @@ public class QuestFeedback : MonoBehaviour {
 
 	void HandleNewQuestEvent ()
 	{
-		Display ("Nouvelle Quête");
-
+		if (QuestManager.Instance.CurrentQuests.Count == QuestManager.Instance.maxQuestAmount) {
+			Display ("Nombre maximum de quête atteint");
+		} else {
+			Display ("Nouvelle Quête");
+		}
 	}
 
 	void Display ( string str ) {

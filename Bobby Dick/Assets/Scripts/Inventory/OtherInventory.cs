@@ -88,7 +88,10 @@ public class OtherInventory : MonoBehaviour {
 	{
 		switch (actionType) {
 		case InventoryActionType.Buy:
-			Buy ();
+			PurchaseItem ();
+			break;
+		case InventoryActionType.PurchaseAndEquip:
+			PuchaseAndEquip ();
 			break;
 		case InventoryActionType.PickUp:
 			PickUp ();
@@ -102,6 +105,13 @@ public class OtherInventory : MonoBehaviour {
 	public void StartTrade () {
 			// get loot
 		Loot loot = LootManager.Instance.GetIslandLoot (2);
+
+		if ( loot.IsEmpty () ) {
+			DialogueManager.Instance.SetDialogue ("Ah désolé, je n'ai plus rien à vendre", Crews.enemyCrew.captain);
+			StoryInput.Instance.WaitForInput ();
+			return;
+		}
+
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, loot);
 
 		CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerLoot);
@@ -116,6 +126,13 @@ public class OtherInventory : MonoBehaviour {
 	public void StartLooting () {
 
 		Loot loot = LootManager.Instance.GetIslandLoot ();
+
+		if ( loot.IsEmpty () ) {
+			DialogueManager.Instance.SetDialogue ("Il n'y a plus rien", Crews.playerCrew.captain);
+			StoryInput.Instance.WaitForInput ();
+			return;
+		}
+
 		LootManager.Instance.setLoot ( Crews.Side.Enemy, loot);
 
 		CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerLoot);
@@ -127,7 +144,7 @@ public class OtherInventory : MonoBehaviour {
 	}
 	#endregion
 
-	public void Buy () {
+	public void PurchaseItem () {
 
 		if (!GoldManager.Instance.CheckGold (LootUI.Instance.SelectedItem.price)) {
 			return;
@@ -141,6 +158,36 @@ public class OtherInventory : MonoBehaviour {
 
 		LootManager.Instance.PlayerLoot.AddItem (LootUI.Instance.SelectedItem);
 		LootManager.Instance.OtherLoot.RemoveItem (LootUI.Instance.SelectedItem);
+
+	}
+
+	public void PuchaseAndEquip () {
+
+		Item item = LootUI.Instance.SelectedItem;
+
+		if (!GoldManager.Instance.CheckGold (item.price)) {
+			print (" l'objet est torp cher ?, retour");
+			return;
+		}
+
+		if (!WeightManager.Instance.CheckWeight (item.weight)) {
+			print (" l'objet est torp lourd, retour");
+			return;
+		}
+
+		if ( !CrewMember.GetSelectedMember.CheckLevel (item.level) ) {
+			print (" le  niveau de l'objet est trop hatu, retour");
+			return;
+		}
+
+		GoldManager.Instance.GoldAmount -= item.price;
+
+		LootManager.Instance.OtherLoot.RemoveItem (item);
+
+		if (CrewMember.GetSelectedMember.GetEquipment(item.EquipmentPart) != null)
+			LootManager.Instance.PlayerLoot.AddItem (CrewMember.GetSelectedMember.GetEquipment(item.EquipmentPart) );
+		
+		CrewMember.GetSelectedMember.SetEquipment (item);
 
 	}
 

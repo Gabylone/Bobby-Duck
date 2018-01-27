@@ -6,22 +6,19 @@ public class Skill_Cosh : Skill {
 
 	public float knockedOutChance = 0.3f;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
-
 	public override void ApplyEffect ()
 	{
 		base.ApplyEffect ();
 
 
-		if ( Random.value < knockedOutChance) {
-			fighter.TargetFighter.AddStatus (Fighter.Status.KnockedOut);
-		} else {
-			fighter.combatFeedback.Display ( "Raté !" );
-		}
+		fighter.TargetFighter.AddStatus (Fighter.Status.KnockedOut);
 
+//		if ( Random.value < knockedOutChance) {
+//			fighter.TargetFighter.AddStatus (Fighter.Status.KnockedOut);
+//		} else {
+//			fighter.combatFeedback.Display ( "Raté !" );
+//		}
+//
 		fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack);
 
 

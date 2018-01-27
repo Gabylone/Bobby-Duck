@@ -13,7 +13,7 @@ public class SaveManager : MonoBehaviour
 
 	void Start () {
 		
-		currentData = new GameData ();
+		gameData = new GameData ();
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
@@ -21,69 +21,52 @@ public class SaveManager : MonoBehaviour
 
 	void HandleChunkEvent ()
 	{
-		SaveOverallGame ();
+		Invoke ("HandleChunkEventDelay",0.01f);
+	}
+
+	void HandleChunkEventDelay () {
+
+		SaveGameData ();
+
+		SaveTool.Instance.SaveSpecificChunks (Coords.current);
+
 	}
 
 	#region load
 	public void LoadGame () {
 
-		currentData = SaveTool.Instance.Load ();
+		MapGenerator.Instance.LoadIslandsData ();
 
-		LoadOverallGame ();
-
-	}
-	public void LoadGameCoroutine() {
-
-		currentData = SaveTool.Instance.Load ();
-
-		StartCoroutine (LoadGameCoroutine_Coroutine ());
+		LoadGameData ();
 
 	}
-	public void LoadOverallGame () {
+
+	public void LoadGameData () {
+
+		gameData = SaveTool.Instance.LoadGameData ();
+
 		// player crew
 		Crews.Instance.LoadPlayerCrew ();
 
 		// boat position
 		Boats.Instance.LoadBoats ();
 
-		// island ids
-		// island datas
-		// special island positions
-		MapGenerator.Instance.LoadIslandsData ();
-
 		FormulaManager.Instance.LoadFormulas ();
 
 		// player loot
-		LootManager.Instance.setLoot (Crews.Side.Player, currentData.playerLoot);
+		LootManager.Instance.setLoot (Crews.Side.Player, gameData.playerLoot);
 
-		QuestManager.Instance.CurrentQuests = currentData.currentQuests;
-		QuestManager.Instance.FinishedQuests = currentData.finishedQuests;
-
-		FormulaManager.Instance.LoadFormulas ();
-
+		QuestManager.Instance.CurrentQuests = gameData.currentQuests;
+		QuestManager.Instance.FinishedQuests = gameData.finishedQuests;
 
 		// gold
 		GoldManager.Instance.LoadGold();
 
 		Karma.Instance.LoadKarma ();
 
-		TimeManager.Instance.LoadWeather ();
+		TimeManager.Instance.Load ();
 
 		NavigationManager.Instance.ChangeChunk (Directions.None);
-
-	}
-	IEnumerator LoadGameCoroutine_Coroutine () {
-
-		Transitions.Instance.ScreenTransition.Fade = true;
-		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
-
-		if (StoryLauncher.Instance.PlayingStory)
-			StoryLauncher.Instance.EndStory ();
-
-		LoadOverallGame ();
-
-		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
-		Transitions.Instance.ScreenTransition.Fade = false;
 
 	}
 	#endregion
@@ -91,15 +74,15 @@ public class SaveManager : MonoBehaviour
 	#region save
 	public void SaveOverallGame () {
 
+//		print ("saving overall game");
+
 		SaveGameData ();
 
-		SaveAllChunks ();
-
-		SaveTool.Instance.Save ();
+		SaveTool.Instance.SaveAllChunks ();
 
 	}
 
-	public void SaveGameData () {
+	void SaveGameData () {
 
 		// player crew
 		Crews.Instance.SavePlayerCrew ();
@@ -109,35 +92,30 @@ public class SaveManager : MonoBehaviour
 
 		FormulaManager.Instance.SaveFormulas ();
 
-		currentData.playerLoot = LootManager.Instance.getLoot (Crews.Side.Player);
+		gameData.playerLoot = LootManager.Instance.getLoot (Crews.Side.Player);
 
-		currentData.currentQuests = QuestManager.Instance.CurrentQuests;
-		currentData.finishedQuests = QuestManager.Instance.FinishedQuests;
+		gameData.currentQuests = QuestManager.Instance.CurrentQuests;
+		gameData.finishedQuests = QuestManager.Instance.FinishedQuests;
 
 		// gold
-		CurrentData.playerGold = GoldManager.Instance.GoldAmount;
+		GameData.playerGold = GoldManager.Instance.GoldAmount;
+
+		MapGenerator.Instance.SaveImportantIslandPositions ();
 
 		Karma.Instance.SaveKarma ();
 
 		TimeManager.Instance.SaveWeather ();
 
-	}
-
-	public void SaveAllChunks () {
-
-		// island ids
-		// island datas
-		// special island positions
-		MapGenerator.Instance.SaveIslandsData ();
+		SaveTool.Instance.SaveGameData ();
 
 	}
 	#endregion
 
-	GameData currentData;
+	GameData gameData;
 
-	public GameData CurrentData {
+	public GameData GameData {
 		get {
-			return currentData;
+			return gameData;
 		}
 	}
 
@@ -153,8 +131,6 @@ public class GameData
 
 	public int 					playerWeight = 0;
 	public int 					playerGold = 0;
-
-	public Chunk[][] 			chunks;
 
 	public int 					karma = 0;
 	public int 					bounty = 0;

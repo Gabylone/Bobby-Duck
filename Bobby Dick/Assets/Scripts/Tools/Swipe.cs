@@ -48,6 +48,9 @@ public class Swipe : MonoBehaviour {
 	}
 
 	void Swipe_Start() {
+
+		print ("starting swipe");
+
 		swiping = true;
 		timer = 0f;
 
@@ -65,6 +68,8 @@ public class Swipe : MonoBehaviour {
 
 //			print ("swipe : " + direction.ToString() );
 
+			print ("swiping : " + direction);
+
 			if ( onSwipe!=null )
 				onSwipe (direction);
 
@@ -76,6 +81,7 @@ public class Swipe : MonoBehaviour {
 //		prevPoint = InputManager.Instance.GetInputPosition ();
 
 		if ( InputManager.Instance.OnInputExit() ) {
+			print ("leaving touch ( swipe exit)");
 			Swipe_Exit ();
 		}
 	}

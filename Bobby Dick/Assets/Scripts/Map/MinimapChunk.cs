@@ -17,6 +17,11 @@ public class MinimapChunk : MonoBehaviour {
 		coords = worldCoords;
 
 		IslandData islandData = Chunk.GetChunk (worldCoords).IslandData;
+
+		if (islandData == null) {
+			Debug.Log ("AAAAHAHAHA CEES TNUL");
+			return;
+		}
 		islandGroup.GetComponent<Image> ().sprite = Island.minimapSprites[islandData.SpriteID];
 
 	}

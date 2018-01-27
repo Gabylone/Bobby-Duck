@@ -14,7 +14,9 @@ public class TimeManager : MonoBehaviour {
 
 	private int currentRain = 0;
 	[SerializeField]
-	private int rainRate = 55;
+	private int rainRate_Min = 75;
+	private int rainRate_Max = 130;
+	private int rainRate = 0;
 	[SerializeField]
 	private int rainDuration = 10;
 
@@ -38,7 +40,12 @@ public class TimeManager : MonoBehaviour {
 	}
 	void Start () {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
+		NavigationManager.Instance.EnterNewChunk += AdvanceTime;
+
+		SetRainRate ();
 	}
+
+
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
 	{
@@ -63,9 +70,8 @@ public class TimeManager : MonoBehaviour {
 		}
 	}
 
-	public void Init () {
+	public void Reset () {
 		timeOfDay = startTime;
-		NavigationManager.Instance.EnterNewChunk += AdvanceTime;
 	}
 
 	public bool Raining {
@@ -75,8 +81,13 @@ public class TimeManager : MonoBehaviour {
 		set {
 			raining = value;
 			currentRain = 0;
+			SetRainRate ();
 			rainImage.gameObject.SetActive ( value );
 		}
+	}
+	void SetRainRate ()
+	{
+		rainRate = Random.Range ( rainRate_Min , rainRate_Max );
 	}
 
 	public void AdvanceTime () {
@@ -107,17 +118,17 @@ public class TimeManager : MonoBehaviour {
 	}
 
 	public void SaveWeather () {
-		SaveManager.Instance.CurrentData.raining = Raining;
-		SaveManager.Instance.CurrentData.night = IsNight;
-		SaveManager.Instance.CurrentData.timeOfDay = timeOfDay;
-		SaveManager.Instance.CurrentData.currentRain = currentRain;
+		SaveManager.Instance.GameData.raining = Raining;
+		SaveManager.Instance.GameData.night = IsNight;
+		SaveManager.Instance.GameData.timeOfDay = timeOfDay;
+		SaveManager.Instance.GameData.currentRain = currentRain;
 	}
 
-	public void LoadWeather () {
-		Raining = SaveManager.Instance.CurrentData.raining;
-		IsNight = SaveManager.Instance.CurrentData.night;
-		timeOfDay = SaveManager.Instance.CurrentData.timeOfDay;
-		currentRain = SaveManager.Instance.CurrentData.currentRain;
+	public void Load () {
+		Raining = SaveManager.Instance.GameData.raining;
+		IsNight = SaveManager.Instance.GameData.night;
+		timeOfDay = SaveManager.Instance.GameData.timeOfDay;
+		currentRain = SaveManager.Instance.GameData.currentRain;
 	}
 
 	IEnumerator SetWeatherCoroutine (string weather) {

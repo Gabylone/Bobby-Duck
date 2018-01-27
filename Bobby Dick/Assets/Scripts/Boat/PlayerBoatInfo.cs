@@ -9,45 +9,12 @@ public class PlayerBoatInfo : BoatInfo {
 	public bool isInNoMansSea = false;
 	public bool hasBeenWarned = false;
 
-	public override void Init ()
+	// seulement lors d'une novelle partie
+	public override void Randomize ()
 	{
-		base.Init ();
+		base.Randomize ();
 
 		coords = MapData.Instance.homeIslandCoords;
-		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;;
-	}
-
-	void HandleChunkEvent ()
-	{
-		UpdatePosition ();
-	}
-
-	public override void UpdatePosition ()
-	{
-		base.UpdatePosition ();
-	}
-
-	public void CheckForNoMansSea () {
-		
-		bool isInNoMansSea =
-			coords.y > (MapGenerator.Instance.MapScale / 2) - (MapGenerator.Instance.NoManSeaScale/2)
-			&& coords.y < (MapGenerator.Instance.MapScale / 2) + (MapGenerator.Instance.NoManSeaScale/2);
-
-		if (isInNoMansSea ) {
-
-			if (!hasBeenWarned) {
-				Narrator.Instance.ShowNarratorTimed ("Le bateau entre dans la Grande Mer... Pas de terres en vue à des lieus d'ici. Mieux vaut être bien préparé, la traversée sera longue.");
-				hasBeenWarned = true;
-			}
-
-		} else {
-			if (hasBeenWarned) {
-				Narrator.Instance.ShowNarratorTimed ("Le bateau quitte les eaux de la Grande Mer... Déjà les premières îles apparaissent à l'horizon. Ouf...");
-			}
-
-			hasBeenWarned = false;
-
-		}
 	}
 
 	public override Coords coords {

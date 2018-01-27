@@ -27,6 +27,8 @@ public class QuestMenu : MonoBehaviour {
 	[SerializeField]
 	private GameObject openButton;
 
+	public Text displayQuestText;
+
 	[SerializeField]
 	DisplayFormulas displayFormulas;
 	void Awake () {
@@ -36,24 +38,23 @@ public class QuestMenu : MonoBehaviour {
 	void Start () {
 		
 		QuestManager.onGiveUpQuest += HandleOnFinishQuest;
-		QuestManager.onFinishQuest += HandleOnFinishQuest;
-
 		CrewInventory.Instance.closeInventory += HandleCloseInventory;
+
+		Close ();
+	}
+
+	public void Init () {
+		InitButtons ();
 	}
 
 	void HandleCloseInventory ()
 	{
-		
 		Close ();
 	}
 
 	void HandleOnFinishQuest (Quest quest)
 	{
-		InitButtons ();
-	}
-
-	public void Init () {
-		InitButtons ();
+		UpdateButtons ();
 	}
 
 	public void Open () {
@@ -61,16 +62,26 @@ public class QuestMenu : MonoBehaviour {
 		openButton.SetActive (false);
 		menuGroup.SetActive (true);
 
-//		CrewInventory.Instance.CloseLoot ();
-//		CrewInventory.Instance.HideInventory();
-//		BoatUpgradeManager.Instance.CloseUpgradeMenu ();
-
 		CrewInventory.Instance.HideMenuButtons ();
 
 		displayFormulas.ShowFormulas ();
 
-		Tween.ClearFade (menuGroup.transform);
+		DisplayQuestAmount ();
+
+		UpdateButtons ();
+
+//		Tween.ClearFade (menuGroup.transform);
 		Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
+	}
+
+	void DisplayQuestAmount () {
+
+		if (QuestManager.Instance.CurrentQuests.Count == 0) {
+			displayQuestText.text = "aucune quêtes";
+		} else {
+			displayQuestText.text = QuestManager.Instance.CurrentQuests.Count + " quêtes en cours";
+		}
+
 	}
 
 	public void Close () {
@@ -79,10 +90,12 @@ public class QuestMenu : MonoBehaviour {
 
 		CrewInventory.Instance.ShowMenuButtons ();
 
-		Tween.Scale (menuGroup.transform , 0.2f , 0.8f);
-		Tween.Fade (menuGroup.transform , 0.2f );
+		float dur = 0.1f;
 
-		Invoke ("HideMenu" , 0.2f);
+		Tween.Scale (menuGroup.transform , dur , 0.95f);
+//		Tween.Fade (menuGroup.transform , 0.2f );
+
+		Invoke ("HideMenu" ,dur);
 	}
 
 	void HideMenu() {
@@ -92,20 +105,20 @@ public class QuestMenu : MonoBehaviour {
 	void InitButtons () {
 
 		/// CREATE BUTTONS
-		for (int buttonIndex = 0; buttonIndex < QuestManager.Instance.CurrentQuests.Count; buttonIndex++) {
+		for (int buttonIndex = 0; buttonIndex < QuestManager.Instance.maxQuestAmount; buttonIndex++) {
 
-			if ( buttonIndex >= buttons.Count ) {
-				GameObject newButton = Instantiate (buttonPrefab, anchor) as GameObject;
-				buttons.Add(newButton.GetComponent<Button> ());
-
-				buttons [buttonIndex].GetComponent<RectTransform> ().localPosition = Vector2.up * -(buttonDecal * buttonIndex);
-			}
+			GameObject newButton = Instantiate (buttonPrefab, anchor) as GameObject;
+			buttons.Add(newButton.GetComponent<Button> ());
 
 		}
 
+	}
+
+	void UpdateButtons () {
+
 		/// UPDATE BUTTON TO QUESTS
 		for (int questIndex = 0; questIndex < buttons.Count; questIndex++) {
-			
+
 			if (questIndex < QuestManager.Instance.CurrentQuests.Count) {
 
 				buttons [questIndex].gameObject.SetActive (true);
@@ -118,7 +131,10 @@ public class QuestMenu : MonoBehaviour {
 
 			}
 		}
-
 	}
+
+//	IEnumerator UpdateButtonsCoroutine () {
+//
+//	}
 
 }

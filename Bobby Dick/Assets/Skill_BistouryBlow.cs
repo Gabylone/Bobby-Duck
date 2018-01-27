@@ -7,11 +7,6 @@ public class Skill_BistouryBlow : Skill {
 	public int healAmount = 35;
 	public int healthToHeal = 60;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
-
 	public override void ApplyEffect ()
 	{
 

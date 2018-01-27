@@ -10,11 +10,6 @@ public class MinimapTexture : MonoBehaviour {
 		NavigationManager.Instance.EnterNewChunk += UpdateBackgroundImage;
 		UpdateBackgroundImage ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	public Image targetImage;
 	public Color color_VisitedSea;
@@ -36,14 +31,18 @@ public class MinimapTexture : MonoBehaviour {
 
 				Chunk chunk = Chunk.GetChunk (new Coords (x, y));
 
-				if (chunk.State == ChunkState.DiscoveredSea
-					|| chunk.State == ChunkState.VisitedIsland
-					|| chunk.State == ChunkState.DiscoveredIsland) {
-
-					texture.SetPixel (x, y, color_VisitedSea);
-
-				} else {
+				switch (chunk.State) {
+				case ChunkState.UndiscoveredSea:
+				case ChunkState.UndiscoveredIsland:
 					texture.SetPixel (x, y, color_UnvisitedSea);
+					break;
+				case ChunkState.DiscoveredSea:
+				case ChunkState.DiscoveredIsland:
+				case ChunkState.VisitedIsland:
+					texture.SetPixel (x, y, color_VisitedSea);
+					break;
+				default:
+					break;
 				}
 			}
 		}

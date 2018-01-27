@@ -22,6 +22,7 @@ public class IslandData {
 
 		positionOnScreen = Island.Instance.GetRandomPosition ();
 
+
 	}
 
 	public int SpriteID {

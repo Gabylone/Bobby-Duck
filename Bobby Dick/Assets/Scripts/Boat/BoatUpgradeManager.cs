@@ -28,15 +28,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 	[Header("UI Groups")]
 	[SerializeField]
-	private GameObject tradingGroup;
-	[SerializeField]
-	private GameObject infoGroup;
-	[SerializeField]
-	private GameObject openButton;
-	[SerializeField]
 	private GameObject menuObj;
-	[SerializeField]
-	private GameObject closeButton;
 
 	[Header("Crew")]
 	[SerializeField]
@@ -68,8 +60,6 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
 
-		goldButtons = tradingGroup.GetComponentsInChildren<Button> ();
-
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
 
@@ -92,23 +82,26 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		UpdateInfo ();
 
-		nameTextUI.text = Boats.PlayerBoatInfo.Name;
+		nameTextUI.text = Boats.playerBoatInfo.Name;
 
 //		CrewInventory.Instance.HideInventory ();
 		CrewInventory.Instance.HideMenuButtons();
 
+
 		Tween.Bounce (menuObj.transform, 0.2f, 1.05f);
-		Tween.ClearFade (menuObj.transform);
+//		Tween.ClearFade (menuObj.transform);
 	}
 
 	public void CloseUpgradeMenu () {
 
 		CrewInventory.Instance.ShowMenuButtons();
+		float dur = 0.1f;
 
-		Tween.Scale (menuObj.transform,0.2f, 0.8f);
-		Tween.Fade (menuObj.transform, 0.2f);
+		Tween.Scale (menuObj.transform,dur, 0.9f);
+//		Tween.Fade (menuObj.transform, 0.2f);
 
-		Invoke ("HideMenu",0.2f);
+
+		Invoke ("HideMenu",dur);
 	}
 
 	void HideMenu () {
@@ -128,7 +121,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 			WeightManager.Instance.CurrentCapacity += 50;
 			break;
 		case UpgradeType.Longview:
-			Boats.PlayerBoatInfo.shipRange++;
+			Boats.playerBoatInfo.shipRange++;
 			break;
 		}
 
@@ -183,9 +176,9 @@ public class BoatUpgradeManager : MonoBehaviour {
 		set {
 			trading = value;
 
-//			infoGroup.SetActive (!value);
-			tradingGroup.SetActive (value);
-
+			foreach (var item in goldButtons) {
+				item.gameObject.SetActive (value);
+			}
 		}
 	}
 

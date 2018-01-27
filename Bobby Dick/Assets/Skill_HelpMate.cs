@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class Skill_HelpMate : Skill {
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
+	
 
 	public override void ApplyEffect ()
 	{
 		base.ApplyEffect ();
 
-		fighter.TargetFighter.AddStatus (Fighter.Status.Protected);
+		fighter.TargetFighter.AddStatus (Fighter.Status.Protected, 2);
 
 		EndSkill ();
 

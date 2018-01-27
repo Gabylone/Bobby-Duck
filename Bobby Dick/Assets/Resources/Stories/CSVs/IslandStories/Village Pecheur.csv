@@ -4,7 +4,7 @@ Village Pêcheur;4,11;1;;;;;;;
 Narrator : Après avoir évité une vingtaine de bateau de pêche, le bateau est accosté dans un petit port. L'air empeste le poisson.;;;;;;;;;
 SetChoices2;;;;;;;;;
 Choice : (partir);Choice : (entrer dans le village);;;;;;;;
-PlayerSpeak : Ça pue on s'casse.(partir);Fade;;;;;;;;
+PlayerSpeak : Ça pue on s'casse.;Fade;;;;;;;;
 Leave;Node=>place du village;;;;;;;;
 ;;;;;;;;;
 ;;;;;;;;;

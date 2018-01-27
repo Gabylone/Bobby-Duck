@@ -8,10 +8,7 @@ public class Skill_HeadShot : Skill {
 
 	public int healthToAttack = 30;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
+	
 
 	public override void InvokeSkill ()
 	{

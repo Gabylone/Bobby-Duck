@@ -9,7 +9,8 @@ public enum InventoryActionType {
 	Throw,
 	Sell,
 	Buy,
-	PickUp
+	PickUp,
+	PurchaseAndEquip,
 
 }
 
@@ -24,15 +25,6 @@ public class LootUI : MonoBehaviour {
 	public Item SelectedItem {
 		
 		get {
-			
-//			int index = (ItemPerPage * currentPage) + SelectionIndex;
-//
-//			if ( index >= handledLoot.allItems [(int)currentCat].Count ) {
-//				print ("apparmeent pas d'objet dans la catégorie :  " + currentCat + " INDEX : " + index);
-//				return null;
-//			}
-//
-//			return handledLoot.allItems [(int)currentCat] [index];
 
 			return selectedItem;
 		}
@@ -112,9 +104,12 @@ public class LootUI : MonoBehaviour {
 	}
 
 	#region show / hide
+	public Crews.Side currentSide;
 	public void Show (CategoryContentType catContentType,Crews.Side side) {
 
 		SelectedItem = null;
+
+		currentSide = side;
 
 		handledLoot = LootManager.Instance.getLoot(side);
 
@@ -263,8 +258,6 @@ public class LootUI : MonoBehaviour {
 
 		for (int buttonIndex = 0; buttonIndex < categoryButtons.Length; ++buttonIndex) {
 
-			categoryButtons [buttonIndex].image.color = Color.white;
-
 			// no items in category
 			if ( handledLoot.allItems[buttonIndex].Count == 0 ) {
 				categoryButtons [buttonIndex].interactable = false;
@@ -274,7 +267,7 @@ public class LootUI : MonoBehaviour {
 			}
 		}
 
-		categoryButtons [(int)currentCat].image.color = Color.yellow;
+		categoryButtons [(int)currentCat].interactable = false;
 	}
 	#endregion
 
@@ -305,15 +298,12 @@ public class LootUI : MonoBehaviour {
 	#endregion
 
 	#region action button
-	public void InventoryAction ( int i ) {
-		
+	public void InventoryAction ( InventoryActionType inventoryActionType ) {
 
 		if (useInventory != null)
-			useInventory ((InventoryActionType)i);
+			useInventory (inventoryActionType);
 		else
 			print ("no function liked to the event : use inventory");
-
-		Tween.Bounce (actionGroup.ButtonObjects[i].transform );
 
 		UpdateLootUI ();
 
@@ -338,8 +328,6 @@ public class LootUI : MonoBehaviour {
 
 	}
 	#endregion
-
-
 
 	public int CurrentPage {
 		get {

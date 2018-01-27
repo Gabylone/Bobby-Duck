@@ -17,6 +17,13 @@ public class WorldTouch : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Swipe.onSwipe += HandleOnSwipe;
+
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+	}
+
+	void HandleChunkEvent ()
+	{
+		
 	}
 
 	void HandleOnSwipe (Directions direction)

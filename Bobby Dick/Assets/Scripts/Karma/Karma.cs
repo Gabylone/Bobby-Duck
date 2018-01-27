@@ -36,11 +36,8 @@ public class Karma : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
-
 	}
-
 	void Start () {
-
 
 //		CrewInventory.Instance.openInventory += HandleOpenInventory;;
 //		CrewInventory.Instance.closeInventory += Hide;
@@ -50,6 +47,15 @@ public class Karma : MonoBehaviour {
 		UpdateUI ();
 
 	}
+//
+//	void Update () {
+//		if ( Input.GetKeyDown(KeyCode.I) ) {
+//			++CurrentKarma;
+//		}
+//		if ( Input.GetKeyDown(KeyCode.U) ) {
+//			--CurrentKarma;
+//		}
+//	}
 
 	void HandleOpenInventory (CrewMember member)
 	{
@@ -63,10 +69,10 @@ public class Karma : MonoBehaviour {
 			CheckKarma ();
 			break;
 		case FunctionType.AddKarma:
-			AddKarma();
+			AddKarma_Story();
 			break;
 		case FunctionType.RemoveKarma:
-			RemoveKarma();
+			RemoveKarma_Story();
 			break;
 		case FunctionType.PayBounty:
 			PayBounty();
@@ -102,15 +108,34 @@ public class Karma : MonoBehaviour {
 	}
 
 	public void AddKarma () {
+		
 		++CurrentKarma;
+
+		if (onChangeKarma != null)
+			onChangeKarma (previousKarma, currentKarma);
+		//
+	}
+	public void RemoveKarma () {
+		
+		--CurrentKarma;
+
+		bounty += bountyStep;
+
+		if (onChangeKarma != null)
+			onChangeKarma (previousKarma, currentKarma);
+
+	}
+	public void AddKarma_Story () {
+
+		AddKarma ();
+
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
 	}
 
-	public void RemoveKarma () {
-		--CurrentKarma;
+	public void RemoveKarma_Story () {
 
-		bounty += bountyStep;
+		RemoveKarma ();
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
@@ -130,7 +155,7 @@ public class Karma : MonoBehaviour {
 
 			StoryReader.Instance.SetDecal (1);
 
-			--CurrentKarma;
+			RemoveKarma ();
 
 		}
 
@@ -138,6 +163,8 @@ public class Karma : MonoBehaviour {
 
 	}
 
+	public delegate void OnChangeKarma ( int previousKarma , int newKarma );
+	public static OnChangeKarma onChangeKarma;
 	public int CurrentKarma {
 		get {
 			return currentKarma;
@@ -154,27 +181,31 @@ public class Karma : MonoBehaviour {
 
 	public void UpdateUI () {
 
-		float fill = ((float)currentKarma / (float)maxKarma);
+		float targetFillAmount = ((float)currentKarma / (float)maxKarma);
 
-		if ( fill < 0.5 && fill > -0.5f ) {
+		if ( targetFillAmount < 0.5 && targetFillAmount > -0.5f ) {
 			feedbackImage.sprite = sprites [2];
-		} else if (fill < 0) {
+		} else if (targetFillAmount < 0) {
 			feedbackImage.sprite = sprites [1];
 		} else {
 			feedbackImage.sprite = sprites [0];
 		}
 
-		Visible = true;
+		if (currentKarma < 0) {
+			targetFillAmount = -targetFillAmount;
+			progressionImage.fillClockwise = false;
+			progressionImage.color = Color.red;
+			SoundManager.Instance.PlaySound ( karmaBadSound );
+		} else {
+			progressionImage.fillClockwise = true;
+			progressionImage.color = Color.green;
+			SoundManager.Instance.PlaySound ( karmaGoodSound );
+		}
 
-		float targetFillAmount = ((float)currentKarma / (float)maxKarma);
 		progressionImage.fillAmount = targetFillAmount;
-
-		Color endColor = targetFillAmount < 0f ? Color.red : Color.green;
-		progressionImage.color = endColor;
 
 		Tween.Bounce (group.transform);
 
-		SoundManager.Instance.PlaySound ( currentKarma < previousKarma ? karmaBadSound : karmaGoodSound );
 
 	}
 
@@ -210,13 +241,13 @@ public class Karma : MonoBehaviour {
 
 	public void SaveKarma ()
 	{
-		SaveManager.Instance.CurrentData.karma = CurrentKarma;
-		SaveManager.Instance.CurrentData.bounty = Bounty;
+		SaveManager.Instance.GameData.karma = CurrentKarma;
+		SaveManager.Instance.GameData.bounty = Bounty;
 	}
 
 	public void LoadKarma ()
 	{
-		CurrentKarma = SaveManager.Instance.CurrentData.karma;
-		bounty = SaveManager.Instance.CurrentData.bounty;
+		CurrentKarma = SaveManager.Instance.GameData.karma;
+		bounty = SaveManager.Instance.GameData.bounty;
 	}
 }

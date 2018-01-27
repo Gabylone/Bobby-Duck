@@ -6,23 +6,27 @@ using System.Collections.Generic;
 public class CrewMember {
 
 	// SELECTED MEMBER IN INVENTORY
-	public static CrewMember selectedMember;
-	public static CrewMember previousMember;
-	public static void setSelectedMember (CrewMember crewMember) {
-		
-		if (selectedMember != null) {
+	static CrewMember selectedMember;
+	public static CrewMember GetSelectedMember {
+		get {
 
-//			selectedMember.print
-			if (selectedMember.Icon == null) {
-				Debug.LogError ("le probleme de la mort après combat sur : " + selectedMember.MemberName);
-				return;
+			if (selectedMember == null) {
+				Debug.LogError ("kek");
+				return Crews.playerCrew.captain;
 			}
 
+			return selectedMember;
 		}
+	}
+	public static CrewMember previousMember;
 
+	public static void SetSelectedMember (CrewMember crewMember) {
+//		
 		if (selectedMember != null )
-			previousMember = selectedMember;
+			previousMember = GetSelectedMember;
+		
 		selectedMember = crewMember;
+
 	}
 
 	// STATS
@@ -51,27 +55,39 @@ public class CrewMember {
 		}
 	}
 
-	public List<Skill> specialSkills {
+	public List<Skill> DefaultSkills = new List<Skill> ();
+	public List<Skill> SpecialSkills = new List<Skill>();
+	public void ResetSkills() {
 
-		get {
+		DefaultSkills.Clear ();
+		DefaultSkills.Add (SkillManager.GetDefaultAttackSkill (this));
+		DefaultSkills.Add (SkillManager.getSkill(Skill.Type.Flee));
+		DefaultSkills.Add (SkillManager.getSkill(Skill.Type.SkipTurn));
 
-			List<Skill> tmpskills = new List<Skill> ();
+		SpecialSkills.Clear ();
+		foreach (var item in memberID.specialSkillsIndexes) {
+			SpecialSkills.Add (SkillManager.skills [item]);
+		}
 
-			foreach (var item in memberID.specialSkillsIndexes) {
-				tmpskills.Add (SkillManager.skills [item]);
-			}
-
-			return tmpskills;
-
+		foreach (var item in SpecialSkills) {
+			item.currentCharge = 0;
+		}
+		foreach (var item in DefaultSkills) {
+			item.currentCharge = 0;
 		}
 
 	}
-//
-//	public List<Skill> defaultSkills {
-//		get {
-//			return memberID.defaultSkills;
-//		}
-//	}
+
+	public void AddSkill (Skill skill)
+	{
+		MemberID.specialSkillsIndexes.Add ( SkillManager.getSkillIndex(skill) );
+		ResetSkills ();
+	}
+
+	public Skill GetSkill (Skill.Type type)
+	{
+		return SpecialSkills.Find (x => x.type == type);
+	}
 
 	/// <summary>
 	/// energy
@@ -102,13 +118,7 @@ public class CrewMember {
 
 		this.memberIcon.SetMember (this);
 
-	}
-
-	public void InitJob () {
-		specialSkills.Clear ();
-		foreach (var item in memberID.specialSkillsIndexes) {
-			specialSkills.Add (SkillManager.skills [item]);
-		}
+		ResetSkills ();
 	}
 
 	#region level
@@ -174,9 +184,9 @@ public class CrewMember {
 
 	#region health
 	public float getDamage ( float incomingAttack ) {
-//		float maxHits = 16;
-		float maxHits = 10;
-		float minHits = 2;
+		
+		float maxHits = 20;
+		float minHits = 3;
 
 		float maxAttack = 120f;
 
@@ -331,17 +341,29 @@ public class CrewMember {
 	public enum EquipmentPart {
 		Weapon,
 		Clothes,
+
+		None
 	}
-	public void SetEquipment ( EquipmentPart part , Item item ) {
+
+	public void RemoveEquipment ( EquipmentPart part ) {
 		switch (part) {
+		case EquipmentPart.Weapon:
+			memberID.equipedWeapon = null;
+			break;
+		case EquipmentPart.Clothes:
+			memberID.equipedCloth = null;
+			break;
+		}
+	}
+
+	public void SetEquipment (Item item ) {
+
+		switch (item.EquipmentPart) {
 		case EquipmentPart.Weapon:
 			memberID.equipedWeapon = item;
 			break;
 		case EquipmentPart.Clothes:
 			memberID.equipedCloth = item;
-			break;
-		default:
-			Debug.LogError ("whut...");
 			break;
 		}
 	}
@@ -398,6 +420,19 @@ public class CrewMember {
 		}
 	}
 	#endregion
+
+	public Color GetLevelColor () {
+
+		float dif = Level - Crews.playerCrew.captain.Level;
+
+		float l = ( (dif+9) / 18f);
+
+		if ( l < 0.5f )
+			return Color.Lerp ( Color.green , Color.white , l*2 );
+		else
+			return Color.Lerp ( Color.white , Color.red , (l-0.5f) * 2f );
+
+	}
 }
 
 public enum Stat {

@@ -21,7 +21,7 @@ public class DisplayItem : MonoBehaviour {
 	[SerializeField] private GameObject paramObj;
 	[SerializeField] private GameObject priceObj;
 	[SerializeField] private GameObject weightObj;
-	[SerializeField] private GameObject lvlObj;
+	public GameObject lvlObj;
 
 	private string name;
 	private string description;
@@ -56,10 +56,33 @@ public class DisplayItem : MonoBehaviour {
 
 			param = value;
 
+			paramObj.SetActive (value > 0);
+
 			Tween.Bounce (paramObj.transform);
 
 			paramText.text = param.ToString ();
-			paramObj.SetActive ( value > 0 );
+
+			switch (handledItem.category) {
+			case ItemCategory.Weapon:
+			case ItemCategory.Clothes:
+				CrewMember.EquipmentPart part = handledItem.category == ItemCategory.Weapon ? CrewMember.EquipmentPart.Weapon : CrewMember.EquipmentPart.Clothes;
+				if (CrewMember.GetSelectedMember.GetEquipment (part) == null || param > CrewMember.GetSelectedMember.GetEquipment (part).value) {
+					paramText.color = Color.green;
+				} else if (param < CrewMember.GetSelectedMember.GetEquipment (part).value) {
+					paramText.color = Color.red;
+				} else {
+					paramText.color = Color.white;
+				}
+				break;
+			case ItemCategory.Misc:
+			case ItemCategory.Provisions:
+				paramText.color = Color.white;
+				break;
+			default:
+				break;
+			}
+
+
 		}
 	}
 
@@ -77,6 +100,19 @@ public class DisplayItem : MonoBehaviour {
 			Tween.Bounce (priceObj.transform);
 
 			priceText.text = price.ToString ();
+
+			if (LootUI.Instance.currentSide == Crews.Side.Enemy) {
+				
+				if (price > GoldManager.Instance.GoldAmount && OtherInventory.Instance.type == OtherInventory.Type.Trade) {
+					priceText.color = Color.red;
+				} else {
+					priceText.color = Color.white;
+				}
+
+			} else {
+				priceText.color = Color.white;
+			}
+
 			priceObj.SetActive (value > 0);
 		}
 	}
@@ -95,6 +131,19 @@ public class DisplayItem : MonoBehaviour {
 			Tween.Bounce (weightObj.transform);
 
 			weightText.text = weight.ToString ();
+
+			if (LootUI.Instance.currentSide == Crews.Side.Enemy) {
+
+				if (weight + WeightManager.Instance.CurrentWeight> WeightManager.Instance.CurrentCapacity) {
+					weightText.color = Color.red;
+				} else {
+					weightText.color = Color.white;
+				}
+
+			} else {
+				weightText.color = Color.white;
+			}
+
 			weightObj.SetActive (value > 0);
 		}
 	}
@@ -109,7 +158,19 @@ public class DisplayItem : MonoBehaviour {
 				return;
 
 			level = value;
+
 			lvlText.text = level.ToString ();
+
+			Image image = lvlObj.GetComponent<Image> ();
+
+			if (level > CrewMember.GetSelectedMember.Level) {
+				image.color = Color.red;
+			} else if ( level < CrewMember.GetSelectedMember.Level ) {
+				image.color = Color.green;
+			} else {
+				image.color = Color.white;
+			}
+
 			lvlObj.SetActive (value > 0);
 		}
 	}
@@ -135,20 +196,12 @@ public class DisplayItem : MonoBehaviour {
 			handledItem = value;
 
 			if (value == null) {
-				Name = "";
-				Value = 0;
-				Price = 0;
-				Weight = 0;
-				Level = 0;
 				return;
 			}
 
 			Name 		= handledItem.name;
 
-			if (HandledItem.category == ItemCategory.Misc)
-				Value = 0;
-			else
-				Value = handledItem.value;
+			Value 		= handledItem.value;
 
 			Price 		= HandledItem.price;
 
@@ -158,15 +211,19 @@ public class DisplayItem : MonoBehaviour {
 
 		}
 	}
-	public void Clear () {
+	public virtual void Clear () {
 
 		handledItem = null;
 
 		Name = "";
-		Value = 0;
-		Price = 0;
-		Weight = 0;
-		Level = 0;
+		if( paramObj != null )
+		paramObj.SetActive (false);
+		if( priceObj != null )
+		priceObj.SetActive (false);
+		if( weightObj != null )
+		weightObj.SetActive (false);
+		if( lvlObj != null )
+		lvlObj.SetActive (false);
 
 		Tween.Fade ( transform , 0.3f  );
 	}

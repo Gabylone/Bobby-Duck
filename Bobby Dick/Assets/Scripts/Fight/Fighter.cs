@@ -217,6 +217,11 @@ public class Fighter : MonoBehaviour {
 
 		crewMember.AddEnergy (crewMember.energyPerTurn);
 
+		foreach (var item in crewMember.SpecialSkills) {
+			if (item.currentCharge > 0)
+				--item.currentCharge;
+		}
+
 		if (onSetTurn != null) {
 			onSetTurn ();
 		}
@@ -228,7 +233,7 @@ public class Fighter : MonoBehaviour {
 	public OnEndTurn onEndTurn;
 	public void EndTurn ()
 	{
-		combatFeedback.Display ("fin du tour");
+//		combatFeedback.Display ("fin du tour");
 
 		if (onEndTurn != null)
 			onEndTurn ();
@@ -507,9 +512,6 @@ public class Fighter : MonoBehaviour {
 		impactEffect.transform.position = BodyTransform.position;
 
 		float damage = crewMember.getDamage (attack);
-
-		combatFeedback.Display (damage.ToString() , Color.red);
-
 		damage *= mult;
 
 			// reduced damage
@@ -525,9 +527,9 @@ public class Fighter : MonoBehaviour {
 
 		if ( HasStatus(Status.Protected) ) {
 			damage = damage * 0.5f;
-			RemoveStatus (Status.Protected);
 		}
 
+		combatFeedback.Display (damage.ToString() , Color.red);
 		crewMember.RemoveHealth (damage);
 
 		if (onGetHit != null)
@@ -535,10 +537,12 @@ public class Fighter : MonoBehaviour {
 
 		if (crewMember.Health <= 0) {
 
-			int xpPerMember = 25;
+			if (otherFighter.crewMember.side == Crews.Side.Player) {
+				int xpPerMember = 25;
 
-			otherFighter.crewMember.AddXP (xpPerMember);
-			otherFighter.combatFeedback.Display ("+ " + xpPerMember + " xp",Color.blue);
+				otherFighter.crewMember.AddXP (xpPerMember);
+				otherFighter.combatFeedback.Display ("+ " + xpPerMember + " xp", Color.blue);
+			}
 
 			crewMember.Kill ();
 			Die ();
@@ -718,11 +722,13 @@ public class Fighter : MonoBehaviour {
 
 			RemoveStatus (Status.KnockedOut);
 
-			combatFeedback.Display ("Skip Turn !");
+			combatFeedback.Display ("zzz");
 
 			CombatManager.Instance.ChangeState (CombatManager.States.None);
 
 			CombatManager.Instance.NextTurn ();
+
+			print ("skipping turn");
 
 			return;
 			//
@@ -734,6 +740,10 @@ public class Fighter : MonoBehaviour {
 //			RemoveStatus (Status.bear);
 //			Hurt (15);
 //		}
+
+		if ( HasStatus(Status.Protected) ) {
+			RemoveStatus (Status.Protected);
+		}
 
 		if ( HasStatus(Status.Poisonned) ) {
 			RemoveStatus (Status.Poisonned);
@@ -767,9 +777,6 @@ public class Fighter : MonoBehaviour {
 	}
 
 	public void AddStatus (Status status, int count) {
-//
-//		if (HasStatus (status))
-//			return;
 
 		switch (status) {
 		case Status.KnockedOut:
@@ -783,6 +790,8 @@ public class Fighter : MonoBehaviour {
 
 		statusCount[(int)status] = count;
 		statusCount [(int)status] = Mathf.Clamp (statusCount [(int)status], 0, 10);
+
+		print ("adding status " + status);
 
 		if (onAddStatus != null)
 			onAddStatus (status, statusCount[(int)status]);

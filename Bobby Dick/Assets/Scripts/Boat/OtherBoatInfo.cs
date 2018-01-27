@@ -5,19 +5,16 @@ using System.Collections.Generic;
 [System.Serializable]
 public class OtherBoatInfo : BoatInfo {
 
-	private float changeOfChangeDirection = 0.2f;
+	public StoryManager storyManager;
 
-	private StoryManager storyManager;
+	private float changeOfChangeDirection = 0.2f;
 
 	public override void Init ()
 	{
 		base.Init ();
 
-		// assign story
-		storyManager = new StoryManager ();
-		storyManager.InitHandler (StoryType.Boat);
-
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+		CheckForPlayer ();
 	}
 
 
@@ -27,6 +24,10 @@ public class OtherBoatInfo : BoatInfo {
 
 		coords = MapGenerator.Instance.RandomCoords;
 		currentDirection = (Directions)Random.Range (0,8);
+
+		// assign story
+		storyManager = new StoryManager ();
+		storyManager.InitHandler (StoryType.Boat);
 	}
 
 	public override void UpdatePosition ()
@@ -42,9 +43,16 @@ public class OtherBoatInfo : BoatInfo {
 	{
 		UpdatePosition ();
 
-		if ( coords == Boats.PlayerBoatInfo.coords ) {
+		CheckForPlayer ();
+	}
+
+	void CheckForPlayer ()
+	{
+		if ( coords == Boats.playerBoatInfo.coords ) {
 			//
+			Debug.Log("le bateau de beb est dans la meme case qu'un autre");
 			ShowOnScreen();
+
 		}
 	}
 
@@ -92,12 +100,6 @@ public class OtherBoatInfo : BoatInfo {
 
 	public void ShowOnScreen () {
 		EnemyBoat.Instance.Show (this);
-	}
-
-	public StoryManager StoryHandlers {
-		get {
-			return storyManager;
-		}
 	}
 
 	void OnDestroy() {

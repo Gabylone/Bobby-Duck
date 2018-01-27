@@ -106,7 +106,7 @@ public class DisplaySurroundingHexes : MonoBehaviour {
 
 		hexObj.transform.localPosition = pos;
 
-		Coords worldCoords = Boats.PlayerBoatInfo.coords + new Coords(c.x,-c.y);
+		Coords worldCoords = Boats.playerBoatInfo.coords + new Coords(c.x,-c.y);
 
 		hexObj.GetComponent<DisplayHex> ().UdpateHex (worldCoords);
 

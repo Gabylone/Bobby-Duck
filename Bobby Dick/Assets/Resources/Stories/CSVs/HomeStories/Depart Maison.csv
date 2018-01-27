@@ -1,5 +1,5 @@
 Nom;Fréquence / 5;Sprite ID;;;;;;;
-Départ – Maison;100;1;;;;;;;
+Départ – Maison;0;1;;;;;;;
 [premiere visite];;;;;;;;;
 Narrator : Et c'est ainsi que CAPITAINE parti enfin de sa vielle maison, à la recherche du trésor de Bobby Dick. Accompagné de sa fidèle galère, NOMBATEAU, et de seulement quelques rations.;Node=>retour;;;;;;;;
 PlayerSpeak : En route !;;;;;;;;;
@@ -52,7 +52,7 @@ Node=>salon;;;;;;;;;
 ;;;;;;;;;
 ;;;[choix-père];;;;[jardin-père-mort];;[attaqua père]
 ;;;SetChoices4;;;;Narrator : Le corps de votre père gît sur l'herbe.;;OtherSpeak : T'es revenu ptit con
-;;;Choice : (retourner au salon)(partir);Choice : Un petit conseil ?;Choice : (attaquer);Choice : Je peux faire quelques chose pour toi ?(quete);Node=>jardin;;LaunchCombat
+;;;Choice : (retourner au salon)(partir);Choice : Un petit conseil ?;Choice : (attaquer);Choice : Je peux faire quelque chose pour toi ?(quete);Node=>jardin;;LaunchCombat
 ;;;Fade;GiveTip;Node=>combat père;RandomRange2;;;Node=>jardin-père-mort
 ;;;HideOther;Node=>choix-père;;OtherSpeak : Tout va bien ici merci !;NewQuest=>choix-père;;
 ;;;Node=>salon;;;Node=>choix-père;;;

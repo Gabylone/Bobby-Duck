@@ -27,11 +27,11 @@ public class SkillButton_Inventory : SkillButton {
 
 		Tween.Bounce (skillImage.transform);
 
-		if ( CrewMember.selectedMember.SkillPoints >= GetSkillCost() ) {
+		if ( CrewMember.GetSelectedMember.SkillPoints >= GetSkillCost() ) {
 
-			CrewMember.selectedMember.SkillPoints -= GetSkillCost ();
+			CrewMember.GetSelectedMember.SkillPoints -= GetSkillCost ();
 
-			CrewMember.selectedMember.MemberID.specialSkillsIndexes.Add ( SkillManager.getSkillIndex(skill) );
+			CrewMember.GetSelectedMember.AddSkill (skill);
 
 			if (onUnlockSkill != null)
 				onUnlockSkill ();
@@ -73,7 +73,7 @@ public class SkillButton_Inventory : SkillButton {
 	{
 		base.SetSkill (_skill);
 
-		if (CrewMember.selectedMember.specialSkills.Find (x => x.type == _skill.type) == null) {
+		if (CrewMember.GetSelectedMember.SpecialSkills.Find (x => x.type == _skill.type) == null) {
 
 			Lock ();
 
@@ -86,6 +86,6 @@ public class SkillButton_Inventory : SkillButton {
 
 	int GetSkillCost ()
 	{
-		return CrewMember.selectedMember.specialSkills.Count;
+		return CrewMember.GetSelectedMember.SpecialSkills.Count;
 	}
 }

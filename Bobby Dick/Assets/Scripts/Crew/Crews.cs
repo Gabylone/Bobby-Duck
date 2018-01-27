@@ -21,7 +21,7 @@ public class Crews : MonoBehaviour {
 
 		Map,
 		Combat,
-		SoloCombat,
+		Inventory,
 		Discussion,
 		Hidden,
 
@@ -50,25 +50,27 @@ public class Crews : MonoBehaviour {
 		CrewInventory.Instance.openInventory+= HandleOpenInventory;;
 	}
 
-	void Update () 
-	{
-		if ( Input.GetKeyDown(KeyCode.L)) {
-			Crews.playerCrew.captain.AddXP (25);
-		}
-	}
-
 	void HandleOpenInventory (CrewMember member)
 	{
 		if (CrewMember.previousMember != null) {
 
-			if (StoryLauncher.Instance.PlayingStory) {
+			if (StoryLauncher.Instance.PlayingStory && OtherInventory.Instance.type == OtherInventory.Type.None) {
 
-				if (CrewMember.selectedMember != Crews.playerCrew.captain) {
+				if (CrewMember.GetSelectedMember != Crews.playerCrew.captain) {
+
 					Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Map);
+
+					if (CrewMember.previousMember != Crews.playerCrew.captain) {
+						CrewMember.previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+					}
 //					CrewMember.selectedMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+				} else {
+					if (CrewMember.previousMember != Crews.playerCrew.captain) {
+						CrewMember.previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+					}
 				}
 
-				CrewMember.previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+
 
 			} else {
 				
@@ -78,20 +80,21 @@ public class Crews : MonoBehaviour {
 
 		}
 
-		CrewMember.selectedMember.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+		CrewMember.GetSelectedMember.Icon.MoveToPoint (Crews.PlacingType.Inventory);
 	}
 
 	void HandleCloseInventory ()
 	{
 		if (StoryLauncher.Instance.PlayingStory) {
 
-			if (CrewMember.selectedMember != Crews.playerCrew.captain) {
-				Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-				CrewMember.selectedMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+			if (CrewMember.GetSelectedMember != Crews.playerCrew.captain) {
+				CrewMember.GetSelectedMember.Icon.MoveToPoint (Crews.PlacingType.Map);
 			}
 
+			Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+
 		} else {
-			CrewMember.selectedMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+			CrewMember.GetSelectedMember.Icon.MoveToPoint (Crews.PlacingType.Map);
 		}
 	}
 
@@ -141,7 +144,7 @@ public class Crews : MonoBehaviour {
 
 	#region save / load crews
 	public void SavePlayerCrew () {
-		SaveManager.Instance.CurrentData.playerCrew = playerCrew.managedCrew;
+		SaveManager.Instance.GameData.playerCrew = playerCrew.managedCrew;
 	}
 	public void RandomizePlayerCrew () {
 		CrewParams crewParams = new CrewParams ();
@@ -156,7 +159,12 @@ public class Crews : MonoBehaviour {
 		crews [0].UpdateCrew (PlacingType.Map);
 	}
 	public void LoadPlayerCrew () {
-		playerCrew.managedCrew = SaveManager.Instance.CurrentData.playerCrew;
+		
+		playerCrew.managedCrew = SaveManager.Instance.GameData.playerCrew;
+
+		Invoke ("LoadPlayerCrewDelay", 0.01f);
+	}
+	void LoadPlayerCrewDelay () {
 
 		crews [0].SetCrew (playerCrew.managedCrew);
 		crews [0].UpdateCrew (PlacingType.Map);
@@ -272,7 +280,7 @@ public class Crews : MonoBehaviour {
 		}
 
 		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.Wait (DialogueManager.Instance.DisplayTime);
+		StoryReader.Instance.Wait (0.8f);
 
 	}
 	

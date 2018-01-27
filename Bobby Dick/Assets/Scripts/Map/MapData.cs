@@ -20,11 +20,13 @@ public class MapData
 
 		// TREASURE
 		treasureIslandCoords = MapGenerator.Instance.RandomCoords;
-		Chunk.GetChunk(treasureIslandCoords).IslandData = new IslandData(StoryType.Treasure);
+//		Debug.Log ("setting treasure island at : " + treasureIslandCoords);
+		Chunk.GetChunk (treasureIslandCoords).SetIslandData (new IslandData (StoryType.Treasure));
 
 		// HOME
 		homeIslandCoords = MapGenerator.Instance.RandomCoords;
-		Chunk.GetChunk(homeIslandCoords).IslandData = new IslandData(StoryType.Home);
+//		Debug.Log ("setting treasure island at : " + homeIslandCoords);
+		Chunk.GetChunk (homeIslandCoords).SetIslandData (new IslandData (StoryType.Home));
 
 	}
 

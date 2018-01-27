@@ -20,13 +20,13 @@ public class StatButton : MonoBehaviour {
 		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
 		StatButton.onClickStatButton += HandleOnClickStatButton;
 
-		Display (CrewMember.selectedMember);
+		Display (CrewMember.GetSelectedMember);
 
 	}
 
 	void HandleOnClickStatButton ()
 	{
-		Display (CrewMember.selectedMember);
+		Display (CrewMember.GetSelectedMember);
 	}
 
 	void Disable ()
@@ -64,7 +64,7 @@ public class StatButton : MonoBehaviour {
 		
 		Tween.Bounce (transform);
 
-		CrewMember.selectedMember.HandleOnLevelUpStat (stat);
+		CrewMember.GetSelectedMember.HandleOnLevelUpStat (stat);
 
 		if (onClickStatButton!=null)
 			onClickStatButton ();

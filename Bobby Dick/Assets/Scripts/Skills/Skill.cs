@@ -11,6 +11,8 @@ public class Skill : MonoBehaviour {
 	public string description = "";
 	public int energyCost = 5;
 	public float animationDelay = 0.6f;
+	public int currentCharge = 0;
+	public int initCharge = 0;
 
 	public bool playAnim = true;
 	public SkillManager.AnimationType animationType;
@@ -30,34 +32,11 @@ public class Skill : MonoBehaviour {
 
 	public Type type;
 
-	public virtual void Start () {
-		
-		SkillButton.onTriggerSKill += HandleOnTriggerSkill;
-		CombatManager.Instance.onEnemyTriggerSkill += HandleOnTriggerSkill;
-
-	}
-
-	/// <summary>
-	/// TRIGGER
-	/// </summary>
-	void HandleOnTriggerSkill (Skill skill)
-	{
-		if (skill.type == this.type) {
-
-			Fighter fighter = CombatManager.Instance.currentFighter;
-
-			if ( fighter.crewMember.energy < energyCost ) {
-				print ("doenst has enough energy");
-				return;
-			}
-
-			Trigger (fighter);
-		}
-
-	}
-
 	void UseEnergy () {
 		fighter.crewMember.energy -= energyCost;
+		Skill skill = CombatManager.Instance.currentFighter.crewMember.GetSkill (type);
+		if ( skill != null )
+			skill.currentCharge = initCharge;
 	}
 
 	public virtual void Trigger (Fighter fighter) {
@@ -163,13 +142,22 @@ public class Skill : MonoBehaviour {
 
 	void InvokeMoveBack()  {
 		fighter.ChangeState (Fighter.states.moveBack);
-		//
 	}
 
 	/// <summary>
 	/// end skill
 	/// </summary>
 	public virtual void EndSkill () {
+
+		if (goToTarget) {
+			Invoke ("EndSkillDelay",fighter.moveBackDuration + 1f);
+		} else {
+			EndSkillDelay ();
+		}
+
+	}
+
+	void EndSkillDelay () {
 
 		if ( SkillManager.CanUseSkill (fighter.crewMember.energy) ) {
 
@@ -183,22 +171,30 @@ public class Skill : MonoBehaviour {
 			CombatManager.Instance.NextTurn ();
 
 		}
+
 	}
 
 	public virtual bool MeetsRestrictions ( CrewMember member ) {
 
+		if ( canTargetSelf == false && targetType == TargetType.Self ) {
+			return Crews.enemyCrew.CrewMembers.Count > 1;
+		}
 
 		return true;
 	}
 
 	public virtual bool MeetsConditions (CrewMember member) {
 
-		if ( canTargetSelf == false ) {
-			return member.energy >= energyCost && Crews.enemyCrew.CrewMembers.Count > 1;
+		if (member.energy < energyCost ) {
+//			print ("pas assez d'energie ( cost : " + member.energy + " ) ( member : " + member.energy);
+			return false;
 		}
 
+		if (currentCharge > 0)
+			return  false;
+
 		// assez d'énergie
-		return member.energy >= energyCost && MeetsRestrictions(member);
+		return true;
 	}
 
 	// ENUM //

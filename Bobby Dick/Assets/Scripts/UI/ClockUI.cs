@@ -19,9 +19,20 @@ public class ClockUI : MonoBehaviour {
 //		CrewInventory.Instance.openInventory += HandleOpenInventory;
 
 		NavigationManager.Instance.EnterNewChunk += UpdateNeedle;
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
 		InitClock ();
 		UpdateNeedle ();
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.ChangeTimeOfDay:
+		case FunctionType.SetWeather:
+			UpdateNeedle ();
+			break;
+		}
 	}
 
 	void InitClock ()

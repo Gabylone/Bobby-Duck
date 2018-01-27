@@ -14,6 +14,9 @@ public class StatGroup : MonoBehaviour {
 	[SerializeField]
 	private GameObject group;
 
+	public Image levelImage;
+	public Text levelText;
+
 	// Use this for initialization
 	void Start () {
 		Hide ();
@@ -28,19 +31,28 @@ public class StatGroup : MonoBehaviour {
 	}
 
 	public void Display (CrewMember member) {
+		
 		Show ();
+		Tween.Bounce (transform);
+
 		UpdateUI (member);
+
 		CancelInvoke ();
+
 		Invoke("Hide" , 1f);
 
 	}
 	
 	// Update is called once per frame
 	public void UpdateUI (CrewMember member) {
-		attackText.text = "" + member.Attack;
-		defenceText.text = "" + member.Defense;
+//		
+//		attackText.text = "" + member.Attack;
+//		defenceText.text = "" + member.Defense;
 
-		Tween.Bounce (transform);
+		levelImage.color = member.GetLevelColor ();
+
+		levelText.text = "" + member.Level;
+
 
 	}
 }

@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class Skill_RatPoison : Skill {
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
+	
 
 	public override void ApplyEffect ()
 	{

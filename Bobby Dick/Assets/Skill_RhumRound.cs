@@ -6,10 +6,7 @@ public class Skill_RhumRound : Skill {
 
 	public int healthToHeal = 60;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
+	
 
 	public override void ApplyEffect ()
 	{

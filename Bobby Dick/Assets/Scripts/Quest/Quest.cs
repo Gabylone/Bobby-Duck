@@ -46,22 +46,22 @@ public class Quest {
 		row = StoryReader.Instance.Col;
 		col = StoryReader.Instance.Row;
 
-		goldValue = Random.Range(10,50);
-		level = Random.Range(1,11);
-		goldValue = level * 10 + Random.Range(1,9);
+		goldValue = level * 20 + Random.Range(1,9);
+
+		level = Random.Range(Crews.playerCrew.captain.Level -1, Crews.playerCrew.captain.Level+2);
+		level = Mathf.Clamp (level, 1, 10);
 
 		experience = 15;
 
 		questID = StoryLoader.Instance.getStoryIndexFromPercentage (StoryType.Quest);
 
-		originCoords = Boats.PlayerBoatInfo.coords;
+		originCoords = Boats.playerBoatInfo.coords;
 
 		SetRandomCoords ();
 
 		GetNewQuestnode ();
 
 		Node targetNode = Story.GetNode ("debut");
-
 
 		currentQuest = this;
 		StoryReader.Instance.SetNewStory (Story, StoryType.Quest, targetNode, newQuest_FallbackNode);
@@ -98,9 +98,9 @@ public class Quest {
 
 	public void SetRandomCoords () {
 
-		targetCoords = Coords.GetClosest (Boats.PlayerBoatInfo.coords);
+		targetCoords = Coords.GetClosest (Boats.playerBoatInfo.coords);
 
-		Coords boatCoords = Boats.PlayerBoatInfo.coords;
+		Coords boatCoords = Boats.playerBoatInfo.coords;
 		int distToQuest = (int)Vector2.Distance ( new Vector2(targetCoords.x,targetCoords.y) , new Vector2 (boatCoords.x , boatCoords.y) );
 
 		// show on map

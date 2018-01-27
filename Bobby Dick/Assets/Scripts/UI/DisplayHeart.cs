@@ -24,7 +24,7 @@ public class DisplayHeart : MonoBehaviour {
 
 	void UpdateUI () {
 
-		CrewMember member = CrewMember.selectedMember;
+		CrewMember member = CrewMember.GetSelectedMember;
 
 		float health_Width = backGround.rectTransform.sizeDelta.x * (float)member.Health / (float)member.MemberID.maxHealth;
 		fillImage.rectTransform.sizeDelta = new Vector2 ( health_Width , fillImage.rectTransform.sizeDelta.y);

@@ -19,6 +19,8 @@ public class MenuManager : MonoBehaviour {
 
 	void Start () {
 		CrewInventory.Instance.closeInventory += HandleCloseInventory;
+
+		Close ();
 	}
 
 	void HandleCloseInventory ()

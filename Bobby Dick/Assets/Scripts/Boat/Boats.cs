@@ -6,7 +6,7 @@ public class Boats : MonoBehaviour {
 
 	public static Boats Instance;
 
-	public static PlayerBoatInfo PlayerBoatInfo;
+	public static PlayerBoatInfo playerBoatInfo;
 
 	public List<OtherBoatInfo> otherBoatInfos = new List<OtherBoatInfo> ();
 
@@ -55,8 +55,8 @@ public class Boats : MonoBehaviour {
 
 		int imperialID = StoryLoader.Instance.FindIndexByName ("Impériaux",StoryType.Boat);
 
-		otherBoatInfo.StoryHandlers.storyHandlers[0].storyID = imperialID;
-
+		otherBoatInfo.storyManager.storyHandlers[0].storyID = imperialID;
+			
 		otherBoatInfos.Add(otherBoatInfo);
 
 
@@ -71,8 +71,9 @@ public class Boats : MonoBehaviour {
 
 	public void RandomizeBoats( ) {
 
-		PlayerBoatInfo = new PlayerBoatInfo ();
-		PlayerBoatInfo.Init ();
+		playerBoatInfo = new PlayerBoatInfo ();
+		playerBoatInfo.Init ();
+		playerBoatInfo.Randomize ();
 
 		for (int i = 0; i < otherBoatAmount; i++) {
 			OtherBoatInfo otherBoatInfo = new OtherBoatInfo ();
@@ -83,12 +84,17 @@ public class Boats : MonoBehaviour {
 	}
 
 	public void LoadBoats () {
-		PlayerBoatInfo = SaveManager.Instance.CurrentData.playerBoatInfo;
-		otherBoatInfos = SaveManager.Instance.CurrentData.otherBoatInfos;
+		playerBoatInfo = SaveManager.Instance.GameData.playerBoatInfo;
+		otherBoatInfos = SaveManager.Instance.GameData.otherBoatInfos;
+
+		playerBoatInfo.Init ();
+		foreach (var item in otherBoatInfos) {
+			item.Init ();
+		}
 	}
 	public void SaveBoats () {
-		SaveManager.Instance.CurrentData.playerBoatInfo = PlayerBoatInfo;
-		SaveManager.Instance.CurrentData.otherBoatInfos = OtherBoatInfos;
+		SaveManager.Instance.GameData.playerBoatInfo = playerBoatInfo;
+		SaveManager.Instance.GameData.otherBoatInfos = OtherBoatInfos;
 	}
 
 	public List<OtherBoatInfo> OtherBoatInfos {

@@ -29,11 +29,13 @@ public class StoryManager {
 
 		StoryHandler handler = new StoryHandler (storyID,storyType);
 		storyHandlers.Add (handler);
+
 	}
 
 	public void InitHandler ( StoryType storyType ) {
 
 		int storyId = StoryLoader.Instance.getStoryIndexFromPercentage (storyType);
+
 		InitHandler (storyType, storyId);
 	}
 
@@ -60,6 +62,7 @@ public class StoryHandler {
 	public Node 				fallbackNode;
 
 	public int 					storyID 			= 0;
+	public string				storyNameDebug		= "";
 	public StoryType 			storyType;
 	public List<contentDecal> 	contentDecals 		= new List<contentDecal>();
 	public List<Loot> 			loots 				= new List<Loot> ();
@@ -73,6 +76,7 @@ public class StoryHandler {
 	public StoryHandler (int _storyID,StoryType _storyType) {
 		storyID = _storyID;
 		storyType = _storyType;
+		storyNameDebug = Story.name;
 	}
 
 	public Story Story {
@@ -123,7 +127,9 @@ public class StoryHandler {
 	}
 
 	public void SaveDecal (int decal) {
-		
+
+		Debug.Log ("saving decal : " + decal);
+
 		SaveDecal (decal, StoryReader.Instance.Row, StoryReader.Instance.Col);
 
 	}

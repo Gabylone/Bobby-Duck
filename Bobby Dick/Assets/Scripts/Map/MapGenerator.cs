@@ -11,9 +11,6 @@ public class MapGenerator : MonoBehaviour {
 	private int mapScale = 100;
 
 	[SerializeField]
-	private int noManSeaScale = 3;
-
-	[SerializeField]
 	private int loadLimit = 1000;
 
 	public int islandID;
@@ -25,11 +22,11 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	public void GenerateIslands () {
-		CreateMapData ();
+		CreateNewMap ();
 	}
 
 	#region map data
-	private void CreateMapData () {
+	private void CreateNewMap () {
 
 		Chunk.chunks.Clear ();
 
@@ -51,19 +48,12 @@ public class MapGenerator : MonoBehaviour {
 
 			for (int i = 0; i < islandAmount; ++i ) {
 
-				bool isInNoMansSea =
-					y > (mapScale / 2) - (noManSeaScale/2)
-					&& y < (mapScale / 2) + (noManSeaScale/2);
+				int x = Random.Range ( 0, mapScale );
 
-				if ( isInNoMansSea == false ) {
+				Coords c = new Coords ( x , y );
 
-					int x = Random.Range ( 0, mapScale );
-
-					Coords c = new Coords ( x , y );
-
-					if (Chunk.GetChunk(c).State == ChunkState.UndiscoveredSea) {
-						Chunk.GetChunk(c).IslandData = new IslandData(StoryType.Normal);
-					}
+				if (Chunk.GetChunk(c).State == ChunkState.UndiscoveredSea) {
+					Chunk.GetChunk (c).SetIslandData (new IslandData (StoryType.Normal));
 				}
 			}
 
@@ -86,11 +76,7 @@ public class MapGenerator : MonoBehaviour {
 
 	public int RandomY {
 		get {
-
-			int y1 = Random.Range(0, (mapScale / 2) - (noManSeaScale / 2));
-			int y2 = Random.Range((mapScale / 2) + (noManSeaScale / 2), mapScale);
-
-			return Random.value > 0.5f ? Mathf.RoundToInt(y1) : Mathf.RoundToInt(y2);
+			return Random.Range ( 0, mapScale );
 		}
 	}
 	#endregion
@@ -98,20 +84,19 @@ public class MapGenerator : MonoBehaviour {
 	#region load & save
 	public void LoadIslandsData () {
 		
-		MapData.Instance = new MapData ();
+//		MapData.Instance = new MapData ();
 
-		MapData.Instance = SaveManager.Instance.CurrentData.mapData;
+		MapData.Instance = SaveManager.Instance.GameData.mapData;
 
-		Chunk.chunks = fromChunkArray(SaveManager.Instance.CurrentData.chunks);
+		Chunk[][] ou = SaveTool.Instance.LoadWorldChunks ();
+
+		Chunk.chunks = FromChunkArray(ou);
 
 	}
 
-	public void SaveIslandsData () {
+	public void SaveImportantIslandPositions () {
 		
-		SaveManager.Instance.CurrentData.mapData = MapData.Instance;
-
-
-		SaveManager.Instance.CurrentData.chunks = toChunkArray(Chunk.chunks);
+		SaveManager.Instance.GameData.mapData = MapData.Instance;
 
 	}
 
@@ -132,7 +117,7 @@ public class MapGenerator : MonoBehaviour {
 		return tmpChunks;
 	}
 
-	public Dictionary<Coords,Chunk> fromChunkArray ( Chunk[][] bufferChunks ) {
+	public Dictionary<Coords,Chunk> FromChunkArray ( Chunk[][] bufferChunks ) {
 
 		Dictionary<Coords,Chunk> chunkDico = new Dictionary<Coords, Chunk> ();
 		for (int x = 0; x < MapGenerator.Instance.MapScale; x++) {
@@ -144,12 +129,6 @@ public class MapGenerator : MonoBehaviour {
 		return chunkDico;
 	}
 	#endregion
-
-	public int NoManSeaScale {
-		get {
-			return noManSeaScale;
-		}
-	}
 
 	public int MapScale {
 		get {

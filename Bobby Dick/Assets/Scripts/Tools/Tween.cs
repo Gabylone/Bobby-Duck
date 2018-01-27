@@ -47,12 +47,14 @@ public class Tween : MonoBehaviour {
 	public static void ClearFade (Transform t ) {
 
 		foreach ( Image image in t.GetComponentsInChildren<Image>() ) {
+			HOTween.Kill (image);
 			Color c = image.color;
 			c.a = 1f;
 			image.color = c;
 		}
 
 		foreach ( Text text in t.GetComponentsInChildren<Text>() ) {
+			HOTween.Kill (text);
 			Color c = text.color;
 			c.a = 1f;
 			text.color = c;
