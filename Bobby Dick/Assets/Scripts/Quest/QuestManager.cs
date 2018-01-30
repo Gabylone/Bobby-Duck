@@ -36,7 +36,7 @@ public class QuestManager : MonoBehaviour {
 			SendPlayerBackToGiver ();
 			break;
 		case FunctionType.ShowQuestOnMap:
-			ShowQuestOnMap();
+			ShowQuestOnMap ();
 			break;
 		case FunctionType.FinishQuest:
 			FinishQuest ();
@@ -49,6 +49,9 @@ public class QuestManager : MonoBehaviour {
 			break;
 		case FunctionType.GiveUpQuest:
 			GiveUpActiveQuest ();
+			break;
+		case FunctionType.AddCurrentQuest:
+			AddNewQuest ();
 			break;
 		}
 	}
@@ -91,8 +94,6 @@ public class QuestManager : MonoBehaviour {
 	#region new quest
 	void HandleNewQuest () {
 
-
-
 		// CHECK FINISHED QUESTS
 		Quest quest = Coords_CheckForFinishedQuest;
 
@@ -102,33 +103,40 @@ public class QuestManager : MonoBehaviour {
 		}
 
 		// CHECK CURRENT QUESTS
-		quest = Coords_CheckForStartQuest;
+		quest = CheckForQuest_OriginCoords;
 
 		if (quest != null) {
 			quest.ReturnToGiver ();
 		} else {
-			CreateNewQuest ();
+			EnterQuest ();
 		}
 	}
-	void CreateNewQuest () {
-
-		// create quest
+	void EnterQuest () {
 		Quest newQuest = new Quest ();
-
+		newQuest.Init ();
+		// pas besoin d'update la story puisque ça en lance une nouvelle
+	}
+	void AddNewQuest () {
+		// create quest
 		if (currentQuests.Count == maxQuestAmount) {
 			Invoke ("FallBackDelay",1f);
 		} else {
-			newQuest.Init ();
-			currentQuests.Add (newQuest);
+			currentQuests.Add (Quest.currentQuest);
 		}
 
 		if (newQuestEvent != null)
 			newQuestEvent ();
+
+		StoryReader.Instance.NextCell ();
+		StoryReader.Instance.UpdateStory ();
 	}
 	void FallBackDelay () {
-		Quest newQuest = new Quest ();
-		newQuest.GetNewQuestnode ();
-		StoryReader.Instance.GoToNode (newQuest.newQuest_FallbackNode);
+//		Quest newQuest = new Quest ();
+//		newQuest.GetNewQuestnode ();
+//		StoryReader.Instance.GoToNode (newQuest.newQuest_FallbackNode);
+
+		StoryLauncher.Instance.EndStory ();
+
 	}
 	#endregion
 
@@ -156,7 +164,13 @@ public class QuestManager : MonoBehaviour {
 			if (!targetIslandIsOriginIsland) {
 
 				quest.Continue ();
+
 				return;
+
+			} else {
+				//,
+				Debug.LogError("targetIslandIsOriginIsland : TRUE ??? ");
+
 			}
 		}
 			
@@ -249,7 +263,7 @@ public class QuestManager : MonoBehaviour {
 		}
 	}
 
-	Quest Coords_CheckForStartQuest {
+	Quest CheckForQuest_OriginCoords {
 		get {
 
 			foreach (Quest quest in CurrentQuests) {

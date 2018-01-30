@@ -11,9 +11,7 @@ public class Item {
 	public int 		price 		= 0;
 	public int 		weight 		= 0;
 	public int 		level 		= 0;
-	[System.NonSerialized]
 	public int		spriteID 	= 0;
-	[System.NonSerialized]
 	public int 		type 		= 0;
 
 	public ItemCategory category;
@@ -49,6 +47,9 @@ public class Item {
 		spriteID = _spriteID;
 
 		category = _cat;
+//
+//		Debug.Log ("item name : " + name);
+//		Debug.Log ("item sprite id : " + spriteID);
 	}
 
 	public CrewMember.EquipmentPart EquipmentPart {

@@ -8,10 +8,10 @@ Brute;Matraque;Cosh;7;2;2;La Brute assomme la cible pendant un tour ( requiert a
 ;Saillie;Wallop;7;4;3;La Brute inflige la moitié des dégats à chaque membre de l'équipage adverse ( requiert arme corps à corps );Ricochet;Ricochet;plus de dégâts aux adversaires adjacents pour raclée;7
 ;Cabriole;Leap;6;3;2;La Brute attend pendant un tour, puis inflige le triple de ses dégats ( requiert arme corps à corps );Soubresaut;More Blip;plus de dégâts à la fin;6
 ;Furie;Fury;10;6;3;Pendant 3 tours, la l'énergie de la Brute est au maximum ( utiilisable une fois par combat );Détraqué;Easily Upset;perd moins de défense;10
-Chirurgien;Coup de bistouri;Bistoury Blow;7;1;3;Le Chirurgien soigne la cible de XXX points de vie;;;;7
-;Piquouze;Jag;4;1;2;La cible gagne XXX points de vie, chaque tour, pendant 3 tours;Timide;Bashful;moins de chances d'attirer l'attention;4
+Chirurgien;Coup de bistouri;Bistoury Blow;7;2;3;Le Chirurgien soigne la cible de XXX points de vie;;;;7
+;Piquouze;Jag;4;2;2;La cible gagne XXX points de vie, chaque tour, pendant 3 tours;Timide;Bashful;moins de chances d'attirer l'attention;4
 ;Mort-au-rats;Rat Poison;6;1;2;La cible perd XXX points de vie, chaque tour, pendant 3 tours;Mauvais diagnostic;Wrong diagnostic;le poison inflige plus de dégâts par tour;6
-;Tournée de rhum;Rhum Round;9;6;4;Soigne tous les membres de XXX points de vie;Cicatrisation;Tonic Liquor;les compétences de soin sont plus efficaces;9
+;Tournée de rhum;Rhum Round;9;5;4;Soigne tous les membres de XXX points de vie;Cicatrisation;Tonic Liquor;les compétences de soin sont plus efficaces;9
 Cuistot;Piston;Helpmate;3;1;2;La cible ne reçoit plus que la moitié des dégats infligés pendant 3 tours.;Grande gueule;Big Mouth;+ de chance d'attirer adversaire;3
 ;Provocation;Edgy Goading;3;1;2;Les 3 prochaines attaques sont dirigées vers le Cuistôt.;;;;3
 ;Toast;Toast Up;3;1;2;La puissance d'attaque de la cible est doublée.;Larme à l’oeil;Awe-Inspiring;+ de motivation pour le toast;3
@@ -19,7 +19,7 @@ Cuistot;Piston;Helpmate;3;1;2;La cible ne reçoit plus que la moitié des dégat
 Flibustier;Tir à la tête;Headshot;6;2;2;Le Flibustier attend pendant un tour, puis inflige le triple de ses dégats ( requiert arme à distance );;;;6
 ;Mitraille;Grape Shot;7;4;3;Le Flibustier inflige le tiers des ses dégats à XXX cibles aléatoires  ( requiert arme à distance );Cible Facile;Easy Target;plus de dégâts aux affaiblis;7
 ;Piège à loup;Bear Trap;3;2;2;Pose un piège qui inflige XXX dégâts au prochain attaquant du Flibustier;Hyperactif;Hyperactive;+ d'energie par tour;3
-;Dynamite;Dynamite;8;5;3;Inflige XXX dégats à tous les adversaires;Conservation de poudre;Powder Conservation;50 % de dégat aux ennemis;8
+;Dynamite;Dynamite;8;4;3;Inflige XXX dégats à tous les adversaires;Conservation de poudre;Powder Conservation;50 % de dégat aux ennemis;8
 Joueur;Pile ou face;Heads or Tails;3;1;2;Lance une pièce. Si l'escroc fait face, il inflige le double de ses dégats, sinon, la moitié.;;;;3
 ;Vol;Robbery;4;1;2;Vol XXX pièces d'or à l'adversaire.;Doigt de fée;Golden Fingers;+ d'argent volé;4
 ;Juron;Cuss;3;1;2;Réduit la puissance d'attaque de la cible. Annule l'effet « Toast »;Fieffé coquin;Naughty Boï;+ de chance de coup critique;3

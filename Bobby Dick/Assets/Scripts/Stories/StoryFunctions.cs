@@ -56,6 +56,7 @@ public enum FunctionType {
 	AccomplishQuest,
 	IsQuestAccomplished,
 	GiveUpQuest,
+	AddCurrentQuest,
 
 	// ship
 	DestroyShip

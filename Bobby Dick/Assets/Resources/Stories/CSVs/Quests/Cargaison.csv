@@ -1,6 +1,7 @@
 Nom;Fréquence %;Sprite ID;;;;;;
 Cargaison;76,92;0;;;;;;
 [debut];;;;;;;;
+AddCurrentQuest;;;;;;;;
 OtherSpeak : Des bandits !;;;;;;;;
 OtherSpeak : Ils m’ont pris tout ce que j’avais !;;;;;;;;
 OtherSpeak : Ils sont partis par là;;;;;;;;

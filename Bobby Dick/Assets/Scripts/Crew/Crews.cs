@@ -261,7 +261,7 @@ public class Crews : MonoBehaviour {
 
 	public void AddMemberToCrew () {
 
-		if (Crews.playerCrew.CrewMembers.Count >= Crews.playerCrew.currentMemberCapacity) {
+		if (Crews.playerCrew.CrewMembers.Count >= Crews.playerCrew.CurrentMemberCapacity) {
 
 			string phrase = "Oh non, le bateau est trop petit";
 			DialogueManager.Instance.SetDialogueTimed (phrase, Crews.enemyCrew.captain);

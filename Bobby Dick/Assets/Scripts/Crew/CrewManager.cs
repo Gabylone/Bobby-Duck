@@ -13,7 +13,15 @@ public class CrewManager : MonoBehaviour {
 	[SerializeField] private Crews.Side side;
 	[SerializeField] private Transform[] crewAnchors;
 
-	public int currentMemberCapacity = 2;
+	public int CurrentMemberCapacity {
+		get {
+			return Boats.playerBoatInfo.crewCapacity;
+		}
+		set {
+			Boats.playerBoatInfo.crewCapacity = value;
+		}
+	}
+
 	public int maxMemberCapacity = 4;
 
 	private bool placingCrew = false;
@@ -76,7 +84,7 @@ public class CrewManager : MonoBehaviour {
 	#region crew list
 	public void AddMember ( CrewMember member ) {
 
-		if (crewMembers.Count == currentMemberCapacity)
+		if (crewMembers.Count == CurrentMemberCapacity)
 			return;
 
 		managedCrew.Add (member.MemberID);

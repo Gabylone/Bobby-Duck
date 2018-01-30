@@ -25,7 +25,8 @@ public class Skill_Flee : Skill {
 			fighter.combatFeedback.Display("Sucess!", Color.green);
 
 			CombatManager.Instance.DeleteFighter (fighter);
-			CombatManager.Instance.StartNewTurn ();
+			CombatManager.Instance.NextTurn ();
+			print ("Skipping Turn : Fleeing");
 
 
 		} else if ( DiceManager.Instance.HighestResult == 1 ) {

@@ -74,10 +74,6 @@ public class SkillManager : MonoBehaviour {
 
 		foreach (var item in skills) {
 			if (energy >= item.energyCost) {
-
-				if (item.type == Skill.Type.SkipTurn)
-					continue;
-				
 				return true;
 			}
 		}
@@ -123,38 +119,34 @@ public class SkillManager : MonoBehaviour {
 		List<Skill> memberSkills = new List<Skill>();
 		foreach (var item in member.DefaultSkills) {
 			memberSkills.Add (item);
-			Debug.LogError("j'ajoutte : " + item + " de default");
 		}
 		foreach (var item in member.SpecialSkills) {
 			memberSkills.Add (item);
-			Debug.LogError("j'ajoutte : " + item + " de special");
 		}
 
 		// dans tous les skills du membre
 		foreach (var item in memberSkills) {
 
-			print ("il réfléchi à : " + item);
-
 			if ( item.MeetsConditions(member) == false ) {
-				print (item.name + " ne rempli pas les conditions");
+//				print (item.name + " ne rempli pas les conditions");
 				continue;
 			}
 
 			if ( item.MeetsRestrictions(member) == false ) {
-				print (item.name + " ne rempli pas les resstrictions");
+//				print (item.name + " ne rempli pas les resstrictions");
 				continue;
 			}
 
-			print (item.name + " rempli les conditions");
+//			print (item.name + " rempli les conditions");
 
 			if (item.priority == priority) {
-				print (item.name + " a une priorité égale (prio : " + item.priority + ")");
+//				print (item.name + " a une priorité égale (prio : " + item.priority + ")");
 				fittingSkills.Add (item);
 			}
 
 			if ( item.priority > priority ) {
 
-				print (item.name + " a une priorité supérieure");
+//				print (item.name + " a une priorité supérieure");
 				fittingSkills.Clear ();
 				fittingSkills.Add (item);
 				priority = item.priority;
@@ -165,11 +157,14 @@ public class SkillManager : MonoBehaviour {
 		}
 
 		int skillIndex = Random.Range(0,fittingSkills.Count);
-			Debug.LogError("skill index : " + skillIndex);
-			Debug.LogError("fitting skills count : " + fittingSkills.Count);
+
 		Skill skill = fittingSkills[skillIndex];
 
-		print(" skill choisi : "+ skill.name);
+//		foreach (var item in fittingSkills) {
+//			print ("skill possibles : " + item.name);
+//		}
+//
+//		print(" skill choisi : "+ skill.name);
 
 		return skill;
 	}

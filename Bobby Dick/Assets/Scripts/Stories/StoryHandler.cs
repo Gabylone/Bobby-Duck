@@ -128,8 +128,6 @@ public class StoryHandler {
 
 	public void SaveDecal (int decal) {
 
-		Debug.Log ("saving decal : " + decal);
-
 		SaveDecal (decal, StoryReader.Instance.Row, StoryReader.Instance.Col);
 
 	}

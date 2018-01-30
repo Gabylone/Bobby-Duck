@@ -159,18 +159,28 @@ public class Skill : MonoBehaviour {
 
 	void EndSkillDelay () {
 
-		if ( SkillManager.CanUseSkill (fighter.crewMember.energy) ) {
+		if ( fighter.crewMember.side == Crews.Side.Player )
+			CombatManager.Instance.ChangeState (CombatManager.States.PlayerActionChoice);
+		else
+			CombatManager.Instance.ChangeState (CombatManager.States.EnemyActionChoice);
 
-			if ( fighter.crewMember.side == Crews.Side.Player )
-				CombatManager.Instance.ChangeState (CombatManager.States.PlayerActionChoice);
-			else
-				CombatManager.Instance.ChangeState (CombatManager.States.EnemyActionChoice);
+//		foreach (var item in fighter.crewMember.DefaultSkills) {
+//			
+//		}
 
-		} else {
-
-			CombatManager.Instance.NextTurn ();
-
-		}
+//		if ( SkillManager.CanUseSkill (fighter.crewMember.energy) ) {
+//
+//
+//
+//		} else {
+//
+//			if (fighter.crewMember.side == Crews.Side.Player) {
+//				fighter.EndTurn ();
+//				CombatManager.Instance.NextTurn ();
+//				print ("Skipping Turn : No more energy");
+//			}
+//
+//		}
 
 	}
 

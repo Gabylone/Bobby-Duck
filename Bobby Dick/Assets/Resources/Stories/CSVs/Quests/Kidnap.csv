@@ -1,6 +1,7 @@
 Nom;Fréquence %;Sprite ID;;;;;;
 Kidnap;23,08;0;;;;;;
 [debut];;;;;;;;
+AddCurrentQuest;;;;;;;;
 OtherSpeak : Mon enfant !;;;;;;;;
 OtherSpeak : Des bandits ont pris mon enfant !;;;;;;;;
 OtherSpeak : Ils sont partis par là !;;;;;;;;

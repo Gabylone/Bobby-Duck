@@ -131,10 +131,10 @@ public class WeightManager : MonoBehaviour {
 
 	public int CurrentCapacity {
 		get {
-			return currentCapacity;
+			return Boats.playerBoatInfo.maximumWeight;
 		}
 		set {
-			currentCapacity = value;
+			Boats.playerBoatInfo.maximumWeight = value;
 		}
 	}
 

@@ -91,9 +91,6 @@ public class Island : MonoBehaviour {
 	#region story
 	public void Enter () {
 
-		print ("new story : " + Chunk.currentChunk.IslandData.storyManager.CurrentStoryHandler.Story.name);
-		print ("new story type : " + Chunk.currentChunk.IslandData.storyManager.CurrentStoryHandler.storyType);
-
 		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager,StoryLauncher.StorySource.island);
 	}
 	#endregion

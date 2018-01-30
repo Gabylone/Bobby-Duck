@@ -35,6 +35,8 @@ public class NavigationTrigger : MonoBehaviour {
 
 	void HandleOnSwipe (Directions direction)
 	{
+		Targeted = false;
+
 		if ( direction == this.direction ) {
 			PlayerBoat.Instance.SetTargetPos (rectTransform);
 			Target ();

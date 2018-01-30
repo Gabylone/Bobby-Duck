@@ -104,7 +104,7 @@ public class OtherInventory : MonoBehaviour {
 	#region trade
 	public void StartTrade () {
 			// get loot
-		Loot loot = LootManager.Instance.GetIslandLoot (2);
+		Loot loot = LootManager.Instance.GetIslandLoot (3);
 
 		if ( loot.IsEmpty () ) {
 			DialogueManager.Instance.SetDialogue ("Ah désolé, je n'ai plus rien à vendre", Crews.enemyCrew.captain);
@@ -125,7 +125,7 @@ public class OtherInventory : MonoBehaviour {
 	#region looting
 	public void StartLooting () {
 
-		Loot loot = LootManager.Instance.GetIslandLoot ();
+		Loot loot = LootManager.Instance.GetIslandLoot (1);
 
 		if ( loot.IsEmpty () ) {
 			DialogueManager.Instance.SetDialogue ("Il n'y a plus rien", Crews.playerCrew.captain);

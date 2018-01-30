@@ -23,11 +23,11 @@ public class GameManager : MonoBehaviour {
 
 		Instance = this;
 
-		LoadGame ();
+		InitializeGame ();
 
 	}
 
-	public void LoadGame () {
+	public void InitializeGame () {
 
 		Transitions.Instance.ScreenTransition.Fade = false;
 

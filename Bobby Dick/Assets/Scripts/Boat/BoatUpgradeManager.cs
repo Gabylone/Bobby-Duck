@@ -115,7 +115,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		switch ( (UpgradeType)i ) {
 		case UpgradeType.Crew:
-			Crews.playerCrew.currentMemberCapacity += 1;
+			Crews.playerCrew.CurrentMemberCapacity += 1;
 			break;
 		case UpgradeType.Cargo:
 			WeightManager.Instance.CurrentCapacity += 50;
@@ -161,7 +161,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		for (int i = 0; i < crewIcons.Length; ++i ) {
 //			crewIcons [i].SetActive (i <= Crews.playerCrew.currentMemberCapacity);
-			if ( i < Crews.playerCrew.currentMemberCapacity ) {
+			if ( i < Crews.playerCrew.CurrentMemberCapacity ) {
 				crewIcons [i].GetComponentInChildren<Image> ().color = Color.white;
 			} else {
 				crewIcons [i].GetComponentInChildren<Image> ().color = Color.black;

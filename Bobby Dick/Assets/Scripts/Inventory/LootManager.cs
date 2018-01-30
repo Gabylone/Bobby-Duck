@@ -97,9 +97,6 @@ public class LootManager : MonoBehaviour {
 		}
 	}
 
-	public Loot GetIslandLoot () {
-		return GetIslandLoot (1);
-	}
 	public Loot GetIslandLoot (int mult) {
 
 		int row = StoryReader.Instance.Row;
@@ -219,11 +216,11 @@ public class LootManager : MonoBehaviour {
 
 			if (item == null) {
 				Debug.LogError ("item : " + itemName + " was not found, returning random");
-				item = ItemLoader.Instance.getRandomItem (targetCat);
+				item = ItemLoader.Instance.GetRandomItem (targetCat);
 			}
 				
 		} else {
-			item = ItemLoader.Instance.getRandomItem (targetCat);
+			item = ItemLoader.Instance.GetRandomItem (targetCat);
 		}
 
 		if (onAddToInventory != null) {
@@ -331,7 +328,13 @@ public class LootManager : MonoBehaviour {
 		case ItemCategory.Misc:
 
 			if (miscSprites.Length == 0) {
+				Debug.LogError ("misc sprites est vide");
 				return null;
+			}
+
+			if (id >= miscSprites.Length) {
+				Debug.LogError ("item sprite id (" + id + ") est trop grand pour la liste (" + miscSprites.Length + ")");
+				return miscSprites [0];
 			}
 
 			return miscSprites [id];

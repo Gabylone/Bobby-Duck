@@ -303,7 +303,8 @@ public class Fighter : MonoBehaviour {
 		Fade ();
 
 		CombatManager.Instance.DeleteFighter (this);
-		CombatManager.Instance.StartNewTurn ();
+		CombatManager.Instance.NextTurn ();
+		print ("Skipping Turn : Member Is Dead");
 
 	}
 	#endregion
@@ -726,9 +727,9 @@ public class Fighter : MonoBehaviour {
 
 			CombatManager.Instance.ChangeState (CombatManager.States.None);
 
+			EndTurn ();
 			CombatManager.Instance.NextTurn ();
-
-			print ("skipping turn");
+			print ("Skipping Turn : Knocked out");
 
 			return;
 			//
@@ -790,8 +791,6 @@ public class Fighter : MonoBehaviour {
 
 		statusCount[(int)status] = count;
 		statusCount [(int)status] = Mathf.Clamp (statusCount [(int)status], 0, 10);
-
-		print ("adding status " + status);
 
 		if (onAddStatus != null)
 			onAddStatus (status, statusCount[(int)status]);

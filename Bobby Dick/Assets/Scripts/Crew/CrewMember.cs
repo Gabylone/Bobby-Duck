@@ -185,8 +185,8 @@ public class CrewMember {
 	#region health
 	public float getDamage ( float incomingAttack ) {
 		
-		float maxHits = 20;
-		float minHits = 3;
+		float maxHits = 14;
+		float minHits = 2;
 
 		float maxAttack = 120f;
 

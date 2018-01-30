@@ -5,6 +5,8 @@ using System.Collections;
 public class PlayerBoatInfo : BoatInfo {
 	
 	public int shipRange = 1;
+	public int crewCapacity = 2;
+	public int maximumWeight = 100;
 
 	public bool isInNoMansSea = false;
 	public bool hasBeenWarned = false;

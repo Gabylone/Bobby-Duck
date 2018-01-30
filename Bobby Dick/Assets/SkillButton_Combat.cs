@@ -14,6 +14,8 @@ public class SkillButton_Combat : SkillButton {
 	public GameObject chargeGroup;
 	public Text chargeText;
 
+	bool enabled = true;
+
 	bool touching = false;
 
 	public override void Start ()
@@ -29,13 +31,13 @@ public class SkillButton_Combat : SkillButton {
 	}
 
 	void Enable () {
+		enabled = true;
 		chargeGroup.SetActive (false);
 		skillImage.color = Color.black;
-		GetComponent<Button>().interactable = true;
 	}
 
 	void Disable() {
-		GetComponent<Button> ().interactable = false;
+		enabled = false;
 		skillImage.color = new Color ( 1,1,1,0.35f );
 	}
 
@@ -72,13 +74,7 @@ public class SkillButton_Combat : SkillButton {
 
 	}
 
-	public void OnPointerDown () {
 
-		touching = true;
-
-		Invoke ("TriggerSkillDelay" , timeToShowDescription);	
-
-	}
 
 	void TriggerSkillDelay () {
 
@@ -89,8 +85,23 @@ public class SkillButton_Combat : SkillButton {
 
 	}
 
+
+	public void OnPointerDown () {
+
+		if (enabled == false)
+			return;
+
+		touching = true;
+
+		Invoke ("TriggerSkillDelay" , timeToShowDescription);	
+
+	}
+
 	public void OnPointerUp () {
 
+		if (enabled == false)
+			return;
+		
 		if (touching) {
 
 			skill.Trigger (CombatManager.Instance.currentFighter);

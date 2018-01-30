@@ -6,7 +6,6 @@ using System;
 [System.Serializable]
 public class Loot {
 
-	public int id = 0;
 	public int row = 0;
 	public int col = 0;
 

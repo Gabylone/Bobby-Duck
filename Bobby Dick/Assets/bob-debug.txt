@@ -1,32 +1,22 @@
+DEBUG BOB
 
-BUGS :
-faire dessin bear trap
+- IMPORTANT : item display canvas group
+- QUAND ON ABANDONNE LA QUETE, le donneur pense directement que rien ne s'est passé.
+- il faudrait faire un variable comme quoi ça lance un combat.
+- ah d'accord, en fait après la mort ça continue parce que le tour est pas fini
+- bouton pour ferme inventaire
+- voir l'experience quand quete
+- rendre menu quete plus gros
+- l'horloge ne se met toujours pas à jour quand on dot
+- maintenant que skip turn est, je crois propre, probleme à la mort.
+- intégrer le choix de la quete DANS la quête, pas à chaque fois dans la conversaton
+- update weight manager quand boat upgrade
+-
 
-INVENTAIRE :: 
-XXX - séparer parts of inventory
-XXX - voir le membre quand on a l'inventaire , et oui
-XXX - faire disparaitre le display loot quand rien;
-XXX - pouvoir séléctionner rien
-XXX - plus de feedback quand mauvais niveau
-XXX - tout le temps metre l'inventaire sur le côté
-XXX - si on peut pas mettre un objet : le mettre en rouge ?
+note à toi demain
+il est possible que le probleme du combat vienne du fait que le joueur ennemi choissise la compétence skip turn, et en meme temps ne peuve plus rien faire donc skip turn
 
-- mettre le smétiers sur les habits
-- cliquer sur un stauts : voir effet
-- associer une couleur à tous les métiers
+aussi, il y a un petit probleme avec les quetes, mais il est pas bloquant.
+- il pourrait être réglé en liant les quêtes à un member
 
-feature :
-
-séparer les chunks pour sauvegarde
-
-XXX arbre skills
-
-tuto
-
-overall map
-
-shop ( histoires, classes, skins )
-
-plus d'histoires
-
-tests
+la lenteur de la sauvagarde.

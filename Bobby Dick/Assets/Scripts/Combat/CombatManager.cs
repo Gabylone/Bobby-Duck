@@ -136,6 +136,8 @@ public class CombatManager : MonoBehaviour {
 
 	void SortFighters ()
 	{
+		memberIndex = 0;
+
 		fighters.Clear ();
 		currPlayerFighters.Clear ();
 		currEnemyFighters.Clear ();
@@ -179,23 +181,7 @@ public class CombatManager : MonoBehaviour {
 
 	private void StartTurn_Exit () {}
 
-	bool skipingTurn = false;
-
 	public void NextTurn () {
-
-//		print (" je saute le tour");
-
-		if (skipingTurn) {
-			Invoke ("NextTurn" , 1.5f);
-			Debug.LogError ("déja en train de sauter le tour");
-			return;
-		}
-
-//		print ("next turn : d'ou vient - il ?");
-
-		skipingTurn = true;
-
-		currentFighter.EndTurn ();
 
 		NextMember ();
 
@@ -203,7 +189,7 @@ public class CombatManager : MonoBehaviour {
 
 	}
 
-	public void StartNewTurn () {
+	void StartNewTurn () {
 
 		if (currEnemyFighters.Count == 0) {
 			print ("on continue pas parce qu'il y a plus de membres joueurs");
@@ -214,7 +200,6 @@ public class CombatManager : MonoBehaviour {
 			return;
 		}
 
-		skipingTurn = false;
 		Invoke ("StartNewTurnDelay" , 1f);
 		//
 	}
@@ -666,7 +651,8 @@ public class CombatManager : MonoBehaviour {
 
 	}
 
-	public void NextMember () {
+	void NextMember () {
+		
 		++memberIndex;
 
 		if ( memberIndex >= fighters.Count )

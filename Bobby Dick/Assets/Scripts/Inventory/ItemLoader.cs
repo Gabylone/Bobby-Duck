@@ -79,15 +79,6 @@ public class ItemLoader : MonoBehaviour {
 
 			string[] cells = rows[i].Split (';');
 
-			int spriteID = -1;
-			if (cells.Length > 6) {
-				spriteID = int.Parse (cells [6]) - 1;
-
-				if (int.TryParse (cells [6], out spriteID) == false) {
-					Debug.LogError ("does not parse " + cells [6]);
-				}
-			}
-
 			Item newItem =
 				new Item (
 				currentID,
@@ -97,20 +88,34 @@ public class ItemLoader : MonoBehaviour {
 				int.Parse(cells[3]),// price
 				int.Parse(cells[4]),// weight
 				int.Parse(cells[5]),// level
-				spriteID,
+//					GetSpriteIDs(cells[6]),
+				int.Parse(cells[6]),
 
 				currentType // category
 				);
 
 			items[(int)currentType][i-1] = newItem;
 
-//			if ( currentType == ItemCategory.Weapon) {
-//				Debug.Log ("item : " + newItem.name + " sprite : " + newItem.spriteID);
-//			}
-
 			currentID++;
 		}
 	}
+
+//	public int[] GetSpriteIDs ( string cellContent ) {
+//
+//		string[] parts = cellContent.Split (',');
+//		int[] ids = new int[parts.Length];
+//
+//		int a = 0;
+//		foreach (var item in parts) {
+//			ids [a] = int.Parse (item);
+//			print ("id : " + ids[a]);
+//
+//		}
+//
+//
+//		return ids;
+//
+//	}
 
 	#region random items
 	// ONLY 1 CATEGORY
@@ -125,22 +130,29 @@ public class ItemLoader : MonoBehaviour {
 		// reset mult
 		for (int i = 0; i < itemAmount; ++i)
 		{
-		
-			// c'est ici que je dis :  !!! LES OBJETS PEUVENT ETRENT DE TOUS LES NIVEAUX !!!
-//			int level = Random.Range ( 0, 11 );
-			int level = 0;
-			if ( Crews.playerCrew.CrewMembers.Count > 0)
-				level = Random.Range ( Crews.playerCrew.captain.Level -2 , Crews.playerCrew.captain.Level + 3 );
-			
-			level = Mathf.Clamp (level, 0, 11);
 
-			tmpItems[i] = GetRandomItemOfCertainLevel ((ItemCategory)itemType,level);
+			int level = 0;
+			if (Crews.playerCrew.CrewMembers.Count > 0) {
+
+				if ( (ItemCategory)itemType == ItemCategory.Misc || (ItemCategory)itemType == ItemCategory.Provisions ) {
+					tmpItems [i] = GetRandomItem ((ItemCategory)itemType);
+				} else {
+					level = Random.Range (Crews.playerCrew.captain.Level - 2, Crews.playerCrew.captain.Level + 3);
+					level = Mathf.Clamp (level, 1, 11);
+					tmpItems[i] = GetRandomItemOfCertainLevel ((ItemCategory)itemType,level);
+				}
+
+			} else {
+				tmpItems [i] = GetRandomItem ((ItemCategory)itemType);
+
+			}
+
 		}
 
 		return tmpItems;
 	}
 
-	public Item getRandomItem ( ItemCategory category ) {
+	public Item GetRandomItem ( ItemCategory category ) {
 
 		int l = items [(int)category].Length;
 		int index = Random.Range (0, l);
@@ -150,48 +162,23 @@ public class ItemLoader : MonoBehaviour {
 
 	public Item GetRandomItemOfCertainLevel ( ItemCategory category , int targetLevel = 0 ) {
 
-		if (category == ItemCategory.Misc || category == ItemCategory.Provisions)
-			return items [(int)category] [Random.Range (0,items [(int)category].Length)];
+		Item[] tmpItems = System.Array.FindAll (items [(int)category], x => x.level == targetLevel);
 
-		if (targetLevel > 0) {
-			
-			Item[] tmpItems = System.Array.FindAll (items [(int)category], x => x.level == targetLevel);
+//		print ("found : " + tmpItems.Length + " items of level " + targetLevel + " for category " + category);
 
-			print ("found : " + tmpItems.Length + " items of level " + targetLevel + " for category " + category);
-
-			return tmpItems [Random.Range (0, tmpItems.Length)];
-
-		} else {
-			return items [(int)category] [Random.Range (0,items [(int)category].Length)];
-		}
+		return tmpItems [Random.Range (0, tmpItems.Length)];
 	}
 
 	public Item[] getItems ( ItemCategory itemType ) {
 		return items[(int)itemType];
 	} 
 
-	public Item getItem ( ItemCategory itemType , int itemID ) {
+	public Item GetItem ( ItemCategory itemType , int itemID ) {
 		if ( itemID >= items[(int)itemType].Length ) {
 			Debug.LogError ( "item id out of range " + " ID : " + itemID + " / cat : " + itemType + " L : " + items[(int)itemType].Length );
 			return items [(int)itemType][0];
 		}
 		return items[(int)itemType][itemID];
-	}
-
-	public Item createItembyName (string name, ItemCategory cat) {
-
-		print (" ITEM : " + name + " doesn't exist, creating new one");
-
-//		Item[] tempItems = items [(int)cat]; 
-//
-//		items[(int)cat] = new Item[tempItems.Length+1];
-
-		Item newItem = getRandomItem (cat);
-		newItem.name = name;
-
-//		items [(int)cat] [tempItems.Length] = newItem;
-
-		return newItem;
 	}
 
 	public Item[][] Items {
