@@ -16,10 +16,25 @@ public class SaveTool : MonoBehaviour
 	public int chunkLimit = 10;
 
 	public static SaveTool Instance;
-	private const string SAVEDATAPATH = "/SaveData";
 
 	void Awake () {
 		Instance = this;
+		CreateDirectories ();
+	}
+
+	void CreateDirectories ()
+	{
+		Debug.Log ("checking directories");
+
+		if ( DirectoryExists(GetGameDataFolderPath()) == false ) {
+			Debug.Log ("BYTES SaveData folder doesnt exist, creating it");
+			Directory.CreateDirectory (GetGameDataFolderPath ());
+		}
+
+		if ( DirectoryExists(GetGameDataFolderPath() + "/Chunks") == false ) {
+			Debug.Log ("BYTES SaveData/Chunks folder doesnt exist, creating it");
+			Directory.CreateDirectory (GetGameDataFolderPath() + "/Chunks");
+		}
 	}
 
 	/// <summary>
@@ -28,7 +43,7 @@ public class SaveTool : MonoBehaviour
 	#region Save game data
 	public void SaveGameData()
     {
-		string path = GetGameDataPath ();
+		string path = GetGameDataFilePath ();
 
 		byte[] bytes = Encoding.Unicode.GetBytes(path);
 		path = Encoding.Unicode.GetString(bytes);
@@ -104,7 +119,7 @@ public class SaveTool : MonoBehaviour
     {
 		GameData gameSaveData = new GameData();
 
-		string path = GetGameDataPath ();
+		string path = GetGameDataFilePath ();
 
 		byte[] bytes = Encoding.Unicode.GetBytes(path);
 		path = Encoding.Unicode.GetString(bytes);
@@ -181,10 +196,6 @@ public class SaveTool : MonoBehaviour
 		byte[] bytes = Encoding.Unicode.GetBytes(path);
 		path = Encoding.Unicode.GetString(bytes);
 
-		if (FileExists (path) == false) {
-			print ("path : " + path + " does not exist");
-		}
-
 		FileStream file = File.Open(path, FileMode.OpenOrCreate);
 
 		XmlSerializer serializer = new XmlSerializer(typeof(ChunkGroupData));
@@ -206,7 +217,15 @@ public class SaveTool : MonoBehaviour
 
 		return exists;
     }
+	public bool DirectoryExists(string path)
+	{
+		byte[] bytes = Encoding.Unicode.GetBytes(path);
+		path = Encoding.Unicode.GetString(bytes);
 
+		bool exists = (Directory.Exists(path));
+
+		return exists;
+	}
 
 	#region chunk
 	[System.Serializable]
@@ -261,11 +280,13 @@ public class SaveTool : MonoBehaviour
 	#endregion
 
 	#region paths
-	public string GetGameDataPath () {
-		
-		string path = Application.dataPath + SAVEDATAPATH + "/GameData.xml";
+	public string GetGameDataFilePath () {
+		return GetGameDataFolderPath() + "/GameData.xml";
+	}
+	public string GetGameDataFolderPath () {
+		string path = Application.dataPath + "/SaveData";
 		if ( Application.isMobilePlatform )
-			path = Application.persistentDataPath + SAVEDATAPATH + "/GameData.xml";
+			path = Application.persistentDataPath + "/SaveData";
 
 		return path;
 	}
@@ -283,12 +304,7 @@ public class SaveTool : MonoBehaviour
 
 		string chunkString = "Chunk_X_" + x + "_" + (x + chunkLimit) + "_" + "Y_" + y + "_" + (y + chunkLimit);
 
-		string path = SAVEDATAPATH + "/Chunks/" + chunkString + ".xml";
-
-		if (Application.isMobilePlatform)
-			return Application.persistentDataPath + path;
-
-		return Application.dataPath + path;
+		return GetGameDataFolderPath() + "/Chunks/" + chunkString + ".xml";
 	}
 	#endregion
 

@@ -40,12 +40,12 @@ Narrator : Tout est sombre. Mais, au fond, un coffre apparaît, dans toute sa b
 SetChoices2;;;;;;
 Choice : (ouvrir);;;;Choice : (partir);;
 RandomRange3;;;;Leave;;
-PlayerSpeak : Wow !;PlayerSpeak : Wew !;PlayerSpeak : Waw !;;;;
-AddGold700;LootClothes;LootWeapons;;;;
-PlayerSpeak : ça fait beaucoup d'argent.;Node=>grotte;PlayerSpeak : Armés jusqu'aux dents on est !;;;;
-Node=>grotte;;Node=>grotte;;;;
-;;;;;;
-;;;;;;
+[gold];;PlayerSpeak : Wew !;PlayerSpeak : Waw !;;;
+PlayerSpeak : Wow !;PlayerSpeak : J'ai pris tout l'or;LootClothes;LootWeapons;;;
+AddGold80;Node=>grotte;Node=>grotte;PlayerSpeak : Armés jusqu'aux dents on est !;;;
+Switch=>gold;;;Node=>grotte;;;
+PlayerSpeak : ça fait beaucoup d'argent.;;;;;;
+Node=>grotte;;;;;;
 ;;;;;;
 ;;;;;;
 ;;;;;;

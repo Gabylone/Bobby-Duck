@@ -6,11 +6,11 @@ public class QuestManager : MonoBehaviour {
 
 	public static QuestManager Instance;
 
-	private List<Quest> currentQuests = new List<Quest>();
-	private List<Quest> finishedQuests = new List<Quest>();
+	public List<Quest> currentQuests = new List<Quest>();
+	public List<Quest> finishedQuests = new List<Quest>();
 
-	public delegate void NewQuestEvent ();
-	public NewQuestEvent newQuestEvent;
+	public delegate void OnNewQuest ();
+	public OnNewQuest onNewQuest;
 
 	public int maxQuestAmount = 20;
 
@@ -124,8 +124,8 @@ public class QuestManager : MonoBehaviour {
 			currentQuests.Add (Quest.currentQuest);
 		}
 
-		if (newQuestEvent != null)
-			newQuestEvent ();
+		if (onNewQuest != null)
+			onNewQuest ();
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
@@ -143,7 +143,11 @@ public class QuestManager : MonoBehaviour {
 	#region completed quest
 	void HandleCompletedQuest (Quest quest )
 	{
-		string phrase = "Merci beaucoup de m'avoir aidé !";
+		string phrase = "Je vous ai déjà parlé de mes problèmes, et vous avez clairement abandonné";
+		if (quest.accomplished) {
+			phrase = "Merci beaucoup de m'avoir aidé !";
+		}
+
 		DialogueManager.Instance.SetDialogueTimed (phrase, Crews.enemyCrew.captain);
 
 		Invoke ("HandleCompletedQuest_Delay", DialogueManager.Instance.DisplayTime);
@@ -155,7 +159,7 @@ public class QuestManager : MonoBehaviour {
 
 	void ContinueQuest () {
 
-		Quest quest = CurrentQuests.Find (x => x.targetCoords == Boats.playerBoatInfo.coords);
+		Quest quest = currentQuests.Find (x => x.targetCoords == Boats.playerBoatInfo.coords);
 
 		if ( quest != null) {
 
@@ -212,6 +216,7 @@ public class QuestManager : MonoBehaviour {
 	public void GiveUpQuest (Quest quest) {
 		
 		currentQuests.Remove (quest);
+		finishedQuests.Add (quest);
 
 		if (onGiveUpQuest != null) {
 			onGiveUpQuest(quest);
@@ -236,37 +241,16 @@ public class QuestManager : MonoBehaviour {
 	}
 	#endregion
 
-	public List<Quest> CurrentQuests {
-		get {
-			return currentQuests;
-		}
-
-		set {
-			currentQuests = value;
-		}
-	}
-
-	public List<Quest> FinishedQuests {
-		
-		get {
-			return finishedQuests;
-		}
-
-		set {
-			finishedQuests = value;
-		}
-	}
-
 	public Quest Coords_CheckForTargetQuest {
 		get {
-			return CurrentQuests.Find ( x=> x.targetCoords == Boats.playerBoatInfo.coords);
+			return currentQuests.Find ( x=> x.targetCoords == Boats.playerBoatInfo.coords);
 		}
 	}
 
 	Quest CheckForQuest_OriginCoords {
 		get {
 
-			foreach (Quest quest in CurrentQuests) {
+			foreach (Quest quest in currentQuests) {
 				print (quest.Story.name);
 				print (quest.layer);
 			}
@@ -277,13 +261,13 @@ public class QuestManager : MonoBehaviour {
 				storyLayer = StoryReader.Instance.previousStoryLayer;
 			}
 
-//			return currentQuests.Find ( x=> x.originCoords == Boats.PlayerBoatInfo.coords);
-			return currentQuests.Find ( x => 
-				x.originCoords == Boats.playerBoatInfo.coords && 
-				storyLayer == x.layer &&
-				x.row == StoryReader.Instance.Col &&
-				x.col == StoryReader.Instance.Row
-			);
+			return currentQuests.Find ( x => x.giver == Crews.enemyCrew.captain.MemberID );
+//			return currentQuests.Find ( x => 
+//				x.originCoords == Boats.playerBoatInfo.coords && 
+//				storyLayer == x.layer &&
+//				x.row == StoryReader.Instance.Col &&
+//				x.col == StoryReader.Instance.Row
+//			);
 		}
 	}
 
@@ -296,12 +280,14 @@ public class QuestManager : MonoBehaviour {
 				storyLayer = StoryReader.Instance.previousStoryLayer;
 			}
 
-			return finishedQuests.Find ( x => 
-				x.originCoords == Boats.playerBoatInfo.coords && 
-				storyLayer == x.layer &&
-				x.row == StoryReader.Instance.Col &&
-				x.col == StoryReader.Instance.Row
-			);
+			return finishedQuests.Find ( x => x.giver == Crews.enemyCrew.captain.MemberID );
+
+//			return finishedQuests.Find ( x => 
+//				x.originCoords == Boats.playerBoatInfo.coords && 
+//				storyLayer == x.layer &&
+//				x.row == StoryReader.Instance.Col &&
+//				x.col == StoryReader.Instance.Row
+//			);
 		}
 	}
 }

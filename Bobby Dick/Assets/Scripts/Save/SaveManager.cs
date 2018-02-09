@@ -56,8 +56,10 @@ public class SaveManager : MonoBehaviour
 		// player loot
 		LootManager.Instance.setLoot (Crews.Side.Player, gameData.playerLoot);
 
-		QuestManager.Instance.CurrentQuests = gameData.currentQuests;
-		QuestManager.Instance.FinishedQuests = gameData.finishedQuests;
+		QuestManager.Instance.currentQuests = gameData.currentQuests;
+		QuestManager.Instance.finishedQuests = gameData.finishedQuests;
+
+		Member.globalID = gameData.globalID;
 
 		// gold
 		GoldManager.Instance.LoadGold();
@@ -94,8 +96,10 @@ public class SaveManager : MonoBehaviour
 
 		gameData.playerLoot = LootManager.Instance.getLoot (Crews.Side.Player);
 
-		gameData.currentQuests = QuestManager.Instance.CurrentQuests;
-		gameData.finishedQuests = QuestManager.Instance.FinishedQuests;
+		gameData.currentQuests = QuestManager.Instance.currentQuests;
+		gameData.finishedQuests = QuestManager.Instance.finishedQuests;
+
+		gameData.globalID = Member.globalID;
 
 		// gold
 		GameData.playerGold = GoldManager.Instance.GoldAmount;
@@ -126,6 +130,7 @@ public class SaveManager : MonoBehaviour
 public class GameData
 {
 	// crew & loot
+	public int					globalID = 0;
 	public Crew 				playerCrew;
 	public Loot 				playerLoot;
 

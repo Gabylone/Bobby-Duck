@@ -8,19 +8,19 @@ SetChoices2;;;;;;;;;;;;;
 Choice : (partir);Choice : (suivre panneau);;;;;;;;;;;;
 Leave;Fade;;;;;;;;;;;;
 ;Node=>marchand;;;;;;;;;;;;
-;;;[la quete];;;;;;;;;;
-;;;NewQuest=>choix;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
 [marchand];;;;;;;;;;;;;
 NewCrew1;;;;;;;;;;;;;
-[switch quete];Node=>combat;Node=>mort;;;;;;;;;;;
-OtherSpeak : Salut voyageur !;Node=>la quete;;;;;;;;;;;;
+OtherSpeak : Salut voyageur !;Node=>combat;Node=>mort;;;;;;;;;;;
 [choix];;;;;;[choix autre];;;;;;[combat];
 SetChoices4;;;;;;SetChoices3;;;;;;OtherSpeak : ?!?;
 Choice : (partir);Choice : Montrez moi votre marchandise(trade);Choice : Le trésor de Bobby Dick ?;;Choice : (autre);;Choice : Cambriolage ! (attaquer);Choice : Tout va bien pour vous ?(quete);;;Choice : (autre);;LaunchCombat;
 OtherSpeak : Au revoir !;TradeWeapons;RandomPercent20;;Node=>choix autre;;Node=>combat;RandomRange2;;;Node=>choix;;RemoveKarma;
-Leave;Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;;;;OtherSpeak : La conscience vous voulez dire ? ;OtherSpeak : Pas vraiment.;;;;[mort];
-;;Node=>choix;Node=>choix;;;;OtherSpeak : J'ai pas eu la chance de voir ce que les gens faisaient de mes armes.;OtherSpeak : J'aurais bien besoin d'un petit coup de pouce.;;;;PlayerSpeak : Le voilà mort !;
-;;;;;;;OtherSpeak : Donc oui.;SetChoices2;;;;SetChoices2;
-;;;;;;;Node=>choix;Choice : Je suis préssé…;Choice : Je peux faire quelque chose peut être.;;;Choice : (partir);Choice : (fouiller l’armurerie)
-;;;;;;;;OtherSpeak : D'accord.;Switch=>switch quete;;;Leave;LootWeapons
-;;;;;;;;Node=>choix;Node=>la quete;;;;Leave
+Leave;Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORMULA;OtherSpeak : Ça ne me dit rien.;;;;OtherSpeak : La conscience vous voulez dire ? ;NewQuest=>choix;;;;[mort];
+;;Node=>choix;Node=>choix;;;;OtherSpeak : J'ai pas eu la chance de voir ce que les gens faisaient de mes armes.;;;;;PlayerSpeak : Le voilà mort !;
+;;;;;;;OtherSpeak : Donc oui.;;;;;SetChoices2;
+;;;;;;;Node=>choix;;;;;Choice : (partir);Choice : (fouiller l’armurerie)
+;;;;;;;;;;;;Leave;LootWeapons
+;;;;;;;;;;;;;Leave

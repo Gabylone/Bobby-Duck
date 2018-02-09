@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Holoville.HOTween;
 
-public class KarmaFeedback : MonoBehaviour {
+public class InfoFeedbacks : MonoBehaviour {
 
 	public GameObject group;
 
@@ -17,31 +17,32 @@ public class KarmaFeedback : MonoBehaviour {
 	public float duration = 2f;
 
 	// Use this for initialization
-	void Start () {
-		Karma.onChangeKarma += HandleOnChangeKarma;
+	public virtual void Start () {
+
 		Hide ();
+
 	}
 
-	void HandleOnChangeKarma (int previousKarma, int newKarma)
-	{
+	public virtual void Print ( string str ) {
+		Print (str, Color.white);
+	}
+	public virtual void Print ( string str , Color color ) {
+		
 		Show ();
 
 		Tween.ClearFade (transform);
 
 		rectTransform.localPosition = Vector3.zero;
+
 		HOTween.Kill (rectTransform);
 		HOTween.Kill (transform);
+
 		CancelInvoke ("Fade");
+
 		HOTween.To (rectTransform, duration, "localPosition", Vector3.up * decalY);
 
-		if (newKarma > previousKarma) {
-			text.text = "Bonne Action !";
-			image.color = Color.green;
-
-		} else {
-			text.text = "Mauvaise Action !";
-			image.color = Color.red;
-		}
+		text.text = str;
+		image.color = color;
 
 		Invoke ("Fade",duration/2f);
 	}
@@ -59,5 +60,4 @@ public class KarmaFeedback : MonoBehaviour {
 	void Hide () {
 		group.SetActive (false);
 	}
-
 }

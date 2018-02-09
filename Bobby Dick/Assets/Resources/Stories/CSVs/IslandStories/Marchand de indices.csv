@@ -7,23 +7,23 @@ Narrator : A quelques mètres devant CAPITAINE est dressée une maisonnette en 
 SetChoices2;;;;;;;;;;;;;
 Choice : (partir);Choice : (entrer);;;;;;;;;;;;
 Leave;Fade;;;;;;;;;;;;
-;Node=>marchand;;;;;;[la quete];;;;;;
-;;;;;;;NewQuest=>choix;;;;;;
+;Node=>marchand;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
 ;;;;;;;;;;;;;
 [marchand];;;;;;;;;;;;;
-NewCrew1;Node=>combat;Node=>mort;;;;;;;;;;;
-[switch quete];;;;;;;;;;;;;
-OtherSpeak : Coucou toi !;Node=>la quete;;;;;;;;;;;;
+NewCrew1;;;;;;;;;;;;;
+OtherSpeak : Coucou toi !;Node=>combat;Node=>mort;;;;;;;;;;;
 [choix];;;;;[choix autre];;;;;;[combat];;
 SetChoices4;;;;;SetChoices3;;;;;;OtherSpeak : ?!?;;
 Choice : (partir);Choice : Où est le trésor de Bobby Dick ?;Choice : Apprenez moi quelque chose(trade);Choice : (autre);;Choice: Ceci est un hold-up (attaquer);Choice : Ça marche le « commerce d'indice ? »(quete);;;Choice : (autre);;LaunchCombat;;
 OtherSpeak : Au revoir !;Node=>trésor;Node=>aide;Node=>choix autre;;Node=>combat;RandomRange2;;;Node=>choix;;RemoveKarma;;
-Leave;;;;;;OtherSpeak : Eh bien.;OtherSpeak : Le commerce, oui.;;;;[mort];;
-;;;;;;OtherSpeak : Ça dépend de vous.;OtherSpeak : Moi en revanche j'ai un petit soucis.;;;;PlayerSpeak : Le voilà mort !;;
-;;;;;;OtherSpeak : Il fallait bien quelque chose à faire toutes ces choses inutiles.;SetChoices2;;;;SetChoices2;;
-;;;;;;OtherSpeak : Que j'ai appris dans les livres.;Choice : J'espère que ça s'arrangera.;Choice : Quel est-t-il ?;;;Choice : (partir);Choice : (fouiller);
-;;;;;;Node=>choix;OtherSpeak : Mmm…;Switch=>switch quete;;;Leave;RandomRange2;
-;;;;;;;Node=>choix;Node=>la quete;;;;Narrator : L’endroit est rempli de lettre de menace et d’insulte. Il n’y a rien d’autre, ici vivait un bel arnaqueur.;Narrator : L’endroit est rempli de cartes, de vieux manuscrits et de boussoles. Certains pointent le trésor DIRECTIONTOFORMULA
+Leave;;;;;;OtherSpeak : Eh bien.;NewQuest=>choix;;;;[mort];;
+;;;;;;OtherSpeak : Ça dépend de vous.;;;;;PlayerSpeak : Le voilà mort !;;
+;;;;;;OtherSpeak : Il fallait bien quelque chose à faire toutes ces choses inutiles.;;;;;SetChoices2;;
+;;;;;;OtherSpeak : Que j'ai appris dans les livres.;;;;;Choice : (partir);Choice : (fouiller);
+;;;;;;Node=>choix;;;;;Leave;RandomRange2;
+;;;;;;;;;;;;Narrator : L’endroit est rempli de lettre de menace et d’insulte. Il n’y a rien d’autre, ici vivait un bel arnaqueur.;Narrator : L’endroit est rempli de cartes, de vieux manuscrits et de boussoles. Certains pointent le trésor DIRECTIONTOFORMULA
 ;;;;;;;;;;;;Leave;Leave
 ;;;;;;;;;;;;;
 ;;;;;;;;;;;;;

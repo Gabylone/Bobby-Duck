@@ -39,6 +39,8 @@ public class WeightManager : MonoBehaviour {
 		CrewInventory.Instance.openInventory += HandleOpenInventory;;
 		CrewInventory.Instance.closeInventory += Hide;
 
+		BoatUpgradeManager.onUpgradeBoat += HandleOnUpgradeBoat;
+
 		LootUI.useInventory += UpdateDisplay;
 
 		LootManager.Instance.updateLoot += UpdateDisplay;
@@ -46,6 +48,12 @@ public class WeightManager : MonoBehaviour {
 		Hide();
 
 		UpdateDisplay ();
+	}
+
+	void HandleOnUpgradeBoat (BoatUpgradeManager.UpgradeType upgradeType)
+	{
+		if (upgradeType == BoatUpgradeManager.UpgradeType.Cargo)
+			UpdateDisplay ();
 	}
 
 	void HandleOpenInventory (CrewMember member)
@@ -69,6 +77,8 @@ public class WeightManager : MonoBehaviour {
 	}
 
 	#region weight control
+	public delegate void OnTooMuchWeight ();
+	public static OnTooMuchWeight onTooMuchWeight;
 	public bool CheckWeight ( int amount ) {
 
 		DisplayFeedback ();
@@ -78,6 +88,8 @@ public class WeightManager : MonoBehaviour {
 			SoundManager.Instance.PlaySound ( noRoomSound );
 
 			Bounce ();
+			if (onTooMuchWeight != null)
+				onTooMuchWeight ();
 
 //			currentWeightText.color = Color.red;
 

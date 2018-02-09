@@ -38,14 +38,13 @@ public class TimeManager : MonoBehaviour {
 	void Awake () {
 		Instance = this;
 	}
+
 	void Start () {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 		NavigationManager.Instance.EnterNewChunk += AdvanceTime;
 
 		SetRainRate ();
 	}
-
-
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
 	{
@@ -131,23 +130,43 @@ public class TimeManager : MonoBehaviour {
 		currentRain = SaveManager.Instance.GameData.currentRain;
 	}
 
+	public enum WeatherType {
+		Day,
+		Night,
+		Rain,
+	}
+	public delegate void OnSetWeather ( WeatherType weatherType );
+	public static OnSetWeather onSetWeather;
 	IEnumerator SetWeatherCoroutine (string weather) {
 
 		Transitions.Instance.FadeScreen ();
 
 		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
 
+		WeatherType weatherType = WeatherType.Day;
+
 		switch ( weather ) {
 		case "Day":
 			TimeManager.Instance.IsNight = false;
 			TimeManager.Instance.Raining = false;
+
+			weatherType = WeatherType.Day;
 			break;
 		case "Night":
 			TimeManager.Instance.IsNight = true;
 			TimeManager.Instance.Raining = false;
+
+			weatherType = WeatherType.Night;
+
 			break;
 		case "Rain":
 			TimeManager.Instance.Raining = true;
+
+			weatherType = WeatherType.Rain;
+
+			break;
+		default :
+			Debug.LogError ("Set Weather : <" + weather + "> doesnt go in any label ?");
 			break;
 		}
 

@@ -30,6 +30,8 @@ public class Quest {
 	public Node newQuest_FallbackNode;
 	public Node checkQuest_FallbackNode;
 
+	public Member giver;
+
 	public bool accomplished = false;
 
 	public delegate void ShowQuestOnMap (Quest quest);
@@ -56,6 +58,8 @@ public class Quest {
 		questID = StoryLoader.Instance.getStoryIndexFromPercentage (StoryType.Quest);
 
 		originCoords = Boats.playerBoatInfo.coords;
+
+		giver = Crews.enemyCrew.captain.MemberID;
 
 		SetRandomCoords ();
 
@@ -125,7 +129,6 @@ public class Quest {
 		}	
 	}
 	#endregion
-
 
 	public Story Story {
 		get {

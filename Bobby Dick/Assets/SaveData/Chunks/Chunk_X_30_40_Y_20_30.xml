@@ -12,26 +12,11 @@
         <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
         <State>UndiscoveredIsland</State>
         <IslandData>
           <positionOnScreen>
-            <x>412.9602</x>
-            <y>89.9514542</y>
+            <x>274.207916</x>
+            <y>411.062256</y>
           </positionOnScreen>
           <storyManager>
             <storyHandlers>
@@ -39,8 +24,8 @@
                 <row>0</row>
                 <col>0</col>
                 <fallBackLayer>0</fallBackLayer>
-                <storyID>20</storyID>
-                <storyNameDebug>Village Pêcheur</storyNameDebug>
+                <storyID>4</storyID>
+                <storyNameDebug>Epave</storyNameDebug>
                 <storyType>Normal</storyType>
                 <contentDecals />
                 <loots />
@@ -50,6 +35,21 @@
             </storyHandlers>
           </storyManager>
         </IslandData>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
         <State>UndiscoveredSea</State>
@@ -104,85 +104,6 @@
         <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
-        <State>UndiscoveredIsland</State>
-        <IslandData>
-          <positionOnScreen>
-            <x>305.4457</x>
-            <y>218.543472</y>
-          </positionOnScreen>
-          <storyManager>
-            <storyHandlers>
-              <StoryHandler>
-                <row>0</row>
-                <col>0</col>
-                <fallBackLayer>0</fallBackLayer>
-                <storyID>7</storyID>
-                <storyNameDebug>Grotte</storyNameDebug>
-                <storyType>Normal</storyType>
-                <contentDecals />
-                <loots />
-                <crews />
-                <Crews />
-              </StoryHandler>
-            </storyHandlers>
-          </storyManager>
-        </IslandData>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredIsland</State>
-        <IslandData>
-          <positionOnScreen>
-            <x>304.661835</x>
-            <y>102.688065</y>
-          </positionOnScreen>
-          <storyManager>
-            <storyHandlers>
-              <StoryHandler>
-                <row>0</row>
-                <col>0</col>
-                <fallBackLayer>0</fallBackLayer>
-                <storyID>19</storyID>
-                <storyNameDebug>Verger</storyNameDebug>
-                <storyType>Normal</storyType>
-                <contentDecals />
-                <loots />
-                <crews />
-                <Crews />
-              </StoryHandler>
-            </storyHandlers>
-          </storyManager>
-        </IslandData>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-    </ArrayOfChunk>
-    <ArrayOfChunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
         <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
@@ -195,8 +116,8 @@
         <State>UndiscoveredIsland</State>
         <IslandData>
           <positionOnScreen>
-            <x>315.719116</x>
-            <y>122.447769</y>
+            <x>210.558075</x>
+            <y>710.994</y>
           </positionOnScreen>
           <storyManager>
             <storyHandlers>
@@ -216,11 +137,43 @@
           </storyManager>
         </IslandData>
       </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
     </ArrayOfChunk>
     <ArrayOfChunk>
       <Chunk>
         <State>UndiscoveredSea</State>
       </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+    </ArrayOfChunk>
+    <ArrayOfChunk>
       <Chunk>
         <State>UndiscoveredSea</State>
       </Chunk>
@@ -231,595 +184,8 @@
         <State>UndiscoveredIsland</State>
         <IslandData>
           <positionOnScreen>
-            <x>424.368</x>
-            <y>321.754425</y>
-          </positionOnScreen>
-          <storyManager>
-            <storyHandlers>
-              <StoryHandler>
-                <row>0</row>
-                <col>0</col>
-                <fallBackLayer>0</fallBackLayer>
-                <storyID>8</storyID>
-                <storyNameDebug>Hangar</storyNameDebug>
-                <storyType>Normal</storyType>
-                <contentDecals />
-                <loots />
-                <crews />
-                <Crews />
-              </StoryHandler>
-            </storyHandlers>
-          </storyManager>
-        </IslandData>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-    </ArrayOfChunk>
-    <ArrayOfChunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-    </ArrayOfChunk>
-    <ArrayOfChunk>
-      <Chunk>
-        <State>VisitedIsland</State>
-        <IslandData>
-          <positionOnScreen>
-            <x>194.0366</x>
-            <y>368.286469</y>
-          </positionOnScreen>
-          <storyManager>
-            <storyHandlers>
-              <StoryHandler>
-                <row>0</row>
-                <col>0</col>
-                <fallBackLayer>0</fallBackLayer>
-                <storyID>8</storyID>
-                <storyNameDebug>Hangar</storyNameDebug>
-                <storyType>Normal</storyType>
-                <contentDecals>
-                  <contentDecal>
-                    <row>11</row>
-                    <col>14</col>
-                    <decal>1</decal>
-                  </contentDecal>
-                  <contentDecal>
-                    <row>1</row>
-                    <col>9</col>
-                    <decal>1</decal>
-                  </contentDecal>
-                  <contentDecal>
-                    <row>9</row>
-                    <col>14</col>
-                    <decal>1</decal>
-                  </contentDecal>
-                </contentDecals>
-                <loots />
-                <crews>
-                  <Crew>
-                    <hostile>false</hostile>
-                    <row>1</row>
-                    <col>8</col>
-                    <MemberIDs>
-                      <Member>
-                        <Name>David</Name>
-                        <health>100</health>
-                        <maxHealth>100</maxHealth>
-                        <currentHunger>5</currentHunger>
-                        <Lvl>2</Lvl>
-                        <xp>0</xp>
-                        <skillPoints>0</skillPoints>
-                        <specialSkillsIndexes>
-                          <int>12</int>
-                        </specialSkillsIndexes>
-                        <stats>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>2</int>
-                          <int>1</int>
-                        </stats>
-                        <daysOnBoard>1</daysOnBoard>
-                        <equipedWeapon>
-                          <ID>59</ID>
-                          <name>Vieux pistolet</name>
-                          <value>18</value>
-                          <price>31</price>
-                          <weight>10</weight>
-                          <level>2</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Weapon</category>
-                        </equipedWeapon>
-                        <equipedCloth>
-                          <ID>156</ID>
-                          <name>Chemise de maille</name>
-                          <value>18</value>
-                          <price>28</price>
-                          <weight>9</weight>
-                          <level>2</level>
-                          <spriteID>1</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </equipedCloth>
-                        <Male>true</Male>
-                        <job>Cook</job>
-                        <bodyColorID>0</bodyColorID>
-                        <hairSpriteID>2</hairSpriteID>
-                        <eyeSpriteID>2</eyeSpriteID>
-                        <eyebrowsSpriteID>0</eyebrowsSpriteID>
-                        <hairColorID>4</hairColorID>
-                        <beardSpriteID>4</beardSpriteID>
-                        <noseSpriteID>1</noseSpriteID>
-                        <mouthSpriteID>2</mouthSpriteID>
-                      </Member>
-                    </MemberIDs>
-                  </Crew>
-                </crews>
-                <Crews>
-                  <Crew>
-                    <hostile>false</hostile>
-                    <row>1</row>
-                    <col>8</col>
-                    <MemberIDs>
-                      <Member>
-                        <Name>David</Name>
-                        <health>100</health>
-                        <maxHealth>100</maxHealth>
-                        <currentHunger>5</currentHunger>
-                        <Lvl>2</Lvl>
-                        <xp>0</xp>
-                        <skillPoints>0</skillPoints>
-                        <specialSkillsIndexes>
-                          <int>12</int>
-                        </specialSkillsIndexes>
-                        <stats>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>2</int>
-                          <int>1</int>
-                        </stats>
-                        <daysOnBoard>1</daysOnBoard>
-                        <equipedWeapon>
-                          <ID>59</ID>
-                          <name>Vieux pistolet</name>
-                          <value>18</value>
-                          <price>31</price>
-                          <weight>10</weight>
-                          <level>2</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Weapon</category>
-                        </equipedWeapon>
-                        <equipedCloth>
-                          <ID>156</ID>
-                          <name>Chemise de maille</name>
-                          <value>18</value>
-                          <price>28</price>
-                          <weight>9</weight>
-                          <level>2</level>
-                          <spriteID>1</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </equipedCloth>
-                        <Male>true</Male>
-                        <job>Cook</job>
-                        <bodyColorID>0</bodyColorID>
-                        <hairSpriteID>2</hairSpriteID>
-                        <eyeSpriteID>2</eyeSpriteID>
-                        <eyebrowsSpriteID>0</eyebrowsSpriteID>
-                        <hairColorID>4</hairColorID>
-                        <beardSpriteID>4</beardSpriteID>
-                        <noseSpriteID>1</noseSpriteID>
-                        <mouthSpriteID>2</mouthSpriteID>
-                      </Member>
-                    </MemberIDs>
-                  </Crew>
-                </Crews>
-              </StoryHandler>
-              <StoryHandler>
-                <row>0</row>
-                <col>1</col>
-                <fallBackLayer>0</fallBackLayer>
-                <fallbackNode>
-                  <name>choix debut</name>
-                  <row>0</row>
-                  <col>2</col>
-                </fallbackNode>
-                <storyID>0</storyID>
-                <storyNameDebug>Cargaison</storyNameDebug>
-                <storyType>Quest</storyType>
-                <contentDecals>
-                  <contentDecal>
-                    <row>0</row>
-                    <col>9</col>
-                    <decal>1</decal>
-                  </contentDecal>
-                  <contentDecal>
-                    <row>0</row>
-                    <col>25</col>
-                    <decal>0</decal>
-                  </contentDecal>
-                </contentDecals>
-                <loots>
-                  <Loot>
-                    <row>0</row>
-                    <col>23</col>
-                    <allItems>
-                      <ArrayOfItem />
-                      <ArrayOfItem />
-                      <ArrayOfItem />
-                      <ArrayOfItem />
-                    </allItems>
-                    <weight>0</weight>
-                  </Loot>
-                </loots>
-                <crews>
-                  <Crew>
-                    <hostile>true</hostile>
-                    <row>4</row>
-                    <col>15</col>
-                    <MemberIDs />
-                  </Crew>
-                </crews>
-                <Crews>
-                  <Crew>
-                    <hostile>true</hostile>
-                    <row>4</row>
-                    <col>15</col>
-                    <MemberIDs />
-                  </Crew>
-                </Crews>
-              </StoryHandler>
-              <StoryHandler>
-                <row>14</row>
-                <col>14</col>
-                <fallBackLayer>0</fallBackLayer>
-                <fallbackNode>
-                  <name>discussion</name>
-                  <row>8</row>
-                  <col>11</col>
-                </fallbackNode>
-                <storyID>0</storyID>
-                <storyNameDebug>Cargaison</storyNameDebug>
-                <storyType>Quest</storyType>
-                <contentDecals />
-                <loots />
-                <crews />
-                <Crews />
-              </StoryHandler>
-            </storyHandlers>
-          </storyManager>
-        </IslandData>
-      </Chunk>
-      <Chunk>
-        <State>VisitedIsland</State>
-        <IslandData>
-          <positionOnScreen>
-            <x>308.874969</x>
-            <y>365.136719</y>
-          </positionOnScreen>
-          <storyManager>
-            <storyHandlers>
-              <StoryHandler>
-                <row>0</row>
-                <col>0</col>
-                <fallBackLayer>0</fallBackLayer>
-                <storyID>0</storyID>
-                <storyNameDebug>Bandits</storyNameDebug>
-                <storyType>Normal</storyType>
-                <contentDecals>
-                  <contentDecal>
-                    <row>0</row>
-                    <col>9</col>
-                    <decal>1</decal>
-                  </contentDecal>
-                </contentDecals>
-                <loots />
-                <crews>
-                  <Crew>
-                    <hostile>false</hostile>
-                    <row>0</row>
-                    <col>4</col>
-                    <MemberIDs>
-                      <Member>
-                        <Name>Virginie</Name>
-                        <health>100</health>
-                        <maxHealth>100</maxHealth>
-                        <currentHunger>20</currentHunger>
-                        <Lvl>2</Lvl>
-                        <xp>0</xp>
-                        <skillPoints>0</skillPoints>
-                        <specialSkillsIndexes>
-                          <int>20</int>
-                        </specialSkillsIndexes>
-                        <stats>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>2</int>
-                          <int>1</int>
-                        </stats>
-                        <daysOnBoard>4</daysOnBoard>
-                        <equipedWeapon>
-                          <ID>61</ID>
-                          <name>Poivrière rouillée</name>
-                          <value>18</value>
-                          <price>29</price>
-                          <weight>9</weight>
-                          <level>2</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Weapon</category>
-                        </equipedWeapon>
-                        <equipedCloth>
-                          <ID>160</ID>
-                          <name>Harnais de cuir</name>
-                          <value>23</value>
-                          <price>42</price>
-                          <weight>13</weight>
-                          <level>2</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </equipedCloth>
-                        <Male>false</Male>
-                        <job>Gambler</job>
-                        <bodyColorID>0</bodyColorID>
-                        <hairSpriteID>0</hairSpriteID>
-                        <eyeSpriteID>3</eyeSpriteID>
-                        <eyebrowsSpriteID>4</eyebrowsSpriteID>
-                        <hairColorID>5</hairColorID>
-                        <beardSpriteID>-1</beardSpriteID>
-                        <noseSpriteID>3</noseSpriteID>
-                        <mouthSpriteID>3</mouthSpriteID>
-                      </Member>
-                      <Member>
-                        <Name>Nathan</Name>
-                        <health>100</health>
-                        <maxHealth>100</maxHealth>
-                        <currentHunger>20</currentHunger>
-                        <Lvl>1</Lvl>
-                        <xp>0</xp>
-                        <skillPoints>0</skillPoints>
-                        <specialSkillsIndexes>
-                          <int>8</int>
-                        </specialSkillsIndexes>
-                        <stats>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>1</int>
-                        </stats>
-                        <daysOnBoard>4</daysOnBoard>
-                        <equipedWeapon>
-                          <ID>45</ID>
-                          <name>Poivrière rouillée</name>
-                          <value>7</value>
-                          <price>13</price>
-                          <weight>5</weight>
-                          <level>1</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Weapon</category>
-                        </equipedWeapon>
-                        <equipedCloth>
-                          <ID>151</ID>
-                          <name>Toge en tissu</name>
-                          <value>9</value>
-                          <price>19</price>
-                          <weight>5</weight>
-                          <level>1</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </equipedCloth>
-                        <Male>true</Male>
-                        <job>Surgeon</job>
-                        <bodyColorID>0</bodyColorID>
-                        <hairSpriteID>0</hairSpriteID>
-                        <eyeSpriteID>0</eyeSpriteID>
-                        <eyebrowsSpriteID>0</eyebrowsSpriteID>
-                        <hairColorID>0</hairColorID>
-                        <beardSpriteID>4</beardSpriteID>
-                        <noseSpriteID>2</noseSpriteID>
-                        <mouthSpriteID>0</mouthSpriteID>
-                      </Member>
-                    </MemberIDs>
-                  </Crew>
-                </crews>
-                <Crews>
-                  <Crew>
-                    <hostile>false</hostile>
-                    <row>0</row>
-                    <col>4</col>
-                    <MemberIDs>
-                      <Member>
-                        <Name>Virginie</Name>
-                        <health>100</health>
-                        <maxHealth>100</maxHealth>
-                        <currentHunger>20</currentHunger>
-                        <Lvl>2</Lvl>
-                        <xp>0</xp>
-                        <skillPoints>0</skillPoints>
-                        <specialSkillsIndexes>
-                          <int>20</int>
-                        </specialSkillsIndexes>
-                        <stats>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>2</int>
-                          <int>1</int>
-                        </stats>
-                        <daysOnBoard>4</daysOnBoard>
-                        <equipedWeapon>
-                          <ID>61</ID>
-                          <name>Poivrière rouillée</name>
-                          <value>18</value>
-                          <price>29</price>
-                          <weight>9</weight>
-                          <level>2</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Weapon</category>
-                        </equipedWeapon>
-                        <equipedCloth>
-                          <ID>160</ID>
-                          <name>Harnais de cuir</name>
-                          <value>23</value>
-                          <price>42</price>
-                          <weight>13</weight>
-                          <level>2</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </equipedCloth>
-                        <Male>false</Male>
-                        <job>Gambler</job>
-                        <bodyColorID>0</bodyColorID>
-                        <hairSpriteID>0</hairSpriteID>
-                        <eyeSpriteID>3</eyeSpriteID>
-                        <eyebrowsSpriteID>4</eyebrowsSpriteID>
-                        <hairColorID>5</hairColorID>
-                        <beardSpriteID>-1</beardSpriteID>
-                        <noseSpriteID>3</noseSpriteID>
-                        <mouthSpriteID>3</mouthSpriteID>
-                      </Member>
-                      <Member>
-                        <Name>Nathan</Name>
-                        <health>100</health>
-                        <maxHealth>100</maxHealth>
-                        <currentHunger>20</currentHunger>
-                        <Lvl>1</Lvl>
-                        <xp>0</xp>
-                        <skillPoints>0</skillPoints>
-                        <specialSkillsIndexes>
-                          <int>8</int>
-                        </specialSkillsIndexes>
-                        <stats>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>1</int>
-                        </stats>
-                        <daysOnBoard>4</daysOnBoard>
-                        <equipedWeapon>
-                          <ID>45</ID>
-                          <name>Poivrière rouillée</name>
-                          <value>7</value>
-                          <price>13</price>
-                          <weight>5</weight>
-                          <level>1</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Weapon</category>
-                        </equipedWeapon>
-                        <equipedCloth>
-                          <ID>151</ID>
-                          <name>Toge en tissu</name>
-                          <value>9</value>
-                          <price>19</price>
-                          <weight>5</weight>
-                          <level>1</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </equipedCloth>
-                        <Male>true</Male>
-                        <job>Surgeon</job>
-                        <bodyColorID>0</bodyColorID>
-                        <hairSpriteID>0</hairSpriteID>
-                        <eyeSpriteID>0</eyeSpriteID>
-                        <eyebrowsSpriteID>0</eyebrowsSpriteID>
-                        <hairColorID>0</hairColorID>
-                        <beardSpriteID>4</beardSpriteID>
-                        <noseSpriteID>2</noseSpriteID>
-                        <mouthSpriteID>0</mouthSpriteID>
-                      </Member>
-                    </MemberIDs>
-                  </Crew>
-                </Crews>
-              </StoryHandler>
-            </storyHandlers>
-          </storyManager>
-        </IslandData>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-    </ArrayOfChunk>
-    <ArrayOfChunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>VisitedIsland</State>
-        <IslandData>
-          <positionOnScreen>
-            <x>355.73526</x>
-            <y>274.490753</y>
+            <x>237.056992</x>
+            <y>718.6473</y>
           </positionOnScreen>
           <storyManager>
             <storyHandlers>
@@ -830,259 +196,6 @@
                 <storyID>14</storyID>
                 <storyNameDebug>Marchand de vêtements</storyNameDebug>
                 <storyType>Normal</storyType>
-                <contentDecals>
-                  <contentDecal>
-                    <row>2</row>
-                    <col>17</col>
-                    <decal>1</decal>
-                  </contentDecal>
-                  <contentDecal>
-                    <row>7</row>
-                    <col>17</col>
-                    <decal>1</decal>
-                  </contentDecal>
-                  <contentDecal>
-                    <row>0</row>
-                    <col>12</col>
-                    <decal>1</decal>
-                  </contentDecal>
-                  <contentDecal>
-                    <row>0</row>
-                    <col>12</col>
-                    <decal>1</decal>
-                  </contentDecal>
-                  <contentDecal>
-                    <row>0</row>
-                    <col>12</col>
-                    <decal>1</decal>
-                  </contentDecal>
-                </contentDecals>
-                <loots>
-                  <Loot>
-                    <row>1</row>
-                    <col>17</col>
-                    <allItems>
-                      <ArrayOfItem />
-                      <ArrayOfItem>
-                        <Item>
-                          <ID>39</ID>
-                          <name>Pioche de mineur</name>
-                          <value>9</value>
-                          <price>18</price>
-                          <weight>8</weight>
-                          <level>1</level>
-                          <spriteID>1</spriteID>
-                          <type>0</type>
-                          <category>Weapon</category>
-                        </Item>
-                      </ArrayOfItem>
-                      <ArrayOfItem>
-                        <Item>
-                          <ID>171</ID>
-                          <name>Harnais de cuir</name>
-                          <value>39</value>
-                          <price>69</price>
-                          <weight>17</weight>
-                          <level>4</level>
-                          <spriteID>1</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </Item>
-                        <Item>
-                          <ID>153</ID>
-                          <name>Tenue de voyageur</name>
-                          <value>12</value>
-                          <price>19</price>
-                          <weight>9</weight>
-                          <level>1</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </Item>
-                        <Item>
-                          <ID>162</ID>
-                          <name>Plastron de cuir</name>
-                          <value>32</value>
-                          <price>57</price>
-                          <weight>13</weight>
-                          <level>3</level>
-                          <spriteID>1</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </Item>
-                        <Item>
-                          <ID>163</ID>
-                          <name>Tenue d'officier</name>
-                          <value>26</value>
-                          <price>41</price>
-                          <weight>15</weight>
-                          <level>3</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </Item>
-                      </ArrayOfItem>
-                      <ArrayOfItem>
-                        <Item>
-                          <ID>211</ID>
-                          <name>Plume</name>
-                          <value>0</value>
-                          <price>5</price>
-                          <weight>3</weight>
-                          <level>0</level>
-                          <spriteID>5</spriteID>
-                          <type>0</type>
-                          <category>Misc</category>
-                        </Item>
-                        <Item>
-                          <ID>202</ID>
-                          <name>Boucles d'oreilles</name>
-                          <value>0</value>
-                          <price>5</price>
-                          <weight>3</weight>
-                          <level>0</level>
-                          <spriteID>20</spriteID>
-                          <type>0</type>
-                          <category>Misc</category>
-                        </Item>
-                      </ArrayOfItem>
-                    </allItems>
-                    <weight>68</weight>
-                  </Loot>
-                </loots>
-                <crews>
-                  <Crew>
-                    <hostile>false</hostile>
-                    <row>0</row>
-                    <col>12</col>
-                    <MemberIDs>
-                      <Member>
-                        <Name>Quincy</Name>
-                        <health>100</health>
-                        <maxHealth>100</maxHealth>
-                        <currentHunger>10</currentHunger>
-                        <Lvl>1</Lvl>
-                        <xp>0</xp>
-                        <skillPoints>0</skillPoints>
-                        <specialSkillsIndexes>
-                          <int>12</int>
-                        </specialSkillsIndexes>
-                        <stats>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>1</int>
-                        </stats>
-                        <daysOnBoard>2</daysOnBoard>
-                        <equipedWeapon>
-                          <ID>46</ID>
-                          <name>Pistolet rouillé</name>
-                          <value>7</value>
-                          <price>21</price>
-                          <weight>6</weight>
-                          <level>1</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Weapon</category>
-                        </equipedWeapon>
-                        <equipedCloth>
-                          <ID>151</ID>
-                          <name>Toge en tissu</name>
-                          <value>9</value>
-                          <price>19</price>
-                          <weight>5</weight>
-                          <level>1</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </equipedCloth>
-                        <Male>true</Male>
-                        <job>Cook</job>
-                        <bodyColorID>1</bodyColorID>
-                        <hairSpriteID>3</hairSpriteID>
-                        <eyeSpriteID>0</eyeSpriteID>
-                        <eyebrowsSpriteID>2</eyebrowsSpriteID>
-                        <hairColorID>3</hairColorID>
-                        <beardSpriteID>4</beardSpriteID>
-                        <noseSpriteID>1</noseSpriteID>
-                        <mouthSpriteID>2</mouthSpriteID>
-                      </Member>
-                    </MemberIDs>
-                  </Crew>
-                </crews>
-                <Crews>
-                  <Crew>
-                    <hostile>false</hostile>
-                    <row>0</row>
-                    <col>12</col>
-                    <MemberIDs>
-                      <Member>
-                        <Name>Quincy</Name>
-                        <health>100</health>
-                        <maxHealth>100</maxHealth>
-                        <currentHunger>10</currentHunger>
-                        <Lvl>1</Lvl>
-                        <xp>0</xp>
-                        <skillPoints>0</skillPoints>
-                        <specialSkillsIndexes>
-                          <int>12</int>
-                        </specialSkillsIndexes>
-                        <stats>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>1</int>
-                          <int>1</int>
-                        </stats>
-                        <daysOnBoard>2</daysOnBoard>
-                        <equipedWeapon>
-                          <ID>46</ID>
-                          <name>Pistolet rouillé</name>
-                          <value>7</value>
-                          <price>21</price>
-                          <weight>6</weight>
-                          <level>1</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Weapon</category>
-                        </equipedWeapon>
-                        <equipedCloth>
-                          <ID>151</ID>
-                          <name>Toge en tissu</name>
-                          <value>9</value>
-                          <price>19</price>
-                          <weight>5</weight>
-                          <level>1</level>
-                          <spriteID>0</spriteID>
-                          <type>0</type>
-                          <category>Clothes</category>
-                        </equipedCloth>
-                        <Male>true</Male>
-                        <job>Cook</job>
-                        <bodyColorID>1</bodyColorID>
-                        <hairSpriteID>3</hairSpriteID>
-                        <eyeSpriteID>0</eyeSpriteID>
-                        <eyebrowsSpriteID>2</eyebrowsSpriteID>
-                        <hairColorID>3</hairColorID>
-                        <beardSpriteID>4</beardSpriteID>
-                        <noseSpriteID>1</noseSpriteID>
-                        <mouthSpriteID>2</mouthSpriteID>
-                      </Member>
-                    </MemberIDs>
-                  </Crew>
-                </Crews>
-              </StoryHandler>
-              <StoryHandler>
-                <row>4</row>
-                <col>5</col>
-                <fallBackLayer>0</fallBackLayer>
-                <fallbackNode>
-                  <name>choix</name>
-                  <row>0</row>
-                  <col>14</col>
-                </fallbackNode>
-                <storyID>0</storyID>
-                <storyNameDebug>Cargaison</storyNameDebug>
-                <storyType>Quest</storyType>
                 <contentDecals />
                 <loots />
                 <crews />
@@ -1093,37 +206,23 @@
         </IslandData>
       </Chunk>
       <Chunk>
-        <State>DiscoveredSea</State>
+        <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
-        <State>DiscoveredSea</State>
+        <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
-        <State>DiscoveredSea</State>
+        <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
-        <State>DiscoveredSea</State>
+        <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-    </ArrayOfChunk>
-    <ArrayOfChunk>
-      <Chunk>
-        <State>VisitedIsland</State>
+        <State>UndiscoveredIsland</State>
         <IslandData>
           <positionOnScreen>
-            <x>309.963928</x>
-            <y>149.140839</y>
+            <x>391.4789</x>
+            <y>731.1078</y>
           </positionOnScreen>
           <storyManager>
             <storyHandlers>
@@ -1131,16 +230,10 @@
                 <row>0</row>
                 <col>0</col>
                 <fallBackLayer>0</fallBackLayer>
-                <storyID>19</storyID>
-                <storyNameDebug>Verger</storyNameDebug>
+                <storyID>9</storyID>
+                <storyNameDebug>Île Déserte</storyNameDebug>
                 <storyType>Normal</storyType>
-                <contentDecals>
-                  <contentDecal>
-                    <row>1</row>
-                    <col>9</col>
-                    <decal>3</decal>
-                  </contentDecal>
-                </contentDecals>
+                <contentDecals />
                 <loots />
                 <crews />
                 <Crews />
@@ -1150,26 +243,19 @@
         </IslandData>
       </Chunk>
       <Chunk>
-        <State>DiscoveredSea</State>
+        <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
-        <State>DiscoveredSea</State>
+        <State>UndiscoveredSea</State>
       </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>DiscoveredSea</State>
-      </Chunk>
+    </ArrayOfChunk>
+    <ArrayOfChunk>
       <Chunk>
         <State>UndiscoveredIsland</State>
         <IslandData>
           <positionOnScreen>
-            <x>223.978851</x>
-            <y>182.002319</y>
+            <x>194.770172</x>
+            <y>388.385956</y>
           </positionOnScreen>
           <storyManager>
             <storyHandlers>
@@ -1196,15 +282,239 @@
         <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
+        <State>UndiscoveredIsland</State>
+        <IslandData>
+          <positionOnScreen>
+            <x>274.1156</x>
+            <y>654.2759</y>
+          </positionOnScreen>
+          <storyManager>
+            <storyHandlers>
+              <StoryHandler>
+                <row>0</row>
+                <col>0</col>
+                <fallBackLayer>0</fallBackLayer>
+                <storyID>12</storyID>
+                <storyNameDebug>Marchand de indices</storyNameDebug>
+                <storyType>Normal</storyType>
+                <contentDecals />
+                <loots />
+                <crews />
+                <Crews />
+              </StoryHandler>
+            </storyHandlers>
+          </storyManager>
+        </IslandData>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
         <State>UndiscoveredSea</State>
       </Chunk>
     </ArrayOfChunk>
     <ArrayOfChunk>
       <Chunk>
-        <State>DiscoveredSea</State>
+        <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
-        <State>DiscoveredSea</State>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+    </ArrayOfChunk>
+    <ArrayOfChunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredIsland</State>
+        <IslandData>
+          <positionOnScreen>
+            <x>322.509583</x>
+            <y>642.256042</y>
+          </positionOnScreen>
+          <storyManager>
+            <storyHandlers>
+              <StoryHandler>
+                <row>0</row>
+                <col>0</col>
+                <fallBackLayer>0</fallBackLayer>
+                <storyID>18</storyID>
+                <storyNameDebug>Taverne</storyNameDebug>
+                <storyType>Normal</storyType>
+                <contentDecals />
+                <loots />
+                <crews />
+                <Crews />
+              </StoryHandler>
+            </storyHandlers>
+          </storyManager>
+        </IslandData>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredIsland</State>
+        <IslandData>
+          <positionOnScreen>
+            <x>353.827942</x>
+            <y>650.420166</y>
+          </positionOnScreen>
+          <storyManager>
+            <storyHandlers>
+              <StoryHandler>
+                <row>0</row>
+                <col>0</col>
+                <fallBackLayer>0</fallBackLayer>
+                <storyID>9</storyID>
+                <storyNameDebug>Île Déserte</storyNameDebug>
+                <storyType>Normal</storyType>
+                <contentDecals />
+                <loots />
+                <crews />
+                <Crews />
+              </StoryHandler>
+            </storyHandlers>
+          </storyManager>
+        </IslandData>
+      </Chunk>
+    </ArrayOfChunk>
+    <ArrayOfChunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredIsland</State>
+        <IslandData>
+          <positionOnScreen>
+            <x>427.081329</x>
+            <y>752.5614</y>
+          </positionOnScreen>
+          <storyManager>
+            <storyHandlers>
+              <StoryHandler>
+                <row>0</row>
+                <col>0</col>
+                <fallBackLayer>0</fallBackLayer>
+                <storyID>8</storyID>
+                <storyNameDebug>Hangar</storyNameDebug>
+                <storyType>Normal</storyType>
+                <contentDecals />
+                <loots />
+                <crews />
+                <Crews />
+              </StoryHandler>
+            </storyHandlers>
+          </storyManager>
+        </IslandData>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredIsland</State>
+        <IslandData>
+          <positionOnScreen>
+            <x>373.670654</x>
+            <y>739.288452</y>
+          </positionOnScreen>
+          <storyManager>
+            <storyHandlers>
+              <StoryHandler>
+                <row>0</row>
+                <col>0</col>
+                <fallBackLayer>0</fallBackLayer>
+                <storyID>11</storyID>
+                <storyNameDebug>Manoir Abandonné</storyNameDebug>
+                <storyType>Normal</storyType>
+                <contentDecals />
+                <loots />
+                <crews />
+                <Crews />
+              </StoryHandler>
+            </storyHandlers>
+          </storyManager>
+        </IslandData>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+    </ArrayOfChunk>
+    <ArrayOfChunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
         <State>UndiscoveredSea</State>

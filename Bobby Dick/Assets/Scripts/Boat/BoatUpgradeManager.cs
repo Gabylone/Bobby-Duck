@@ -26,6 +26,8 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 	private int currentLevel = 1;
 
+	public int cargoAugmentation = 50;
+
 	[Header("UI Groups")]
 	[SerializeField]
 	private GameObject menuObj;
@@ -108,6 +110,9 @@ public class BoatUpgradeManager : MonoBehaviour {
 		menuObj.SetActive (false);
 	}
 
+	public delegate void OnUpgradeBoat ( UpgradeType upgradeType );
+	public static OnUpgradeBoat onUpgradeBoat;
+
 	public void Upgrade ( int i ) {
 
 		if ( !GoldManager.Instance.CheckGold ( upgradePrices[i] ))
@@ -118,7 +123,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 			Crews.playerCrew.CurrentMemberCapacity += 1;
 			break;
 		case UpgradeType.Cargo:
-			WeightManager.Instance.CurrentCapacity += 50;
+			WeightManager.Instance.CurrentCapacity += cargoAugmentation;
 			break;
 		case UpgradeType.Longview:
 			Boats.playerBoatInfo.shipRange++;
@@ -128,12 +133,14 @@ public class BoatUpgradeManager : MonoBehaviour {
 		GoldManager.Instance.GoldAmount -= (int)upgradePrices[i];
 
 		SoundManager.Instance.PlaySound (upgradeSound);
-
 		++currentLevel;
 		++upgradeLevels [i];
 
 		UpdateInfo ();
 
+		if (onUpgradeBoat != null)
+			onUpgradeBoat ((UpgradeType)i);
+		
 	}
 
 	public void UpdateInfo () {

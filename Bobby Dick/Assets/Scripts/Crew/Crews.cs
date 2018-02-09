@@ -180,18 +180,31 @@ public class Crews : MonoBehaviour {
 
 		// set decal
 		if (storyCrew.MemberIDs.Count == 0) {
+			
 			StoryReader.Instance.SetDecal (1);
+
 		} else {
 
 			Crews.enemyCrew.SetCrew (storyCrew);
 
 			if (storyCrew.hostile) {
+				
 				DialogueManager.Instance.SetDialogueTimed ("Le revoilà !", Crews.enemyCrew.captain);
 				StoryReader.Instance.SetDecal (2);
+			
+			} else {
+				
+				Quest linkedQuest = QuestManager.Instance.currentQuests.Find (x => x.giver == Crews.enemyCrew.captain.MemberID);
+				if (linkedQuest != null) {
+					linkedQuest.ReturnToGiver ();
+					print ("JE CONNAIS CET HOMME, return to giver");
+				}
+
 			}
 
 			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 		}
+
 
 		StoryReader.Instance.Wait (Crews.playerCrew.captain.Icon.moveDuration);
 	}

@@ -76,10 +76,10 @@ public class QuestMenu : MonoBehaviour {
 
 	void DisplayQuestAmount () {
 
-		if (QuestManager.Instance.CurrentQuests.Count == 0) {
+		if (QuestManager.Instance.currentQuests.Count == 0) {
 			displayQuestText.text = "aucune quêtes";
 		} else {
-			displayQuestText.text = QuestManager.Instance.CurrentQuests.Count + " quêtes en cours";
+			displayQuestText.text = QuestManager.Instance.currentQuests.Count + " quêtes en cours";
 		}
 
 	}
@@ -119,7 +119,7 @@ public class QuestMenu : MonoBehaviour {
 		/// UPDATE BUTTON TO QUESTS
 		for (int questIndex = 0; questIndex < buttons.Count; questIndex++) {
 
-			if (questIndex < QuestManager.Instance.CurrentQuests.Count) {
+			if (questIndex < QuestManager.Instance.currentQuests.Count) {
 
 				buttons [questIndex].gameObject.SetActive (true);
 				buttons [questIndex].GetComponent<QuestButton> ().SetQuest (questIndex);

@@ -16,9 +16,29 @@ public class QuestFeedback : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		QuestManager.Instance.newQuestEvent += HandleNewQuestEvent;
+		QuestManager.Instance.onNewQuest += HandleNewQuestEvent;
+		QuestManager.onFinishQuest += HandleOnFinishQuest;
+		QuestManager.onGiveUpQuest += HandleOnGiveUpQuest;
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
 		NameGeneration.onDiscoverFormula += HandleOnDiscoverFormula;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		if ( func == FunctionType.AccomplishQuest ) {
+			Display ("Quête " + Quest.currentQuest.Story.name + " accomplie !");
+		}
+	}
+
+	void HandleOnGiveUpQuest (Quest quest)
+	{
+		Display ("Quête " + quest.Story.name + " abandonnée !");
+	}
+
+	void HandleOnFinishQuest (Quest quest)
+	{
+		Display ("Quête " + quest.Story.name + " finie !");
 	}
 
 	void HandleOnDiscoverFormula (Formula Formula)
@@ -28,7 +48,7 @@ public class QuestFeedback : MonoBehaviour {
 
 	void HandleNewQuestEvent ()
 	{
-		if (QuestManager.Instance.CurrentQuests.Count == QuestManager.Instance.maxQuestAmount) {
+		if (QuestManager.Instance.currentQuests.Count == QuestManager.Instance.maxQuestAmount) {
 			Display ("Nombre maximum de quête atteint");
 		} else {
 			Display ("Nouvelle Quête");

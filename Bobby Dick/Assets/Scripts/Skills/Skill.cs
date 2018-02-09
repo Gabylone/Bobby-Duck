@@ -159,11 +159,20 @@ public class Skill : MonoBehaviour {
 
 	void EndSkillDelay () {
 
-		if ( fighter.crewMember.side == Crews.Side.Player )
-			CombatManager.Instance.ChangeState (CombatManager.States.PlayerActionChoice);
-		else
-			CombatManager.Instance.ChangeState (CombatManager.States.EnemyActionChoice);
+		if (fighter.crewMember.side == Crews.Side.Player) {
 
+			if ( fighter.crewMember.CanUseSkills() == false ) {
+				fighter.EndTurn ();
+				CombatManager.Instance.NextTurn ();
+				return;
+			}
+
+
+			CombatManager.Instance.ChangeState (CombatManager.States.PlayerActionChoice);
+
+		} else {
+			CombatManager.Instance.ChangeState (CombatManager.States.EnemyActionChoice);
+		}
 //		foreach (var item in fighter.crewMember.DefaultSkills) {
 //			
 //		}

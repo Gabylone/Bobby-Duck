@@ -15,6 +15,9 @@ public class QuestButton : MonoBehaviour {
 	private Text goldText;
 
 	[SerializeField]
+	private Text giverText;
+
+	[SerializeField]
 	private Text experienceText;
 
 	[SerializeField]
@@ -22,7 +25,7 @@ public class QuestButton : MonoBehaviour {
 
 	public void Select () {
 
-		Quest quest = QuestManager.Instance.CurrentQuests [id];
+		Quest quest = QuestManager.Instance.currentQuests [id];
 		quest.ShowOnMap ();
 
 		Tween.Bounce ( transform );
@@ -32,13 +35,15 @@ public class QuestButton : MonoBehaviour {
 
 		this.id = id;
 
-		Quest quest = QuestManager.Instance.CurrentQuests [id];
+		Quest quest = QuestManager.Instance.currentQuests [id];
 
 		nameText.text = quest.Story.name;
 
-		goldText.text = quest.goldValue.ToString ();
+//		giverText.text = quest.giver.Name;
 
-		experienceText.text = quest.experience.ToString ();
+//		goldText.text = quest.goldValue.ToString ();
+
+//		experienceText.text = quest.experience.ToString ();
 
 		levelText.text = quest.level.ToString ();
 
@@ -53,6 +58,6 @@ public class QuestButton : MonoBehaviour {
 
 	void HandleOnValidate ()
 	{
-		QuestManager.Instance.GiveUpQuest (QuestManager.Instance.CurrentQuests [id]);
+		QuestManager.Instance.GiveUpQuest (QuestManager.Instance.currentQuests [id]);
 	}
 }

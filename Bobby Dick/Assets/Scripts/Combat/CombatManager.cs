@@ -349,7 +349,11 @@ public class CombatManager : MonoBehaviour {
 	#endregion
 
 	#region Player Action Choice
-	private void PlayerActionChoice_Start () {}
+	private void PlayerActionChoice_Start () {
+
+
+
+	}
 	private void PlayerActionChoice_Update () {}
 	private void PlayerActionChoice_Exit () {}
 	#endregion

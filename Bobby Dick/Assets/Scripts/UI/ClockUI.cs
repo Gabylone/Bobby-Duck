@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Holoville.HOTween;
 
 public class ClockUI : MonoBehaviour {
 
@@ -49,8 +50,14 @@ public class ClockUI : MonoBehaviour {
 
 	void UpdateNeedle ()
 	{
+		Invoke ("UpdateNeedleDelay", 0.01f);
+	}
+	void UpdateNeedleDelay ()
+	{
 		float angle = TimeManager.Instance.TimeOfDay * 360f / TimeManager.Instance.DayDuration;
 
-		hourNeedle.eulerAngles = new Vector3 (0,0,-angle);
+		Vector3 targetAngles = new Vector3 (0,0,-angle);
+
+		HOTween.To ( hourNeedle , 0.5f , "eulerAngles" , targetAngles , false , EaseType.EaseOutBounce , 0f );
 	}
 }

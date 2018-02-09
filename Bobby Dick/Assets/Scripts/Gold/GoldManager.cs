@@ -32,7 +32,6 @@ public class GoldManager : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
-
 	}
 
 	void Start () {
@@ -57,12 +56,16 @@ public class GoldManager : MonoBehaviour {
 
 	public void InitGold ()
 	{
-		GoldAmount = startValue;
+		goldAmount = startValue;
+
+		UpdateUI ();
 	}
 
 	public void LoadGold ()
 	{
-		GoldAmount = SaveManager.Instance.GameData.playerGold;
+		goldAmount = SaveManager.Instance.GameData.playerGold;
+
+		UpdateUI ();
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -115,7 +118,7 @@ public class GoldManager : MonoBehaviour {
 		
 		int amount = int.Parse (StoryFunctions.Instance.CellParams);
 
-		if (GoldManager.Instance.CheckGold (amount)) {
+		if (CheckGold (amount)) {
 			StoryReader.Instance.NextCell ();
 		} else {
 			StoryReader.Instance.NextCell ();
@@ -127,14 +130,17 @@ public class GoldManager : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 	}
 
+	public delegate void OnCheckGold ( bool enoughtGold );
+	public static OnCheckGold onCheckGold;
+
 	public bool CheckGold ( float amount ) {
 
 		Tween.Bounce (goldGroup.transform);
 
 		if ( amount > GoldAmount ) {
 
-//			print ("amount : " + amount);
-//			print ("gold : " + GoldAmount);
+			if (onCheckGold != null)
+				onCheckGold (false);
 
 			goldImage.color = Color.red;
 			goldText.color = Color.red;
@@ -179,6 +185,8 @@ public class GoldManager : MonoBehaviour {
 
 	}
 
+	public delegate void OnChangeGold (int value);
+	public static OnChangeGold onChangeGold;
 	public int GoldAmount {
 		get {
 			return goldAmount;
@@ -186,8 +194,11 @@ public class GoldManager : MonoBehaviour {
 		set {
 			
 			goldAmount = Mathf.Clamp (value, 0 , value );
+
 			UpdateUI ();
 
+			if (onCheckGold != null)
+				onChangeGold (value);
 		}
 	}
 

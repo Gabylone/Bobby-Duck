@@ -1,22 +1,29 @@
 DEBUG BOB
 
-- IMPORTANT : item display canvas group
-- QUAND ON ABANDONNE LA QUETE, le donneur pense directement que rien ne s'est passé.
-- il faudrait faire un variable comme quoi ça lance un combat.
-- ah d'accord, en fait après la mort ça continue parce que le tour est pas fini
-- bouton pour ferme inventaire
-- voir l'experience quand quete
-- rendre menu quete plus gros
-- l'horloge ne se met toujours pas à jour quand on dot
-- maintenant que skip turn est, je crois propre, probleme à la mort.
-- intégrer le choix de la quete DANS la quête, pas à chaque fois dans la conversaton
-- update weight manager quand boat upgrade
--
+- quete : quand il y a une quete au meme endroit CARGAISON / BANDITS trouver un moyen clairement meetre un global ID aux quetes
 
-note à toi demain
-il est possible que le probleme du combat vienne du fait que le joueur ennemi choissise la compétence skip turn, et en meme temps ne peuve plus rien faire donc skip turn
+- next day = passer par toutes les heures ( pour Handle on new chunk )
+- petit fade sur la map texture
+- pouvoir accepter les quêtes dans la quete
+- faire un layout group global pour les menus hhein SI  de suite
+- OUI => merci de m'avoir aidé
+- item ne se mettent pas à jour quand on change de membre ( couleur : niveau )
+- l'énergie et le métier ne diparaisse pas combat
+- changer sprite protected skill
+- le menu des compétences ne se ferme pas quand on ferme l'inventaire
+- au début du jeu, donner des armes convenantes aux classes convenants pour les ennemis
+- et si l'ennemis attaquait celui qui a le moins de vie ?
+- mettre le métier meme taillet place que skip turnµ
+- energie plus gros, chiffre dans bar
+- gagner moins d'or
+- lier current level des boat upgade bidule au bateau à cause de la sauvegarde
 
-aussi, il y a un petit probleme avec les quetes, mais il est pas bloquant.
-- il pourrait être réglé en liant les quêtes à un member
+LATER //////
+- lenteur de la sauvegarde 
+	- liste de discovered chunk
+	- liste de island datas ( chunk limit )
+	- liste de int pour les objets, au lieu de classes entieres
 
-la lenteur de la sauvagarde.
+HISTOIRE
+- grotte : plusieurs enigmes ( dont jours )
+- faire une histoire qui augmente la taille la map, mais il faut attendre la nouvelle sauvegarde

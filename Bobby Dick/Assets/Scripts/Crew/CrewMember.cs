@@ -11,7 +11,7 @@ public class CrewMember {
 		get {
 
 			if (selectedMember == null) {
-				Debug.LogError ("kek");
+//				Debug.LogError ("kek");
 				return Crews.playerCrew.captain;
 			}
 
@@ -379,6 +379,26 @@ public class CrewMember {
 			return memberID.equipedWeapon;
 			break;
 		}
+	}
+	public bool CanUseSkills () {
+		
+		foreach (var item in DefaultSkills) {
+
+			if (item.type == Skill.Type.SkipTurn)
+				continue;
+
+			if (energy >= item.energyCost) {
+				return true;
+			}
+		}
+		foreach (var item in SpecialSkills) {
+			if (energy >= item.energyCost) {
+				return true;
+			}
+		}
+
+		return false;
+
 	}
 	#endregion
 

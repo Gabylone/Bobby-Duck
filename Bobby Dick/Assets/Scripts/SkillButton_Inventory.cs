@@ -86,6 +86,6 @@ public class SkillButton_Inventory : SkillButton {
 
 	int GetSkillCost ()
 	{
-		return CrewMember.GetSelectedMember.SpecialSkills.Count;
+		return (int)(CrewMember.GetSelectedMember.SpecialSkills.Count*1.5f);
 	}
 }

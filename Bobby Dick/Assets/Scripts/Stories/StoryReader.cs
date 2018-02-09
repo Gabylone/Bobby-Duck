@@ -224,7 +224,7 @@ public class StoryReader : MonoBehaviour {
 		previousStoryLayer = currentStoryLayer;
 		currentStoryLayer = targetStoryLayer;
 		
-		print("going to node : " + targetNode.name + " row : " + targetNode.row + " col : " + targetNode.col);
+//		print("going to node s: " + targetNode.name + " row : " + targetNode.row + " col : " + targetNode.col);
 		GoToNode (targetNode);
 	}
 

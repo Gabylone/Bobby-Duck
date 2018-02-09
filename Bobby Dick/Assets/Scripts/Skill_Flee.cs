@@ -54,11 +54,12 @@ public class Skill_Flee : Skill {
 
 	public override bool MeetsConditions (CrewMember member)
 	{
+		return false;
 
-		bool fewHealth = member.Health < healthToFlee;
-
-		bool meetsChance = Random.value < 0.65f;
-
-		return meetsChance && fewHealth && base.MeetsConditions (member);
+//		bool fewHealth = member.Health < healthToFlee;
+//
+//		bool meetsChance = Random.value < 0.65f;
+//
+//		return meetsChance && fewHealth && base.MeetsConditions (member);
 	}
 }

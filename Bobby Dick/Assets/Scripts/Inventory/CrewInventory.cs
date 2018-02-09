@@ -105,9 +105,9 @@ public class CrewInventory : MonoBehaviour {
 	#region button action
 	public void EatItem () {
 
-		CrewMember.GetSelectedMember.AddHealth (LootUI.Instance.SelectedItem.value);
+		CrewMember.GetSelectedMember.AddHealth (LootUI.Instance.SelectedItem.value/2f);
 
-		int i = (int)(LootUI.Instance.SelectedItem.value * 1.5f);
+		int i = (int)(LootUI.Instance.SelectedItem.value/1.5f);
 
 		CrewMember.GetSelectedMember.CurrentHunger -= i;
 

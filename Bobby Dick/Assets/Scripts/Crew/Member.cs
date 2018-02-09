@@ -4,9 +4,11 @@ using System.Collections.Generic;
 
 public class Member {
 
+	public static int globalID = 0;
+	public int id = 0;
+
 	// name
 	public string Name = "";
-
 
 	public int health = 100;
 	public int maxHealth = 100;
@@ -18,7 +20,6 @@ public class Member {
 	public int xp 		= 0; 
 	public int skillPoints = 0;
 	public List<int> specialSkillsIndexes = new List<int> ();
-//	public List<Skill> defaultSkills = new List<Skill> ();
 
 	// stats
 	public int[] stats = new int[4] {
@@ -77,6 +78,10 @@ public class Member {
 
 	public Member (CrewParams crewParams) {
 
+		// ID
+		id = globalID;
+		globalID++;
+
 		// GENRE
 		if (crewParams.overideGenre) {
 			Male = crewParams.male;
@@ -98,10 +103,6 @@ public class Member {
 
 			Lvl = Random.Range (Crews.playerCrew.captain.Level - 3, Crews.playerCrew.captain.Level + 3);
 			if ( StoryReader.Instance.CurrentStoryHandler.storyType == StoryType.Quest ) {
-				Debug.Log ("l'histoire est une quete, donc la crew est du meme niveau que ma quete");
-//				QuestManager.Instance.Coords_CheckForTargetQuest.goldValue += (Lvl * 10);
-//				QuestManager.Instance.Coords_CheckForTargetQuest.experience += (Lvl * 10);
-
 				Lvl = QuestManager.Instance.Coords_CheckForTargetQuest.level;
 			}
 		}
@@ -159,4 +160,13 @@ public class Member {
 	public int beardSpriteID = 0;
 	public int noseSpriteID = 0;
 	public int mouthSpriteID = 0;
+
+	public static bool operator ==( Member member1, Member member2) 
+	{
+		return member1.id == member2.id;
+	}
+	public static bool operator != (Member member1, Member member2) 
+	{
+		return !(member1 == member2);
+	}
 }

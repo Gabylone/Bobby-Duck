@@ -57,15 +57,7 @@ public class MemberIcon : MonoBehaviour {
 			return;
 		}
 
-		if (CrewInventory.Instance.Opened && CrewMember.GetSelectedMember == member) {
-
-			if ( OtherInventory.Instance.type != OtherInventory.Type.None ) {
-				return;
-			}
-
-			CrewInventory.Instance.HideInventory ();
-
-		} else {
+		if (!CrewInventory.Instance.Opened ) {
 
 			if ( !CrewInventory.Instance.canOpen ) {
 				print ("cannot open player loot");
