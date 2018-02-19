@@ -20,10 +20,21 @@ public class UIBackground : MonoBehaviour {
 		rectTransform = GetComponent<RectTransform> ();
 
 		CombatManager.Instance.onFightStart += MoveBackGround;
-		CombatManager.Instance.onFightEnd += ShowBackGround;
+		CombatManager.Instance.onFightEnd += HandleFightEnding;
 		CombatManager.Instance.onChangeState += HandleOnChangeState;
 
 		initXPos = rectTransform.rect.position.x;
+	}
+
+	void HandleFightEnding ()
+	{
+		ShowBackGround ();
+
+		Invoke("HandleFightEndingDelay" , duration);
+	}
+
+	void HandleFightEndingDelay () {
+		Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
 	}
 
 	void ShowBackGround ()

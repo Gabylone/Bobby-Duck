@@ -56,7 +56,7 @@ public class NameGeneration : MonoBehaviour {
 		}
 
 		if ( text.Contains ("BOUNTY") ) {
-			text = text.Replace ( "BOUNTY" , Karma.Instance.Bounty.ToString () );
+			text = text.Replace ( "BOUNTY" , Karma.Instance.bounty.ToString () );
 		}
 
 		if ( text.Contains ("FORMULA") ) {

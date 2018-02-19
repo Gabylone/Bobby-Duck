@@ -13,7 +13,7 @@ public class DisplayLevel : MonoBehaviour {
 
 		text = GetComponentInChildren<Text> ();
 
-		LootManager.Instance.onWrongLevelEvent += HandleOnWrongLevelEvent;
+		CrewMember.onWrongLevel += HandleOnWrongLevelEvent;
 
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
 
@@ -41,11 +41,6 @@ public class DisplayLevel : MonoBehaviour {
 		fillImage.fillAmount = ((float)crewMember.CurrentXp / (float)crewMember.xpToLevelUp);
 
 		Tween.Bounce (transform);
-
-//		if (crewMember.Level == crewMember.maxLevel) {
-//			text.text = "MAX";
-//			return;
-//		}
 //
 	}
 

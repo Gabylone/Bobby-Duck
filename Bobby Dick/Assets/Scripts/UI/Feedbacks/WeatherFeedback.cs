@@ -5,31 +5,42 @@ using UnityEngine;
 public class WeatherFeedback : InfoFeedbacks {
 
 	// Use this for initialization
-	void Start () {
-		TimeManager.onSetWeather += HandleOnSetWeather;
+	public override void Start () {
 
+		base.Start ();
+
+		TimeManager.onSetTimeOfDay += HandleOnSetTimeOfDay;
+		TimeManager.onSetRain += HandleOnSetRain;
 		QuestManager.onFinishQuest += HandleOnFinishQuest;
+		CrewMember.onWrongLevel += HandleOnWrongLevel;
+	}
+
+	void HandleOnSetRain ()
+	{
+		Print ("Pluie !", Color.cyan);
+	}
+
+	void HandleOnSetTimeOfDay (TimeManager.DayState dayState)
+	{
+		switch (dayState) {
+		case TimeManager.DayState.Day:
+			Print ("Jour", Color.yellow);
+			break;
+		case TimeManager.DayState.Night:
+			Print ("Nuit", Color.blue);
+			break;
+		default:
+			break;
+		}
+	}
+
+	void HandleOnWrongLevel ()
+	{
+		Print ("niveau insuffisant");
 	}
 
 	void HandleOnFinishQuest (Quest quest)
 	{
 		Print ("+" + quest.experience + " xp" , Color.blue);
-	}
-
-	void HandleOnSetWeather (TimeManager.WeatherType weatherType)
-	{
-		switch (weatherType) {
-		case TimeManager.WeatherType.Day:
-			Print ("Jour");
-			break;
-		case TimeManager.WeatherType.Night:
-			Print ("Nuit");
-			break;
-		case TimeManager.WeatherType.Rain:
-			Print ("Tempête");
-			break;
-		default:
-			break;
-		}
 	}
 }

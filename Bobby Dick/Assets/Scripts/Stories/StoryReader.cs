@@ -200,11 +200,8 @@ public class StoryReader : MonoBehaviour {
 		int targetStoryLayer = CurrentStoryManager.storyHandlers.FindIndex (handler => (handler.storyID == secondStoryID) );
 		if ( targetStoryLayer >= 0 ) {
 			// rechercher si l'histoire trouvée est bien à la rangée et collonne de la cellule actuelle.
-			print ("l'histoire " + story.name + " existe déjà au layer : " + targetStoryLayer);
 			targetStoryLayer = CurrentStoryManager.storyHandlers.FindIndex (handler => (handler.row == row) && (handler.col == col));
-			if (targetStoryLayer < 0) {
-				print ("elle n'a en revanche pas les memes row.col de départ : " + targetStoryLayer);
-			}
+
 		}
 
 		// si l'histoire n'apparait pas déjà dans l'ile

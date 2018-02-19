@@ -102,13 +102,13 @@ public class SaveManager : MonoBehaviour
 		gameData.globalID = Member.globalID;
 
 		// gold
-		GameData.playerGold = GoldManager.Instance.GoldAmount;
+		GameData.playerGold = GoldManager.Instance.goldAmount;
 
 		MapGenerator.Instance.SaveImportantIslandPositions ();
 
 		Karma.Instance.SaveKarma ();
 
-		TimeManager.Instance.SaveWeather ();
+		TimeManager.Instance.Save ();
 
 		SaveTool.Instance.SaveGameData ();
 

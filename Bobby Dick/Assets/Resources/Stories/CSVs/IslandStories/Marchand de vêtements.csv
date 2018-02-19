@@ -11,7 +11,7 @@ Leave;Fade;;;;;;;;;;;
 ;;;;;;;;;;;;
 ;;;;;;;;;;;;
 [marchand];;;;;;;;;;;;
-NewCrew1;;;;;;;;;;;;
+NewCrew;;;;;;;;;;;;
 Node=>choix;Node=>mort;Node=>combat;;;;;;;;;;
 ;;;;;;;;;;;;
 [choix];;;;;;[choix autre];;;;;[combat];

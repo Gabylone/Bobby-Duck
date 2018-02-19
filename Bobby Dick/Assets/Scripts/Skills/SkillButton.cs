@@ -14,13 +14,12 @@ public class SkillButton : MonoBehaviour {
 
 	public Skill skill;
 
-	public Image image;
 	public Button button;
 
 	public float timeToShowDescription = 0.5f;
 
 	public virtual void Start () {
-		button = GetComponent<Button> ();
+		button = GetComponentInChildren<Button> ();
 		HideDescription ();
 	}
 

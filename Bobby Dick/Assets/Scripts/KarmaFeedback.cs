@@ -6,12 +6,12 @@ using Holoville.HOTween;
 
 public class KarmaFeedback : InfoFeedbacks {
 
-	// Use this for initialization
-	public override void Print (string str, Color color)
+	public override void Start ()
 	{
-		base.Print (str, color);
+		base.Start ();
 
 		Karma.onChangeKarma += HandleOnChangeKarma;
+
 	}
 
 	void HandleOnChangeKarma (int previousKarma, int newKarma)

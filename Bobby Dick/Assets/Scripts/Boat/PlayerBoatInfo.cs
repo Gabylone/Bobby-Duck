@@ -6,10 +6,12 @@ public class PlayerBoatInfo : BoatInfo {
 	
 	public int shipRange = 1;
 	public int crewCapacity = 2;
-	public int maximumWeight = 100;
+	public int cargoLevel = 1;
+	public int level = 1;
 
-	public bool isInNoMansSea = false;
-	public bool hasBeenWarned = false;
+	public int GetCargoCapacity () {
+		return 100 + ( (cargoLevel-1) * 50);
+	}
 
 	// seulement lors d'une novelle partie
 	public override void Randomize ()

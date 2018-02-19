@@ -24,7 +24,7 @@ public class GoldManager : MonoBehaviour {
 	[Header ("Amounts")]
 	[SerializeField]
 	private int startValue = 200;
-	private int goldAmount = 0;
+	public int goldAmount = 0;
 
 	[Header("Sound")]
 	[SerializeField] private AudioClip noGoldSound;
@@ -97,7 +97,6 @@ public class GoldManager : MonoBehaviour {
 	}
 	private void DisplayFeedback () {
 
-
 		feedbackActive = true;
 		timer = 0f;
 
@@ -137,7 +136,7 @@ public class GoldManager : MonoBehaviour {
 
 		Tween.Bounce (goldGroup.transform);
 
-		if ( amount > GoldAmount ) {
+		if ( amount > goldAmount ) {
 
 			if (onCheckGold != null)
 				onCheckGold (false);
@@ -165,7 +164,8 @@ public class GoldManager : MonoBehaviour {
 	void RemoveGold(string cellParams) {
 		
 		int amount = int.Parse (cellParams);
-		GoldAmount -= amount;
+
+		RemoveGold(amount);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait ( 0.3f );
@@ -176,7 +176,8 @@ public class GoldManager : MonoBehaviour {
 	void AddGold(string cellParams) {
 		
 		int amount = int.Parse (cellParams);
-		GoldAmount += amount;
+
+		AddGold (amount);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.Wait (0.3f);
@@ -187,19 +188,17 @@ public class GoldManager : MonoBehaviour {
 
 	public delegate void OnChangeGold (int value);
 	public static OnChangeGold onChangeGold;
-	public int GoldAmount {
-		get {
-			return goldAmount;
-		}
-		set {
-			
-			goldAmount = Mathf.Clamp (value, 0 , value );
-
-			UpdateUI ();
-
-			if (onCheckGold != null)
-				onChangeGold (value);
-		}
+	public void AddGold ( int i ) {
+		goldAmount += i;
+		UpdateUI ();
+		if (onChangeGold != null)
+			onChangeGold (i);
+	}
+	public void RemoveGold ( int i ) {
+		goldAmount -= i;
+		UpdateUI ();
+		if (onChangeGold != null)
+			onChangeGold (-i);
 	}
 
 	public void Show () {

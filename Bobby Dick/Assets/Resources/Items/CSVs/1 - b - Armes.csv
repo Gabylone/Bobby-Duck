@@ -1,113 +1,113 @@
 Arme;Description;Value;$;W;LVL;Sprite ID;Type
-Epée rouillée;C'est un epée rouillée;7;12;6;1;1;1
-Pioche de mineur;C'est un pioche de mineur;9;18;8;1;1;1
-Dague cassée;C'est un dague cassée;7;15;5;1;1;1
-Vielle hachette;C'est un vielle hachette;6;11;6;1;1;1
-Bâton solide;C'est un bâton solide;11;27;4;1;1;1
-Pieu de bois;C'est un pieu de bois;8;16;5;1;1;1
-Matraque en bois;C'est un matraque en bois;7;19;8;1;1;1
-Poivrière rouillée;C'est un poivrière rouillée;7;13;5;1;0;0
-Pistolet rouillé;C'est un pistolet rouillé;7;21;6;1;0;0
-Vieux pistolet;C'est un vieux pistolet;14;30;7;1;0;0
-Vielle poivrière;C'est un vielle poivrière;6;12;7;1;0;0
-Pistolet à silex;C'est un pistolet à silex;11;23;8;1;0;0
-Poivrière négligée;C'est un poivrière négligée;7;12;8;1;0;0
-Pistolet négligé;C'est un pistolet négligé;11;18;6;1;0;0
-Dague en acier;C'est un dague en acier;24;38;7;2;1;1
-Matraque en fer;C'est un matraque en fer;19;39;10;2;1;1
-Machette;C'est un machette;16;28;7;2;1;1
-Bâton en fer;C'est un bâton en fer;19;33;7;2;1;1
-Hachette d'acier;C'est un hachette d'acier;18;30;9;2;1;1
-Vielle poivrière;;19;30;10;2;0;0
-Pistolet à silex;;17;34;11;2;0;0
-Vieux pistolet;;18;31;10;2;0;0
-Pistolet rouillé;;20;36;9;2;0;0
-Poivrière rouillée;;18;29;9;2;0;0
-Grande épée en acier;C'est un grande épée en acier;33;53;11;3;1;1
-Longue Rapière;C'est un longue rapière;33;59;12;3;1;1
-Cimeterre;C'est un cimeterre;27;49;14;3;1;1
-Massue de pierre;C'est un massue de pierre;26;41;13;3;1;1
-Longue épée en fer;C'est un longue épée en fer;33;53;10;3;1;1
-Gourdin barbelé;C'est un gourdin barbelé;30;52;12;3;1;1
-Lance courte;C'est un lance courte;29;54;10;3;1;1
-Vielle poivrière;;33;55;10;3;0;0
-Pistolet de voyage;;27;44;11;3;0;0
-Poivrière de vagabond;;32;57;10;3;0;0
-Pistolet de bord;;27;47;13;3;0;0
-Pistolet à percussion;;27;43;12;3;0;0
-Pistolet à silex;;27;44;14;3;0;0
-Vieux pistolet;;27;47;13;3;0;0
-Claymore;C'est un claymore;38;60;13;4;1;1
-Etoile du matin;C'est un etoile du matin;38;65;14;4;1;1
-Epée batarde;C'est un epée batarde;37;63;16;4;1;1
-Fléau d'ames;C'est un fléau d'ames;44;69;14;4;1;1
-Sabre d'acier;C'est un sabre d'acier;36;55;17;4;1;1
-Grande serpe;C'est un grande serpe;40;65;16;4;1;1
-Pistolet de voyage;;39;64;17;4;0;0
-Poivrière de vagabond;;36;63;15;4;0;0
-Pistolet de bord;;42;69;17;4;0;0
-Pistolet à percussion;;42;69;15;4;0;0
-Pistolet à silex;;41;72;16;4;0;0
-Poivrière puissante;;37;62;17;4;0;0
-Lance en acier;C'est un lance en acier;51;80;19;5;1;1
-Marteau de guerre;C'est un marteau de guerre;52;86;20;5;1;1
-Double hache;C'est un double hache;48;76;16;5;1;1
-Trident;C'est un trident;51;81;18;5;1;1
-Coutelas;C'est un coutelas;54;87;20;5;1;1
-Massue immense;C'est un massue immense;50;82;19;5;1;1
-Pistolet de voyage;;52;80;17;5;0;0
-Couleuvrine rouillée;;51;80;18;5;0;0
-Pistolet de bord;;49;82;19;5;0;0
-Pistolet à percussion;;51;85;18;5;0;0
-Vielle couleuvrine;;50;78;20;5;0;0
-Bon pistolet;;52;78;16;5;0;0
-Epée immense;C'est un epée immense;57;87;23;6;1;1
-Epée batarde;C'est un epée batarde;58;92;20;6;1;1
-Rapière;C'est un rapière;61;93;20;6;1;1
-Glaive en or;C'est un glaive en or;63;102;20;6;1;1
-Lame incurvée;C'est un lame incurvée;59;94;20;6;1;1
-Ceste;C'est un ceste;58;90;19;6;1;1
-Pistolet de soldat;;62;98;21;6;0;0
-Couleuvrine rouillée;;64;96;20;6;0;0
-Pistolet de bord;;60;93;19;6;0;0
-Pistolet puissant;;59;92;19;6;0;0
-Couleuvrine légère;;64;102;20;6;0;0
-Bon pistolet;;64;105;21;6;0;0
-Lance en acier;C'est un lance en acier;68;110;24;7;1;1
-Marteau de guerre;C'est un marteau de guerre;71;114;23;7;1;1
-Double hache;C'est un double hache;73;116;25;7;1;1
-Trident;C'est un trident;69;106;26;7;1;1
-Coutelas;C'est un coutelas;66;99;24;7;1;1
-Massue immense;C'est un massue immense;66;109;24;7;1;1
-Pistolet de soldat;;71;116;22;7;0;0
-Vielle couleuvrine;;71;109;24;7;0;0
-Couleuvrine de bord;;66;103;23;7;0;0
-Pistolet puissant;;73;119;25;7;0;0
-Couleuvrine légère;;72;112;24;7;0;0
-Arquebuse rouillée;;72;113;26;7;0;0
-Epée immense;C'est un epée immense;82;128;29;8;1;1
-Epée batarde;C'est un epée batarde;82;131;29;8;1;1
-Rapière;C'est un rapière;80;123;27;8;1;1
-Glaive en or;C'est un glaive en or;79;127;28;8;1;1
-Lame incurvée;C'est un lame incurvée;77;123;25;8;1;1
-Ceste;C'est un ceste;77;126;26;8;1;1
-Vielle arquebuse;;76;123;27;8;0;0
-Petite arquebuse;;78;126;28;8;0;0
-Couleuvrine de bord;;76;120;28;8;0;0
-Couleuvrine puissante;;83;134;29;8;0;0
-Couleuvrine légère;;84;132;29;8;0;0
-Arquebuse rouillée;;78;122;29;8;0;0
-Lance en acier;C'est un lance en acier;86;130;30;9;1;1
-Marteau de guerre;C'est un marteau de guerre;94;149;32;9;1;1
-Double hache;C'est un double hache;87;138;29;9;1;1
-Trident;C'est un trident;91;139;29;9;1;1
-Coutelas;C'est un coutelas;87;134;29;9;1;1
-Massue immense;C'est un massue immense;93;150;31;9;1;1
-Arquebuse de soldat;;94;149;29;9;0;0
-Couleuvrine de marin;;94;141;29;9;0;0
-Arquebuse de marin;;94;144;28;9;0;0
-Couleuvrine puissante;;87;139;31;9;0;0
-Couleuvrine de soldat;;93;146;30;9;0;0
-Arquebuse puissante;;87;138;28;9;0;0
-Epée du roi pirate;C'est un epée du roi pirate;102;163;31;10;1;1
-Pistolet du roi pirate;C'est un pistolet du roi pirate;100;154;34;10;1;1
+Epée rouillée;C'est un epée rouillée;9;23;10;1;1;1
+Pioche de mineur;C'est un pioche de mineur;9;15;10;1;1;1
+Dague cassée;C'est un dague cassée;10;16;10;1;1;1
+Vielle hachette;C'est un vielle hachette;14;31;10;1;1;1
+Bâton solide;C'est un bâton solide;11;19;10;1;1;1
+Pieu de bois;C'est un pieu de bois;10;20;10;1;1;1
+Matraque en bois;C'est un matraque en bois;7;16;10;1;1;1
+Poivrière rouillée;C'est un poivrière rouillée;7;14;10;1;0;0
+Pistolet rouillé;C'est un pistolet rouillé;11;17;10;1;0;0
+Vieux pistolet;C'est un vieux pistolet;9;19;10;1;0;0
+Vielle poivrière;C'est un vielle poivrière;7;18;10;1;0;0
+Pistolet à silex;C'est un pistolet à silex;13;24;10;1;0;0
+Poivrière négligée;C'est un poivrière négligée;9;24;10;1;0;0
+Pistolet négligé;C'est un pistolet négligé;8;22;10;1;0;0
+Dague en acier;C'est un dague en acier;24;44;10;2;1;1
+Matraque en fer;C'est un matraque en fer;22;40;10;2;1;1
+Machette;C'est un machette;20;30;10;2;1;1
+Bâton en fer;C'est un bâton en fer;18;32;10;2;1;1
+Hachette d'acier;C'est un hachette d'acier;24;37;10;2;1;1
+Vielle poivrière;;21;41;10;2;0;0
+Pistolet à silex;;21;41;10;2;0;0
+Vieux pistolet;;24;38;10;2;0;0
+Pistolet rouillé;;17;32;10;2;0;0
+Poivrière rouillée;;17;30;10;2;0;0
+Grande épée en acier;C'est un grande épée en acier;34;51;10;3;1;1
+Longue Rapière;C'est un longue rapière;31;52;10;3;1;1
+Cimeterre;C'est un cimeterre;29;48;10;3;1;1
+Massue de pierre;C'est un massue de pierre;32;50;10;3;1;1
+Longue épée en fer;C'est un longue épée en fer;26;41;10;3;1;1
+Gourdin barbelé;C'est un gourdin barbelé;26;48;10;3;1;1
+Lance courte;C'est un lance courte;30;45;10;3;1;1
+Vielle poivrière;;27;49;10;3;0;0
+Pistolet de voyage;;29;47;10;3;0;0
+Poivrière de vagabond;;30;53;10;3;0;0
+Pistolet de bord;;28;52;10;3;0;0
+Pistolet à percussion;;29;44;10;3;0;0
+Pistolet à silex;;33;58;10;3;0;0
+Vieux pistolet;;27;42;10;3;0;0
+Claymore;C'est un claymore;36;54;10;4;1;1
+Etoile du matin;C'est un etoile du matin;39;59;10;4;1;1
+Epée batarde;C'est un epée batarde;42;73;10;4;1;1
+Fléau d'ames;C'est un fléau d'ames;36;55;10;4;1;1
+Sabre d'acier;C'est un sabre d'acier;37;59;10;4;1;1
+Grande serpe;C'est un grande serpe;44;66;10;4;1;1
+Pistolet de voyage;;42;66;10;4;0;0
+Poivrière de vagabond;;41;70;10;4;0;0
+Pistolet de bord;;43;67;10;4;0;0
+Pistolet à percussion;;37;60;10;4;0;0
+Pistolet à silex;;44;75;10;4;0;0
+Poivrière puissante;;41;66;10;4;0;0
+Lance en acier;C'est un lance en acier;47;77;10;5;1;1
+Marteau de guerre;C'est un marteau de guerre;53;88;10;5;1;1
+Double hache;C'est un double hache;50;84;10;5;1;1
+Trident;C'est un trident;47;74;10;5;1;1
+Coutelas;C'est un coutelas;52;81;10;5;1;1
+Massue immense;C'est un massue immense;47;78;10;5;1;1
+Pistolet de voyage;;51;81;10;5;0;0
+Couleuvrine rouillée;;51;82;10;5;0;0
+Pistolet de bord;;52;82;10;5;0;0
+Pistolet à percussion;;52;80;10;5;0;0
+Vielle couleuvrine;;48;81;10;5;0;0
+Bon pistolet;;52;79;10;5;0;0
+Epée immense;C'est un epée immense;61;96;10;6;1;1
+Epée batarde;C'est un epée batarde;61;99;10;6;1;1
+Rapière;C'est un rapière;63;100;10;6;1;1
+Glaive en or;C'est un glaive en or;63;96;10;6;1;1
+Lame incurvée;C'est un lame incurvée;61;98;10;6;1;1
+Ceste;C'est un ceste;58;96;10;6;1;1
+Pistolet de soldat;;58;90;10;6;0;0
+Couleuvrine rouillée;;64;98;10;6;0;0
+Pistolet de bord;;61;99;10;6;0;0
+Pistolet puissant;;64;99;10;6;0;0
+Couleuvrine légère;;57;92;10;6;0;0
+Bon pistolet;;57;93;10;6;0;0
+Lance en acier;C'est un lance en acier;68;110;10;7;1;1
+Marteau de guerre;C'est un marteau de guerre;66;105;10;7;1;1
+Double hache;C'est un double hache;69;108;10;7;1;1
+Trident;C'est un trident;68;111;10;7;1;1
+Coutelas;C'est un coutelas;68;110;10;7;1;1
+Massue immense;C'est un massue immense;72;108;10;7;1;1
+Pistolet de soldat;;73;112;10;7;0;0
+Vielle couleuvrine;;66;100;10;7;0;0
+Couleuvrine de bord;;72;108;10;7;0;0
+Pistolet puissant;;67;111;10;7;0;0
+Couleuvrine légère;;68;103;10;7;0;0
+Arquebuse rouillée;;70;112;10;7;0;0
+Epée immense;C'est un epée immense;79;122;10;8;1;1
+Epée batarde;C'est un epée batarde;77;125;10;8;1;1
+Rapière;C'est un rapière;80;128;10;8;1;1
+Glaive en or;C'est un glaive en or;76;120;10;8;1;1
+Lame incurvée;C'est un lame incurvée;82;132;10;8;1;1
+Ceste;C'est un ceste;80;126;10;8;1;1
+Vielle arquebuse;;78;123;10;8;0;0
+Petite arquebuse;;76;116;10;8;0;0
+Couleuvrine de bord;;77;123;10;8;0;0
+Couleuvrine puissante;;83;128;10;8;0;0
+Couleuvrine légère;;79;128;10;8;0;0
+Arquebuse rouillée;;78;123;10;8;0;0
+Lance en acier;C'est un lance en acier;94;146;10;9;1;1
+Marteau de guerre;C'est un marteau de guerre;88;133;10;9;1;1
+Double hache;C'est un double hache;86;136;10;9;1;1
+Trident;C'est un trident;89;134;10;9;1;1
+Coutelas;C'est un coutelas;93;144;10;9;1;1
+Massue immense;C'est un massue immense;89;143;10;9;1;1
+Arquebuse de soldat;;87;131;10;9;0;0
+Couleuvrine de marin;;86;138;10;9;0;0
+Arquebuse de marin;;90;144;10;9;0;0
+Couleuvrine puissante;;93;143;10;9;0;0
+Couleuvrine de soldat;;93;148;10;9;0;0
+Arquebuse puissante;;89;136;10;9;0;0
+Epée du roi pirate;C'est un epée du roi pirate;100;157;10;10;1;1
+Pistolet du roi pirate;C'est un pistolet du roi pirate;99;149;10;10;1;1

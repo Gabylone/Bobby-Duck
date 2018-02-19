@@ -110,12 +110,11 @@ public class CombatManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		
 		if ( updateState != null ) {
 			updateState ();
 			timeInState += Time.deltaTime;
 		}
-
-
 
 	}
 	#region Combat Start
@@ -433,9 +432,17 @@ public class CombatManager : MonoBehaviour {
 				}
 			}
 
-			int randomIndex = Random.Range (0, currPlayerFighters.Count);
+			Fighter weakestFighter = currPlayerFighters [0];
+			foreach (var item in currPlayerFighters) {
+				if ( item.crewMember.Health < weakestFighter.crewMember.Health ) {
+					weakestFighter = item;
+				}
+			}
 
-			currPlayerFighters [randomIndex].SetAsTarget ();
+			weakestFighter.SetAsTarget ();
+//			int randomIndex = Random.Range (0, currPlayerFighters.Count);
+//
+//			currPlayerFighters [randomIndex].SetAsTarget ();
 
 		}
 
@@ -463,11 +470,11 @@ public class CombatManager : MonoBehaviour {
 	#region loot & xp
 	public void ReceiveGold () {
 
-		int po = crewValue * Random.Range (10, 20);
+		int po = crewValue * Random.Range (10, 15);
 
 		currPlayerFighters [0].combatFeedback.Display ("+ " + po + " or" ,Color.yellow);
 
-		GoldManager.Instance.GoldAmount += po;
+		GoldManager.Instance.AddGold (po);
 
 	}
 	public void ReceiveXp() {
@@ -508,8 +515,6 @@ public class CombatManager : MonoBehaviour {
 
 		fighting = false;
 
-		Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
-//		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 
 	}
 	#endregion
@@ -525,7 +530,7 @@ public class CombatManager : MonoBehaviour {
 
 			for (int fighterIndex = 0; fighterIndex < Crews.getCrew(side).CrewMembers.Count; fighterIndex++) {
 				
-				fighters [fighterIndex].Init (Crews.getCrew(side).CrewMembers[fighterIndex],fighterIndex);
+				fighters [fighterIndex].Reset (Crews.getCrew(side).CrewMembers[fighterIndex],fighterIndex);
 			}
 		}
 

@@ -30,13 +30,16 @@ public class InfoFeedbacks : MonoBehaviour {
 		
 		Show ();
 
-		Tween.ClearFade (transform);
 
 		rectTransform.localPosition = Vector3.zero;
 
 		HOTween.Kill (rectTransform);
 		HOTween.Kill (transform);
 
+
+		Tween.ClearFade (transform);
+
+		CancelInvoke ("Hide");
 		CancelInvoke ("Fade");
 
 		HOTween.To (rectTransform, duration, "localPosition", Vector3.up * decalY);

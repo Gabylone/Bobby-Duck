@@ -201,10 +201,10 @@ public class DisplayMinimap : MonoBehaviour {
 		get {
 			int range = Boats.playerBoatInfo.shipRange;
 
-			if (TimeManager.Instance.Raining)
+			if (TimeManager.Instance.raining)
 				range--;
 			
-			if (TimeManager.Instance.IsNight)
+			if (TimeManager.Instance.dayState == TimeManager.DayState.Night)
 				range--;
 
 			return range;

@@ -19,10 +19,8 @@ public class DisplayItem_Loot : DisplayItem {
 	void Start () {
 		itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-30, 30)));
 
-		if (lvlObj != null) {
-			LootManager.Instance.onWrongLevelEvent += HandleOnWrongLevelEvent;
-//			group.SetActive (false);
-		}
+		CrewMember.onWrongLevel += HandleOnWrongLevelEvent;
+
 	}
 
 	void HandleOnWrongLevelEvent ()

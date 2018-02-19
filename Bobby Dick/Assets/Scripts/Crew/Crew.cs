@@ -32,7 +32,7 @@ public class Crew {
 		col = c;
 
 		if (crewParams.amount == 0) {
-			int amount = Random.Range ( Crews.playerCrew.CrewMembers.Count -1 ,Crews.playerCrew.CrewMembers.Count +1 );
+			int amount = Random.Range ( Crews.playerCrew.CrewMembers.Count , 4 );
 //			Debug.Log ("");
 			crewParams.amount = Mathf.Clamp (amount, 1, 4);
 		}

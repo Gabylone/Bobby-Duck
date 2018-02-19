@@ -11,7 +11,7 @@ public class Karma : MonoBehaviour {
 	private int currentKarma = 0;
 	private int previousKarma = 0;
 
-	private int bounty = 0;
+	public int bounty = 0;
 
 	[Header("Params")]
 	[SerializeField]
@@ -145,11 +145,11 @@ public class Karma : MonoBehaviour {
 
 		StoryReader.Instance.NextCell ();
 
-		if ( GoldManager.Instance.CheckGold (Bounty) ) {
+		if ( GoldManager.Instance.CheckGold (bounty) ) {
 
 			CurrentKarma = -2;
 
-			GoldManager.Instance.GoldAmount -= Bounty;
+			GoldManager.Instance.RemoveGold (bounty);
 
 		} else {
 
@@ -213,13 +213,6 @@ public class Karma : MonoBehaviour {
 		//
 	}
 
-
-	public int Bounty {
-		get {
-			return bounty;
-		}
-	}
-
 	public void Show () {
 		Visible = true;
 	}
@@ -242,7 +235,7 @@ public class Karma : MonoBehaviour {
 	public void SaveKarma ()
 	{
 		SaveManager.Instance.GameData.karma = CurrentKarma;
-		SaveManager.Instance.GameData.bounty = Bounty;
+		SaveManager.Instance.GameData.bounty = bounty;
 	}
 
 	public void LoadKarma ()

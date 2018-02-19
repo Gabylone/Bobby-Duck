@@ -65,15 +65,22 @@ public class Member {
 			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [3]));
 		}
 
-//		foreach (var item in specialSkills) {
-//			Debug.Log (item.name);
-//		}
 
-		// default
-//		defaultSkills.Add (SkillManager.getSkill (Skill.Type.Flee));
-//		defaultSkills.Add (SkillManager.getSkill (Skill.Type.CloseAttack));
-//		defaultSkills.Add (SkillManager.getSkill (Skill.Type.SkipTurn));
-//
+
+		Item cloth = ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Clothes, Lvl);
+		equipedCloth = cloth;
+
+		if (job == Job.Flibuster) {
+			Item anyGun = System.Array.Find(ItemLoader.Instance.getItems(ItemCategory.Weapon), x => x.spriteID == 0 && x.level == Lvl);
+			equipedWeapon = anyGun;
+		} else if (job == Job.Brute) {
+			Item anySword = System.Array.Find(ItemLoader.Instance.getItems(ItemCategory.Weapon), x => x.spriteID == 1 && x.level == Lvl);
+			equipedWeapon = anySword;
+		} else {
+			Item anyWeapon = ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Weapon, Lvl);
+			equipedWeapon = anyWeapon;
+			//
+		}
 	}
 
 	public Member (CrewParams crewParams) {
@@ -135,17 +142,6 @@ public class Member {
 		eyebrowsSpriteID= Random.Range (0 , CrewCreator.Instance.EyebrowsSprites.Length);
 		noseSpriteID 	= Random.Range (0 , CrewCreator.Instance.NoseSprites.Length);
 		mouthSpriteID 	= Random.Range (0 , CrewCreator.Instance.MouthSprites.Length);
-
-		Item weapon = ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Weapon, Lvl);
-		Item cloth = ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Clothes, Lvl);
-//		LootManager.Instance.getLoot (Crews.Side.Player).AddItem (weapon);
-//		LootManager.Instance.getLoot (Crews.Side.Player).AddItem (cloth);
-//
-//		LootManager.Instance.getLoot (Crews.Side.Player).AddItem (ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Clothes, Lvl));
-//		LootManager.Instance.getLoot (Crews.Side.Player).AddItem (ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Clothes, Lvl));
-//		LootManager.Instance.getLoot (Crews.Side.Player).AddItem (ItemLoader.Instance.GetRandomItemOfCertainLevel (ItemCategory.Clothes, Lvl));
-		equipedWeapon = weapon;
-		equipedCloth = cloth;
 
 	}
 

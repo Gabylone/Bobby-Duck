@@ -3,70 +3,11 @@
   <chunks>
     <ArrayOfChunk>
       <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-    </ArrayOfChunk>
-    <ArrayOfChunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
         <State>UndiscoveredIsland</State>
         <IslandData>
           <positionOnScreen>
-            <x>212.104309</x>
-            <y>339.808136</y>
+            <x>343.771759</x>
+            <y>207.859589</y>
           </positionOnScreen>
           <storyManager>
             <storyHandlers>
@@ -74,35 +15,8 @@
                 <row>0</row>
                 <col>0</col>
                 <fallBackLayer>0</fallBackLayer>
-                <storyID>6</storyID>
-                <storyNameDebug>Forgeron</storyNameDebug>
-                <storyType>Normal</storyType>
-                <contentDecals />
-                <loots />
-                <crews />
-                <Crews />
-              </StoryHandler>
-            </storyHandlers>
-          </storyManager>
-        </IslandData>
-      </Chunk>
-    </ArrayOfChunk>
-    <ArrayOfChunk>
-      <Chunk>
-        <State>UndiscoveredIsland</State>
-        <IslandData>
-          <positionOnScreen>
-            <x>319.993042</x>
-            <y>422.2196</y>
-          </positionOnScreen>
-          <storyManager>
-            <storyHandlers>
-              <StoryHandler>
-                <row>0</row>
-                <col>0</col>
-                <fallBackLayer>0</fallBackLayer>
-                <storyID>9</storyID>
-                <storyNameDebug>Île Déserte</storyNameDebug>
+                <storyID>16</storyID>
+                <storyNameDebug>Marchand d? choses</storyNameDebug>
                 <storyType>Normal</storyType>
                 <contentDecals />
                 <loots />
@@ -132,133 +46,11 @@
         <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-    </ArrayOfChunk>
-    <ArrayOfChunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-    </ArrayOfChunk>
-    <ArrayOfChunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-    </ArrayOfChunk>
-    <ArrayOfChunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-    </ArrayOfChunk>
-    <ArrayOfChunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
         <State>UndiscoveredIsland</State>
         <IslandData>
           <positionOnScreen>
-            <x>263.3225</x>
-            <y>278.8696</y>
+            <x>281.798737</x>
+            <y>322.429047</y>
           </positionOnScreen>
           <storyManager>
             <storyHandlers>
@@ -266,8 +58,8 @@
                 <row>0</row>
                 <col>0</col>
                 <fallBackLayer>0</fallBackLayer>
-                <storyID>19</storyID>
-                <storyNameDebug>Verger</storyNameDebug>
+                <storyID>5</storyID>
+                <storyNameDebug>Ferme</storyNameDebug>
                 <storyType>Normal</storyType>
                 <contentDecals />
                 <loots />
@@ -284,6 +76,32 @@
       <Chunk>
         <State>UndiscoveredSea</State>
       </Chunk>
+    </ArrayOfChunk>
+    <ArrayOfChunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
       <Chunk>
         <State>UndiscoveredSea</State>
       </Chunk>
@@ -299,14 +117,36 @@
         <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
-        <State>UndiscoveredSea</State>
+        <State>UndiscoveredIsland</State>
+        <IslandData>
+          <positionOnScreen>
+            <x>350.54718</x>
+            <y>280.011963</y>
+          </positionOnScreen>
+          <storyManager>
+            <storyHandlers>
+              <StoryHandler>
+                <row>0</row>
+                <col>0</col>
+                <fallBackLayer>0</fallBackLayer>
+                <storyID>0</storyID>
+                <storyNameDebug>Bandits</storyNameDebug>
+                <storyType>Normal</storyType>
+                <contentDecals />
+                <loots />
+                <crews />
+                <Crews />
+              </StoryHandler>
+            </storyHandlers>
+          </storyManager>
+        </IslandData>
       </Chunk>
       <Chunk>
         <State>UndiscoveredIsland</State>
         <IslandData>
           <positionOnScreen>
-            <x>445.6883</x>
-            <y>804.362366</y>
+            <x>251.6597</x>
+            <y>229.259338</y>
           </positionOnScreen>
           <storyManager>
             <storyHandlers>
@@ -330,7 +170,29 @@
         <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
-        <State>UndiscoveredSea</State>
+        <State>UndiscoveredIsland</State>
+        <IslandData>
+          <positionOnScreen>
+            <x>314.441437</x>
+            <y>279.0979</y>
+          </positionOnScreen>
+          <storyManager>
+            <storyHandlers>
+              <StoryHandler>
+                <row>0</row>
+                <col>0</col>
+                <fallBackLayer>0</fallBackLayer>
+                <storyID>16</storyID>
+                <storyNameDebug>Marchand d? choses</storyNameDebug>
+                <storyType>Normal</storyType>
+                <contentDecals />
+                <loots />
+                <crews />
+                <Crews />
+              </StoryHandler>
+            </storyHandlers>
+          </storyManager>
+        </IslandData>
       </Chunk>
       <Chunk>
         <State>UndiscoveredSea</State>
@@ -350,6 +212,34 @@
         <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
+        <State>UndiscoveredIsland</State>
+        <IslandData>
+          <positionOnScreen>
+            <x>383.428925</x>
+            <y>163.684921</y>
+          </positionOnScreen>
+          <storyManager>
+            <storyHandlers>
+              <StoryHandler>
+                <row>0</row>
+                <col>0</col>
+                <fallBackLayer>0</fallBackLayer>
+                <storyID>1</storyID>
+                <storyNameDebug>Bois</storyNameDebug>
+                <storyType>Normal</storyType>
+                <contentDecals />
+                <loots />
+                <crews />
+                <Crews />
+              </StoryHandler>
+            </storyHandlers>
+          </storyManager>
+        </IslandData>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
         <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
@@ -359,8 +249,8 @@
         <State>UndiscoveredIsland</State>
         <IslandData>
           <positionOnScreen>
-            <x>382.899841</x>
-            <y>96.652504</y>
+            <x>265.812134</x>
+            <y>363.5361</y>
           </positionOnScreen>
           <storyManager>
             <storyHandlers>
@@ -368,8 +258,50 @@
                 <row>0</row>
                 <col>0</col>
                 <fallBackLayer>0</fallBackLayer>
-                <storyID>6</storyID>
-                <storyNameDebug>Forgeron</storyNameDebug>
+                <storyID>12</storyID>
+                <storyNameDebug>Marchand de indices</storyNameDebug>
+                <storyType>Normal</storyType>
+                <contentDecals />
+                <loots />
+                <crews />
+                <Crews />
+              </StoryHandler>
+            </storyHandlers>
+          </storyManager>
+        </IslandData>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+    </ArrayOfChunk>
+    <ArrayOfChunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredIsland</State>
+        <IslandData>
+          <positionOnScreen>
+            <x>321.8784</x>
+            <y>235.045715</y>
+          </positionOnScreen>
+          <storyManager>
+            <storyHandlers>
+              <StoryHandler>
+                <row>0</row>
+                <col>0</col>
+                <fallBackLayer>0</fallBackLayer>
+                <storyID>12</storyID>
+                <storyNameDebug>Marchand de indices</storyNameDebug>
                 <storyType>Normal</storyType>
                 <contentDecals />
                 <loots />
@@ -398,17 +330,14 @@
       <Chunk>
         <State>UndiscoveredSea</State>
       </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
     </ArrayOfChunk>
     <ArrayOfChunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
-      <Chunk>
-        <State>UndiscoveredSea</State>
-      </Chunk>
       <Chunk>
         <State>UndiscoveredSea</State>
       </Chunk>
@@ -425,8 +354,8 @@
         <State>UndiscoveredIsland</State>
         <IslandData>
           <positionOnScreen>
-            <x>408.021545</x>
-            <y>208.050385</y>
+            <x>367.038483</x>
+            <y>233.47879</y>
           </positionOnScreen>
           <storyManager>
             <storyHandlers>
@@ -445,6 +374,187 @@
             </storyHandlers>
           </storyManager>
         </IslandData>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+    </ArrayOfChunk>
+    <ArrayOfChunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+    </ArrayOfChunk>
+    <ArrayOfChunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredIsland</State>
+        <IslandData>
+          <positionOnScreen>
+            <x>291.952728</x>
+            <y>337.5567</y>
+          </positionOnScreen>
+          <storyManager>
+            <storyHandlers>
+              <StoryHandler>
+                <row>0</row>
+                <col>0</col>
+                <fallBackLayer>0</fallBackLayer>
+                <storyID>12</storyID>
+                <storyNameDebug>Marchand de indices</storyNameDebug>
+                <storyType>Normal</storyType>
+                <contentDecals />
+                <loots />
+                <crews />
+                <Crews />
+              </StoryHandler>
+            </storyHandlers>
+          </storyManager>
+        </IslandData>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+    </ArrayOfChunk>
+    <ArrayOfChunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+    </ArrayOfChunk>
+    <ArrayOfChunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredIsland</State>
+        <IslandData>
+          <positionOnScreen>
+            <x>339.918762</x>
+            <y>354.437256</y>
+          </positionOnScreen>
+          <storyManager>
+            <storyHandlers>
+              <StoryHandler>
+                <row>0</row>
+                <col>0</col>
+                <fallBackLayer>0</fallBackLayer>
+                <storyID>4</storyID>
+                <storyNameDebug>Epave</storyNameDebug>
+                <storyType>Normal</storyType>
+                <contentDecals />
+                <loots />
+                <crews />
+                <Crews />
+              </StoryHandler>
+            </storyHandlers>
+          </storyManager>
+        </IslandData>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
+      </Chunk>
+      <Chunk>
+        <State>UndiscoveredSea</State>
       </Chunk>
       <Chunk>
         <State>UndiscoveredSea</State>

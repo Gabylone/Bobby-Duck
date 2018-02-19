@@ -18,8 +18,6 @@ public class StatusGroup : MonoBehaviour {
 		
 		GetComponentInParent<Card> ().linkedFighter.onAddStatus += HandleOnAddStatus;
 		GetComponentInParent<Card> ().linkedFighter.onRemoveStatus += HandleOnRemoveStatus;
-		GetComponentInParent<Card> ().onHideInfo += HandleOnHideInfo;
-//		GetComponentInParent<Card> ().linkedFighter.onShowInfo += HandleOnShowInfo;
 
 		CombatManager.Instance.onFightStart += HandleFightStarting;
 
@@ -45,25 +43,6 @@ public class StatusGroup : MonoBehaviour {
 		foreach (var item in statusFeedbacks) {
 			item.gameObject.SetActive (false);
 		}
-	}
-
-//	void HandleOnShowInfo ()
-//	{
-//		Hide ();
-//	}
-//
-	void HandleOnHideInfo ()
-	{
-		Invoke ("Show",0.01f);
-//		Show ();
-	}
-
-	void Show() {
-		group.SetActive (true);
-	}
-	void Hide () {
-		group.SetActive (false);
-		//
 	}
 
 	void HandleOnAddStatus (Fighter.Status status, int count)

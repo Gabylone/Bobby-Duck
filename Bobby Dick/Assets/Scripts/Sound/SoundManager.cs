@@ -74,9 +74,9 @@ public class SoundManager : MonoBehaviour {
 	void UpdateAmbiance ()
 	{
 		AudioClip ambiantClip;
-		if (TimeManager.Instance.Raining)
+		if (TimeManager.Instance.raining)
 			ambiantClip = rainSound;
-		else if (TimeManager.Instance.IsNight)
+		else if (TimeManager.Instance.dayState == TimeManager.DayState.Night)
 			ambiantClip = nightSound;
 		else
 			ambiantClip = daySound;

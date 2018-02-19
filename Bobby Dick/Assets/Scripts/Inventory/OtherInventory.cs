@@ -15,9 +15,6 @@ public class OtherInventory : MonoBehaviour {
 
 	public Type type = Type.None;
 
-	public Transform targetPos_Player;
-	public Transform targetPos_Other;
-
 	void Awake () {
 		Instance = this;
 	}
@@ -154,7 +151,7 @@ public class OtherInventory : MonoBehaviour {
 			return;
 		}
 
-		GoldManager.Instance.GoldAmount -= LootUI.Instance.SelectedItem.price;
+		GoldManager.Instance.RemoveGold (LootUI.Instance.SelectedItem.price);
 
 		LootManager.Instance.PlayerLoot.AddItem (LootUI.Instance.SelectedItem);
 		LootManager.Instance.OtherLoot.RemoveItem (LootUI.Instance.SelectedItem);
@@ -176,11 +173,10 @@ public class OtherInventory : MonoBehaviour {
 		}
 
 		if ( !CrewMember.GetSelectedMember.CheckLevel (item.level) ) {
-			print (" le  niveau de l'objet est trop hatu, retour");
 			return;
 		}
 
-		GoldManager.Instance.GoldAmount -= item.price;
+		GoldManager.Instance.RemoveGold (item.price);
 
 		LootManager.Instance.OtherLoot.RemoveItem (item);
 
@@ -205,26 +201,26 @@ public class OtherInventory : MonoBehaviour {
 
 		LootUI.Instance.Hide ();
 
-		// SI ON FERME DE L'INVENTAIRE ( YA EU MERDAGE LA )
-		if (type == Type.None ) {
-			CrewInventory.Instance.CloseLoot ();
-			return;
-		}
-
-		type = Type.None;
-
 		CrewInventory.Instance.HideInventory ();
 
-		Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-
-		if ( StoryLauncher.Instance.PlayingStory ) {
+//		if ( StoryLauncher.Instance.PlayingStory ) {
+		if (type == Type.Loot || type == Type.Trade) {
+			
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
+			Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 
 //			if ( CombatManager.Instance.fighting ) {
 //				CombatManager.Instance.ExitFight ();
 //			}
 		}
+
+
+		type = Type.None;
+
+//		else {
+//			CrewInventory.Instance.ShowMenuButtons ();
+//		}
 
 	}
 	#endregion

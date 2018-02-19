@@ -37,7 +37,7 @@ public class QuestMenu : MonoBehaviour {
 
 	void Start () {
 		
-		QuestManager.onGiveUpQuest += HandleOnFinishQuest;
+		QuestManager.onGiveUpQuest += HandleOnGiveUpQuest;
 		CrewInventory.Instance.closeInventory += HandleCloseInventory;
 
 		Close ();
@@ -52,7 +52,7 @@ public class QuestMenu : MonoBehaviour {
 		Close ();
 	}
 
-	void HandleOnFinishQuest (Quest quest)
+	void HandleOnGiveUpQuest (Quest quest)
 	{
 		UpdateButtons ();
 	}
@@ -115,6 +115,14 @@ public class QuestMenu : MonoBehaviour {
 	}
 
 	void UpdateButtons () {
+		StartCoroutine (UpdateButtonsCoroutine ());
+	}
+
+	IEnumerator UpdateButtonsCoroutine () {
+
+		foreach (var item in buttons) {
+			item.gameObject.SetActive (false);
+		}
 
 		/// UPDATE BUTTON TO QUESTS
 		for (int questIndex = 0; questIndex < buttons.Count; questIndex++) {
@@ -124,17 +132,12 @@ public class QuestMenu : MonoBehaviour {
 				buttons [questIndex].gameObject.SetActive (true);
 				buttons [questIndex].GetComponent<QuestButton> ().SetQuest (questIndex);
 
-			} else {
+				Tween.Bounce (buttons[questIndex].transform);
 
-				buttons [questIndex].gameObject.SetActive (false);
-
+				yield return new WaitForSeconds (Tween.defaultDuration/1.5f);
 
 			}
 		}
 	}
-
-//	IEnumerator UpdateButtonsCoroutine () {
-//
-//	}
 
 }

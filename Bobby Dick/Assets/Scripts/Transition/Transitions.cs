@@ -18,6 +18,20 @@ public class Transitions : MonoBehaviour {
 	void Start () {
 		if ( StoryFunctions.Instance )
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
+
+		CombatManager.Instance.onFightStart += HandleFightStarting;
+		CombatManager.Instance.onFightEnd += HandleFightEnding;
+
+	}
+
+	void HandleFightEnding ()
+	{
+		actionTransition.Fade = true;
+	}
+
+	void HandleFightStarting ()
+	{
+		actionTransition.Fade = false;
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)

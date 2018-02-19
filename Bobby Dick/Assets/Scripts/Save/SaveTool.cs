@@ -24,8 +24,6 @@ public class SaveTool : MonoBehaviour
 
 	void CreateDirectories ()
 	{
-		Debug.Log ("checking directories");
-
 		if ( DirectoryExists(GetGameDataFolderPath()) == false ) {
 			Debug.Log ("BYTES SaveData folder doesnt exist, creating it");
 			Directory.CreateDirectory (GetGameDataFolderPath ());
@@ -36,6 +34,23 @@ public class SaveTool : MonoBehaviour
 			Directory.CreateDirectory (GetGameDataFolderPath() + "/Chunks");
 		}
 	}
+
+	public void SaveToPath ( string path ) {
+
+		byte[] bytes = Encoding.Unicode.GetBytes(path);
+		path = Encoding.Unicode.GetString(bytes);
+
+		File.Delete(path);
+
+		FileStream file = File.Open(path, FileMode.CreateNew);
+		XmlSerializer serializer = new XmlSerializer(typeof(GameData));
+
+		//		file = file.
+		serializer.Serialize(file, SaveManager.Instance.GameData);
+
+		file.Close();
+	}
+
 
 	/// <summary>
 	/// save
@@ -57,6 +72,7 @@ public class SaveTool : MonoBehaviour
 		serializer.Serialize(file, SaveManager.Instance.GameData);
 
 		file.Close();
+
     }
 	#endregion
 

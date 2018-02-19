@@ -11,16 +11,33 @@ public class DisplayLevelUp : MonoBehaviour {
 	[SerializeField]
 	private Text statText;
 
+	int memberID = 0;
+
 	// Use this for initialization
 	void Start () {
 
-		group.SetActive (false);
+		Hide ();
+
+		memberID = GetComponentInParent<MemberIcon> ().member.MemberID.id;
 
 		GetComponentInParent<MemberIcon> ().member.onLevelUp += HandleOnLevelUp;
 		GetComponentInParent<MemberIcon> ().member.onLevelUpStat += HandleOnLevelUpStat;
 		SkillButton_Inventory.onUnlockSkill += HandleOnUnlockSkill;
 
+		CrewInventory.onShowCharacterStats += HandleOnShowCharacterStats;
+		CrewInventory.onHideCharacterStats+= Hide;
 
+	}
+
+	void HandleOnShowCharacterStats ()
+	{
+		if (CrewMember.GetSelectedMember.SkillPoints > 0
+		    &&
+		    GetComponentInParent<MemberIcon> ().member.MemberID.id == CrewMember.GetSelectedMember.MemberID.id) {
+
+			Show ();
+
+		}
 	}
 
 	void HandleOnUnlockSkill ()
@@ -34,7 +51,6 @@ public class DisplayLevelUp : MonoBehaviour {
 	{
 		Show ();
 
-		statText.text = member.SkillPoints.ToString();
 	}
 
 	void HandleOnLevelUpStat (CrewMember member)
@@ -45,14 +61,11 @@ public class DisplayLevelUp : MonoBehaviour {
 	void UpdateStatText (CrewMember member)
 	{
 		statText.text = member.SkillPoints.ToString();
-
-		if (member.SkillPoints == 0) {
-			Hide ();
-		}
 	}
 
 	void Show () {
 		group.SetActive (true);
+		UpdateStatText (CrewMember.GetSelectedMember);
 	}
 
 	void Hide () {

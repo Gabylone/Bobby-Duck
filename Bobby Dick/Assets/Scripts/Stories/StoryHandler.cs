@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
 public enum StoryType {
 	Normal,
 	Treasure,
@@ -115,15 +116,7 @@ public class StoryHandler {
 
 	public void SetCrew (Crew targetCrew) {
 		crews.Add (targetCrew);
-	}
-
-	public List<Crew> Crews {
-		get {
-			return crews;
-		}
-		set {
-			crews = value;
-		}
+		Debug.Log ("ADDING CREW TO STORY : " + targetCrew.MemberIDs[0].Name);
 	}
 
 	public void SaveDecal (int decal) {

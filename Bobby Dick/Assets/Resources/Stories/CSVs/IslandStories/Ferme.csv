@@ -81,7 +81,7 @@ OtherSpeak : Bonjour !;;;;;;;;;;;;;;;;
 Node=>discussion fermière;;;;;;;;;;;;;;;;
 [discussion fermière];;;;;;;;;;;;;;;;
 SetChoices4;;;;;;;;;;;[autre];;;;;
-Choice : (retourner devant ferme)(partir);Choice : Quelque chose à vendre ?(trade);;;Choice : Vous vous sentez pas seule par ici ? (nouveau membre);;;;;Choice : (autre);;SetChoices4;;;;;
+Choice : (retourner devant ferme)(partir);Choice : Quelque chose à vendre ?(trade);;;Choice : Vous vous sentez pas seule par ici ?(nouveau membre);;;;;Choice : (autre);;SetChoices4;;;;;
 HideOther;RandomRange2;;;RandomRange3;;;;;Node=>autre;;Choice : Bobby dick ?;;Choice : (attaquer);Choice : Tout se passe bien dans la ferme ?! (quete);;Choice : (autre)
 Fade;OtherSpeak : Je n'en ai que assez pour ma famille ! Désolé.;;OtherSpeak : Laissez moi regarder dans mes reserves…;OtherSpeak : Non.;OtherSpeak : Si et heureusement !;;OtherSpeak : Si un peu;;;;RandomRange2;;Node=>combat fermière;RandomRange2;;Node=>discussion fermière
 Node=>choix ferme normale;SetChoices2;;TradeFood/Misc;OtherSpeak : Mon mari est juste parti;OtherSpeak : Je ne me suis pas installée ici pour les foires !;;OtherSpeak : Depuis la mort de papi…;;;;OtherSpeak : Je vois des mats passer par là.;OtherSpeak : Non ça ne me dit rien;;OtherSpeak : Ça elle était à mon papi !;NewQuest=>discussion fermière;

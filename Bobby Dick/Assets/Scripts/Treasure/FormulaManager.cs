@@ -109,6 +109,7 @@ public class FormulaManager : MonoBehaviour {
 	#endregion
 
 	public string getDirectionToFormula () {
+
 		Directions dir = NavigationManager.Instance.getDirectionToPoint (FormulaManager.Instance.GetNextClueIslandPos);
 		string directionPhrase = NavigationManager.Instance.getDirName (dir);
 

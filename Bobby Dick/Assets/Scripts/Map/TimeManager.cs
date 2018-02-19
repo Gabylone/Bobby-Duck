@@ -7,212 +7,266 @@ public class TimeManager : MonoBehaviour {
 	public static TimeManager Instance;
 
 	[Range(0,24)]
-	[SerializeField]
-	private int startTime = 6;
-	private int timeOfDay = 0;
-	private int dayDuration = 24;
+	public int startTime = 6;
+	public int timeOfDay = 0;
+	public int dayDuration = 24;
 
-	private int currentRain = 0;
-	[SerializeField]
-	private int rainRate_Min = 75;
-	private int rainRate_Max = 130;
-	private int rainRate = 0;
-	[SerializeField]
-	private int rainDuration = 10;
+	public int currentRain = 0;
+	public int rainRate_Min = 75;
+	public int rainRate_Max = 130;
+	public int rainDuration = 10;
+	int rainRate = 0;
 
-	[Header("Night")]
-	[SerializeField]
-	private Image nightImage;
+	public Image nightImage;
 
-	private bool isNight = false;
+	public int nightStartTime = 21;
+	public int nightEndTime = 4;
 
-	[SerializeField]
-	private int nightStartTime = 21;
-	[SerializeField]
-	private int nightEndTime = 4;
+	public Image rainImage;
 
-	[Header("Rain")]
-	[SerializeField] private Image rainImage;
-	private bool raining = false;
+	public DayState dayState = DayState.Day;
+	public bool raining = false;
+
+	public enum DayState {
+		Day,
+		Night,
+	}
+
 
 	void Awake () {
 		Instance = this;
 	}
 
 	void Start () {
+		
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
-		NavigationManager.Instance.EnterNewChunk += AdvanceTime;
 
-		SetRainRate ();
-	}
+		NavigationManager.Instance.EnterNewChunk += NextHour;
 
-	void HandleGetFunction (FunctionType func, string cellParameters)
-	{
-		switch (func) {
-		case FunctionType.ChangeTimeOfDay:
-			if ( IsNight )
-				StartCoroutine (SetWeatherCoroutine ("Day"));
-			else
-				StartCoroutine (SetWeatherCoroutine ("Night"));
-			break;
-		case FunctionType.SetWeather:
-			StartCoroutine (SetWeatherCoroutine (cellParameters));
-			break;
-		case FunctionType.CheckDay:
-			StoryReader.Instance.NextCell ();
-
-			if (TimeManager.Instance.IsNight)
-				StoryReader.Instance.SetDecal (1);
-
-			StoryReader.Instance.UpdateStory ();
-			break;
-		}
+		UpdateRainRate ();
 	}
 
 	public void Reset () {
 		timeOfDay = startTime;
 	}
 
-	public bool Raining {
-		get {
-			return raining;
-		}
-		set {
-			raining = value;
-			currentRain = 0;
-			SetRainRate ();
-			rainImage.gameObject.SetActive ( value );
+	#region events
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		switch (func) {
+		case FunctionType.ChangeTimeOfDay:
+			ChangeTimeOfDay ();
+			break;
+		case FunctionType.SetWeather:
+			SetWeather (cellParameters);
+			break;
+		case FunctionType.CheckDay:
+			CheckIfDay ();
+			break;
 		}
 	}
-	void SetRainRate ()
+	#endregion
+
+	#region rain
+	void UpdateRainRate ()
 	{
 		rainRate = Random.Range ( rainRate_Min , rainRate_Max );
 	}
 
-	public void AdvanceTime () {
+	void UpdateRain ()
+	{
 
-		++timeOfDay;
-		if (timeOfDay == dayDuration)
-			timeOfDay = 0;
-
-		if (IsNight == false) {
-			if (TimeOfDay >= NightStartTime) {
-				IsNight = true;
-			} else if (TimeOfDay < nightEndTime) {
-				IsNight = true;
+		if ( raining ) {
+			if (currentRain == rainDuration) {
+				HideRain ();
 			}
 		} else {
-			if (timeOfDay < 12 && timeOfDay >= nightEndTime) {
-				IsNight = false;
+
+			if ( currentRain == rainRate ) {
+				SetRain ();
+			}
+
+		}
+	}
+	#endregion
+
+	#region story functions
+	void ChangeTimeOfDay ()
+	{
+		if (dayState == DayState.Day) {
+			StartCoroutine (GoToWeather(DayState.Night));
+		} else {
+			StartCoroutine (GoToWeather(DayState.Day));
+		}
+	}
+
+	IEnumerator GoToWeather ( DayState targetWeather ) {
+
+		//		float dur = Transitions.Instance.ScreenTransition.Duration;
+		float dur = 0.1f;
+
+		int l = 0;
+		while ( dayState != targetWeather ) {
+
+			NextHour ();
+
+			yield return new WaitForSeconds (dur);
+
+			++l;
+
+			if (l == 24) {
+				Debug.LogError ("reach limit weather");
+				break;
 			}
 		}
 
-		// rain image
-		currentRain++;
-		int r1 = Raining ? rainDuration : rainRate;
-		if (currentRain == r1)
-			Raining = !Raining;
-
-
-	}
-
-	public void SaveWeather () {
-		SaveManager.Instance.GameData.raining = Raining;
-		SaveManager.Instance.GameData.night = IsNight;
-		SaveManager.Instance.GameData.timeOfDay = timeOfDay;
-		SaveManager.Instance.GameData.currentRain = currentRain;
-	}
-
-	public void Load () {
-		Raining = SaveManager.Instance.GameData.raining;
-		IsNight = SaveManager.Instance.GameData.night;
-		timeOfDay = SaveManager.Instance.GameData.timeOfDay;
-		currentRain = SaveManager.Instance.GameData.currentRain;
-	}
-
-	public enum WeatherType {
-		Day,
-		Night,
-		Rain,
-	}
-	public delegate void OnSetWeather ( WeatherType weatherType );
-	public static OnSetWeather onSetWeather;
-	IEnumerator SetWeatherCoroutine (string weather) {
-
-		Transitions.Instance.FadeScreen ();
-
-		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
-
-		WeatherType weatherType = WeatherType.Day;
-
-		switch ( weather ) {
-		case "Day":
-			TimeManager.Instance.IsNight = false;
-			TimeManager.Instance.Raining = false;
-
-			weatherType = WeatherType.Day;
-			break;
-		case "Night":
-			TimeManager.Instance.IsNight = true;
-			TimeManager.Instance.Raining = false;
-
-			weatherType = WeatherType.Night;
-
-			break;
-		case "Rain":
-			TimeManager.Instance.Raining = true;
-
-			weatherType = WeatherType.Rain;
-
-			break;
-		default :
-			Debug.LogError ("Set Weather : <" + weather + "> doesnt go in any label ?");
-			break;
-		}
-
-		yield return new WaitForSeconds (Transitions.Instance.ScreenTransition.Duration);
+		yield return new WaitForSeconds (0.01f);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
 	}
 
-	public bool IsNight {
-		get {
-			return isNight;
-		}
-		set {
-			isNight = value;
-			nightImage.gameObject.SetActive (value);
+	void CheckIfDay ()
+	{
+		StoryReader.Instance.NextCell ();
 
-			if (isNight) {
-				timeOfDay = nightStartTime;
-			} else {
-				timeOfDay = startTime;
+		if (dayState == DayState.Night)
+			StoryReader.Instance.SetDecal (1);
+
+		StoryReader.Instance.UpdateStory ();
+	}
+	#endregion
+
+	#region next hour
+	public delegate void OnNextHour ();
+	public static OnNextHour onNextHour;
+	void NextHour () {
+
+		++timeOfDay;
+		currentRain++;
+
+		if (timeOfDay == dayDuration)
+			timeOfDay = 0;
+
+		UpdateTimeOfDay ();
+
+		// rain image
+		UpdateRain();
+
+		if (onNextHour != null)
+			onNextHour ();
+
+	}
+
+	void UpdateTimeOfDay ()
+	{
+		if ( dayState == DayState.Day ) {
+
+			if (timeOfDay >= nightStartTime) {
+				SetNight ();
+			} else if (timeOfDay < nightEndTime) {
+				SetNight();
+			}
+
+		} else {
+
+			if (timeOfDay < 12 && timeOfDay >= nightEndTime) {
+				SetDay ();
 			}
 		}
 	}
+	#endregion
 
-	public int TimeOfDay {
-		get {
-			return timeOfDay;
+	void SetWeather (string str)
+	{
+		switch ( str ) {
+		case "Day":
+			GoToWeather (DayState.Day);
+			break;
+		case "Night":
+			GoToWeather (DayState.Night);
+			break;
+		case "Rain":
+			SetRain ();
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.UpdateStory ();
+			break;
+		default :
+			Debug.LogError ("Set Weather : <" + str + "> doesnt go in any label ?");
+			break;
 		}
 	}
 
-	public int DayDuration {
-		get {
-			return dayDuration;
-		}
+	void SetNight () {
+		
+		dayState = DayState.Night;
+
+		UpdateWeather ();
+
+		if (onSetTimeOfDay != null)
+			onSetTimeOfDay (DayState.Night);
+	}
+	void SetDay () {
+		
+		dayState = DayState.Day;
+
+		UpdateWeather ();
+
+
+		if (onSetTimeOfDay != null)
+			onSetTimeOfDay (DayState.Day);
+
 	}
 
-	public int NightStartTime {
-		get {
-			return nightStartTime;
-		}
+	public delegate void OnSetRain ();
+	public static OnSetRain onSetRain;
+	public delegate void OnSetTimeOfDay(DayState dayState);
+	public static OnSetTimeOfDay onSetTimeOfDay;
+	void SetRain () {
+		
+		raining = true;
+		currentRain = 0;
+
+		UpdateRainRate ();
+		UpdateWeather ();
+
+		if (onSetRain != null)
+			onSetRain ();
+
+	}
+	void HideRain() {
+		
+		raining = false;
+		currentRain = 0;
+
+		UpdateWeather ();
+
 	}
 
-	public int NightEndTime {
-		get {
-			return nightEndTime;
-		}
+	#region save / load
+	public void Save () {
+		
+		SaveManager.Instance.GameData.raining = raining;
+		SaveManager.Instance.GameData.night = dayState == DayState.Night;
+
+		SaveManager.Instance.GameData.timeOfDay = timeOfDay;
+
+		SaveManager.Instance.GameData.currentRain = currentRain;
+
 	}
+
+	public void Load () {
+		
+		raining = SaveManager.Instance.GameData.raining;
+		dayState = SaveManager.Instance.GameData.night ? DayState.Night : DayState.Day;
+		timeOfDay = SaveManager.Instance.GameData.timeOfDay;
+		currentRain = SaveManager.Instance.GameData.currentRain;
+
+		UpdateWeather ();
+	}
+	void UpdateWeather() {
+		nightImage.gameObject.SetActive (dayState == DayState.Night);
+		rainImage.gameObject.SetActive (raining);
+	}
+	#endregion
 }

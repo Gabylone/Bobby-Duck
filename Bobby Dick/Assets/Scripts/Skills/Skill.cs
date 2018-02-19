@@ -32,6 +32,10 @@ public class Skill : MonoBehaviour {
 
 	public Type type;
 
+//	public Skill ( Skill refSkill ) {
+//		skilthis = this  
+//	}
+//
 	void UseEnergy () {
 		fighter.crewMember.energy -= energyCost;
 		Skill skill = CombatManager.Instance.currentFighter.crewMember.GetSkill (type);

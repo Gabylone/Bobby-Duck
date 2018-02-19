@@ -18,6 +18,8 @@ public class LootUI : MonoBehaviour {
 
 	public static LootUI Instance;
 
+	public RectTransform scollViewRectTransform;
+
 	Loot handledLoot;
 
 	private Item selectedItem = null;
@@ -105,6 +107,8 @@ public class LootUI : MonoBehaviour {
 
 	#region show / hide
 	public Crews.Side currentSide;
+	public delegate void OnShowLoot ();
+	public static OnShowLoot onShowLoot;
 	public void Show (CategoryContentType catContentType,Crews.Side side) {
 
 		SelectedItem = null;
@@ -127,7 +131,8 @@ public class LootUI : MonoBehaviour {
 
 		CrewInventory.Instance.HideMenuButtons ();
 
-
+		if (onShowLoot != null)
+			onShowLoot ();
 	}
 
 	void InitButtons (CategoryContentType catContentType)
@@ -159,10 +164,10 @@ public class LootUI : MonoBehaviour {
 	}
 
 	public void Hide () {
+		
 		visible = false;
 		lootObj.SetActive (false);
 
-		CrewInventory.Instance.ShowMenuButtons ();
 	}
 	#endregion
 
@@ -229,6 +234,8 @@ public class LootUI : MonoBehaviour {
 
 		UpdateLootUI ();
 
+		scollViewRectTransform.anchoredPosition = Vector2.zero;
+
 	}
 
 	public void UpdateLootUI () {
@@ -236,7 +243,6 @@ public class LootUI : MonoBehaviour {
 		if (!visible)
 			return;
 
-		UpdateNavigationButtons ();
 		UpdateItemButtons ();
 		UpdateCategoryButtons ();
 	}
@@ -272,24 +278,6 @@ public class LootUI : MonoBehaviour {
 	#endregion
 
 	#region page navigation
-	public void NextPage () {
-		++currentPage;
-		UpdateLootUI ();
-		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
-	}
-	public void PreviousPage () {
-		--currentPage;
-		UpdateLootUI ();
-		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
-	}
-
-	private void UpdateNavigationButtons () {
-		maxPage = Mathf.CeilToInt ( selectedItems.Length / ItemPerPage);
-
-		previousPageButton.SetActive( currentPage > 0 );
-		nextPageButton.SetActive( selectedItems.Length > ItemPerPage * (currentPage+1));
-	}
-
 	public int ItemPerPage {
 		get {
 			return displayItems.Length;

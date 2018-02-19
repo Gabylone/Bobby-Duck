@@ -19,7 +19,8 @@ public class ClockUI : MonoBehaviour {
 	{
 //		CrewInventory.Instance.openInventory += HandleOpenInventory;
 
-		NavigationManager.Instance.EnterNewChunk += UpdateNeedle;
+		TimeManager.onNextHour += UpdateNeedle;
+//		NavigationManager.Instance.EnterNewChunk += UpdateNeedle;
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
 		InitClock ();
@@ -38,26 +39,22 @@ public class ClockUI : MonoBehaviour {
 
 	void InitClock ()
 	{
-		float angle = (float)TimeManager.Instance.NightStartTime * 360f / (float)TimeManager.Instance.DayDuration;
+		float angle = (float)TimeManager.Instance.nightStartTime * 360f / (float)TimeManager.Instance.dayDuration;
 
 		nightImage.transform.eulerAngles = new Vector3 (0,0,180-angle);
 
-		int nightDuration = (TimeManager.Instance.DayDuration - TimeManager.Instance.NightStartTime) + TimeManager.Instance.NightEndTime;
+		int nightDuration = (TimeManager.Instance.dayDuration - TimeManager.Instance.nightStartTime) + TimeManager.Instance.nightEndTime;
 
-		nightImage.fillAmount = (float)nightDuration / (float)TimeManager.Instance.DayDuration;
+		nightImage.fillAmount = (float)nightDuration / (float)TimeManager.Instance.dayDuration;
 	}
 
 
 	void UpdateNeedle ()
 	{
-		Invoke ("UpdateNeedleDelay", 0.01f);
-	}
-	void UpdateNeedleDelay ()
-	{
-		float angle = TimeManager.Instance.TimeOfDay * 360f / TimeManager.Instance.DayDuration;
-
+		float angle = TimeManager.Instance.timeOfDay * 360f / TimeManager.Instance.dayDuration;
 		Vector3 targetAngles = new Vector3 (0,0,-angle);
 
-		HOTween.To ( hourNeedle , 0.5f , "eulerAngles" , targetAngles , false , EaseType.EaseOutBounce , 0f );
+//		HOTween.To ( hourNeedle , 1f , "eulerAngles" , targetAngles , false , EaseType.EaseOutBounce , 0f );
+		hourNeedle.eulerAngles = targetAngles;
 	}
 }

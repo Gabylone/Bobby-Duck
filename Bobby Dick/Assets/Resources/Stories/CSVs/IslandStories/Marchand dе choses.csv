@@ -12,8 +12,8 @@ Leave;Fade;;;;;;;;;;;;
 ;;;;;;;;;;;;;
 ;;;;;;;;;;;;;
 [marchand];;;;;;;;;;;;;
-NewCrew1;;;;;;;;;;;;;
-OtherSpeak : Salut voyageur !;Node=>combat;Node=>mort;;;;;;;;;;;
+NewCrew;;;;;;;;;;;;;
+OtherSpeak : Salut voyageur !;Node=>mort;Node=>combat;;;;;;;;;;;
 [choix];;;;;;[choix autre];;;;;;[combat];
 SetChoices4;;;;;;SetChoices3;;;;;;OtherSpeak : ?!?;
 Choice : (partir);Choice : Montrez moi votre marchandise(trade);Choice : Le trésor de Bobby Dick ?;;Choice : (autre);;Choice : Donnez tout ! (attaquer);Choice : Tout va bien pour vous ?(quete);;;Choice : (autre);;LaunchCombat;
@@ -22,7 +22,7 @@ Leave;Node=>choix;OtherSpeak : Ça n'intéresse que les pirates DIRECTIONTOFORM
 ;;Node=>choix;Node=>choix;;;;OtherSpeak : Pour des choses que j’ai trouvé au fond de l’océan.;;;;;PlayerSpeak : Le voilà mort !;
 ;;;;;;;OtherSpeak : A part ça, oui.;;;;;SetChoices2;
 ;;;;;;;Node=>choix;;;;;Choice : (partir);Choice : (fouiller l’échope)
-;;;;;;;;;;;;Leave;TradeMisc
+;;;;;;;;;;;;Leave;LootMisc
 ;;;;;;;;;;;;;PlayerSpeak : Des choses et d’autres…
 ;;;;;;;;;;;;;PlayerSpeak : Je savais pas à quoi je m’attendais
 ;;;;;;;;;;;;;Leave

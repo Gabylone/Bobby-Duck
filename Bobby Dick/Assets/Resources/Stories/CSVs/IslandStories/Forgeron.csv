@@ -30,8 +30,8 @@ Leave;OtherSpeak : Pas à des gens comme toi !;TradeWeapons/Clothes;[combat fo
 Narrator : Le forgeron est mort, mais sa forge continu de brûler. Derrière la forge se trouve toute sorte de métaux.;;;;;;
 SetChoices3;;;;;;
 Choice : (partir);Choice : Entrons dans maison;;;Choice : (regarder derrière forge)(loot);;
-Fade;NewCrew1/F;Node=>femme mort;Node=>combat femme;RandomRange3;;
-Node=>debut;OtherSpeak : !;;;PlayerSpeak : Que des bouts de métal et de la rouille !;PlayerSpeak : Tout plein de choses, mais pas d'armes !;PlayerSpeak : Bingo !
+Fade;NewCrew1/F;;;RandomRange3;;
+Node=>debut;OtherSpeak : !;Node=>femme mort;Node=>combat femme;PlayerSpeak : Que des bouts de métal et de la rouille !;PlayerSpeak : Tout plein de choses, mais pas d'armes !;PlayerSpeak : Bingo !
 ;OtherSpeak : Qu'est-ce que vous faites chez moi ?!;;;Node=>forgeron mort;LootMisc;LootWeapons
 ;Node=>choix femme;;;;Node=>forgeron mort;Node=>forgeron mort
 ;;;;;;

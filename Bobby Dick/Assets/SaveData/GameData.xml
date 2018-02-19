@@ -1,64 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <GameData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <globalID>1</globalID>
+  <globalID>2</globalID>
   <playerCrew>
     <hostile>false</hostile>
     <row>0</row>
     <col>0</col>
-    <MemberIDs>
-      <Member>
-        <id>0</id>
-        <Name>Alice</Name>
-        <health>100</health>
-        <maxHealth>100</maxHealth>
-        <currentHunger>5</currentHunger>
-        <Lvl>1</Lvl>
-        <xp>0</xp>
-        <skillPoints>0</skillPoints>
-        <specialSkillsIndexes>
-          <int>8</int>
-        </specialSkillsIndexes>
-        <stats>
-          <int>1</int>
-          <int>1</int>
-          <int>1</int>
-          <int>1</int>
-        </stats>
-        <daysOnBoard>1</daysOnBoard>
-        <equipedWeapon>
-          <ID>45</ID>
-          <name>Poivrière rouillée</name>
-          <value>7</value>
-          <price>13</price>
-          <weight>5</weight>
-          <level>1</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </equipedWeapon>
-        <equipedCloth>
-          <ID>150</ID>
-          <name>Marcel</name>
-          <value>8</value>
-          <price>19</price>
-          <weight>8</weight>
-          <level>1</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </equipedCloth>
-        <Male>false</Male>
-        <job>Surgeon</job>
-        <bodyColorID>0</bodyColorID>
-        <hairSpriteID>0</hairSpriteID>
-        <eyeSpriteID>3</eyeSpriteID>
-        <eyebrowsSpriteID>4</eyebrowsSpriteID>
-        <hairColorID>1</hairColorID>
-        <beardSpriteID>-1</beardSpriteID>
-        <noseSpriteID>3</noseSpriteID>
-        <mouthSpriteID>0</mouthSpriteID>
-      </Member>
-    </MemberIDs>
+    <MemberIDs />
   </playerCrew>
   <playerLoot>
     <row>0</row>
@@ -66,35 +13,35 @@
     <allItems>
       <ArrayOfItem>
         <Item>
-          <ID>2</ID>
-          <name>Thon</name>
+          <ID>11</ID>
+          <name>Maquereau</name>
           <value>43</value>
-          <price>9</price>
-          <weight>2</weight>
+          <price>19</price>
+          <weight>4</weight>
           <level>0</level>
           <spriteID>1</spriteID>
           <type>0</type>
           <category>Provisions</category>
         </Item>
         <Item>
-          <ID>5</ID>
-          <name>Morue</name>
-          <value>36</value>
-          <price>7</price>
-          <weight>3</weight>
+          <ID>3</ID>
+          <name>Palourde</name>
+          <value>37</value>
+          <price>17</price>
+          <weight>4</weight>
           <level>0</level>
           <spriteID>1</spriteID>
           <type>0</type>
           <category>Provisions</category>
         </Item>
         <Item>
-          <ID>34</ID>
-          <name>Champignon</name>
-          <value>26</value>
-          <price>5</price>
-          <weight>2</weight>
+          <ID>23</ID>
+          <name>Saucisson</name>
+          <value>50</value>
+          <price>23</price>
+          <weight>5</weight>
           <level>0</level>
-          <spriteID>0</spriteID>
+          <spriteID>2</spriteID>
           <type>0</type>
           <category>Provisions</category>
         </Item>
@@ -103,293 +50,68 @@
       <ArrayOfItem />
       <ArrayOfItem />
     </allItems>
-    <weight>7</weight>
+    <weight>13</weight>
   </playerLoot>
   <playerWeight>0</playerWeight>
-  <playerGold>50</playerGold>
+  <playerGold>20</playerGold>
   <karma>0</karma>
   <bounty>0</bounty>
   <mapData>
     <treasureIslandCoords>
-      <x>2</x>
-      <y>3</y>
+      <x>45</x>
+      <y>2</y>
     </treasureIslandCoords>
     <homeIslandCoords>
-      <x>47</x>
-      <y>16</y>
+      <x>29</x>
+      <y>11</y>
     </homeIslandCoords>
   </mapData>
   <formulas>
     <Formula>
-      <name>lyqo</name>
+      <name>tidu</name>
       <coords>
-        <x>17</x>
-        <y>29</y>
+        <x>2</x>
+        <y>44</y>
       </coords>
       <verified>false</verified>
       <found>false</found>
     </Formula>
     <Formula>
-      <name>vuni</name>
+      <name>fopowu</name>
       <coords>
-        <x>24</x>
-        <y>25</y>
+        <x>3</x>
+        <y>8</y>
       </coords>
       <verified>false</verified>
       <found>false</found>
     </Formula>
   </formulas>
   <playerBoatInfo>
-    <Name>Le Wonder</Name>
+    <Name>Le Wonkatania</Name>
     <previousCoords>
-      <x>47</x>
-      <y>15</y>
+      <x>40</x>
+      <y>1</y>
     </previousCoords>
-    <currentDirection>None</currentDirection>
+    <currentDirection>East</currentDirection>
     <shipRange>1</shipRange>
     <crewCapacity>2</crewCapacity>
-    <maximumWeight>100</maximumWeight>
-    <isInNoMansSea>false</isInNoMansSea>
-    <hasBeenWarned>false</hasBeenWarned>
+    <cargoLevel>1</cargoLevel>
+    <level>1</level>
     <coords>
-      <x>47</x>
-      <y>15</y>
+      <x>41</x>
+      <y>1</y>
     </coords>
   </playerBoatInfo>
   <otherBoatInfos>
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>44</x>
-        <y>20</y>
-      </previousCoords>
-      <currentDirection>West</currentDirection>
-      <coords>
-        <x>43</x>
-        <y>20</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>0</storyID>
-            <storyNameDebug>Impériaux</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>0</x>
-        <y>0</y>
-      </previousCoords>
-      <currentDirection>West</currentDirection>
-      <coords>
-        <x>20</x>
-        <y>20</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>3</storyID>
-            <storyNameDebug>Radeau</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>34</x>
-        <y>5</y>
-      </previousCoords>
-      <currentDirection>West</currentDirection>
-      <coords>
-        <x>33</x>
-        <y>5</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>3</storyID>
-            <storyNameDebug>Radeau</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>0</x>
-        <y>0</y>
-      </previousCoords>
-      <currentDirection>West</currentDirection>
-      <coords>
-        <x>8</x>
-        <y>48</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>0</storyID>
-            <storyNameDebug>Impériaux</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>2</x>
-        <y>7</y>
-      </previousCoords>
-      <currentDirection>NorthWest</currentDirection>
-      <coords>
-        <x>1</x>
-        <y>8</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>0</storyID>
-            <storyNameDebug>Impériaux</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>29</x>
-        <y>25</y>
-      </previousCoords>
-      <currentDirection>SouthEast</currentDirection>
-      <coords>
-        <x>30</x>
-        <y>24</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>0</storyID>
-            <storyNameDebug>Impériaux</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>15</x>
+        <x>24</x>
         <y>41</y>
       </previousCoords>
-      <currentDirection>SouthEast</currentDirection>
+      <currentDirection>NorthEast</currentDirection>
       <coords>
-        <x>16</x>
-        <y>40</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>0</storyID>
-            <storyNameDebug>Impériaux</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>0</x>
-        <y>0</y>
-      </previousCoords>
-      <currentDirection>North</currentDirection>
-      <coords>
-        <x>27</x>
-        <y>44</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>0</storyID>
-            <storyNameDebug>Impériaux</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>2</x>
-        <y>41</y>
-      </previousCoords>
-      <currentDirection>North</currentDirection>
-      <coords>
-        <x>2</x>
+        <x>25</x>
         <y>42</y>
       </coords>
       <storyManager>
@@ -398,6 +120,188 @@
             <row>0</row>
             <col>0</col>
             <fallBackLayer>0</fallBackLayer>
+            <storyID>0</storyID>
+            <storyNameDebug>Impériaux</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>38</x>
+        <y>10</y>
+      </previousCoords>
+      <currentDirection>East</currentDirection>
+      <coords>
+        <x>37</x>
+        <y>9</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>2</storyID>
+            <storyNameDebug>Pirates</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals>
+              <contentDecal>
+                <row>0</row>
+                <col>9</col>
+                <decal>1</decal>
+              </contentDecal>
+            </contentDecals>
+            <loots />
+            <crews>
+              <Crew>
+                <hostile>false</hostile>
+                <row>0</row>
+                <col>4</col>
+                <MemberIDs>
+                  <Member>
+                    <id>1</id>
+                    <Name>Oleg</Name>
+                    <health>90</health>
+                    <maxHealth>100</maxHealth>
+                    <currentHunger>100</currentHunger>
+                    <Lvl>2</Lvl>
+                    <xp>0</xp>
+                    <skillPoints>0</skillPoints>
+                    <specialSkillsIndexes>
+                      <int>16</int>
+                    </specialSkillsIndexes>
+                    <stats>
+                      <int>1</int>
+                      <int>1</int>
+                      <int>1</int>
+                      <int>2</int>
+                    </stats>
+                    <daysOnBoard>20</daysOnBoard>
+                    <equipedWeapon>
+                      <ID>57</ID>
+                      <name>Vielle poivrière</name>
+                      <value>21</value>
+                      <price>41</price>
+                      <weight>10</weight>
+                      <level>2</level>
+                      <spriteID>0</spriteID>
+                      <type>0</type>
+                      <category>Weapon</category>
+                    </equipedWeapon>
+                    <equipedCloth>
+                      <ID>158</ID>
+                      <name>Armure de bois</name>
+                      <value>22</value>
+                      <price>38</price>
+                      <weight>10</weight>
+                      <level>2</level>
+                      <spriteID>1</spriteID>
+                      <type>0</type>
+                      <category>Clothes</category>
+                    </equipedCloth>
+                    <Male>true</Male>
+                    <job>Flibuster</job>
+                    <bodyColorID>0</bodyColorID>
+                    <hairSpriteID>3</hairSpriteID>
+                    <eyeSpriteID>4</eyeSpriteID>
+                    <eyebrowsSpriteID>0</eyebrowsSpriteID>
+                    <hairColorID>5</hairColorID>
+                    <beardSpriteID>0</beardSpriteID>
+                    <noseSpriteID>4</noseSpriteID>
+                    <mouthSpriteID>2</mouthSpriteID>
+                  </Member>
+                </MemberIDs>
+              </Crew>
+            </crews>
+            <Crews>
+              <Crew>
+                <hostile>false</hostile>
+                <row>0</row>
+                <col>4</col>
+                <MemberIDs>
+                  <Member>
+                    <id>1</id>
+                    <Name>Oleg</Name>
+                    <health>90</health>
+                    <maxHealth>100</maxHealth>
+                    <currentHunger>100</currentHunger>
+                    <Lvl>2</Lvl>
+                    <xp>0</xp>
+                    <skillPoints>0</skillPoints>
+                    <specialSkillsIndexes>
+                      <int>16</int>
+                    </specialSkillsIndexes>
+                    <stats>
+                      <int>1</int>
+                      <int>1</int>
+                      <int>1</int>
+                      <int>2</int>
+                    </stats>
+                    <daysOnBoard>20</daysOnBoard>
+                    <equipedWeapon>
+                      <ID>57</ID>
+                      <name>Vielle poivrière</name>
+                      <value>21</value>
+                      <price>41</price>
+                      <weight>10</weight>
+                      <level>2</level>
+                      <spriteID>0</spriteID>
+                      <type>0</type>
+                      <category>Weapon</category>
+                    </equipedWeapon>
+                    <equipedCloth>
+                      <ID>158</ID>
+                      <name>Armure de bois</name>
+                      <value>22</value>
+                      <price>38</price>
+                      <weight>10</weight>
+                      <level>2</level>
+                      <spriteID>1</spriteID>
+                      <type>0</type>
+                      <category>Clothes</category>
+                    </equipedCloth>
+                    <Male>true</Male>
+                    <job>Flibuster</job>
+                    <bodyColorID>0</bodyColorID>
+                    <hairSpriteID>3</hairSpriteID>
+                    <eyeSpriteID>4</eyeSpriteID>
+                    <eyebrowsSpriteID>0</eyebrowsSpriteID>
+                    <hairColorID>5</hairColorID>
+                    <beardSpriteID>0</beardSpriteID>
+                    <noseSpriteID>4</noseSpriteID>
+                    <mouthSpriteID>2</mouthSpriteID>
+                  </Member>
+                </MemberIDs>
+              </Crew>
+            </Crews>
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>26</x>
+        <y>12</y>
+      </previousCoords>
+      <currentDirection>NorthWest</currentDirection>
+      <coords>
+        <x>26</x>
+        <y>13</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
             <storyID>2</storyID>
             <storyNameDebug>Pirates</storyNameDebug>
             <storyType>Boat</storyType>
@@ -412,13 +316,13 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>44</x>
-        <y>40</y>
+        <x>22</x>
+        <y>21</y>
       </previousCoords>
-      <currentDirection>West</currentDirection>
+      <currentDirection>NorthWest</currentDirection>
       <coords>
-        <x>43</x>
-        <y>40</y>
+        <x>21</x>
+        <y>21</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -440,12 +344,12 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>0</x>
+        <x>41</x>
         <y>34</y>
       </previousCoords>
-      <currentDirection>South</currentDirection>
+      <currentDirection>West</currentDirection>
       <coords>
-        <x>0</x>
+        <x>41</x>
         <y>33</y>
       </coords>
       <storyManager>
@@ -454,8 +358,8 @@
             <row>0</row>
             <col>0</col>
             <fallBackLayer>0</fallBackLayer>
-            <storyID>0</storyID>
-            <storyNameDebug>Impériaux</storyNameDebug>
+            <storyID>1</storyID>
+            <storyNameDebug>Marchand</storyNameDebug>
             <storyType>Boat</storyType>
             <contentDecals />
             <loots />
@@ -468,13 +372,13 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>35</x>
-        <y>16</y>
+        <x>17</x>
+        <y>38</y>
       </previousCoords>
-      <currentDirection>SouthEast</currentDirection>
+      <currentDirection>North</currentDirection>
       <coords>
-        <x>36</x>
-        <y>15</y>
+        <x>17</x>
+        <y>39</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -496,13 +400,13 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>0</x>
-        <y>0</y>
+        <x>18</x>
+        <y>22</y>
       </previousCoords>
-      <currentDirection>North</currentDirection>
+      <currentDirection>East</currentDirection>
       <coords>
-        <x>31</x>
-        <y>16</y>
+        <x>19</x>
+        <y>22</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -510,8 +414,8 @@
             <row>0</row>
             <col>0</col>
             <fallBackLayer>0</fallBackLayer>
-            <storyID>0</storyID>
-            <storyNameDebug>Impériaux</storyNameDebug>
+            <storyID>1</storyID>
+            <storyNameDebug>Marchand</storyNameDebug>
             <storyType>Boat</storyType>
             <contentDecals />
             <loots />
@@ -524,12 +428,12 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>5</x>
-        <y>37</y>
+        <x>3</x>
+        <y>39</y>
       </previousCoords>
-      <currentDirection>NorthWest</currentDirection>
+      <currentDirection>West</currentDirection>
       <coords>
-        <x>4</x>
+        <x>3</x>
         <y>38</y>
       </coords>
       <storyManager>
@@ -552,13 +456,41 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>0</x>
-        <y>0</y>
+        <x>2</x>
+        <y>12</y>
       </previousCoords>
       <currentDirection>SouthEast</currentDirection>
       <coords>
-        <x>32</x>
-        <y>20</y>
+        <x>3</x>
+        <y>11</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>0</storyID>
+            <storyNameDebug>Impériaux</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>25</x>
+        <y>36</y>
+      </previousCoords>
+      <currentDirection>SouthEast</currentDirection>
+      <coords>
+        <x>26</x>
+        <y>35</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -580,13 +512,69 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>0</x>
-        <y>0</y>
+        <x>7</x>
+        <y>47</y>
       </previousCoords>
-      <currentDirection>NorthEast</currentDirection>
+      <currentDirection>South</currentDirection>
       <coords>
-        <x>28</x>
-        <y>12</y>
+        <x>7</x>
+        <y>47</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>0</storyID>
+            <storyNameDebug>Impériaux</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>42</x>
+        <y>14</y>
+      </previousCoords>
+      <currentDirection>West</currentDirection>
+      <coords>
+        <x>43</x>
+        <y>14</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>0</storyID>
+            <storyNameDebug>Impériaux</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>27</x>
+        <y>42</y>
+      </previousCoords>
+      <currentDirection>West</currentDirection>
+      <coords>
+        <x>26</x>
+        <y>42</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -608,13 +596,13 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>43</x>
-        <y>26</y>
+        <x>17</x>
+        <y>21</y>
       </previousCoords>
-      <currentDirection>West</currentDirection>
+      <currentDirection>NorthWest</currentDirection>
       <coords>
-        <x>42</x>
-        <y>26</y>
+        <x>16</x>
+        <y>22</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -622,8 +610,8 @@
             <row>0</row>
             <col>0</col>
             <fallBackLayer>0</fallBackLayer>
-            <storyID>0</storyID>
-            <storyNameDebug>Impériaux</storyNameDebug>
+            <storyID>2</storyID>
+            <storyNameDebug>Pirates</storyNameDebug>
             <storyType>Boat</storyType>
             <contentDecals />
             <loots />
@@ -636,13 +624,13 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>23</x>
-        <y>24</y>
+        <x>8</x>
+        <y>44</y>
       </previousCoords>
-      <currentDirection>SouthWest</currentDirection>
+      <currentDirection>South</currentDirection>
       <coords>
-        <x>22</x>
-        <y>23</y>
+        <x>8</x>
+        <y>43</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -664,13 +652,41 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>47</x>
-        <y>36</y>
+        <x>30</x>
+        <y>39</y>
       </previousCoords>
-      <currentDirection>NorthWest</currentDirection>
+      <currentDirection>East</currentDirection>
       <coords>
-        <x>47</x>
-        <y>35</y>
+        <x>31</x>
+        <y>39</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>2</storyID>
+            <storyNameDebug>Pirates</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>41</x>
+        <y>43</y>
+      </previousCoords>
+      <currentDirection>West</currentDirection>
+      <coords>
+        <x>40</x>
+        <y>43</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -680,6 +696,90 @@
             <fallBackLayer>0</fallBackLayer>
             <storyID>0</storyID>
             <storyNameDebug>Impériaux</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>18</x>
+        <y>30</y>
+      </previousCoords>
+      <currentDirection>South</currentDirection>
+      <coords>
+        <x>18</x>
+        <y>29</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>0</storyID>
+            <storyNameDebug>Impériaux</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>26</x>
+        <y>34</y>
+      </previousCoords>
+      <currentDirection>SouthWest</currentDirection>
+      <coords>
+        <x>27</x>
+        <y>34</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>3</storyID>
+            <storyNameDebug>Radeau</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>1</x>
+        <y>28</y>
+      </previousCoords>
+      <currentDirection>NorthEast</currentDirection>
+      <coords>
+        <x>2</x>
+        <y>29</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>1</storyID>
+            <storyNameDebug>Marchand</storyNameDebug>
             <storyType>Boat</storyType>
             <contentDecals />
             <loots />
@@ -693,40 +793,12 @@
       <Name>bateau</Name>
       <previousCoords>
         <x>40</x>
-        <y>39</y>
+        <y>16</y>
       </previousCoords>
-      <currentDirection>SouthWest</currentDirection>
+      <currentDirection>SouthEast</currentDirection>
       <coords>
-        <x>39</x>
-        <y>38</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>3</storyID>
-            <storyNameDebug>Radeau</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>9</x>
-        <y>4</y>
-      </previousCoords>
-      <currentDirection>North</currentDirection>
-      <coords>
-        <x>9</x>
-        <y>5</y>
+        <x>41</x>
+        <y>15</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -748,12 +820,96 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>22</x>
+        <x>6</x>
+        <y>18</y>
+      </previousCoords>
+      <currentDirection>NorthEast</currentDirection>
+      <coords>
+        <x>7</x>
+        <y>19</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>0</storyID>
+            <storyNameDebug>Impériaux</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>46</x>
+        <y>48</y>
+      </previousCoords>
+      <currentDirection>West</currentDirection>
+      <coords>
+        <x>47</x>
+        <y>48</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>1</storyID>
+            <storyNameDebug>Marchand</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>36</x>
+        <y>14</y>
+      </previousCoords>
+      <currentDirection>SouthEast</currentDirection>
+      <coords>
+        <x>37</x>
+        <y>13</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>0</storyID>
+            <storyNameDebug>Impériaux</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>9</x>
         <y>17</y>
       </previousCoords>
-      <currentDirection>NorthWest</currentDirection>
+      <currentDirection>North</currentDirection>
       <coords>
-        <x>21</x>
+        <x>9</x>
         <y>18</y>
       </coords>
       <storyManager>
@@ -776,69 +932,13 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>25</x>
-        <y>45</y>
-      </previousCoords>
-      <currentDirection>East</currentDirection>
-      <coords>
-        <x>26</x>
-        <y>45</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>0</storyID>
-            <storyNameDebug>Impériaux</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>36</x>
-        <y>48</y>
-      </previousCoords>
-      <currentDirection>SouthEast</currentDirection>
-      <coords>
-        <x>37</x>
-        <y>47</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>2</storyID>
-            <storyNameDebug>Pirates</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>0</x>
-        <y>0</y>
+        <x>15</x>
+        <y>39</y>
       </previousCoords>
       <currentDirection>NorthEast</currentDirection>
       <coords>
-        <x>44</x>
-        <y>41</y>
+        <x>16</x>
+        <y>40</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -846,8 +946,8 @@
             <row>0</row>
             <col>0</col>
             <fallBackLayer>0</fallBackLayer>
-            <storyID>2</storyID>
-            <storyNameDebug>Pirates</storyNameDebug>
+            <storyID>3</storyID>
+            <storyNameDebug>Radeau</storyNameDebug>
             <storyType>Boat</storyType>
             <contentDecals />
             <loots />
@@ -860,41 +960,13 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>0</x>
-        <y>0</y>
-      </previousCoords>
-      <currentDirection>East</currentDirection>
-      <coords>
-        <x>30</x>
-        <y>4</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>0</storyID>
-            <storyNameDebug>Impériaux</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>11</x>
-        <y>17</y>
+        <x>46</x>
+        <y>22</y>
       </previousCoords>
       <currentDirection>SouthEast</currentDirection>
       <coords>
-        <x>12</x>
-        <y>16</y>
+        <x>47</x>
+        <y>21</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -902,8 +974,8 @@
             <row>0</row>
             <col>0</col>
             <fallBackLayer>0</fallBackLayer>
-            <storyID>1</storyID>
-            <storyNameDebug>Marchand</storyNameDebug>
+            <storyID>3</storyID>
+            <storyNameDebug>Radeau</storyNameDebug>
             <storyType>Boat</storyType>
             <contentDecals />
             <loots />
@@ -916,13 +988,41 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>0</x>
-        <y>0</y>
+        <x>44</x>
+        <y>35</y>
+      </previousCoords>
+      <currentDirection>West</currentDirection>
+      <coords>
+        <x>43</x>
+        <y>35</y>
+      </coords>
+      <storyManager>
+        <storyHandlers>
+          <StoryHandler>
+            <row>0</row>
+            <col>0</col>
+            <fallBackLayer>0</fallBackLayer>
+            <storyID>3</storyID>
+            <storyNameDebug>Radeau</storyNameDebug>
+            <storyType>Boat</storyType>
+            <contentDecals />
+            <loots />
+            <crews />
+            <Crews />
+          </StoryHandler>
+        </storyHandlers>
+      </storyManager>
+    </OtherBoatInfo>
+    <OtherBoatInfo>
+      <Name>bateau</Name>
+      <previousCoords>
+        <x>25</x>
+        <y>5</y>
       </previousCoords>
       <currentDirection>SouthWest</currentDirection>
       <coords>
-        <x>2</x>
-        <y>12</y>
+        <x>24</x>
+        <y>4</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -944,41 +1044,13 @@
     <OtherBoatInfo>
       <Name>bateau</Name>
       <previousCoords>
-        <x>0</x>
-        <y>0</y>
+        <x>14</x>
+        <y>26</y>
       </previousCoords>
-      <currentDirection>SouthWest</currentDirection>
+      <currentDirection>SouthEast</currentDirection>
       <coords>
-        <x>22</x>
-        <y>37</y>
-      </coords>
-      <storyManager>
-        <storyHandlers>
-          <StoryHandler>
-            <row>0</row>
-            <col>0</col>
-            <fallBackLayer>0</fallBackLayer>
-            <storyID>1</storyID>
-            <storyNameDebug>Marchand</storyNameDebug>
-            <storyType>Boat</storyType>
-            <contentDecals />
-            <loots />
-            <crews />
-            <Crews />
-          </StoryHandler>
-        </storyHandlers>
-      </storyManager>
-    </OtherBoatInfo>
-    <OtherBoatInfo>
-      <Name>bateau</Name>
-      <previousCoords>
-        <x>2</x>
-        <y>4</y>
-      </previousCoords>
-      <currentDirection>East</currentDirection>
-      <coords>
-        <x>3</x>
-        <y>4</y>
+        <x>15</x>
+        <y>25</y>
       </coords>
       <storyManager>
         <storyHandlers>
@@ -1001,7 +1073,7 @@
   <currentQuests />
   <finishedQuests />
   <raining>false</raining>
-  <currentRain>4</currentRain>
+  <currentRain>30</currentRain>
   <night>false</night>
-  <timeOfDay>9</timeOfDay>
+  <timeOfDay>11</timeOfDay>
 </GameData>

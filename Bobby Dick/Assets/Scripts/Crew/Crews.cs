@@ -180,7 +180,8 @@ public class Crews : MonoBehaviour {
 
 		// set decal
 		if (storyCrew.MemberIDs.Count == 0) {
-			
+
+
 			StoryReader.Instance.SetDecal (1);
 
 		} else {
@@ -197,7 +198,6 @@ public class Crews : MonoBehaviour {
 				Quest linkedQuest = QuestManager.Instance.currentQuests.Find (x => x.giver == Crews.enemyCrew.captain.MemberID);
 				if (linkedQuest != null) {
 					linkedQuest.ReturnToGiver ();
-					print ("JE CONNAIS CET HOMME, return to giver");
 				}
 
 			}

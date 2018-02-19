@@ -103,7 +103,7 @@ public class DisplayItem : MonoBehaviour {
 
 			if (LootUI.Instance.currentSide == Crews.Side.Enemy) {
 				
-				if (price > GoldManager.Instance.GoldAmount && OtherInventory.Instance.type == OtherInventory.Type.Trade) {
+				if (price > GoldManager.Instance.goldAmount && OtherInventory.Instance.type == OtherInventory.Type.Trade) {
 					priceText.color = Color.red;
 				} else {
 					priceText.color = Color.white;
@@ -203,7 +203,7 @@ public class DisplayItem : MonoBehaviour {
 
 			Value 		= handledItem.value;
 
-			Price 		= HandledItem.price;
+			Price 		= (int)(HandledItem.price/2f);
 
 			Weight 		= HandledItem.weight;
 

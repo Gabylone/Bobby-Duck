@@ -28,6 +28,8 @@ public class Card : MonoBehaviour {
 	[SerializeField]
 	private GameObject energyGroup;
 	[SerializeField]
+	private GameObject jobGroup;
+	[SerializeField]
 	private GameObject[] energyPoints;
 
 	[SerializeField]
@@ -59,10 +61,8 @@ public class Card : MonoBehaviour {
 //	void Awake () {
 	public void Init() {
 
-//		print ("oui?");
-
 		linkedFighter.onInit += HandleOnInit;
-		linkedFighter.onSelect += HandleOnSelect;
+		linkedFighter.onSetAsTarget += HandleOnSetAsTarget;
 		linkedFighter.onSetTurn += HandleOnSetTurn;
 		linkedFighter.onEndTurn += HandleOnEndTurn;
 
@@ -71,10 +71,7 @@ public class Card : MonoBehaviour {
 
 		linkedFighter.onChangeState += HandleOnChangeState;
 
-		linkedFighter.onSetPickable += HandleOnSetPickable;;
-
-//		if (linkedFighter.crewMember != null)
-//			UpdateMember ();
+		linkedFighter.onSetPickable += HandleOnSetPickable;
 
 		LootUI.useInventory+= HandleUseInventory;
 
@@ -84,7 +81,7 @@ public class Card : MonoBehaviour {
 		HideEndTurnFeedback ();
 
 		energyGroup.SetActive (false);
-
+		jobGroup.SetActive (false);
 
 	}
 
@@ -114,8 +111,6 @@ public class Card : MonoBehaviour {
 
 	void HideTargetFeedback () {
 		targetFeedbackImage.gameObject.SetActive (false);
-//		print ("dOUDOUDOUDOUODU?====");
-		//
 	}
 
 	void HandleOnChangeState (Fighter.states currState, Fighter.states prevState)
@@ -163,40 +158,28 @@ public class Card : MonoBehaviour {
 
 	void HandleOnShowInfo ()
 	{
-//		if (previouslySelectedCard == this) {
-//			previouslySelectedCard = null;
-//			HideInfo ();
-//			return;
-//		}
-//
-//		if (previouslySelectedCard != null)
-//			previouslySelectedCard.HideInfo ();
-//
-//		previouslySelectedCard = this;
-
 		energyGroup.SetActive (true);
+		jobGroup.SetActive (true);
+
+		CancelInvoke ("HideInfo");
+		Invoke ("HideInfo",2f);
 
 		Tween.Bounce (transform);
 	}
 
-	public delegate void OnHideInfo ();
-	public OnHideInfo onHideInfo;
 	public void HideInfo ()
 	{
 		energyGroup.SetActive (false);
-
-		if (onHideInfo != null)
-			onHideInfo ();
+		jobGroup.SetActive (false);
 	}
 
-	void HandleOnSelect ()
+	void HandleOnSetAsTarget ()
 	{
 		UpdateMember ();
 	}
 
 	void HandleOnSetTurn ()
 	{
-
 		playingTurn = true;
 
 		UpdateMember ();

@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class InventoryActionButotn : MonoBehaviour {
+public class ImageTest : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+	public Image targetImage;
 	
 	// Update is called once per frame
 	void Update () {

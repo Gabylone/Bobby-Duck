@@ -77,24 +77,6 @@ public class MemberCreator : MonoBehaviour {
 		jobImage.sprite = SkillManager.jobSprites [(int)member.job];
 		jobText.text = SkillManager.jobNames [(int)member.job];
 
-		if (member.job == Job.Flibuster) {
-			Item anyGun = System.Array.Find(ItemLoader.Instance.getItems(ItemCategory.Weapon), x => x.spriteID == 0 );
-//			print ("setting any gun : " + anyGun.name);
-			member.SetEquipment (anyGun);
-			Crews.playerCrew.captain.Icon.GetComponent<IconVisual> ().UpdateWeaponSprite (0);
-		
-		}
-
-		if (member.job == Job.Brute) {
-			Item anySword = System.Array.Find(ItemLoader.Instance.getItems(ItemCategory.Weapon), x => x.spriteID == 1 );
-//			print ("setting any sword : " + anySword.name);
-			member.SetEquipment (anySword);
-			Crews.playerCrew.captain.Icon.GetComponent<IconVisual> ().UpdateWeaponSprite (1);
-		}
-
-
-
-//		Tween.Boun		ce (jobImage.transform);
 	}
 
 	private void UpdateButtons () {

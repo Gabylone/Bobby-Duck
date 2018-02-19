@@ -16,11 +16,11 @@ public class Skill_Robbery : Skill {
 
 		if ( fighter.crewMember.side == Crews.Side.Enemy ) {
 
-			GoldManager.Instance.GoldAmount -= goldStolen;
+			GoldManager.Instance.AddGold(goldStolen);
 
 		} else {
 
-			GoldManager.Instance.GoldAmount += goldStolen;
+			GoldManager.Instance.AddGold(goldStolen);
 
 			//
 		}
@@ -37,7 +37,7 @@ public class Skill_Robbery : Skill {
 
 		bool hasMinimumGold = false;
 
-		if (GoldManager.Instance.GoldAmount > minimumGoldToSteal)
+		if (GoldManager.Instance.goldAmount > minimumGoldToSteal)
 			hasMinimumGold = true;
 
 		return hasMinimumGold && base.MeetsConditions (member);

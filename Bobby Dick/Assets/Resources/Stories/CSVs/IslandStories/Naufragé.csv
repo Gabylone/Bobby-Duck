@@ -24,16 +24,16 @@ Node=>ajouté à l'équipage;RandomRange2;;RandomRange3;;;;
 ;OtherSpeak : Mais je n'ai absolument rien !;RemoveKarma;OtherSpeak : Donnez moi au moins quelque chose à manger;;;Node=>combat naufragé;OtherSpeak : Je comprends…
 ;Node=>combat dialogue;Node=>combat naufragé;SetChoices2;;;;Leave
 ;;;Choice : Tiens.;;Choice : Non continue à manger des noix de coco.;;
-;;;CheckInInventory/Food;;OtherSpeak : Vous êtes sans coeur !;;
-;;;RemoveFromInventory/Food;OtherSpeak : Mais… Vous n'avez rien…;RemoveKarma;;
-;;;OtherSpeak : Merci…;RemoveKarma;Node=>plage déserte;;
-;;;AddKarma;HideOther;;;
-;;;HideOther;Node=>debut;;;
-;;;Node=>debut;;;;
-[ajouté à l'équipage];;;;;;;
-OtherSpeak : Merci m'sieur !;;;;;;;
-AddMember;;;;;;;
-Node=>plage déserte;;;;;;;
+;;;[switch manger];;OtherSpeak : Vous êtes sans coeur !;;
+;;;Node=>donner à manger;OtherSpeak : Vous m'avez déjà assez donné;RemoveKarma;;
+;;;[donner à manger];Leave;Node=>plage déserte;;
+;;;CheckInInventory/Food;;;;
+;;;RemoveFromInventory/Food;OtherSpeak : Mais… Vous n'avez rien…;;;
+;;;OtherSpeak : Merci…;RemoveKarma;;;
+[ajouté à l'équipage];;;AddKarma;HideOther;;;
+OtherSpeak : Merci m'sieur !;;;Swich=>switch manger;Node=>debut;;;
+AddMember;;;HideOther;;;;
+Node=>plage déserte;;;Node=>debut;;;;
 ;;;;;;;
 ;;;;;;;
 ;;;;;;;

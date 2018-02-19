@@ -11,8 +11,12 @@ public class CrewMember {
 		get {
 
 			if (selectedMember == null) {
-//				Debug.LogError ("kek");
-				return Crews.playerCrew.captain;
+				if (Crews.playerCrew.CrewMembers.Count != 0)
+					return Crews.playerCrew.captain;
+				else {
+					Debug.LogError(" là c'est kek");
+					return null;
+				}
 			}
 
 			return selectedMember;
@@ -45,7 +49,7 @@ public class CrewMember {
 
 	// HUNGER
 	private int stepsToHunger = 5;
-	private int hungerDamage = 5;
+	private int hungerDamage = 10;
 	public int maxHunger = 100;
 
 	// JOB
@@ -66,7 +70,9 @@ public class CrewMember {
 
 		SpecialSkills.Clear ();
 		foreach (var item in memberID.specialSkillsIndexes) {
-			SpecialSkills.Add (SkillManager.skills [item]);
+			Skill newSkill = new Skill ();
+			newSkill = SkillManager.skills [item];
+			SpecialSkills.Add (newSkill);
 		}
 
 		foreach (var item in SpecialSkills) {
@@ -146,7 +152,8 @@ public class CrewMember {
 
 		--SkillPoints;
 
-		if (onLevelUp != null) {
+		if (onLevelUpStat != null) {
+			
 			onLevelUpStat (this);
 		}
 
@@ -170,10 +177,14 @@ public class CrewMember {
 			onLevelUp (this);
 		}
 	}
+	public delegate void OnWrongLevel();
+	public static OnWrongLevel onWrongLevel;
 	public bool CheckLevel ( int lvl ) {
 
 		if (lvl > Level) {
-			LootManager.Instance.OnWrontLevel ();
+//			LootManager.Instance.OnWrontLevel ();
+			if (onWrongLevel != null)
+				onWrongLevel ();
 			return false;
 		}
 
@@ -212,11 +223,11 @@ public class CrewMember {
 		return roundedDamage;
 //				Debug.Log ("rounded damage : " + roundedDamage);
 	}
-	public void AddHealth (float incomingDamage) {
-		Health += Mathf.RoundToInt(incomingDamage);
+	public void AddHealth (float f) {
+		Health += Mathf.RoundToInt(f);
 	}
-	public void RemoveHealth (float incomingDamage) {
-		Health -= Mathf.RoundToInt(incomingDamage);
+	public void RemoveHealth (float f) {
+		Health -= Mathf.RoundToInt(f);
 	}
 
 	public void Kill () {
@@ -356,6 +367,7 @@ public class CrewMember {
 		}
 	}
 
+	#region equipment
 	public void SetEquipment (Item item ) {
 
 		switch (item.EquipmentPart) {
@@ -380,6 +392,8 @@ public class CrewMember {
 			break;
 		}
 	}
+	#endregion
+
 	public bool CanUseSkills () {
 		
 		foreach (var item in DefaultSkills) {

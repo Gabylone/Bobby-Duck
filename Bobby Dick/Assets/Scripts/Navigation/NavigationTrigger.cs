@@ -43,7 +43,7 @@ public class NavigationTrigger : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter2D ( Collider2D other ) {
+	void OnTriggerStay2D ( Collider2D other ) {
 		if (other.tag == "Player" && targeted ) {
 			NavigationManager.Instance.ChangeChunk (direction);
 			Targeted = false;

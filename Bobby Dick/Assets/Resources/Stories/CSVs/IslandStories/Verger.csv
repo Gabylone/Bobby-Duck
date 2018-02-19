@@ -41,10 +41,10 @@ SetChoices2;;LaunchCombat;;
 Choice : (partir);Choice : (attaquer);[fermier mort];;
 Leave;Node=>combat fermier;RandomRange2;;
 ;;Narrator : Le fermier est mort.;Narrator : Le fermier est mort… CAPITAINE voit sa ferme au loin.;
-[failcha];;Node=>choix consequence;ChangeStory=>Manoir Abandonné[debut/fermier mort];
-OtherSpeak : Mes fesses ! Je vais vous empaller !;;;;
-RemoveKarma;;;;
-Node=>combat fermier;;;;
+[failcha];;Node=>choix consequence;[choix mort fermier];
+OtherSpeak : Mes fesses ! Je vais vous empaller !;;;SetChoices2;
+RemoveKarma;;;Choice : (partir);Choice : Faisons un tour dans la ferme
+Node=>combat fermier;;;Leave;ChangeStory=>Manoir Abandonné[debut/choix mort fermier]
 ;;;;
 ;;;;
 ;;;;

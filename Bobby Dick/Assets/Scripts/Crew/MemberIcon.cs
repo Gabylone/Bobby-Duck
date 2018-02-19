@@ -57,31 +57,29 @@ public class MemberIcon : MonoBehaviour {
 			return;
 		}
 
-		if (!CrewInventory.Instance.Opened ) {
 
-			if ( !CrewInventory.Instance.canOpen ) {
-				print ("cannot open player loot");
-				return;
-			}
 
-			if (StoryLauncher.Instance.PlayingStory) {
-				
-				switch (OtherInventory.Instance.type) {
-				case OtherInventory.Type.None:
-					CrewInventory.Instance.ShowInventory (CategoryContentType.Inventory , member);
-					break;
-				case OtherInventory.Type.Loot:
-					CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerLoot, member);
-					break;
-				case OtherInventory.Type.Trade:
-					CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerTrade, member);
-					break;
-				}
+		if ( !CrewInventory.Instance.canOpen ) {
+			print ("cannot open player loot");
+			return;
+		}
 
-			} else {
+		if (StoryLauncher.Instance.PlayingStory) {
+
+			switch (OtherInventory.Instance.type) {
+			case OtherInventory.Type.None:
 				CrewInventory.Instance.ShowInventory (CategoryContentType.Inventory , member);
+				break;
+			case OtherInventory.Type.Loot:
+				CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerLoot, member);
+				break;
+			case OtherInventory.Type.Trade:
+				CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerTrade, member);
+				break;
 			}
 
+		} else {
+			CrewInventory.Instance.ShowInventory (CategoryContentType.Inventory , member);
 		}
 		
 	}

@@ -18,13 +18,15 @@ public class StatButton : MonoBehaviour {
 		text = GetComponentInChildren<Text> ();
 
 		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
-		StatButton.onClickStatButton += HandleOnClickStatButton;
+		StatButton.onClickStatButton += UpdateDisplay;
+		SkillButton_Inventory.onUnlockSkill += UpdateDisplay;
+
 
 		Display (CrewMember.GetSelectedMember);
 
 	}
 
-	void HandleOnClickStatButton ()
+	void UpdateDisplay ()
 	{
 		Display (CrewMember.GetSelectedMember);
 	}

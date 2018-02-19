@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Skill_HelpMate : Skill {
 
-	
-
 	public override void ApplyEffect ()
 	{
 		base.ApplyEffect ();

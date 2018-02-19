@@ -7,7 +7,7 @@ SetChoices2;;;;;;;;;;;;
 Choice : (partir);Choice : (vers la cabane);;;;;;;;;;;
 PlayerSpeak : On s'en va !;Fade;;;;;;;;;;;
 Leave;[charpentier];;;;;;;;;;;
-;NewCrew1;;;;;;;;;;;
+;NewCrew;;;;;;;;;;;
 ;OtherSpeak : Bonjour !;Node=>Charpentier Mort;Node=>Combat Charpentier;;;;;;;;;
 ;OtherSpeak : Je fais des merveilles avec les bateaux;;;;;;;;;;;
 ;[conversation];;;;;;;[discussion];;;;

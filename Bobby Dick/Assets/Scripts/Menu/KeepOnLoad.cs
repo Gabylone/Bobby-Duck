@@ -8,4 +8,6 @@ public class KeepOnLoad : MonoBehaviour {
 	}
 
 	public static int dataToLoad = -1;
+
+	public static bool displayTuto = false;
 }

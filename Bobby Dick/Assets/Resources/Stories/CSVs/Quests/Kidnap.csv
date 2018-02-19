@@ -1,14 +1,15 @@
 Nom;Fréquence %;Sprite ID;;;;;;
 Kidnap;23,08;0;;;;;;
 [debut];;;;;;;;
-AddCurrentQuest;;;;;;;;
 OtherSpeak : Mon enfant !;;;;;;;;
 OtherSpeak : Des bandits ont pris mon enfant !;;;;;;;;
-OtherSpeak : Ils sont partis par là !;;;;;;;;
-ShowQuestOnMap;;;;;;;;
-Leave;;;;;;;;
-;;;;;;;;
-;;;;;;;;
+OtherSpeak : Vous pouvez faire quelque chose ?;;;;;;;;
+SetChoices2;;;;;;;;
+Choice : Non c'est pas possible;Choice : Je m'en occupe(quete);;;;;;;
+OtherSpeak : Vous êtes sans cœur !;AddCurrentQuest;;;;;;;
+Leave;OtherSpeak : Ils sont partis par là;;;;;;;
+;ShowQuestOnMap;;;;;;;
+;Leave;;;;;;;
 [suite];;;;;;;;
 RandomRange2;;;;;;;;
 Node=>bandits voient pas;Node=>bandits voient;;;;;;;
@@ -19,11 +20,11 @@ NewCrew;;;;NewCrew;;;;
 [choix bandits 1];Node=>retrouvage;Node=>combat bandits;;[choix bandits 2];Node=>retrouvage;Node=>combat bandits;;
 SetChoices2;;;;SetChoices3;;;;
 Choice : (continuer son chemin)(partir);Choice : Hey ! Libérez le gamin !? (attaquer);;;Choice : (attaquer);Choice : (courir)(dex);;Choice : (charmer)(cha);
-Leave;OtherSpeak : Et alors ?;;;PlayerSpeak : Huzzah !;CheckStatDEX;;CheckStatCHA;
-;Node=>combat bandits;;;Node=>combat bandits;PlayerSpeak : Tayoh !;OtherSpeak : Vous allez où comme ça ?;PlayerSpeak : Je suis PLUS bon que vous :;OtherSpeak : Vous allez où comme ça ?
-;;;;;Leave;Node=>combat bandits;OtherSpeak : On s’arrache les gars;Node=>combat bandits
-;;;;;;;Leave;
-[combat bandits];;;;;;;;
+HideOther;OtherSpeak : Et alors ?;;;PlayerSpeak : Huzzah !;CheckStatDEX;;CheckStatCHA;
+Leave;Node=>combat bandits;;;Node=>combat bandits;PlayerSpeak : Tayoh !;OtherSpeak : Vous allez où comme ça ?;PlayerSpeak : Je suis PLUS bon que vous :;OtherSpeak : Vous allez où comme ça ?
+;;;;;HideOther;Node=>combat bandits;OtherSpeak : On s’arrache les gars;Node=>combat bandits
+;;;;;Leave;;HideOther;
+[combat bandits];;;;;;;Leave;
 LaunchCombat;;;;;;;;
 PlayerSpeak : Morts !;;;;;;;;
 [retrouvage];;;;;;;;
@@ -31,7 +32,7 @@ NewCrew1;;;;;;;;
 OtherSpeak : Enfin ! Je vais rentrer à la maison !;;;;;;;;
 [choix kidnap];;;;;;;;
 SetChoices2;;;;;;;;
-Choice : Oublie tes parents ! Rejoins l’équipe (nouveau membre);Choice : On te ramène chez tes parents !(quete);;;;;;;
+Choice : Oublie tes parents ! Rejoins l’équipe(nouveau membre);Choice : On te ramène chez tes parents !(quete);;;;;;;
 RandomRange2;OtherSpeak : Merci !;;;;;;;
 OtherSpeak : Alors là oui !;AccomplishQuest;;;;;;;
 OtherSpeak : Tout sauf la raclée que je vais recevoir.;Leave;;;;;;;

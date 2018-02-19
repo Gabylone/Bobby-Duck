@@ -34,8 +34,6 @@ public class Fighter : MonoBehaviour {
 	private delegate void UpdateState ();
 	private UpdateState updateState;
 
-	private int ID = 0;
-
 	public GameObject group;
 
 	[Header ("Components")]
@@ -137,6 +135,8 @@ public class Fighter : MonoBehaviour {
 		}
 	}
 
+	public static int globalID = 0;
+	public int id = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -147,6 +147,12 @@ public class Fighter : MonoBehaviour {
 
 		fightSprites = GetComponentInChildren<Fight_LoadSprites> ();
 		fightSprites.Init ();
+
+		id = globalID;
+
+		fightSprites.UpdateOrder (globalID);
+
+		++globalID;
 
 		transform.parent.GetComponentInChildren<Card> ().Init ();
 
@@ -165,35 +171,33 @@ public class Fighter : MonoBehaviour {
 			updateState ();
 
 		timeInState += Time.deltaTime;
-
-//		ClampPos ();
 	}
-
-	// c'est pour que le start se fasse qu'on fois seulement pour ça c'est idiot mais bon
-	bool started = false;
 
 	#region initalization
 	public delegate void OnInit ();
 	public OnInit onInit;
-	public void Init ( CrewMember crewMember, int id )
+	public void Reset ( CrewMember crewMember, int id )
 	{
-//		if (!started) {
-//			Start ();
-//			started = true;
-//		}
-
-		ID = id;
-
 		this.crewMember = crewMember;
 
-
 		Show ();
+		ChangeState (states.none);
 
-		fightSprites.UpdateOrder (Crews.getCrew(crewMember.side).CrewMembers.Count-id);
+		// animation
+		animator.SetBool("dead",false);
+		transform.position = initPos;
 
-		Reset ();
+		// energy & status
+		crewMember.energy = 0;
+		onSkillDelay = null;
+		for (int i = 0; i < statusCount.Length; i++) {
+			statusCount [i] = 0;
+		}
+
+		// member sprites
 		fightSprites.UpdateSprites (crewMember.MemberID);
 
+		// event
 		if ( onInit != null )
 			onInit ();
 	}
@@ -239,8 +243,8 @@ public class Fighter : MonoBehaviour {
 			onEndTurn ();
 	}
 
-	public delegate void OnSelect ();
-	public OnSelect onSelect;
+	public delegate void OnSetAsTarget ();
+	public OnSetAsTarget onSetAsTarget;
 	public void SetAsTarget () {
 
 		if ( HasStatus(Status.Provoking) ) {
@@ -253,8 +257,8 @@ public class Fighter : MonoBehaviour {
 
 		Tween.Bounce (transform);
 
-		if (onSelect != null)
-			onSelect ();
+		if (onSetAsTarget != null)
+			onSetAsTarget ();
 	}
 
 	public void Hide ()
@@ -277,20 +281,6 @@ public class Fighter : MonoBehaviour {
 	void Show () {
 		group.SetActive (true);
 		gameObject.SetActive (true);
-	}
-
-	public void Reset () {
-		ChangeState (states.none);
-		animator.SetBool("dead",false);
-		transform.position = initPos;
-
-//		crewMember.energy = crewMember.energyPerTurn;
-		crewMember.energy = 0;
-		onSkillDelay = null;
-
-		for (int i = 0; i < statusCount.Length; i++) {
-			statusCount [i] = 0;
-		}
 	}
 
 	public virtual void Die () {
@@ -461,6 +451,11 @@ public class Fighter : MonoBehaviour {
 		if ( Pickable ) {
 			CombatManager.Instance.ChoseTargetMember (this);
 			Tween.Bounce (transform);
+			return;
+		}
+
+		if (CombatManager.Instance.currentFighter == this) {
+			print ("on peut pas show info parce que c'est le fighter de mainteannt");
 			return;
 		}
 
@@ -748,7 +743,7 @@ public class Fighter : MonoBehaviour {
 
 		if ( HasStatus(Status.Poisonned) ) {
 			RemoveStatus (Status.Poisonned);
-			Hurt (15);
+			Hurt (10);
 		}
 
 		if ( HasStatus(Status.Jagged) ) {

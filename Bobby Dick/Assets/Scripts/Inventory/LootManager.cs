@@ -285,16 +285,6 @@ public class LootManager : MonoBehaviour {
 		return defaultCategoryContent;
 	}
 
-	public delegate void OnWrongLevelEvent ();
-	public OnWrongLevelEvent onWrongLevelEvent;
-
-	public void OnWrontLevel ()
-	{
-		if ( onWrongLevelEvent != null ) {
-			onWrongLevelEvent ();
-		}
-	}
-
 	public Sprite getItemSprite (ItemCategory cat,int id) {
 
 		switch (cat) {

@@ -1,28 +1,21 @@
 DEBUG BOB
 
 - quete : quand il y a une quete au meme endroit CARGAISON / BANDITS trouver un moyen clairement meetre un global ID aux quetes
-
-- next day = passer par toutes les heures ( pour Handle on new chunk )
 - petit fade sur la map texture
-- pouvoir accepter les quêtes dans la quete
-- faire un layout group global pour les menus hhein SI  de suite
-- OUI => merci de m'avoir aidé
-- item ne se mettent pas à jour quand on change de membre ( couleur : niveau )
-- l'énergie et le métier ne diparaisse pas combat
-- changer sprite protected skill
-- le menu des compétences ne se ferme pas quand on ferme l'inventaire
-- au début du jeu, donner des armes convenantes aux classes convenants pour les ennemis
-- et si l'ennemis attaquait celui qui a le moins de vie ?
-- mettre le métier meme taillet place que skip turnµ
-- energie plus gros, chiffre dans bar
-- gagner moins d'or
-- lier current level des boat upgade bidule au bateau à cause de la sauvegarde
 
-LATER //////
-- lenteur de la sauvegarde 
-	- liste de discovered chunk
-	- liste de island datas ( chunk limit )
-	- liste de int pour les objets, au lieu de classes entieres
+- y'a toujours du double sautage de tour dans l'air
+	théorie : c'est parce que die & flee sont pas sensés ++nextmember
+
+- finir tuto
+- placement des iles : donner un nombre de fois ou les lies apparaiisent au lieu d'une chance. et les espaceR.
+- appliquer changements progression tutorial barre sur barre de vie.
+- trouver moyen pour item id
+- classe différente pour crewmember enemy
+- liste de discovered chunk
+- ficher pour chaque ile
+- tester rencontre bateau ficher 500 mo
+
+TEST
 
 HISTOIRE
 - grotte : plusieurs enigmes ( dont jours )

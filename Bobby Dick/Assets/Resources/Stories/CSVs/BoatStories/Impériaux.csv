@@ -1,6 +1,7 @@
 Nom;Fréquence / 5;Boat Type;;;;;;;;;;;;;;;
 Impériaux;41,67;1;;;;;;;;;;;;;;;
 Narrator : Un grand bateau impérial alpage CAPITAINE. Ses canons sont braqués sur son bateau, et le marin en chef apparaît sur le pont.;;;;;;;;;;;;;;;;;
+[apparition capitaine];;;;;;;;;;;;;;;;;
 NewCrew;;;;;;;;;;;;;;;;;
 Node=>check karma;Node=>bateau vide;OtherSpeak : Revoilà ces manants !;;;;;;;;;;;;;;;
 ;;Node=>combat;;;[choix];;;;;;;[combat];;;;;
@@ -18,11 +19,11 @@ OtherSpeak : Avec plaisir.;OtherSpeak : Il ne faut pas abuser de notre génér
 Node=>besoin;Node=>choix;;;;;;OtherSpeak : vous avez besoin de quelque chose ?;;;;;NewCrew1;;NewCrew1;;NewCrew1;
 ;;;;;;;SetChoices4;;;;;OtherSpeak : Le fameux CAPITAINE ! Quel chance;;OtherSpeak : Yo;;OtherSpeak : Enchanté;
 ;;;;;;;Choice : Des marins !(nouveau membre);Choice : De la bouffe !(loot);Choice : Des armes !(loot);Choice : Ça ira…(partir);;SetChoices2;;SetChoices2;;SetChoices2;
-[bateau vide];;;;;;;OtherSpeak : Laissez moi voir;OtherSpeak : Servez vous;OtherSpeak : Servez vous;AddKarma;;Choice : Allez monte(nouveau membre);Choice : Je veux voir quelqu'un d'autre(autre);Choice : Allez monte(nouveau membre);Choice : Je veux voir quelqu'un d'autre(autre);Choice : Allez monte(nouveau membre);Choice : Je veux voir quelqu'un d'autre(autre)
-Narrator : Le bateau est vide.;;;;;;;OtherSpeak : Y'en a bien un ou deux qui doit trainer dans le coin;LootFood;LootWeapons;OtherSpeak : !;;OtherSpeak : C'est une splendide nouvelle !;Node=>mec2;OtherSpeak : K, j'le dis au patron;Node=>mec3;OtherSpeak : Tout de suite;OtherSpeak : J'étais le dernier
-SetChoices2;;;;;;;HideOther;OtherSpeak : Qu'est-ce que je peux faire d'autre;OtherSpeak : Qu'est-ce que je peux faire d'autre;OtherSpeak : Vous êtes décidément une légende de bonté !;;OtherSpeak : Je rappelle le chef;;AddMember;;AddMember;OtherSpeak : Je vous ramène au chef
-Choice : (partir);Choice : (fouiller)(loot);;;;;;Fade;Node=>choix;Node=>choix;OtherSpeak : Qu'est-ce que je peux faire pour vous;;AddMember;;Node=>choix;;Node=>choix;Node=>choix
-DestroyShip;Fade;;;;;;Node=>mec1;;;Node=>choix;;Node=>choix;;;;;
+[bateau vide];;;;;;;OtherSpeak : Laissez moi voir;OtherSpeak : Servez vous;OtherSpeak : Servez vous;AddKarma;;Choice : Allez monte (nouveau membre);Choice : Je veux voir quelqu'un d'autre(autre);Choice : Allez monte (nouveau membre);Choice : Je veux voir quelqu'un d'autre(autre);Choice : Allez monte (nouveau membre);Choice : Je veux voir quelqu'un d'autre(autre)
+Narrator : Le bateau est vide.;;;;;;;OtherSpeak : Y'en a bien un ou deux qui doit trainer dans le coin;LootFood;LootWeapons;OtherSpeak : !;;OtherSpeak : C'est une splendide nouvelle !;Node=>mec2;OtherSpeak : Allons y;Node=>mec3;OtherSpeak : Tout de suite;OtherSpeak : J'étais le dernier
+SetChoices2;;;;;;;HideOther;OtherSpeak : Qu'est-ce que je peux faire d'autre;OtherSpeak : Qu'est-ce que je peux faire d'autre;OtherSpeak : Vous êtes décidément une légende de bonté !;;OtherSpeak : Partons de suite;;AddMember;;AddMember;OtherSpeak : Je vous ramène au chef
+Choice : (partir);Choice : (fouiller)(loot);;;;;;Fade;Node=>choix;Node=>choix;OtherSpeak : Qu'est-ce que je peux faire pour vous;;AddMember;;Leave;;Leave;Node=>apparition capitaine
+DestroyShip;Fade;;;;;;Node=>mec1;;;Node=>choix;;Leave;;;;;
 Leave;RandomPercent20;;;;;;;;;;;;;;;;
 ;PlayerSpeak : Rien de bien beau…;[fouille];;;;;;;;;;;;;;;
 ;Leave;RandomRange3;;;PlayerSpeak : Il n'y a plus rien.;;;;;;;;;;;;

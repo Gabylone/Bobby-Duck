@@ -171,10 +171,6 @@ public class QuestManager : MonoBehaviour {
 
 				return;
 
-			} else {
-				//,
-				Debug.LogError("targetIslandIsOriginIsland : TRUE ??? ");
-
 			}
 		}
 			
@@ -188,7 +184,7 @@ public class QuestManager : MonoBehaviour {
 	{
 		Quest quest = Quest.currentQuest;
 		
-		GoldManager.Instance.GoldAmount += quest.goldValue;
+		GoldManager.Instance.AddGold(quest.goldValue);
 
 		foreach ( CrewMember member in Crews.playerCrew.CrewMembers ) {
 			member.AddXP (quest.experience);

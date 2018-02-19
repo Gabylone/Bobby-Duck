@@ -27,23 +27,19 @@ public class Boats : MonoBehaviour {
 	}
 
 	void Start () {
-		StoryFunctions.Instance.getFunction += HandleGetFunction;
+		Karma.onChangeKarma += HandleOnChangeKarma;
 	}
 
-	void HandleGetFunction (FunctionType func, string cellParameters)
+	void HandleOnChangeKarma (int previousKarma, int newKarma)
 	{
-		switch (func) {
-		case FunctionType.AddKarma:
+		if (previousKarma > newKarma) {
+			if (Karma.Instance.CurrentKarma > -Karma.Instance.maxKarma) {
+				AddImperialBoat ();
+			}
+		} else {
 			if (Karma.Instance.CurrentKarma < 0) {
 				RemoveImperialBoat ();
 			}
-			break;
-		case FunctionType.RemoveKarma:
-			if ( Karma.Instance.CurrentKarma > -Karma.Instance.maxKarma )
-				AddImperialBoat ();
-			break;
-		default:
-			break;
 		}
 	}
 
@@ -58,7 +54,6 @@ public class Boats : MonoBehaviour {
 		otherBoatInfo.storyManager.storyHandlers[0].storyID = imperialID;
 			
 		otherBoatInfos.Add(otherBoatInfo);
-
 
 	}
 
