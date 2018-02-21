@@ -19,7 +19,7 @@ Node=>dialogue;;;;;;;
 ;;;;;;;
 [dialogue];;;;;;;
 SetChoices3;;;;;;;
-Choice : Monte !(nouveau membre);Choice : Donne nous tout ce que tu as ou on te croque la bite.(attaquer);;Choice : Désolé mon gars, pas assez de place à bord;;;;
+Choice : Monte !(membre);Choice : Donne nous tout ce que tu as ou on te croque la bite.(attaquer);;Choice : Désolé mon gars, pas assez de place à bord;;;;
 Node=>ajouté à l'équipage;RandomRange2;;RandomRange3;;;;
 ;OtherSpeak : Mais je n'ai absolument rien !;RemoveKarma;OtherSpeak : Donnez moi au moins quelque chose à manger;;;Node=>combat naufragé;OtherSpeak : Je comprends…
 ;Node=>combat dialogue;Node=>combat naufragé;SetChoices2;;;;Leave

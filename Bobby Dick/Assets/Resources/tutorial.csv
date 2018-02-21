@@ -12,12 +12,15 @@ Nuit;La nuit, CAPITAINE et NOMBATEAU ne voient pas plus loin qu’une taupe. Il 
 Pluie;La pluie est trop dense pour y voir quoi que ce soir. Et si la nuit tombe en même temps, CAPITAINE ne verra une île que si elle est sous la coque de NOMBATEAU;pendant la pluie
 Statut;Il arrive quelques chose à un de vos gars ! Pendant un combat, les changements d’états de votre équipage est affiché en bas de sa vie, sous formes de petites icônes. Cliquez dessus pour en savoir plus.;premier statust
 Nouveau membre;Un nouveau gars à rejoint l’équipe ! C’est une nouvelle force en combat, mais aussi une nouvelle bouche à nourrir;nouveau membre 
-Compétence;Les boutons à gauche, c’est vos compétences. Le bouton vert, c’est vos compétences de métier. Chaque compétence à un coûts d’énergie ( les barres, vertes, elle se recharges à chaque tour ) , et une charge ( la compétence ne peut pas être utilisée pendant un certain tour );combat player hcoice
-Quête;CAPITAINE à reçu une quête. Elles donneront expérience, or et augmenteront le karma de l’équipage, en plus de parfois débloquer votre chemin.;recevoir quete
+Compétence;Les boutons à gauche, c’est vos compétences. Le bouton vert, c’est vos compétences de métier.;combat player hcoice
+Energie & Charge;Chaque compétence à un coûts d’énergie ( Barres vertes ). Ainsi qu’un temps de recharge.;combat player hcoice
+Quête;CAPITAINE à reçu une quête. Elles donneront expérience, or et augmenteront le karma de l’équipage. Jetez un coup d’oeil dans le menu Quête, il vient d’apparaître !;recevoir quete
+Menu Quête;Ici apparaissent toutes les quêtes de CAPITAINE, ainsi que les indices découverts à propos du Trésor. Touchez une quête pour afficher sa destination.;recevoir quete
 Gestion Bateau;Ici, vous voyez toutes caractéristiques de NOMBATEAU. CAPITAINE peut aller voir un charpentier, dans les îles et les villages, pour améliorer le bateau.;ouverture inventaire.
 Autres bateaux;CAPITAINE et NOMBATEAU vont croiser d’autres bateaux sur votre route. Certains passerons son chemin, d’autres iront à sa rencontre.;rencontre bateau
 Faim;Un de vos gars à faim ! Ouvrez l’inventaire pour lui donner quelque chose à manger.;commencement faim
 Manger;Il faut avoir un plein de vie pour perdre de la faim ! La viande est très nutritive, les poissons moins, et les légumes encore moins.;manger un bout
-Monter de niveau;Un de vos gars est devenu plus fort ! Ouvrez le menu de votre métier, dans l’inventaire, il y apprendra des nouvelles techniques, et y améliorera sa force, son adresse, son charme ou sa constitution.;monter niveau
+Monter de niveau;Un de vos gars est devenu plus fort ! Allez faire un tour dans le menu Métier de votre équipage.;monter niveau
+Menu compétence;Ici, CAPITAINE apprendra des nouvelles techniques, et améliorera sa force, son adresse, son charme ou sa constitution.;
 Arme;CAPITAINE a ramassé une arme. Allez dans l’inventaire pour voir si elle lui convient.;ramasser arme
 Création personnage;Ici, vous créez le chef de votre équipage. Vous pouvez donner un nom à lui et son bateau, et choisir son métier, qui définira sa façon de combattre.;début création de personnage.

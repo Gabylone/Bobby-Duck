@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Holoville.HOTween;
 
-public class HungerIcon : MonoBehaviour {
+public class DisplayHunger_Icon : DisplayHunger {
 
 	private MemberIcon linkedIcon;
 
 	public int hungerToAppear = 50;
 
-	public GameObject hungerGroup;
-
-	public Image fullImage;
-
+	public GameObject heartGroup;
 	public Image heartImage;
 
-	public GameObject heartGroup;
+	public float hungerToShowLife = 25f;
 
-	void Start () {
+	public override void Start ()
+	{
+		base.Start ();
+
+		linkedIcon = GetComponentInParent<MemberIcon> ();
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
@@ -28,21 +30,37 @@ public class HungerIcon : MonoBehaviour {
 
 		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
 
-		linkedIcon = GetComponentInParent<MemberIcon> ();
-
-		heartGroup.SetActive (false);
-		hungerGroup.SetActive (false);
+		HideHunger ();
+		HideHeart ();
 	}
+
+	#region hear
+	void ShowHeart () {
+		HideHunger ();
+		heartGroup.SetActive (true);
+		Tween.Bounce (heartGroup.transform);
+		UpdateHeartImage ();
+	}
+	void HideHeart() {
+		heartGroup.SetActive (false);
+		//
+	}
+	void UpdateHeartImage () {
+		float l = (float)linkedIcon.member.Health / (float)linkedIcon.member.MemberID.maxHealth;
+		HOTween.Kill (heartImage.rectTransform);
+		HOTween.To ( heartImage , 2f , "fillAmount" , l );
+	}
+	#endregion
 
 	void HandleEndStoryEvent ()
 	{
-		UpdateIcon ();
+		UpdateHungerIcon (linkedIcon.member);
 	}
 
 	void HandlePlayStoryEvent ()
 	{
-		heartGroup.SetActive (false);
-		hungerGroup.SetActive (false);
+		HideHeart ();
+		HideHunger ();
 	}
 
 	void HandleCloseInventory ()
@@ -54,36 +72,25 @@ public class HungerIcon : MonoBehaviour {
 
 	void HandleOpenInventory (CrewMember member)
 	{
-		hungerGroup.SetActive (false);
-		heartGroup.SetActive (false);
+		HideHeart ();
+		HideHunger ();
 	}
 
 	void HandleChunkEvent ()
 	{
-		UpdateIcon ();
+		UpdateHungerIcon (linkedIcon.member);
 	}
 
-	void UpdateIcon () {
+	public override void UpdateHungerIcon (CrewMember member)
+	{
+		float fillAmount = 1f - ((float)member.CurrentHunger / (float)member.maxHunger);
 
-		float fillAmount = 1f - ((float)linkedIcon.member.CurrentHunger / (float)linkedIcon.member.maxHunger);
-
-		if (fillAmount < 0.45f) {
-			
-			if ( fillAmount <= 0.2f ) {
-				heartImage.fillAmount = (float)linkedIcon.member.Health / (float)linkedIcon.member.MemberID.maxHealth;
-				heartGroup.SetActive (true);
-				hungerGroup.SetActive (false);
-
-			} else {
-				fullImage.fillAmount = fillAmount;
-				heartGroup.SetActive (false);
-				hungerGroup.SetActive (true);
-			}
-
-			Tween.Bounce (transform, 0.2f, 1.2f);
-
+		if (fillAmount * 100 < hungerToShowLife) {
+			ShowHeart ();
+		} else if (fillAmount * 100 < hungerToAppear) {
+			base.UpdateHungerIcon (member);
 		} else {
-			hungerGroup.SetActive (false);
+			HideHunger ();
 		}
 
 	}

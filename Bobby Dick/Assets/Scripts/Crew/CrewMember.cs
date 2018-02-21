@@ -221,7 +221,6 @@ public class CrewMember {
 //			Debug.Log ("damageTaken : " + damageTaken);
 
 		return roundedDamage;
-//				Debug.Log ("rounded damage : " + roundedDamage);
 	}
 	public void AddHealth (float f) {
 		Health += Mathf.RoundToInt(f);
@@ -379,6 +378,7 @@ public class CrewMember {
 			break;
 		}
 	}
+
 	public Item GetEquipment ( EquipmentPart part ) {
 		switch (part) {
 		case EquipmentPart.Weapon:

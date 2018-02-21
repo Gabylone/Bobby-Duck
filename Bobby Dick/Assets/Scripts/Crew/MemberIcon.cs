@@ -57,8 +57,6 @@ public class MemberIcon : MonoBehaviour {
 			return;
 		}
 
-
-
 		if ( !CrewInventory.Instance.canOpen ) {
 			print ("cannot open player loot");
 			return;

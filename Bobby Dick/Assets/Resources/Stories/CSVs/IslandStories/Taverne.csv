@@ -90,7 +90,7 @@ Node=>salle_mercenaire;Node=>salle_vendeur de trucs;Node=>salle_joueurs;Node=>sa
 ;;;;;;;;;;;
 [salle_mercenaire];;;;[n'a jamais acheté];;;[choix mercenaires];;;;
 NewCrew4;;;;OtherSpeak : Salut mon gaminot !;OtherSpeak : Vous avez déjà acheté un homme chez nous;;SetChoices4;;;;
-Narrator : Un groupe d'homme armés boivent.;;Node=>salle vide;OtherSpeak : Fallait pas te repointer dans la taverne !;Node=>choix mercenaires;HideOther;;Choice : Non rien(partir);Choice : Combien pour un mercenaire ?(trade);Choice : Je vous en prends un(nouveau membre);;Choice : « Gaminot » ?
+Narrator : Un groupe d'homme armés boivent.;;Node=>salle vide;OtherSpeak : Fallait pas te repointer dans la taverne !;Node=>choix mercenaires;HideOther;;Choice : Non rien(partir);Choice : Combien pour un mercenaire ?(trade);Choice : Je vous en prends un(membre);;Choice : « Gaminot » ?
 SetChoices2;;;Node=>combat salle;;Fade;;HideOther;OtherSpeak : 100 tout rond.;CheckGold100;;OtherSpeak : Ouais gamin !
 Choice : (partir);Choice : (parler au groupe de mercenaire);;;;Node=>salle_mercenaire;;Fade;Node=>choix mercenaires;RemoveGold100;OtherSpeak : C'est gentil mais t'as pas l'oseille gamin;Node=>gamin
 HideOther;Node=>n'a jamais acheté;;;;;;Node=>salle_mercenaire;;OtherSpeak : Vous ne le regretterez pas !;HideOther;

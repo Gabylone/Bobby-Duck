@@ -163,9 +163,9 @@ public class QuestManager : MonoBehaviour {
 
 		if ( quest != null) {
 
-			bool targetIslandIsOriginIsland = quest.targetCoords == quest.originCoords;
+			if (quest.targetCoords != quest.originCoords && StoryReader.Instance.currentStoryLayer == 0) {
 
-			if (!targetIslandIsOriginIsland) {
+//				Debug.Log ();
 
 				quest.Continue ();
 

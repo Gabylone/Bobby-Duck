@@ -23,7 +23,7 @@ public class Skill_GrapeShot : Skill {
 			Fighter targetFighter = CombatManager.Instance.getCurrentFighters (Crews.otherSide (fighter.crewMember.side))
 				[Random.Range (0, CombatManager.Instance.getCurrentFighters (Crews.otherSide (fighter.crewMember.side)).Count)];
 
-			targetFighter.GetHit (fighter, fighter.crewMember.Attack , 0.33f);
+			targetFighter.GetHit (fighter, fighter.crewMember.Attack , 0.4f);
 
 			TriggerAnimation ();
 

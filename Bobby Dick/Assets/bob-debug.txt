@@ -1,21 +1,31 @@
 DEBUG BOB
 
-- quete : quand il y a une quete au meme endroit CARGAISON / BANDITS trouver un moyen clairement meetre un global ID aux quetes
-- petit fade sur la map texture
-
 - y'a toujours du double sautage de tour dans l'air
 	théorie : c'est parce que die & flee sont pas sensés ++nextmember
 
-- finir tuto
+- régler ce probleme de chunks trop longs
+
+xxx - faire apparaitre stat group member icon à côté pas au dessus
+xxx - changer sprite piston 
+xxx - preserve aspect sur back ground image
+
+PLUs : 
+- animation pièce de l'escroc comme image job.e sur barre de vie.
 - placement des iles : donner un nombre de fois ou les lies apparaiisent au lieu d'une chance. et les espaceR.
-- appliquer changements progression tutorial barre sur barre de vie.
+-tween rapide sur barre de vie combat
+- sauvegarder la game data quand on rentre & sort d'une île, et quand un membre meurt.
+- en cas de game over, supprimer les dossiers.
+- penser à : les gens dirige le héros vers l'indice le plus près
+
+SAUVEGARDE
+
 - trouver moyen pour item id
 - classe différente pour crewmember enemy
 - liste de discovered chunk
 - ficher pour chaque ile
-- tester rencontre bateau ficher 500 mo
+	- sauver l'ile actuelle à l'entrée et la sortie.
 
-TEST
+- tester rencontre bateau ficher 500 mo
 
 HISTOIRE
 - grotte : plusieurs enigmes ( dont jours )

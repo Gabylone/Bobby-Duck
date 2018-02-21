@@ -142,6 +142,7 @@ public class TimeManager : MonoBehaviour {
 	public static OnNextHour onNextHour;
 	void NextHour () {
 
+
 		++timeOfDay;
 		currentRain++;
 

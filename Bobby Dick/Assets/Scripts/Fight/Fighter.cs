@@ -293,7 +293,7 @@ public class Fighter : MonoBehaviour {
 		Fade ();
 
 		CombatManager.Instance.DeleteFighter (this);
-		CombatManager.Instance.NextTurn ();
+		CombatManager.Instance.NextTurn (false);
 		print ("Skipping Turn : Member Is Dead");
 
 	}
@@ -490,27 +490,27 @@ public class Fighter : MonoBehaviour {
 		GetHit (otherFighter, attack, 1);
 	}
 
-	public void GetHit (Fighter otherFighter, float attack, float mult) {
-
-		if (SucceedDodge() == true) {
-			return;
-		}
-
+	void HitEffect () {
+		
 		SoundManager.Instance.PlaySound (hitSound);
 
-		// collision effect
 		impactEffect.SetActive (false);
 		impactEffect.SetActive (true);
 
 		animator.SetTrigger("getHit");
 
-//		impactEffect.transform.position = BodyTransform.position + (Vector3.up*Random.value);
+		//		impactEffect.transform.position = BodyTransform.position + (Vector3.up*Random.value);
 		impactEffect.transform.position = BodyTransform.position;
+	}
 
-		float damage = crewMember.getDamage (attack);
+	float GetDamage (Fighter otherFighter, float attack, float mult)
+	{
+		float damage = 0f;
+
+		damage = crewMember.getDamage (attack);
 		damage *= mult;
 
-			// reduced damage
+		// reduced damage
 		if ( otherFighter.HasStatus(Status.Cussed) ) {
 			otherFighter.RemoveStatus (Status.Cussed);
 			damage = damage * 0.5f;
@@ -525,6 +525,21 @@ public class Fighter : MonoBehaviour {
 			damage = damage * 0.5f;
 		}
 
+		damage = Mathf.Round (damage);
+
+		return damage;
+	}
+
+	public void GetHit (Fighter otherFighter, float attack, float mult) {
+
+		if (SucceedDodge() == true) {
+			return;
+		}
+
+		HitEffect ();
+
+		float damage = GetDamage (otherFighter, attack,mult);
+
 		combatFeedback.Display (damage.ToString() , Color.red);
 		crewMember.RemoveHealth (damage);
 
@@ -537,14 +552,13 @@ public class Fighter : MonoBehaviour {
 				int xpPerMember = 25;
 
 				otherFighter.crewMember.AddXP (xpPerMember);
-				otherFighter.combatFeedback.Display ("+ " + xpPerMember + " xp", Color.blue);
+				otherFighter.combatFeedback.Display (xpPerMember + " xp", Color.blue);
 			}
 
 			crewMember.Kill ();
 			Die ();
 		}
 	}
-
 
 	public void CheckContact (Fighter otherFighter) {
 		if (HasStatus (Status.BearTrapped)) {
@@ -591,8 +605,7 @@ public class Fighter : MonoBehaviour {
 
 		if ( dodgeChange < dodgeSkill ) {
 			animator.SetTrigger("dodge");
-
-			combatFeedback.Display ("Raté !");
+			combatFeedback.Display ("x", Color.red);
 			return true;
 		}
 
@@ -718,12 +731,12 @@ public class Fighter : MonoBehaviour {
 
 			RemoveStatus (Status.KnockedOut);
 
-			combatFeedback.Display ("zzz");
+			combatFeedback.Display ("z");
 
 			CombatManager.Instance.ChangeState (CombatManager.States.None);
 
 			EndTurn ();
-			CombatManager.Instance.NextTurn ();
+			CombatManager.Instance.NextTurn (true);
 			print ("Skipping Turn : Knocked out");
 
 			return;
@@ -782,7 +795,7 @@ public class Fighter : MonoBehaviour {
 			break;
 		}
 
-		combatFeedback.Display (status.ToString(), Color.white);
+		combatFeedback.Display (status, Color.white);
 
 		statusCount[(int)status] = count;
 		statusCount [(int)status] = Mathf.Clamp (statusCount [(int)status], 0, 10);

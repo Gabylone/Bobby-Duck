@@ -180,8 +180,8 @@ public class OtherInventory : MonoBehaviour {
 
 		LootManager.Instance.OtherLoot.RemoveItem (item);
 
-		if (CrewMember.GetSelectedMember.GetEquipment(item.EquipmentPart) != null)
-			LootManager.Instance.PlayerLoot.AddItem (CrewMember.GetSelectedMember.GetEquipment(item.EquipmentPart) );
+		if (CrewMember.GetSelectedMember.GetEquipment (item.EquipmentPart) != null)
+			LootManager.Instance.PlayerLoot.AddItem (CrewMember.GetSelectedMember.GetEquipment (item.EquipmentPart));
 		
 		CrewMember.GetSelectedMember.SetEquipment (item);
 

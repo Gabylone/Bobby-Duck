@@ -156,15 +156,12 @@ public class Crews : MonoBehaviour {
 		Crew playerCrew = new Crew (crewParams,0,0);
 		Canvas.ForceUpdateCanvases ();
 		crews [0].SetCrew (playerCrew);
-		crews [0].UpdateCrew (PlacingType.Map);
 	}
 	public void LoadPlayerCrew () {
-		
-		playerCrew.managedCrew = SaveManager.Instance.GameData.playerCrew;
 
-		Invoke ("LoadPlayerCrewDelay", 0.01f);
-	}
-	void LoadPlayerCrewDelay () {
+//		Debug.Log ("loading player crew ?");
+
+		playerCrew.managedCrew = SaveManager.Instance.GameData.playerCrew;
 
 		crews [0].SetCrew (playerCrew.managedCrew);
 		crews [0].UpdateCrew (PlacingType.Map);

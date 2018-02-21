@@ -25,7 +25,7 @@ public class TutorialProgressionImage : MonoBehaviour {
 	{
 		progression++;
 
-		UpdateProgressionBar ();
+		Invoke ("UpdateProgressionBar", 1f);
 	}
 
 	void UpdateProgressionBar () {

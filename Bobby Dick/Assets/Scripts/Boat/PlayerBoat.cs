@@ -32,6 +32,7 @@ public class PlayerBoat : Boat {
 
 	void HandleChunkEvent ()
 	{
+
 		SetTargetPos (defaultRecTransform);
 	}
 

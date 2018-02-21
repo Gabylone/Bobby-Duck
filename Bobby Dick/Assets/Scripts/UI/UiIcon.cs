@@ -28,6 +28,7 @@ public class UiIcon : MonoBehaviour {
 
 	public virtual void HandleChunkEvent ()
 	{
+		Debug.Log("chunk ui icon");
 		Show ();
 		Invoke ("Hide", 1f);
 	}

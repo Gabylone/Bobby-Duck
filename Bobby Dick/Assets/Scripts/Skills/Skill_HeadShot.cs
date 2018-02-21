@@ -52,7 +52,7 @@ public class Skill_HeadShot : Skill {
 	{
 		Invoke ("TriggerDelay",0.1f);
 		this.delayFighter = _delayFighter;
-		delayFighter.combatFeedback.Display (base.name);
+		delayFighter.combatFeedback.Display (Fighter.Status.PreparingAttack);
 	}
 
 	void TriggerDelay () {

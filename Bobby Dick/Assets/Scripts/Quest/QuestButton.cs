@@ -23,12 +23,16 @@ public class QuestButton : MonoBehaviour {
 	[SerializeField]
 	private Text levelText;
 
+	[SerializeField]
+	private GameObject achievedFeedback;
+
 	public void Select () {
 
 		Quest quest = QuestManager.Instance.currentQuests [id];
 		quest.ShowOnMap ();
 
 		Tween.Bounce ( transform );
+
 	}
 
 	public void SetQuest ( int id ) {
@@ -45,7 +49,15 @@ public class QuestButton : MonoBehaviour {
 
 //		experienceText.text = quest.experience.ToString ();
 
-		levelText.text = quest.level.ToString ();
+		if (quest.accomplished) {
+			
+			levelText.gameObject.SetActive (false);
+			achievedFeedback.SetActive (true);
+		} else {
+			levelText.text = quest.level.ToString ();
+			levelText.gameObject.SetActive (true);
+			achievedFeedback.SetActive (false);
+		}
 
 	}
 

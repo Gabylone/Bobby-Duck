@@ -30,13 +30,13 @@ public class Tween : MonoBehaviour {
 
 	public static void Fade (Transform t, float dur ) {
 
-		foreach ( Image image in t.GetComponentsInChildren<Image>() ) {
+		foreach ( Image image in t.GetComponentsInChildren<Image>(true) ) {
 			Color c = image.color;
 			c.a = 0f;
 			HOTween.To ( image, dur , "color" , c  );
 		}
 
-		foreach ( Text text in t.GetComponentsInChildren<Text>() ) {
+		foreach ( Text text in t.GetComponentsInChildren<Text>(true) ) {
 			Color c = text.color;
 			c.a = 0f;
 			HOTween.To ( text, dur , "color" , c  );
@@ -46,14 +46,14 @@ public class Tween : MonoBehaviour {
 
 	public static void ClearFade (Transform t ) {
 
-		foreach ( Image image in t.GetComponentsInChildren<Image>() ) {
+		foreach ( Image image in t.GetComponentsInChildren<Image>(true) ) {
 			HOTween.Kill (image);
 			Color c = image.color;
 			c.a = 1f;
 			image.color = c;
 		}
 
-		foreach ( Text text in t.GetComponentsInChildren<Text>() ) {
+		foreach ( Text text in t.GetComponentsInChildren<Text>(true) ) {
 			HOTween.Kill (text);
 			Color c = text.color;
 			c.a = 1f;

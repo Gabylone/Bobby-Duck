@@ -116,7 +116,9 @@ public class StoryHandler {
 
 	public void SetCrew (Crew targetCrew) {
 		crews.Add (targetCrew);
-		Debug.Log ("ADDING CREW TO STORY : " + targetCrew.MemberIDs[0].Name);
+		if (StoryLauncher.Instance.CurrentStorySource == StoryLauncher.StorySource.boat)
+			Debug.Log ("adding crew to BOAT story: " + targetCrew.MemberIDs [0].Name);
+	
 	}
 
 	public void SaveDecal (int decal) {

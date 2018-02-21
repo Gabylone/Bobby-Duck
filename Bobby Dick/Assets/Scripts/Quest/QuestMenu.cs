@@ -29,6 +29,9 @@ public class QuestMenu : MonoBehaviour {
 
 	public Text displayQuestText;
 
+	public delegate void OnOpenQuestMenu ();
+	public static OnOpenQuestMenu onOpenQuestMenu;
+
 	[SerializeField]
 	DisplayFormulas displayFormulas;
 	void Awake () {
@@ -72,6 +75,9 @@ public class QuestMenu : MonoBehaviour {
 
 //		Tween.ClearFade (menuGroup.transform);
 		Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
+
+		if (onOpenQuestMenu != null)
+			onOpenQuestMenu ();
 	}
 
 	void DisplayQuestAmount () {
@@ -90,12 +96,7 @@ public class QuestMenu : MonoBehaviour {
 
 		CrewInventory.Instance.ShowMenuButtons ();
 
-		float dur = 0.1f;
-
-		Tween.Scale (menuGroup.transform , dur , 0.95f);
-//		Tween.Fade (menuGroup.transform , 0.2f );
-
-		Invoke ("HideMenu" ,dur);
+		HideMenu();
 	}
 
 	void HideMenu() {

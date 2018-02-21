@@ -33,6 +33,7 @@ public class CrewManager : MonoBehaviour {
 		NavigationManager.Instance.EnterNewChunk += AddToStates;
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 		CombatManager.Instance.onFightStart += HandleFightStarting;
+
 	}
 
 	void HandleFightStarting ()
@@ -149,6 +150,9 @@ public class CrewManager : MonoBehaviour {
 
 		managedCrew = crew;
 
+		Invoke ("ShowCrew",0.1f);
+	}
+	void ShowCrew () {
 		UpdateCrew (Crews.PlacingType.Map);
 	}
 	#endregion

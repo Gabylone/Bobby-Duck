@@ -31,6 +31,9 @@ public class Member {
 	public Item equipedWeapon;
 	public Item equipedCloth;
 
+	public Item equipedWeaponID;
+	public Item equipedClothID;
+
 	public Member () {
 
 	}

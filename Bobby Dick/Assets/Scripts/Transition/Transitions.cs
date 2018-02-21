@@ -19,8 +19,10 @@ public class Transitions : MonoBehaviour {
 		if ( StoryFunctions.Instance )
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
-		CombatManager.Instance.onFightStart += HandleFightStarting;
-		CombatManager.Instance.onFightEnd += HandleFightEnding;
+		if (CombatManager.Instance) {
+			CombatManager.Instance.onFightStart += HandleFightStarting;
+			CombatManager.Instance.onFightEnd += HandleFightEnding;
+		}
 
 	}
 

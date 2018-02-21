@@ -111,36 +111,31 @@ public class CrewInventory : MonoBehaviour {
 
 		Item foodItem = LootUI.Instance.SelectedItem;
 
+		int i = 0;
+
 		switch (foodItem.spriteID) {
 		// légume
 		case 0:
-			CrewMember.GetSelectedMember.AddHealth (25);
-			if (CrewMember.GetSelectedMember.Health > 100) {
-				CrewMember.GetSelectedMember.CurrentHunger -= 25;
-				print ("health en entier, donc faim");
-			}
+			i = 25;
 			break;
 		// poisson
 		case 1:
-			CrewMember.GetSelectedMember.AddHealth (50);
-			if (CrewMember.GetSelectedMember.Health > 100) {
-				CrewMember.GetSelectedMember.CurrentHunger -= 50;
-				print ("health en entier, donc faim");
-			}
+			i = 50;
 			break;
 		// viande
 		case 2:
-			CrewMember.GetSelectedMember.AddHealth (75);
-			if (CrewMember.GetSelectedMember.Health > 100) {
-				CrewMember.GetSelectedMember.CurrentHunger -= 75;
-				print ("health en entier, donc faim");
-			}
+			i = 75;
 			break;
 		default:
 			break;
 		}
 
-		if ( OtherInventory.Instance.type == OtherInventory.Type.None )
+		if (CrewMember.GetSelectedMember.Health >= CrewMember.GetSelectedMember.MemberID.maxHealth - 10) {
+			CrewMember.GetSelectedMember.CurrentHunger -= i;
+		}
+		CrewMember.GetSelectedMember.AddHealth (i);
+
+		if (OtherInventory.Instance.type == OtherInventory.Type.None)
 			LootManager.Instance.PlayerLoot.RemoveItem (LootUI.Instance.SelectedItem);
 		else
 			LootManager.Instance.OtherLoot.RemoveItem (LootUI.Instance.SelectedItem);

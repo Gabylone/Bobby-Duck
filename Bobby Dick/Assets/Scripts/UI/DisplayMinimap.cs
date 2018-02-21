@@ -50,6 +50,7 @@ public class DisplayMinimap : MonoBehaviour {
 
 	void HandleChunkEvent ()
 	{
+
 		UpdateBoatRange ();
 
 		CenterOnBoat ();
@@ -222,7 +223,7 @@ public class DisplayMinimap : MonoBehaviour {
 
 		int boatRange = currentShipRange;
 
-		foreach ( OtherBoatInfo boatInfo in Boats.Instance.OtherBoatInfos ) {
+		foreach ( OtherBoatInfo boatInfo in Boats.Instance.getBoats ) {
 
 			if ( boatInfo.coords <= Boats.playerBoatInfo.coords + boatRange&& boatInfo.coords >= Boats.playerBoatInfo.coords - boatRange ) {
 

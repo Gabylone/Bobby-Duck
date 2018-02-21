@@ -22,17 +22,15 @@ public class Skill_Flee : Skill {
 		if ( DiceManager.Instance.HighestResult == 6 ) {
 
 			fighter.Fade ();
-			fighter.combatFeedback.Display("Sucess!", Color.green);
+			fighter.combatFeedback.Display("o", Color.green);
 
 			CombatManager.Instance.DeleteFighter (fighter);
-			CombatManager.Instance.NextTurn ();
-			print ("Skipping Turn : Fleeing");
-
+			CombatManager.Instance.NextTurn (false);
 
 		} else if ( DiceManager.Instance.HighestResult == 1 ) {
 
 
-			fighter.combatFeedback.Display("Crit\nFail!", Color.magenta);
+			fighter.combatFeedback.Display("!", Color.magenta);
 			fighter.AddStatus (Fighter.Status.KnockedOut);
 
 			fighter.crewMember.energy = 0;
@@ -42,7 +40,7 @@ public class Skill_Flee : Skill {
 
 		} else {
 
-			fighter.combatFeedback.Display("Fail!",Color.red);
+			fighter.combatFeedback.Display("x",Color.red);
 
 			EndSkill ();
 

@@ -17,6 +17,8 @@ public class StatGroup : MonoBehaviour {
 	public Image levelImage;
 	public Text levelText;
 
+	public Image jobImage;
+
 	// Use this for initialization
 	void Start () {
 		Hide ();
@@ -31,27 +33,17 @@ public class StatGroup : MonoBehaviour {
 	}
 
 	public void Display (CrewMember member) {
-		
+
+		CancelInvoke ();
+		Invoke("Hide" , 1f);
+
 		Show ();
 		Tween.Bounce (transform);
 
-		UpdateUI (member);
-
-		CancelInvoke ();
-
-		Invoke("Hide" , 1f);
-
-	}
-	
-	// Update is called once per frame
-	public void UpdateUI (CrewMember member) {
-//		
-//		attackText.text = "" + member.Attack;
-//		defenceText.text = "" + member.Defense;
-
 		levelImage.color = member.GetLevelColor ();
-
 		levelText.text = "" + member.Level;
+		jobImage.sprite = SkillManager.jobSprites [(int)member.job];
+
 
 
 	}

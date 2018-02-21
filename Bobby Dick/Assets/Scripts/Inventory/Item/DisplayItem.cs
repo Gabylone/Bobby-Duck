@@ -203,8 +203,13 @@ public class DisplayItem : MonoBehaviour {
 
 			Value 		= handledItem.value;
 
-			Price 		= (int)(HandledItem.price/2f);
-
+//			if (LootUI.
+			if ( LootUI.Instance.categoryContentType == CategoryContentType.OtherTrade ) {
+				Price = HandledItem.price;
+			} else {
+				Price = (int)(HandledItem.price / 2f);
+			}
+			
 			Weight 		= HandledItem.weight;
 
 			Level 		= HandledItem.level;

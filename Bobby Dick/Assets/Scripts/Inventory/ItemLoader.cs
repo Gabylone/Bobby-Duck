@@ -63,7 +63,6 @@ public class ItemLoader : MonoBehaviour {
 		}
 	}
 
-
 	void LoadItems (TextAsset data) {
 
 		string[] rows = data.text.Split ('\n');
@@ -72,6 +71,7 @@ public class ItemLoader : MonoBehaviour {
 
 		string maxLevelTxt = rows [rows.Length - 2].Split (';')[5];
 		int maxLevel = int.Parse (maxLevelTxt);
+
 
 		int currentLevel = 0;
 
@@ -100,25 +100,7 @@ public class ItemLoader : MonoBehaviour {
 		}
 	}
 
-//	public int[] GetSpriteIDs ( string cellContent ) {
-//
-//		string[] parts = cellContent.Split (',');
-//		int[] ids = new int[parts.Length];
-//
-//		int a = 0;
-//		foreach (var item in parts) {
-//			ids [a] = int.Parse (item);
-//			print ("id : " + ids[a]);
-//
-//		}
-//
-//
-//		return ids;
-//
-//	}
-
 	#region random items
-	// ONLY 1 CATEGORY
 	public Item[] getRandomCategoryOfItem ( ItemCategory category , int mult ) {
 
 		int itemType = (int)category;
@@ -162,16 +144,29 @@ public class ItemLoader : MonoBehaviour {
 
 	public Item GetRandomItemOfCertainLevel ( ItemCategory category , int targetLevel = 0 ) {
 
+//		Debug.Log ( items [(int)category] [2].ID + " AAAAAAAAAAAAAA" );
 		Item[] tmpItems = System.Array.FindAll (items [(int)category], x => x.level == targetLevel);
-
-//		print ("found : " + tmpItems.Length + " items of level " + targetLevel + " for category " + category);
-
 		return tmpItems [Random.Range (0, tmpItems.Length)];
 	}
 
 	public Item[] getItems ( ItemCategory itemType ) {
 		return items[(int)itemType];
-	} 
+	}
+
+	public Item GetItem ( int itemID ) {
+
+		for (int i = 0; i < 4; i++) {
+
+			if (itemID < GetMaximumRange ((ItemCategory)i))
+				return items[i][itemID-GetMinimumRange ((ItemCategory)i)];
+
+		}
+
+		Debug.Log ("did not find item");
+
+		return new Item ();
+
+	}
 
 	public Item GetItem ( ItemCategory itemType , int itemID ) {
 		if ( itemID >= items[(int)itemType].Length ) {
@@ -191,6 +186,48 @@ public class ItemLoader : MonoBehaviour {
 	public int CategoryAmount {
 		get {
 			return categoryAmount;
+		}
+	}
+
+	public int GetMinimumRange ( ItemCategory cat ) {
+
+		switch (cat) {
+		case ItemCategory.Provisions:
+			return 0;
+			break;
+		case ItemCategory.Weapon:
+			return items[0].Length;
+			break;
+		case ItemCategory.Clothes:
+			return items[0].Length + items[1].Length;
+			break;
+		case ItemCategory.Misc:
+			return items[0].Length + items[1].Length + items[2].Length;
+			break;
+		default:
+			return 0;
+			break;
+		}
+	}
+
+	public int GetMaximumRange ( ItemCategory cat ) {
+
+		switch (cat) {
+		case ItemCategory.Provisions:
+			return items[0].Length;
+			break;
+		case ItemCategory.Weapon:
+			return items[0].Length + items[1].Length;
+			break;
+		case ItemCategory.Clothes:
+			return items[0].Length + items[1].Length + items[2].Length;
+			break;
+		case ItemCategory.Misc:
+			return items[0].Length + items[1].Length + items[2].Length + items[3].Length;
+			break;
+		default:
+			return 0;
+			break;
 		}
 	}
 }

@@ -20,7 +20,7 @@ public class Skill_DoubleTalk : Skill {
 	{
 		if ( DiceManager.Instance.HighestResult == 6 ) {
 
-			fighter.combatFeedback.Display("Sucess!", Color.green);
+			fighter.combatFeedback.Display("o", Color.green);
 
 			for (int fighterIndex = 0; fighterIndex < CombatManager.Instance.getCurrentFighters(fighter.crewMember.side).Count; fighterIndex++) {
 				
@@ -30,7 +30,7 @@ public class Skill_DoubleTalk : Skill {
 
 		} else {
 
-			fighter.combatFeedback.Display("Fail!",Color.red);
+			fighter.combatFeedback.Display("x",Color.red);
 
 		}
 

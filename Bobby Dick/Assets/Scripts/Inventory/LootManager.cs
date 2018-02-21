@@ -178,24 +178,24 @@ public class LootManager : MonoBehaviour {
 		ItemCategory targetCat = getLootCategoryFromString (cellParams.Split('/')[1]);
 		StoryReader.Instance.NextCell ();
 
-		if ( LootManager.Instance.getLoot(Crews.Side.Player).allItems [(int)targetCat].Count == 0 ) {
+		if ( LootManager.Instance.getLoot(Crews.Side.Player).AllItems [(int)targetCat].Count == 0 ) {
 			Debug.LogError ( "REMOVE IN INVENTORY : la catégorie visée est vide : ignorement" );
 			StoryReader.Instance.UpdateStory ();
 			return;
 		}
 
-		Item item = LootManager.Instance.getLoot(Crews.Side.Player).allItems [(int)targetCat] [0];
+		Item item = LootManager.Instance.getLoot(Crews.Side.Player).AllItems [(int)targetCat] [0];
 		if (cellParams.Contains ("<")) {
 			string itemName = cellParams.Split ('<') [1];
 			itemName = itemName.Remove (itemName.Length - 6);
-			item = LootManager.Instance.getLoot (Crews.Side.Player).allItems [(int)targetCat].Find (x => x.name == itemName);
+			item = LootManager.Instance.getLoot (Crews.Side.Player).AllItems [(int)targetCat].Find (x => x.name == itemName);
 		}
 
 		if (onRemoveItemFromInventory != null) {
 			onRemoveItemFromInventory (item);
 		}
 
-		LootManager.Instance.getLoot(Crews.Side.Player).RemoveItem (item);
+		LootManager.Instance.getLoot (Crews.Side.Player).RemoveItem (item);
 
 	}
 
@@ -227,7 +227,7 @@ public class LootManager : MonoBehaviour {
 			onAddToInventory (item);
 		}
 
-		getLoot(Crews.Side.Player).AddItem (item);
+		getLoot (Crews.Side.Player).AddItem (item);
 	}
 
 	void CheckInInventory () {
@@ -243,14 +243,14 @@ public class LootManager : MonoBehaviour {
 			string itemName = cellParams.Split ('<') [1];
 			itemName = itemName.Remove (itemName.Length - 6);
 
-			Item item = LootManager.Instance.getLoot (Crews.Side.Player).allItems [(int)targetCat].Find (x => x.name == itemName);
+			Item item = LootManager.Instance.getLoot (Crews.Side.Player).AllItems [(int)targetCat].Find (x => x.name == itemName);
 
 			if (item == null) {
 				StoryReader.Instance.SetDecal (1);
 			}
 
 		} else {
-			if (LootManager.Instance.getLoot (Crews.Side.Player).allItems [(int)targetCat].Count == 0) {
+			if (LootManager.Instance.getLoot (Crews.Side.Player).AllItems [(int)targetCat].Count == 0) {
 				StoryReader.Instance.SetDecal (1);
 			}
 		}

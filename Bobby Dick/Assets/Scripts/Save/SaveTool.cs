@@ -22,6 +22,7 @@ public class SaveTool : MonoBehaviour
 		CreateDirectories ();
 	}
 
+	#region directories
 	void CreateDirectories ()
 	{
 		if ( DirectoryExists(GetGameDataFolderPath()) == false ) {
@@ -34,8 +35,12 @@ public class SaveTool : MonoBehaviour
 			Directory.CreateDirectory (GetGameDataFolderPath() + "/Chunks");
 		}
 	}
+	#endregion
 
-	public void SaveToPath ( string path ) {
+	#region save
+	public void SaveToPath ( string path , object o) {
+
+		path = GetGameDataFolderPath () + "/" + path + ".xml";
 
 		byte[] bytes = Encoding.Unicode.GetBytes(path);
 		path = Encoding.Unicode.GetString(bytes);
@@ -43,13 +48,33 @@ public class SaveTool : MonoBehaviour
 		File.Delete(path);
 
 		FileStream file = File.Open(path, FileMode.CreateNew);
-		XmlSerializer serializer = new XmlSerializer(typeof(GameData));
+		XmlSerializer serializer = new XmlSerializer(o.GetType ());
 
 		//		file = file.
-		serializer.Serialize(file, SaveManager.Instance.GameData);
+		serializer.Serialize(file, o);
 
 		file.Close();
 	}
+	#endregion
+
+	#region load
+	public object LoadFromPath(string path, string className)
+	{
+		path = GetGameDataFolderPath () + "/" + path + ".xml";
+
+		byte[] bytes = Encoding.Unicode.GetBytes(path);
+		path = Encoding.Unicode.GetString(bytes);
+
+		FileStream file = File.Open(path, FileMode.OpenOrCreate);
+		XmlSerializer serializer = new XmlSerializer( Type.GetType(className) );
+
+		object o = serializer.Deserialize(file);
+
+		file.Close();
+
+		return o;
+	}
+	#endregion
 
 
 	/// <summary>
@@ -58,20 +83,21 @@ public class SaveTool : MonoBehaviour
 	#region Save game data
 	public void SaveGameData()
     {
-		string path = GetGameDataFilePath ();
 
-		byte[] bytes = Encoding.Unicode.GetBytes(path);
-		path = Encoding.Unicode.GetString(bytes);
-
-		File.Delete(path);
-
-		FileStream file = File.Open(path, FileMode.CreateNew);
-		XmlSerializer serializer = new XmlSerializer(typeof(GameData));
-
-//		file = file.
-		serializer.Serialize(file, SaveManager.Instance.GameData);
-
-		file.Close();
+//		string path = GetGameDataFilePath ();
+//
+//		byte[] bytes = Encoding.Unicode.GetBytes(path);
+//		path = Encoding.Unicode.GetString(bytes);
+//
+//		File.Delete(path);
+//
+//		FileStream file = File.Open(path, FileMode.CreateNew);
+//		XmlSerializer serializer = new XmlSerializer(typeof(GameData));
+//
+////		file = file.
+//		serializer.Serialize(file, SaveManager.Instance.GameData);
+//
+//		file.Close();
 
     }
 	#endregion
@@ -113,13 +139,6 @@ public class SaveTool : MonoBehaviour
 		XmlSerializer serializer = new XmlSerializer(typeof(ChunkGroupData));
 
 		ChunkGroupData newChunkGroupData = GetChunkGroupData (targetCoords);
-//		foreach (var item in newChunkGroupData.chunks) {
-//			foreach (var chunk in item) {
-//				if ( chunk.IslandData != null ) {
-//					print ("SAUVEGARDE / nombre de content decals : " + chunk.IslandData.storyManager.CurrentStoryHandler.contentDecals.Count);
-//				}
-//			}
-//		}
 
 		serializer.Serialize(file,newChunkGroupData );
 
@@ -131,23 +150,6 @@ public class SaveTool : MonoBehaviour
 	/// load
 	/// </summary>
 	#region Load game & chunk data
-	public GameData LoadGameData()
-    {
-		GameData gameSaveData = new GameData();
-
-		string path = GetGameDataFilePath ();
-
-		byte[] bytes = Encoding.Unicode.GetBytes(path);
-		path = Encoding.Unicode.GetString(bytes);
-
-		FileStream file = File.Open(path, FileMode.OpenOrCreate);
-		XmlSerializer serializer = new XmlSerializer(typeof(GameData));
-		gameSaveData = (GameData)serializer.Deserialize(file);
-
-		file.Close();
-
-		return gameSaveData;
-	}
 	public Chunk[][] LoadWorldChunks () {
 
 		Chunk[][] chunks = new Chunk[MapGenerator.Instance.MapScale][];
@@ -226,6 +228,8 @@ public class SaveTool : MonoBehaviour
 
 	public bool FileExists(string path)
     {
+		path = GetGameDataFolderPath () + "/" + path;
+
         byte[] bytes = Encoding.Unicode.GetBytes(path);
         path = Encoding.Unicode.GetString(bytes);
 
@@ -296,9 +300,6 @@ public class SaveTool : MonoBehaviour
 	#endregion
 
 	#region paths
-	public string GetGameDataFilePath () {
-		return GetGameDataFolderPath() + "/GameData.xml";
-	}
 	public string GetGameDataFolderPath () {
 		string path = Application.dataPath + "/SaveData";
 		if ( Application.isMobilePlatform )

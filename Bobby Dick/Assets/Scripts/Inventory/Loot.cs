@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Runtime.Serialization;
 
 [System.Serializable]
 public class Loot {
@@ -9,7 +10,21 @@ public class Loot {
 	public int row = 0;
 	public int col = 0;
 
-	public List<List<Item>> allItems = new List<List<Item>>();
+	public string eh = "";
+
+	public List<List<int>> ids = new List<List<int>>();
+
+	[NonSerialized]
+	List<List<Item>> allItems = new List<List<Item>>();
+
+	public List<List<Item>> AllItems {
+		get {
+			return allItems;
+		}
+		set {
+			allItems = value;
+		}
+	}
 
 	public int weight = 0;
 
@@ -24,7 +39,8 @@ public class Loot {
 		col = _col;
 
 		for (int i = 0; i < 4; i++) {
-			allItems.Add (new List<Item> ());
+			AllItems.Add (new List<Item> ());
+			ids.Add (new List<int> ());
 		}
 
 	}
@@ -48,7 +64,8 @@ public class Loot {
 	#region add & remove items
 	public void AddItem ( Item newItem ) {
 
-		allItems [(int)newItem.category].Add (newItem);
+		AllItems [(int)newItem.category].Add (newItem);
+		ids[(int)newItem.category].Add (newItem.ID);
 
 		weight += newItem.weight;
 
@@ -59,7 +76,8 @@ public class Loot {
 
 	public void RemoveItem ( Item itemToRemove ) {
 
-		allItems [(int)itemToRemove.category].Remove (itemToRemove);
+		AllItems [(int)itemToRemove.category].Remove (itemToRemove);
+		ids[(int)itemToRemove.category].Remove (itemToRemove.ID);
 
 		weight -= itemToRemove.weight;
 
@@ -78,9 +96,24 @@ public class Loot {
 	}
 	#endregion
 
+	[OnSerialized()]
+	internal void OnSerializedMethod(StreamingContext context)
+	{
+		eh = "je me suis fais sérialisée";
+		Debug.Log ("serialized loot");
+	}
+
+	[OnDeserialized()]
+	internal void OnDeserializedMethod(StreamingContext context)
+	{
+		//		this = ItemLoader;
+		Debug.Log ("deserialized loot");
+		eh = "je me suis fais désérialisée";
+	}
+
 	public bool IsEmpty ()
 	{
-		foreach (var item in allItems) {
+		foreach (var item in AllItems) {
 			if (item.Count > 0)
 				return false;
 		}

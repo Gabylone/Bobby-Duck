@@ -12,6 +12,8 @@ public class CharacterMenuButton : MonoBehaviour {
 	public GameObject skillPointsGroup;
 	public Text skillPointsText;
 
+	public GameObject group;
+
 	void Start () {
 		
 		CrewInventory.Instance.openInventory += HandleOpenInventory;

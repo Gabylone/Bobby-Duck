@@ -8,7 +8,8 @@ public class FightBackground : MonoBehaviour {
 
 	public GameObject group;
 
-	public Image image;
+	public Image backGroundImage;
+	public Image darkImage;
 
 	public float fadeDuration = 1f;
 
@@ -20,7 +21,9 @@ public class FightBackground : MonoBehaviour {
 
 	void HandleFightEnding ()
 	{
-		HOTween.To (image, fadeDuration, "color", Color.clear);
+		HOTween.To (backGroundImage, fadeDuration, "color", Color.clear);
+		HOTween.To (darkImage, fadeDuration, "color", Color.clear);
+
 		Invoke ("Hide", fadeDuration);
 
 	}
@@ -29,10 +32,9 @@ public class FightBackground : MonoBehaviour {
 	{
 		Show ();
 
-		print ("heh");
-
-		image.color = Color.clear;
-		HOTween.To (image, fadeDuration, "color", Color.white);
+		backGroundImage.color = Color.clear; 
+		HOTween.To (backGroundImage, fadeDuration, "color", Color.white);
+		HOTween.To (darkImage, fadeDuration, "color", Color.black);
 	}
 
 	void Show () {

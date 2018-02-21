@@ -54,7 +54,7 @@ public class DisplayItem_Crew : DisplayItem {
 			return;
 		}
 
-		LootManager.Instance.getLoot(Crews.Side.Player).AddItem (HandledItem);
+		LootManager.Instance.getLoot (Crews.Side.Player).AddItem (HandledItem);
 
 		CrewMember.GetSelectedMember.RemoveEquipment (part);
 

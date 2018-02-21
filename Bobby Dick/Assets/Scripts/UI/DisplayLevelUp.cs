@@ -60,6 +60,11 @@ public class DisplayLevelUp : MonoBehaviour {
 
 	void UpdateStatText (CrewMember member)
 	{
+		if (member.SkillPoints == 0) {
+			Hide ();
+			return;
+		}
+
 		statText.text = member.SkillPoints.ToString();
 	}
 

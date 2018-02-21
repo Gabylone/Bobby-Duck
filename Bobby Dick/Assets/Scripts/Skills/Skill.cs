@@ -167,7 +167,7 @@ public class Skill : MonoBehaviour {
 
 			if ( fighter.crewMember.CanUseSkills() == false ) {
 				fighter.EndTurn ();
-				CombatManager.Instance.NextTurn ();
+				CombatManager.Instance.NextTurn (true);
 				return;
 			}
 
@@ -242,8 +242,8 @@ public class Skill : MonoBehaviour {
 		RhumRound,
 
 		// COOK
-		HelpMate,
 		Goad,
+		HelpMate,
 		ToastUp,
 		PledgeOfFeast,
 

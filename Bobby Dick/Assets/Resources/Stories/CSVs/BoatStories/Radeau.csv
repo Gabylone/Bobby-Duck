@@ -16,7 +16,7 @@ OtherSpeak : Ça fait des jours que je ne mange que des méduses !;Node=>plage
 OtherSpeak : Emmenez moi avec vous, je vous en prie !;;OtherSpeak : Je vous en pris laissez moi en vie;;;;
 [dialogue];;Node=>combat dialogue;;;;
 SetChoices3;;;;;;
-Choice : Monte !(nouveau membre);Choice : Donne nous tout ce que tu as ou on te croque la bite.(attaquer);;Choice : Désolé mon gars, pas assez de place à bord;;;
+Choice : Monte !(membre);Choice : Donne nous tout ce que tu as ou on te croque la bite.(attaquer);;Choice : Désolé mon gars, pas assez de place à bord;;;
 OtherSpeak : Merci m'sieur !;RandomRange2;;RandomRange2;;;
 AddMember;OtherSpeak : Mais je n'ai absolument rien !;Node=>combat naufragé;OtherSpeak : Donnez moi au moins quelque chose à manger;;;Node=>combat naufragé
 Node=>plage déserte;Node=>combat dialogue;;SetChoices2;;;

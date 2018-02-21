@@ -11,10 +11,10 @@ public class Skill_HeadsOrTail : Skill {
 		base.ApplyEffect ();
 
 		if (Random.value > 0.5f) {
-			fighter.combatFeedback.Display ("FACE :)");
+			fighter.combatFeedback.Display ("!",Color.green);
 			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack , 2f);
 		} else {
-			fighter.combatFeedback.Display ("PILE :(");
+			fighter.combatFeedback.Display ("x", Color.red);
 		}
 
 		EndSkill ();

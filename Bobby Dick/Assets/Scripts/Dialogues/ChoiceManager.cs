@@ -15,7 +15,7 @@ public class ChoiceManager : MonoBehaviour {
 		"(trade)",
 		"(autre)",
 		"(dormir)",
-		"(nouveau membre)",
+		"(membre)",
 		"(loot)",
 		"(quete)"
 	};

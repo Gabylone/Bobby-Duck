@@ -25,7 +25,7 @@ public class MainMenuManager : MonoBehaviour {
 
 		Screen.orientation = ScreenOrientation.Landscape;
 
-		if (SaveTool.Instance.FileExists (SaveTool.Instance.GetGameDataFilePath())) {
+		if (SaveTool.Instance.FileExists ("game data.xml")) {
 			loadButton.SetActive (true);
 		} else {
 			loadButton.SetActive (false);

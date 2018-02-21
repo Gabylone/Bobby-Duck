@@ -16,7 +16,7 @@ public class Skill_Robbery : Skill {
 
 		if ( fighter.crewMember.side == Crews.Side.Enemy ) {
 
-			GoldManager.Instance.AddGold(goldStolen);
+			GoldManager.Instance.RemoveGold(goldStolen);
 
 		} else {
 
@@ -25,8 +25,8 @@ public class Skill_Robbery : Skill {
 			//
 		}
 
-		fighter.combatFeedback.Display ("+ " + goldStolen + " or", Color.yellow);
-		fighter.TargetFighter.combatFeedback.Display ("- " + goldStolen + " or", Color.red);
+		fighter.combatFeedback.Display ("+" + goldStolen, Color.yellow);
+		fighter.TargetFighter.combatFeedback.Display ("-" + goldStolen, Color.red);
 
 		EndSkill ();
 

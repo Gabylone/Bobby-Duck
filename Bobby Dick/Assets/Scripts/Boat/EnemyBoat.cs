@@ -47,10 +47,7 @@ public class EnemyBoat : Boat {
 			
 			Visible = false;
 
-			Boats.Instance.otherBoatInfos.Remove (otherBoatInfo);
 
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.UpdateStory ();
 		}
 	}
 

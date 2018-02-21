@@ -12,8 +12,8 @@ Chirurgien;Coup de bistouri;Bistoury Blow;7;3;3;Le Chirurgien soigne la cible de
 ;Piquouze;Jag;4;3;2;La cible gagne XXX points de vie, chaque tour, pendant 3 tours;Timide;Bashful;moins de chances d'attirer l'attention;4
 ;Mort-au-rats;Rat Poison;3;4;2;La cible perd XXX points de vie, chaque tour, pendant 3 tours;Mauvais diagnostic;Wrong diagnostic;le poison inflige plus de dégâts par tour;6
 ;Tournée de rhum;Rhum Round;9;5;4;Soigne tous les membres de XXX points de vie;Cicatrisation;Tonic Liquor;les compétences de soin sont plus efficaces;9
-Cuistot;Piston;Helpmate;3;2;2;La cible ne reçoit plus que la moitié des dégats infligés pendant 3 tours.;Grande gueule;Big Mouth;+ de chance d'attirer adversaire;3
-;Provocation;Edgy Goading;3;2;2;Les 3 prochaines attaques sont dirigées vers le Cuistôt.;;;;3
+Cuistot;Provocation;Edgy Goading;3;2;2;Les 3 prochaines attaques sont dirigées vers le Cuistôt.;;;;3
+;Piston;Helpmate;3;2;2;La cible ne reçoit plus que la moitié des dégats infligés pendant 3 tours.;Grande gueule;Big Mouth;+ de chance d'attirer adversaire;3
 ;Toast;Toast Up;3;2;2;La puissance d'attaque de la cible est doublée.;Larme à l’oeil;Awe-Inspiring;+ de motivation pour le toast;3
 ;Promesse de festin;Pledge of feast;3;2;2;Remplit la barre d'énergie d'un membre.;Cordon bleu;Cordon bleu;+ d'energie pour promesse de festin;3
 Flibustier;Tir à la tête;Headshot;6;2;2;Le Flibustier attend pendant un tour, puis inflige le triple de ses dégats ( requiert arme à distance );;;;6
@@ -24,3 +24,5 @@ Joueur;Pile ou face;Heads or Tails;3;1;2;Lance une pièce. Si l'escroc fait face
 ;Vol;Robbery;4;1;2;Vol XXX pièces d'or à l'adversaire.;Doigt de fée;Golden Fingers;+ d'argent volé;4
 ;Juron;Cuss;3;1;2;Réduit la puissance d'attaque de la cible. Annule l'effet « Toast »;Fieffé coquin;Naughty Boï;+ de chance de coup critique;3
 ;Langue de bois;Double Talk;10;5;3;L'escroc fait un jet de dé qui, si réussi, fait fuir tout l'équipage.;Sous la manche;Up my sleeve;octroi un dé au dessus du max;10
+;;;;;;;;;;
+;Provocation;Edgy Goading;3;2;2;Les 3 prochaines attaques sont dirigées vers le Cuistôt.;;;;3

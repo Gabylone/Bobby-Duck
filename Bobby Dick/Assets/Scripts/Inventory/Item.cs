@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
-[System.Serializable]
+[Serializable()]
 public class Item {
 
 	public int ID = 0;
@@ -50,6 +53,18 @@ public class Item {
 //
 //		Debug.Log ("item name : " + name);
 //		Debug.Log ("item sprite id : " + spriteID);
+	}
+
+	[OnSerialized()]
+	internal void OnSerializedMethod(StreamingContext context)
+	{
+		Debug.Log ("item serialized");
+	}
+
+	[OnDeserialized()]
+	internal void OnDeserializedMethod(StreamingContext context)
+	{
+		Debug.Log ("item deserialized");
 	}
 
 	public CrewMember.EquipmentPart EquipmentPart {

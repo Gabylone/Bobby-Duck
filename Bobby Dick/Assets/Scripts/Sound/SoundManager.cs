@@ -68,7 +68,6 @@ public class SoundManager : MonoBehaviour {
 	#region time
 	void HandleChunkEvent ()
 	{
-		
 	}
 
 	void UpdateAmbiance ()

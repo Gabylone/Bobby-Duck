@@ -8,7 +8,14 @@ public class Boats : MonoBehaviour {
 
 	public static PlayerBoatInfo playerBoatInfo;
 
-	public List<OtherBoatInfo> otherBoatInfos = new List<OtherBoatInfo> ();
+	BoatData boatData;
+
+	public List<OtherBoatInfo> getBoats {
+		//= new List<OtherBoatInfo> ();
+		get {
+			return boatData.boats;
+		}
+	}
 
 	[SerializeField]
 	private int otherBoatAmount = 10;
@@ -28,8 +35,52 @@ public class Boats : MonoBehaviour {
 
 	void Start () {
 		Karma.onChangeKarma += HandleOnChangeKarma;
+
+		SaveManager.onSave += HandleOnSave;
+		SaveManager.onLoad += HandleOnLoad;
+
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
 
+	void Update() {
+		if ( Input.GetKeyDown(KeyCode.M) ) {
+			HandleOnSave();
+		}
+	}
+
+	public void RandomizeBoats( ) {
+
+		playerBoatInfo = new PlayerBoatInfo ();
+		playerBoatInfo.Init ();
+		playerBoatInfo.Randomize ();
+
+
+		boatData = new BoatData ();
+		boatData.boats = new List<OtherBoatInfo> ();
+		for (int i = 0; i < otherBoatAmount; i++) {
+			OtherBoatInfo newBoat = new OtherBoatInfo ();
+			newBoat.Init ();
+			newBoat.Randomize ();
+			boatData.boats.Add(newBoat);
+		}
+	}
+
+	#region story
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		if ( func == FunctionType.DestroyShip ) {
+
+			OtherBoatInfo boatInfo = EnemyBoat.Instance.OtherBoatInfo;
+			boatData.boats.Remove (boatInfo);
+
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.UpdateStory ();
+
+		}
+	}
+	#endregion
+
+	#region karma
 	void HandleOnChangeKarma (int previousKarma, int newKarma)
 	{
 		if (previousKarma > newKarma) {
@@ -45,59 +96,55 @@ public class Boats : MonoBehaviour {
 
 	void AddImperialBoat ()
 	{
-		OtherBoatInfo otherBoatInfo = new OtherBoatInfo ();
-		otherBoatInfo.Init ();
-		otherBoatInfo.Randomize ();
+		OtherBoatInfo newBoat = new OtherBoatInfo ();
+		newBoat.Init ();
+		newBoat.Randomize ();
 
 		int imperialID = StoryLoader.Instance.FindIndexByName ("Impériaux",StoryType.Boat);
 
-		otherBoatInfo.storyManager.storyHandlers[0].storyID = imperialID;
+		newBoat.storyManager.storyHandlers[0].storyID = imperialID;
 			
-		otherBoatInfos.Add(otherBoatInfo);
+		boatData.boats.Add (newBoat);
 
 	}
 
 	void RemoveImperialBoat ()
 	{
-		print ("removing imperial boat");
+		boatData.boats.RemoveAt(getBoats.Count-1);
+	}
+	#endregion
 
-		otherBoatInfos.RemoveAt(OtherBoatInfos.Count-1);
+	#region save & load
+	public void HandleOnSave () {
+
+		SaveManager.Instance.GameData.playerBoatInfo = playerBoatInfo;
+
+		SaveTool.Instance.SaveToPath ("boat data", boatData);
+
 	}
 
-	public void RandomizeBoats( ) {
-
-		playerBoatInfo = new PlayerBoatInfo ();
-		playerBoatInfo.Init ();
-		playerBoatInfo.Randomize ();
-
-		for (int i = 0; i < otherBoatAmount; i++) {
-			OtherBoatInfo otherBoatInfo = new OtherBoatInfo ();
-			otherBoatInfo.Init ();
-			otherBoatInfo.Randomize ();
-			otherBoatInfos.Add(otherBoatInfo);
-		}
-	}
-
-	public void LoadBoats () {
+	public void HandleOnLoad () {
+		
 		playerBoatInfo = SaveManager.Instance.GameData.playerBoatInfo;
-		otherBoatInfos = SaveManager.Instance.GameData.otherBoatInfos;
-
 		playerBoatInfo.Init ();
-		foreach (var item in otherBoatInfos) {
+
+		boatData = SaveTool.Instance.LoadFromPath ("boat data", "BoatData") as BoatData;
+		foreach (var item in getBoats) {
 			item.Init ();
 		}
 	}
-	public void SaveBoats () {
-		SaveManager.Instance.GameData.playerBoatInfo = playerBoatInfo;
-		SaveManager.Instance.GameData.otherBoatInfos = OtherBoatInfos;
+	#endregion
+}
+
+public class BoatData {
+	
+	public List<OtherBoatInfo>	boats;
+
+	public BoatData() {
+		//
 	}
 
-	public List<OtherBoatInfo> OtherBoatInfos {
-		get {
-			return otherBoatInfos;
-		}
-		set {
-			otherBoatInfos = value;
-		}
+	public BoatData ( List<OtherBoatInfo> _boats ) {
+		this.boats = _boats;
 	}
 }

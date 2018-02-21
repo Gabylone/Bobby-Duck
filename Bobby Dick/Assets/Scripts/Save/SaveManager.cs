@@ -7,6 +7,19 @@ public class SaveManager : MonoBehaviour
 {
 	public static SaveManager Instance;
 
+	public delegate void OnSave ();
+	public delegate void OnLoad ();
+	public static OnSave onSave;
+	public static OnLoad onLoad;
+
+	GameData gameData;
+
+	public GameData GameData {
+		get {
+			return gameData;
+		}
+	}
+
 	void Awake () {
 		Instance = this;
 	}
@@ -39,17 +52,19 @@ public class SaveManager : MonoBehaviour
 
 		LoadGameData ();
 
+		if (onLoad != null)
+			onLoad ();
+		NavigationManager.Instance.ChangeChunk (Directions.None);
+
 	}
 
 	public void LoadGameData () {
 
-		gameData = SaveTool.Instance.LoadGameData ();
+		// GAME DATA
+		gameData = SaveTool.Instance.LoadFromPath ("game data" , "GameData") as GameData;
 
 		// player crew
 		Crews.Instance.LoadPlayerCrew ();
-
-		// boat position
-		Boats.Instance.LoadBoats ();
 
 		FormulaManager.Instance.LoadFormulas ();
 
@@ -68,13 +83,15 @@ public class SaveManager : MonoBehaviour
 
 		TimeManager.Instance.Load ();
 
-		NavigationManager.Instance.ChangeChunk (Directions.None);
 
 	}
 	#endregion
 
 	#region save
 	public void SaveOverallGame () {
+
+		if (onSave != null)
+			onSave ();
 
 //		print ("saving overall game");
 
@@ -88,9 +105,6 @@ public class SaveManager : MonoBehaviour
 
 		// player crew
 		Crews.Instance.SavePlayerCrew ();
-
-		// save boats
-		Boats.Instance.SaveBoats();
 
 		FormulaManager.Instance.SaveFormulas ();
 
@@ -110,18 +124,12 @@ public class SaveManager : MonoBehaviour
 
 		TimeManager.Instance.Save ();
 
-		SaveTool.Instance.SaveGameData ();
+		SaveTool.Instance.SaveToPath ("game data",gameData);
+
+//		SaveTool.Instance.SaveGameData ();
 
 	}
 	#endregion
-
-	GameData gameData;
-
-	public GameData GameData {
-		get {
-			return gameData;
-		}
-	}
 
 }
 
@@ -146,7 +154,6 @@ public class GameData
 	public Formula[] 			formulas;
 
 	public PlayerBoatInfo 		playerBoatInfo;
-	public List<OtherBoatInfo>	otherBoatInfos;
 
 	// quests
 	public List<Quest> 			currentQuests;

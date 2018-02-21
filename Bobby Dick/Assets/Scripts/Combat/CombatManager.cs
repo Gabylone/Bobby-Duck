@@ -180,9 +180,11 @@ public class CombatManager : MonoBehaviour {
 
 	private void StartTurn_Exit () {}
 
-	public void NextTurn () {
+	public void NextTurn ( bool goToNextMember ) {
 
-		NextMember ();
+		if (goToNextMember) {
+			NextMember ();
+		}
 
 		StartNewTurn ();
 
@@ -472,7 +474,7 @@ public class CombatManager : MonoBehaviour {
 
 		int po = crewValue * Random.Range (10, 15);
 
-		currPlayerFighters [0].combatFeedback.Display ("+ " + po + " or" ,Color.yellow);
+//		currPlayerFighters [0].combatFeedback.Display (po + "or" ,Color.yellow);
 
 		GoldManager.Instance.AddGold (po);
 
@@ -483,7 +485,7 @@ public class CombatManager : MonoBehaviour {
 
 			int xpPerMember = 40;
 
-			item.combatFeedback.Display ("+ " + xpPerMember + " xp",Color.blue);
+			item.combatFeedback.Display (xpPerMember + " xp",Color.blue);
 
 			item.crewMember.AddXP (xpPerMember);
 		}
