@@ -21,6 +21,13 @@ public class NavigationTrigger : MonoBehaviour {
 		Swipe.onSwipe += HandleOnSwipe;
 
 		WorldTouch.onTouchWorld += HandleOnTouchWorld;
+
+		StoryLauncher.Instance.onStartStory += HandlePlayStoryEvent;
+	}
+
+	void HandlePlayStoryEvent ()
+	{
+		Targeted = false;
 	}
 
 	void HandleOnTouchWorld ()
@@ -40,8 +47,15 @@ public class NavigationTrigger : MonoBehaviour {
 		if ( direction == this.direction ) {
 			PlayerBoat.Instance.SetTargetPos (rectTransform);
 			Target ();
+
+//			Invoke ("HandleOnSwipeDelay" , 0.7f);
 		}
 	}
+
+//	void HandleOnSwipeDelay () {
+//		NavigationManager.Instance.ChangeChunk (direction);
+//		Targeted = false;
+//	}
 
 	void OnTriggerStay2D ( Collider2D other ) {
 		if (other.tag == "Player" && targeted ) {
@@ -49,7 +63,7 @@ public class NavigationTrigger : MonoBehaviour {
 			Targeted = false;
 		}
 	}
-
+//
 	void Target ()
 	{
 		Tween.Bounce (arrowGroup.transform);

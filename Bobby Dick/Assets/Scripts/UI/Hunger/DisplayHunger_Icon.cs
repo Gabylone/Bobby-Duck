@@ -21,14 +21,7 @@ public class DisplayHunger_Icon : DisplayHunger {
 
 		linkedIcon = GetComponentInParent<MemberIcon> ();
 
-		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
-
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
-
-		StoryLauncher.Instance.playStoryEvent += HandlePlayStoryEvent;
-		StoryLauncher.Instance.endStoryEvent += HandleEndStoryEvent;;
-
-		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
+		InitEvents ();
 
 		HideHunger ();
 		HideHeart ();
@@ -48,7 +41,7 @@ public class DisplayHunger_Icon : DisplayHunger {
 	void UpdateHeartImage () {
 		float l = (float)linkedIcon.member.Health / (float)linkedIcon.member.MemberID.maxHealth;
 		HOTween.Kill (heartImage.rectTransform);
-		HOTween.To ( heartImage , 2f , "fillAmount" , l );
+		HOTween.To ( heartImage , 0.5f , "fillAmount" , l );
 	}
 	#endregion
 
@@ -83,7 +76,7 @@ public class DisplayHunger_Icon : DisplayHunger {
 
 	public override void UpdateHungerIcon (CrewMember member)
 	{
-		float fillAmount = 1f - ((float)member.CurrentHunger / (float)member.maxHunger);
+		float fillAmount = 1f - ((float)member.CurrentHunger / (float)Crews.maxHunger);
 
 		if (fillAmount * 100 < hungerToShowLife) {
 			ShowHeart ();
@@ -95,12 +88,21 @@ public class DisplayHunger_Icon : DisplayHunger {
 
 	}
 
-	void OnDestroy () {
+	void InitEvents ()
+	{
+		NavigationManager.Instance.EnterNewChunk 	+= HandleChunkEvent;
+		CrewInventory.Instance.openInventory 		+= HandleOpenInventory;
+		StoryLauncher.Instance.onStartStory 		+= HandlePlayStoryEvent;
+		StoryLauncher.Instance.endStoryEvent 		+= HandleEndStoryEvent;;
+		CrewInventory.Instance.closeInventory 		+= HandleCloseInventory;
+	}
 
-		NavigationManager.Instance.EnterNewChunk -= HandleChunkEvent;
-
-		CrewInventory.Instance.openInventory -= HandleOpenInventory;
-		CrewInventory.Instance.closeInventory -= HandleChunkEvent;
-		StoryLauncher.Instance.playStoryEvent -= HandlePlayStoryEvent;
+	void OnDestroy()
+	{
+		NavigationManager.Instance.EnterNewChunk 	-= HandleChunkEvent;
+		CrewInventory.Instance.openInventory 		-= HandleOpenInventory;
+		StoryLauncher.Instance.onStartStory 		-= HandlePlayStoryEvent;
+		StoryLauncher.Instance.endStoryEvent 		-= HandleEndStoryEvent;;
+		CrewInventory.Instance.closeInventory 		-= HandleCloseInventory;
 	}
 }

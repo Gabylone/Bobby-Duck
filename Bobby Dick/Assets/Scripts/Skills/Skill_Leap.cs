@@ -28,7 +28,7 @@ public class Skill_Leap: Skill {
 			goToTarget = false;
 			playAnim = false;
 
-			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack , 3f);
+			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack , 2.2f);
 
 			EndSkill ();
 			//
@@ -49,7 +49,7 @@ public class Skill_Leap: Skill {
 	{
 		Invoke ("TriggerDelay",0.1f);
 		this.delayFighter = _delayFighter;
-		delayFighter.combatFeedback.Display (Fighter.Status.PreparingAttack);
+		delayFighter.combatFeedback.Display (Fighter.Status.PreparingAttack, Color.white);
 	}
 
 	void TriggerDelay () {
@@ -72,16 +72,8 @@ public class Skill_Leap: Skill {
 
 	public override bool MeetsConditions (CrewMember member)
 	{
+		bool meetsChances = Random.value < 0.5f;
 
-		bool hasTarget = false;
-
-		foreach (var item in CombatManager.Instance.getCurrentFighters(Crews.otherSide(member.side)) ) {
-			if (item.crewMember.Health < healthToAttack) {
-				hasTarget = true;
-				preferedTarget = item;
-			}
-		}
-
-		return hasTarget && base.MeetsConditions (member);
+		return meetsChances && base.MeetsConditions (member);
 	}
 }

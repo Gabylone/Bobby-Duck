@@ -120,6 +120,8 @@ public class BoatUpgradeManager : MonoBehaviour {
 		if ( !GoldManager.Instance.CheckGold ( GetPrice((UpgradeType)i) ))
 			return;
 
+		GoldManager.Instance.RemoveGold (GetPrice((UpgradeType)i));
+
 		switch ( (UpgradeType)i ) {
 		case UpgradeType.Crew:
 			Crews.playerCrew.CurrentMemberCapacity++;
@@ -132,7 +134,6 @@ public class BoatUpgradeManager : MonoBehaviour {
 			break;
 		}
 
-		GoldManager.Instance.RemoveGold (GetPrice((UpgradeType)i));
 
 		SoundManager.Instance.PlaySound (upgradeSound);
 

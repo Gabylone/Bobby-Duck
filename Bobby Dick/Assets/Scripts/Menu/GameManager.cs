@@ -29,8 +29,6 @@ public class GameManager : MonoBehaviour {
 
 	public void InitializeGame () {
 
-		Transitions.Instance.ScreenTransition.Fade = false;
-
 		ItemLoader.Instance.Init ();
 		FormulaManager.Instance.Init ();
 		Crews.Instance.Init ();
@@ -52,15 +50,12 @@ public class GameManager : MonoBehaviour {
 
 			Crews.Instance.RandomizePlayerCrew ();
 
-			FormulaManager.Instance.CreateNewClues ();
-
 			Boats.Instance.RandomizeBoats ();
 
 			GoldManager.Instance.InitGold ();
 
 			TimeManager.Instance.Reset ();
 
-			SaveManager.Instance.SaveOverallGame ();
 		}
 
 		CrewInventory.Instance.Init ();
@@ -74,6 +69,7 @@ public class GameManager : MonoBehaviour {
 		if (KeepOnLoad.dataToLoad < 0) {
 			
 			MemberCreator.Instance.Show ();
+
 			Transitions.Instance.ActionTransition.Fade = true;
 
 		}

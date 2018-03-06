@@ -63,7 +63,6 @@ public class StoryHandler {
 	public Node 				fallbackNode;
 
 	public int 					storyID 			= 0;
-	public string				storyNameDebug		= "";
 	public StoryType 			storyType;
 	public List<contentDecal> 	contentDecals 		= new List<contentDecal>();
 	public List<Loot> 			loots 				= new List<Loot> ();
@@ -77,7 +76,6 @@ public class StoryHandler {
 	public StoryHandler (int _storyID,StoryType _storyType) {
 		storyID = _storyID;
 		storyType = _storyType;
-		storyNameDebug = Story.name;
 	}
 
 	public Story Story {

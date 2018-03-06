@@ -10,7 +10,7 @@ public class Skill_SkipTurn: Skill {
 
 //		EndSkill ();
 		fighter.EndTurn();
-		CombatManager.Instance.NextTurn (true);
+		CombatManager.Instance.NextTurn ();
 	}
 
 }

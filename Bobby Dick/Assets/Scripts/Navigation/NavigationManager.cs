@@ -48,7 +48,7 @@ public class NavigationManager : MonoBehaviour {
 	}
 
 	void Start () {
-		StoryLauncher.Instance.playStoryEvent += HandlePlayStory;
+		StoryLauncher.Instance.onStartStory += HandlePlayStory;
 		StoryLauncher.Instance.endStoryEvent += HandleEndStory;
 
 	}

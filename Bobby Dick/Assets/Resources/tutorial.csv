@@ -10,7 +10,7 @@ Menu équipage;Vous êtes dans le menu équipage. C’est là dedans que se trou
 Inventaire;Vous êtes dans l’inventaire. C’est aussi dans l’inventaire qu’il faudra équiper, améliorer et nourrir l’équipage.;ouverture inventaire.
 Nuit;La nuit, CAPITAINE et NOMBATEAU ne voient pas plus loin qu’une taupe. Il faudra attendre la matin pour pouvoir explorer convenablement, ou améliorer votre longue vue chez un charpentier.;à la nuit
 Pluie;La pluie est trop dense pour y voir quoi que ce soir. Et si la nuit tombe en même temps, CAPITAINE ne verra une île que si elle est sous la coque de NOMBATEAU;pendant la pluie
-Statut;Il arrive quelques chose à un de vos gars ! Pendant un combat, les changements d’états de votre équipage est affiché en bas de sa vie, sous formes de petites icônes. Cliquez dessus pour en savoir plus.;premier statust
+Statut;Il arrive quelques chose à un de vos gars ! Pendant un combat, les changements d’états de votre équipage est affiché en bas de sa vie.;premier statust
 Nouveau membre;Un nouveau gars à rejoint l’équipe ! C’est une nouvelle force en combat, mais aussi une nouvelle bouche à nourrir;nouveau membre 
 Compétence;Les boutons à gauche, c’est vos compétences. Le bouton vert, c’est vos compétences de métier.;combat player hcoice
 Energie & Charge;Chaque compétence à un coûts d’énergie ( Barres vertes ). Ainsi qu’un temps de recharge.;combat player hcoice
@@ -24,3 +24,8 @@ Monter de niveau;Un de vos gars est devenu plus fort ! Allez faire un tour dans
 Menu compétence;Ici, CAPITAINE apprendra des nouvelles techniques, et améliorera sa force, son adresse, son charme ou sa constitution.;
 Arme;CAPITAINE a ramassé une arme. Allez dans l’inventaire pour voir si elle lui convient.;ramasser arme
 Création personnage;Ici, vous créez le chef de votre équipage. Vous pouvez donner un nom à lui et son bateau, et choisir son métier, qui définira sa façon de combattre.;début création de personnage.
+Objet Menu;Quand CAPITAINE sélectionne un objet, son prix, son poids, son niveau requis et sa valeur s’affichent ici.;début création de personnage.
+Objet Menu 2;Les boutons à gauche servent à interagir avec lui. Si vous avez un doute quant à l’utilisation d’un bouton, laissez votre doigt dessus.;
+Minimap;La petit carte en bas à gauche vous montre les environs du NOMBATEAU. Faites un tour dans le menu si vous voulez la voir en plus grand.;
+Info Compétences;Laissez votre doigt dessus pour savoir ce qu’elles font, et combien elles coûtent;combat player hcoice
+Info Status;Touchez les icônes des statuts pour les connaître.;combat player hcoice

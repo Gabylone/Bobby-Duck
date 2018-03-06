@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Holoville.HOTween;
 
 public class SkillButton_Combat : SkillButton {
 
@@ -14,7 +15,9 @@ public class SkillButton_Combat : SkillButton {
 	public GameObject chargeGroup;
 	public Text chargeText;
 
-	bool enabled = true;
+	public float timeToShowDescriptionFeedback = 0.2f;
+
+	bool canTriggerSkill = true;
 
 	bool touching = false;
 
@@ -31,13 +34,12 @@ public class SkillButton_Combat : SkillButton {
 	}
 
 	void Enable () {
-		enabled = true;
-		chargeGroup.SetActive (false);
+		canTriggerSkill = true;
 		skillImage.color = Color.black;
 	}
 
 	void Disable() {
-		enabled = false;
+		canTriggerSkill = false;
 		skillImage.color = new Color ( 1,1,1,0.35f );
 	}
 
@@ -64,17 +66,46 @@ public class SkillButton_Combat : SkillButton {
 		}
 
 		// CHARGE
-		if (skill.currentCharge > 0) {
-			Disable ();
-			chargeGroup.SetActive (true);
-			chargeFillImage.fillAmount = (float)skill.currentCharge / (float)skill.initCharge;
-			chargeText.text = "" + skill.currentCharge;
-		}
-
+		int charge = fighter.crewMember.charges[skill.GetSkillIndex(fighter.crewMember)];
+		UpdateCharge (charge);
 
 	}
 
+	void UpdateCharge (int charge) {
+		if (charge > 0) {
+			Disable ();
+			chargeGroup.SetActive (true);
+			chargeFillImage.fillAmount = (float)charge / (float)skill.initCharge;
+			chargeText.text = "" + charge;
+		} else {
+			chargeGroup.SetActive (false);
+		}
+	}
 
+	public void OnPointerDown () {
+
+		touching = true;
+
+		CancelInvoke("TriggerSkillDelay");
+		CancelInvoke ("SkillDelayFeedback");
+		Invoke ("TriggerSkillDelay" , timeToShowDescription);	
+		Invoke ("SkillDelayFeedback", timeToShowDescriptionFeedback);
+
+	}
+
+	void SkillDelayFeedback() {
+
+		if (!touching)
+			return;
+		
+		chargeGroup.SetActive (true);
+		chargeFillImage.fillAmount = 0f;
+		chargeText.text = "";
+
+		HOTween.Kill (chargeFillImage);
+		HOTween.To ( chargeFillImage , timeToShowDescription - timeToShowDescriptionFeedback, "fillAmount", 1f );
+
+	}
 
 	void TriggerSkillDelay () {
 
@@ -85,34 +116,19 @@ public class SkillButton_Combat : SkillButton {
 
 	}
 
-
-	public void OnPointerDown () {
-
-		if (enabled == false)
-			return;
-
-		touching = true;
-
-		Invoke ("TriggerSkillDelay" , timeToShowDescription);	
-
-	}
-
 	public void OnPointerUp () {
 
-		if (enabled == false)
-			return;
-		
-		if (touching) {
-
+		if (canTriggerSkill && touching) {
 			skill.Trigger (CombatManager.Instance.currentFighter);
-
-		} else {
-			HideDescription ();
-
 		}
 
-		touching = false;
+		HideDescription ();
+		HOTween.Kill (chargeFillImage);
+		CrewMember member = CombatManager.Instance.currentFighter.crewMember;
+		int charge = member.charges[skill.GetSkillIndex(member)];
+		UpdateCharge (charge);
 
+		touching = false;
 
 	}
 }

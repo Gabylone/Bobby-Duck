@@ -9,16 +9,7 @@ public class Tutorial : MonoBehaviour {
 
 	public TextAsset tutoData;
 
-	public int tutoCompletion = 0;
-
-	public GameObject group;
-
-	public RectTransform rectTransform;
-
 	public bool debugTutorial = true;
-
-	public Text titleText;
-	public Text descriptionText;
 
 	public delegate void OnDisplayTutorial ( TutoStep tutoStep);
 	public static OnDisplayTutorial onDisplayTutorial;
@@ -31,31 +22,25 @@ public class Tutorial : MonoBehaviour {
 
 	private TutoStep[] tutoSteps;
 
-	public GameObject confirmGroup;
-
 	void Start () {
 
-		if (KeepOnLoad.displayTuto || debugTutorial) {
+		if (debugTutorial) {
+			KeepOnLoad.displayTuto = true;
+		}
 
-			onDisplayTutorial += HandleOnDisplayTutorial;
-			onHideTutorial += HandleOnHideTutorial;
-			onWaitForConfirm += HandleOnWaitForConfirm;
+		if (KeepOnLoad.displayTuto) {
 
 			InitTutorials ();
 			LoadData ();
+
+			Invoke ("CharacterCreationDelay", 1.5f);
+
 		}
-
-		Hide ();
 	}
 
-	void HandleOnWaitForConfirm ()
-	{
-		confirmGroup.SetActive (true);
-	}
-
-	void HandleOnHideTutorial ()
-	{
-		Fade ();
+	void CharacterCreationDelay () {
+		tutoSteps [(int)TutorialStep.CharacterCreation].Display ();
+		tutoSteps [(int)TutorialStep.CharacterCreation].WaitForConfirm ();
 	}
 
 	void LoadData ()
@@ -72,48 +57,6 @@ public class Tutorial : MonoBehaviour {
 			tutoSteps [tutoIndex].description = cells [1];
 
 			++tutoIndex;
-		}
-	}
-
-	void HandleOnDisplayTutorial (TutoStep tutoStep)
-	{
-		Show ();
-
-		titleText.text = tutoStep.title;
-		descriptionText.text = NameGeneration.CheckForKeyWords(tutoStep.description);
-
-		if (tutoStep.targetPosition != Vector2.zero) {
-
-			rectTransform.localPosition = Vector3.zero;
-			HOTween.To (rectTransform, 1f, "position", (Vector3)tutoStep.targetPosition);
-
-		} else {
-			HOTween.To (rectTransform, 1f, "localPosition", new Vector3 ( rectTransform.rect.width/2f, rectTransform.rect.height/2f ));
-
-		}
-
-		LayoutRebuilder.ForceRebuildLayoutImmediate (rectTransform);
-
-		FitInScreen ();
-
-	}
-
-	void Fade() {
-
-		Tween.Bounce (group.transform);
-		Tween.Fade (group.transform, Tween.defaultDuration);
-
-		Invoke ("Hide",Tween.defaultDuration);
-	}
-
-	void FitInScreen ()
-	{
-		if ( rectTransform.anchoredPosition.y < 0) {
-			print ("sort par le haut");
-		}
-
-		if ( rectTransform.anchoredPosition.y < 0) {
-			print ("sort par le bas");
 		}
 	}
 
@@ -137,30 +80,8 @@ public class Tutorial : MonoBehaviour {
 			tutoSteps [i] = newTutoStep;
 
 		}
-	}
 
-	void Show () {
-
-		HOTween.Kill (group.transform);
-		CancelInvoke ("Hide");
-
-		Tween.ClearFade (group.transform);
-		group.SetActive (true);
-
-		Tween.Bounce (group.transform);
-	}
-
-	void Hide () {
-	
-
-		group.SetActive (false);
-		confirmGroup.SetActive (false);
-	}
-
-	public void Confirm () {
-		confirmGroup.SetActive (false);
-
-		Tutorial.onHideTutorial ();
+		LoadData ();
 
 	}
 
@@ -193,7 +114,12 @@ public enum TutorialStep {
 	LevelUp,
 	SkillMenu,
 	Weapon,
-	CharacterCreation
+	CharacterCreation,
+	ItemMenu1,
+	ItemMenu2,
+	Minimap,
+	SkillInfo,
+	StatusInfo
 
 }
 
@@ -201,7 +127,7 @@ public class TutoStep {
 
 	public TutorialStep step;
 
-	public Vector2 targetPosition = Vector2.zero;
+	public DisplayInfo.Corner corner = DisplayInfo.Corner.None;
 
 	public string title = "";
 
@@ -217,7 +143,8 @@ public class TutoStep {
 	}
 
 	public virtual void Kill () {
-		Tutorial.onHideTutorial ();
+		if ( Tutorial.onHideTutorial != null )
+			Tutorial.onHideTutorial ();
 	}
 
 	public void WaitForConfirm () {
@@ -236,13 +163,11 @@ public class TutoStep_Islands : TutoStep {
 
 	void HandleEndStoryEvent ()
 	{
-		targetPosition = Island.Instance.transform.position;
-
 		Display ();
 
 		StoryLauncher.Instance.endStoryEvent -= HandleEndStoryEvent;
 
-		StoryLauncher.Instance.playStoryEvent += HandlePlayStoryEvent;
+		StoryLauncher.Instance.onStartStory += HandlePlayStoryEvent;
 	}
 
 	void HandlePlayStoryEvent ()
@@ -254,7 +179,7 @@ public class TutoStep_Islands : TutoStep {
 	{
 		base.Kill ();
 
-		StoryLauncher.Instance.playStoryEvent -= HandlePlayStoryEvent;
+		StoryLauncher.Instance.onStartStory -= HandlePlayStoryEvent;
 	}
 
 }
@@ -369,6 +294,7 @@ public class TutoStep_GoodKarma: TutoStep {
 	void HandleOnChangeKarma (int previousKarma, int newKarma)
 	{
 		if ( newKarma > previousKarma ) {
+			corner = DisplayInfo.Corner.BottomLeft;
 			Display ();
 			Karma.onChangeKarma -= HandleOnChangeKarma;
 			WaitForConfirm ();
@@ -388,6 +314,7 @@ public class TutoStep_BadKarma: TutoStep {
 	void HandleOnChangeKarma (int previousKarma, int newKarma)
 	{
 		if ( newKarma < previousKarma ) {
+			corner = DisplayInfo.Corner.BottomLeft;
 			Display ();
 			Karma.onChangeKarma -= HandleOnChangeKarma;
 			WaitForConfirm ();
@@ -411,8 +338,8 @@ public class TutoStep_Crew: TutoStep {
 		++chunkCount;
 
 		if ( chunkCount == 3 ) {
+			corner = DisplayInfo.Corner.TopLeft;
 
-			targetPosition = Crews.playerCrew.mapAnchors [0].position - (Vector3.up * 1f) + (Vector3.right*2f);
 			Display ();
 			NavigationManager.Instance.EnterNewChunk -= HandleChunkEvent;
 			WaitForConfirm ();
@@ -470,6 +397,7 @@ public class TutoStep_Night: TutoStep {
 	void HandleOnSetTimeOfDay (TimeManager.DayState dayState)
 	{
 		if (dayState == TimeManager.DayState.Night) {
+			corner = DisplayInfo.Corner.TopLeft;
 			Display ();
 			TimeManager.onSetTimeOfDay -= HandleOnSetTimeOfDay;
 			WaitForConfirm ();
@@ -488,6 +416,7 @@ public class TutoStep_Rain: TutoStep {
 
 	void HandleOnSetRain ()
 	{
+		corner = DisplayInfo.Corner.TopLeft;
 		Display ();
 		TimeManager.onSetRain -= HandleOnSetRain;
 		WaitForConfirm ();
@@ -508,13 +437,19 @@ public class TutoStep_Status: TutoStep {
 	{
 		CombatManager.Instance.onFightStart -= HandleFightStarting;
 
-		CombatManager.Instance.currPlayerFighters[0].onAddStatus += HandleOnAddStatus;
+		foreach (var item in CombatManager.Instance.initPlayerFighters) {
+			item.onAddStatus += HandleOnAddStatus;
+		}
 	}
 
 	void HandleOnAddStatus (Fighter.Status status, int count)
 	{
 		Display ();
-		CombatManager.Instance.currPlayerFighters[0].onAddStatus -= HandleOnAddStatus;
+
+		foreach (var item in CombatManager.Instance.initPlayerFighters) {
+			item.onAddStatus -= HandleOnAddStatus;
+		}
+
 		WaitForConfirm ();
 	}
 
@@ -532,7 +467,7 @@ public class TutoStep_NewMember: TutoStep {
 	void HandleGetFunction (FunctionType func, string cellParameters)
 	{
 		if ( func == FunctionType.AddMember ) {
-			targetPosition = Crews.playerCrew.mapAnchors [0].position - (Vector3.up * 1f) + (Vector3.right*2f);
+			corner = DisplayInfo.Corner.TopLeft;
 			StoryFunctions.Instance.getFunction -= HandleGetFunction;
 			Display ();
 			WaitForConfirm ();
@@ -553,7 +488,7 @@ public class TutoStep_Skills: TutoStep {
 	void HandleOnChangeState (CombatManager.States currState, CombatManager.States prevState)
 	{
 		if (currState == CombatManager.States.PlayerActionChoice) {
-			targetPosition = Crews.playerCrew.mapAnchors [0].position - (Vector3.up * 1f) + (Vector3.right*2f);
+			corner = DisplayInfo.Corner.TopLeft;
 			CombatManager.Instance.onChangeState -= HandleOnChangeState;
 			Display ();
 			WaitForConfirm ();
@@ -583,7 +518,7 @@ public class TutoStep_Skills2: TutoStep {
 	{
 		Tutorial.onHideTutorial -= HandleOnHideTutorial;
 
-		targetPosition = Crews.playerCrew.mapAnchors [0].position - (Vector3.up * 1f) + (Vector3.right*2f);
+		corner = DisplayInfo.Corner.TopLeft;
 		Display ();
 		WaitForConfirm ();
 	}
@@ -666,7 +601,7 @@ public class TutoStep_OtherBoats: TutoStep {
 	{
 		base.Init ();
 
-		StoryLauncher.Instance.playStoryEvent += HandlePlayStoryEvent;
+		StoryLauncher.Instance.onStartStory += HandlePlayStoryEvent;
 	}
 
 	void HandlePlayStoryEvent ()
@@ -674,7 +609,7 @@ public class TutoStep_OtherBoats: TutoStep {
 
 		if (StoryLauncher.Instance.CurrentStorySource == StoryLauncher.StorySource.boat) {
 
-			StoryLauncher.Instance.playStoryEvent -= HandlePlayStoryEvent;
+			StoryLauncher.Instance.onStartStory -= HandlePlayStoryEvent;
 			Display ();
 			WaitForConfirm ();
 
@@ -696,9 +631,10 @@ public class TutoStep_Hunger: TutoStep {
 
 		CrewMember member = Crews.playerCrew.captain;
 
-		float fillAmount = 1f - ((float)member.CurrentHunger / (float)member.maxHunger);
+		float fillAmount = 1f - ((float)member.CurrentHunger / (float)Crews.maxHunger);
 
 		if (fillAmount < 0.45f) {
+			corner = DisplayInfo.Corner.TopLeft;
 			NavigationManager.Instance.EnterNewChunk -= HandleChunkEvent;
 			Display ();
 			WaitForConfirm ();
@@ -802,10 +738,136 @@ public class TutoStep_CharacterCreation: TutoStep {
 	{
 		base.Init ();
 
-		Display ();
-
-		WaitForConfirm ();
-
 	}
 
 }
+
+public class TutoStep_ItemMenu1: TutoStep {
+
+	public override void Init ()
+	{
+		base.Init ();
+
+		LootUI.onSetSelectedItem += HandleOnSetSelectedItem;
+	}
+
+	void HandleOnSetSelectedItem ()
+	{
+		corner = DisplayInfo.Corner.TopRight;
+		LootUI.onSetSelectedItem -= HandleOnSetSelectedItem;
+
+		Display ();
+		WaitForConfirm ();
+	}
+
+}
+
+public class TutoStep_ItemMenu2: TutoStep {
+
+	public override void Init ()
+	{
+		base.Init ();
+
+		Tutorial.onDisplayTutorial += HandleOnDisplayTutorial;
+	}
+
+	void HandleOnDisplayTutorial (TutoStep tutoStep)
+	{
+		if (tutoStep.step == TutorialStep.ItemMenu1) {
+			corner = DisplayInfo.Corner.TopRight;
+			Tutorial.onDisplayTutorial -= HandleOnDisplayTutorial;
+			Tutorial.onHideTutorial += HandleOnHideTutorial;
+		}
+	}
+
+	void HandleOnHideTutorial ()
+	{
+		Tutorial.onHideTutorial -= HandleOnHideTutorial;
+
+		Display ();
+		WaitForConfirm ();
+	}
+
+}
+
+public class TutoStep_Minimap : TutoStep {
+
+	int chunkCount = 0;
+
+	public override void Init ()
+	{
+		base.Init ();
+
+		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+	}
+
+	void HandleChunkEvent ()
+	{
+		++chunkCount;
+
+		if ( chunkCount == 4 ) {
+
+			corner = DisplayInfo.Corner.BottomLeft;
+
+			Display ();
+			NavigationManager.Instance.EnterNewChunk -= HandleChunkEvent;
+			WaitForConfirm ();
+		}
+	}
+}
+
+public class TutoStep_SkillInfo: TutoStep {
+
+	public override void Init ()
+	{
+		base.Init ();
+
+		Tutorial.onDisplayTutorial += HandleOnDisplayTutorial;
+	}
+
+	void HandleOnDisplayTutorial (TutoStep tutoStep)
+	{
+		if (tutoStep.step == TutorialStep.Skills2) {
+			Tutorial.onDisplayTutorial -= HandleOnDisplayTutorial;
+			Tutorial.onHideTutorial += HandleOnHideTutorial;
+		}
+	}
+
+	void HandleOnHideTutorial ()
+	{
+		Tutorial.onHideTutorial -= HandleOnHideTutorial;
+
+		corner = DisplayInfo.Corner.TopLeft;
+		Display ();
+		WaitForConfirm ();
+	}
+
+}
+
+public class TutoStep_StatusInfo: TutoStep {
+
+	public override void Init ()
+	{
+		base.Init ();
+
+		Tutorial.onDisplayTutorial += HandleOnDisplayTutorial;
+	}
+
+	void HandleOnDisplayTutorial (TutoStep tutoStep)
+	{
+		if (tutoStep.step == TutorialStep.Status) {
+			Tutorial.onDisplayTutorial -= HandleOnDisplayTutorial;
+			Tutorial.onHideTutorial += HandleOnHideTutorial;
+		}
+	}
+
+	void HandleOnHideTutorial ()
+	{
+		Tutorial.onHideTutorial -= HandleOnHideTutorial;
+
+		Display ();
+		WaitForConfirm ();
+	}
+
+}
+

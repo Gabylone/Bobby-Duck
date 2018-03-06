@@ -25,21 +25,21 @@ public class StatusGroup : MonoBehaviour {
 		for (int i = 0; i < (int)Fighter.Status.None; i++) {
 			GameObject statusFeedbackObj = Instantiate (statusFeedbackPrefab, group.transform) as GameObject;
 			statusFeedbackObj.transform.localScale = Vector3.one;
-			statusFeedbackObj.GetComponent<StatusFeedback> ().SetSprite (SkillManager.statusSprites [i]);
+			statusFeedbackObj.GetComponent<StatusFeedback> ().SetStatus ((Fighter.Status)i);
 		}
 
 		statusFeedbacks = GetComponentsInChildren<StatusFeedback> (true);
 
-		reset ();
+		Reset ();
 
 	}
 
 	void HandleFightStarting ()
 	{
-		reset ();
+		Reset ();
 	}
 
-	void reset() {
+	void Reset() {
 		foreach (var item in statusFeedbacks) {
 			item.gameObject.SetActive (false);
 		}

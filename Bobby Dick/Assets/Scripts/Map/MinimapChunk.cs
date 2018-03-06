@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MinimapChunk : MonoBehaviour {
 
-	public delegate void OnTouchMinimapChunk (Chunk chunk);
+	public delegate void OnTouchMinimapChunk (Chunk chunk, Vector3 pos);
 	public static OnTouchMinimapChunk onToucnMinimapChunk;
 
 	public Coords coords;
@@ -22,7 +22,7 @@ public class MinimapChunk : MonoBehaviour {
 			Debug.Log ("AAAAHAHAHA CEES TNUL");
 			return;
 		}
-		islandGroup.GetComponent<Image> ().sprite = Island.minimapSprites[islandData.SpriteID];
+		islandGroup.GetComponent<Image> ().sprite = Island.minimapSprites[islandData.storyManager.storyHandlers [0].Story.param];
 
 	}
 
@@ -31,7 +31,7 @@ public class MinimapChunk : MonoBehaviour {
 		Tween.Bounce (islandGroup.transform);
 
 		if (onToucnMinimapChunk != null) {
-			onToucnMinimapChunk (Chunk.GetChunk (coords));
+			onToucnMinimapChunk (Chunk.GetChunk (coords), transform.position);
 		}
 
 	}

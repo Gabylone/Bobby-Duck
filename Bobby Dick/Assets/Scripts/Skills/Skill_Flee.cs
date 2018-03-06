@@ -21,11 +21,14 @@ public class Skill_Flee : Skill {
 
 		if ( DiceManager.Instance.HighestResult == 6 ) {
 
+			fighter.escaped = true;
+			fighter.EndTurn ();
 			fighter.Fade ();
 			fighter.combatFeedback.Display("o", Color.green);
 
 			CombatManager.Instance.DeleteFighter (fighter);
-			CombatManager.Instance.NextTurn (false);
+			CombatManager.Instance.NextTurn ();
+			print ("SKIPPING TURN : Fleeing");
 
 		} else if ( DiceManager.Instance.HighestResult == 1 ) {
 

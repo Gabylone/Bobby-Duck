@@ -31,7 +31,7 @@ public class MinimapTexture : MonoBehaviour {
 
 				Chunk chunk = Chunk.GetChunk (new Coords (x, y));
 
-				switch (chunk.State) {
+				switch (chunk.state) {
 				case ChunkState.UndiscoveredSea:
 				case ChunkState.UndiscoveredIsland:
 					texture.SetPixel (x, y, color_UnvisitedSea);

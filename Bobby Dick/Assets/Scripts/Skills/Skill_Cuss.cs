@@ -11,7 +11,6 @@ public class Skill_Cuss : Skill {
 
 		if ( fighter.TargetFighter.HasStatus(Fighter.Status.Toasted) ) {
 			fighter.TargetFighter.RemoveStatus (Fighter.Status.Toasted,3);
-			//
 		}
 
 		fighter.TargetFighter.AddStatus (Fighter.Status.Cussed,3);

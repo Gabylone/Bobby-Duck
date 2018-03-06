@@ -61,7 +61,7 @@ public class Card : MonoBehaviour {
 //	void Awake () {
 	public void Init() {
 
-		linkedFighter.onInit += HandleOnInit;
+		linkedFighter.onReset += HandleOnInit;
 		linkedFighter.onSetAsTarget += HandleOnSetAsTarget;
 		linkedFighter.onSetTurn += HandleOnSetTurn;
 		linkedFighter.onEndTurn += HandleOnEndTurn;
@@ -207,6 +207,7 @@ public class Card : MonoBehaviour {
 		levelText.text = member.Level.ToString ();
 
 		if( member.side == Crews.Side.Enemy ) {
+			
 			levelImage.color = member.GetLevelColor ();
 		}
 

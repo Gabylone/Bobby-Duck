@@ -48,13 +48,20 @@ public class CrewInventory : MonoBehaviour {
 
 		HideMenuButtons ();
 
+		QuestMenu.onOpenQuestMenu += HandleOnOpenQuestMenu;
+
+	}
+
+	void HandleOnOpenQuestMenu ()
+	{
+		HideMenuButtons ();
 	}
 
 	public void Init () {
 
 		LootUI.useInventory += HandleUseInventory;
 
-		StoryLauncher.Instance.playStoryEvent += HandlePlayStory;
+		StoryLauncher.Instance.onStartStory += HandlePlayStory;
 		StoryLauncher.Instance.endStoryEvent += HandleEndStory;
 
 	}
@@ -111,29 +118,33 @@ public class CrewInventory : MonoBehaviour {
 
 		Item foodItem = LootUI.Instance.SelectedItem;
 
-		int i = 0;
+		int hunger = 0;
+		int health = 0;
 
 		switch (foodItem.spriteID) {
 		// légume
 		case 0:
-			i = 25;
+			hunger = (int) ((float)Crews.maxHunger/4f);
+			health = 25;
 			break;
 		// poisson
 		case 1:
-			i = 50;
+			hunger = (int) ((float)Crews.maxHunger/2f);
+			health = 50;
 			break;
 		// viande
 		case 2:
-			i = 75;
+			hunger = (int) ((float)Crews.maxHunger/1.5f);
+			health = 75;
 			break;
 		default:
 			break;
 		}
 
-		if (CrewMember.GetSelectedMember.Health >= CrewMember.GetSelectedMember.MemberID.maxHealth - 10) {
-			CrewMember.GetSelectedMember.CurrentHunger -= i;
+		if (CrewMember.GetSelectedMember.Health >= CrewMember.GetSelectedMember.MemberID.maxHealth - 15) {
+			CrewMember.GetSelectedMember.CurrentHunger -= hunger;
 		}
-		CrewMember.GetSelectedMember.AddHealth (i);
+		CrewMember.GetSelectedMember.AddHealth (health);
 
 		if (OtherInventory.Instance.type == OtherInventory.Type.None)
 			LootManager.Instance.PlayerLoot.RemoveItem (LootUI.Instance.SelectedItem);
@@ -169,7 +180,7 @@ public class CrewInventory : MonoBehaviour {
 
 	public void SellItem () {
 
-		int price = (int)(LootUI.Instance.SelectedItem.price / 2f);
+		int price = 1 + (int)(LootUI.Instance.SelectedItem.price / 2f);
 
 		GoldManager.Instance.AddGold (price);
 
@@ -189,23 +200,21 @@ public class CrewInventory : MonoBehaviour {
 			return;
 		}
 
-		// return
-		CrewMember.SetSelectedMember (crewMember);
+		// event
+		openInventory (crewMember);
 
 			// set bool
 		opened = true;
 
-			// event
-		openInventory (crewMember);
+		LootUI.Instance.UpdateLootUI ();
 
-
-		if (catContentType == CategoryContentType.Inventory) {
+		if (LootUI.Instance.visible) {
+			LootUI.Instance.UpdateLootUI ();
+		} else {
 			LootUI.Instance.Hide ();
 			HideCharacterStats ();
 			ShowMenuButtons ();
-		} else {
-			LootUI.Instance.UpdateLootUI ();
-		}
+		} 
 
 			// show elements
 		ShowCrewGroup();

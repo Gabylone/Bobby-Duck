@@ -73,7 +73,6 @@ public class DisplayItem_Crew : DisplayItem {
 	}
 
 	void Hide () {
-		print ("hideing");
 		group.SetActive (false);
 	}
 

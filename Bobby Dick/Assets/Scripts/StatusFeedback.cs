@@ -15,6 +15,8 @@ public class StatusFeedback : MonoBehaviour {
 	public float tweenDur = 0.5f;
 	public float tweenScaleAmount = 1.2f;
 
+	public Fighter.Status status;
+
 	public void SetCount ( int count ) {
 
 		if (count > 1) {
@@ -26,8 +28,9 @@ public class StatusFeedback : MonoBehaviour {
 
 	}
 
-	public void SetSprite ( Sprite sprite ) {
-		image.sprite = sprite;
+	public void SetStatus ( Fighter.Status status ) {
+		this.status = status;
+		image.sprite = SkillManager.statusSprites [(int)status];
 	}
 
 	public void SetColor (Color color)
@@ -57,7 +60,15 @@ public class StatusFeedback : MonoBehaviour {
 
 	void HideDelay () {
 		gameObject.SetActive (false);
+	}
 
+	public delegate void OnTouchStatusFeedback ( Fighter.Status status);
+	public static OnTouchStatusFeedback onTouchStatusFeedback;
+	public void OnPointerDown () 
+	{
+		Tween.Bounce (transform);
 
+		if (onTouchStatusFeedback != null)
+			onTouchStatusFeedback (status);
 	}
 }

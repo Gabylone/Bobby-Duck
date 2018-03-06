@@ -18,15 +18,18 @@ public class Chunk
 {
 	public static Dictionary<Coords,Chunk> chunks = new Dictionary<Coords, Chunk>();
 
-	public ChunkState State;
+	public ChunkState state;
 	private IslandData islandData;
 
 	public Chunk () {
 		
 	}
 
+	public void InitIslandData (IslandData _islandData) {
+		state = ChunkState.UndiscoveredIsland;
+		islandData = _islandData;
+	}
 	public void SetIslandData (IslandData _islandData ) {
-		State = ChunkState.UndiscoveredIsland;
 		islandData = _islandData;
 	}
 
@@ -52,6 +55,19 @@ public class Chunk
 		}
 
 		return chunks [c];
+	}
+
+	public static void SetChunk ( Coords c , Chunk chunk ) {
+
+		chunks [c] = chunk;
+
+	}
+
+	public void Save (Coords c)
+	{
+		string fileName = "chk" + "x" + c.x + "y" + c.y;	
+
+		SaveTool.Instance.SaveToPath ( "Islands/"+fileName, this );
 	}
 }
 

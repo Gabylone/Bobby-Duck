@@ -15,8 +15,6 @@ public class DisplayStoryItem : MonoBehaviour {
 		LootManager.onAddToInventory += HandleOnAddToInventory;
 
 		StoryInput.onPressInput += HandleOnPressInput;
-
-		group.SetActive (false);
 	}
 
 	void HandleOnPressInput ()
@@ -27,6 +25,7 @@ public class DisplayStoryItem : MonoBehaviour {
 	void HandleOnAddToInventory (Item item)
 	{
 		group.SetActive (true);
+
 		displayItem_Loot.HandledItem = item;
 
 		Tween.Bounce (displayItem_Loot.transform);

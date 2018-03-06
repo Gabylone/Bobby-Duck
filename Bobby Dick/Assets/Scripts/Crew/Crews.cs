@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Crews : MonoBehaviour {
 
+	public static int maxHunger = 23;
+
 	public static Crews Instance;
 
 	public enum Side {
@@ -52,7 +54,16 @@ public class Crews : MonoBehaviour {
 
 	void HandleOpenInventory (CrewMember member)
 	{
-		if (CrewMember.previousMember != null) {
+		CrewMember previousMember = null;
+
+		if ( CrewMember.GetSelectedMember != null ) {
+			previousMember = CrewMember.GetSelectedMember;
+		}
+
+		// return
+		CrewMember.SetSelectedMember (member);
+
+		if (previousMember != null) {
 
 			if (StoryLauncher.Instance.PlayingStory && OtherInventory.Instance.type == OtherInventory.Type.None) {
 
@@ -60,13 +71,13 @@ public class Crews : MonoBehaviour {
 
 					Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Map);
 
-					if (CrewMember.previousMember != Crews.playerCrew.captain) {
-						CrewMember.previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+					if (previousMember != Crews.playerCrew.captain) {
+						previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
 					}
 //					CrewMember.selectedMember.Icon.MoveToPoint (Crews.PlacingType.Map);
 				} else {
-					if (CrewMember.previousMember != Crews.playerCrew.captain) {
-						CrewMember.previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+					if (previousMember != Crews.playerCrew.captain) {
+						previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
 					}
 				}
 
@@ -74,7 +85,7 @@ public class Crews : MonoBehaviour {
 
 			} else {
 				
-				CrewMember.previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
+				previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
 
 			}
 

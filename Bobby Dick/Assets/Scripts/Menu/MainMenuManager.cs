@@ -25,10 +25,12 @@ public class MainMenuManager : MonoBehaviour {
 
 		Screen.orientation = ScreenOrientation.Landscape;
 
-		if (SaveTool.Instance.FileExists ("game data.xml")) {
+		if (SaveTool.Instance.FileExists ("game data")) {
 			loadButton.SetActive (true);
+			KeepOnLoad.displayTuto = false;
 		} else {
 			loadButton.SetActive (false);
+			KeepOnLoad.displayTuto = true;
 		}
 	}
 

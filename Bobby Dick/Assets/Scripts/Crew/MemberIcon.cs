@@ -94,8 +94,15 @@ public class MemberIcon : MonoBehaviour {
 		Vector3 targetPos = Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].position;
 
 
-		if ( currentPlacingType == Crews.PlacingType.Map )
+		if (currentPlacingType == Crews.PlacingType.Map) {
+			int index = member.GetIndex;
+			if (index < 0) {
+				Debug.LogError ("index : " + index + " mapanchors :" + Crews.getCrew (member.side).mapAnchors.Length);
+				Debug.LogError ("membre à probleme  "+ member.MemberName);
+				Debug.LogError ("current membre  "+ CrewMember.GetSelectedMember.MemberName);
+			}
 			targetPos = Crews.getCrew (member.side).mapAnchors [member.GetIndex].position;
+		}
 
 //		print ("moviong target : " + Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].name);
 

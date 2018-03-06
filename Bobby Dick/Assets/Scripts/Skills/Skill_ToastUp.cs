@@ -10,6 +10,10 @@ public class Skill_ToastUp : Skill {
 	{
 		base.ApplyEffect ();
 
+		if ( fighter.TargetFighter.HasStatus(Fighter.Status.Cussed) ) {
+			fighter.TargetFighter.RemoveStatus (Fighter.Status.Cussed,3);
+		}
+
 		fighter.TargetFighter.AddStatus (Fighter.Status.Toasted);
 
 		EndSkill ();

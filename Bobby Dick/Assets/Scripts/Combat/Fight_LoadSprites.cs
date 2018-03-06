@@ -58,8 +58,10 @@ public class Fight_LoadSprites : MonoBehaviour {
 		// body
 		allSprites[(int)SpriteIndex.body].sprite = CrewCreator.Instance.BodySprites[memberID.Male ? 0:1];
 
-		if (memberID.equipedWeapon == null)
+		if (memberID.equipedWeapon == null) {
+			print ("member ID weapond is null ?  " + memberID.equipedWeapon.name);
 			allSprites [(int)SpriteIndex.weapon].sprite = CrewCreator.Instance.handSprite;
+		}
 		else
 			allSprites [(int)SpriteIndex.weapon].sprite = CrewCreator.Instance.weaponSprites [memberID.equipedWeapon.spriteID];
 
@@ -98,6 +100,8 @@ public class Fight_LoadSprites : MonoBehaviour {
 	#region sprite order
 	public void UpdateOrder (int fighterIndex)
 	{
+		fighterIndex = 4 - fighterIndex;
+
 		foreach ( SpriteRenderer sprite in allSprites ) {
 			sprite.sortingOrder += 11 * (fighterIndex+1);
 		}

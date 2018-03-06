@@ -42,7 +42,7 @@ public class CombatManager : MonoBehaviour {
 	[Header("Fighter Objects")]
 	[SerializeField] private GameObject playerFighters_Parent;
 	[SerializeField] private GameObject enemyFighters_Parent;
-	private Fighter[] initPlayerFighters;
+	public Fighter[] initPlayerFighters;
 	private Fighter[] initEnemyFighters;
 
 	public List<Fighter> currPlayerFighters = new List<Fighter>();
@@ -53,11 +53,6 @@ public class CombatManager : MonoBehaviour {
 //
 	public Fighter currentFighter {
 		get {
-
-			if (memberIndex >= fighters.Count) {
-				Debug.Log ("ATTANTEN : out of range / member index : " + memberIndex + " fighters : " + fighters.Count);
-				return fighters [0];
-			}
 			return fighters [memberIndex];
 		}
 	}
@@ -89,11 +84,7 @@ public class CombatManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		enemyFighters_Parent.SetActive (true);
-		playerFighters_Parent.SetActive (true);
-
-		initEnemyFighters = enemyFighters_Parent.GetComponentsInChildren<Fighter> (true);
-		initPlayerFighters = playerFighters_Parent.GetComponentsInChildren<Fighter> (true);
+		InitFighters ();
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
@@ -108,6 +99,8 @@ public class CombatManager : MonoBehaviour {
 		}
 	}
 
+	public bool debugKill = false;
+
 	// Update is called once per frame
 	void Update () {
 		
@@ -115,8 +108,16 @@ public class CombatManager : MonoBehaviour {
 			updateState ();
 			timeInState += Time.deltaTime;
 		}
+//
+//		if ( Input.GetKeyDown(KeyCode.L) ) {
+//
+//			debugKill = true;
+//
+//		}
 
 	}
+
+
 	#region Combat Start
 	private void CombatStart_Start () {
 
@@ -133,39 +134,20 @@ public class CombatManager : MonoBehaviour {
 		ChangeState (States.StartTurn);
 	}
 
-	void SortFighters ()
-	{
-		memberIndex = 0;
-
-		fighters.Clear ();
-		currPlayerFighters.Clear ();
-		currEnemyFighters.Clear ();
-
-		for (int fighterIndex = 0; fighterIndex < Crews.playerCrew.CrewMembers.Count; fighterIndex++) {
-			fighters.Add (initPlayerFighters[fighterIndex]);
-			currPlayerFighters.Add (initPlayerFighters [fighterIndex]);
-		}
-
-		for (int fighterIndex = 0; fighterIndex < Crews.enemyCrew.CrewMembers.Count; fighterIndex++) {
-			fighters.Add (initEnemyFighters[fighterIndex]);
-			currEnemyFighters.Add (initEnemyFighters [fighterIndex]);
-		}
-	}
-
 	private void CombatStart_Update () {}
 	private void CombatStart_Exit () {}
 	#endregion
 
 	#region StartTurn
 	private void StartTurn_Start () {
-
 		currentFighter.SetTurn ();
-
-		States state = currentMember.side == Crews.Side.Player ? States.PlayerActionChoice : States.EnemyActionChoice;
-
-		ChangeState (state);
-
 	}
+	public void StartActions ()
+	{
+		States state = currentMember.side == Crews.Side.Player ? States.PlayerActionChoice : States.EnemyActionChoice;
+		ChangeState (state);
+	}
+
 	private void StartTurn_Update () {
 
 //		if (timeInState > 1f) {
@@ -180,88 +162,78 @@ public class CombatManager : MonoBehaviour {
 
 	private void StartTurn_Exit () {}
 
-	public void NextTurn ( bool goToNextMember ) {
+	public void NextTurn () {
 
-		if (goToNextMember) {
-			NextMember ();
+		OutCome fightOutCome = GetFightOutCome ();
+		if (fightOutCome != OutCome.None) {
+			return;
 		}
 
-		StartNewTurn ();
+		NextMember ();
+
+		if ( currentFighter.killed ) {
+			//
+			print ("combattant mort");
+			NextTurn ();
+			return;
+		}
+
+		if ( currentFighter.escaped ) {
+			//
+			print ("combattant enfuit");
+			NextTurn ();
+			return;
+		}
+
+
+		Invoke ("StartNewTurn" , 1f);
 
 	}
 
 	void StartNewTurn () {
 
-		if (currEnemyFighters.Count == 0) {
-			print ("on continue pas parce qu'il y a plus de membres joueurs");
-			return;
-		}
-		if (currPlayerFighters.Count == 0) {
-			print ("on continue pas parce qu'il y a plus de membres adversaires");
-			return;
-		}
-
-		Invoke ("StartNewTurnDelay" , 1f);
-		//
-	}
-
-	void StartNewTurnDelay () {
 		ChangeState (States.StartTurn);
 		//
 	}
 
-	void CheckMembers ()
+	public enum OutCome
 	{
-		if ( currPlayerFighters.Count == 0 ) {
+		PlayerCrewKilled,
+		PlayerCrewEscaped,
+		EnemyCrewKilled,
 
-			print ("plus de combattants joueurs");
+		None
+	}
 
-			if (Crews.getCrew (Crews.Side.Player).CrewMembers.Count == 0) {
+	OutCome GetFightOutCome ()
+	{
 
-				print ("plus de membres joueurs : donc mort");
+		if (currEnemyFighters.Count == 0)
+			return OutCome.EnemyCrewKilled;
 
-			} else {
+		if (currPlayerFighters.Count == 0) {
 
-				print ("il reste des membres joueurs : donc fuite joueur");
+			if (Crews.playerCrew.CrewMembers.Count == 0)
+				return OutCome.PlayerCrewKilled;
 
-				Escape ();
-
-				Invoke ("ExitFight",1f);
-
-
-			}
-			return;
+			return OutCome.PlayerCrewEscaped;
 		}
 
-		if ( currEnemyFighters.Count == 0 ) {
+//		Fighter enemyFighterAlive = currEnemyFighters.Find (x => x.killed == false);
+//		if (enemyFighterAlive == null)
+//			return OutCome.EnemyCrewKilled;
+//
+//		Fighter playerFighterAlive = currPlayerFighters.Find (x => x.killed == false);
+//		if (playerFighterAlive == null) {
+//			
+//			Fighter escapedFighter = currPlayerFighters.Find (x => x.escaped == true);
+//			if (escapedFighter != null)
+//				return OutCome.PlayerCrewEscaped;
+//
+//			return OutCome.PlayerCrewKilled;
+//		}
 
-			print ("plus de combattants ennemis");
-
-			if (Crews.getCrew (Crews.Side.Enemy).CrewMembers.Count == 0) {
-
-				print ("plus de membres ennemis : donc victoire");
-
-				ReceiveXp ();
-				ReceiveGold ();
-
-				Invoke ("ExitFight",3f);
-				Invoke ("ShowLoot", 3f);
-
-			} else {
-
-				print ("il reste des membres ennemis : donc fuite ennemie");
-
-				Narrator.Instance.ShowNarratorTimed ("L'équipe adverse s'enfuit");
-
-				Invoke ("ExitFight",1f);
-				Escape ();
-//				Invoke ("Escape",1f);
-
-
-			}
-
-			return;
-		}
+		return OutCome.None;
 	}
 	void NoMorePlayersDelay() {
 		
@@ -395,6 +367,8 @@ public class CombatManager : MonoBehaviour {
 	#region Enemy Action Choice
 	private void EnemyActionChoice_Start () {
 
+		print ("enemy action choice start");
+
 		Skill skill = SkillManager.RandomSkill (currentMember);
 		skill.Trigger (CombatManager.Instance.currentFighter);
 
@@ -410,6 +384,7 @@ public class CombatManager : MonoBehaviour {
 		if ( currentSkill.preferedTarget != null ) {
 			currentSkill.preferedTarget.SetAsTarget ();
 			currentSkill.preferedTarget = null;
+			print ("CURRENT SKILL has prefered target, donc on la prend");
 			return;
 		}
 
@@ -427,24 +402,23 @@ public class CombatManager : MonoBehaviour {
 
 		} else {
 
+			Fighter weakestFighter = currPlayerFighters [0];
 			foreach (var item in currPlayerFighters) {
+
 				if (item.HasStatus (Fighter.Status.Provoking)) {
 					item.SetAsTarget ();
 					return;
 				}
-			}
 
-			Fighter weakestFighter = currPlayerFighters [0];
-			foreach (var item in currPlayerFighters) {
+				if (item.HasStatus (Fighter.Status.Protected))
+					continue;
+
 				if ( item.crewMember.Health < weakestFighter.crewMember.Health ) {
 					weakestFighter = item;
 				}
 			}
 
 			weakestFighter.SetAsTarget ();
-//			int randomIndex = Random.Range (0, currPlayerFighters.Count);
-//
-//			currPlayerFighters [randomIndex].SetAsTarget ();
 
 		}
 
@@ -522,6 +496,42 @@ public class CombatManager : MonoBehaviour {
 	#endregion
 
 	#region fighters
+	void InitFighters ()
+	{
+		enemyFighters_Parent.SetActive (true);
+		playerFighters_Parent.SetActive (true);
+
+
+		initPlayerFighters = playerFighters_Parent.GetComponentsInChildren<Fighter> (true);
+		initEnemyFighters = enemyFighters_Parent.GetComponentsInChildren<Fighter> (true);
+
+		for (int index = 0; index < initPlayerFighters.Length; index++) {
+			initPlayerFighters [index].fightSprites.Init ();
+			initPlayerFighters [index].fightSprites.UpdateOrder (index);
+		}
+		for (int index = 0; index < initEnemyFighters.Length; index++) {
+			initEnemyFighters [index].fightSprites.Init ();
+			initEnemyFighters [index].fightSprites.UpdateOrder (index);
+		}
+	}
+	void SortFighters ()
+	{
+		memberIndex = 0;
+
+		fighters.Clear ();
+		currPlayerFighters.Clear ();
+		currEnemyFighters.Clear ();
+
+		for (int fighterIndex = 0; fighterIndex < Crews.playerCrew.CrewMembers.Count; fighterIndex++) {
+			fighters.Add (initPlayerFighters[fighterIndex]);
+			currPlayerFighters.Add (initPlayerFighters [fighterIndex]);
+		}
+
+		for (int fighterIndex = 0; fighterIndex < Crews.enemyCrew.CrewMembers.Count; fighterIndex++) {
+			fighters.Add (initEnemyFighters[fighterIndex]);
+			currEnemyFighters.Add (initEnemyFighters [fighterIndex]);
+		}
+	}
 	private void ShowFighters () {
 
 		foreach ( Crews.Side side in Crews.Instance.Sides ) {
@@ -547,13 +557,34 @@ public class CombatManager : MonoBehaviour {
 			f.Hide ();
 	}
 	public void DeleteFighter (Fighter fighter) {
-		fighters.Remove (fighter);
+
+//		fighters.Remove (fighter);
 		if ( fighter.crewMember.side == Crews.Side.Player)
 			currPlayerFighters.Remove (fighter);
 		else
 			currEnemyFighters.Remove (fighter);
 
-		CheckMembers ();
+		switch (GetFightOutCome()) {
+		case OutCome.PlayerCrewKilled:
+			ExitFight ();
+			break;
+		case OutCome.PlayerCrewEscaped:
+			Escape ();
+			Invoke ("ExitFight", 1f);
+			break;
+		case OutCome.EnemyCrewKilled:
+			Transitions.Instance.ActionTransition.Fade = true;
+			ReceiveXp ();
+			ReceiveGold ();
+			Invoke ("ExitFight", 1f);
+			Invoke ("ShowLoot", 1f);
+			break;
+		case OutCome.None:
+			break;
+		default:
+			break;
+		}
+
 	}
 	#endregion
 
@@ -668,9 +699,6 @@ public class CombatManager : MonoBehaviour {
 
 		if ( memberIndex >= fighters.Count )
 			memberIndex = 0;
-
-		if ( memberIndex < 0 )
-			memberIndex = fighters.Count-1;
 	}
 	#endregion
 

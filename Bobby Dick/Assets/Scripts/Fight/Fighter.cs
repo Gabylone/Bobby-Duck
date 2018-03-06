@@ -5,6 +5,9 @@ using Holoville.HOTween;
 
 public class Fighter : MonoBehaviour {
 
+	public bool killed = false;
+	public bool escaped = false;
+
 	public enum states {
 		dead,
 
@@ -43,7 +46,7 @@ public class Fighter : MonoBehaviour {
 	public CrewMember crewMember;
 	public Transform arrowAnchor;
 
-	private Fight_LoadSprites fightSprites;
+	public Fight_LoadSprites fightSprites;
 
 	[Header ("Move")]
 	public float moveToTargetDuration = 0.79f;
@@ -135,24 +138,12 @@ public class Fighter : MonoBehaviour {
 		}
 	}
 
-	public static int globalID = 0;
-	public int id = 0;
-
 	// Use this for initialization
 	void Start () {
 
 //		print ("fightrer start " + transform.parent.name);
 		animator = GetComponentInChildren<Animator> ();
 		weaponCollider.enabled = false;
-
-		fightSprites = GetComponentInChildren<Fight_LoadSprites> ();
-		fightSprites.Init ();
-
-		id = globalID;
-
-		fightSprites.UpdateOrder (globalID);
-
-		++globalID;
 
 		transform.parent.GetComponentInChildren<Card> ().Init ();
 
@@ -164,6 +155,7 @@ public class Fighter : MonoBehaviour {
 
 	}
 
+
 	// Update is called once per frame
 	void FixedUpdate () {
 
@@ -171,25 +163,35 @@ public class Fighter : MonoBehaviour {
 			updateState ();
 
 		timeInState += Time.deltaTime;
+
+
 	}
 
 	#region initalization
 	public delegate void OnInit ();
-	public OnInit onInit;
+	public OnInit onReset;
 	public void Reset ( CrewMember crewMember, int id )
 	{
 		this.crewMember = crewMember;
 
 		Show ();
+
 		ChangeState (states.none);
 
-		// animation
+		killed = false;
+		escaped = false;
+
 		animator.SetBool("dead",false);
+
+		// animation
 		transform.position = initPos;
 
 		// energy & status
 		crewMember.energy = 0;
+
+
 		onSkillDelay = null;
+
 		for (int i = 0; i < statusCount.Length; i++) {
 			statusCount [i] = 0;
 		}
@@ -198,33 +200,44 @@ public class Fighter : MonoBehaviour {
 		fightSprites.UpdateSprites (crewMember.MemberID);
 
 		// event
-		if ( onInit != null )
-			onInit ();
+		if ( onReset != null )
+			onReset ();
 	}
 
 	public delegate void OnSetTurn ();
 	public OnSetTurn onSetTurn;
 	public void SetTurn () {
 
-		// go up in hierarchy
-		Transform t = transform.parent.parent;
-
-		transform.parent.SetParent(transform.parent.parent.parent);
-
-		transform.parent.SetParent(t);
-
 		Tween.Bounce (transform);
 
 		ChangeState (Fighter.states.none);
+
+		/// knocked out
+		if ( HasStatus(Status.KnockedOut) ) {
+			RemoveStatus (Status.KnockedOut);
+			combatFeedback.Display ("zzz", Color.white);
+
+			EndTurn ();
+			CombatManager.Instance.NextTurn ();
+			print ("Skipping Turn : Knocked out");
+			return;
+			//
+		}
 
 		CheckStatus ();
 
 		crewMember.AddEnergy (crewMember.energyPerTurn);
 
-		foreach (var item in crewMember.SpecialSkills) {
-			if (item.currentCharge > 0)
-				--item.currentCharge;
+		for (int i = 0; i < crewMember.charges.Length; i++) {
+			if ( crewMember.charges [i] > 0 )
+				crewMember.charges [i] -= 1;
 		}
+//		foreach (var item in crewMember.SpecialSkills) {
+//			if (item.currentCharge > 0)
+//				--item.currentCharge;
+//		}
+
+		CombatManager.Instance.StartActions ();
 
 		if (onSetTurn != null) {
 			onSetTurn ();
@@ -237,7 +250,6 @@ public class Fighter : MonoBehaviour {
 	public OnEndTurn onEndTurn;
 	public void EndTurn ()
 	{
-//		combatFeedback.Display ("fin du tour");
 
 		if (onEndTurn != null)
 			onEndTurn ();
@@ -289,12 +301,12 @@ public class Fighter : MonoBehaviour {
 		ChangeState (states.dead);
 		Animator.SetBool ("dead", true);
 
-			// combat flow
-		Fade ();
+		killed = true;
 
+		Fade ();
 		CombatManager.Instance.DeleteFighter (this);
-		CombatManager.Instance.NextTurn (false);
-		print ("Skipping Turn : Member Is Dead");
+//		CombatManager.Instance.NextTurn (true);
+//		print ("Skipping Turn : Member Is Dead");
 
 	}
 	#endregion
@@ -507,7 +519,7 @@ public class Fighter : MonoBehaviour {
 	{
 		float damage = 0f;
 
-		damage = crewMember.getDamage (attack);
+		damage = crewMember.GetDamage (attack);
 		damage *= mult;
 
 		// reduced damage
@@ -539,6 +551,10 @@ public class Fighter : MonoBehaviour {
 		HitEffect ();
 
 		float damage = GetDamage (otherFighter, attack,mult);
+
+		if ( CombatManager.Instance.debugKill ) {
+			damage = 100;
+		}
 
 		combatFeedback.Display (damage.ToString() , Color.red);
 		crewMember.RemoveHealth (damage);
@@ -727,21 +743,7 @@ public class Fighter : MonoBehaviour {
 
 	void CheckStatus () {
 
-		if ( HasStatus(Status.KnockedOut) ) {
-
-			RemoveStatus (Status.KnockedOut);
-
-			combatFeedback.Display ("z");
-
-			CombatManager.Instance.ChangeState (CombatManager.States.None);
-
-			EndTurn ();
-			CombatManager.Instance.NextTurn (true);
-			print ("Skipping Turn : Knocked out");
-
-			return;
-			//
-		} else if ( animator.GetBool("uncounscious") ) {
+		if ( animator.GetBool("uncounscious") ) {
 			animator.SetBool ("uncounscious", false);
 		}
 

@@ -36,16 +36,10 @@ public class Boats : MonoBehaviour {
 	void Start () {
 		Karma.onChangeKarma += HandleOnChangeKarma;
 
-		SaveManager.onSave += HandleOnSave;
-		SaveManager.onLoad += HandleOnLoad;
+		NavigationManager.Instance.EnterNewChunk += SaveBoats;
+		SaveManager.onLoad += LoadBoats;
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
-	}
-
-	void Update() {
-		if ( Input.GetKeyDown(KeyCode.M) ) {
-			HandleOnSave();
-		}
 	}
 
 	public void RandomizeBoats( ) {
@@ -53,7 +47,6 @@ public class Boats : MonoBehaviour {
 		playerBoatInfo = new PlayerBoatInfo ();
 		playerBoatInfo.Init ();
 		playerBoatInfo.Randomize ();
-
 
 		boatData = new BoatData ();
 		boatData.boats = new List<OtherBoatInfo> ();
@@ -115,7 +108,7 @@ public class Boats : MonoBehaviour {
 	#endregion
 
 	#region save & load
-	public void HandleOnSave () {
+	public void SaveBoats () {
 
 		SaveManager.Instance.GameData.playerBoatInfo = playerBoatInfo;
 
@@ -123,12 +116,12 @@ public class Boats : MonoBehaviour {
 
 	}
 
-	public void HandleOnLoad () {
+	public void LoadBoats () {
 		
 		playerBoatInfo = SaveManager.Instance.GameData.playerBoatInfo;
 		playerBoatInfo.Init ();
 
-		boatData = SaveTool.Instance.LoadFromPath ("boat data", "BoatData") as BoatData;
+		boatData = SaveTool.Instance.LoadFromPath ("boat data.xml", "BoatData") as BoatData;
 		foreach (var item in getBoats) {
 			item.Init ();
 		}

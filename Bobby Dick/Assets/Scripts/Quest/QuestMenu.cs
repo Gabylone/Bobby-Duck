@@ -65,8 +65,6 @@ public class QuestMenu : MonoBehaviour {
 		openButton.SetActive (false);
 		menuGroup.SetActive (true);
 
-		CrewInventory.Instance.HideMenuButtons ();
-
 		displayFormulas.ShowFormulas ();
 
 		DisplayQuestAmount ();

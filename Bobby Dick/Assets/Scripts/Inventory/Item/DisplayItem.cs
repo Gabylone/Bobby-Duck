@@ -207,7 +207,7 @@ public class DisplayItem : MonoBehaviour {
 			if ( LootUI.Instance.categoryContentType == CategoryContentType.OtherTrade ) {
 				Price = HandledItem.price;
 			} else {
-				Price = (int)(HandledItem.price / 2f);
+				Price = 1+(int)(HandledItem.price / 2f);
 			}
 			
 			Weight 		= HandledItem.weight;

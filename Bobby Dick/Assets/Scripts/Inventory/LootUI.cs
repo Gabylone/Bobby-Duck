@@ -24,6 +24,9 @@ public class LootUI : MonoBehaviour {
 
 	private Item selectedItem = null;
 
+	public delegate void OnSetSelectedItem ();
+	public static OnSetSelectedItem onSetSelectedItem;
+
 	public Item SelectedItem {
 		
 		get {
@@ -37,6 +40,10 @@ public class LootUI : MonoBehaviour {
 			selectedItemDisplay.HandledItem = value;
 
 			UpdateActionButton (value);
+
+			if ( onSetSelectedItem != null && value != null ) {
+				onSetSelectedItem ();
+			}
 
 		}
 	}
@@ -53,7 +60,7 @@ public class LootUI : MonoBehaviour {
 	public GameObject switchToPlayer;
 	public GameObject switchToOther;
 
-	bool visible = false;
+	public bool visible = false;
 
 	[Header("Item Buttons")]
 	[SerializeField]
@@ -243,6 +250,10 @@ public class LootUI : MonoBehaviour {
 
 		UpdateItemButtons ();
 		UpdateCategoryButtons ();
+
+		selectedItemDisplay.HandledItem = selectedItemDisplay.HandledItem;
+
+
 	}
 
 	public CategoryContent CategoryContent {

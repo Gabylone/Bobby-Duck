@@ -28,11 +28,6 @@ public class StoryInput : MonoBehaviour {
 		if ( waitForInput ) {
 
 			PressInput ();
-//			Invoke("PressInput",0.1f);
-//
-//			if (InputManager.Instance.OnInputDown ()) {
-//				//				PressInput ();
-//			}
 		}
 	}
 
@@ -76,8 +71,7 @@ public class StoryInput : MonoBehaviour {
 		if ( waitForInput ) {
 
 			if (InputManager.Instance.OnInputDown ()) {
-//				PressInput ();
-				Invoke("PressInput",0.1f);
+				PressInput ();
 			}
 		}
 	}
@@ -88,7 +82,7 @@ public class StoryInput : MonoBehaviour {
 	public static OnPressInput onPressInput;
 
 	public void WaitForInput () {
-		Invoke ("WaitForInputDelay", 0.1f);
+		Invoke ("WaitForInputDelay", 0.01f);
 
 	}
 	void WaitForInputDelay () {
@@ -100,7 +94,6 @@ public class StoryInput : MonoBehaviour {
 		if (locked) {
 			return;
 		}
-
 
 		if (onPressInput != null) {
 			onPressInput ();

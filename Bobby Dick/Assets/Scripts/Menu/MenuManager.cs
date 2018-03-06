@@ -58,7 +58,7 @@ public class MenuManager : MonoBehaviour {
 
 	void HandleOnValidate ()
 	{
-		SaveManager.Instance.SaveOverallGame ();
+//		SaveManager.Instance.SaveOverallGame ();
 	}
 	public void QuitButton () {
 

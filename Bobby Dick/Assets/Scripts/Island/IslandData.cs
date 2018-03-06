@@ -14,7 +14,7 @@ public class IslandData {
 
 	}
 
-	public IslandData (StoryType storyType)
+	public IslandData (StoryType storyType )
 	{
 		storyManager = new StoryManager ();
 
@@ -23,11 +23,5 @@ public class IslandData {
 		positionOnScreen = Island.Instance.GetRandomPosition ();
 
 
-	}
-
-	public int SpriteID {
-		get {
-			return storyManager.storyHandlers [0].Story.param;
-		}
 	}
 }

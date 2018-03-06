@@ -65,6 +65,8 @@ public class MemberCreator : MonoBehaviour {
 
 		overall.SetActive (false);
 
+		SaveManager.Instance.SaveGameData ();
+
 		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 
@@ -91,7 +93,7 @@ public class MemberCreator : MonoBehaviour {
 
 	public void ChangeBoatName () {
 
-		Tween.Bounce ( boatName.transform );
+		Tween.Bounce ( boatName.transform , 0.2f , 1.05f);
 
 		Boats.playerBoatInfo.Name = boatName.text;
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
@@ -99,7 +101,7 @@ public class MemberCreator : MonoBehaviour {
 
 	public void ChangeCaptainName () {
 
-		Tween.Bounce ( captainName.transform );
+		Tween.Bounce ( captainName.transform , 0.2f , 1.05f);
 
 		Crews.playerCrew.captain.MemberID.Name = captainName.text;
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);

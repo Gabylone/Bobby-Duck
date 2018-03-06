@@ -56,7 +56,8 @@ public class IconVisual : MonoBehaviour {
 		BodyImage.sprite = CrewCreator.Instance.BodySprites[memberID.Male ? 0:1];
 
 //		Debug.Log (memberID.equipedWeapon.name);
-		UpdateWeaponSprite (memberID.equipedWeapon.spriteID);
+		if ( memberID.equipedWeapon != null )
+			UpdateWeaponSprite (memberID.equipedWeapon.spriteID);
 
 	}
 

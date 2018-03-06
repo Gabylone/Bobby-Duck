@@ -1,31 +1,72 @@
-DEBUG BOB
 
-- y'a toujours du double sautage de tour dans l'air
-	théorie : c'est parce que die & flee sont pas sensés ++nextmember
+IMPORTANT AVANT DE BUILD POUR MONTRER
 
-- régler ce probleme de chunks trop longs
-
-xxx - faire apparaitre stat group member icon à côté pas au dessus
-xxx - changer sprite piston 
-xxx - preserve aspect sur back ground image
-
-PLUs : 
+xxx - combat feedback  : 2 fois memes ?
+xxx - BLOQUANT : partir quand un bateau vous touche
+xxx - le display item ne s'update pas au changement de membre ( comme le loot)
+xxx - ne pas fermer l'inventaire à chaque changement de crew member
+xxx - rajouter qu'on peut appuyter à fond sur un skill dans le turo ?
+xxx - apputer à fond sur les status.
+xxx - rajouter fill amount qui se rempli pour les skills button
+xxx - revoir écriture skill
+xxx - fair eapparaitre icon faim moins
+xxx - l'linput field formules se cachent pas à l'ouverture des menus
+xxx - TRESOR INDICE riche indice 1000 po
+xxx - TRESOR INDICE enlever argent 
+xxx - TRESOR : cinq hommes
+xxx - ennemis target : on dirait le plus faible mais changer de taret si protégé
+xxx - regarder si le medecin soigne rellement le plus faible
+xxx - niveau de loot en fonction du capitaine ennemu
+xxx - combat feedback : plus haut plus de temps et un troisieme
+xxx - un membre a gagné un niveau, puis il a re un tour
+( confirmed )
+xxx - le toast enlève l'insulte
+- confirmer quand nouvelle partie
+- quand quelqu'un est assomé, l'attaquant ne joue pas son tour
+- gagner de l'experience quand on trouve l'indice
+- enlever le "xp" pour l'affichage combat
+- tenter de faire une carte avec des numéros et les répartir équitablement
+- diminiuer chance de recevoir des quêtes
+- le jeu est critique quand un 1 apparait
+- mettre un tutorial pour les dés
+- argumentoutofrange quand Nathalie est morete
+- la minimap ne va pas tout au bout
+- les escrocs volent trop souvent
+- il faut que les ennemis varient les cibles
+( 60% moins fort, et les autres )
+- doubler l'effet du mauvais karma
+- griser les îles inconnues
+- mettre un point d'exclamatio nsur les îles target quest
+- insulte : reduit à chaque tour et pas à a l'attque
+- gagne encore trop d'or
+- remettre bar de chargement ( voir avec build )
 - animation pièce de l'escroc comme image job.e sur barre de vie.
-- placement des iles : donner un nombre de fois ou les lies apparaiisent au lieu d'une chance. et les espaceR.
--tween rapide sur barre de vie combat
-- sauvegarder la game data quand on rentre & sort d'une île, et quand un membre meurt.
-- en cas de game over, supprimer les dossiers.
+- faire dire une insulte au fighter qui proboques
+- tween rapide sur barre de vie combat
+- sauvegarder la game data quand un membre meurt.
+- en cas de game over, supprimer game data
 - penser à : les gens dirige le héros vers l'indice le plus près
+- mettre nom du bouton displau item quand on appuie longtemps dessus.
+- est'ce que "dormir jusqu'au lendemain n'aurait pas plus de sens.
+- mettre le bear trap au milieu, quoi qu'il arrive
+- preparing attack : l'interface apparait un peu avant que l eskill s'active
+- wtf, on peut prendre des mercenaires à l'infini ?
+- dynamite : plus de dégatrs
+- bandits : prix demandé est dynamique ( 30 %  de l'argent )
+- dire qu'on peut cliquer sur les îles pour savoir la vie
+- dire qu'on peut cliquer sur les autres pour savoir leur métier niveau
+- ui combat : changement du layer card quand clic sur perso
+- les portrains sont derrière la carte
+- grande carte mais mieux
+- rajouter tuto quand personnage adverse est trop fort
+- dans skillbutton, mettre charge avec energy ou dans description
 
 SAUVEGARDE
-
 - trouver moyen pour item id
 - classe différente pour crewmember enemy
 - liste de discovered chunk
 - ficher pour chaque ile
 	- sauver l'ile actuelle à l'entrée et la sortie.
-
-- tester rencontre bateau ficher 500 mo
 
 HISTOIRE
 - grotte : plusieurs enigmes ( dont jours )

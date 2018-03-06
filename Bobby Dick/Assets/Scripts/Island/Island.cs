@@ -110,7 +110,7 @@ public class Island : MonoBehaviour {
 
 			GetComponent<RectTransform> ().anchoredPosition = chunk.IslandData.positionOnScreen;
 
-			GetComponentInChildren<Image>().sprite = sprites [islandData.SpriteID];
+			GetComponentInChildren<Image>().sprite = sprites [islandData.storyManager.storyHandlers [0].Story.param];
 
 		} else {
 			
@@ -136,6 +136,9 @@ public class Island : MonoBehaviour {
 	public bool targeted = false;
 
 	public void Pointer_ClickIsland () {
+
+		if (StoryLauncher.Instance.PlayingStory)
+			return;
 
 		Tween.Bounce (transform );
 

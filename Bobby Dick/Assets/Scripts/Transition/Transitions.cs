@@ -28,7 +28,8 @@ public class Transitions : MonoBehaviour {
 
 	void HandleFightEnding ()
 	{
-		actionTransition.Fade = true;
+		// non parce que du coup quand ils s'enfuient ça reste noir
+//		actionTransition.Fade = true;
 	}
 
 	void HandleFightStarting ()

@@ -17,7 +17,7 @@ public class PlayerBoat : Boat {
 		WorldTouch.onTouchWorld += HandleOnTouchWorld;
 		Island.onTouchIsland += HandleOnTouchIsland;
 
-		StoryLauncher.Instance.playStoryEvent += EndMovenent;
+		StoryLauncher.Instance.onStartStory += EndMovenent;
 		StoryLauncher.Instance.endStoryEvent += EndMovenent;
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;

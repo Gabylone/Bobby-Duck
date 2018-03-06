@@ -10,7 +10,7 @@ public class StoryLauncher : MonoBehaviour {
 	private bool playingStory = false;
 
 	public delegate void PlayStoryEvent ();
-	public PlayStoryEvent playStoryEvent;
+	public PlayStoryEvent onStartStory;
 	public delegate void EndStoryEvent ();
 	public EndStoryEvent endStoryEvent;
 
@@ -70,8 +70,8 @@ public class StoryLauncher : MonoBehaviour {
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 		StoryReader.Instance.UpdateStory ();
 
-		if (playStoryEvent != null)
-			playStoryEvent ();
+		if (onStartStory != null)
+			onStartStory ();
 	}
 
 	public void EndStory () {
@@ -97,7 +97,7 @@ public class StoryLauncher : MonoBehaviour {
 			// kek
 			break;
 		case StorySource.island:
-			Chunk.currentChunk.State = ChunkState.VisitedIsland;
+			Chunk.currentChunk.state = ChunkState.VisitedIsland;
 			break;
 		default:
 			break;
@@ -105,6 +105,8 @@ public class StoryLauncher : MonoBehaviour {
 
 		if (endStoryEvent != null)
 			endStoryEvent ();
+
+		Chunk.currentChunk.Save (Coords.current);
 
 	}
 

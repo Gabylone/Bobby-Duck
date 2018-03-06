@@ -121,6 +121,7 @@ public class Member {
 
 		// JOB & SKILLS
 		SetJob( (Job)Random.Range (0, 5) );
+//		SetJob(Job.Flibuster );
 
 		// STATS
 		int statAmount = Lvl - 1;

@@ -93,7 +93,7 @@ public class ItemLoader : MonoBehaviour {
 
 				currentType // category
 				);
-
+			
 			items[(int)currentType][i-1] = newItem;
 
 			currentID++;
@@ -119,8 +119,13 @@ public class ItemLoader : MonoBehaviour {
 				if ( (ItemCategory)itemType == ItemCategory.Misc || (ItemCategory)itemType == ItemCategory.Provisions ) {
 					tmpItems [i] = GetRandomItem ((ItemCategory)itemType);
 				} else {
-					level = Random.Range (Crews.playerCrew.captain.Level - 2, Crews.playerCrew.captain.Level + 3);
-					level = Mathf.Clamp (level, 1, 11);
+					// il ne peut prendre le capitaine ennemi que si otherinventory.trade ( ou loot ) == true
+					if (OtherInventory.Instance.type != OtherInventory.Type.None) {
+						level = Random.Range (Crews.enemyCrew.captain.Level - 2, Crews.enemyCrew.captain.Level + 2);
+					} else {
+						level = Random.Range (Crews.playerCrew.captain.Level - 2, Crews.playerCrew.captain.Level + 2);
+					}
+					level = Mathf.Clamp (level, 1, 10);
 					tmpItems[i] = GetRandomItemOfCertainLevel ((ItemCategory)itemType,level);
 				}
 
@@ -146,6 +151,7 @@ public class ItemLoader : MonoBehaviour {
 
 //		Debug.Log ( items [(int)category] [2].ID + " AAAAAAAAAAAAAA" );
 		Item[] tmpItems = System.Array.FindAll (items [(int)category], x => x.level == targetLevel);
+
 		return tmpItems [Random.Range (0, tmpItems.Length)];
 	}
 

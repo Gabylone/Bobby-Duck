@@ -21,7 +21,6 @@ public class UIBackground : MonoBehaviour {
 
 		CombatManager.Instance.onFightStart += MoveBackGround;
 		CombatManager.Instance.onFightEnd += HandleFightEnding;
-		CombatManager.Instance.onChangeState += HandleOnChangeState;
 
 		initXPos = rectTransform.rect.position.x;
 	}
@@ -56,16 +55,6 @@ public class UIBackground : MonoBehaviour {
 		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( hiddenX , 0f ) );
 
 		uiGroup.SetActive (false);
-
-	}
-
-	void HandleOnChangeState (CombatManager.States currState, CombatManager.States prevState)
-	{
-		if (currState == CombatManager.States.PlayerActionChoice) {
-			MoveBackGround ();
-		} else if ( currState != CombatManager.States.None ) {
-//			HideBackground ();
-		}
 
 	}
 }

@@ -6,6 +6,8 @@ using Holoville.HOTween;
 
 public class DisplayMinimap : MonoBehaviour {
 
+	RectTransform rectTransform;
+
 	public static DisplayMinimap Instance;
 
 	// minimap chunks
@@ -26,12 +28,29 @@ public class DisplayMinimap : MonoBehaviour {
 	public GameObject enemyBoatIconPrefab;
 	public List<RectTransform> enemyBoatIcons = new List<RectTransform>();
 
+	public Image rayBlockerImage;
+
+	public float hiddenPos = 0f;
+	public float hideDuration = 0.3f;
+
+	public float zoomDuration = 0.8f;
+
+	public float initPosX = 0f;
+	public float initTopOffset = 0f;
+	public float initBottomOffset = 0f;
+	public float initLeftOffset = 0f;
+	public float initRightOffset = 0f;
+
+	public GameObject mapCloseButton;
+
 	void Awake () {
 		Instance = this;
 	}
 
 	// Use this for initialization
 	void Start () {
+
+		rectTransform = GetComponent<RectTransform> ();
 
 		InitMap ();
 
@@ -44,8 +63,10 @@ public class DisplayMinimap : MonoBehaviour {
 
 		Show ();
 
-		CombatManager.Instance.onFightStart += Hide;
-		CombatManager.Instance.onFightEnd += Show;
+		CombatManager.Instance.onFightStart += FadeOut;
+		CombatManager.Instance.onFightEnd += FadeIn;
+
+		HideCloseButton ();
 	}
 
 	void HandleChunkEvent ()
@@ -74,8 +95,8 @@ public class DisplayMinimap : MonoBehaviour {
 
 				Coords chunk = new Coords (x, y);
 
-				if (Chunk.GetChunk (chunk).State == ChunkState.DiscoveredIsland
-					|| Chunk.GetChunk (chunk).State == ChunkState.VisitedIsland) {
+				if (Chunk.GetChunk (chunk).state == ChunkState.DiscoveredIsland
+					|| Chunk.GetChunk (chunk).state == ChunkState.VisitedIsland) {
 
 					PlaceMapChunk (chunk);
 				}
@@ -125,13 +146,15 @@ public class DisplayMinimap : MonoBehaviour {
 
 				Chunk chunk = Chunk.GetChunk (c);
 
-				switch (chunk.State) {
+				switch (chunk.state) {
 				case ChunkState.UndiscoveredSea:
-					chunk.State = ChunkState.DiscoveredSea;
+					chunk.state = ChunkState.DiscoveredSea;
+					MapGenerator.Instance.discoveredCoords.coords.Add (c);
 					break;
 
 				case ChunkState.UndiscoveredIsland:
-					chunk.State = ChunkState.DiscoveredIsland;
+					chunk.state = ChunkState.DiscoveredIsland;
+					chunk.Save (c);
 					PlaceMapChunk (c);
 					break;
 
@@ -214,11 +237,6 @@ public class DisplayMinimap : MonoBehaviour {
 
 	void CheckForOtherBoats ()
 	{
-
-		foreach (var item in enemyBoatIcons) {
-			item.gameObject.SetActive (false);
-		}
-
 		int boatIndexInRange = 0;
 
 		int boatRange = currentShipRange;
@@ -266,4 +284,66 @@ public class DisplayMinimap : MonoBehaviour {
 	void Hide () {
 		scrollViewRectTransform.gameObject.SetActive (false);
 	}
+
+	#region zoom / unzoom
+	public void Zoom ()
+	{
+		CrewInventory.Instance.HideInventory ();
+
+		Vector2 scale = new Vector2(0f, 0f);
+
+		HOTween.To (rectTransform , zoomDuration , "offsetMin", scale);
+		HOTween.To (rectTransform , zoomDuration , "offsetMax", scale);
+
+
+		Color c = Color.black;
+		c.a = 0.7f;
+		HOTween.To (rayBlockerImage, zoomDuration, "color", c, false , EaseType.Linear , zoomDuration);
+
+		Invoke ("ShowCloseButton",zoomDuration);
+
+	}
+
+	bool unzooming = false;
+
+	public void UnZoom ()
+	{
+
+		if (unzooming)
+			return;
+
+		HOTween.To (rayBlockerImage, zoomDuration, "color", Color.clear);
+
+		Vector2 scaleMin = new Vector2(initLeftOffset, initBottomOffset);
+		Vector2 scaleMax = new Vector2(-initRightOffset, -initTopOffset);
+
+		HOTween.To (rectTransform , zoomDuration , "offsetMin" , scaleMin, false , EaseType.Linear, zoomDuration);
+		HOTween.To (rectTransform , zoomDuration , "offsetMax" , scaleMax, false , EaseType.Linear, zoomDuration);
+
+		Tween.Bounce (mapCloseButton.transform, 0.2f , 1.1f);
+
+		unzooming = true;
+
+		Invoke ("HideCloseButton",0.2f);
+	}
+
+	void ShowCloseButton ()
+	{
+		Tween.Bounce (mapCloseButton.transform, 0.2f , 1.1f);
+		mapCloseButton.SetActive (true);
+	}
+	void HideCloseButton ()
+	{
+		unzooming = false;
+		mapCloseButton.SetActive (false);
+	}
+	void FadeOut ()
+	{
+		HOTween.To ( rectTransform  , hideDuration , "anchoredPosition" , new Vector2 ( hiddenPos , 0f ) );
+	}
+	void FadeIn ()
+	{
+		HOTween.To ( rectTransform  , hideDuration , "anchoredPosition" , new Vector2 ( initPosX , 0f ) );
+	}
+	#endregion
 }

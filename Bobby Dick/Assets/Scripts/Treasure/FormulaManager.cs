@@ -23,6 +23,11 @@ public class FormulaManager : MonoBehaviour {
 
 	void Start () {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
+
+
+		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.closeInventory += HandleCloseInventory;
+
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -33,6 +38,29 @@ public class FormulaManager : MonoBehaviour {
 			break;
 		}
 	}
+
+	#region inv
+	bool previousActive = false;
+	void HandleOpenInventory (CrewMember member)
+	{
+		if (formulaGroup.activeSelf) {
+
+			formulaGroup.SetActive (false);
+
+			previousActive = true;
+		}
+	}
+
+	void HandleCloseInventory ()
+	{
+		if ( previousActive ) {
+
+			formulaGroup.SetActive (true);
+
+			previousActive = false;	
+		}
+	}
+	#endregion
 
 	public void Init () {
 
@@ -48,8 +76,7 @@ public class FormulaManager : MonoBehaviour {
 			newFormula.name = NameGeneration.Instance.randomWord;
 			newFormula.coords = MapGenerator.Instance.RandomCoords;
 
-
-			Chunk.GetChunk (newFormula.coords).SetIslandData (new IslandData (StoryType.Clue));
+			Chunk.GetChunk (newFormula.coords).InitIslandData (new IslandData (StoryType.Clue));
 
 			formulas [i] = newFormula;
 
@@ -126,7 +153,7 @@ public class FormulaManager : MonoBehaviour {
 				++a;
 			}
 
-			return (Vector2)MapData.Instance.treasureIslandCoords;
+			return (Vector2)SaveManager.Instance.GameData.treasureCoords;
 
 		}
 	}

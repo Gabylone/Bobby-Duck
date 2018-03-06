@@ -19,7 +19,32 @@ public class QuestManager : MonoBehaviour {
 	}
 
 	void Start () {
+
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
+
+		CrewMember.onCrewMemberKilled += HandleOnCrewMemberKilled;
+
+	}
+
+	void HandleOnCrewMemberKilled (CrewMember crewMember)
+	{
+		if ( crewMember.side == Crews.Side.Enemy ) {
+
+			for (int questIndex = 0; questIndex < currentQuests.Count; questIndex++) {
+
+				Quest item = currentQuests [questIndex];
+
+				if (item.giver.id == crewMember.MemberID.id) {
+
+					Debug.Log ("le joueur a tué un donneur de quête, abandon de la quête");
+
+					GiveUpQuest (item);
+
+				}
+
+			}
+
+		}
 	}
 
 	#region event

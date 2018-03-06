@@ -6,16 +6,17 @@ public class MapGenerator : MonoBehaviour {
 
 	public static MapGenerator Instance;
 
-
 	[SerializeField]
 	private int mapScale = 100;
 
 	[SerializeField]
 	private int loadLimit = 1000;
 
+	int islandsPerCol;
+
 	public int islandID;
 
-	private MapData mapData;
+	public DiscoveredCoords discoveredCoords;
 
 	void Awake () {
 		Instance = this;
@@ -28,37 +29,101 @@ public class MapGenerator : MonoBehaviour {
 	#region map data
 	private void CreateNewMap () {
 
+		islandsPerCol = Mathf.RoundToInt (mapScale / 10);
+
+		discoveredCoords = new DiscoveredCoords ();
+
+		InitMap();
+
+		CreateTreasureIsland ();
+
+		CreateHomeIsland ();
+
+		FormulaManager.Instance.CreateNewClues ();
+
+		CreateNormalIslands ();
+
+	}
+
+	public void LoadMap() {
+
+		discoveredCoords = SaveTool.Instance.LoadFromPath ("discovered coords.xml", "DiscoveredCoords") as DiscoveredCoords;
+
 		Chunk.chunks.Clear ();
 
 		for (int x = 0; x < mapScale; x++) {
 			for (int y = 0; y < mapScale; y++) {
-
+				
 				Coords c = new Coords (x, y);
 
 				Chunk.chunks.Add (c, new Chunk ());
-				Chunk.chunks[c].State = ChunkState.UndiscoveredSea;
+				//				Chunk.chunks[c].stae
 			}
 		}
 
-		mapData = new MapData (MapScale);
+		foreach (var item in discoveredCoords.coords) {
 
-		int islandAmount = Mathf.RoundToInt (mapScale / 10);
+			Chunk.GetChunk (item).state = ChunkState.DiscoveredSea;
+
+		}
+	}
+
+	public void InitMap() {
+		
+		Chunk.chunks.Clear ();
+
+		for (int x = 0; x < mapScale; x++) {
+			for (int y = 0; y < mapScale; y++) {
+				Coords c = new Coords (x, y);
+
+				Chunk.chunks.Add (c, new Chunk ());
+//				Chunk.chunks[c].stae
+			}
+		}
+	}
+
+	void CreateTreasureIsland () {
+		SaveManager.Instance.GameData.treasureCoords = MapGenerator.Instance.RandomCoords;
+		Chunk.GetChunk (SaveManager.Instance.GameData.treasureCoords).InitIslandData (new IslandData (StoryType.Treasure));
+	}
+	void CreateHomeIsland () {
+		SaveManager.Instance.GameData.homeCoords = MapGenerator.Instance.RandomCoords;
+		Chunk.GetChunk (SaveManager.Instance.GameData.homeCoords).InitIslandData (new IslandData (StoryType.Home));
+	}
+//	IEnumerator CreateNormalIslands () {
+	void CreateNormalIslands () {
+
+		int loadLimit = 1;
+
+//		LoadingScreen.Instance.StartLoading ("Création îles",islandsPerCol * mapScale - islandsPerCol);
+
+		int l = 0;
 
 		for ( int y = 0; y < mapScale ; ++y ) {
 
-			for (int i = 0; i < islandAmount; ++i ) {
+			for (int i = 0; i < islandsPerCol; ++i ) {
 
 				int x = Random.Range ( 0, mapScale );
 
 				Coords c = new Coords ( x , y );
 
-				if (Chunk.GetChunk(c).State == ChunkState.UndiscoveredSea) {
-					Chunk.GetChunk (c).SetIslandData (new IslandData (StoryType.Normal));
+				Chunk targetChunk = Chunk.GetChunk (c);
+
+				if (targetChunk.state == ChunkState.UndiscoveredSea) {
+					targetChunk.InitIslandData (new IslandData (StoryType.Normal) );
 				}
+
+//				yield return new WaitForEndOfFrame ();
+				++l;
+//				LoadingScreen.Instance.Push (l);
 			}
 
-
 		}
+
+		SaveManager.Instance.SaveAllIslands ();
+
+//		yield return new WaitForEndOfFrame ();
+
 	}
 	#endregion
 
@@ -81,58 +146,17 @@ public class MapGenerator : MonoBehaviour {
 	}
 	#endregion
 
-	#region load & save
-	public void LoadIslandsData () {
-		
-//		MapData.Instance = new MapData ();
-
-		MapData.Instance = SaveManager.Instance.GameData.mapData;
-
-		Chunk[][] ou = SaveTool.Instance.LoadWorldChunks ();
-
-		Chunk.chunks = FromChunkArray(ou);
-
-	}
-
-	public void SaveImportantIslandPositions () {
-		
-		SaveManager.Instance.GameData.mapData = MapData.Instance;
-
-	}
-
-	public Chunk[][] toChunkArray ( Dictionary<Coords,Chunk> chunkDico ) {
-
-		Chunk[][] tmpChunks = new Chunk[MapGenerator.Instance.MapScale][];
-
-		for (int i = 0; i < MapGenerator.Instance.MapScale; i++) {
-			tmpChunks[i] = new Chunk[MapGenerator.Instance.MapScale];
-		}
-
-		for (int x = 0; x < MapGenerator.Instance.MapScale; x++) {
-			for (int y = 0; y < MapGenerator.Instance.MapScale; y++) {
-				tmpChunks [x] [y] = chunkDico [new Coords (x, y)];
-			}
-		}
-
-		return tmpChunks;
-	}
-
-	public Dictionary<Coords,Chunk> FromChunkArray ( Chunk[][] bufferChunks ) {
-
-		Dictionary<Coords,Chunk> chunkDico = new Dictionary<Coords, Chunk> ();
-		for (int x = 0; x < MapGenerator.Instance.MapScale; x++) {
-			for (int y = 0; y < MapGenerator.Instance.MapScale; y++) {
-				chunkDico.Add (new Coords (x, y), bufferChunks [x] [y]);
-			}
-		}
-
-		return chunkDico;
-	}
-	#endregion
-
 	public int MapScale {
 		get {
 			return mapScale;
 		}
+	}
+}
+
+public class DiscoveredCoords {
+	public List<Coords> coords = new List<Coords>();
+
+	public DiscoveredCoords () {
+		//
 	}
 }

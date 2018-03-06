@@ -11,10 +11,11 @@ public class CrewMember {
 		get {
 
 			if (selectedMember == null) {
-				if (Crews.playerCrew.CrewMembers.Count != 0)
+				if (Crews.playerCrew.CrewMembers.Count != 0) {
+					Debug.LogError ("no selected member, return captain");
 					return Crews.playerCrew.captain;
-				else {
-					Debug.LogError(" là c'est kek");
+				} else {
+					Debug.LogError("no captain, merde chier");
 					return null;
 				}
 			}
@@ -22,12 +23,11 @@ public class CrewMember {
 			return selectedMember;
 		}
 	}
-	public static CrewMember previousMember;
 
 	public static void SetSelectedMember (CrewMember crewMember) {
 //		
-		if (selectedMember != null )
-			previousMember = GetSelectedMember;
+//		if (selectedMember != null )
+//			previousMember = GetSelectedMember;
 		
 		selectedMember = crewMember;
 
@@ -48,9 +48,7 @@ public class CrewMember {
 	private Member memberID;
 
 	// HUNGER
-	private int stepsToHunger = 5;
 	private int hungerDamage = 10;
-	public int maxHunger = 100;
 
 	// JOB
 	public Job job {
@@ -61,6 +59,7 @@ public class CrewMember {
 
 	public List<Skill> DefaultSkills = new List<Skill> ();
 	public List<Skill> SpecialSkills = new List<Skill>();
+	public int[] charges;
 	public void ResetSkills() {
 
 		DefaultSkills.Clear ();
@@ -69,18 +68,21 @@ public class CrewMember {
 		DefaultSkills.Add (SkillManager.getSkill(Skill.Type.SkipTurn));
 
 		SpecialSkills.Clear ();
+
 		foreach (var item in memberID.specialSkillsIndexes) {
 			Skill newSkill = new Skill ();
 			newSkill = SkillManager.skills [item];
 			SpecialSkills.Add (newSkill);
 		}
 
-		foreach (var item in SpecialSkills) {
-			item.currentCharge = 0;
-		}
-		foreach (var item in DefaultSkills) {
-			item.currentCharge = 0;
-		}
+		charges = new int[7] { 0, 0, 0, 0 , 0 , 0 , 0 };
+//		foreach (var item in SpecialSkills) {
+//			item.currentCharge = 0;
+//		}
+//
+//		foreach (var item in DefaultSkills) {
+//			item.currentCharge = 0;
+//		}
 
 	}
 
@@ -194,7 +196,7 @@ public class CrewMember {
 	#endregion
 
 	#region health
-	public float getDamage ( float incomingAttack ) {
+	public float GetDamage ( float incomingAttack ) {
 		
 		float maxHits = 14;
 		float minHits = 2;
@@ -229,7 +231,18 @@ public class CrewMember {
 		Health -= Mathf.RoundToInt(f);
 	}
 
+	public delegate void OnCrewMemberKilled (CrewMember crewMember);
+	public static OnCrewMemberKilled onCrewMemberKilled;
 	public void Kill () {
+
+		if (onCrewMemberKilled != null)
+			onCrewMemberKilled (this);
+
+		if (this == selectedMember)
+			Debug.Log ("le membre mourrant est bel et bien le séléctionné");
+
+		SetSelectedMember (null);
+
 		Crews.getCrew(side).RemoveMember (this);
 
 	}
@@ -238,9 +251,9 @@ public class CrewMember {
 	#region states
 	public void UpdateHunger () {
 
-		CurrentHunger += stepsToHunger;
+		++CurrentHunger;
 
-		if ( CurrentHunger >= maxHunger ) {
+		if ( CurrentHunger >= Crews.maxHunger ) {
 
 			if ( Health - hungerDamage <= 0 )
 			{
@@ -404,11 +417,16 @@ public class CrewMember {
 			if (energy >= item.energyCost) {
 				return true;
 			}
+
 		}
+		int a = 3;
 		foreach (var item in SpecialSkills) {
-			if (energy >= item.energyCost) {
+			
+			if (energy >= item.energyCost && charges[a] == 0) {
 				return true;
 			}
+
+			++a;
 		}
 
 		return false;
@@ -422,7 +440,7 @@ public class CrewMember {
 			return memberID.currentHunger;
 		}
 		set {
-			memberID.currentHunger = Mathf.Clamp (value, 0, maxHunger);
+			memberID.currentHunger = Mathf.Clamp (value, 0, Crews.maxHunger);
 		}
 	}
 	#endregion
@@ -457,6 +475,9 @@ public class CrewMember {
 
 	public Color GetLevelColor () {
 
+//		if (Crews.playerCrew.captain == null)
+//			return;
+//
 		float dif = Level - Crews.playerCrew.captain.Level;
 
 		float l = ( (dif+9) / 18f);

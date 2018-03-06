@@ -14,107 +14,108 @@ public class CombatFeedback : MonoBehaviour {
 	public float fadeDuration = 1f;
 
 	public CombatFeedback secondCombatFeedback;
-	float secondFeedbackDelay = 1.2f;
+	private float secondFeedbackDelay = 1.2f;
 
-	bool displaying = false;
+	private bool displaying = false;
 
-	Vector3 initPos;
+	private Vector3 initPos;
 
 	// Use this for initialization
 	void Start () {
 		Hide ();
-
-		initPos = transform.localPosition;
 	}
 
-	// status
-	public void Display (Fighter.Status status) {
-		Display (status, Color.white);
+	// display
+	public void ShowFeedbackInfo(float delay) {
+		Invoke ("ShowFeedbackInfo", delay);
 	}
-	public void Display (Fighter.Status status, Color color) {
-		Display (status, color, 0f);
-	}
-	public void Display (Fighter.Status status, Color color, float delay) {
-
-		if ( displaying ) {
-			if (secondCombatFeedback != null) {
-				secondCombatFeedback.Display (status, color, secondFeedbackDelay);
-			}
-			else
-				Debug.LogError ("tenté de display combat feedback mais le second était nul");
-		}
-
-		displaying = true;
-
-		backgroundImage.color = color;
-		statusImage.sprite = SkillManager.statusSprites [(int)status];
-	
-		statusImage.gameObject.SetActive (true);
-		text.gameObject.SetActive (false);
-
-		Invoke ("DisplayDelay", delay);
-	}
-	//
-
-	// text
-	public void Display (string content) {
-		Display (content, Color.white);
-	}
-	public void Display (string content, Color color) {
-		Display (content, color, 0f);
-	}
-	public void Display (string content, Color color, float delay) {
-
-		if ( displaying ) {
-			if (secondCombatFeedback != null) {
-				secondCombatFeedback.Display (content, color, secondFeedbackDelay);
-			}
-			else
-				Debug.LogError ("tenté de display combat feedback mais le second était nul");
-		}
-
-		displaying = true;
-
-		backgroundImage.color = color;
-		text.text = content;
-
-		text.gameObject.SetActive (true);
-		statusImage.gameObject.SetActive (false);
-
-		Invoke ("DisplayDelay", delay);
-	}
-
-	void DisplayDelay () {
+	void ShowFeedbackInfo() {
 		
+		// state
+		displaying = true;
+
+		// show
 		Show ();
 
+		// tween
 		Tween.ClearFade (transform);
-		Tween.Bounce (transform);
+		CancelInvoke ("Fade");
+		CancelInvoke ("Hide");
 
+		// pos
 		transform.localPosition = initPos;
-
 		HOTween.To (transform, fadeDuration, "localPosition", initPos + Vector3.up * fadeDecal);
 
+		// invokes
 		Invoke ("Fade",fadeDuration/2f);
 		Invoke ("Hide", fadeDuration);
-
 	}
 
+	#region display status
+	public void Display (Fighter.Status status, Color color) {
+
+		if ( displaying && secondCombatFeedback != null) {
+			secondCombatFeedback.Display (status, color);
+			return;
+		}
+
+		SetFeedbackInfo (status, color);
+		ShowFeedbackInfo ();
+	
+	}
+	void SetFeedbackInfo (Fighter.Status status, Color color)
+	{
+		// bg
+		backgroundImage.color = color;
+
+		// ui text
+		text.gameObject.SetActive (false);
+
+		// status
+		statusImage.gameObject.SetActive (true);
+		statusImage.sprite = SkillManager.statusSprites [(int)status];
+	}
+	#endregion
+
+	#region display content
+	public void Display (string content, Color color) {
+
+		if ( displaying && secondCombatFeedback != null) {
+			secondCombatFeedback.Display (content, color);
+			return;
+		}
+
+		SetFeedbackInfo (content, color);
+		ShowFeedbackInfo ();
+
+	}
+	void SetFeedbackInfo (string content, Color color)
+	{
+		// bg
+		backgroundImage.color = color;
+
+		// ui text
+		text.gameObject.SetActive (true);
+		text.text = content;
+
+		// status
+		statusImage.gameObject.SetActive (false);
+	}
+	#endregion
+
+	// tools
 	void Fade() {
 		Tween.Fade (transform, fadeDuration/2f);
 	}
 
-	void Show () {
+	void Show() {
 		group.SetActive (true);
 		Tween.Bounce (transform);
 	}
 
 	void Hide () {
-		
 		displaying = false;
-
 		group.SetActive (false);
-
 	}
 
 }

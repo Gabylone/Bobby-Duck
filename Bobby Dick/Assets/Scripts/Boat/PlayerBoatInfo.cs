@@ -18,7 +18,8 @@ public class PlayerBoatInfo : BoatInfo {
 	{
 		base.Randomize ();
 
-		coords = MapData.Instance.homeIslandCoords;
+		coords = SaveManager.Instance.GameData.homeCoords;
+
 	}
 
 	public override Coords coords {

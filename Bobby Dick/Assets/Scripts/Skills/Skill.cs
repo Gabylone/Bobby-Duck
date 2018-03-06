@@ -11,7 +11,7 @@ public class Skill : MonoBehaviour {
 	public string description = "";
 	public int energyCost = 5;
 	public float animationDelay = 0.6f;
-	public int currentCharge = 0;
+//	public int currentCharge = 0;
 	public int initCharge = 0;
 
 	public bool playAnim = true;
@@ -35,12 +35,20 @@ public class Skill : MonoBehaviour {
 //	public Skill ( Skill refSkill ) {
 //		skilthis = this  
 //	}
+
+	public Skill () {
+		//
+	}
+//	public Skill ( Skill skill ) {
+//		this = skill;
+//	}
 //
 	void UseEnergy () {
 		fighter.crewMember.energy -= energyCost;
 		Skill skill = CombatManager.Instance.currentFighter.crewMember.GetSkill (type);
-		if ( skill != null )
-			skill.currentCharge = initCharge;
+		if (skill != null) {
+			fighter.crewMember.charges [GetSkillIndex(fighter.crewMember)] = initCharge;
+		}
 	}
 
 	public virtual void Trigger (Fighter fighter) {
@@ -167,7 +175,7 @@ public class Skill : MonoBehaviour {
 
 			if ( fighter.crewMember.CanUseSkills() == false ) {
 				fighter.EndTurn ();
-				CombatManager.Instance.NextTurn (true);
+				CombatManager.Instance.NextTurn ();
 				return;
 			}
 
@@ -213,11 +221,30 @@ public class Skill : MonoBehaviour {
 			return false;
 		}
 
-		if (currentCharge > 0)
+		if (member.charges[GetSkillIndex(member)] > 0)
 			return  false;
 
 		// assez d'énergie
 		return true;
+	}
+
+	public int GetSkillIndex ( CrewMember member )  {
+		
+		int skillIndex = member.DefaultSkills.FindIndex (x => x.type == type);
+
+		if (skillIndex < 0) {
+			skillIndex = member.SpecialSkills.FindIndex (x => x.type == type) + 3;
+		}
+
+//		print (name + " index is : " + skillIndex);
+
+
+		if (skillIndex < 0) {
+			Debug.LogError ("pas trouvé l'index de " + name);
+		}
+
+		return skillIndex;
+
 	}
 
 	// ENUM //
@@ -242,8 +269,8 @@ public class Skill : MonoBehaviour {
 		RhumRound,
 
 		// COOK
-		Goad,
 		HelpMate,
+		Goad,
 		ToastUp,
 		PledgeOfFeast,
 

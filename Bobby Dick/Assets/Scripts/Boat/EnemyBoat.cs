@@ -26,7 +26,7 @@ public class EnemyBoat : Boat {
 	{
 		base.Start();
 
-		StoryLauncher.Instance.playStoryEvent += HandlePlayStoryEvent;
+		StoryLauncher.Instance.onStartStory += HandlePlayStoryEvent;
 		StoryLauncher.Instance.endStoryEvent += HandleEndStoryEvent;
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;

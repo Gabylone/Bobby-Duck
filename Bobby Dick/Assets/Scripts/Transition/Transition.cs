@@ -78,11 +78,14 @@ public class Transition : MonoBehaviour {
 			return fade;
 		}
 		set {
+
 			fade = value;
 
 			lerping = true;
 
 			Duration = longDuration;
+			if (fade)
+				targetImage.color = targetColor;
 
 			timer = 0f;
 

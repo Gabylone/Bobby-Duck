@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Holoville.HOTween;
 
 public class IslandInfo : MonoBehaviour {
 
@@ -9,6 +10,8 @@ public class IslandInfo : MonoBehaviour {
 	private GameObject obj;
 	[SerializeField]
 	private Text uiText;
+
+	public float decal = 2f;
 
 	public float displayDuration = 1f;
 
@@ -21,9 +24,9 @@ public class IslandInfo : MonoBehaviour {
 
 	}
 
-	void HandleOnTouchMinimapChunk (Chunk chunk)
+	void HandleOnTouchMinimapChunk (Chunk chunk, Vector3 pos)
 	{
-		if (chunk.State == ChunkState.VisitedIsland) {
+		if (chunk.state == ChunkState.VisitedIsland) {
 
 			uiText.text = chunk.IslandData.storyManager.CurrentStoryHandler.Story.name;
 
@@ -36,6 +39,10 @@ public class IslandInfo : MonoBehaviour {
 		Show ();
 
 		Tween.Bounce (transform, 0.2f , 1.05f);
+
+//		HOTween.To ( transform , 0.5f , "position" , Vector3 );
+
+		transform.position = pos + Vector3.up * decal;
 
 		CancelInvoke ();
 		Invoke ("Hide" , displayDuration);

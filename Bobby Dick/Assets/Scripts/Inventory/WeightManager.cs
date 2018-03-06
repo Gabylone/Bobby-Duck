@@ -7,8 +7,6 @@ public class WeightManager : MonoBehaviour {
 
 	public static WeightManager Instance;
 
-	private int currentCapacity = 100;
-
 	[Header("UI Elements")]
 	[SerializeField]
 	private GameObject weightGroup;
@@ -83,7 +81,7 @@ public class WeightManager : MonoBehaviour {
 
 		DisplayFeedback ();
 
-		if ( CurrentWeight + amount > currentCapacity ) {
+		if ( CurrentWeight + amount > CurrentCapacity ) {
 
 			SoundManager.Instance.PlaySound ( noRoomSound );
 

@@ -28,9 +28,6 @@ public class OtherInventory : MonoBehaviour {
 	// 
 	public void SwitchToPlayer () {
 
-//		HOTween.To (LootUI.Instance.transform , 0.2f , "position" , targetPos_Player.position, false , EaseType.Linear,0f);
-//		HOTween.To (LootUI.Instance.transform , 0.5f , "position" , targetPos_Player.position, false , EaseType.EaseOutBounce,0f);
-
 		switch (type) {
 		case Type.None:
 			break;
@@ -201,20 +198,16 @@ public class OtherInventory : MonoBehaviour {
 
 		LootUI.Instance.Hide ();
 
-		CrewInventory.Instance.HideInventory ();
-
-//		if ( StoryLauncher.Instance.PlayingStory ) {
 		if (type == Type.Loot || type == Type.Trade) {
 			
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
+			CrewInventory.Instance.HideInventory ();
 			Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 
-//			if ( CombatManager.Instance.fighting ) {
-//				CombatManager.Instance.ExitFight ();
-//			}
+		} else {
+			CrewInventory.Instance.ShowMenuButtons ();
 		}
-
 
 		type = Type.None;
 

@@ -12,7 +12,7 @@ public class TutorialMenuButton : MonoBehaviour {
 	public Image buttonImage;
 
 	void Start () {
-		
+
 		UpdateButton ();
 
 	}

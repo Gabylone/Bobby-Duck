@@ -24,7 +24,10 @@ public class Skill_DoubleTalk : Skill {
 
 			for (int fighterIndex = 0; fighterIndex < CombatManager.Instance.getCurrentFighters(fighter.crewMember.side).Count; fighterIndex++) {
 				
+				CombatManager.Instance.getCurrentFighters (fighter.crewMember.side) [0].escaped = true;
+				CombatManager.Instance.getCurrentFighters (fighter.crewMember.side) [0].EndTurn ();
 				CombatManager.Instance.getCurrentFighters(fighter.crewMember.side)[0].Fade();
+
 				CombatManager.Instance.DeleteFighter (CombatManager.Instance.getCurrentFighters(fighter.crewMember.side)[0]);
 			}
 

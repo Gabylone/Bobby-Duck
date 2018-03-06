@@ -30,7 +30,7 @@ public class DisplayHunger : MonoBehaviour {
 		Show ();
 		HOTween.Kill (fillImage.rectTransform);
 
-		float fillAmount = 1f - ((float)member.CurrentHunger / (float)member.maxHunger);
+		float fillAmount = 1f - ((float)member.CurrentHunger / (float)Crews.maxHunger);
 		Vector2 v = new Vector2 (fillImage.rectTransform.rect.width, (fillAmount * maxFillAmountScale));
 		HOTween.To ( fillImage.rectTransform , 0.5f , "sizeDelta" , v );
 

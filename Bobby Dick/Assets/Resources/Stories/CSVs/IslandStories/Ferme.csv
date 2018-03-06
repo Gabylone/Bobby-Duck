@@ -50,8 +50,8 @@ Choice : Je ne cherche pas d'ennuis !(cha);;Choice : Je vais t'encrouter !(a
 CheckStatCHA;;Node=>combat pirates;CheckStatCHA;;;;;;;;;;;;;
 OtherSpeak : Alors tournez les talonts !;OtherSpeak : Vous venez d'en trouver !;;OtherSpeak : Il n'est sûrement pas DIRECTIONTOFORMULA;OtherSpeak : Si vous croyez qu'on va vous dire !!;;;;;;;;;;;;
 Fade;Node=>combat pirates;;Node=>discussion pirates;Node=>discussion pirates;;;;;;;;;;;;
+HideOther;;;;;;;;;;;;;;;;
 Node=>choix ferme;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;
 [combat pirates];;;;;;;;;;;;;;;;

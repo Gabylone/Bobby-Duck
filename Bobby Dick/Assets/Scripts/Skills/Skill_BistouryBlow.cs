@@ -9,7 +9,6 @@ public class Skill_BistouryBlow : Skill {
 
 	public override void ApplyEffect ()
 	{
-
 		base.ApplyEffect ();
 
 		fighter.TargetFighter.Heal (healAmount);
@@ -21,12 +20,18 @@ public class Skill_BistouryBlow : Skill {
 	public override bool MeetsConditions (CrewMember member)
 	{
 
+		Fighter weakestFighter = CombatManager.Instance.currEnemyFighters [0];
+		foreach (var item in CombatManager.Instance.currEnemyFighters) {
+			if ( item.crewMember.Health < weakestFighter.crewMember.Health ) {
+				weakestFighter = item;
+			}
+		}
+
 		bool allyInHelp = false;
 
-		foreach (var item in Crews.getCrew(member.side).CrewMembers) {
-			if (item.Health < healthToHeal) {
-				allyInHelp = true;
-			}
+		if ( weakestFighter.crewMember.Health < healthToHeal ) {
+			preferedTarget = weakestFighter;
+			allyInHelp = true;
 		}
 
 		return allyInHelp && base.MeetsConditions (member);
