@@ -107,19 +107,19 @@ public class Karma : MonoBehaviour {
 
 	}
 
-	public void AddKarma () {
+	public void AddKarma (int i) {
 		
-		++CurrentKarma;
+		CurrentKarma += i;
 
 		if (onChangeKarma != null)
 			onChangeKarma (previousKarma, currentKarma);
 		//
 	}
-	public void RemoveKarma () {
+	public void RemoveKarma (int i) {
 		
-		--CurrentKarma;
+		CurrentKarma += i;
 
-		bounty += bountyStep;
+		bounty += (bountyStep*i);
 
 		if (onChangeKarma != null)
 			onChangeKarma (previousKarma, currentKarma);
@@ -127,7 +127,7 @@ public class Karma : MonoBehaviour {
 	}
 	public void AddKarma_Story () {
 
-		AddKarma ();
+		AddKarma (1);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
@@ -135,7 +135,7 @@ public class Karma : MonoBehaviour {
 
 	public void RemoveKarma_Story () {
 
-		RemoveKarma ();
+		RemoveKarma (2);
 
 		StoryReader.Instance.NextCell ();
 		StoryReader.Instance.UpdateStory ();
@@ -155,7 +155,7 @@ public class Karma : MonoBehaviour {
 
 			StoryReader.Instance.SetDecal (1);
 
-			RemoveKarma ();
+			RemoveKarma (1);
 
 		}
 

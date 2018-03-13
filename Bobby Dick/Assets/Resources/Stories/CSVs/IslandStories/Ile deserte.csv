@@ -18,7 +18,7 @@ CheckQuest=>choix food;;;
 [choix food];;;
 SetChoices3;;;
 Choice : On lève l'ancre !(partir);Choice : On va rester ici pour la nuit(dormir);Choice : (Chercher de la nourriture)(loot);
-Leave;ChangeTimeOfDay;RandomPercent35;
+Leave;ChangeTimeOfDay;RandomPercent65;
 ;Narrator : Le bateau est sur une petite île. L'air est frais et matinal.;PlayerSpeak : Bingo !;PlayerSpeak : Il n'y a rien de comestible ici !
 ;Node=>choix food;LootFood;Node=>choix food
 ;;Node=>choix food;

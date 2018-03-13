@@ -88,7 +88,7 @@ public class SkillButton_Combat : SkillButton {
 
 		CancelInvoke("TriggerSkillDelay");
 		CancelInvoke ("SkillDelayFeedback");
-		Invoke ("TriggerSkillDelay" , timeToShowDescription);	
+		Invoke ("TriggerSkillDelay" , timeToShowDescription);
 		Invoke ("SkillDelayFeedback", timeToShowDescriptionFeedback);
 
 	}

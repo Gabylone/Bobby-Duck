@@ -8,211 +8,223 @@
     <MemberIDs>
       <Member>
         <id>0</id>
-        <Name>Pabodie </Name>
+        <Name>Quint</Name>
         <health>100</health>
         <maxHealth>100</maxHealth>
-        <currentHunger>0</currentHunger>
-        <Lvl>1</Lvl>
+        <currentHunger>1</currentHunger>
+        <Lvl>10</Lvl>
         <xp>0</xp>
         <skillPoints>0</skillPoints>
         <specialSkillsIndexes>
-          <int>4</int>
+          <int>12</int>
+          <int>13</int>
+          <int>14</int>
+          <int>15</int>
         </specialSkillsIndexes>
         <stats>
-          <int>1</int>
-          <int>1</int>
-          <int>1</int>
-          <int>1</int>
+          <int>3</int>
+          <int>3</int>
+          <int>2</int>
+          <int>5</int>
         </stats>
-        <daysOnBoard>0</daysOnBoard>
+        <daysOnBoard>1</daysOnBoard>
         <equipedWeapon>
-          <ID>38</ID>
-          <name>Epée rouillée</name>
-          <value>11</value>
-          <price>25</price>
+          <ID>148</ID>
+          <name>Epée du roi pirate</name>
+          <value>104</value>
+          <price>162</price>
           <weight>10</weight>
-          <level>1</level>
+          <level>10</level>
           <spriteID>1</spriteID>
           <type>0</type>
           <category>Weapon</category>
         </equipedWeapon>
         <equipedCloth>
-          <ID>152</ID>
-          <name>Habit de paysan</name>
-          <value>13</value>
-          <price>22</price>
+          <ID>200</ID>
+          <name>Armure du roi pirate</name>
+          <value>99</value>
+          <price>152</price>
           <weight>10</weight>
-          <level>1</level>
-          <spriteID>0</spriteID>
+          <level>10</level>
+          <spriteID>2</spriteID>
           <type>0</type>
           <category>Clothes</category>
         </equipedCloth>
-        <Male>false</Male>
-        <job>Brute</job>
+        <Male>true</Male>
+        <job>Cook</job>
         <bodyColorID>1</bodyColorID>
-        <hairSpriteID>0</hairSpriteID>
-        <eyeSpriteID>1</eyeSpriteID>
+        <hairSpriteID>2</hairSpriteID>
+        <eyeSpriteID>0</eyeSpriteID>
         <eyebrowsSpriteID>4</eyebrowsSpriteID>
-        <hairColorID>5</hairColorID>
-        <beardSpriteID>-1</beardSpriteID>
+        <hairColorID>4</hairColorID>
+        <beardSpriteID>1</beardSpriteID>
         <noseSpriteID>0</noseSpriteID>
         <mouthSpriteID>4</mouthSpriteID>
       </Member>
       <Member>
         <id>1</id>
-        <Name>Michel</Name>
+        <Name>Emilia</Name>
         <health>100</health>
         <maxHealth>100</maxHealth>
-        <currentHunger>0</currentHunger>
-        <Lvl>1</Lvl>
-        <xp>0</xp>
-        <skillPoints>0</skillPoints>
-        <specialSkillsIndexes>
-          <int>8</int>
-        </specialSkillsIndexes>
-        <stats>
-          <int>1</int>
-          <int>1</int>
-          <int>1</int>
-          <int>1</int>
-        </stats>
-        <daysOnBoard>0</daysOnBoard>
-        <equipedWeapon>
-          <ID>39</ID>
-          <name>Pioche de mineur</name>
-          <value>10</value>
-          <price>23</price>
-          <weight>10</weight>
-          <level>1</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </equipedWeapon>
-        <equipedCloth>
-          <ID>152</ID>
-          <name>Habit de paysan</name>
-          <value>13</value>
-          <price>22</price>
-          <weight>10</weight>
-          <level>1</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </equipedCloth>
-        <Male>true</Male>
-        <job>Surgeon</job>
-        <bodyColorID>0</bodyColorID>
-        <hairSpriteID>0</hairSpriteID>
-        <eyeSpriteID>1</eyeSpriteID>
-        <eyebrowsSpriteID>3</eyebrowsSpriteID>
-        <hairColorID>0</hairColorID>
-        <beardSpriteID>-1</beardSpriteID>
-        <noseSpriteID>2</noseSpriteID>
-        <mouthSpriteID>3</mouthSpriteID>
-      </Member>
-      <Member>
-        <id>2</id>
-        <Name>Vladimir</Name>
-        <health>100</health>
-        <maxHealth>100</maxHealth>
-        <currentHunger>0</currentHunger>
-        <Lvl>1</Lvl>
+        <currentHunger>1</currentHunger>
+        <Lvl>10</Lvl>
         <xp>0</xp>
         <skillPoints>0</skillPoints>
         <specialSkillsIndexes>
           <int>20</int>
+          <int>21</int>
+          <int>22</int>
+          <int>23</int>
         </specialSkillsIndexes>
         <stats>
-          <int>1</int>
-          <int>1</int>
-          <int>1</int>
-          <int>1</int>
+          <int>5</int>
+          <int>3</int>
+          <int>2</int>
+          <int>3</int>
         </stats>
-        <daysOnBoard>0</daysOnBoard>
+        <daysOnBoard>1</daysOnBoard>
         <equipedWeapon>
-          <ID>42</ID>
-          <name>Bâton solide</name>
-          <value>9</value>
-          <price>24</price>
+          <ID>149</ID>
+          <name>Pistolet du roi pirate</name>
+          <value>103</value>
+          <price>156</price>
           <weight>10</weight>
-          <level>1</level>
-          <spriteID>1</spriteID>
+          <level>10</level>
+          <spriteID>0</spriteID>
           <type>0</type>
           <category>Weapon</category>
         </equipedWeapon>
         <equipedCloth>
-          <ID>151</ID>
-          <name>Toge en tissu</name>
-          <value>7</value>
-          <price>20</price>
+          <ID>200</ID>
+          <name>Armure du roi pirate</name>
+          <value>99</value>
+          <price>152</price>
           <weight>10</weight>
-          <level>1</level>
-          <spriteID>0</spriteID>
+          <level>10</level>
+          <spriteID>2</spriteID>
           <type>0</type>
           <category>Clothes</category>
         </equipedCloth>
-        <Male>true</Male>
+        <Male>false</Male>
         <job>Gambler</job>
         <bodyColorID>1</bodyColorID>
         <hairSpriteID>0</hairSpriteID>
-        <eyeSpriteID>4</eyeSpriteID>
-        <eyebrowsSpriteID>2</eyebrowsSpriteID>
-        <hairColorID>5</hairColorID>
+        <eyeSpriteID>1</eyeSpriteID>
+        <eyebrowsSpriteID>0</eyebrowsSpriteID>
+        <hairColorID>0</hairColorID>
         <beardSpriteID>-1</beardSpriteID>
-        <noseSpriteID>1</noseSpriteID>
-        <mouthSpriteID>1</mouthSpriteID>
+        <noseSpriteID>0</noseSpriteID>
+        <mouthSpriteID>4</mouthSpriteID>
       </Member>
       <Member>
-        <id>3</id>
-        <Name>Jean</Name>
+        <id>2</id>
+        <Name>Flo</Name>
         <health>100</health>
         <maxHealth>100</maxHealth>
-        <currentHunger>0</currentHunger>
-        <Lvl>1</Lvl>
+        <currentHunger>1</currentHunger>
+        <Lvl>10</Lvl>
         <xp>0</xp>
         <skillPoints>0</skillPoints>
         <specialSkillsIndexes>
           <int>16</int>
+          <int>17</int>
+          <int>18</int>
+          <int>19</int>
         </specialSkillsIndexes>
         <stats>
-          <int>1</int>
-          <int>1</int>
-          <int>1</int>
-          <int>1</int>
+          <int>2</int>
+          <int>3</int>
+          <int>6</int>
+          <int>2</int>
         </stats>
-        <daysOnBoard>0</daysOnBoard>
+        <daysOnBoard>1</daysOnBoard>
         <equipedWeapon>
-          <ID>45</ID>
-          <name>Poivrière rouillée</name>
-          <value>7</value>
-          <price>13</price>
+          <ID>149</ID>
+          <name>Pistolet du roi pirate</name>
+          <value>103</value>
+          <price>156</price>
           <weight>10</weight>
-          <level>1</level>
+          <level>10</level>
           <spriteID>0</spriteID>
           <type>0</type>
           <category>Weapon</category>
         </equipedWeapon>
         <equipedCloth>
-          <ID>152</ID>
-          <name>Habit de paysan</name>
-          <value>13</value>
-          <price>22</price>
+          <ID>200</ID>
+          <name>Armure du roi pirate</name>
+          <value>99</value>
+          <price>152</price>
           <weight>10</weight>
-          <level>1</level>
-          <spriteID>0</spriteID>
+          <level>10</level>
+          <spriteID>2</spriteID>
           <type>0</type>
           <category>Clothes</category>
         </equipedCloth>
-        <Male>true</Male>
+        <Male>false</Male>
+        <job>Flibuster</job>
+        <bodyColorID>1</bodyColorID>
+        <hairSpriteID>0</hairSpriteID>
+        <eyeSpriteID>4</eyeSpriteID>
+        <eyebrowsSpriteID>2</eyebrowsSpriteID>
+        <hairColorID>0</hairColorID>
+        <beardSpriteID>-1</beardSpriteID>
+        <noseSpriteID>1</noseSpriteID>
+        <mouthSpriteID>3</mouthSpriteID>
+      </Member>
+      <Member>
+        <id>3</id>
+        <Name>Gabrielle</Name>
+        <health>100</health>
+        <maxHealth>100</maxHealth>
+        <currentHunger>1</currentHunger>
+        <Lvl>10</Lvl>
+        <xp>0</xp>
+        <skillPoints>0</skillPoints>
+        <specialSkillsIndexes>
+          <int>16</int>
+          <int>17</int>
+          <int>18</int>
+          <int>19</int>
+        </specialSkillsIndexes>
+        <stats>
+          <int>5</int>
+          <int>3</int>
+          <int>3</int>
+          <int>2</int>
+        </stats>
+        <daysOnBoard>1</daysOnBoard>
+        <equipedWeapon>
+          <ID>149</ID>
+          <name>Pistolet du roi pirate</name>
+          <value>103</value>
+          <price>156</price>
+          <weight>10</weight>
+          <level>10</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </equipedWeapon>
+        <equipedCloth>
+          <ID>200</ID>
+          <name>Armure du roi pirate</name>
+          <value>99</value>
+          <price>152</price>
+          <weight>10</weight>
+          <level>10</level>
+          <spriteID>2</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </equipedCloth>
+        <Male>false</Male>
         <job>Flibuster</job>
         <bodyColorID>1</bodyColorID>
         <hairSpriteID>0</hairSpriteID>
         <eyeSpriteID>3</eyeSpriteID>
-        <eyebrowsSpriteID>3</eyebrowsSpriteID>
+        <eyebrowsSpriteID>2</eyebrowsSpriteID>
         <hairColorID>5</hairColorID>
-        <beardSpriteID>0</beardSpriteID>
+        <beardSpriteID>-1</beardSpriteID>
         <noseSpriteID>2</noseSpriteID>
-        <mouthSpriteID>4</mouthSpriteID>
+        <mouthSpriteID>1</mouthSpriteID>
       </Member>
     </MemberIDs>
   </playerCrew>
@@ -222,185 +234,172 @@
     <eh />
     <ids>
       <ArrayOfInt>
-        <int>1</int>
-        <int>17</int>
-        <int>19</int>
-        <int>12</int>
-        <int>33</int>
-        <int>11</int>
-        <int>9</int>
-        <int>21</int>
-        <int>22</int>
-        <int>31</int>
-        <int>31</int>
-        <int>18</int>
-        <int>30</int>
-        <int>31</int>
-        <int>34</int>
-        <int>24</int>
-        <int>27</int>
-        <int>3</int>
-        <int>9</int>
+        <int>7</int>
+        <int>15</int>
         <int>8</int>
+        <int>16</int>
+        <int>8</int>
+        <int>5</int>
         <int>10</int>
-        <int>24</int>
+        <int>26</int>
+        <int>4</int>
+        <int>28</int>
+        <int>7</int>
+        <int>12</int>
+        <int>4</int>
+        <int>32</int>
+        <int>9</int>
+        <int>16</int>
+        <int>3</int>
+        <int>13</int>
+        <int>27</int>
+        <int>5</int>
+        <int>29</int>
+        <int>11</int>
+        <int>28</int>
+        <int>18</int>
+        <int>27</int>
+        <int>25</int>
+        <int>6</int>
         <int>32</int>
         <int>17</int>
-        <int>25</int>
-        <int>27</int>
+        <int>16</int>
+        <int>0</int>
+        <int>30</int>
         <int>5</int>
-        <int>6</int>
-        <int>17</int>
-        <int>5</int>
+        <int>31</int>
+        <int>9</int>
+        <int>34</int>
+        <int>29</int>
+        <int>15</int>
+        <int>21</int>
+        <int>8</int>
       </ArrayOfInt>
       <ArrayOfInt>
-        <int>38</int>
-        <int>78</int>
+        <int>88</int>
+        <int>88</int>
+        <int>46</int>
+        <int>88</int>
+        <int>58</int>
+        <int>44</int>
+        <int>123</int>
+        <int>117</int>
+        <int>99</int>
+        <int>134</int>
+        <int>49</int>
+        <int>99</int>
+        <int>87</int>
+        <int>95</int>
+        <int>72</int>
+        <int>41</int>
+        <int>118</int>
+        <int>61</int>
+        <int>129</int>
+        <int>125</int>
+        <int>49</int>
+        <int>117</int>
+        <int>94</int>
+        <int>66</int>
+        <int>61</int>
+        <int>49</int>
+        <int>67</int>
         <int>100</int>
-        <int>116</int>
+        <int>131</int>
+        <int>135</int>
+        <int>134</int>
+        <int>52</int>
+        <int>109</int>
+        <int>115</int>
+        <int>67</int>
+        <int>127</int>
+        <int>147</int>
         <int>130</int>
         <int>140</int>
-        <int>138</int>
-        <int>90</int>
-        <int>95</int>
-        <int>114</int>
-        <int>111</int>
-        <int>142</int>
-        <int>89</int>
-        <int>145</int>
-        <int>80</int>
-        <int>70</int>
-        <int>97</int>
-        <int>139</int>
-        <int>121</int>
-        <int>58</int>
-        <int>100</int>
-        <int>62</int>
-        <int>42</int>
-        <int>115</int>
-        <int>102</int>
-        <int>104</int>
-        <int>75</int>
-        <int>94</int>
-        <int>112</int>
-        <int>46</int>
+        <int>41</int>
       </ArrayOfInt>
       <ArrayOfInt>
-        <int>187</int>
-        <int>189</int>
-        <int>176</int>
+        <int>166</int>
         <int>173</int>
-        <int>173</int>
-        <int>191</int>
-        <int>199</int>
-        <int>162</int>
-        <int>168</int>
-        <int>182</int>
-        <int>191</int>
-        <int>176</int>
-        <int>200</int>
+        <int>193</int>
+        <int>183</int>
+        <int>183</int>
+        <int>181</int>
+        <int>157</int>
+        <int>180</int>
+        <int>153</int>
+        <int>156</int>
+        <int>190</int>
+        <int>165</int>
+        <int>180</int>
         <int>184</int>
-        <int>194</int>
+        <int>181</int>
+        <int>153</int>
+        <int>169</int>
         <int>171</int>
-        <int>191</int>
-        <int>164</int>
         <int>151</int>
-        <int>172</int>
-        <int>172</int>
-        <int>167</int>
-        <int>186</int>
-        <int>198</int>
-        <int>200</int>
-        <int>187</int>
-        <int>187</int>
-        <int>158</int>
         <int>171</int>
-        <int>152</int>
+        <int>188</int>
+        <int>177</int>
+        <int>176</int>
+        <int>151</int>
+        <int>157</int>
+        <int>169</int>
+        <int>180</int>
+        <int>161</int>
+        <int>175</int>
+        <int>160</int>
+        <int>154</int>
+        <int>169</int>
+        <int>157</int>
+        <int>169</int>
+        <int>165</int>
+        <int>162</int>
+        <int>185</int>
+        <int>150</int>
+        <int>159</int>
+        <int>168</int>
       </ArrayOfInt>
       <ArrayOfInt>
-        <int>203</int>
-        <int>232</int>
-        <int>209</int>
-        <int>229</int>
-        <int>224</int>
-        <int>210</int>
-        <int>210</int>
-        <int>210</int>
-        <int>209</int>
-        <int>234</int>
-        <int>226</int>
-        <int>212</int>
-        <int>227</int>
-        <int>223</int>
-        <int>207</int>
-        <int>221</int>
-        <int>226</int>
-        <int>235</int>
-        <int>209</int>
-        <int>216</int>
-        <int>223</int>
-        <int>221</int>
-        <int>215</int>
-        <int>224</int>
-        <int>211</int>
-        <int>205</int>
-        <int>215</int>
-        <int>223</int>
-        <int>206</int>
-        <int>221</int>
-        <int>227</int>
+        <int>233</int>
         <int>222</int>
-        <int>224</int>
-        <int>210</int>
-        <int>201</int>
+        <int>211</int>
+        <int>204</int>
+        <int>232</int>
+        <int>228</int>
+        <int>204</int>
+        <int>229</int>
+        <int>225</int>
+        <int>223</int>
+        <int>225</int>
+        <int>234</int>
+        <int>233</int>
+        <int>202</int>
+        <int>208</int>
+        <int>231</int>
+        <int>225</int>
+        <int>227</int>
+        <int>227</int>
+        <int>235</int>
+        <int>234</int>
+        <int>213</int>
+        <int>216</int>
+        <int>231</int>
         <int>209</int>
-        <int>206</int>
-        <int>209</int>
-        <int>205</int>
-        <int>206</int>
+        <int>221</int>
+        <int>208</int>
+        <int>235</int>
+        <int>225</int>
+        <int>211</int>
       </ArrayOfInt>
     </ids>
-    <weight>814</weight>
+    <weight>1031</weight>
     <AllItems>
       <ArrayOfItem>
         <Item>
-          <ID>1</ID>
-          <name>Sardine</name>
-          <value>40</value>
-          <price>8</price>
-          <weight>4</weight>
-          <level>0</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>17</ID>
-          <name>Boeuf</name>
-          <value>50</value>
+          <ID>7</ID>
+          <name>Crevette</name>
+          <value>43</value>
           <price>12</price>
-          <weight>5</weight>
-          <level>0</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>19</ID>
-          <name>Cochon</name>
-          <value>47</value>
-          <price>18</price>
-          <weight>5</weight>
-          <level>0</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>12</ID>
-          <name>Esturgeon</name>
-          <value>44</value>
-          <price>11</price>
           <weight>4</weight>
           <level>0</level>
           <spriteID>1</spriteID>
@@ -408,167 +407,13 @@
           <category>Provisions</category>
         </Item>
         <Item>
-          <ID>33</ID>
-          <name>Orange</name>
-          <value>32</value>
-          <price>7</price>
-          <weight>2</weight>
-          <level>0</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>11</ID>
-          <name>Maquereau</name>
-          <value>42</value>
-          <price>11</price>
-          <weight>4</weight>
-          <level>0</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>9</ID>
-          <name>Cabillaud</name>
-          <value>44</value>
-          <price>8</price>
-          <weight>4</weight>
-          <level>0</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>21</ID>
-          <name>Petit jambon</name>
+          <ID>15</ID>
+          <name>Lapin</name>
           <value>50</value>
-          <price>14</price>
+          <price>16</price>
           <weight>5</weight>
           <level>0</level>
           <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>22</ID>
-          <name>Rumsteak</name>
-          <value>53</value>
-          <price>14</price>
-          <weight>5</weight>
-          <level>0</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>31</ID>
-          <name>Ananas</name>
-          <value>27</value>
-          <price>6</price>
-          <weight>2</weight>
-          <level>0</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>31</ID>
-          <name>Ananas</name>
-          <value>27</value>
-          <price>6</price>
-          <weight>2</weight>
-          <level>0</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>18</ID>
-          <name>Porc</name>
-          <value>45</value>
-          <price>17</price>
-          <weight>5</weight>
-          <level>0</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>30</ID>
-          <name>Carotte</name>
-          <value>27</value>
-          <price>4</price>
-          <weight>2</weight>
-          <level>0</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>31</ID>
-          <name>Ananas</name>
-          <value>27</value>
-          <price>6</price>
-          <weight>2</weight>
-          <level>0</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>34</ID>
-          <name>Champignon</name>
-          <value>33</value>
-          <price>6</price>
-          <weight>2</weight>
-          <level>0</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>24</ID>
-          <name>Betterave</name>
-          <value>26</value>
-          <price>4</price>
-          <weight>2</weight>
-          <level>0</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>27</ID>
-          <name>Citron</name>
-          <value>29</value>
-          <price>5</price>
-          <weight>2</weight>
-          <level>0</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>3</ID>
-          <name>Palourde</name>
-          <value>38</value>
-          <price>8</price>
-          <weight>4</weight>
-          <level>0</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Provisions</category>
-        </Item>
-        <Item>
-          <ID>9</ID>
-          <name>Cabillaud</name>
-          <value>44</value>
-          <price>8</price>
-          <weight>4</weight>
-          <level>0</level>
-          <spriteID>1</spriteID>
           <type>0</type>
           <category>Provisions</category>
         </Item>
@@ -577,6 +422,39 @@
           <name>Saumon</name>
           <value>40</value>
           <price>11</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>16</ID>
+          <name>Poulet</name>
+          <value>48</value>
+          <price>15</price>
+          <weight>5</weight>
+          <level>0</level>
+          <spriteID>2</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>8</ID>
+          <name>Saumon</name>
+          <value>40</value>
+          <price>11</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>5</ID>
+          <name>Morue</name>
+          <value>40</value>
+          <price>9</price>
           <weight>4</weight>
           <level>0</level>
           <spriteID>1</spriteID>
@@ -595,13 +473,222 @@
           <category>Provisions</category>
         </Item>
         <Item>
-          <ID>24</ID>
-          <name>Betterave</name>
-          <value>26</value>
+          <ID>26</ID>
+          <name>Châtaigne</name>
+          <value>25</value>
+          <price>3</price>
+          <weight>2</weight>
+          <level>0</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>4</ID>
+          <name>Lotte</name>
+          <value>40</value>
+          <price>11</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>28</ID>
+          <name>Poire</name>
+          <value>29</value>
           <price>4</price>
           <weight>2</weight>
           <level>0</level>
           <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>7</ID>
+          <name>Crevette</name>
+          <value>43</value>
+          <price>12</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>12</ID>
+          <name>Esturgeon</name>
+          <value>44</value>
+          <price>11</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>4</ID>
+          <name>Lotte</name>
+          <value>40</value>
+          <price>11</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>32</ID>
+          <name>Clémentine</name>
+          <value>34</value>
+          <price>7</price>
+          <weight>2</weight>
+          <level>0</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>9</ID>
+          <name>Cabillaud</name>
+          <value>44</value>
+          <price>8</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>16</ID>
+          <name>Poulet</name>
+          <value>48</value>
+          <price>15</price>
+          <weight>5</weight>
+          <level>0</level>
+          <spriteID>2</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>3</ID>
+          <name>Palourde</name>
+          <value>38</value>
+          <price>8</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>13</ID>
+          <name>Colin</name>
+          <value>36</value>
+          <price>8</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>27</ID>
+          <name>Citron</name>
+          <value>29</value>
+          <price>5</price>
+          <weight>2</weight>
+          <level>0</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>5</ID>
+          <name>Morue</name>
+          <value>40</value>
+          <price>9</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>29</ID>
+          <name>Maïs</name>
+          <value>31</value>
+          <price>4</price>
+          <weight>2</weight>
+          <level>0</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>11</ID>
+          <name>Maquereau</name>
+          <value>42</value>
+          <price>11</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>28</ID>
+          <name>Poire</name>
+          <value>29</value>
+          <price>4</price>
+          <weight>2</weight>
+          <level>0</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>18</ID>
+          <name>Porc</name>
+          <value>45</value>
+          <price>17</price>
+          <weight>5</weight>
+          <level>0</level>
+          <spriteID>2</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>27</ID>
+          <name>Citron</name>
+          <value>29</value>
+          <price>5</price>
+          <weight>2</weight>
+          <level>0</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>25</ID>
+          <name>Chou de Bruxelles</name>
+          <value>28</value>
+          <price>4</price>
+          <weight>2</weight>
+          <level>0</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>6</ID>
+          <name>Crabe</name>
+          <value>39</value>
+          <price>12</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
           <type>0</type>
           <category>Provisions</category>
         </Item>
@@ -628,9 +715,31 @@
           <category>Provisions</category>
         </Item>
         <Item>
-          <ID>25</ID>
-          <name>Chou de Bruxelles</name>
-          <value>28</value>
+          <ID>16</ID>
+          <name>Poulet</name>
+          <value>48</value>
+          <price>15</price>
+          <weight>5</weight>
+          <level>0</level>
+          <spriteID>2</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>0</ID>
+          <name>Hareng</name>
+          <value>37</value>
+          <price>9</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>30</ID>
+          <name>Carotte</name>
+          <value>27</value>
           <price>4</price>
           <weight>2</weight>
           <level>0</level>
@@ -639,10 +748,21 @@
           <category>Provisions</category>
         </Item>
         <Item>
-          <ID>27</ID>
-          <name>Citron</name>
-          <value>29</value>
-          <price>5</price>
+          <ID>5</ID>
+          <name>Morue</name>
+          <value>40</value>
+          <price>9</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>31</ID>
+          <name>Ananas</name>
+          <value>27</value>
+          <price>6</price>
           <weight>2</weight>
           <level>0</level>
           <spriteID>0</spriteID>
@@ -650,10 +770,10 @@
           <category>Provisions</category>
         </Item>
         <Item>
-          <ID>5</ID>
-          <name>Morue</name>
-          <value>40</value>
-          <price>9</price>
+          <ID>9</ID>
+          <name>Cabillaud</name>
+          <value>44</value>
+          <price>8</price>
           <weight>4</weight>
           <level>0</level>
           <spriteID>1</spriteID>
@@ -661,21 +781,32 @@
           <category>Provisions</category>
         </Item>
         <Item>
-          <ID>6</ID>
-          <name>Crabe</name>
-          <value>39</value>
-          <price>12</price>
-          <weight>4</weight>
+          <ID>34</ID>
+          <name>Champignon</name>
+          <value>33</value>
+          <price>6</price>
+          <weight>2</weight>
           <level>0</level>
-          <spriteID>1</spriteID>
+          <spriteID>0</spriteID>
           <type>0</type>
           <category>Provisions</category>
         </Item>
         <Item>
-          <ID>17</ID>
-          <name>Boeuf</name>
+          <ID>29</ID>
+          <name>Maïs</name>
+          <value>31</value>
+          <price>4</price>
+          <weight>2</weight>
+          <level>0</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>15</ID>
+          <name>Lapin</name>
           <value>50</value>
-          <price>12</price>
+          <price>16</price>
           <weight>5</weight>
           <level>0</level>
           <spriteID>2</spriteID>
@@ -683,10 +814,21 @@
           <category>Provisions</category>
         </Item>
         <Item>
-          <ID>5</ID>
-          <name>Morue</name>
+          <ID>21</ID>
+          <name>Petit jambon</name>
+          <value>50</value>
+          <price>14</price>
+          <weight>5</weight>
+          <level>0</level>
+          <spriteID>2</spriteID>
+          <type>0</type>
+          <category>Provisions</category>
+        </Item>
+        <Item>
+          <ID>8</ID>
+          <name>Saumon</name>
           <value>40</value>
-          <price>9</price>
+          <price>11</price>
           <weight>4</weight>
           <level>0</level>
           <spriteID>1</spriteID>
@@ -696,10 +838,65 @@
       </ArrayOfItem>
       <ArrayOfItem>
         <Item>
-          <ID>38</ID>
-          <name>Epée rouillée</name>
-          <value>11</value>
-          <price>25</price>
+          <ID>88</ID>
+          <name>Lance en acier</name>
+          <value>51</value>
+          <price>83</price>
+          <weight>10</weight>
+          <level>5</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>88</ID>
+          <name>Lance en acier</name>
+          <value>51</value>
+          <price>83</price>
+          <weight>10</weight>
+          <level>5</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>46</ID>
+          <name>Pistolet rouillé</name>
+          <value>7</value>
+          <price>12</price>
+          <weight>10</weight>
+          <level>1</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>88</ID>
+          <name>Lance en acier</name>
+          <value>51</value>
+          <price>83</price>
+          <weight>10</weight>
+          <level>5</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>58</ID>
+          <name>Pistolet à silex</name>
+          <value>21</value>
+          <price>34</price>
+          <weight>10</weight>
+          <level>2</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>44</ID>
+          <name>Matraque en bois</name>
+          <value>13</value>
+          <price>20</price>
           <weight>10</weight>
           <level>1</level>
           <spriteID>1</spriteID>
@@ -707,12 +904,232 @@
           <category>Weapon</category>
         </Item>
         <Item>
-          <ID>78</ID>
-          <name>Epée batarde</name>
+          <ID>123</ID>
+          <name>Arquebuse rouillée</name>
+          <value>66</value>
+          <price>104</price>
+          <weight>10</weight>
+          <level>7</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>117</ID>
+          <name>Massue immense</name>
+          <value>66</value>
+          <price>108</price>
+          <weight>10</weight>
+          <level>7</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>99</ID>
+          <name>Bon pistolet</name>
+          <value>51</value>
+          <price>82</price>
+          <weight>10</weight>
+          <level>5</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>134</ID>
+          <name>Couleuvrine légère</name>
+          <value>80</value>
+          <price>129</price>
+          <weight>10</weight>
+          <level>8</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>49</ID>
+          <name>Pistolet à silex</name>
+          <value>11</value>
+          <price>19</price>
+          <weight>10</weight>
+          <level>1</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>99</ID>
+          <name>Bon pistolet</name>
+          <value>51</value>
+          <price>82</price>
+          <weight>10</weight>
+          <level>5</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>87</ID>
+          <name>Poivrière puissante</name>
           <value>44</value>
-          <price>68</price>
+          <price>76</price>
           <weight>10</weight>
           <level>4</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>95</ID>
+          <name>Couleuvrine rouillée</name>
+          <value>51</value>
+          <price>77</price>
+          <weight>10</weight>
+          <level>5</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>72</ID>
+          <name>Pistolet de bord</name>
+          <value>30</value>
+          <price>47</price>
+          <weight>10</weight>
+          <level>3</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>41</ID>
+          <name>Vielle hachette</name>
+          <value>8</value>
+          <price>16</price>
+          <weight>10</weight>
+          <level>1</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>118</ID>
+          <name>Pistolet de soldat</name>
+          <value>70</value>
+          <price>113</price>
+          <weight>10</weight>
+          <level>7</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>61</ID>
+          <name>Poivrière rouillée</name>
+          <value>20</value>
+          <price>35</price>
+          <weight>10</weight>
+          <level>2</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>129</ID>
+          <name>Ceste</name>
+          <value>80</value>
+          <price>129</price>
+          <weight>10</weight>
+          <level>8</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>125</ID>
+          <name>Epée batarde</name>
+          <value>83</value>
+          <price>127</price>
+          <weight>10</weight>
+          <level>8</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>49</ID>
+          <name>Pistolet à silex</name>
+          <value>11</value>
+          <price>19</price>
+          <weight>10</weight>
+          <level>1</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>117</ID>
+          <name>Massue immense</name>
+          <value>66</value>
+          <price>108</price>
+          <weight>10</weight>
+          <level>7</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>94</ID>
+          <name>Pistolet de voyage</name>
+          <value>49</value>
+          <price>82</price>
+          <weight>10</weight>
+          <level>5</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>66</ID>
+          <name>Longue épée en fer</name>
+          <value>28</value>
+          <price>45</price>
+          <weight>10</weight>
+          <level>3</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>61</ID>
+          <name>Poivrière rouillée</name>
+          <value>20</value>
+          <price>35</price>
+          <weight>10</weight>
+          <level>2</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>49</ID>
+          <name>Pistolet à silex</name>
+          <value>11</value>
+          <price>19</price>
+          <weight>10</weight>
+          <level>1</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>67</ID>
+          <name>Gourdin barbelé</name>
+          <value>34</value>
+          <price>54</price>
+          <weight>10</weight>
+          <level>3</level>
           <spriteID>1</spriteID>
           <type>0</type>
           <category>Weapon</category>
@@ -729,13 +1146,101 @@
           <category>Weapon</category>
         </Item>
         <Item>
-          <ID>116</ID>
-          <name>Coutelas</name>
+          <ID>131</ID>
+          <name>Petite arquebuse</name>
+          <value>81</value>
+          <price>130</price>
+          <weight>10</weight>
+          <level>8</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>135</ID>
+          <name>Arquebuse rouillée</name>
+          <value>80</value>
+          <price>123</price>
+          <weight>10</weight>
+          <level>8</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>134</ID>
+          <name>Couleuvrine légère</name>
+          <value>80</value>
+          <price>129</price>
+          <weight>10</weight>
+          <level>8</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>52</ID>
+          <name>Dague en acier</name>
+          <value>22</value>
+          <price>38</price>
+          <weight>10</weight>
+          <level>2</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>109</ID>
+          <name>Pistolet puissant</name>
+          <value>62</value>
+          <price>94</price>
+          <weight>10</weight>
+          <level>6</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>115</ID>
+          <name>Trident</name>
           <value>74</value>
-          <price>114</price>
+          <price>112</price>
           <weight>10</weight>
           <level>7</level>
           <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>67</ID>
+          <name>Gourdin barbelé</name>
+          <value>34</value>
+          <price>54</price>
+          <weight>10</weight>
+          <level>3</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>127</ID>
+          <name>Glaive en or</name>
+          <value>81</value>
+          <price>126</price>
+          <weight>10</weight>
+          <level>8</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Weapon</category>
+        </Item>
+        <Item>
+          <ID>147</ID>
+          <name>Arquebuse puissante</name>
+          <value>86</value>
+          <price>132</price>
+          <weight>10</weight>
+          <level>9</level>
+          <spriteID>0</spriteID>
           <type>0</type>
           <category>Weapon</category>
         </Item>
@@ -762,276 +1267,243 @@
           <category>Weapon</category>
         </Item>
         <Item>
-          <ID>138</ID>
-          <name>Double hache</name>
-          <value>90</value>
-          <price>141</price>
-          <weight>10</weight>
-          <level>9</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>90</ID>
-          <name>Double hache</name>
-          <value>49</value>
-          <price>76</price>
-          <weight>10</weight>
-          <level>5</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>95</ID>
-          <name>Couleuvrine rouillée</name>
-          <value>51</value>
-          <price>77</price>
-          <weight>10</weight>
-          <level>5</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>114</ID>
-          <name>Double hache</name>
-          <value>74</value>
-          <price>117</price>
-          <weight>10</weight>
-          <level>7</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>111</ID>
-          <name>Bon pistolet</name>
-          <value>56</value>
-          <price>85</price>
-          <weight>10</weight>
-          <level>6</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>142</ID>
-          <name>Arquebuse de soldat</name>
-          <value>93</value>
-          <price>143</price>
-          <weight>10</weight>
-          <level>9</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>89</ID>
-          <name>Marteau de guerre</name>
-          <value>51</value>
-          <price>86</price>
-          <weight>10</weight>
-          <level>5</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>145</ID>
-          <name>Couleuvrine puissante</name>
-          <value>90</value>
-          <price>144</price>
-          <weight>10</weight>
-          <level>9</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>80</ID>
-          <name>Sabre d'acier</name>
-          <value>39</value>
-          <price>69</price>
-          <weight>10</weight>
-          <level>4</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>70</ID>
-          <name>Pistolet de voyage</name>
-          <value>28</value>
-          <price>52</price>
-          <weight>10</weight>
-          <level>3</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>97</ID>
-          <name>Pistolet à percussion</name>
-          <value>49</value>
-          <price>74</price>
-          <weight>10</weight>
-          <level>5</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>139</ID>
-          <name>Trident</name>
-          <value>94</value>
-          <price>142</price>
-          <weight>10</weight>
-          <level>9</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>121</ID>
-          <name>Pistolet puissant</name>
-          <value>74</value>
-          <price>113</price>
-          <weight>10</weight>
-          <level>7</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>58</ID>
-          <name>Pistolet à silex</name>
-          <value>21</value>
-          <price>34</price>
-          <weight>10</weight>
-          <level>2</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>100</ID>
-          <name>Epée immense</name>
-          <value>59</value>
-          <price>98</price>
-          <weight>10</weight>
-          <level>6</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>62</ID>
-          <name>Grande épée en acier</name>
-          <value>32</value>
-          <price>53</price>
-          <weight>10</weight>
-          <level>3</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>42</ID>
-          <name>Bâton solide</name>
-          <value>9</value>
-          <price>24</price>
+          <ID>41</ID>
+          <name>Vielle hachette</name>
+          <value>8</value>
+          <price>16</price>
           <weight>10</weight>
           <level>1</level>
           <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>115</ID>
-          <name>Trident</name>
-          <value>74</value>
-          <price>112</price>
-          <weight>10</weight>
-          <level>7</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>102</ID>
-          <name>Rapière</name>
-          <value>56</value>
-          <price>90</price>
-          <weight>10</weight>
-          <level>6</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>104</ID>
-          <name>Lame incurvée</name>
-          <value>62</value>
-          <price>101</price>
-          <weight>10</weight>
-          <level>6</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>75</ID>
-          <name>Vieux pistolet</name>
-          <value>34</value>
-          <price>52</price>
-          <weight>10</weight>
-          <level>3</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>94</ID>
-          <name>Pistolet de voyage</name>
-          <value>49</value>
-          <price>82</price>
-          <weight>10</weight>
-          <level>5</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>112</ID>
-          <name>Lance en acier</name>
-          <value>72</value>
-          <price>112</price>
-          <weight>10</weight>
-          <level>7</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Weapon</category>
-        </Item>
-        <Item>
-          <ID>46</ID>
-          <name>Pistolet rouillé</name>
-          <value>7</value>
-          <price>12</price>
-          <weight>10</weight>
-          <level>1</level>
-          <spriteID>0</spriteID>
           <type>0</type>
           <category>Weapon</category>
         </Item>
       </ArrayOfItem>
       <ArrayOfItem>
         <Item>
-          <ID>187</ID>
+          <ID>166</ID>
+          <name>Cotte de maille</name>
+          <value>28</value>
+          <price>52</price>
+          <weight>10</weight>
+          <level>3</level>
+          <spriteID>2</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>173</ID>
+          <name>Plastron de cuir</name>
+          <value>50</value>
+          <price>83</price>
+          <weight>10</weight>
+          <level>5</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>193</ID>
+          <name>Harnais de cuir</name>
+          <value>84</value>
+          <price>126</price>
+          <weight>10</weight>
+          <level>8</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>183</ID>
+          <name>Veste renforcée</name>
+          <value>60</value>
+          <price>98</price>
+          <weight>10</weight>
+          <level>6</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>183</ID>
+          <name>Veste renforcée</name>
+          <value>60</value>
+          <price>98</price>
+          <weight>10</weight>
+          <level>6</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>181</ID>
+          <name>Cuirasse rouillée</name>
+          <value>58</value>
+          <price>87</price>
+          <weight>10</weight>
+          <level>6</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>157</ID>
+          <name>Armure de parade</name>
+          <value>18</value>
+          <price>31</price>
+          <weight>10</weight>
+          <level>2</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>180</ID>
+          <name>Armure de bois</name>
+          <value>56</value>
+          <price>87</price>
+          <weight>10</weight>
+          <level>6</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>153</ID>
+          <name>Tenue de voyageur</name>
+          <value>14</value>
+          <price>30</price>
+          <weight>10</weight>
+          <level>1</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>156</ID>
+          <name>Chemise de maille</name>
+          <value>24</value>
+          <price>38</price>
+          <weight>10</weight>
+          <level>2</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>190</ID>
+          <name>Armure de parade</name>
+          <value>83</value>
+          <price>134</price>
+          <weight>10</weight>
+          <level>8</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>165</ID>
           <name>Plastron de fer</name>
-          <value>70</value>
-          <price>111</price>
+          <value>30</value>
+          <price>46</price>
+          <weight>10</weight>
+          <level>3</level>
+          <spriteID>2</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>180</ID>
+          <name>Armure de bois</name>
+          <value>56</value>
+          <price>87</price>
+          <weight>10</weight>
+          <level>6</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>184</ID>
+          <name>Plastron de cuir</name>
+          <value>67</value>
+          <price>101</price>
+          <weight>10</weight>
+          <level>7</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>181</ID>
+          <name>Cuirasse rouillée</name>
+          <value>58</value>
+          <price>87</price>
+          <weight>10</weight>
+          <level>6</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>153</ID>
+          <name>Tenue de voyageur</name>
+          <value>14</value>
+          <price>30</price>
+          <weight>10</weight>
+          <level>1</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>169</ID>
+          <name>Armure de bois</name>
+          <value>43</value>
+          <price>71</price>
+          <weight>10</weight>
+          <level>4</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>171</ID>
+          <name>Harnais de cuir</name>
+          <value>42</value>
+          <price>71</price>
+          <weight>10</weight>
+          <level>4</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>151</ID>
+          <name>Toge en tissu</name>
+          <value>7</value>
+          <price>20</price>
+          <weight>10</weight>
+          <level>1</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>171</ID>
+          <name>Harnais de cuir</name>
+          <value>42</value>
+          <price>71</price>
+          <weight>10</weight>
+          <level>4</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>188</ID>
+          <name>Cotte de maille</name>
+          <value>69</value>
+          <price>107</price>
           <weight>10</weight>
           <level>7</level>
           <spriteID>2</spriteID>
@@ -1039,13 +1511,13 @@
           <category>Clothes</category>
         </Item>
         <Item>
-          <ID>189</ID>
-          <name>Chemise de maille</name>
-          <value>76</value>
-          <price>116</price>
+          <ID>177</ID>
+          <name>Cotte de maille</name>
+          <value>50</value>
+          <price>81</price>
           <weight>10</weight>
-          <level>8</level>
-          <spriteID>1</spriteID>
+          <level>5</level>
+          <spriteID>2</spriteID>
           <type>0</type>
           <category>Clothes</category>
         </Item>
@@ -1061,45 +1533,133 @@
           <category>Clothes</category>
         </Item>
         <Item>
-          <ID>173</ID>
-          <name>Plastron de cuir</name>
-          <value>50</value>
-          <price>83</price>
+          <ID>151</ID>
+          <name>Toge en tissu</name>
+          <value>7</value>
+          <price>20</price>
           <weight>10</weight>
-          <level>5</level>
+          <level>1</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>157</ID>
+          <name>Armure de parade</name>
+          <value>18</value>
+          <price>31</price>
+          <weight>10</weight>
+          <level>2</level>
           <spriteID>1</spriteID>
           <type>0</type>
           <category>Clothes</category>
         </Item>
         <Item>
-          <ID>173</ID>
-          <name>Plastron de cuir</name>
-          <value>50</value>
-          <price>83</price>
-          <weight>10</weight>
-          <level>5</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>191</ID>
+          <ID>169</ID>
           <name>Armure de bois</name>
-          <value>76</value>
-          <price>124</price>
+          <value>43</value>
+          <price>71</price>
           <weight>10</weight>
-          <level>8</level>
+          <level>4</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>180</ID>
+          <name>Armure de bois</name>
+          <value>56</value>
+          <price>87</price>
+          <weight>10</weight>
+          <level>6</level>
           <spriteID>1</spriteID>
           <type>0</type>
           <category>Clothes</category>
         </Item>
         <Item>
-          <ID>199</ID>
-          <name>Cotte de maille</name>
-          <value>91</value>
-          <price>146</price>
+          <ID>161</ID>
+          <name>Veste renforcée</name>
+          <value>18</value>
+          <price>33</price>
           <weight>10</weight>
-          <level>9</level>
+          <level>2</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>175</ID>
+          <name>Habit de bandit</name>
+          <value>47</value>
+          <price>76</price>
+          <weight>10</weight>
+          <level>5</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>160</ID>
+          <name>Harnais de cuir</name>
+          <value>16</value>
+          <price>28</price>
+          <weight>10</weight>
+          <level>2</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>154</ID>
+          <name>Fourrure</name>
+          <value>7</value>
+          <price>17</price>
+          <weight>10</weight>
+          <level>1</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>169</ID>
+          <name>Armure de bois</name>
+          <value>43</value>
+          <price>71</price>
+          <weight>10</weight>
+          <level>4</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>157</ID>
+          <name>Armure de parade</name>
+          <value>18</value>
+          <price>31</price>
+          <weight>10</weight>
+          <level>2</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>169</ID>
+          <name>Armure de bois</name>
+          <value>43</value>
+          <price>71</price>
+          <weight>10</weight>
+          <level>4</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>165</ID>
+          <name>Plastron de fer</name>
+          <value>30</value>
+          <price>46</price>
+          <weight>10</weight>
+          <level>3</level>
           <spriteID>2</spriteID>
           <type>0</type>
           <category>Clothes</category>
@@ -1116,6 +1676,39 @@
           <category>Clothes</category>
         </Item>
         <Item>
+          <ID>185</ID>
+          <name>Tenue d'officier</name>
+          <value>69</value>
+          <price>110</price>
+          <weight>10</weight>
+          <level>7</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>150</ID>
+          <name>Marcel</name>
+          <value>6</value>
+          <price>18</price>
+          <weight>10</weight>
+          <level>1</level>
+          <spriteID>0</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
+          <ID>159</ID>
+          <name>Cuirasse rouillée</name>
+          <value>21</value>
+          <price>33</price>
+          <weight>10</weight>
+          <level>2</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Clothes</category>
+        </Item>
+        <Item>
           <ID>168</ID>
           <name>Armure de parade</name>
           <value>41</value>
@@ -1126,247 +1719,49 @@
           <type>0</type>
           <category>Clothes</category>
         </Item>
-        <Item>
-          <ID>182</ID>
-          <name>Harnais de cuir</name>
-          <value>62</value>
-          <price>100</price>
-          <weight>10</weight>
-          <level>6</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>191</ID>
-          <name>Armure de bois</name>
-          <value>76</value>
-          <price>124</price>
-          <weight>10</weight>
-          <level>8</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>176</ID>
-          <name>Plastron de fer</name>
-          <value>49</value>
-          <price>74</price>
-          <weight>10</weight>
-          <level>5</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>200</ID>
-          <name>Armure du roi pirate</name>
-          <value>99</value>
-          <price>152</price>
-          <weight>10</weight>
-          <level>10</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>184</ID>
-          <name>Plastron de cuir</name>
-          <value>67</value>
-          <price>101</price>
-          <weight>10</weight>
-          <level>7</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>194</ID>
-          <name>Veste renforcée</name>
-          <value>78</value>
-          <price>117</price>
-          <weight>10</weight>
-          <level>8</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>171</ID>
-          <name>Harnais de cuir</name>
-          <value>42</value>
-          <price>71</price>
-          <weight>10</weight>
-          <level>4</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>191</ID>
-          <name>Armure de bois</name>
-          <value>76</value>
-          <price>124</price>
-          <weight>10</weight>
-          <level>8</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>164</ID>
-          <name>Habit de bandit</name>
-          <value>31</value>
-          <price>50</price>
-          <weight>10</weight>
-          <level>3</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>151</ID>
-          <name>Toge en tissu</name>
-          <value>7</value>
-          <price>20</price>
-          <weight>10</weight>
-          <level>1</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>172</ID>
-          <name>Veste renforcée</name>
-          <value>39</value>
-          <price>59</price>
-          <weight>10</weight>
-          <level>4</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>172</ID>
-          <name>Veste renforcée</name>
-          <value>39</value>
-          <price>59</price>
-          <weight>10</weight>
-          <level>4</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>167</ID>
-          <name>Chemise de maille</name>
-          <value>38</value>
-          <price>65</price>
-          <weight>10</weight>
-          <level>4</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>186</ID>
-          <name>Habit de bandit</name>
-          <value>68</value>
-          <price>111</price>
-          <weight>10</weight>
-          <level>7</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>198</ID>
-          <name>Plastron de fer</name>
-          <value>87</value>
-          <price>132</price>
-          <weight>10</weight>
-          <level>9</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>200</ID>
-          <name>Armure du roi pirate</name>
-          <value>99</value>
-          <price>152</price>
-          <weight>10</weight>
-          <level>10</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>187</ID>
-          <name>Plastron de fer</name>
-          <value>70</value>
-          <price>111</price>
-          <weight>10</weight>
-          <level>7</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>187</ID>
-          <name>Plastron de fer</name>
-          <value>70</value>
-          <price>111</price>
-          <weight>10</weight>
-          <level>7</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>158</ID>
-          <name>Armure de bois</name>
-          <value>16</value>
-          <price>34</price>
-          <weight>10</weight>
-          <level>2</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>171</ID>
-          <name>Harnais de cuir</name>
-          <value>42</value>
-          <price>71</price>
-          <weight>10</weight>
-          <level>4</level>
-          <spriteID>1</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
-        <Item>
-          <ID>152</ID>
-          <name>Habit de paysan</name>
-          <value>13</value>
-          <price>22</price>
-          <weight>10</weight>
-          <level>1</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Clothes</category>
-        </Item>
       </ArrayOfItem>
       <ArrayOfItem>
         <Item>
-          <ID>203</ID>
-          <name>Trompette</name>
+          <ID>233</ID>
+          <name>Clé</name>
+          <value>0</value>
+          <price>5</price>
+          <weight>3</weight>
+          <level>0</level>
+          <spriteID>12</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>222</ID>
+          <name>Bougie fondue</name>
           <value>0</value>
           <price>4</price>
           <weight>2</weight>
           <level>0</level>
-          <spriteID>7</spriteID>
+          <spriteID>4</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>211</ID>
+          <name>Plume</name>
+          <value>0</value>
+          <price>9</price>
+          <weight>5</weight>
+          <level>0</level>
+          <spriteID>5</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>204</ID>
+          <name>Longue vue</name>
+          <value>0</value>
+          <price>3</price>
+          <weight>2</weight>
+          <level>0</level>
+          <spriteID>3</spriteID>
           <type>0</type>
           <category>Misc</category>
         </Item>
@@ -1382,13 +1777,24 @@
           <category>Misc</category>
         </Item>
         <Item>
-          <ID>209</ID>
-          <name>Roman</name>
+          <ID>228</ID>
+          <name>Carafe</name>
           <value>0</value>
-          <price>6</price>
+          <price>2</price>
           <weight>1</weight>
           <level>0</level>
-          <spriteID>17</spriteID>
+          <spriteID>11</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>204</ID>
+          <name>Longue vue</name>
+          <value>0</value>
+          <price>3</price>
+          <weight>2</weight>
+          <level>0</level>
+          <spriteID>3</spriteID>
           <type>0</type>
           <category>Misc</category>
         </Item>
@@ -1404,55 +1810,132 @@
           <category>Misc</category>
         </Item>
         <Item>
-          <ID>224</ID>
-          <name>Lanterne</name>
+          <ID>225</ID>
+          <name>Louche</name>
           <value>0</value>
-          <price>9</price>
-          <weight>5</weight>
+          <price>2</price>
+          <weight>1</weight>
           <level>0</level>
-          <spriteID>15</spriteID>
+          <spriteID>14</spriteID>
           <type>0</type>
           <category>Misc</category>
         </Item>
         <Item>
-          <ID>210</ID>
-          <name>Oreiller</name>
+          <ID>223</ID>
+          <name>Bouton de chemise</name>
           <value>0</value>
-          <price>10</price>
-          <weight>5</weight>
+          <price>7</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>3</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>225</ID>
+          <name>Louche</name>
+          <value>0</value>
+          <price>2</price>
+          <weight>1</weight>
+          <level>0</level>
+          <spriteID>14</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>234</ID>
+          <name>Peluche</name>
+          <value>0</value>
+          <price>7</price>
+          <weight>4</weight>
           <level>0</level>
           <spriteID>0</spriteID>
           <type>0</type>
           <category>Misc</category>
         </Item>
         <Item>
-          <ID>210</ID>
-          <name>Oreiller</name>
+          <ID>233</ID>
+          <name>Clé</name>
           <value>0</value>
-          <price>10</price>
-          <weight>5</weight>
+          <price>5</price>
+          <weight>3</weight>
           <level>0</level>
-          <spriteID>0</spriteID>
+          <spriteID>12</spriteID>
           <type>0</type>
           <category>Misc</category>
         </Item>
         <Item>
-          <ID>210</ID>
-          <name>Oreiller</name>
+          <ID>202</ID>
+          <name>Boucles d'oreilles</name>
           <value>0</value>
-          <price>10</price>
-          <weight>5</weight>
+          <price>5</price>
+          <weight>3</weight>
           <level>0</level>
-          <spriteID>0</spriteID>
+          <spriteID>20</spriteID>
           <type>0</type>
           <category>Misc</category>
         </Item>
         <Item>
-          <ID>209</ID>
-          <name>Roman</name>
+          <ID>208</ID>
+          <name>Bout de papier</name>
+          <value>0</value>
+          <price>8</price>
+          <weight>4</weight>
+          <level>0</level>
+          <spriteID>17</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>231</ID>
+          <name>Accordéon</name>
+          <value>0</value>
+          <price>10</price>
+          <weight>5</weight>
+          <level>0</level>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>225</ID>
+          <name>Louche</name>
+          <value>0</value>
+          <price>2</price>
+          <weight>1</weight>
+          <level>0</level>
+          <spriteID>14</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>227</ID>
+          <name>Cuillère</name>
           <value>0</value>
           <price>6</price>
-          <weight>1</weight>
+          <weight>3</weight>
+          <level>0</level>
+          <spriteID>25</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>227</ID>
+          <name>Cuillère</name>
+          <value>0</value>
+          <price>6</price>
+          <weight>3</weight>
+          <level>0</level>
+          <spriteID>25</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>235</ID>
+          <name>Livre pour enfant</name>
+          <value>0</value>
+          <price>7</price>
+          <weight>4</weight>
           <level>0</level>
           <spriteID>17</spriteID>
           <type>0</type>
@@ -1470,101 +1953,13 @@
           <category>Misc</category>
         </Item>
         <Item>
-          <ID>226</ID>
-          <name>Fourchette</name>
+          <ID>213</ID>
+          <name>Poupée vaudou</name>
           <value>0</value>
-          <price>5</price>
-          <weight>3</weight>
-          <level>0</level>
-          <spriteID>8</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>212</ID>
-          <name>Encrier</name>
-          <value>0</value>
-          <price>3</price>
-          <weight>2</weight>
-          <level>0</level>
-          <spriteID>10</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>227</ID>
-          <name>Cuillère</name>
-          <value>0</value>
-          <price>6</price>
-          <weight>3</weight>
-          <level>0</level>
-          <spriteID>25</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>223</ID>
-          <name>Bouton de chemise</name>
-          <value>0</value>
-          <price>7</price>
+          <price>8</price>
           <weight>4</weight>
           <level>0</level>
-          <spriteID>3</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>207</ID>
-          <name>Livre de recettes</name>
-          <value>0</value>
-          <price>4</price>
-          <weight>2</weight>
-          <level>0</level>
-          <spriteID>17</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>221</ID>
-          <name>Bout de bois</name>
-          <value>0</value>
-          <price>1</price>
-          <weight>1</weight>
-          <level>0</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>226</ID>
-          <name>Fourchette</name>
-          <value>0</value>
-          <price>5</price>
-          <weight>3</weight>
-          <level>0</level>
-          <spriteID>8</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>235</ID>
-          <name>Livre pour enfant</name>
-          <value>0</value>
-          <price>7</price>
-          <weight>4</weight>
-          <level>0</level>
-          <spriteID>17</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>209</ID>
-          <name>Roman</name>
-          <value>0</value>
-          <price>6</price>
-          <weight>1</weight>
-          <level>0</level>
-          <spriteID>17</spriteID>
+          <spriteID>6</spriteID>
           <type>0</type>
           <category>Misc</category>
         </Item>
@@ -1580,13 +1975,24 @@
           <category>Misc</category>
         </Item>
         <Item>
-          <ID>223</ID>
-          <name>Bouton de chemise</name>
+          <ID>231</ID>
+          <name>Accordéon</name>
           <value>0</value>
-          <price>7</price>
-          <weight>4</weight>
+          <price>10</price>
+          <weight>5</weight>
           <level>0</level>
-          <spriteID>3</spriteID>
+          <spriteID>1</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>209</ID>
+          <name>Roman</name>
+          <value>0</value>
+          <price>6</price>
+          <weight>1</weight>
+          <level>0</level>
+          <spriteID>17</spriteID>
           <type>0</type>
           <category>Misc</category>
         </Item>
@@ -1602,24 +2008,35 @@
           <category>Misc</category>
         </Item>
         <Item>
-          <ID>215</ID>
-          <name>Perle</name>
+          <ID>208</ID>
+          <name>Bout de papier</name>
           <value>0</value>
-          <price>2</price>
-          <weight>1</weight>
+          <price>8</price>
+          <weight>4</weight>
           <level>0</level>
-          <spriteID>18</spriteID>
+          <spriteID>17</spriteID>
           <type>0</type>
           <category>Misc</category>
         </Item>
         <Item>
-          <ID>224</ID>
-          <name>Lanterne</name>
+          <ID>235</ID>
+          <name>Livre pour enfant</name>
           <value>0</value>
-          <price>9</price>
-          <weight>5</weight>
+          <price>7</price>
+          <weight>4</weight>
           <level>0</level>
-          <spriteID>15</spriteID>
+          <spriteID>17</spriteID>
+          <type>0</type>
+          <category>Misc</category>
+        </Item>
+        <Item>
+          <ID>225</ID>
+          <name>Louche</name>
+          <value>0</value>
+          <price>2</price>
+          <weight>1</weight>
+          <level>0</level>
+          <spriteID>14</spriteID>
           <type>0</type>
           <category>Misc</category>
         </Item>
@@ -1634,171 +2051,6 @@
           <type>0</type>
           <category>Misc</category>
         </Item>
-        <Item>
-          <ID>205</ID>
-          <name>Peluche</name>
-          <value>0</value>
-          <price>8</price>
-          <weight>4</weight>
-          <level>0</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>215</ID>
-          <name>Perle</name>
-          <value>0</value>
-          <price>2</price>
-          <weight>1</weight>
-          <level>0</level>
-          <spriteID>18</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>223</ID>
-          <name>Bouton de chemise</name>
-          <value>0</value>
-          <price>7</price>
-          <weight>4</weight>
-          <level>0</level>
-          <spriteID>3</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>206</ID>
-          <name>Dés</name>
-          <value>0</value>
-          <price>1</price>
-          <weight>1</weight>
-          <level>0</level>
-          <spriteID>3</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>221</ID>
-          <name>Bout de bois</name>
-          <value>0</value>
-          <price>1</price>
-          <weight>1</weight>
-          <level>0</level>
-          <spriteID>2</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>227</ID>
-          <name>Cuillère</name>
-          <value>0</value>
-          <price>6</price>
-          <weight>3</weight>
-          <level>0</level>
-          <spriteID>25</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>222</ID>
-          <name>Bougie fondue</name>
-          <value>0</value>
-          <price>4</price>
-          <weight>2</weight>
-          <level>0</level>
-          <spriteID>4</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>224</ID>
-          <name>Lanterne</name>
-          <value>0</value>
-          <price>9</price>
-          <weight>5</weight>
-          <level>0</level>
-          <spriteID>15</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>210</ID>
-          <name>Oreiller</name>
-          <value>0</value>
-          <price>10</price>
-          <weight>5</weight>
-          <level>0</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>201</ID>
-          <name>Jeu de carte</name>
-          <value>0</value>
-          <price>2</price>
-          <weight>1</weight>
-          <level>0</level>
-          <spriteID>17</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>209</ID>
-          <name>Roman</name>
-          <value>0</value>
-          <price>6</price>
-          <weight>1</weight>
-          <level>0</level>
-          <spriteID>17</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>206</ID>
-          <name>Dés</name>
-          <value>0</value>
-          <price>1</price>
-          <weight>1</weight>
-          <level>0</level>
-          <spriteID>3</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>209</ID>
-          <name>Roman</name>
-          <value>0</value>
-          <price>6</price>
-          <weight>1</weight>
-          <level>0</level>
-          <spriteID>17</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>205</ID>
-          <name>Peluche</name>
-          <value>0</value>
-          <price>8</price>
-          <weight>4</weight>
-          <level>0</level>
-          <spriteID>0</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
-        <Item>
-          <ID>206</ID>
-          <name>Dés</name>
-          <value>0</value>
-          <price>1</price>
-          <weight>1</weight>
-          <level>0</level>
-          <spriteID>3</spriteID>
-          <type>0</type>
-          <category>Misc</category>
-        </Item>
       </ArrayOfItem>
     </AllItems>
   </playerLoot>
@@ -1808,29 +2060,29 @@
   <bounty>0</bounty>
   <formulas>
     <Formula>
-      <name>pozizi</name>
+      <name>zafidi</name>
       <coords>
-        <x>1</x>
-        <y>8</y>
+        <x>43</x>
+        <y>43</y>
       </coords>
       <verified>false</verified>
       <found>false</found>
     </Formula>
     <Formula>
-      <name>vywype</name>
+      <name>terute</name>
       <coords>
-        <x>15</x>
-        <y>4</y>
+        <x>5</x>
+        <y>15</y>
       </coords>
       <verified>false</verified>
       <found>false</found>
     </Formula>
   </formulas>
   <playerBoatInfo>
-    <Name>L'Arkham</Name>
+    <Name>L'Orca</Name>
     <previousCoords>
-      <x>42</x>
-      <y>29</y>
+      <x>22</x>
+      <y>19</y>
     </previousCoords>
     <currentDirection>None</currentDirection>
     <shipRange>1</shipRange>
@@ -1838,17 +2090,17 @@
     <cargoLevel>1</cargoLevel>
     <level>1</level>
     <coords>
-      <x>42</x>
-      <y>29</y>
+      <x>22</x>
+      <y>19</y>
     </coords>
   </playerBoatInfo>
   <treasureCoords>
-    <x>44</x>
-    <y>2</y>
+    <x>36</x>
+    <y>33</y>
   </treasureCoords>
   <homeCoords>
-    <x>42</x>
-    <y>29</y>
+    <x>22</x>
+    <y>19</y>
   </homeCoords>
   <currentQuests />
   <finishedQuests />

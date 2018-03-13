@@ -25,6 +25,12 @@ public class TutorialProgressionImage : MonoBehaviour {
 	{
 		progression++;
 
+		float w = progression_BackgroundImage.rectTransform.rect.width;
+		float l1 = (float)(progression-1) / (float)max;
+		float l2 = (float)progression / (float)max;
+
+		progression_FillImage.rectTransform.sizeDelta = new Vector2 ( -(w) + ( l1 *w) , 0 );
+
 		Invoke ("UpdateProgressionBar", 1f);
 	}
 
@@ -33,8 +39,6 @@ public class TutorialProgressionImage : MonoBehaviour {
 		float w = progression_BackgroundImage.rectTransform.rect.width;
 		float l1 = (float)(progression-1) / (float)max;
 		float l2 = (float)progression / (float)max;
-
-		progression_FillImage.rectTransform.sizeDelta = new Vector2 ( -(w) + ( l1 *w) , 0 );
 
 		Vector2 targetScale = new Vector2 (-(w) + (l2 * w), 0);
 		HOTween.To ( progression_FillImage.rectTransform , 1f , "sizeDelta" , targetScale );

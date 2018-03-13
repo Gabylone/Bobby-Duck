@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Skill_Cuss : Skill {
 
+	public override void OnSetTarget ()
+	{
+		base.OnSetTarget ();
+
+		string str = "Tu puerais pas un peu toi ?";
+		fighter.Speak (str);
+
+	}
+
 	public override void ApplyEffect ()
 	{
 

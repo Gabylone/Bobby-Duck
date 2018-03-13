@@ -15,7 +15,6 @@ public class Skill_Flee : Skill {
 		DiceManager.Instance.ThrowDice (DiceTypes.DEX, fighter.crewMember.GetStat(Stat.Dexterity));
 
 	}
-
 	void HandleOnEndThrow ()
 	{
 
@@ -23,6 +22,10 @@ public class Skill_Flee : Skill {
 
 			fighter.escaped = true;
 			fighter.EndTurn ();
+
+			string str = "TAYO !";
+			fighter.Speak (str);
+
 			fighter.Fade ();
 			fighter.combatFeedback.Display("o", Color.green);
 

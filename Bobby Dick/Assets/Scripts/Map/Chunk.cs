@@ -51,6 +51,7 @@ public class Chunk
 	public static Chunk GetChunk (Coords c) {
 		
 		if (chunks.ContainsKey (c) == false) {
+			Debug.LogError ("chunk " + c.ToString() + " does not exist");
 			return chunks [new Coords ()];
 		}
 

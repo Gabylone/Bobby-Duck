@@ -65,15 +65,15 @@ public class DisplayInfo : MonoBehaviour {
 
 		switch (corner) {
 		case Corner.None:
-			float x = (parentRectTransform.rect.width / 2f) - rectTransform.rect.width;
-			float y = -(parentRectTransform.rect.height / 2f) + rectTransform.rect.height;
+			float x = (parentRectTransform.rect.width / 2f) - (rectTransform.rect.width/2f);
+			float y = -(parentRectTransform.rect.height / 2f) + (rectTransform.rect.height/2f);
 			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (x,y)  );
 			break;
 		case Corner.TopLeft:
-			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (200f, -60f) );
+			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (250f, -60f) );
 			break;
 		case Corner.BottomLeft:
-			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (200f, -parentRectTransform.rect.height + (rectTransform.rect.height+60f) ) );
+			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (250f, -parentRectTransform.rect.height + (rectTransform.rect.height+60f) ) );
 			//			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (200f,- parentRectTransform.rect.height) );
 			break;
 		case Corner.BottomRight:

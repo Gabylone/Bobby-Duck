@@ -21,9 +21,11 @@ public class Card : MonoBehaviour {
 	private Text nameText;
 
 	[SerializeField]
-	private RectTransform heartBackground;
+	private RectTransform healthBackground;
 	[SerializeField]
-	private Image heartImage;
+	private RectTransform healthFillDelay;
+	[SerializeField]
+	private RectTransform healthFill;
 
 	[SerializeField]
 	private GameObject energyGroup;
@@ -51,8 +53,6 @@ public class Card : MonoBehaviour {
 
 	public Image jobImage;
 
-	float maxWidth = 0f;
-
 	bool playingTurn = false;
 
 	public Transform endTurnFeedback;
@@ -74,8 +74,6 @@ public class Card : MonoBehaviour {
 		linkedFighter.onSetPickable += HandleOnSetPickable;
 
 		LootUI.useInventory+= HandleUseInventory;
-
-		maxWidth = heartImage.rectTransform.rect.width;
 
 		HideTargetFeedback ();
 		HideEndTurnFeedback ();
@@ -211,11 +209,18 @@ public class Card : MonoBehaviour {
 			levelImage.color = member.GetLevelColor ();
 		}
 
-		maxWidth = heartBackground.sizeDelta.x;
+		// HEALTH
+		float l = (float)member.Health / (float)member.MemberID.maxHealth;
+		float health_Width = -healthBackground.rect.width + healthBackground.rect.width * l;
 
-		float health_Width = maxWidth * (float)member.Health / (float)member.MemberID.maxHealth;
-		heartImage.rectTransform.sizeDelta = new Vector2 ( health_Width , heartImage.rectTransform.sizeDelta.y);
+		Vector2 v = new Vector2 (health_Width, healthBackground.sizeDelta.y);
 
+		float dur = 0.15f;
+
+		HOTween.To (healthFill, dur , "sizeDelta" , v );
+		HOTween.To (healthFillDelay, dur * 3F , "sizeDelta" , v , false , EaseType.EaseOutCirc , dur * 3f );
+
+		// STATS
 		attackText.text = member.Attack.ToString ();
 		defenceText.text = member.Defense.ToString ();
 

@@ -30,10 +30,10 @@ OtherSpeak : Tu veux qu'on te prenne plus d'argent ?;;;;
 [choix payé];;;;
 SetChoices4;;;;
 Choice : (partir);Choice : (se battre)(attaquer);Choice : (regarder l'île);Choice : Je peux faire quelque chose pour vous ?(quete);
-Leave;LaunchCombat;Node=>ile vide;NewQuest=>choix payé;
-;Node=>bandits morts;;;
-;;;;
-;;;;
+Leave;LaunchCombat;Node=>ile vide;RandomPercent65;
+;Node=>bandits morts;;OtherSpeak : Non, rien du tout;NewQuest=>choix payé
+;;;OtherSpeak : Dégages;
+;;;Node=>choix payé;
 ;;;;
 [bandits morts];;;;
 Narrator : Le sol est jonché de corps de bandits;;;;

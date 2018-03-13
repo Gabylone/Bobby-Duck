@@ -84,6 +84,8 @@ public class EnemyBoat : Boat {
 
 	public void Show ( OtherBoatInfo boatInfo ) 
 	{
+		print ("showing boat");
+
 		boxCollider.enabled = true;
 
 		this.otherBoatInfo = boatInfo; 

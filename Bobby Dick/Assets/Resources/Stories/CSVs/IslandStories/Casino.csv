@@ -64,7 +64,7 @@ OtherSpeak : Hélà, qu'est-ce que je vous sers ?;;;;;
 [discussion];;;;;
 SetChoices4;;;;;
 Choice : Rien !(partir);Choice : De la nourriture !(trade);Choice : Une information sur Bobby Dick ?!;;Choice : Il tourne bien le casino ?!(quete);
-HideOther;TradeFood;RandomRange2;;RandomRange2;
+HideOther;TradeFood;RandomRange2;;RandomPercent65;
 Node=>entrée casino;Node=>discussion;OtherSpeak : Ah ça c'est DIRECTIONTOFORMULA;OtherSpeak : Ah ça me dit rien non.;OtherSpeak : Ça dépend de la chance des gens.;NewQuest=>discussion
 ;;Node=>discussion;Node=>discussion;OtherSpeak : On est à un jet de dé de la faillite !;
 ;;;;Node=>discussion;

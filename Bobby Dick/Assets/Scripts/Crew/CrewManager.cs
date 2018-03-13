@@ -30,10 +30,19 @@ public class CrewManager : MonoBehaviour {
 	private float placingDuration = 0.5f;
 
 	void Start () {
-		NavigationManager.Instance.EnterNewChunk += AddToStates;
-		StoryFunctions.Instance.getFunction += HandleGetFunction;
+		if (side == Crews.Side.Player) {
+			NavigationManager.Instance.EnterNewChunk += AddToStates;
+			StoryFunctions.Instance.getFunction += HandleGetFunction;
+			NameGeneration.onDiscoverFormula += HandleOnDiscoverFormula;
+		}
 		CombatManager.Instance.onFightStart += HandleFightStarting;
+	}
 
+	void HandleOnDiscoverFormula (Formula Formula)
+	{
+		foreach (var item in CrewMembers) {
+			item.AddXP ( 20 );
+		}
 	}
 
 	void HandleFightStarting ()

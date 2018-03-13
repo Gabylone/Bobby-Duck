@@ -109,11 +109,11 @@ public class CombatManager : MonoBehaviour {
 			timeInState += Time.deltaTime;
 		}
 //
-//		if ( Input.GetKeyDown(KeyCode.L) ) {
-//
-//			debugKill = true;
-//
-//		}
+		if ( Input.GetKeyDown(KeyCode.L) ) {
+
+			debugKill = true;
+
+		}
 
 	}
 
@@ -459,7 +459,7 @@ public class CombatManager : MonoBehaviour {
 
 			int xpPerMember = 40;
 
-			item.combatFeedback.Display (xpPerMember + " xp",Color.blue);
+			item.combatFeedback.Display ("" + xpPerMember,Color.blue);
 
 			item.crewMember.AddXP (xpPerMember);
 		}

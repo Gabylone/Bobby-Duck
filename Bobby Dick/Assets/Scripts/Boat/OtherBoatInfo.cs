@@ -14,7 +14,6 @@ public class OtherBoatInfo : BoatInfo {
 		base.Init ();
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
-		CheckForPlayer ();
 	}
 
 

@@ -43,6 +43,8 @@ public class DisplayMinimap : MonoBehaviour {
 
 	public GameObject mapCloseButton;
 
+	public Dictionary<Coords,MinimapChunk> minimapChunks = new Dictionary<Coords, MinimapChunk>();
+
 	void Awake () {
 		Instance = this;
 	}
@@ -52,22 +54,66 @@ public class DisplayMinimap : MonoBehaviour {
 
 		rectTransform = GetComponent<RectTransform> ();
 
-		InitMap ();
-
-		InitBoatIcons ();
 		// subscribe
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 		Quest.showQuestOnMap += HandleShowQuestOnMap;
 
-		HandleChunkEvent ();
-
-		Show ();
-
 		CombatManager.Instance.onFightStart += FadeOut;
 		CombatManager.Instance.onFightEnd += FadeIn;
 
+		// quest feedback
+		Quest.onSetTargetCoords += HandleOnSetTargetCoords;
+
+		QuestManager.onFinishQuest += HandleOnFinishQuest;
+		QuestManager.onGiveUpQuest += HandleOnGiveUpQuest;
+
+		StoryLauncher.Instance.onStartStory += HandlePlayStoryEvent;
+
+		Show ();
 		HideCloseButton ();
 	}
+
+	public void Init () {
+
+		InitMap ();
+
+		InitBoatIcons ();
+
+		HandleChunkEvent ();
+
+	}
+
+	#region update minimap chunks
+	void HandleOnSetTargetCoords (Quest quest)
+	{
+		if (quest.targetCoords == quest.originCoords) {
+			if ( minimapChunks.ContainsKey (quest.previousCoords) )
+				minimapChunks [quest.previousCoords].HideQuestFeedback ();
+		}
+
+		if ( minimapChunks.ContainsKey(quest.targetCoords) )
+			minimapChunks [quest.targetCoords].ShowQuestFeedback ();
+
+	}
+
+	void HandleOnGiveUpQuest (Quest quest)
+	{
+		if ( minimapChunks.ContainsKey(quest.targetCoords) )
+		minimapChunks [quest.targetCoords].HideQuestFeedback ();
+	}
+
+	void HandleOnFinishQuest (Quest quest)
+	{
+		if ( minimapChunks.ContainsKey(quest.targetCoords) )
+		minimapChunks [quest.targetCoords].HideQuestFeedback ();
+	}
+
+	void HandlePlayStoryEvent ()
+	{
+		if ( StoryLauncher.Instance.CurrentStorySource == StoryLauncher.StorySource.island ) {
+			minimapChunks [Coords.current].SetVisited ();
+		}
+	}	#endregion
 
 	void HandleChunkEvent ()
 	{
@@ -89,7 +135,7 @@ public class DisplayMinimap : MonoBehaviour {
 
 		overallRectTranfsorm.sizeDelta = minimapChunkScale * (MapGenerator.Instance.MapScale);
 
-		for (int x = 0; x <= MapGenerator.Instance.MapScale-1	; x++) {
+		for (int x = 0; x <= MapGenerator.Instance.MapScale-1; x++) {
 
 			for (int y = 0; y <= MapGenerator.Instance.MapScale-1; y++) {
 
@@ -99,9 +145,15 @@ public class DisplayMinimap : MonoBehaviour {
 					|| Chunk.GetChunk (chunk).state == ChunkState.VisitedIsland) {
 
 					PlaceMapChunk (chunk);
+
+
 				}
 			}
 		}
+
+//		foreach (var item in QuestManager.Instance.currentQuests) {
+//			minimapChunks [item.targetCoords].ShowQuestFeedback ();
+//		}
 
 	}
 
@@ -119,15 +171,27 @@ public class DisplayMinimap : MonoBehaviour {
 	}
 	public void CenterMap (Coords coords)
 	{
+		float buffer = 5;
+
 		float x = overallRectTranfsorm.rect.width * (float)coords.x / MapGenerator.Instance.MapScale;
-		x -= minimapChunkScale.x/2f;
-		x = Mathf.Clamp (x,0, overallRectTranfsorm.rect.width - scrollViewRectTransform.rect.width);
+		x -= scrollViewRectTransform.rect.width / 2f - (minimapChunkScale.x/2f);
+		//		x = Mathf.Clamp (x,0, overallRectTranfsorm.rect.width- scrollViewRectTransform.rect.widt );
+		x = Mathf.Clamp (x,0-5, (overallRectTranfsorm.rect.width - scrollViewRectTransform.rect.width) +5);
 
 		float y = overallRectTranfsorm.rect.height * (float)coords.y / MapGenerator.Instance.MapScale;
-		y -= minimapChunkScale.y/2f;
-		y = Mathf.Clamp (y,0, overallRectTranfsorm.rect.height - scrollViewRectTransform.rect.height);
+		y -= scrollViewRectTransform.rect.height / 2f  - (minimapChunkScale.y/2f);
+		//		y = Mathf.Clamp (y,0, overallRectTranfsorm.rect.height - (scrollViewRectTransform.rect.height/2f));
+		y = Mathf.Clamp (y,0-5, overallRectTranfsorm.rect.height - scrollViewRectTransform.rect.height + 5);
 
-		Vector2 targetPos = new Vector2(-x,-y) + minimapChunkScale;
+//		float x = overallRectTranfsorm.rect.width * (float)coords.x / MapGenerator.Instance.MapScale;
+//		x -= minimapChunkScale.x/2f;
+//		x = Mathf.Clamp (x,0, overallRectTranfsorm.rect.width - scrollViewRectTransform.rect.width);
+//
+//		float y = overallRectTranfsorm.rect.height * (float)coords.y / MapGenerator.Instance.MapScale;
+//		y -= minimapChunkScale.y/2f;
+//		y = Mathf.Clamp (y,0, overallRectTranfsorm.rect.height - scrollViewRectTransform.rect.height);
+
+		Vector2 targetPos = new Vector2(-x,-y);
 
 		HOTween.To (overallRectTranfsorm, centerTweenDuration, "anchoredPosition", targetPos, false, EaseType.Linear, 0f);
 	}
@@ -143,6 +207,9 @@ public class DisplayMinimap : MonoBehaviour {
 			for (int y = -boatRange; y <= boatRange; y++) {
 
 				Coords c = Boats.playerBoatInfo.coords + new Coords (x, y);
+
+				if (c.OutOfMap ())
+					continue;
 
 				Chunk chunk = Chunk.GetChunk (c);
 
@@ -177,11 +244,6 @@ public class DisplayMinimap : MonoBehaviour {
 	#region map chunk
 	void PlaceMapChunk(Coords c) {
 
-//		if ( minimapChunks.ContainsKey(c) ) {
-//			Debug.LogError ("WHOOPS ! trying to place a minimap chunk where there's already one !");
-//			return;
-//		}
-
 		// INST
 		GameObject minimapChunk = Instantiate (minimapChunkPrefab, minimapChunkParent.transform);
 
@@ -199,7 +261,7 @@ public class DisplayMinimap : MonoBehaviour {
 
 		minimapChunk.GetComponent<MinimapChunk> ().InitChunk (c);
 
-//		minimapChunks.Add (c, minimapChunk.GetComponent<MinimapChunk> ());
+		minimapChunks.Add (c, minimapChunk.GetComponent<MinimapChunk> ());
 
 	}
 	#endregion

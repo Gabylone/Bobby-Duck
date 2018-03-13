@@ -16,6 +16,17 @@ public class Skill_Leap: Skill {
 		base.InvokeSkill ();
 	}
 
+	public override void Trigger (Fighter fighter)
+	{
+		base.Trigger (fighter);
+
+		if (onDelay == false) {
+			string str = "Ouuuuh toi, tu paies rien pour attendre !";
+			fighter.Speak (str);
+		}
+
+	}
+
 	public override void ApplyEffect ()
 	{
 

@@ -144,13 +144,14 @@ public class FormulaManager : MonoBehaviour {
 	}
 
 	public Vector2 GetNextClueIslandPos {
+		
 		get {
-			int a = 0;
+
 			foreach (var form in formulas) {
+
 				if ( !form.found ) {
 					return (Vector2)form.coords;
 				}
-				++a;
 			}
 
 			return (Vector2)SaveManager.Instance.GameData.treasureCoords;

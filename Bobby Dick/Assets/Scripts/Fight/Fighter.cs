@@ -524,12 +524,10 @@ public class Fighter : MonoBehaviour {
 
 		// reduced damage
 		if ( otherFighter.HasStatus(Status.Cussed) ) {
-			otherFighter.RemoveStatus (Status.Cussed);
 			damage = damage * 0.5f;
 		}
 
 		if ( otherFighter.HasStatus(Status.Toasted) ) {
-			otherFighter.RemoveStatus (Status.Toasted);
 			damage = damage * 1.5f;
 		}
 
@@ -568,7 +566,7 @@ public class Fighter : MonoBehaviour {
 				int xpPerMember = 25;
 
 				otherFighter.crewMember.AddXP (xpPerMember);
-				otherFighter.combatFeedback.Display (xpPerMember + " xp", Color.blue);
+				otherFighter.combatFeedback.Display ("" + xpPerMember, Color.blue);
 			}
 
 			crewMember.Kill ();
@@ -747,10 +745,13 @@ public class Fighter : MonoBehaviour {
 			animator.SetBool ("uncounscious", false);
 		}
 
-//		if ( HasStatus(Status.BearTrapped) ) {
-//			RemoveStatus (Status.bear);
-//			Hurt (15);
-//		}
+		if ( HasStatus(Status.Cussed) ) {
+			RemoveStatus (Status.Cussed);
+		}
+
+		if ( HasStatus(Status.Toasted) ) {
+			RemoveStatus (Status.Toasted);
+		}
 
 		if ( HasStatus(Status.Protected) ) {
 			RemoveStatus (Status.Protected);

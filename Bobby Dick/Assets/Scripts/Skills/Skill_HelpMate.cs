@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Skill_HelpMate : Skill {
 
+	public override void OnSetTarget ()
+	{
+		base.OnSetTarget ();
+
+		string str = "Courage, " + fighter.TargetFighter.crewMember.MemberName + " ! Tu peux le faire, fiston";
+		fighter.Speak (str);
+
+	}
+
 	public override void ApplyEffect ()
 	{
 		base.ApplyEffect ();

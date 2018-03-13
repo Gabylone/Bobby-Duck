@@ -8,8 +8,6 @@ public class Skill_Robbery : Skill {
 
 	public int minimumGoldToSteal = 15;
 
-	
-
 	public override void ApplyEffect ()
 	{
 		base.ApplyEffect ();
@@ -34,7 +32,6 @@ public class Skill_Robbery : Skill {
 
 	public override bool MeetsConditions (CrewMember member)
 	{
-
 		bool hasMinimumGold = false;
 
 		if (GoldManager.Instance.goldAmount > minimumGoldToSteal)

@@ -7,6 +7,21 @@ public class Skill_BistouryBlow : Skill {
 	public int healAmount = 35;
 	public int healthToHeal = 60;
 
+	public override void OnSetTarget ()
+	{
+		base.OnSetTarget ();
+
+		CrewMember member = fighter.TargetFighter.crewMember;
+
+		if (member.MemberID.Male) {
+			string str = "Relève toi, mon petit " + member.MemberName;
+			fighter.Speak (str);
+		} else {
+			string str = "Relève toi, ma petite " + member.MemberName;
+			fighter.Speak (str);
+		}
+	}
+
 	public override void ApplyEffect ()
 	{
 		base.ApplyEffect ();

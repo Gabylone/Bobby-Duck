@@ -4,7 +4,42 @@ using UnityEngine;
 
 public class Skill_HeadsOrTail : Skill {
 
-	
+	public GameObject coinPrefab;
+
+	bool heads = false;
+
+	public override void OnSetTarget ()
+	{
+//		base.OnSetTarget ();
+
+		CreateCoin ();
+
+		Invoke ("OnSetTargetDelay",1.2f);
+	}
+
+	void OnSetTargetDelay () {
+		base.OnSetTarget ();
+	}
+
+	void CreateCoin ()
+	{
+		GameObject coin = Instantiate (coinPrefab, fighter.transform.parent) as GameObject;
+
+		Vector3 p = fighter.BodyTransform.transform.position;
+
+		p.z = -2f;
+		coin.transform.position = p;
+
+		heads = Random.value < 0.5f;
+
+		coin.GetComponent<Coin> ().heads = heads;
+	}
+
+	void Update () {
+		if (Input.GetKeyDown(KeyCode.L) ) {
+			Trigger (CombatManager.Instance.currEnemyFighters [0]);
+		}
+	}
 
 	public override void ApplyEffect ()
 	{

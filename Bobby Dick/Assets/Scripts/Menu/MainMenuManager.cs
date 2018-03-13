@@ -38,6 +38,20 @@ public class MainMenuManager : MonoBehaviour {
 
 		Tween.Bounce (playButton.transform);
 
+		if (SaveTool.Instance.FileExists ("game data")) {
+
+			MessageDisplay.onValidate += HandleOnValidate;
+			MessageDisplay.Instance.Show ("Ecraser sauvegarde ?");
+
+		} else {
+			
+			HandleOnValidate ();
+
+		}
+	}
+
+	void HandleOnValidate ()
+	{
 		Transitions.Instance.ScreenTransition.Fade = true;
 		Invoke ("NewGameDelay" , Transitions.Instance.ScreenTransition.Duration);
 	}

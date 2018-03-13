@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Chunk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <state>UndiscoveredIsland</state>
+  <IslandData>
+    <positionOnScreen>
+      <x>273.81485</x>
+      <y>83.68325</y>
+    </positionOnScreen>
+    <storyManager>
+      <storyHandlers>
+        <StoryHandler>
+          <row>0</row>
+          <col>0</col>
+          <fallBackLayer>0</fallBackLayer>
+          <storyID>16</storyID>
+          <storyType>Normal</storyType>
+          <contentDecals />
+          <loots />
+          <crews />
+        </StoryHandler>
+      </storyHandlers>
+    </storyManager>
+  </IslandData>
+</Chunk>

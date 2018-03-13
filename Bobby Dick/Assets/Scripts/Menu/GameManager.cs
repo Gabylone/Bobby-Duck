@@ -24,13 +24,17 @@ public class GameManager : MonoBehaviour {
 		Instance = this;
 
 		InitializeGame ();
+//		StartCoroutine( InitializeGame () );
 
 	}
 
+//	IEnumerator InitializeGame () {
 	public void InitializeGame () {
 
 		ItemLoader.Instance.Init ();
+
 		FormulaManager.Instance.Init ();
+
 		Crews.Instance.Init ();
 
 		if (loadOnStart) {
@@ -44,7 +48,7 @@ public class GameManager : MonoBehaviour {
 
 		} else {
 
-			MapGenerator.Instance.GenerateIslands ();
+			MapGenerator.Instance.CreateNewMap ();
 
 			LootManager.Instance.CreateNewLoot ();
 
@@ -63,8 +67,6 @@ public class GameManager : MonoBehaviour {
 		WeightManager.Instance.Init ();
 
 		QuestMenu.Instance.Init ();
-
-		NavigationManager.Instance.ChangeChunk (Directions.None);
 
 		if (KeepOnLoad.dataToLoad < 0) {
 			
@@ -92,6 +94,8 @@ public class GameManager : MonoBehaviour {
 		HOTween.To ( image , fadeDuration , "color" , Color.black  );
 
 		textObj.SetActive (false);
+
+		SaveTool.Instance.DeleteGameData ();
 
 		Invoke ("GameOverDelay",fadeDuration);
 	}

@@ -12,7 +12,7 @@ public class CrewMember {
 
 			if (selectedMember == null) {
 				if (Crews.playerCrew.CrewMembers.Count != 0) {
-					Debug.LogError ("no selected member, return captain");
+//					Debug.LogError ("no selected member, return captain");
 					return Crews.playerCrew.captain;
 				} else {
 					Debug.LogError("no captain, merde chier");

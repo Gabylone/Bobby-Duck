@@ -6,7 +6,13 @@ public class Skill_RhumRound : Skill {
 
 	public int healthToHeal = 60;
 
-	
+	public override void Trigger (Fighter fighter)
+	{
+		base.Trigger (fighter);
+
+		string str = "Ce soir c'est ma tournée !";
+		fighter.Speak (str);
+	}
 
 	public override void ApplyEffect ()
 	{

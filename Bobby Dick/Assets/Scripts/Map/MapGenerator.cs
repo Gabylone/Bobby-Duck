@@ -12,7 +12,7 @@ public class MapGenerator : MonoBehaviour {
 	[SerializeField]
 	private int loadLimit = 1000;
 
-	int islandsPerCol;
+	public int islandsPerCol;
 
 	public int islandID;
 
@@ -22,18 +22,14 @@ public class MapGenerator : MonoBehaviour {
 		Instance = this;
 	}
 
-	public void GenerateIslands () {
-		CreateNewMap ();
-	}
-
 	#region map data
-	private void CreateNewMap () {
+	public void CreateNewMap () {
 
 		islandsPerCol = Mathf.RoundToInt (mapScale / 10);
 
 		discoveredCoords = new DiscoveredCoords ();
 
-		InitMap();
+		InitChunks();
 
 		CreateTreasureIsland ();
 
@@ -41,7 +37,7 @@ public class MapGenerator : MonoBehaviour {
 
 		FormulaManager.Instance.CreateNewClues ();
 
-		CreateNormalIslands ();
+		StartCoroutine (CreateNormalIslands ());
 
 	}
 
@@ -68,7 +64,7 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
-	public void InitMap() {
+	public void InitChunks() {
 		
 		Chunk.chunks.Clear ();
 
@@ -88,14 +84,17 @@ public class MapGenerator : MonoBehaviour {
 	}
 	void CreateHomeIsland () {
 		SaveManager.Instance.GameData.homeCoords = MapGenerator.Instance.RandomCoords;
+//		SaveManager.Instance.GameData.homeCoords = Coords.Zero;
+//		SaveManager.Instance.GameData.homeCoords = new Coords(mapScale-1,mapScale-1);
+
 		Chunk.GetChunk (SaveManager.Instance.GameData.homeCoords).InitIslandData (new IslandData (StoryType.Home));
 	}
-//	IEnumerator CreateNormalIslands () {
-	void CreateNormalIslands () {
+	IEnumerator CreateNormalIslands () {
+//	void CreateNormalIslands () {
 
 		int loadLimit = 1;
 
-//		LoadingScreen.Instance.StartLoading ("Création îles",islandsPerCol * mapScale - islandsPerCol);
+		LoadingScreen.Instance.StartLoading ("Création îles",islandsPerCol * mapScale - islandsPerCol);
 
 		int l = 0;
 
@@ -113,16 +112,20 @@ public class MapGenerator : MonoBehaviour {
 					targetChunk.InitIslandData (new IslandData (StoryType.Normal) );
 				}
 
-//				yield return new WaitForEndOfFrame ();
+				yield return new WaitForEndOfFrame ();
+
 				++l;
-//				LoadingScreen.Instance.Push (l);
+
+				LoadingScreen.Instance.Push (l);
 			}
 
 		}
 
+		yield return new WaitForEndOfFrame ();
+
 		SaveManager.Instance.SaveAllIslands ();
 
-//		yield return new WaitForEndOfFrame ();
+
 
 	}
 	#endregion

@@ -28,6 +28,7 @@ public class IslandInfo : MonoBehaviour {
 	{
 		if (chunk.state == ChunkState.VisitedIsland) {
 
+//			uiText.text = chunk.IslandData.storyManager.CurrentStoryHandler.Story.name;
 			uiText.text = chunk.IslandData.storyManager.CurrentStoryHandler.Story.name;
 
 		} else {

@@ -24,7 +24,7 @@ Node=>debut;Node=>rue;OtherSpeak : Hé ho !;;;;;;
 ;;[choix poissoniers];;;;;;
 ;;SetChoices4;;;;;;
 ;;Choice : Me vendre à manger.;;Choice : Rien !;Choice : Bobby Dick, ça vous parle ?;;Choice : Ça se passe comment dans votre beau village ?(quete);
-;;RandomPercent40;;OtherSpeak : A la prochaine !;RandomRange2;;RandomRange2;
+;;RandomPercent40;;OtherSpeak : A la prochaine !;RandomRange2;;RandomPercent65;
 ;;TradeFood;OtherSpeak : Vous arrivez au mauvais moment, on en a plus du tout.;HideOther;OtherSpeak : Bien sûr, un ami m'en a souvent parlé;OtherSpeak : Non, rien;OtherSpeak : C'est merveilleux !;NewQuest=>choix poissoniers
 ;;Node=>choix poissoniers;Node=>choix poissoniers;Node=>choix village;OtherSpeak : Il habite DIRECTIONTOFORMULA;Node=>choix poissoniers;OtherSpeak : Ici on est loin des pirates, on se connaît tous.;
 ;;;;;Node=>choix poissoniers;;OtherSpeak : Chaque minute est à croquer.;

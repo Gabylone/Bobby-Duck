@@ -6,6 +6,14 @@ public class Skill_Fury: Skill {
 
 	public int energyPerTurnAdded = 20;
 
+	public override void Trigger (Fighter fighter)
+	{
+		base.Trigger (fighter);
+
+		string str = "Ras le bol de ces chienneries !";
+		fighter.Speak (str);
+	}
+
 	public override void ApplyEffect ()
 	{
 

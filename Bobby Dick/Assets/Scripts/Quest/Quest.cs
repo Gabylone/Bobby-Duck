@@ -24,6 +24,7 @@ public class Quest {
 	public int col = 0;
 
 	public Coords originCoords;
+	public Coords previousCoords;
 	public Coords targetCoords;
 
 	public Node nodeWhenCompleted;
@@ -39,15 +40,26 @@ public class Quest {
 
 	public Quest () {
 		//
-
 	}
-	public void Init ()
+	public void StartStory () 
 	{
 		// ID
 		layer = StoryReader.Instance.currentStoryLayer;
 		row = StoryReader.Instance.Col;
 		col = StoryReader.Instance.Row;
 
+		GetNewQuestnode ();
+		currentQuest = this;
+
+		questID = StoryLoader.Instance.getStoryIndexFromPercentage (StoryType.Quest);
+
+		Node targetNode = Story.GetNode ("debut");
+
+		StoryReader.Instance.SetNewStory (Story, StoryType.Quest, targetNode, newQuest_FallbackNode);
+
+	}
+	public void Init ()
+	{
 		goldValue = level * 20 + Random.Range(1,9);
 
 		level = Random.Range(Crews.playerCrew.captain.Level -1, Crews.playerCrew.captain.Level+2);
@@ -55,20 +67,11 @@ public class Quest {
 
 		experience = 15;
 
-		questID = StoryLoader.Instance.getStoryIndexFromPercentage (StoryType.Quest);
-
 		originCoords = Boats.playerBoatInfo.coords;
 
 		giver = Crews.enemyCrew.captain.MemberID;
 
 		SetRandomCoords ();
-
-		GetNewQuestnode ();
-
-		Node targetNode = Story.GetNode ("debut");
-
-		currentQuest = this;
-		StoryReader.Instance.SetNewStory (Story, StoryType.Quest, targetNode, newQuest_FallbackNode);
 
 	}
 
@@ -102,14 +105,11 @@ public class Quest {
 
 	public void SetRandomCoords () {
 
-		targetCoords = Coords.GetClosest (Boats.playerBoatInfo.coords);
 
-		Coords boatCoords = Boats.playerBoatInfo.coords;
-		int distToQuest = (int)Vector2.Distance ( new Vector2(targetCoords.x,targetCoords.y) , new Vector2 (boatCoords.x , boatCoords.y) );
+		Coords _targetCoords = Coords.GetClosest (Boats.playerBoatInfo.coords);
+		SetTargetCoords (_targetCoords);
 
-		// show on map
 //		ShowOnMap ();
-		goldValue += (10 * distToQuest);
 	}
 	#endregion
 
@@ -136,5 +136,15 @@ public class Quest {
 		}
 	}
 
+	public delegate void OnSetTargetCoords ( Quest quest );
+	public static OnSetTargetCoords onSetTargetCoords;
+	public void SetTargetCoords ( Coords coords ) {
+		previousCoords = targetCoords;
+		targetCoords = coords;
+
+		if ( onSetTargetCoords != null ) {
+			onSetTargetCoords (this);
+		}
+	}
 	//
 }

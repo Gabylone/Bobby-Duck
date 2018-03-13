@@ -19,7 +19,7 @@ Node=>discussion forgeron;;LaunchCombat;;;;
 [discussion forgeron];;;;;;
 SetChoices4;;;;;;
 Choice : (partir);Choice : Héla ! Tu vends des armes ?(trade);;Choice : (attaquer);Choice : Ça se passe comment par ici ?(quete);;
-HideOther;RandomPercent8;OtherSpeak : Avec plaisir !;RemoveKarma;RandomRange2;;
+HideOther;RandomPercent8;OtherSpeak : Avec plaisir !;RemoveKarma;RandomPercent65;;
 Leave;OtherSpeak : Pas à des gens comme toi !;TradeWeapons/Clothes;[combat forgeron];OtherSpeak : Comme quand on installe une forge au milieu d'une île vierge.;NewQuest=>discussion forgeron;
 ;Node=>discussion forgeron;Node=>discussion forgeron;OtherSpeak : Tu te frottes à la mauvaise personne !;OtherSpeak : Moyen.;;
 ;;;LaunchCombat;Node=>discussion forgeron;;

@@ -5,7 +5,7 @@ using System.Collections;
 public class ActionGroup : MonoBehaviour {
 
 	[SerializeField]
-	private GameObject[] buttonObjects;
+	private InventoryActionButton[] inventoryActionButtons;
 
 	public enum ButtonType {
 		Eat,
@@ -21,23 +21,19 @@ public class ActionGroup : MonoBehaviour {
 
 	bool visible = false;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
 
 	public void UpdateButtons (ButtonType[] buttonTypes) {
 
-		foreach ( GameObject button in buttonObjects ) {
-			button.SetActive (false);
+		foreach ( var item in inventoryActionButtons ) {
+			item.gameObject.SetActive (false);
 		}
 
-		buttonObjects [(int)buttonTypes[0]].SetActive (true);
-		Tween.Bounce (buttonObjects [(int)buttonTypes [0]].transform);
+		inventoryActionButtons [(int)buttonTypes[0]].gameObject.SetActive (true);
+		Tween.Bounce (inventoryActionButtons [(int)buttonTypes [0]].transform);
 
 		if (buttonTypes.Length > 1) {
-			buttonObjects [(int)buttonTypes [1]].SetActive (true);
-			Tween.Bounce (buttonObjects [(int)buttonTypes [1]].transform);
+			inventoryActionButtons [(int)buttonTypes [1]].gameObject.SetActive (true);
+			Tween.Bounce (inventoryActionButtons [(int)buttonTypes [1]].transform);
 		}
 
 	}
@@ -50,12 +46,6 @@ public class ActionGroup : MonoBehaviour {
 			visible = value;
 
 			gameObject.SetActive (value);
-		}
-	}
-
-	public GameObject[] ButtonObjects {
-		get {
-			return buttonObjects;
 		}
 	}
 }

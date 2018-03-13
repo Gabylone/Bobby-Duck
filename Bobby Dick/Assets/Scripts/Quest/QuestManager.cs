@@ -106,7 +106,9 @@ public class QuestManager : MonoBehaviour {
 
 		Quest.currentQuest.accomplished = true;
 
-		Quest.currentQuest.targetCoords = Quest.currentQuest.originCoords;
+
+
+		Quest.currentQuest.SetTargetCoords (Quest.currentQuest.originCoords);
 
 		Quest.currentQuest.ShowOnMap ();
 
@@ -138,7 +140,7 @@ public class QuestManager : MonoBehaviour {
 	}
 	void EnterQuest () {
 		Quest newQuest = new Quest ();
-		newQuest.Init ();
+		newQuest.StartStory ();
 		// pas besoin d'update la story puisque ça en lance une nouvelle
 	}
 	void AddNewQuest () {
@@ -148,6 +150,8 @@ public class QuestManager : MonoBehaviour {
 		} else {
 			currentQuests.Add (Quest.currentQuest);
 		}
+
+		Quest.currentQuest.Init ();
 
 		if (onNewQuest != null)
 			onNewQuest ();
@@ -215,7 +219,7 @@ public class QuestManager : MonoBehaviour {
 			member.AddXP (quest.experience);
 		}
 
-		Karma.Instance.AddKarma ();
+		Karma.Instance.AddKarma (1);
 
 		finishedQuests.Add (quest);
 		currentQuests.Remove (quest);

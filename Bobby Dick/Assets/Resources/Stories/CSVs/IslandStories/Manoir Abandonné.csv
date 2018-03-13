@@ -84,7 +84,7 @@ Node=>choix vielle dame;;;;;;;;;;;;
 [choix vielle dame];;;;;;[choix autre];;;;;;
 SetChoices4;;;;;;SetChoices4;;;;;;
 Choice : Non rien(partir);Choice : Ça vous parle, Bobby Dick ?;;Choice : Vous auriez pas de quoi manger ?(trade);Choice : (autre);;Choice : C'est quoi cette maison ?;Choice : (attaquer);Choice : (autre);Choice : Ça se passe bien ici ?(quete);;;
-HideOther;RandomRange2;;Node=>dame nourriture;Node=>choix autre;;Node=>conv;RemoveKarma;Node=>choix vielle dame;RandomRange2;;;
+HideOther;RandomRange2;;Node=>dame nourriture;Node=>choix autre;;Node=>conv;RemoveKarma;Node=>choix vielle dame;RandomPercent65;;;
 Fade;OtherSpeak : Ça ne me dis rien.;OtherSpeak : Ces des légendes DIRECTIONTOFORMULA;;;;;LaunchCombat;;OtherSpeak : Parfait !;NewQuest=>choix autre;;
 Node=>maison vide;Node=>choix vielle dame;Node=>choix vielle dame;;;;;Node=>salon vide;;OtherSpeak : Je n'ai pas besoin de grand choses.;;;
 ;;;;;;;;;OtherSpeak : Seulement de l’éventuelle compagnie des voyageurs.;;;

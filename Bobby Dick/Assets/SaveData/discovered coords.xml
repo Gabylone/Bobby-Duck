@@ -2,36 +2,36 @@
 <DiscoveredCoords xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <coords>
     <Coords>
-      <x>41</x>
-      <y>28</y>
+      <x>21</x>
+      <y>18</y>
     </Coords>
     <Coords>
-      <x>41</x>
-      <y>29</y>
+      <x>21</x>
+      <y>19</y>
     </Coords>
     <Coords>
-      <x>41</x>
-      <y>30</y>
+      <x>21</x>
+      <y>20</y>
     </Coords>
     <Coords>
-      <x>42</x>
-      <y>28</y>
+      <x>22</x>
+      <y>18</y>
     </Coords>
     <Coords>
-      <x>42</x>
-      <y>30</y>
+      <x>22</x>
+      <y>20</y>
     </Coords>
     <Coords>
-      <x>43</x>
-      <y>28</y>
+      <x>23</x>
+      <y>18</y>
     </Coords>
     <Coords>
-      <x>43</x>
-      <y>29</y>
+      <x>23</x>
+      <y>19</y>
     </Coords>
     <Coords>
-      <x>43</x>
-      <y>30</y>
+      <x>23</x>
+      <y>20</y>
     </Coords>
   </coords>
 </DiscoveredCoords>

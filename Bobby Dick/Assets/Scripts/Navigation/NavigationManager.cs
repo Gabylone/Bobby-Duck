@@ -65,20 +65,20 @@ public class NavigationManager : MonoBehaviour {
 	}
 	#endregion
 
-	void Update () {
-		if ( Input.GetKeyDown(KeyCode.DownArrow) ) {
-			ChangeChunk (Directions.South);
-		}
-		if ( Input.GetKeyDown(KeyCode.UpArrow) ) {
-			ChangeChunk (Directions.North);
-		}
-		if ( Input.GetKeyDown(KeyCode.LeftArrow) ) {
-			ChangeChunk (Directions.West);
-		}
-		if ( Input.GetKeyDown(KeyCode.RightArrow) ) {
-			ChangeChunk (Directions.East);
-		}
-	}
+//	void Update () {
+//		if ( Input.GetKeyDown(KeyCode.DownArrow) ) {
+//			ChangeChunk (Directions.South);
+//		}
+//		if ( Input.GetKeyDown(KeyCode.UpArrow) ) {
+//			ChangeChunk (Directions.North);
+//		}
+//		if ( Input.GetKeyDown(KeyCode.LeftArrow) ) {
+//			ChangeChunk (Directions.West);
+//		}
+//		if ( Input.GetKeyDown(KeyCode.RightArrow) ) {
+//			ChangeChunk (Directions.East);
+//		}
+//	}
 
 	#region movementf
 	public void ChangeChunk ( Directions newDirection ) {
@@ -298,6 +298,11 @@ public struct Coords {
 		get {
 			return new Coords (0, 0);
 		}
+	}
+
+	public bool OutOfMap ()
+	{
+		return x < 0 || x >= MapGenerator.Instance.MapScale || y < 0 || y >= MapGenerator.Instance.MapScale;
 	}
 
 	// overrides

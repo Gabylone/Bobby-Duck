@@ -5,10 +5,19 @@ using UnityEngine;
 public class Skill_BearTrap : Skill {
 
 	public GameObject beapTrapPrefab;
+	public Transform target;
 
 	public float healthLost = 15f;
 
 	public Vector2 decalToFighter = new Vector2(130,70);
+
+	public override void Trigger (Fighter fighter)
+	{
+		base.Trigger (fighter);
+
+		string str = "Essayes de venir un coup pour voir !";
+		fighter.Speak (str);
+	}
 
 	public override void ApplyEffect ()
 	{
@@ -26,12 +35,16 @@ public class Skill_BearTrap : Skill {
 		} else {
 			bearTrapObj.transform.localPosition = new Vector2 (decalToFighter.x , decalToFighter.y );
 		}
+		bearTrapObj.transform.localScale = Vector3.one;
+
+//		bearTrapObj.transform.position = new Vector3 (target.position.x , fighter.transform.position.y ,0f);
+
+		Tween.Bounce (bearTrapObj.transform);
 
 //		foreach (var bearTrapImage in  bearTrapObj.GetComponentsInChildren<Image>()) {
 //			
 //		}
 
-		bearTrapObj.transform.localScale = Vector3.one;
 
 		fighter.onRemoveStatus += bearTrapObj.GetComponent<BearTrap> ().HandleOnRemoveFighterStatus;
 		bearTrapObj.GetComponent<BearTrap> ().fighter = fighter;

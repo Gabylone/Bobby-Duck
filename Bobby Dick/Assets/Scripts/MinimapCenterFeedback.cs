@@ -31,6 +31,8 @@ public class MinimapCenterFeedback : MonoBehaviour {
 
 		Tween.Bounce ( transform );
 
+		CancelInvoke ("Hide");
+
 		Show ();
 		Invoke ("Hide",displayDuration);
 	}

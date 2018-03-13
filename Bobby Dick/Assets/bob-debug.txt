@@ -18,36 +18,29 @@ xxx - ennemis target : on dirait le plus faible mais changer de taret si protégé
 xxx - regarder si le medecin soigne rellement le plus faible
 xxx - niveau de loot en fonction du capitaine ennemu
 xxx - combat feedback : plus haut plus de temps et un troisieme
-xxx - un membre a gagné un niveau, puis il a re un tour
-( confirmed )
+xxx - un membre a gagné un niveau, puis il a re un tour ( confirmed )
 xxx - le toast enlève l'insulte
-- confirmer quand nouvelle partie
-- quand quelqu'un est assomé, l'attaquant ne joue pas son tour
-- gagner de l'experience quand on trouve l'indice
-- enlever le "xp" pour l'affichage combat
-- tenter de faire une carte avec des numéros et les répartir équitablement
-- diminiuer chance de recevoir des quêtes
-- le jeu est critique quand un 1 apparait
-- mettre un tutorial pour les dés
-- argumentoutofrange quand Nathalie est morete
-- la minimap ne va pas tout au bout
-- les escrocs volent trop souvent
-- il faut que les ennemis varient les cibles
-( 60% moins fort, et les autres )
-- doubler l'effet du mauvais karma
-- griser les îles inconnues
-- mettre un point d'exclamatio nsur les îles target quest
-- insulte : reduit à chaque tour et pas à a l'attque
-- gagne encore trop d'or
-- remettre bar de chargement ( voir avec build )
-- animation pièce de l'escroc comme image job.e sur barre de vie.
-- faire dire une insulte au fighter qui proboques
-- tween rapide sur barre de vie combat
-- sauvegarder la game data quand un membre meurt.
-- en cas de game over, supprimer game data
-- penser à : les gens dirige le héros vers l'indice le plus près
-- mettre nom du bouton displau item quand on appuie longtemps dessus.
-- est'ce que "dormir jusqu'au lendemain n'aurait pas plus de sens.
+xxx - confirmer quand nouvelle partie
+xxx - quand quelqu'un est assomé, l'attaquant ne joue pas son tour
+xxx - gagner de l'experience quand on trouve l'indice
+xxx - enlever le "xp" pour l'affichage combat
+xxx - diminiuer chance de recevoir des quêtes
+xxx - le jeu est critique quand un 1 apparait
+xxx - mettre un tutorial pour les dés
+xxx - argumentoutofrange quand Nathalie est morete
+xxx - la minimap ne va pas tout au bout
+xxx - doubler l'effet du mauvais karma	
+xxx - griser les îles inconnues
+xxx - mettre un point d'exclamatio nsur les îles target quest
+xxx - insulte : reduit à chaque tour et pas à a l'attque
+xxx - gagne encore trop d'or
+xxx - remettre bar de chargement ( voir avec build )
+xxx - animation pièce de l'escroc comme image job.e sur barre de vie.
+xxx - bulles de dialogue combat
+XXX - tween rapide sur barre de vie combat
+xxx - sauvegarder la game data quand un membre meurt.
+xxx - en cas de game over, supprimer game data
+xxx - mettre nom du bouton displau item quand on appuie longtemps dessus.
 - mettre le bear trap au milieu, quoi qu'il arrive
 - preparing attack : l'interface apparait un peu avant que l eskill s'active
 - wtf, on peut prendre des mercenaires à l'infini ?
@@ -60,6 +53,8 @@ xxx - le toast enlève l'insulte
 - grande carte mais mieux
 - rajouter tuto quand personnage adverse est trop fort
 - dans skillbutton, mettre charge avec energy ou dans description
+- flow pour création membre
+- toucher n'importe ou pour quitte
 
 SAUVEGARDE
 - trouver moyen pour item id
@@ -67,6 +62,8 @@ SAUVEGARDE
 - liste de discovered chunk
 - ficher pour chaque ile
 	- sauver l'ile actuelle à l'entrée et la sortie.
+
+- tenter de faire une carte avec des numéros et les répartir équitablement
 
 HISTOIRE
 - grotte : plusieurs enigmes ( dont jours )

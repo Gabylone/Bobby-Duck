@@ -8,14 +8,23 @@ public class Skill_HeadShot : Skill {
 
 	public int healthToAttack = 30;
 
-	
-
 	public override void InvokeSkill ()
 	{
 		if (onDelay) {
 			fighter.crewMember.energy += energyCost;
 		}
 		base.InvokeSkill ();
+	}
+
+	public override void Trigger (Fighter fighter)
+	{
+		base.Trigger (fighter);
+
+		if (onDelay == false) {
+			string str = "Vous allez voir ce que vous allez voir...";
+			fighter.Speak (str);
+		}
+
 	}
 
 	public override void ApplyEffect ()
@@ -35,6 +44,8 @@ public class Skill_HeadShot : Skill {
 			//
 
 		} else {
+
+
 
 			fighter.AddStatus (Fighter.Status.PreparingAttack);
 

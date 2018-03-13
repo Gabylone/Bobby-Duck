@@ -39,6 +39,10 @@ public class LoadingScreen : MonoBehaviour {
 
 	public void Push (int currentLoad) {
 
+		if (currentLoad > max) {
+			max += 2;
+		}
+
 		UpdateImage (currentLoad);
 
 	}
@@ -53,10 +57,11 @@ public class LoadingScreen : MonoBehaviour {
 
 	public void End ()
 	{
+		Debug.Log ("loading end");
 		UpdateImage (max);
 		Invoke ("Hide",1f);
 		Tween.Fade(group.transform,0.4f);
-		Tween.Bounce (group.transform,0.4f,1.05f);
+		Tween.Bounce (group.transform,0.4f,1.02f);
 	}
 
 	void Hide () 

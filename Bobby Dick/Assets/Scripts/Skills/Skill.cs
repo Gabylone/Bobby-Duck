@@ -35,10 +35,10 @@ public class Skill : MonoBehaviour {
 //	public Skill ( Skill refSkill ) {
 //		skilthis = this  
 //	}
-
-	public Skill () {
-		//
-	}
+//
+//	public Skill () {
+//		//
+//	}
 //	public Skill ( Skill skill ) {
 //		this = skill;
 //	}
@@ -103,13 +103,17 @@ public class Skill : MonoBehaviour {
 
 		if ( currState == CombatManager.States.PlayerAction || currState == CombatManager.States.EnemyAction ) {
 
-			if (goToTarget) {
-				fighter.onReachTarget += HandleOnReachTarget;
-				fighter.ChangeState (Fighter.states.moveToTarget);
-			} else {
-				InvokeSkill ();
-			}
+			OnSetTarget ();
 
+		}
+	}
+
+	public virtual void OnSetTarget () {
+		if (goToTarget) {
+			fighter.onReachTarget += HandleOnReachTarget;
+			fighter.ChangeState (Fighter.states.moveToTarget);
+		} else {
+			InvokeSkill ();
 		}
 	}
 

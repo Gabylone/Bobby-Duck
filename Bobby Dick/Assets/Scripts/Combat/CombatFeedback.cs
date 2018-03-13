@@ -22,6 +22,7 @@ public class CombatFeedback : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		initPos = transform.localPosition;
 		Hide ();
 	}
 

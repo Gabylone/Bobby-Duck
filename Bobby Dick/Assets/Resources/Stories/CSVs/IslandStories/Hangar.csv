@@ -13,7 +13,7 @@ Leave;[charpentier];;;;;;;;;;;
 ;[conversation];;;;;;;[discussion];;;;
 ;SetChoices4;;;;;;;SetChoices3;;;;
 ;Choice : (partir);Choice : Occupez vous de mon bateau !(trade);;Choice : (discuter)(autre);Choice : (attaquer);;;Choice : Revenons aux choses sérieuses.;Choice : Bobby Dick, ça vous parle ?;;Choice : Comment ça se passe le métier de charpentier ?(quete);
-;HideOther;[bateau];;Node=>discussion;RemoveKarma;;;OtherSpeak : Très bien.;RandomRange2;;RandomRange2;
+;HideOther;[bateau];;Node=>discussion;RemoveKarma;;;OtherSpeak : Très bien.;RandomRange2;;RandomPercent65;
 ;Leave;OtherSpeak : Avec plaisir !;OtherSpeak : Après m'avoir menacé ? Non, non.;;RandomPercent50;;;Node=>conversation;OtherSpeak : Allez DIRECTIONTOFORMULA, vous en saurez plus.;OtherSpeak : Non ça me dis rien !;OtherSpeak : Les affaires marchent très bien.;NewQuest=>discussion
 ;;BoatUpgrades;Node=>conversation;;OtherSpeak : Non, non.;Node=>Combat Charpentier;;;Node=>conversation;Node=>conversation;OtherSpeak : Trop bien même.;
 ;;Node=>conversation;;;OtherSpeak : Prenez ça, laissez moi, svp.;;;;;;OtherSpeak : Je n'ai plus le temps de naviguer.;

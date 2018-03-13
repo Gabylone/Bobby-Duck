@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class Skill_Goad : Skill {
 
-	
+	public override void OnSetTarget ()
+	{
+		base.OnSetTarget ();
+
+		string str = fighter.TargetFighter.crewMember.MemberName + " a dit que vous étiez moches";
+		fighter.Speak (str);
+
+	}
 
 	public override void ApplyEffect ()
 	{

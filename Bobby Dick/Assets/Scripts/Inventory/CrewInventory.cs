@@ -180,7 +180,7 @@ public class CrewInventory : MonoBehaviour {
 
 	public void SellItem () {
 
-		int price = 1 + (int)(LootUI.Instance.SelectedItem.price / 2f);
+		int price = 1 + (int)(LootUI.Instance.SelectedItem.price / 3f);
 
 		GoldManager.Instance.AddGold (price);
 

@@ -29,6 +29,13 @@ public class SaveManager : MonoBehaviour
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
+		CrewMember.onCrewMemberKilled += HandleOnCrewMemberKilled;
+
+	}
+
+	void HandleOnCrewMemberKilled (CrewMember crewMember)
+	{
+		SaveGameData ();
 	}
 
 	void HandleChunkEvent ()
@@ -46,12 +53,11 @@ public class SaveManager : MonoBehaviour
 		if (onLoad != null)
 			onLoad ();
 		
-		NavigationManager.Instance.ChangeChunk (Directions.None);
+
 
 	}
 
 	public void LoadGameData () {
-
 
 		// GAME DATA
 		gameData = SaveTool.Instance.LoadFromPath ("game data.xml" , "GameData") as GameData;
@@ -116,11 +122,13 @@ public class SaveManager : MonoBehaviour
 	#region Load island data
 	public void LoadAllIslands () {
 
-		LoadAllIslandCoroutine ();
+//		LoadAllIslandCoroutine ();
+		StartCoroutine(LoadAllIslandCoroutine ());
 	}
 
-	void LoadAllIslandCoroutine () {
-		//	IEnumerator LoadAllIslandCoroutine () {
+	IEnumerator LoadAllIslandCoroutine () {
+//	void LoadAllIslandCoroutine () {
+
 
 		MapGenerator.Instance.LoadMap ();
 
@@ -128,6 +136,10 @@ public class SaveManager : MonoBehaviour
 
 		var folder = new DirectoryInfo (pathToFolder);
 		var files = folder.GetFiles ();
+
+		LoadingScreen.Instance.StartLoading ("Chargement îles", (int)((float)files.Length/2f));
+
+		int l = 0;
 
 		foreach (var item in files) {
 
@@ -144,24 +156,38 @@ public class SaveManager : MonoBehaviour
 			// attation aux choses qui se passent dans "set island data"
 			Chunk.SetChunk(chunkCoords,chunkToLoad);
 
-			//			yield return new WaitForEndOfFrame ();
+			yield return new WaitForEndOfFrame ();
 
-			//			++l;
-
-			//			LoadingScreen.Instance.Push (l);
+			++l;
+			LoadingScreen.Instance.Push (l);
 		}
 
-		//		yield return new WaitForEndOfFrame ();
+		yield return new WaitForEndOfFrame ();
 
+		LoadingScreen.Instance.End ();
+
+		DisplayMinimap.Instance.Init ();
+
+		NavigationManager.Instance.ChangeChunk (Directions.None);
 	}
 
 	public void SaveAllIslands () {
-		//		StartCoroutine (SaveAllIslandsCoroutine ());
-		SaveAllIslandsCoroutine ();
+				StartCoroutine (SaveAllIslandsCoroutine ());
+//		SaveAllIslandsCoroutine ();
 	}
-	void SaveAllIslandsCoroutine () {
+	IEnumerator SaveAllIslandsCoroutine () {
+//	void SaveAllIslandsCoroutine () {
+
+//		LoadingScreen.Instance.StartLoading ("Sauvegarde îles", MapGenerator.Instance.MapScale * MapGenerator.Instance.MapScale);
+		LoadingScreen.Instance.StartLoading ("Sauvegarde îles", MapGenerator.Instance.MapScale * MapGenerator.Instance.islandsPerCol);
+
+		yield return new WaitForEndOfFrame ();
 
 		SaveTool.Instance.ResetIslandFolder ();
+
+		yield return new WaitForEndOfFrame ();
+
+		int l = 0;
 
 		for ( int y = 0; y < MapGenerator.Instance.MapScale ; ++y ) {
 
@@ -180,9 +206,25 @@ public class SaveManager : MonoBehaviour
 				Coords pathedCoords = GetCoordsFromFile (fileName);
 
 				SaveTool.Instance.SaveToPath (path,targetChunk);
+
+				yield return new WaitForEndOfFrame ();
+				++l;
+				LoadingScreen.Instance.Push (l);
+
 			}
 
+
+
 		}
+
+		LoadingScreen.Instance.End ();
+
+		yield return new WaitForEndOfFrame ();
+
+		DisplayMinimap.Instance.Init ();
+
+		NavigationManager.Instance.ChangeChunk (Directions.None);
+
 
 	}
 	public void SaveCurrentIsland () {

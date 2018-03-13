@@ -633,7 +633,7 @@ public class TutoStep_Hunger: TutoStep {
 
 		float fillAmount = 1f - ((float)member.CurrentHunger / (float)Crews.maxHunger);
 
-		if (fillAmount < 0.45f) {
+		if (fillAmount < 0.25f) {
 			corner = DisplayInfo.Corner.TopLeft;
 			NavigationManager.Instance.EnterNewChunk -= HandleChunkEvent;
 			Display ();

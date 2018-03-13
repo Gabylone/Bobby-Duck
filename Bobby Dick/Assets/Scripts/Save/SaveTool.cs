@@ -34,7 +34,6 @@ public class SaveTool : MonoBehaviour
 
 
 	#region save & load
-
 	public void ResetIslandFolder ()
 	{
 		if ( DirectoryExists(GetSaveFolderPath() + "/Islands") == true ) {
@@ -43,6 +42,11 @@ public class SaveTool : MonoBehaviour
 
 		Directory.CreateDirectory (GetSaveFolderPath() + "/Islands");
 
+	}
+
+	public void DeleteGameData () {
+		string path = GetSaveFolderPath () + "/game data.xml";
+		File.Delete (path);
 	}
 
 	public void SaveToPath ( string path , object o) {
