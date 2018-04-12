@@ -8,11 +8,15 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 	public bool trading = false;
 
+	public bool opened = false;
+
 	public enum UpgradeType {
 		Crew,
 		Cargo,
 		Longview
 	}
+
+	public float timeBetweenButtonDisplay = 0.2f;
 
 	void Awake () {
 		Instance = this;
@@ -30,6 +34,9 @@ public class BoatUpgradeManager : MonoBehaviour {
 	[Header("UI Groups")]
 	[SerializeField]
 	private GameObject menuObj;
+
+	[SerializeField]
+	public GameObject[] buttonObjs;
 
 	[Header("Crew")]
 	[SerializeField]
@@ -52,14 +59,17 @@ public class BoatUpgradeManager : MonoBehaviour {
 		
 		Trading = false;
 
-		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
-
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
+
+		RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
+
+		Hide ();
 	}
 
-	void HandleCloseInventory ()
+	void HandleOnTouchRayBlocker ()
 	{
-		Hide ();
+		if (opened)
+			Close ();
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -77,19 +87,69 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		menuObj.SetActive (true);
 
+		ShowAllButtons ();
+
 		UpdateInfo ();
+
+		opened = true;
 
 		CrewInventory.Instance.HideMenuButtons();
 
-		Tween.Bounce (menuObj.transform, 0.2f, 1.05f);
-
 		if (onOpenBoatUpgrade != null)
 			onOpenBoatUpgrade ();
+	}
+	void ShowAllButtons () {
+		StartCoroutine (ShowAllButtonsCoroutine ());
+	}
+	void HideAllButtons () {
+//		StartCoroutine (HideAllButtonsCoroutine ());
+		Hide();
+	}
+
+	IEnumerator ShowAllButtonsCoroutine () {
+
+		foreach (var item in buttonObjs) {
+			item.SetActive (false);
+			Tween.ClearFade (item.transform);
+		}
+
+		foreach (var item in buttonObjs) {
+			item.SetActive (true);
+			Tween.Bounce (item.transform);
+			yield return new WaitForSeconds ( timeBetweenButtonDisplay );
+
+		}
+
+		yield return new WaitForEndOfFrame ();
+	}
+
+
+	IEnumerator HideAllButtonsCoroutine () {
+
+		for (int i = 0; i < buttonObjs.Length; i++) {
+
+			int index = buttonObjs.Length -1 - i;
+
+//			Tween.Bounce (buttonObjs [index].transform, timeBetweenButtonDisplay , 0.f);
+			buttonObjs [index].SetActive (false);
+//			Tween.Fade (buttonObjs[index].transform, timeBetweenButtonDisplay);
+
+			yield return new WaitForSeconds ( timeBetweenButtonDisplay );
+
+			if (index > 0) {
+			}
+
+		}
+
+		yield return new WaitForEndOfFrame ();
+
+		Hide ();
 	}
 
 	void Hide () {
 
 		menuObj.SetActive (false);
+
 
 	}
 	#endregion
@@ -221,17 +281,23 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 	public void Close () {
 		
+		opened = false;
+
 		if ( Trading == true ) {
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
 
 			Trading = false;
 		} else {
-			CrewInventory.Instance.ShowMenuButtons();
+			Invoke ("CloseDelay",0.01f);
 		}
 
-		Hide ();
+		HideAllButtons ();
 
 
+	}
+
+	void CloseDelay () {
+		CrewInventory.Instance.ShowMenuButtons();
 	}
 }

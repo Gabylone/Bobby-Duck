@@ -8,7 +8,7 @@ public class Skill_DistanceAttack : Skill {
 	{
 		base.ApplyEffect ();
 
-		fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack);
+		fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack, 1f);
 
 		EndSkill ();
 

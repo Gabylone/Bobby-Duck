@@ -19,7 +19,7 @@ public class StoryInput : MonoBehaviour {
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
-		WorldTouch.pointerDownEvent += HandlePointerDownEvent;
+		WorldTouch.onPointerDown += HandlePointerDownEvent;
 
 	}
 

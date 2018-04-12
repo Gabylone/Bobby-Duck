@@ -109,11 +109,11 @@ public class CombatManager : MonoBehaviour {
 			timeInState += Time.deltaTime;
 		}
 //
-		if ( Input.GetKeyDown(KeyCode.L) ) {
-
-			debugKill = true;
-
-		}
+//		if ( Input.GetKeyDown(KeyCode.L) ) {
+//
+//			debugKill = true;
+//
+//		}
 
 	}
 
@@ -573,7 +573,7 @@ public class CombatManager : MonoBehaviour {
 			Invoke ("ExitFight", 1f);
 			break;
 		case OutCome.EnemyCrewKilled:
-			Transitions.Instance.ActionTransition.Fade = true;
+			Transitions.Instance.ActionTransition.FadeIn (0.5f);
 			ReceiveXp ();
 			ReceiveGold ();
 			Invoke ("ExitFight", 1f);

@@ -20,7 +20,7 @@ public class NavigationTrigger : MonoBehaviour {
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 		Swipe.onSwipe += HandleOnSwipe;
 
-		WorldTouch.onTouchWorld += HandleOnTouchWorld;
+		WorldTouch.onPointerDown += HandleOnTouchWorld;
 
 		StoryLauncher.Instance.onStartStory += HandlePlayStoryEvent;
 	}
@@ -47,8 +47,6 @@ public class NavigationTrigger : MonoBehaviour {
 		if ( direction == this.direction ) {
 			PlayerBoat.Instance.SetTargetPos (rectTransform);
 			Target ();
-
-//			Invoke ("HandleOnSwipeDelay" , 0.7f);
 		}
 	}
 
@@ -67,6 +65,7 @@ public class NavigationTrigger : MonoBehaviour {
 	void Target ()
 	{
 		Tween.Bounce (arrowGroup.transform);
+
 
 		Targeted = true;
 	}

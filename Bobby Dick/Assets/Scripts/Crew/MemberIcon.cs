@@ -23,7 +23,7 @@ public class MemberIcon : MonoBehaviour {
 
 	public float bodyScale = 1f;
 
-	Vector3 initScale;
+	public float initScale;
 
 	public Crews.PlacingType currentPlacingType = Crews.PlacingType.None;
 	public Crews.PlacingType previousPlacingType  = Crews.PlacingType.None;
@@ -41,7 +41,7 @@ public class MemberIcon : MonoBehaviour {
 		this.member = member;
 
 		animator = GetComponentInChildren<Animator> ();
-		initScale = group.transform.localScale;
+		initScale = group.transform.localScale.x;
 	
 		HideBody ();
 		InitVisual (member.MemberID);
@@ -93,7 +93,6 @@ public class MemberIcon : MonoBehaviour {
 
 		Vector3 targetPos = Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].position;
 
-
 		if (currentPlacingType == Crews.PlacingType.Map) {
 			int index = member.GetIndex;
 			if (index < 0) {
@@ -108,12 +107,19 @@ public class MemberIcon : MonoBehaviour {
 
 		HOTween.To ( transform , moveDuration , "position" , targetPos , false , EaseType.Linear , 0f );
 
-
-		if (currentPlacingType == Crews.PlacingType.Discussion
-			||currentPlacingType == Crews.PlacingType.Inventory) {
+		switch (currentPlacingType) {
+		case Crews.PlacingType.Map:
+		case Crews.PlacingType.Hidden:
+		case Crews.PlacingType.None:
+			HideBody ();
+			break;
+		case Crews.PlacingType.Combat:
+		case Crews.PlacingType.Inventory:
+		case Crews.PlacingType.Discussion:
 			ShowBody ();
-		} else {
-			HideBody();
+			break;
+		default:
+			break;
 		}
 	}
 	#endregion
@@ -124,11 +130,10 @@ public class MemberIcon : MonoBehaviour {
 		bodyGroup.SetActive (false);
 		animator.SetBool ("enabled", false);
 
-		Vector3 targetScale = initScale;
 //		Vector3 targetScale = Vector3.one * initScale;
 //		if (member.side == Crews.Side.Player)
-//			targetScale.x = -1;
-
+//			targetScale.x = -targetScale.x;
+//
 //		HOTween.To ( group.transform , moveDuration / 2f , "localScale" , targetScale );
 
 	}
@@ -136,11 +141,11 @@ public class MemberIcon : MonoBehaviour {
 		
 		bodyGroup.SetActive (true);
 		animator.SetBool ("enabled", true);
-
-		Vector3 targetScale = Vector3.one * bodyScale;
-		if (member.side == Crews.Side.Player)
-			targetScale.x = -bodyScale;
-		
+//
+//		Vector3 targetScale = Vector3.one * bodyScale;
+//		if (member.side == Crews.Side.Player)
+//			targetScale.x = -bodyScale;
+//		
 //		HOTween.To (group.transform, moveDuration / 2f, "localScale", targetScale);
 
 	}

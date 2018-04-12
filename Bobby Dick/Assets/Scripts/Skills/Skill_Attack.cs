@@ -9,7 +9,7 @@ public class Skill_Attack : Skill {
 
 		base.ApplyEffect ();
 
-		fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack);
+		fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack, 1f);
 
 		EndSkill ();
 

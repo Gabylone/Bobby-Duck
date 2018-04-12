@@ -11,6 +11,7 @@ public enum InventoryActionType {
 	Buy,
 	PickUp,
 	PurchaseAndEquip,
+    Unequip
 
 }
 
@@ -91,6 +92,14 @@ public class LootUI : MonoBehaviour {
 
 	void Start () {
 		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+
+		RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
+	}
+
+	void HandleOnTouchRayBlocker ()
+	{
+		if (visible)
+			Close ();
 	}
 
 	private void Init () {
@@ -166,11 +175,35 @@ public class LootUI : MonoBehaviour {
 		}
 	}
 
-	public void Hide () {
+	public delegate void OnHideLoot ();
+	public static OnHideLoot onHideLoot;
+	void Hide () {
+		lootObj.SetActive (false);
+	}
+	public void Close () {
 		
 		visible = false;
-		lootObj.SetActive (false);
 
+		if (OtherInventory.Instance.type == OtherInventory.Type.Loot || OtherInventory.Instance.type == OtherInventory.Type.Trade) {
+
+			StoryReader.Instance.NextCell ();
+			StoryReader.Instance.UpdateStory ();
+
+			CrewInventory.Instance.HideInventory ();
+
+			Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+
+		} else {
+			CrewInventory.Instance.ShowMenuButtons ();
+		}
+
+		OtherInventory.Instance.type = OtherInventory.Type.None;
+
+		Hide ();
+
+		if (onHideLoot != null) {
+			onHideLoot ();
+		}
 	}
 	#endregion
 
@@ -182,11 +215,26 @@ public class LootUI : MonoBehaviour {
 	#region item button	
 	public void UpdateItemButtons () {
 
+        int displayItemIndex = 0;
+
+        if ( currentCat == ItemCategory.Clothes || currentCat == ItemCategory.Weapon && currentPage == 0)
+        {
+            Item equipedItem = CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon);
+            if ( currentCat == ItemCategory.Clothes)
+                equipedItem = CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes);
+
+            if ( equipedItem != null)
+            {
+                displayItems[displayItemIndex].HandledItem = equipedItem;
+
+                ++displayItemIndex;
+            }
+
+        }
+
 		int a = currentPage * ItemPerPage;
 
-
-
-		for (int i = 0; i < ItemPerPage; ++i ) {
+		for (int i = displayItemIndex; i < ItemPerPage; ++i ) {
 
 			DisplayItem_Loot displayItem = displayItems [i];
 
@@ -199,14 +247,11 @@ public class LootUI : MonoBehaviour {
 
 			}
 
-
 			a++;
 		}
 
 	}
 	#endregion
-
-
 
 	#region category navigation
 

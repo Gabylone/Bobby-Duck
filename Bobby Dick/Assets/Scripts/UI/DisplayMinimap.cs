@@ -12,12 +12,12 @@ public class DisplayMinimap : MonoBehaviour {
 
 	// minimap chunks
 	public GameObject minimapChunkPrefab;
-//	Dictionary<Coords,MinimapChunk> minimapChunks = new Dictionary<Coords, MinimapChunk>();
 	public GameObject minimapChunkParent;
 
 	// minimap
 	public RectTransform overallRectTranfsorm;
 	public RectTransform scrollViewRectTransform;
+	public Mask viewPortMask;
 
 	// boat feedback
 	public RectTransform boatRectTransform;
@@ -33,13 +33,20 @@ public class DisplayMinimap : MonoBehaviour {
 	public float hiddenPos = 0f;
 	public float hideDuration = 0.3f;
 
+	/// <summary>
+	/// zoom
+	/// </summary>
 	public float zoomDuration = 0.8f;
 
+	RectTransform previousParent;
+	public RectTransform zoomParent;
 	public float initPosX = 0f;
 	public float initTopOffset = 0f;
 	public float initBottomOffset = 0f;
 	public float initLeftOffset = 0f;
 	public float initRightOffset = 0f;
+
+	public Image outlineImage;
 
 	public GameObject mapCloseButton;
 
@@ -53,6 +60,7 @@ public class DisplayMinimap : MonoBehaviour {
 	void Start () {
 
 		rectTransform = GetComponent<RectTransform> ();
+		minimapChunkScale = new Vector2(minimapChunkPrefab.GetComponent<RectTransform> ().rect.width,minimapChunkPrefab.GetComponent<RectTransform> ().rect.height);
 
 		// subscribe
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
@@ -69,9 +77,29 @@ public class DisplayMinimap : MonoBehaviour {
 
 		StoryLauncher.Instance.onStartStory += HandlePlayStoryEvent;
 
+		Vector2 scaleMin = new Vector2(initLeftOffset, initBottomOffset);
+		Vector2 scaleMax = new Vector2(-initRightOffset, -initTopOffset);
+
+		initLeftOffset = rectTransform.offsetMin.x;
+		initBottomOffset = rectTransform.offsetMin.y;
+		initRightOffset = -rectTransform.offsetMax.x;
+		initTopOffset = -rectTransform.offsetMax.y;
+
 		Show ();
 		HideCloseButton ();
+
+		ClampScrollView ();
 	}
+
+//	void Update () 
+//	{
+////		if (Input.GetKeyDown (KeyCode.Z)) {
+////			Zoom ();
+////		}
+////		if ( Input.GetKeyDown(KeyCode.E) ) {
+////			UnZoom ();
+////		}
+//	}
 
 	public void Init () {
 
@@ -131,7 +159,6 @@ public class DisplayMinimap : MonoBehaviour {
 
 		// get minimap chunk scale
 		//		minimapChunkScale = minimapChunkPrefab.GetComponent<RectTransform> ().rect.size;
-		minimapChunkScale = new Vector2(minimapChunkPrefab.GetComponent<RectTransform> ().rect.width,minimapChunkPrefab.GetComponent<RectTransform> ().rect.height);
 
 		overallRectTranfsorm.sizeDelta = minimapChunkScale * (MapGenerator.Instance.MapScale);
 
@@ -169,19 +196,45 @@ public class DisplayMinimap : MonoBehaviour {
 	void CenterOnBoat() {
 		CenterMap (Boats.playerBoatInfo.coords);
 	}
-	public void CenterMap (Coords coords)
-	{
-		float buffer = 5;
+	void ClampScrollView() {
+		int buffer = 0;
+
+		Coords coords = Boats.playerBoatInfo.coords;
 
 		float x = overallRectTranfsorm.rect.width * (float)coords.x / MapGenerator.Instance.MapScale;
 		x -= scrollViewRectTransform.rect.width / 2f - (minimapChunkScale.x/2f);
 		//		x = Mathf.Clamp (x,0, overallRectTranfsorm.rect.width- scrollViewRectTransform.rect.widt );
-		x = Mathf.Clamp (x,0-5, (overallRectTranfsorm.rect.width - scrollViewRectTransform.rect.width) +5);
+		x = Mathf.Clamp (x,0-buffer, (overallRectTranfsorm.rect.width - scrollViewRectTransform.rect.width) +buffer);
 
 		float y = overallRectTranfsorm.rect.height * (float)coords.y / MapGenerator.Instance.MapScale;
 		y -= scrollViewRectTransform.rect.height / 2f  - (minimapChunkScale.y/2f);
 		//		y = Mathf.Clamp (y,0, overallRectTranfsorm.rect.height - (scrollViewRectTransform.rect.height/2f));
-		y = Mathf.Clamp (y,0-5, overallRectTranfsorm.rect.height - scrollViewRectTransform.rect.height + 5);
+		y = Mathf.Clamp (y,0-buffer, overallRectTranfsorm.rect.height - scrollViewRectTransform.rect.height + buffer);
+
+		//		float x = overallRectTranfsorm.rect.width * (float)coords.x / MapGenerator.Instance.MapScale;
+		//		x -= minimapChunkScale.x/2f;
+		//		x = Mathf.Clamp (x,0, overallRectTranfsorm.rect.width - scrollViewRectTransform.rect.width);
+		//
+		//		float y = overallRectTranfsorm.rect.height * (float)coords.y / MapGenerator.Instance.MapScale;
+		//		y -= minimapChunkScale.y/2f;
+		//		y = Mathf.Clamp (y,0, overallRectTranfsorm.rect.height - scrollViewRectTransform.rect.height);
+
+		Vector2 targetPos = new Vector2(-x,-y);
+		overallRectTranfsorm.anchoredPosition = targetPos;
+	}
+	public void CenterMap (Coords coords)
+	{
+		int buffer = 5;
+
+		float x = overallRectTranfsorm.rect.width * (float)coords.x / MapGenerator.Instance.MapScale;
+		x -= scrollViewRectTransform.rect.width / 2f - (minimapChunkScale.x/2f);
+		//		x = Mathf.Clamp (x,0, overallRectTranfsorm.rect.width- scrollViewRectTransform.rect.widt );
+		x = Mathf.Clamp (x,0-buffer, (overallRectTranfsorm.rect.width - scrollViewRectTransform.rect.width) +buffer);
+
+		float y = overallRectTranfsorm.rect.height * (float)coords.y / MapGenerator.Instance.MapScale;
+		y -= scrollViewRectTransform.rect.height / 2f  - (minimapChunkScale.y/2f);
+		//		y = Mathf.Clamp (y,0, overallRectTranfsorm.rect.height - (scrollViewRectTransform.rect.height/2f));
+		y = Mathf.Clamp (y,0-buffer, overallRectTranfsorm.rect.height - scrollViewRectTransform.rect.height + buffer);
 
 //		float x = overallRectTranfsorm.rect.width * (float)coords.x / MapGenerator.Instance.MapScale;
 //		x -= minimapChunkScale.x/2f;
@@ -348,45 +401,80 @@ public class DisplayMinimap : MonoBehaviour {
 	}
 
 	#region zoom / unzoom
+	public delegate void OnZoom ();
+	public static OnZoom onZoom;
 	public void Zoom ()
 	{
-		CrewInventory.Instance.HideInventory ();
-
-		Vector2 scale = new Vector2(0f, 0f);
-
-		HOTween.To (rectTransform , zoomDuration , "offsetMin", scale);
-		HOTween.To (rectTransform , zoomDuration , "offsetMax", scale);
-
-
-		Color c = Color.black;
-		c.a = 0.7f;
-		HOTween.To (rayBlockerImage, zoomDuration, "color", c, false , EaseType.Linear , zoomDuration);
+		Transitions.Instance.ScreenTransition.FadeIn (zoomDuration/2f);
 
 		Invoke ("ShowCloseButton",zoomDuration);
+		Invoke ("ZoomDelay",zoomDuration/2f);
+	}
+	void ZoomDelay () {
+		Vector2 scale = new Vector2(0f,0f);
 
+//		HOTween.To (rectTransform , zoomDuration , "offsetMin", scale);
+//		HOTween.To (rectTransform , zoomDuration , "offsetMax", scale);
+
+		rectTransform.offsetMin = scale;
+		rectTransform.offsetMax = scale;
+
+//		HOTween.To (outlineImage, zoomDuration /2f , "color" , Color.clear );
+		outlineImage.gameObject.SetActive(false);
+
+		rayBlockerImage.gameObject.SetActive(true);
+		rayBlockerImage.color = Color.black;
+
+		viewPortMask.enabled = false;
+//		viewPortRectTransform.
+//		HOTween.To (rayBlockerImage, zoomDuration, "color", c, false , EaseType.Linear , zoomDuration);
+
+		Transitions.Instance.ScreenTransition.FadeOut (zoomDuration/2f);
+
+		ClampScrollView ();
+
+		if (onZoom != null)
+			onZoom ();
 	}
 
 	bool unzooming = false;
 
 	public void UnZoom ()
 	{
-
 		if (unzooming)
 			return;
 
-		HOTween.To (rayBlockerImage, zoomDuration, "color", Color.clear);
-
-		Vector2 scaleMin = new Vector2(initLeftOffset, initBottomOffset);
-		Vector2 scaleMax = new Vector2(-initRightOffset, -initTopOffset);
-
-		HOTween.To (rectTransform , zoomDuration , "offsetMin" , scaleMin, false , EaseType.Linear, zoomDuration);
-		HOTween.To (rectTransform , zoomDuration , "offsetMax" , scaleMax, false , EaseType.Linear, zoomDuration);
-
 		Tween.Bounce (mapCloseButton.transform, 0.2f , 1.1f);
+
+		Transitions.Instance.ScreenTransition.FadeIn (zoomDuration/2f);
+
 
 		unzooming = true;
 
 		Invoke ("HideCloseButton",0.2f);
+		Invoke ("UnZoomDelay", zoomDuration/2f);
+	}
+	void UnZoomDelay () {
+
+//		HOTween.To (rayBlockerImage, zoomDuration, "color", Color.clear);
+		rayBlockerImage.gameObject.SetActive(false);
+
+		Vector2 scaleMin = new Vector2(initLeftOffset, initBottomOffset);
+		Vector2 scaleMax = new Vector2(-initRightOffset, -initTopOffset);
+
+//		HOTween.To (rectTransform , zoomDuration , "offsetMin" , scaleMin, false , EaseType.Linear, zoomDuration);
+//		HOTween.To (rectTransform , zoomDuration , "offsetMax" , scaleMax, false , EaseType.Linear, zoomDuration);
+		rectTransform.offsetMin = scaleMin;
+		rectTransform.offsetMax = scaleMax;
+
+		viewPortMask.enabled = true;
+
+		ClampScrollView ();
+
+
+//		HOTween.To (outlineImage, zoomDuration /2f , "color" , Color.clear , false , EaseType.Linear , zoomDuration /2f);
+		outlineImage.gameObject.SetActive(true);
+		Transitions.Instance.ScreenTransition.FadeOut (zoomDuration/2f);
 	}
 
 	void ShowCloseButton ()

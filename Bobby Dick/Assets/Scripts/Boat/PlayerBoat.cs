@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PlayerBoat : Boat {
 
@@ -10,12 +11,15 @@ public class PlayerBoat : Boat {
 
 	public RectTransform defaultRecTransform;
 
+    bool followingPointer = false;
+
 	public override void Start ()
 	{
 		base.Start();
 
-		WorldTouch.onTouchWorld += HandleOnTouchWorld;
-		Island.onTouchIsland += HandleOnTouchIsland;
+		WorldTouch.onPointerDown += HandleOnPointerDown;
+		WorldTouch.onPointerExit += HandleOnPointerExit;
+        Island.onTouchIsland += HandleOnTouchIsland;
 
 		StoryLauncher.Instance.onStartStory += EndMovenent;
 		StoryLauncher.Instance.endStoryEvent += EndMovenent;
@@ -26,7 +30,8 @@ public class PlayerBoat : Boat {
 
 	}
 
-	void Awake () {
+
+    void Awake () {
 		Instance = this;
 	}
 
@@ -41,14 +46,22 @@ public class PlayerBoat : Boat {
 		SetTargetPos (Island.Instance.GetComponent<RectTransform>());
 	}
 
-	void HandleOnTouchWorld ()
+    #region events
+    void HandleOnPointerDown ()
 	{
-		Vector2 pos = Camera.main.ScreenToWorldPoint (InputManager.Instance.GetInputPosition ());
+        followingPointer = true;
 
-		SetTargetPos (Flag.Instance.rectTransform);
-	}
+        Vector2 pos = Camera.main.ScreenToWorldPoint(InputManager.Instance.GetInputPosition());
+        SetTargetPos(Flag.Instance.rectTransform);
+    }
 
-	public override void Update ()
+    private void HandleOnPointerExit()
+    {
+        
+    }
+    #endregion
+
+    public override void Update ()
 	{
 		base.Update ();
 	}
@@ -57,7 +70,9 @@ public class PlayerBoat : Boat {
 	{
 		base.EndMovenent ();
 
-		if ( onEndMovement != null )
+        followingPointer = false;
+
+        if ( onEndMovement != null )
 			onEndMovement ();
 	}
 

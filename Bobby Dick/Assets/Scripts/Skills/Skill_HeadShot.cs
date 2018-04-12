@@ -40,6 +40,8 @@ public class Skill_HeadShot : Skill {
 
 			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack , 2.2f);
 
+			fighter.SetTurn ();
+
 			EndSkill ();
 			//
 
@@ -60,18 +62,24 @@ public class Skill_HeadShot : Skill {
 	Fighter delayFighter;
 	void HandleOnSkillDelay (Fighter _delayFighter)
 	{
-		Invoke ("TriggerDelay",0.1f);
+//		Invoke ("TriggerDelay",0.1f);
 		this.delayFighter = _delayFighter;
 		delayFighter.combatFeedback.Display (Fighter.Status.PreparingAttack, Color.white);
-	}
 
-	void TriggerDelay () {
 		onDelay = true;
 		hasTarget = true;
 		playAnim = true;
 
 		Trigger (delayFighter);
 	}
+
+//	void TriggerDelay () {
+//		onDelay = true;
+//		hasTarget = true;
+//		playAnim = true;
+//
+//		Trigger (delayFighter);
+//	}
 
 	public override bool MeetsRestrictions (CrewMember member)
 	{

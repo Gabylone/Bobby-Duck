@@ -22,6 +22,7 @@ public class StatGroup : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Hide ();
+
 	}
 
 	void Show () {

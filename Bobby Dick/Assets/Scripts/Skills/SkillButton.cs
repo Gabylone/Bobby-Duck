@@ -12,6 +12,8 @@ public class SkillButton : MonoBehaviour {
 	public Text uiText_SkillName;
 	public Text uiText_Description;
 
+	public Text uiText_ChargeCost;
+
 	public Skill skill;
 
 	public Button button;
@@ -32,6 +34,7 @@ public class SkillButton : MonoBehaviour {
 
  		uiText_SkillName.text = skill.name;
 		uiText_Description.text = skill.description;
+		uiText_ChargeCost.text = "" + skill.initCharge;
 
 		Tween.Bounce ( descriptionGroup.transform );
 	}

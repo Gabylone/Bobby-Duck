@@ -6,6 +6,9 @@ using Holoville.HOTween;
 
 public class RayBlocker : MonoBehaviour {
 
+	public delegate void OnTouchRayBlocker ();
+	public static OnTouchRayBlocker onTouchRayBlocker;
+
 	public GameObject group;
 	public Image image;
 
@@ -20,7 +23,12 @@ public class RayBlocker : MonoBehaviour {
 		Hide ();
 
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
-		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
+		CrewInventory.Instance.closeInventory += HandleCloseInventory;
+	}
+
+	public void OnPointerDown () {
+		if (onTouchRayBlocker != null)
+			onTouchRayBlocker ();
 	}
 
 	void HandleCloseInventory ()
@@ -41,11 +49,11 @@ public class RayBlocker : MonoBehaviour {
 		Show ();
 	}
 
-	void Hide ()
+	public void Hide ()
 	{
 		group.SetActive (false);
 	}
-	void Show () {
+	public void Show () {
 		group.SetActive (true);
 	}
 }

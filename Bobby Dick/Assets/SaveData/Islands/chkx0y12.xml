@@ -3,8 +3,8 @@
   <state>UndiscoveredIsland</state>
   <IslandData>
     <positionOnScreen>
-      <x>431.8373</x>
-      <y>363.064972</y>
+      <x>308.320038</x>
+      <y>67.9392853</y>
     </positionOnScreen>
     <storyManager>
       <storyHandlers>
@@ -12,7 +12,7 @@
           <row>0</row>
           <col>0</col>
           <fallBackLayer>0</fallBackLayer>
-          <storyID>9</storyID>
+          <storyID>8</storyID>
           <storyType>Normal</storyType>
           <contentDecals />
           <loots />

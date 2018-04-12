@@ -15,17 +15,29 @@ public class IslandInfo : MonoBehaviour {
 
 	public float displayDuration = 1f;
 
+	bool displaying = false;
+
+	Transform currentTransform;
+
 	// Use this for initialization
 	void Start () {
 
-		MinimapChunk.onToucnMinimapChunk += HandleOnTouchMinimapChunk;
+		MinimapChunk.onTouchMinimapChunk += HandleOnTouchMinimapChunk;
 
 		Hide ();
 
 	}
 
-	void HandleOnTouchMinimapChunk (Chunk chunk, Vector3 pos)
+	void Update () 
 	{
+		if ( displaying ) {
+			UpdatePosition ();
+		}
+	}
+
+	void HandleOnTouchMinimapChunk (Chunk chunk, Transform tr)
+	{
+		Debug.Log("ISLAND IN FO : " + chunk.state.ToString());
 		if (chunk.state == ChunkState.VisitedIsland) {
 
 //			uiText.text = chunk.IslandData.storyManager.CurrentStoryHandler.Story.name;
@@ -33,7 +45,7 @@ public class IslandInfo : MonoBehaviour {
 
 		} else {
 
-			uiText.text = "Ile inconnue";
+			uiText.text = "?";
 		
 		}
 
@@ -43,16 +55,26 @@ public class IslandInfo : MonoBehaviour {
 
 //		HOTween.To ( transform , 0.5f , "position" , Vector3 );
 
-		transform.position = pos + Vector3.up * decal;
+
+		currentTransform = tr;
+		UpdatePosition ();
 
 		CancelInvoke ();
 		Invoke ("Hide" , displayDuration);
 	}
 
+	void UpdatePosition ()
+	{
+		transform.position = currentTransform.position + Vector3.up * decal;
+
+	}
+
 	public void Show () {
+		displaying = true;
 		obj.SetActive (true);
 	}
 	public void Hide() {
+		displaying = false;
 		obj.SetActive (false);
 	}
 }

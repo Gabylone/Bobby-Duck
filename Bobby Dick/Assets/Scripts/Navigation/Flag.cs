@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,48 +20,56 @@ public class Flag : MonoBehaviour {
 		Instance = this;
 	}
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
 
-		rectTransform = GetComponent<RectTransform> ();
+        rectTransform = GetComponent<RectTransform>();
 
-		WorldTouch.onTouchWorld+=HandleOnTouchWorld;
+        WorldTouch.onPointerDown += HandleOnTouchWorld;
+        //WorldTouch.onPointerExit += HandleOnTouchWorld;
 
-		Island.onTouchIsland += HandleOnTouchIsland;
+        Island.onTouchIsland += HandleOnTouchIsland;
 
-		PlayerBoat.Instance.onEndMovement += HandleOnEndMovement;
-		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+        PlayerBoat.Instance.onEndMovement += HandleOnEndMovement;
+        NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
-	}
+        Swipe.onSwipe += HandleOnSwipe;
 
-	void HandleChunkEvent ()
+    }
+
+    private void HandleOnSwipe(Directions direction)
+    {
+        Hide();
+    }
+
+    private void Update()
+    {
+        if (WorldTouch.Instance.touching)
+        {
+            PlaceFlagOnScreen(InputManager.Instance.GetInputPosition());
+        }
+    }
+
+    void HandleChunkEvent ()
 	{
-//		ResetFlag ();
-
 		Vector2 p = Camera.main.WorldToScreenPoint (PlayerBoat.Instance.defaultRecTransform.position);
-//		p = Camera.main.inst
 		PlaceFlagOnScreen (p);
 	}
 
 	void HandleOnEndMovement ()
 	{
-//		Tween.Bounce (transform);
 		Hide ();
 	}
-	void Hide() {
-		group.SetActive (false);
-	}
+
+	
 
 	void HandleOnTouchIsland ()
 	{
 		Hide ();
 	}
-	void Show () {
-		Tween.Bounce (transform);
-		CancelInvoke ();
-		group.SetActive (true);
-	}
-	void HandleOnTouchWorld ()
+	
+    void HandleOnTouchWorld ()
 	{
 		PlaceFlagOnScreen (InputManager.Instance.GetInputPosition ());
 	}
@@ -86,4 +95,15 @@ public class Flag : MonoBehaviour {
 		rectTransform.anchorMin = pos;
 		rectTransform.anchorMax = pos;
 	}
+
+    void Show()
+    {
+        Tween.Bounce(transform);
+        CancelInvoke();
+        group.SetActive(true);
+    }
+    void Hide()
+    {
+        group.SetActive(false);
+    }
 }

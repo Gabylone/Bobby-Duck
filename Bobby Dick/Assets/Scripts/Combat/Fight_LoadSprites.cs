@@ -18,7 +18,7 @@ public class Fight_LoadSprites : MonoBehaviour {
 		beard,
 	}
 
-	SpriteRenderer[] allSprites;
+	public SpriteRenderer[] allSprites;
 	float fade_Duration;
 	Color[] fade_InitColors;
 	bool fading = false;

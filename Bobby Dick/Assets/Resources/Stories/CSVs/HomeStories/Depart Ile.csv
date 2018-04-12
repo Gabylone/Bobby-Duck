@@ -9,5 +9,5 @@ Leave;;
 ;;
 [retour];;
 Narrator : La vielle île naufragé de CAPITAINE. Les années passées dans cette prison ne lui donne pas envie de s'éterniser.;;[partir]
-CheckQuest=>retour;;Leave
+CheckQuest=>partir;;Leave
 ChangeStory=>Île Déserte[ile sans arbuste/partir];;

@@ -15,11 +15,9 @@ public class CrewInventory : MonoBehaviour {
 
 	[Header("Groups")]
 	[SerializeField]
-	private GameObject crewGroup;
 	public bool canOpen = true;
 
-	public GameObject characterStatGroup;
-	public GameObject menuButtonsObj;
+	public MenuButtons menuButtons;
 
 	public void Lock () {
 		canOpen = false;
@@ -42,21 +40,6 @@ public class CrewInventory : MonoBehaviour {
 		Instance = this;
 	}
 
-	void Start () {
-		
-		HideCharacterStats ();
-
-		HideMenuButtons ();
-
-		QuestMenu.onOpenQuestMenu += HandleOnOpenQuestMenu;
-
-	}
-
-	void HandleOnOpenQuestMenu ()
-	{
-		HideMenuButtons ();
-	}
-
 	public void Init () {
 
 		LootUI.useInventory += HandleUseInventory;
@@ -64,18 +47,15 @@ public class CrewInventory : MonoBehaviour {
 		StoryLauncher.Instance.onStartStory += HandlePlayStory;
 		StoryLauncher.Instance.endStoryEvent += HandleEndStory;
 
+		RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
 	}
 
-	#region crew group
-	public void ShowCrewGroup () {
-		crewGroup.SetActive (true);
-		//
+	void HandleOnTouchRayBlocker ()
+	{
+		if (menuButtons.opened)
+			HideInventory ();
 	}
-	public void HideCrewGroup () {
-		crewGroup.SetActive (false);
-		//
-	}
-	#endregion
+
 
 	#region events
 	void HandleEndStory ()
@@ -211,19 +191,13 @@ public class CrewInventory : MonoBehaviour {
 		if (LootUI.Instance.visible) {
 			LootUI.Instance.UpdateLootUI ();
 		} else {
-			LootUI.Instance.Hide ();
-			HideCharacterStats ();
+//			LootUI.Instance.Close ();
 			ShowMenuButtons ();
 		} 
 
-			// show elements
-		ShowCrewGroup();
 
 	}
 	public void HideInventory () {
-
-		if (opened == false)
-			return;
 
 			// set bool
 		opened = false;
@@ -231,43 +205,18 @@ public class CrewInventory : MonoBehaviour {
 			// event
 		closeInventory();
 
-		LootUI.Instance.Hide ();
-
 		// hide elements
-		HideCrewGroup();
 		HideMenuButtons ();
 
-	}
-	#endregion
-
-	#region character stats
-	public delegate void OnShowCharacterStats();
-	public static OnShowCharacterStats onShowCharacterStats;
-	public void ShowCharacterStats () {
-		
-		characterStatGroup.SetActive (true);
-		HideMenuButtons ();
-
-		if (onShowCharacterStats != null)
-			onShowCharacterStats ();
-	}
-	public delegate void OnHideCharacterStats ();
-	public static OnHideCharacterStats onHideCharacterStats;
-	public void HideCharacterStats () {
-		characterStatGroup.SetActive (false);
-		ShowMenuButtons ();
-
-		if (onHideCharacterStats != null)
-			onHideCharacterStats ();
 	}
 	#endregion
 
 	#region menu buttons
 	public void ShowMenuButtons () {
-		menuButtonsObj.SetActive (true);
+		menuButtons.Show ();
 	}
 	public void HideMenuButtons () {
-		menuButtonsObj.SetActive (false);
+		menuButtons.Hide();
 	}
 	#endregion
 

@@ -1,13 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Holoville.HOTween;
 
 public class MemberCreator : MonoBehaviour {
 
 	public static MemberCreator Instance;
 
+	public enum CreationStep {
+		CaptainName,
+		BoatName,
+		Job,
+		Appearance
+	}
+	public CreationStep currentStep;
+
+	public GameObject confirmButtonObj;
+
 	[SerializeField]
 	private GameObject overall;
+
+	public Color initColor;
+
+	public GameObject[] stepObjs;
+	public GameObject GetStep ( CreationStep step ) {
+		return stepObjs [(int)step];
+	}
 
 	public Sprite femaleSprite;
 	public Sprite maleSprite;
@@ -24,13 +42,18 @@ public class MemberCreator : MonoBehaviour {
 	public GameObject memberCreatorButtonParent;
 	public MemberCreatorButton[] memberCreatorButtons;
 
+	public float tweenDuration = 0.7f;
+
+	public RayBlocker rayblocker;
+
 	void Awake () {
 		Instance = this;
-
-		memberCreatorButtons = memberCreatorButtonParent.GetComponentsInChildren<MemberCreatorButton> ();
 	}
 
 	void Start () {
+
+//		initColor = rayblocker.color;
+
 		Hide ();
 	}
 
@@ -40,13 +63,51 @@ public class MemberCreator : MonoBehaviour {
 	void Hide ()
 	{
 		overall.SetActive (false);
+
+		foreach (var item in stepObjs) {
+			item.SetActive (false);
+		}
+
+	}
+
+	public void HideStep (CreationStep step) {
+		HOTween.To (GetStep (step).transform, tweenDuration / 2f, "anchoredPosition", Vector2.right * -1000f, false, EaseType.Linear, 0f);
+	}
+	public void ShowStep ( CreationStep step ) {
+
+		rayblocker.Show ();
+
+		confirmButtonObj.SetActive (false);
+
+		Invoke ("ShowStepDelay", tweenDuration);
+
+		if ( step > CreationStep.CaptainName ) {
+			HideStep (step-1);
+		}
+
+		GetStep (step).SetActive (true);
+		GetStep (step).transform.localPosition = new Vector3 (1000f , 0f , 0f);
+		HOTween.To (GetStep (step).transform, tweenDuration, "anchoredPosition", Vector2.zero, false, EaseType.Linear, 0f);
+
+	}
+	void ShowStepDelay () {
+		if ( currentStep > CreationStep.CaptainName ) {
+			GetStep (currentStep - 1).SetActive(false);
+		}
+		confirmButtonObj.SetActive (true);
+		Tween.Bounce (confirmButtonObj.transform);
 	}
 
 	public void Show ()
 	{
+		Transitions.Instance.ActionTransition.FadeIn (0.5f);
+
+		currentStep = CreationStep.CaptainName;
+
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
 
 		overall.SetActive (true);
+		ShowStep(currentStep);
 
 		UpdateButtons ();
 		UpdateJob ();
@@ -63,13 +124,38 @@ public class MemberCreator : MonoBehaviour {
 
 	public void Confirm () {
 
-		overall.SetActive (false);
+		if ( currentStep == CreationStep.Appearance ) {
 
-		SaveManager.Instance.SaveGameData ();
 
-		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
+			EndMemberCreation ();
+
+		} else {
+
+			++currentStep;
+			ShowStep (currentStep);
+
+
+		}
+
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 
+
+	}
+	void EndMemberCreation () {
+
+		rayblocker.Hide ();
+
+		HideStep (CreationStep.Appearance);
+
+		confirmButtonObj.SetActive (false);
+
+		Invoke ("EndMemberCreationDelay",tweenDuration);
+	}
+	void EndMemberCreationDelay () {
+		Hide ();
+
+		SaveManager.Instance.SaveGameData ();
+		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
 	}
 
 	void UpdateJob ()

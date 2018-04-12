@@ -114,8 +114,14 @@ public class GoldManager : MonoBehaviour {
 	#endregion
 
 	public void SetGoldDecal () {
-		
-		int amount = int.Parse (StoryFunctions.Instance.CellParams);
+
+		int amount = 0;
+
+		if ( StoryFunctions.Instance.CellParams == "THIRD" ) {
+			amount = (int)((float)goldAmount / 3f);
+		} else {
+			amount = int.Parse (StoryFunctions.Instance.CellParams);
+		}
 
 		if (CheckGold (amount)) {
 			StoryReader.Instance.NextCell ();
@@ -135,6 +141,8 @@ public class GoldManager : MonoBehaviour {
 	public bool CheckGold ( float amount ) {
 
 		Tween.Bounce (goldGroup.transform);
+
+
 
 		if ( amount > goldAmount ) {
 
@@ -163,7 +171,14 @@ public class GoldManager : MonoBehaviour {
 
 	void RemoveGold(string cellParams) {
 		
-		int amount = int.Parse (cellParams);
+		int amount = 0;
+
+		if ( StoryFunctions.Instance.CellParams == "THIRD" ) {
+			Debug.Log ("le tiers de l'or");
+			amount = (int)((float)goldAmount / 3f);
+		} else {
+			amount = int.Parse (StoryFunctions.Instance.CellParams);
+		}
 
 		RemoveGold(amount);
 
@@ -174,8 +189,15 @@ public class GoldManager : MonoBehaviour {
 
 	}
 	void AddGold(string cellParams) {
-		
-		int amount = int.Parse (cellParams);
+
+		int amount = 0;
+
+		if ( StoryFunctions.Instance.CellParams == "THIRD" ) {
+			Debug.Log ("le tiers de l'or");
+			amount = (int)((float)goldAmount / 3f);
+		} else {
+			amount = int.Parse (StoryFunctions.Instance.CellParams);
+		}
 
 		AddGold (amount);
 

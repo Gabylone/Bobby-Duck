@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
 	public Image image;
 
 	public bool loadOnStart = false;
+	public bool saveOnStart = false;
+	public bool hideMemberCreation = false;
 
 	public float fadeDuration = 1f;
 
@@ -69,10 +71,13 @@ public class GameManager : MonoBehaviour {
 		QuestMenu.Instance.Init ();
 
 		if (KeepOnLoad.dataToLoad < 0) {
-			
-			MemberCreator.Instance.Show ();
 
-			Transitions.Instance.ActionTransition.Fade = true;
+			if (hideMemberCreation ) {
+				StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
+			} else {
+				MemberCreator.Instance.Show ();
+			}
+
 
 		}
 

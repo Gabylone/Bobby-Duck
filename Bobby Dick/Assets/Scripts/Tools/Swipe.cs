@@ -21,7 +21,7 @@ public class Swipe : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		WorldTouch.pointerDownEvent += HandlePointerDownEvent;
+		WorldTouch.onPointerDown += HandlePointerDownEvent;
 	}
 
 	void HandlePointerDownEvent ()
@@ -66,10 +66,12 @@ public class Swipe : MonoBehaviour {
 
 //			print ("swipe : " + direction.ToString() );
 
-			if ( onSwipe!=null )
-				onSwipe (direction);
+			if ( onSwipe!=null)
+            {
+                onSwipe(direction);
+            }
 
-			Swipe_Exit ();
+            Swipe_Exit ();
 		}
 
 		timer += Time.deltaTime;

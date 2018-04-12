@@ -6,12 +6,14 @@ public class InventorySkillButtons : MonoBehaviour {
 
 	SkillButton_Inventory[] skillButtons;
 
+	public GameObject statGroup;
+
 	// Use this for initialization
 	void Start () {
 		
 		skillButtons = GetComponentsInChildren<SkillButton_Inventory> (true);
 
-		CrewInventory.onShowCharacterStats += HandleOnShowCharacterStats;
+		SkillMenu.onShowSkillMenu += HandleOnShowCharacterStats;
 		HandleOnShowCharacterStats ();
 	}
 
@@ -49,6 +51,11 @@ public class InventorySkillButtons : MonoBehaviour {
 
 		}
 
+		statGroup.SetActive (true);
+		Tween.Bounce (statGroup.transform);
+
+		yield return new WaitForSeconds (timeBetweenButtons);
+
 		yield return new WaitForEndOfFrame ();
 	}
 
@@ -57,6 +64,8 @@ public class InventorySkillButtons : MonoBehaviour {
 		foreach (var item in skillButtons) {
 			item.gameObject.SetActive (false);
 		}
+
+		statGroup.SetActive (false);
 	}
 
 	void UpdateSkillButtons () {

@@ -197,8 +197,11 @@ public class CrewMember {
 
 	#region health
 	public float GetDamage ( float incomingAttack ) {
-		
-		float maxHits = 14;
+//		
+//		float maxHits = 14;
+//		float minHits = 2;
+//
+		float maxHits = 7;
 		float minHits = 2;
 
 		float maxAttack = 120f;
@@ -310,9 +313,12 @@ public class CrewMember {
 		get {
 
 			int i = GetStat(Stat.Strenght) * 5;
-
-			if (GetEquipment (EquipmentPart.Weapon) != null)
+			if (GetEquipment (EquipmentPart.Weapon) != null) {
+				if ( GetEquipment(EquipmentPart.Weapon).spriteID == 0 ){
+					i = GetStat (Stat.Dexterity) * 5;
+				}
 				return i + GetEquipment (EquipmentPart.Weapon).value;
+			}
 
 			return i;
 		}

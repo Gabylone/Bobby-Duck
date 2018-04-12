@@ -86,12 +86,14 @@ public class MemberCreatorButton : MonoBehaviour {
 	}
 
 	void Enable () {
+		gameObject.SetActive (true);
 		GetComponent<Button> ().enabled = true;
 		GetComponent<Button> ().image.enabled = true;
 		image.enabled = true;
 	}
 
 	void Disable () {
+		gameObject.SetActive (false);
 		GetComponent<Button> ().enabled = false;
 		GetComponent<Button> ().image.enabled = false;
 		image.enabled = false;

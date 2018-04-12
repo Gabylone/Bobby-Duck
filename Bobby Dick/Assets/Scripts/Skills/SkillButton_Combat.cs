@@ -21,6 +21,7 @@ public class SkillButton_Combat : SkillButton {
 
 	bool touching = false;
 
+
 	public override void Start ()
 	{
 		base.Start ();

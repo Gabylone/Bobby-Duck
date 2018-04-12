@@ -144,6 +144,7 @@ public class CrewManager : MonoBehaviour {
 	#region creation
 	public void SetCrew (Crew crew) {
 
+
 		DeleteCrew ();
 
 		CrewCreator.Instance.TargetSide = side;
@@ -159,9 +160,6 @@ public class CrewManager : MonoBehaviour {
 
 		managedCrew = crew;
 
-		Invoke ("ShowCrew",0.1f);
-	}
-	void ShowCrew () {
 		UpdateCrew (Crews.PlacingType.Map);
 	}
 	#endregion

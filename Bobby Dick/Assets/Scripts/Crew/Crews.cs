@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Crews : MonoBehaviour {
 
-	public static int maxHunger = 23;
+//	public static int maxHunger = 23;
+	public static int maxHunger = 40;
 
 	public static Crews Instance;
 
@@ -50,6 +51,9 @@ public class Crews : MonoBehaviour {
 
 		CrewInventory.Instance.closeInventory+= HandleCloseInventory;
 		CrewInventory.Instance.openInventory+= HandleOpenInventory;;
+
+		Canvas.ForceUpdateCanvases ();
+
 	}
 
 	void HandleOpenInventory (CrewMember member)
@@ -175,7 +179,6 @@ public class Crews : MonoBehaviour {
 		playerCrew.managedCrew = SaveManager.Instance.GameData.playerCrew;
 
 		crews [0].SetCrew (playerCrew.managedCrew);
-		crews [0].UpdateCrew (PlacingType.Map);
 	}
 	#endregion
 

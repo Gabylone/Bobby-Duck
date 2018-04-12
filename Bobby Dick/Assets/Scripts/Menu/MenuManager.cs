@@ -18,16 +18,8 @@ public class MenuManager : MonoBehaviour {
 	bool quit_Confirmed = false;
 
 	void Start () {
-		CrewInventory.Instance.closeInventory += HandleCloseInventory;
-
-		Close ();
+		Hide ();
 	}
-
-	void HandleCloseInventory ()
-	{
-		Close ();
-	}
-
 	public void Open () {
 
 		menuGroup.SetActive (true);
@@ -40,11 +32,14 @@ public class MenuManager : MonoBehaviour {
 	public void Close () {
 
 		CrewInventory.Instance.ShowMenuButtons ();
-		
-		menuGroup.SetActive (false);
+
+		Hide ();
 
 		quit_Confirmed = false;
 
+	}
+	void Hide (){
+		menuGroup.SetActive (false);
 	}
 
 	#region buttons

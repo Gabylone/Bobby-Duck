@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID;;;;;;;;;
-Taverne;6,85;1;;;;;;;;;
+Taverne;8,33;1;;;;;;;;;
 [debut];;;;;;;;;;;
 Narrator : De la fumée monte dans le ciel et une odeur merveilleuse flotte dans l'air. C'est une taverne.;;;;;;;;;;;
 SetChoices2;;;;;;;;;;;
@@ -88,17 +88,17 @@ RandomRange4;;;;;;;;;;;
 Node=>salle_mercenaire;Node=>salle_vendeur de trucs;Node=>salle_joueurs;Node=>salle_rien;;;;;;;;
 ;;;;;;;;;;;
 ;;;;;;;;;;;
-[salle_mercenaire];;;;[n'a jamais acheté];;;[choix mercenaires];;;;
+[salle_mercenaire];;;;[achat mercenaire];;;[choix mercenaires];;;;
 NewCrew4;;;;OtherSpeak : Salut mon gaminot !;OtherSpeak : Vous avez déjà acheté un homme chez nous;;SetChoices4;;;;
 Narrator : Un groupe d'homme armés boivent.;;Node=>salle vide;OtherSpeak : Fallait pas te repointer dans la taverne !;Node=>choix mercenaires;HideOther;;Choice : Non rien(partir);Choice : Combien pour un mercenaire ?(trade);Choice : Je vous en prends un(membre);;Choice : « Gaminot » ?
 SetChoices2;;;Node=>combat salle;;Fade;;HideOther;OtherSpeak : 100 tout rond.;CheckGold100;;OtherSpeak : Ouais gamin !
 Choice : (partir);Choice : (parler au groupe de mercenaire);;;;Node=>salle_mercenaire;;Fade;Node=>choix mercenaires;RemoveGold100;OtherSpeak : C'est gentil mais t'as pas l'oseille gamin;Node=>gamin
-HideOther;Node=>n'a jamais acheté;;;;;;Node=>salle_mercenaire;;OtherSpeak : Vous ne le regretterez pas !;HideOther;
-Fade;;;;;;;;;AddMember;Fade;
-Node=>taverne;;;;;;;;;HideOther;Node=>taverne;
+HideOther;Node=>achat mercenaire;;;;;;Node=>salle_mercenaire;;OtherSpeak : Vous ne le regretterez pas !;HideOther;
+Fade;;;;;;;;;Switch=>achat mercenaire;Fade;
+Node=>taverne;;;;;;;;;AddMember;Node=>taverne;
+;;;;;;;;;HideOther;;
 ;;;;;;;;;Fade;;
 ;;;;;;;;;Node=>taverne;;
-;;;;;;;;;;;
 ;;;;;;;;;;;
 ;;;;;;;;;;;
 [salle_vendeur de trucs];;;;[choix vendeur];;;;;;;

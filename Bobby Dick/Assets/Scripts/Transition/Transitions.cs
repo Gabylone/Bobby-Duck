@@ -11,6 +11,8 @@ public class Transitions : MonoBehaviour {
 	[SerializeField]
 	private Transition actionTransition;
 
+	public float defaultTransition = 0.3f;
+
 	void Awake () {
 		Instance = this;
 	}
@@ -34,7 +36,7 @@ public class Transitions : MonoBehaviour {
 
 	void HandleFightStarting ()
 	{
-		actionTransition.Fade = false;
+		actionTransition.FadeOut (0.5f);
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -45,7 +47,7 @@ public class Transitions : MonoBehaviour {
 			FadeScreen ();
 
 			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.Wait (Transitions.Instance.ActionTransition.Duration);
+			StoryReader.Instance.Wait (defaultTransition);
 
 			break;
 		}
@@ -81,13 +83,13 @@ public class Transitions : MonoBehaviour {
 //		if ( fadeOther )
 //			Crews.enemyCrew.HideCrew ();
 
-		ScreenTransition.QuickFade = true;
+		ScreenTransition.FadeIn (defaultTransition);
 
-		yield return new WaitForSeconds (ScreenTransition.Duration  );
+		yield return new WaitForSeconds (defaultTransition);
 
-		ScreenTransition.QuickFade = false;
+		ScreenTransition.FadeOut (defaultTransition);
 
-		yield return new WaitForSeconds (ScreenTransition.Duration );
+		yield return new WaitForSeconds (defaultTransition);
 
 //		if (fadePlayer)
 //			Crews.playerCrew.ShowCrew ();

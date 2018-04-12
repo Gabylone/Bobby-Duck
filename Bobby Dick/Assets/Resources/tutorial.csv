@@ -29,3 +29,7 @@ Objet Menu 2;Les boutons à gauche servent à interagir avec lui. Si vous avez u
 Minimap;La petit carte en bas à gauche vous montre les environs du NOMBATEAU. Faites un tour dans le menu si vous voulez la voir en plus grand.;
 Info Compétences;Laissez votre doigt dessus pour savoir ce qu’elles font, et combien elles coûtent;combat player hcoice
 Info Status;Touchez les icônes des statuts pour les connaître.;combat player hcoice
+Rencontre;CAPITAINE a fait sa première rencontre. Elle se souviendra de lui et de ses actions.;combat player hcoice
+Info Rencontre;Touchez sa tête pour savoir à qui il se frotte ( son niveau et son métier );
+Carte;Si vous voulez en savoir plus sur une île vous pouvez cliquer dessus. Cela vaut aussi pour la petite carte.;
+Attention !;On dirait que CAPITAINE se frotte à plus fort que lui. A moins d’être en vaine, il devrait faire un tour en mer pour devenir plus puissant et agrandir son équipage.;

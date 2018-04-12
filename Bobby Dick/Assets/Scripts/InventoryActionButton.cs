@@ -30,19 +30,28 @@ public class InventoryActionButton : MonoBehaviour {
 		descriptionGroup.SetActive (false);
 	}
 
+    private void OnEnable()
+    {
+        ShowDescription();
+    }
 
-	public void OnPointerDown () {
 
+    public void OnPointerDown () {
+
+        TriggerAction ();
+
+        /*
 		touching = true;
-
-		CancelInvoke("OnPointerDownDelay");
+         * 
+         * 
+         * CancelInvoke("OnPointerDownDelay");
 		CancelInvoke ("OnPointerDownDelayFeedback");
 		Invoke ("OnPointerDownDelay" , timeToShowDescription);
-		Invoke ("OnPointerDownDelayFeedback", timeToShowDescriptionFeedback);
+		Invoke ("OnPointerDownDelayFeedback", timeToShowDescriptionFeedback);*/
 
-	}
+    }
 
-	void OnPointerDownDelay () {
+    void OnPointerDownDelay () {
 
 		if (touching) {
 			ShowDescription ();
@@ -58,7 +67,6 @@ public class InventoryActionButton : MonoBehaviour {
 			return;
 
 		Tween.Bounce (transform);
-
 
 		fillGroup.SetActive (true);
 		fillImage.fillAmount = 0f;
@@ -93,7 +101,6 @@ public class InventoryActionButton : MonoBehaviour {
 
 	public void OnPointerUp () {
 
-		Debug.Log ("TOUCHING ; " + touching);
 		if ( touching ) {
 			TriggerAction ();
 		}

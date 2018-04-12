@@ -34,6 +34,9 @@ public class QuestMenu : MonoBehaviour {
 
 	[SerializeField]
 	DisplayFormulas displayFormulas;
+
+	bool opened = false;
+
 	void Awake () {
 		Instance = this;
 	}
@@ -41,18 +44,21 @@ public class QuestMenu : MonoBehaviour {
 	void Start () {
 		
 		QuestManager.onGiveUpQuest += HandleOnGiveUpQuest;
-		CrewInventory.Instance.closeInventory += HandleCloseInventory;
+//		CrewInventory.Instance.closeInventory += HandleCloseInventory;
 
-		Close ();
+		RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
+
+		HideMenu ();
+	}
+
+	void HandleOnTouchRayBlocker ()
+	{
+		if ( opened )
+			Close ();
 	}
 
 	public void Init () {
 		InitButtons ();
-	}
-
-	void HandleCloseInventory ()
-	{
-		Close ();
 	}
 
 	void HandleOnGiveUpQuest (Quest quest)
@@ -61,13 +67,15 @@ public class QuestMenu : MonoBehaviour {
 	}
 
 	public void Open () {
-		
-		openButton.SetActive (false);
+
+
 		menuGroup.SetActive (true);
 
 		displayFormulas.ShowFormulas ();
 
 		DisplayQuestAmount ();
+
+		CrewInventory.Instance.HideMenuButtons ();
 
 		UpdateButtons ();
 
@@ -76,6 +84,22 @@ public class QuestMenu : MonoBehaviour {
 
 		if (onOpenQuestMenu != null)
 			onOpenQuestMenu ();
+
+		opened = true;
+
+	}
+
+	public void Close () {
+		opened = false;
+
+		Invoke ("CloseDelay",0.01f);
+
+		HideMenu();
+	}
+
+	void CloseDelay () {
+		CrewInventory.Instance.ShowMenuButtons ();
+		//
 	}
 
 	void DisplayQuestAmount () {
@@ -87,16 +111,6 @@ public class QuestMenu : MonoBehaviour {
 		}
 
 	}
-
-	public void Close () {
-		
-		openButton.SetActive (true);
-
-		CrewInventory.Instance.ShowMenuButtons ();
-
-		HideMenu();
-	}
-
 	void HideMenu() {
 		menuGroup.SetActive (false);
 	}

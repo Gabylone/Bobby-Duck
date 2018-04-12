@@ -18,6 +18,9 @@ public class MapGenerator : MonoBehaviour {
 
 	public DiscoveredCoords discoveredCoords;
 
+	public int islandCreation_LoadLimit= 1;
+
+
 	void Awake () {
 		Instance = this;
 	}
@@ -92,11 +95,12 @@ public class MapGenerator : MonoBehaviour {
 	IEnumerator CreateNormalIslands () {
 //	void CreateNormalIslands () {
 
-		int loadLimit = 1;
 
-		LoadingScreen.Instance.StartLoading ("Création îles",islandsPerCol * mapScale - islandsPerCol);
+		int max = (int)((float)(islandsPerCol * mapScale));
+		LoadingScreen.Instance.StartLoading ("Création îles",max );
 
 		int l = 0;
+		int a = 0;
 
 		for ( int y = 0; y < mapScale ; ++y ) {
 
@@ -112,20 +116,25 @@ public class MapGenerator : MonoBehaviour {
 					targetChunk.InitIslandData (new IslandData (StoryType.Normal) );
 				}
 
-				yield return new WaitForEndOfFrame ();
 
 				++l;
-
-				LoadingScreen.Instance.Push (l);
+				++a;
+				if ( l > islandCreation_LoadLimit ) {
+					l = 0;
+					yield return new WaitForEndOfFrame ();
+				}
+				LoadingScreen.Instance.Push (a);
+//				yield return new WaitForEndOfFrame ();
 			}
 
 		}
 
 		yield return new WaitForEndOfFrame ();
 
-		SaveManager.Instance.SaveAllIslands ();
-
-
+		if (GameManager.Instance.saveOnStart)
+			SaveManager.Instance.SaveAllIslands ();
+		else
+			LoadingScreen.Instance.End ();
 
 	}
 	#endregion

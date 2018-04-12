@@ -33,7 +33,7 @@ public class Tutorial : MonoBehaviour {
 			InitTutorials ();
 			LoadData ();
 
-			Invoke ("CharacterCreationDelay", 1.5f);
+//			Invoke ("CharacterCreationDelay", 1.5f);
 
 		}
 	}
@@ -119,7 +119,11 @@ public enum TutorialStep {
 	ItemMenu2,
 	Minimap,
 	SkillInfo,
-	StatusInfo
+	StatusInfo,
+	Meeting1,
+	Meeting2,
+	BigMap,
+	PowerfullFoe,
 
 }
 
@@ -694,13 +698,13 @@ public class TutoStep_SkillMenu : TutoStep {
 	{
 		base.Init ();
 
-		CrewInventory.onShowCharacterStats += HandleOnShowCharacterStats;
+		SkillMenu.onShowSkillMenu += HandleOnShowCharacterStats;
 
 	}
 
 	void HandleOnShowCharacterStats ()
 	{
-		CrewInventory.onShowCharacterStats -= HandleOnShowCharacterStats;
+		SkillMenu.onShowSkillMenu -= HandleOnShowCharacterStats;
 		Display ();
 		WaitForConfirm ();
 	}
@@ -871,3 +875,103 @@ public class TutoStep_StatusInfo: TutoStep {
 
 }
 
+public class TutoStep_Meeting1: TutoStep {
+
+	public override void Init ()
+	{
+		base.Init ();
+
+		StoryFunctions.Instance.getFunction += HandleGetFunction;
+	}
+
+	void HandleGetFunction (FunctionType func, string cellParameters)
+	{
+		if ( func == FunctionType.NewCrew ) {
+			Display ();
+			WaitForConfirm ();
+			StoryFunctions.Instance.getFunction -= HandleGetFunction;
+		}
+	}
+
+}
+
+public class TutoStep_Meeting2: TutoStep {
+
+	public override void Init ()
+	{
+		base.Init ();
+
+		Tutorial.onDisplayTutorial += HandleOnDisplayTutorial;
+	}
+
+	void HandleOnDisplayTutorial (TutoStep tutoStep)
+	{
+		if (tutoStep.step == TutorialStep.Meeting1) {
+			Tutorial.onDisplayTutorial -= HandleOnDisplayTutorial;
+			Tutorial.onHideTutorial += HandleOnHideTutorial;
+		}
+	}
+
+	void HandleOnHideTutorial ()
+	{
+		corner = DisplayInfo.Corner.BottomRight;
+		Tutorial.onHideTutorial -= HandleOnHideTutorial;
+
+		Display ();
+		WaitForConfirm ();
+	}
+
+}
+
+public class TutoStep_BigMap: TutoStep {
+
+	public override void Init ()
+	{
+		base.Init ();
+
+		DisplayMinimap.onZoom += HandleOnZoom;
+	}
+
+	void HandleOnZoom ()
+	{
+		Display ();
+		WaitForConfirm ();
+		DisplayMinimap.onZoom -= HandleOnZoom;
+	}
+
+}
+
+
+public class TutoStep_PowerfullFoe: TutoStep {
+
+	int count = 0;
+
+	public override void Init ()
+	{
+		base.Init ();
+
+		CombatManager.Instance.onChangeState += HandleOnChangeState;
+	}
+
+	// FROM FIGHT
+	void HandleOnChangeState (CombatManager.States currState, CombatManager.States prevState)
+	{
+		if (currState == CombatManager.States.PlayerActionChoice) {
+
+			if (count > 1) {
+
+				if ( CombatManager.Instance.currEnemyFighters[0].crewMember.Level > Crews.playerCrew.captain.Level ) {
+					corner = DisplayInfo.Corner.TopRight;
+					CombatManager.Instance.onChangeState -= HandleOnChangeState;
+					Display ();
+					WaitForConfirm ();
+				}
+
+			}
+
+			++count;
+
+		}
+	}
+
+}

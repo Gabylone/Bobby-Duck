@@ -17,7 +17,7 @@ public class CharacterMenuButton : MonoBehaviour {
 	void Start () {
 		
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
-		CrewInventory.onHideCharacterStats += UpdateUI;
+		SkillMenu.onHideSkillMenu += UpdateUI;
 
 		UpdateUI ();
 	}

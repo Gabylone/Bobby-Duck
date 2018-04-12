@@ -35,17 +35,11 @@ public class Skill_HeadsOrTail : Skill {
 		coin.GetComponent<Coin> ().heads = heads;
 	}
 
-	void Update () {
-		if (Input.GetKeyDown(KeyCode.L) ) {
-			Trigger (CombatManager.Instance.currEnemyFighters [0]);
-		}
-	}
-
 	public override void ApplyEffect ()
 	{
 		base.ApplyEffect ();
 
-		if (Random.value > 0.5f) {
+		if (heads) {
 			fighter.combatFeedback.Display ("!",Color.green);
 			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack , 2f);
 		} else {

@@ -212,6 +212,17 @@ public class Fighter : MonoBehaviour {
 
 		ChangeState (Fighter.states.none);
 
+		if ( HasStatus(Status.PreparingAttack) ) {
+
+			if (onSkillDelay != null) {
+				onSkillDelay (this);
+			}
+
+			RemoveStatus (Status.PreparingAttack);
+			return;
+			//
+		}
+
 		/// knocked out
 		if ( HasStatus(Status.KnockedOut) ) {
 			RemoveStatus (Status.KnockedOut);
@@ -466,7 +477,7 @@ public class Fighter : MonoBehaviour {
 			return;
 		}
 
-		if (CombatManager.Instance.currentFighter == this) {
+		if (CombatManager.Instance.currentFighter == this && CombatManager.Instance.currentFighter.crewMember.side == Crews.Side.Player ) {
 			print ("on peut pas show info parce que c'est le fighter de mainteannt");
 			return;
 		}
@@ -494,12 +505,6 @@ public class Fighter : MonoBehaviour {
 	}
 	public virtual void getHit_Exit () {
 		//
-	}
-
-	public delegate void OnGetHit ();
-	public OnGetHit onGetHit;
-	public void GetHit (Fighter otherFighter, float attack) {
-		GetHit (otherFighter, attack, 1);
 	}
 
 	void HitEffect () {
@@ -540,6 +545,8 @@ public class Fighter : MonoBehaviour {
 		return damage;
 	}
 
+	public delegate void OnGetHit ();
+	public OnGetHit onGetHit;
 	public void GetHit (Fighter otherFighter, float attack, float mult) {
 
 		if (SucceedDodge() == true) {
@@ -771,15 +778,15 @@ public class Fighter : MonoBehaviour {
 			RemoveStatus (Status.Enraged);
 		}
 
-		if ( HasStatus(Status.PreparingAttack) ) {
-
-			if (onSkillDelay != null) {
-				onSkillDelay (this);
-			}
-
-			RemoveStatus (Status.PreparingAttack);
-			//
-		}
+//		if ( HasStatus(Status.PreparingAttack) ) {
+//
+//			if (onSkillDelay != null) {
+//				onSkillDelay (this);
+//			}
+//
+//			RemoveStatus (Status.PreparingAttack);
+//			//
+//		}
 	}
 
 	public delegate void OnAddStatus (Status status, int count);

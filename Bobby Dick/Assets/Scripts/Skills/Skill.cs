@@ -221,12 +221,14 @@ public class Skill : MonoBehaviour {
 	public virtual bool MeetsConditions (CrewMember member) {
 
 		if (member.energy < energyCost ) {
-//			print ("pas assez d'energie ( cost : " + member.energy + " ) ( member : " + member.energy);
+			print ("pas assez d'energie ( cost : " + member.energy + " ) ( member : " + member.energy);
 			return false;
 		}
 
-		if (member.charges[GetSkillIndex(member)] > 0)
+		if (member.charges [GetSkillIndex (member)] > 0) {
+			print ("pas assez de charge pour " + name);
 			return  false;
+		}
 
 		// assez d'énergie
 		return true;

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class MinimapChunk : MonoBehaviour {
 
-	public delegate void OnTouchMinimapChunk (Chunk chunk, Vector3 pos);
-	public static OnTouchMinimapChunk onToucnMinimapChunk;
+	public delegate void OnTouchMinimapChunk (Chunk chunk, Transform tr);
+	public static OnTouchMinimapChunk onTouchMinimapChunk;
 
 	public Coords coords;
 
@@ -22,7 +22,7 @@ public class MinimapChunk : MonoBehaviour {
 		IslandData islandData = chunk.IslandData;
 		image.sprite = Island.minimapSprites[islandData.storyManager.storyHandlers [0].Story.param];
 
-		print ("chunk : " + chunk.state);
+		coords = worldCoords;
 
 		if (chunk.state != ChunkState.VisitedIsland) {
 			SetUnvisited ();
@@ -61,8 +61,9 @@ public class MinimapChunk : MonoBehaviour {
 		
 		Tween.Bounce (islandGroup.transform);
 
-		if (onToucnMinimapChunk != null) {
-			onToucnMinimapChunk (Chunk.GetChunk (coords), transform.position);
+		if (onTouchMinimapChunk != null) {
+			Debug.Log ("coords :" + coords);
+			onTouchMinimapChunk (Chunk.GetChunk (coords), transform);
 		}
 
 	}

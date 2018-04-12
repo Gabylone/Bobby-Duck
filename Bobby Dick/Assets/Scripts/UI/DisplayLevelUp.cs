@@ -77,8 +77,8 @@ public class DisplayLevelUp : MonoBehaviour {
 		GetComponentInParent<MemberIcon> ().member.onLevelUp 		+= HandleOnLevelUp;
 		GetComponentInParent<MemberIcon> ().member.onLevelUpStat 	+= HandleOnLevelUpStat;
 		SkillButton_Inventory.onUnlockSkill 						+= HandleOnUnlockSkill;
-		CrewInventory.onShowCharacterStats 							+= HandleOnShowCharacterStats;
-		CrewInventory.onHideCharacterStats							+= Hide;
+		SkillMenu.onShowSkillMenu 							+= HandleOnShowCharacterStats;
+		SkillMenu.onHideSkillMenu							+= Hide;
 	}
 
 	void OnDestroy ()
@@ -86,7 +86,7 @@ public class DisplayLevelUp : MonoBehaviour {
 //		GetComponentInParent<MemberIcon> ().member.onLevelUp 		-= HandleOnLevelUp;
 //		GetComponentInParent<MemberIcon> ().member.onLevelUpStat 	-= HandleOnLevelUpStat;
 		SkillButton_Inventory.onUnlockSkill 						-= HandleOnUnlockSkill;
-		CrewInventory.onShowCharacterStats 							-= HandleOnShowCharacterStats;
-		CrewInventory.onHideCharacterStats							-= Hide;
+		SkillMenu.onShowSkillMenu 							-= HandleOnShowCharacterStats;
+		SkillMenu.onHideSkillMenu							-= Hide;
 	}
 }

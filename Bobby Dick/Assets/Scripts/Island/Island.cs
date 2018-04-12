@@ -57,7 +57,7 @@ public class Island : MonoBehaviour {
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
-		WorldTouch.onTouchWorld += HandleOnTouchWorld;
+		WorldTouch.onPointerExit += HandleOnTouchWorld;
 
 		UpdatePositionOnScreen (Boats.playerBoatInfo.coords);
 	}

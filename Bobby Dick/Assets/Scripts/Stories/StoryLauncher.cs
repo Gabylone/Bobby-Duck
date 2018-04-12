@@ -64,7 +64,7 @@ public class StoryLauncher : MonoBehaviour {
 
 		playingStory = true;
 
-		Transitions.Instance.ActionTransition.Fade = true;
+		Transitions.Instance.ActionTransition.FadeIn (0.5f);
 
 		// place captain
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
@@ -75,6 +75,17 @@ public class StoryLauncher : MonoBehaviour {
 	}
 
 	public void EndStory () {
+
+		switch (CurrentStorySource) {
+		case StorySource.none:
+			// kek
+			break;
+		case StorySource.island:
+			Chunk.currentChunk.state = ChunkState.VisitedIsland;
+			break;
+		default:
+			break;
+		}
 
 		// hides crew when leaving ISLAND AND STORY
 		if ( StoryReader.Instance.CurrentStoryHandler.storyType != StoryType.Quest )
@@ -87,21 +98,12 @@ public class StoryLauncher : MonoBehaviour {
 
 		playingStory = false;
 
-		Transitions.Instance.ActionTransition.Fade = false;
+		Transitions.Instance.ActionTransition.FadeOut (0.5f);
 
 		// place captain
 		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Map);
 
-		switch (CurrentStorySource) {
-		case StorySource.none:
-			// kek
-			break;
-		case StorySource.island:
-			Chunk.currentChunk.state = ChunkState.VisitedIsland;
-			break;
-		default:
-			break;
-		}
+
 
 		if (endStoryEvent != null)
 			endStoryEvent ();

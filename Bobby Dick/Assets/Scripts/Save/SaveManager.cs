@@ -46,6 +46,7 @@ public class SaveManager : MonoBehaviour
 	#region load game data
 	public void LoadGame () {
 
+	
 		LoadGameData ();
 
 		LoadAllIslands ();
@@ -53,8 +54,6 @@ public class SaveManager : MonoBehaviour
 		if (onLoad != null)
 			onLoad ();
 		
-
-
 	}
 
 	public void LoadGameData () {

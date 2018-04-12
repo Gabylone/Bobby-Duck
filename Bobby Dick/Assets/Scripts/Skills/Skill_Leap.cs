@@ -58,12 +58,9 @@ public class Skill_Leap: Skill {
 	Fighter delayFighter;
 	void HandleOnSkillDelay (Fighter _delayFighter)
 	{
-		Invoke ("TriggerDelay",0.1f);
 		this.delayFighter = _delayFighter;
 		delayFighter.combatFeedback.Display (Fighter.Status.PreparingAttack, Color.white);
-	}
 
-	void TriggerDelay () {
 		onDelay = true;
 		hasTarget = true;
 		goToTarget = true;

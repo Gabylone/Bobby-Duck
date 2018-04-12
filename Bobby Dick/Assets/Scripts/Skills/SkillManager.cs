@@ -28,9 +28,10 @@ public class SkillManager : MonoBehaviour {
 		string[] rows = skillData.text.Split ('\n');
 
 		int skillIndex = 0;
+		int rowIndex = 2;
 		foreach (var item in skills) {
 
-			string[] cells = rows [skillIndex+2].Split (';');
+			string[] cells = rows [rowIndex].Split (';');
 
 			item.type = (Skill.Type)skillIndex;
 
@@ -44,12 +45,13 @@ public class SkillManager : MonoBehaviour {
 			item.description = cells [6];
 
 			++skillIndex;
+			++rowIndex;
 		}
 
-		skillSprites = Resources.LoadAll<Sprite> ("Graph/SkillsSprites");
+		skillSprites = Resources.LoadAll<Sprite	> ("Graph/SkillsSprites");
 		jobSprites = Resources.LoadAll<Sprite> ("Graph/JobSprites");
 		statusSprites = Resources.LoadAll<Sprite> ("Graph/StatusSprites");
-		
+
 
 	}
 
@@ -118,9 +120,11 @@ public class SkillManager : MonoBehaviour {
 
 		List<Skill> memberSkills = new List<Skill>();
 		foreach (var item in member.DefaultSkills) {
+//			print ("all skills : " + item.name);
 			memberSkills.Add (item);
 		}
 		foreach (var item in member.SpecialSkills) {
+//			print ("all skills : " + item.name);
 			memberSkills.Add (item);
 		}
 

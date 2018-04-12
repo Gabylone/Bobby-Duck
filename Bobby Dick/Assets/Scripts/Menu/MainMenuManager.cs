@@ -18,10 +18,12 @@ public class MainMenuManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject loadMenu;
 
+	public float transitionDuration = 1.2f;
+
 	public bool loadMenuOpened = false;
 
 	void Start () {
-		Transitions.Instance.ScreenTransition.Fade = false;
+		Transitions.Instance.ScreenTransition.FadeOut (0.5f);
 
 		Screen.orientation = ScreenOrientation.Landscape;
 
@@ -52,8 +54,8 @@ public class MainMenuManager : MonoBehaviour {
 
 	void HandleOnValidate ()
 	{
-		Transitions.Instance.ScreenTransition.Fade = true;
-		Invoke ("NewGameDelay" , Transitions.Instance.ScreenTransition.Duration);
+		Transitions.Instance.ScreenTransition.FadeIn (transitionDuration);
+		Invoke ("NewGameDelay" , transitionDuration);
 	}
 	private void NewGameDelay () {
 		KeepOnLoad.dataToLoad = -1;
@@ -63,8 +65,8 @@ public class MainMenuManager : MonoBehaviour {
 
 		Tween.Bounce (quitButton.transform);
 
-		Transitions.Instance.ScreenTransition.Fade = true;
-		Invoke ("QuitDelay" , Transitions.Instance.ScreenTransition.Duration);
+		Transitions.Instance.ScreenTransition.FadeIn (transitionDuration);
+		Invoke ("QuitDelay" , transitionDuration);
 	}
 	private void QuitDelay () {
 		Application.Quit ();
@@ -75,8 +77,8 @@ public class MainMenuManager : MonoBehaviour {
 		Tween.Bounce (loadButton.transform);
 
 		KeepOnLoad.dataToLoad = 0;
-		Transitions.Instance.ScreenTransition.Fade = true;
-		Invoke ("LoadDelay" , Transitions.Instance.ScreenTransition.Duration);
+		Transitions.Instance.ScreenTransition.FadeIn (transitionDuration);
+		Invoke ("LoadDelay" , transitionDuration);
 	}
 	private void LoadDelay () {
 		SceneManager.LoadScene (1);

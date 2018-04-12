@@ -19,7 +19,7 @@ public class Skill_Cosh : Skill {
 //			fighter.combatFeedback.Display ( "Raté !" );
 //		}
 //
-		fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack);
+		fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack, 1f);
 
 
 		EndSkill ();

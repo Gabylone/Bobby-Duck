@@ -45,8 +45,6 @@ public class OtherInventory : MonoBehaviour {
 
 	public void SwitchToOther () {
 
-		CrewInventory.Instance.characterStatGroup.SetActive (false);
-
 //		HOTween.To (LootUI.Instance.transform , 0.2f , "position" , targetPos_Other.position, false , EaseType.Linear,0f);
 //		HOTween.To (LootUI.Instance.transform , 0.5f , "position" , targetPos_Other.position, false , EaseType.EaseOutBounce,0f);
 
@@ -192,29 +190,4 @@ public class OtherInventory : MonoBehaviour {
 		LootManager.Instance.PlayerLoot.AddItem (LootUI.Instance.SelectedItem);
 		LootManager.Instance.OtherLoot.RemoveItem (LootUI.Instance.SelectedItem);
 	}
-
-	#region open / close
-	public void Close () {
-
-		LootUI.Instance.Hide ();
-
-		if (type == Type.Loot || type == Type.Trade) {
-			
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.UpdateStory ();
-			CrewInventory.Instance.HideInventory ();
-			Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-
-		} else {
-			CrewInventory.Instance.ShowMenuButtons ();
-		}
-
-		type = Type.None;
-
-//		else {
-//			CrewInventory.Instance.ShowMenuButtons ();
-//		}
-
-	}
-	#endregion
 }

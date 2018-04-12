@@ -39,14 +39,18 @@ public class Coin : MonoBehaviour {
 	void Stop () {
 		rot = false;
 
+		Invoke ("StopDelay",0.1f);
+	}
+
+	void StopDelay () {
 		Tween.Bounce (mTransform);
 
-		if (heads) {
+		if (!heads) {
 			HOTween.To (mTransform, 0.2f, "forward", -Vector3.forward, false, EaseType.EaseOutBounce, 0f);
-//			mTransform.forward = Vector3.forward;
+			//			mTransform.forward = Vector3.forward;
 		} else {
 			HOTween.To (mTransform, 0.2f, "forward", Vector3.forward, false, EaseType.EaseOutBounce, 0f);
-//			mTransform.forward = -Vector3.forward;
+			//			mTransform.forward = -Vector3.forward;
 		}
 
 		Destroy (gameObject, 2f);

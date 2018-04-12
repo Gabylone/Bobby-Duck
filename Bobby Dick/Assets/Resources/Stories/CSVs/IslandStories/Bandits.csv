@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID;;
-Bandits;4,11;0;;
+Bandits;5;0;;
 [debut];;;;
 Narrator : L'équipage accoste sur une petite île.;;;;
 [arrivée bandits];;;;
@@ -14,12 +14,12 @@ Node=>chantage;Node=>a payé;;;
 ;;;;
 ;;;;
 [chantage];;;;
-OtherSpeak : C'est simple : 30 pièces d'or ou c'est fini !;;;;
+OtherSpeak : C'est simple : le tiers de ton or ou c'est fini !;;;;
 SetChoices3;;;;
 Choice : Tenez…(trade);;Choice : Plutôt mourir !(attaquer);Choice : J'ai pas assez d'argent!(cha);
 Switch=>payed ?;;LaunchCombat;CheckStatCHA;
-CheckGold30;OtherSpeak : Vous vous foutez de moi ?;Node=>bandits morts;OtherSpeak : Tu me rappelles moi à ton âge.;OtherSpeak : On me la fait pas celle là.
-RemoveGold30;OtherSpeak : Déglingez les, les gars !;;OtherSpeak : On est tous dans la mouise !;LaunchCombat
+CheckGoldTHIRD;OtherSpeak : Vous vous foutez de moi ?;Node=>bandits morts;OtherSpeak : Tu me rappelles moi à ton âge.;OtherSpeak : On me la fait pas celle là.
+RemoveGoldTHIRD;OtherSpeak : Déglingez les, les gars !;;OtherSpeak : On est tous dans la mouise !;LaunchCombat
 OtherSpeak : C'est très bien ça…;LaunchCombat;;OtherSpeak : Bonne chance.;Node=>bandits morts
 OtherSpeak : A la prochaine;Node=>bandits morts;;Leave;
 Leave;;;;

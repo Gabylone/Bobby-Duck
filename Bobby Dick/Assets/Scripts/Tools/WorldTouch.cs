@@ -4,21 +4,31 @@ using UnityEngine;
 
 public class WorldTouch : MonoBehaviour {
 
+    public static WorldTouch Instance;
+
 	public delegate void OnTouchWorld ();
-	public static OnTouchWorld onTouchWorld;
+	public static OnTouchWorld onPointerExit;
 
-	public delegate void PointerDownEvent ();
-	public static PointerDownEvent pointerDownEvent;
+	public delegate void OnPointerDownEvent ();
+	public static OnPointerDownEvent onPointerDown;
 
-	bool touching = false;
+
+    public bool touching = false;
 
 	float timeToTouch = 0.25f;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    // Use this for initialization
+    void Start () {
+
 		Swipe.onSwipe += HandleOnSwipe;
 
-		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+        NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+
 	}
 
 	void HandleChunkEvent ()
@@ -28,6 +38,10 @@ public class WorldTouch : MonoBehaviour {
 
 	void HandleOnSwipe (Directions direction)
 	{
+		touching = true;
+
+		timer = 0f;
+
 		timer = timeToTouch + 1;
 	}
 	
@@ -42,15 +56,12 @@ public class WorldTouch : MonoBehaviour {
 
 	public void OnPointerDown () {
 
-		touching = true;
+        touching = true;
 
-		timer = 0f;
-
-		if (pointerDownEvent != null) {
-			pointerDownEvent ();
+		if (onPointerDown != null) {
+			onPointerDown ();
 		}
 	}
-
 
 	public void OnPointerUp () {
 
@@ -60,8 +71,8 @@ public class WorldTouch : MonoBehaviour {
 			return;
 		}
 
-		if (onTouchWorld != null) {
-			onTouchWorld ();
+		if (onPointerExit != null) {
+			onPointerExit ();
 		}
 	}
 }

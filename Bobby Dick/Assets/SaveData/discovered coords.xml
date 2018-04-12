@@ -1,37 +1,4 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <DiscoveredCoords xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <coords>
-    <Coords>
-      <x>21</x>
-      <y>18</y>
-    </Coords>
-    <Coords>
-      <x>21</x>
-      <y>19</y>
-    </Coords>
-    <Coords>
-      <x>21</x>
-      <y>20</y>
-    </Coords>
-    <Coords>
-      <x>22</x>
-      <y>18</y>
-    </Coords>
-    <Coords>
-      <x>22</x>
-      <y>20</y>
-    </Coords>
-    <Coords>
-      <x>23</x>
-      <y>18</y>
-    </Coords>
-    <Coords>
-      <x>23</x>
-      <y>19</y>
-    </Coords>
-    <Coords>
-      <x>23</x>
-      <y>20</y>
-    </Coords>
-  </coords>
+  <coords />
 </DiscoveredCoords>

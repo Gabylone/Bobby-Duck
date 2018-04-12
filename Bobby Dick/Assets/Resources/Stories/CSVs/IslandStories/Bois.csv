@@ -1,5 +1,5 @@
 Nom histoire;Fréquence %;Sprite ID;;;;;;;;;;;
-Bois;8,22;0;;;;;;;;;;;
+Bois;8,33;0;;;;;;;;;;;
 Narrator : L'île est petite et boisée.;;;;;;;;;;;;;
 CheckQuest=>milieu foret;;;;;;;;;;;;;
 Node=>milieu foret;;;;;;;;;;;;;

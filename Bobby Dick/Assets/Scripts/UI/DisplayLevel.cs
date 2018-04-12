@@ -5,20 +5,17 @@ using UnityEngine.UI;
 
 public class DisplayLevel : MonoBehaviour {
 
+	public Image backGround;
 	public Image fillImage;
-	Text text;
+
+	public Text text;
 
 	// Use this for initialization
 	void Start () {
 
-		text = GetComponentInChildren<Text> ();
-
 		CrewMember.onWrongLevel += HandleOnWrongLevelEvent;
-
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
-
 		StatButton.onClickStatButton += UpdateUI;
-
 		HandleOpenInventory (CrewMember.GetSelectedMember);
 
 	}
@@ -33,12 +30,16 @@ public class DisplayLevel : MonoBehaviour {
 		if (CrewMember.GetSelectedMember == null)
 			return;
 
-		CrewMember crewMember = CrewMember.GetSelectedMember;
+		CrewMember member = CrewMember.GetSelectedMember;
 
 		// INFO
-		text.text = crewMember.Level.ToString ();
+		text.text = "niveau " + member.Level.ToString ();
 
-		fillImage.fillAmount = ((float)crewMember.CurrentXp / (float)crewMember.xpToLevelUp);
+		float l = (float)member.CurrentXp / (float)member.xpToLevelUp;
+		float width = -backGround.rectTransform.rect.width + backGround.rectTransform.rect.width * l;
+
+		Vector2 v = new Vector2 (width, fillImage.rectTransform.sizeDelta.y);
+		fillImage.rectTransform.sizeDelta = v;
 
 		Tween.Bounce (transform);
 //

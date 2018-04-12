@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SkillButton_Inventory : SkillButton {
 
+	public GameObject chargeCostObj;
+
 	public GameObject padlockObj;
 	public Text padlockText;
 
@@ -49,6 +51,8 @@ public class SkillButton_Inventory : SkillButton {
 
 		button.interactable = false;
 
+		chargeCostObj.SetActive (true);
+
 		Tween.Bounce ( padlockObj.transform );
 		Invoke ("HidePadlock", Tween.defaultDuration);
 
@@ -63,6 +67,7 @@ public class SkillButton_Inventory : SkillButton {
 		button.interactable = true;
 
 		padlockObj.SetActive (true);
+		chargeCostObj.SetActive (false);
 
 //		image.color = Color.gray;
 
