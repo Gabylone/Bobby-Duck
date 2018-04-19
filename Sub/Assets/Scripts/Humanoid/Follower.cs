@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 using System.Collections;
 
 public class Follower : Humanoid {
@@ -142,7 +143,7 @@ public class Follower : Humanoid {
 		CurrentSpeed = 0f;
 	}
 
-	public NavMeshAgent NavMeshAgent {
+	public UnityEngine.AI.NavMeshAgent NavMeshAgent {
 		get {
 			return navMeshAgent;
 		}

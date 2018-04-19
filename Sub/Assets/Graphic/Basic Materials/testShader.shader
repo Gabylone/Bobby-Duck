@@ -1,4 +1,6 @@
-﻿Shader "Debug/VertexColourWithAtten" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Debug/VertexColourWithAtten" {
     Properties {
         // While these two values do nothing for your shader, the fallback shader "VertexLit" requires them for your mesh to cast/recieve shadows.
         _Color ("Main Color", Color) = (1.0, 1.0, 1.0, 1.0)
@@ -70,7 +72,7 @@ Fog{ Mode Off
  
                     v2f o;
  
-                    o.pos = mul( UNITY_MATRIX_MVP, v.vertex);
+                    o.pos = UnityObjectToClipPos( v.vertex);
  
                     o.color = 1;
  
