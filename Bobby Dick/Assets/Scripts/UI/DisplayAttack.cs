@@ -17,7 +17,7 @@ public class DisplayAttack : MonoBehaviour {
 		CrewInventory.Instance.openInventory += HandleOpenInventory;
 		LootUI.useInventory += HandleUseInventory;
 		StatButton.onClickStatButton += HandleOnClickStatButton;
-		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+		CrewInventory.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
 
 		UpdateUI (CrewMember.GetSelectedMember);
 

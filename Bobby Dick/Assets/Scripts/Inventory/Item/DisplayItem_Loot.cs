@@ -69,12 +69,19 @@ public class DisplayItem_Loot : DisplayItem {
 
 	void UpdateColor ()
 	{
-
 		if (HandledItem == null || lvlObj != null) {
 			return;
 		}
 
 		float a = 0.7f;
+
+        if (CrewMember.GetSelectedMember.GetEquipment(HandledItem.EquipmentPart) == HandledItem)
+        {
+            Color myColor = new Color();
+            ColorUtility.TryParseHtmlString("#BB79BEFF", out myColor);
+            image.color = myColor;
+            return;
+        }
 
 		if ( HandledItem.level > CrewMember.GetSelectedMember.Level ) {
 			image.color = new Color(1f, a , a);

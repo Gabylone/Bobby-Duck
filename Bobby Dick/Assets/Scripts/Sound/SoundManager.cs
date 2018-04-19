@@ -93,6 +93,7 @@ public class SoundManager : MonoBehaviour {
 			break;
 		case InventoryActionType.Equip:
 		case InventoryActionType.PurchaseAndEquip:
+		case InventoryActionType.Unequip:
 			PlaySound (equipSound);
 			break;
 		case InventoryActionType.Throw:

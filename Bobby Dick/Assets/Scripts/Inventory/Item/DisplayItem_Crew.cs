@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class DisplayItem_Crew : DisplayItem {
 
-	public delegate void OnRemoveItemFromMember(Item item);
-	public static OnRemoveItemFromMember onRemoveItemFromMember;
+	/*public delegate void OnRemoveItemFromMember(Item item);
+	public static OnRemoveItemFromMember onRemoveItemFromMember;*/
 
 	public GameObject group;
 
@@ -58,8 +58,8 @@ public class DisplayItem_Crew : DisplayItem {
 
 		CrewMember.GetSelectedMember.RemoveEquipment (part);
 
-		if ( onRemoveItemFromMember != null )
-			onRemoveItemFromMember (HandledItem);
+		/*if ( onRemoveItemFromMember != null )
+			onRemoveItemFromMember (HandledItem);*/
 
 
 		Clear ();

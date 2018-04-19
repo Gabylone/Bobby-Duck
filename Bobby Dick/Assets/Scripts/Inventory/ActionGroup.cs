@@ -10,12 +10,13 @@ public class ActionGroup : MonoBehaviour {
 	public enum ButtonType {
 		Eat,
 		Equip,
-		Throw,
+
+        PurchaseAndEquip,
+        Unequip,
+        Throw,
 		Purchase,
 		Sell,
 		PickUp,
-		PurchaseAndEquip,
-        Unequip,
 
 		None
 	}
@@ -25,31 +26,32 @@ public class ActionGroup : MonoBehaviour {
 
 	public void UpdateButtons (ButtonType[] buttonTypes) {
 
+        Debug.Log("" + LootUI.Instance.SelectedItem.name);
+
 		foreach ( var item in inventoryActionButtons ) {
 			item.gameObject.SetActive (false);
 		}
 
-        if ( buttonTypes[0] == ButtonType.Equip)
+        switch (LootUI.Instance.SelectedItem.category)
         {
-            switch (LootUI.Instance.SelectedItem.category)
-            {
-                case ItemCategory.Weapon:
-                    if (LootUI.Instance.SelectedItem == CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon))
-                    {
-                        buttonTypes[0] = ButtonType.Unequip;
-                    }
-                    break;
-                case ItemCategory.Clothes:
-                    if (LootUI.Instance.SelectedItem == CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes))
-                    {
-                        buttonTypes[0] = ButtonType.Unequip;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            
+            case ItemCategory.Weapon:
+            case ItemCategory.Clothes:
+                if (LootUI.Instance.SelectedItem == CrewMember.GetSelectedMember.GetEquipment(LootUI.Instance.SelectedItem.EquipmentPart))
+                {
+                    Debug.Log("setting equipement to unqueipt");
+                    buttonTypes[0] = ButtonType.Unequip;
+                }
+                else
+                {
+                    buttonTypes[0] = ButtonType.Equip;
+
+                }
+                break;
+            default:
+                break;
         }
+
+
 		inventoryActionButtons [(int)buttonTypes[0]].gameObject.SetActive (true);
 		Tween.Bounce (inventoryActionButtons [(int)buttonTypes [0]].transform);
 

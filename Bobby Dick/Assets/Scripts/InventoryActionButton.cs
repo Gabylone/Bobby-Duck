@@ -25,16 +25,18 @@ public class InventoryActionButton : MonoBehaviour {
 	public Image fillImage;
 
 
-	void Start () {
-		fillGroup.SetActive (false);
-		descriptionGroup.SetActive (false);
-	}
+    void Start()
+    {
+        fillGroup.SetActive(false);
+        descriptionGroup.SetActive(false);
+
+        ShowDescription();
+    }
 
     private void OnEnable()
     {
         ShowDescription();
     }
-
 
     public void OnPointerDown () {
 

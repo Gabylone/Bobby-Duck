@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using Holoville.HOTween;
+using System;
 
 public class DisplayItem : MonoBehaviour {
 
@@ -17,6 +18,8 @@ public class DisplayItem : MonoBehaviour {
 	[SerializeField] private Text priceText;
 	[SerializeField] private Text weightText;
 	[SerializeField] private Text lvlText;
+
+    public Image backGroundImage;
 
 	[SerializeField] private GameObject paramObj;
 	[SerializeField] private GameObject priceObj;
@@ -62,29 +65,11 @@ public class DisplayItem : MonoBehaviour {
 
 			paramText.text = param.ToString ();
 
-			switch (handledItem.category) {
-			case ItemCategory.Weapon:
-			case ItemCategory.Clothes:
-				CrewMember.EquipmentPart part = handledItem.category == ItemCategory.Weapon ? CrewMember.EquipmentPart.Weapon : CrewMember.EquipmentPart.Clothes;
-				if (CrewMember.GetSelectedMember.GetEquipment (part) == null || param > CrewMember.GetSelectedMember.GetEquipment (part).value) {
-					paramText.color = Color.green;
-				} else if (param < CrewMember.GetSelectedMember.GetEquipment (part).value) {
-					paramText.color = Color.red;
-				} else {
-					paramText.color = Color.white;
-				}
-				break;
-			case ItemCategory.Misc:
-			case ItemCategory.Provisions:
-				paramText.color = Color.white;
-				break;
-			default:
-				break;
-			}
+            UpdateBackGroundColor();
 
 
-		}
-	}
+        }
+    }
 
 	public int Price {
 		get {
@@ -152,28 +137,22 @@ public class DisplayItem : MonoBehaviour {
 		get {
 			return level;
 		}
-		set {
+		set
+        {
 
-			if (lvlObj == null)
-				return;
+            if (lvlObj == null)
+                return;
 
-			level = value;
+            level = value;
 
-			lvlText.text = level.ToString ();
+            lvlText.text = level.ToString();
 
-			Image image = lvlObj.GetComponent<Image> ();
+            lvlObj.SetActive(value > 0);
 
-			if (level > CrewMember.GetSelectedMember.Level) {
-				image.color = Color.red;
-			} else if ( level < CrewMember.GetSelectedMember.Level ) {
-				image.color = Color.green;
-			} else {
-				image.color = Color.white;
-			}
+            UpdateColor();
 
-			lvlObj.SetActive (value > 0);
-		}
-	}
+        }
+    }
 
 	public Button Button {
 		get {
@@ -216,7 +195,76 @@ public class DisplayItem : MonoBehaviour {
 
 		}
 	}
-	public virtual void Clear () {
+
+    private void UpdateBackGroundColor()
+    {
+        switch (handledItem.category)
+        {
+            case ItemCategory.Weapon:
+            case ItemCategory.Clothes:
+
+                CrewMember.EquipmentPart part = handledItem.category == ItemCategory.Weapon ? CrewMember.EquipmentPart.Weapon : CrewMember.EquipmentPart.Clothes;
+
+                if (CrewMember.GetSelectedMember.GetEquipment(part) == null)
+                {
+                    return;
+                }
+
+                if (CrewMember.GetSelectedMember.GetEquipment(part)== handledItem)
+                {
+                    Color myColor = new Color();
+                    ColorUtility.TryParseHtmlString("#BB79BEFF", out myColor);
+                    image.color = myColor;
+                }
+                else
+                {
+                    Color myColor = new Color();
+                    ColorUtility.TryParseHtmlString("#B2884FFF", out myColor);
+                    image.color = myColor;
+
+                }
+
+                if (param > CrewMember.GetSelectedMember.GetEquipment(part).value)
+                {
+                    paramText.color = Color.green;
+                }
+                else if (param < CrewMember.GetSelectedMember.GetEquipment(part).value)
+                {
+                    paramText.color = Color.red;
+                }
+                else
+                {
+                    paramText.color = Color.white;
+                }
+                break;
+            case ItemCategory.Misc:
+            case ItemCategory.Provisions:
+                paramText.color = Color.white;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void UpdateColor()
+    {
+        Image image = lvlObj.GetComponent<Image>();
+
+        if (level > CrewMember.GetSelectedMember.Level)
+        {
+            image.color = Color.red;
+        }
+        else if (level < CrewMember.GetSelectedMember.Level)
+        {
+            image.color = Color.green;
+        }
+        else
+        {
+            image.color = Color.white;
+        }
+    }
+
+    public virtual void Clear () {
 
 		handledItem = null;
 

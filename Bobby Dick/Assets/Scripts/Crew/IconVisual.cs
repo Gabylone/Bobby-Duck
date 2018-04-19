@@ -7,13 +7,13 @@ public class IconVisual : MonoBehaviour {
 	void Start () {
 
 		LootUI.useInventory += HandleUseInventory;
-		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+		CrewInventory.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
 	}
 
 	void OnDestroy () {
 
 		LootUI.useInventory -= HandleUseInventory;
-		DisplayItem_Crew.onRemoveItemFromMember -= HandleOnRemoveItemFromMember;
+		CrewInventory.onRemoveItemFromMember -= HandleOnRemoveItemFromMember;
 	}
 
 	public void InitVisual (Member memberID) {

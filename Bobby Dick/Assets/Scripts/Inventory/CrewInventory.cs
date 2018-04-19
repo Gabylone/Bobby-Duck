@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class CrewInventory : MonoBehaviour {
 
@@ -80,7 +81,10 @@ public class CrewInventory : MonoBehaviour {
 		case InventoryActionType.Equip:
 			EquipItem ();
 			break;
-		case InventoryActionType.Throw:
+        case InventoryActionType.Unequip:
+            UnequipItem();
+            break;
+            case InventoryActionType.Throw:
 			ThrowItem ();
 			break;
 		case InventoryActionType.Sell:
@@ -91,10 +95,10 @@ public class CrewInventory : MonoBehaviour {
 		}
 
 	}
-	#endregion
+    #endregion
 
-	#region button action
-	public void EatItem () {
+    #region button action
+    public void EatItem () {
 
 		Item foodItem = LootUI.Instance.SelectedItem;
 
@@ -153,7 +157,21 @@ public class CrewInventory : MonoBehaviour {
 
 	}
 
-	public void ThrowItem () {
+    public delegate void OnRemoveItemFromMember(Item item);
+    public static OnRemoveItemFromMember onRemoveItemFromMember;
+
+    private void UnequipItem()
+    {
+        Debug.Log("selected item : " + LootUI.Instance.SelectedItem.name);
+        LootManager.Instance.getLoot(Crews.Side.Player).AddItem(LootUI.Instance.SelectedItem);
+
+        CrewMember.GetSelectedMember.RemoveEquipment(LootUI.Instance.SelectedItem.EquipmentPart);
+
+        if (onRemoveItemFromMember != null)
+            onRemoveItemFromMember(LootUI.Instance.SelectedItem);
+    }
+
+    public void ThrowItem () {
 
 		LootManager.Instance.PlayerLoot.RemoveItem (LootUI.Instance.SelectedItem);
 	}
@@ -163,7 +181,6 @@ public class CrewInventory : MonoBehaviour {
 		int price = 1 + (int)(LootUI.Instance.SelectedItem.price / 3f);
 
 		GoldManager.Instance.AddGold (price);
-
 		LootManager.Instance.OtherLoot.AddItem (LootUI.Instance.SelectedItem);
 		LootManager.Instance.PlayerLoot.RemoveItem (LootUI.Instance.SelectedItem);
 

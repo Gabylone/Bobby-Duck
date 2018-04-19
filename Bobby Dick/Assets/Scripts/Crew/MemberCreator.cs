@@ -17,6 +17,9 @@ public class MemberCreator : MonoBehaviour {
 
 	public GameObject confirmButtonObj;
 
+    public Transform iconTargetParent;
+    public Transform iconInitParent;
+
 	[SerializeField]
 	private GameObject overall;
 
@@ -104,13 +107,12 @@ public class MemberCreator : MonoBehaviour {
 
 		currentStep = CreationStep.CaptainName;
 
-		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
+		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Combat);
 
 		overall.SetActive (true);
 		ShowStep(currentStep);
 
 		UpdateButtons ();
-		UpdateJob ();
 
 		int ID = Random.Range ( 0, boatNames.Length );
 
@@ -119,6 +121,8 @@ public class MemberCreator : MonoBehaviour {
 
 		Crews.playerCrew.captain.MemberID.Name = boatNames [ID];
 		captainName.text = Crews.playerCrew.captain.MemberID.Name;
+
+        Crews.playerCrew.captain.Icon.transform.SetParent(iconTargetParent);
 
 	}
 
@@ -149,7 +153,10 @@ public class MemberCreator : MonoBehaviour {
 
 		confirmButtonObj.SetActive (false);
 
-		Invoke ("EndMemberCreationDelay",tweenDuration);
+        Crews.playerCrew.captain.Icon.transform.SetParent(iconInitParent);
+
+
+        Invoke("EndMemberCreationDelay",tweenDuration);
 	}
 	void EndMemberCreationDelay () {
 		Hide ();
@@ -158,20 +165,7 @@ public class MemberCreator : MonoBehaviour {
 		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
 	}
 
-	void UpdateJob ()
-	{
-		CrewMember member = Crews.playerCrew.captain;
-
-		jobImage.sprite = SkillManager.jobSprites [(int)member.job];
-		jobText.text = SkillManager.jobNames [(int)member.job];
-
-	}
-
 	private void UpdateButtons () {
-
-		foreach (var item in memberCreatorButtons) {
-			item.UpdateImage ();
-		}
 
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
 
@@ -207,82 +201,41 @@ public class MemberCreator : MonoBehaviour {
 		jobID,
 	}
 
-	public void ChangeApparence ( Apparence apparence ) {
+	public void ChangeApparence ( Apparence apparence , int id) {
 		
 		switch (apparence) {
 		case Apparence.genre:
-			Crews.playerCrew.captain.MemberID.Male = !Crews.playerCrew.captain.MemberID.Male;
+			Crews.playerCrew.captain.MemberID.Male = id == 0;
 			Crews.playerCrew.captain.MemberID.hairSpriteID = 0;
 			Crews.playerCrew.captain.MemberID.beardSpriteID = -1;
 			break;
 		case Apparence.bodyColorID:
-			Crews.playerCrew.captain.MemberID.bodyColorID++;
+			Crews.playerCrew.captain.MemberID.bodyColorID = id;
 			break;
 		case Apparence.hairSpriteID:
-			
-			Crews.playerCrew.captain.MemberID.hairSpriteID++;
-
-			if (Crews.playerCrew.captain.MemberID.Male) {
-				if (Crews.playerCrew.captain.MemberID.hairSpriteID == CrewCreator.Instance.HairSprites_Male.Length)
-					Crews.playerCrew.captain.MemberID.hairSpriteID = -1;
-			} else {
-				if (Crews.playerCrew.captain.MemberID.hairSpriteID == CrewCreator.Instance.HairSprites_Female.Length)
-					Crews.playerCrew.captain.MemberID.hairSpriteID = 0;
-			}
-
-
+			Crews.playerCrew.captain.MemberID.hairSpriteID = id;
 			break;
 		case Apparence.hairColorID:
-
-			Crews.playerCrew.captain.MemberID.hairColorID++;
-
-			if ( Crews.playerCrew.captain.MemberID.hairColorID == CrewCreator.Instance.HairColors.Length )
-				Crews.playerCrew.captain.MemberID.hairColorID = 0;
-			
+			Crews.playerCrew.captain.MemberID.hairColorID = id;
 			break;
 		case Apparence.eyeSpriteID:
-			Crews.playerCrew.captain.MemberID.eyeSpriteID++;
-
-			if ( Crews.playerCrew.captain.MemberID.eyeSpriteID == CrewCreator.Instance.EyesSprites.Length )
-				Crews.playerCrew.captain.MemberID.eyeSpriteID = 0;
+			Crews.playerCrew.captain.MemberID.eyeSpriteID = id;
 			break;
 		case Apparence.eyeBrowsSpriteID:
-			Crews.playerCrew.captain.MemberID.eyebrowsSpriteID++;
-
-			if ( Crews.playerCrew.captain.MemberID.eyebrowsSpriteID == CrewCreator.Instance.EyebrowsSprites.Length )
-				Crews.playerCrew.captain.MemberID.eyebrowsSpriteID = 0;
-
+			Crews.playerCrew.captain.MemberID.eyebrowsSpriteID = id;
 			break;
 		case Apparence.beardSpriteID:
-			Crews.playerCrew.captain.MemberID.beardSpriteID++;
-
-			if ( Crews.playerCrew.captain.MemberID.beardSpriteID == CrewCreator.Instance.BeardSprites.Length )
-				Crews.playerCrew.captain.MemberID.beardSpriteID = -1;
-
+			Crews.playerCrew.captain.MemberID.beardSpriteID = id;
 			break;
 		case Apparence.noseSpriteID:
-			Crews.playerCrew.captain.MemberID.noseSpriteID++;
-
-			if ( Crews.playerCrew.captain.MemberID.noseSpriteID == CrewCreator.Instance.NoseSprites.Length )
-				Crews.playerCrew.captain.MemberID.noseSpriteID = 0;
+			Crews.playerCrew.captain.MemberID.noseSpriteID = id;
 			break;
 		case Apparence.mouthSpriteId:
 			Crews.playerCrew.captain.MemberID.mouthSpriteID++;
-
-			if ( Crews.playerCrew.captain.MemberID.mouthSpriteID == CrewCreator.Instance.MouthSprites.Length )
-				Crews.playerCrew.captain.MemberID.mouthSpriteID = 0;
 			break;
 		case Apparence.jobID:
 
-			int jobIndex = (int)Crews.playerCrew.captain.MemberID.job + 1;
-
-			if ((int)Crews.playerCrew.captain.MemberID.job == 4)
-				jobIndex = 0;
-
-			Crews.playerCrew.captain.MemberID.SetJob ((Job)jobIndex);
-
-			UpdateJob ();
-
+			Crews.playerCrew.captain.MemberID.SetJob ((Job)id);
 			break;
 		default:
 			break;

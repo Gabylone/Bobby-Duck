@@ -6,12 +6,14 @@ public enum InventoryActionType {
 
 	Eat,
 	Equip,
-	Throw,
+
+    PurchaseAndEquip,
+    Unequip,
+
+    Throw,
 	Sell,
 	Buy,
 	PickUp,
-	PurchaseAndEquip,
-    Unequip
 
 }
 
@@ -91,7 +93,7 @@ public class LootUI : MonoBehaviour {
 	}
 
 	void Start () {
-		DisplayItem_Crew.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+		CrewInventory.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
 
 		RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
 	}
@@ -320,9 +322,28 @@ public class LootUI : MonoBehaviour {
 
 			// no items in category
 			if ( handledLoot.AllItems[buttonIndex].Count == 0 ) {
-				categoryButtons [buttonIndex].interactable = false;
-			}
-			else {
+
+                if ( buttonIndex == (int)ItemCategory.Clothes )
+                {
+                    if ( CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes) != null) {
+                        categoryButtons[buttonIndex].interactable = true;
+                        continue;
+                    }
+                }
+
+                if (buttonIndex == (int)ItemCategory.Weapon)
+                {
+                    if (CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon) != null)
+                    {
+                        categoryButtons[buttonIndex].interactable = true;
+                        continue;
+                    }
+                }
+
+                categoryButtons[buttonIndex].interactable = false;
+
+            }
+            else {
 				categoryButtons [buttonIndex].interactable = true;
 			}
 		}
