@@ -1,9 +1,9 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{576BFC2E-F5FF-3AEA-7CEC-FE5F0BEE3886}") = "Chem", "Assembly-CSharp.csproj", "{109CAED5-455C-8BB3-84B3-82CEC6030171}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chem", "Assembly-CSharp.csproj", "{109CAED5-455C-8BB3-84B3-82CEC6030171}"
 EndProject
-Project("{576BFC2E-F5FF-3AEA-7CEC-FE5F0BEE3886}") = "Chem", "Assembly-CSharp-Editor.csproj", "{D6ECCFF4-769F-539F-8A84-5E729342D803}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chem", "Assembly-CSharp-Editor.csproj", "{D6ECCFF4-769F-539F-8A84-5E729342D803}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
