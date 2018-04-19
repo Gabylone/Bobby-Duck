@@ -6,7 +6,6 @@ public class Fish : Ingredient {
 	[SerializeField]
 	private float speed = 2f;
 
-
 	private Vector2 initPos;
 
 	[SerializeField]
@@ -29,6 +28,9 @@ public class Fish : Ingredient {
 	[SerializeField]
 	private float minX = 0f;
 
+	[SerializeField]
+	private AudioSource audioSource;
+
 	public override void Start ()
 	{
 		base.Start ();
@@ -39,12 +41,12 @@ public class Fish : Ingredient {
 
 		currentTime = Random.Range (range_TimeToJump.x ,range_TimeToJump.y);
 
-		CanInteract = false;
+		canInteract = false;
 	}
 
-	public override void Update ()
+	void Update ()
 	{
-		if ( !CanInteract )
+		if ( !harvested )
 			FishAround ();
 
 	}
@@ -70,8 +72,7 @@ public class Fish : Ingredient {
 				Rigidody.isKinematic = false;
 				Rigidody.AddForce ( Vector2.up * jumpForce );
 				Rigidody.angularVelocity = Random.value < 0.5f ? jumpTorque : -jumpTorque;
-
-
+				audioSource.Play ();
 			}
 
 		} else {
@@ -94,17 +95,18 @@ public class Fish : Ingredient {
 
 				jumping = false;
 
+				audioSource.Play ();
 			}
 
 		}
 	}
 
 	void OnCollisionEnter2D (Collision2D coll) {
-		if ( coll.gameObject.tag == "Rock" && jumping) {
-
-			CanInteract = true;
+		
+		if (coll.gameObject.tag == "Player" && jumping) {
+			harvested = true;
+			canInteract = true;
 			Push ();
-			print ("it get hit");
 		}
 	}
 

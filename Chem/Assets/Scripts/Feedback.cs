@@ -12,28 +12,51 @@ public class Feedback : MonoBehaviour {
 
 	bool visible = false;
 
+	Transform target;
+
 	void Awake () {
 		Instance = this;
 	}
 
+	void Update () 
+	{
+		if ( visible ) {
+
+			feedback.transform.position = target.position + (Vector3.up * decalY);
+
+		}
+	}
+
 	void Start () {
-		Visible = false;
+
+		Hide ();
+
+		Interactable.onEnterInteractable += HandleOnEnterInteractable;
+		Interactable.onExitInteractable += HandleOnExitInteractable;
 	}
 
-	public void Place (Vector3 p) {
-		feedback.transform.position = p + (Vector3.up * decalY);
-		Visible = true;
+	void HandleOnExitInteractable ()
+	{
+		Hide ();
 	}
 
-	public bool Visible {
-		get {
-			return visible;
-		}
-		set {
-			visible = value;
+	void HandleOnEnterInteractable (Transform target)
+	{
+		Show ();
 
-			feedback.SetActive (value);
-
-		}
+		this.target = target;
 	}
+
+	void Hide () {
+		feedback.SetActive (false);
+		visible = false;
+	}
+
+	void Show () {
+		Tween.Bounce (feedback.transform);
+		feedback.SetActive (true);
+		visible = true;
+	}
+
+
 }

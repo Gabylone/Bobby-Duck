@@ -40,7 +40,7 @@ public class Thrower : MonoBehaviour {
 
 		Vector3 inputDir = new Vector3(Input.GetAxis ("Horizontal") ,Input.GetAxis ("Vertical") ,0f);
 		if ( pressingInput () == false )
-			inputDir = character.BodyTransform.right;
+			inputDir = character.bodyTransform.right;
 
 		rockObj.transform.right = inputDir;
 	}

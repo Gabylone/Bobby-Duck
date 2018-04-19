@@ -5,33 +5,25 @@ public class Character : Controller {
 
 	public static Character Instance;
 
+	// COMPONENT
 	private Rigidbody2D rigidbody;
 	private Thrower thrower;
 
+	// MOVEMENT
 	[Header("Moving")]
-	[SerializeField]
-	private float movingSpeed = 5f;
-	[SerializeField]
-	private float acceleration = 4f;
-	[SerializeField]
-	private float decceleration = 10f;
-	private float currentSpeed = 0f;
-	private Vector2 deltaPoint;
+	public float movingSpeed = 5f;
+	public float acceleration = 4f;
+	public float decceleration = 10f;
+	public float currentSpeed = 0f;
 
-	float targetSpeed;
+	private float targetSpeed;
 
+	// JUMP
 	[Header("Jump")]
-	[SerializeField]
-	private float jumpForce = 150f;
-	[SerializeField]
-	private float groundedDistance = 0.2f;
-	[SerializeField]
-	private float groundedDecal = 0.2f;
-	private bool doubleJumped = false;
-	[SerializeField]
-	private float boxScale = 0.7f;
+	public float jumpForce = 150f;
+	public bool doubleJumped = false;
 
-
+	// SHOOT
 	[Header("Shoot")]
 	[SerializeField]
 	private float shootRecoilSpeed = 1f;
@@ -41,46 +33,49 @@ public class Character : Controller {
 	[SerializeField]
 	private float shootDuration;
 
+	// CROUCH
 	[Header("Crouch")]
 	[SerializeField]
 	private float crouchSpeed = 2f;
-	private bool crouching = false;
+	public bool crouching = false;
 
 	void Awake () {
 		Instance = this;
 	}
 
 	// Use this for initialization
-	public override void InitController ()
+	public override void Start ()
 	{
-		base.InitController ();
+		base.Start ();
 
 		rigidbody = GetComponent<Rigidbody2D> ();
 		thrower = GetComponent <Thrower>();
 
+		IngredientsSpiral.Instance.onOpenInventory += HandleOnOpenInventory;
+		IngredientsSpiral.Instance.onCloseInventory += HandleOnCloseInventory;
 	}
 	
-	public override void ControllerUpdate ()
+	public override void Update ()
 	{
-		base.ControllerUpdate ();
+		base.Update ();
 		UpdateAnimation ();
 	}
 
 	#region stop
-	public override void Stop_Start ()
+	public override void None_Start ()
 	{
-		base.Stop_Start ();
+		base.None_Start ();
 		currentSpeed = 0f;
 	}
 	#endregion
 
 	#region moving
-	public override void Moving_Update ()
+	public override void State2_Update ()
 	{
-		base.Moving_Update ();
+		base.State2_Update ();
 
 		targetSpeed = movingSpeed;
-		if (Crouching)
+		if (crouching)
 			targetSpeed = crouchSpeed;
 
 		float acc = pressingInput () ? acceleration : decceleration;
@@ -88,36 +83,29 @@ public class Character : Controller {
 
 		if ( pressingInput () ) {
 			Straighten ();
-			BodyTransform.right = Input.GetAxis ("Horizontal") > 0 ? Vector3.right : Vector3.left;
+			if (Input.GetAxis ("Horizontal") < 0) {
+				direction = Direction.Left;
+			} else {
+				direction = Direction.Right;
+			}
 		}
 
-		GetTransform.Translate ( BodyTransform.right * currentSpeed * Time.deltaTime );
+		getTransform.Translate ( bodyTransform.right * currentSpeed * Time.deltaTime );
 
 		if ( Input.GetButtonDown("Jump") ) {
 			Jump ();
 		}
 
-		if ( Input.GetButtonDown ("Fire1") ) {
-			ChangeState (State.shoot);
-		}
 
-		if ( Input.GetButtonDown ("ShowIngredients") ) {
-			IngredientsSpiral.Instance.Opened = !IngredientsSpiral.Instance.Opened;
-		}
-
-		if ( Input.GetButtonDown ("ShowPotions") ) {
-			ChangeState (State.shoot);
-		}
-
-		if (Crouching) {
+		if (crouching) {
 			if (!pressingCrouch ()) {
 				crouching = false;
-				Animator.SetBool ("crouching", false);
+				animator.SetBool ("crouching", false);
 			}
 		} else {
 			if (pressingCrouch ()) {
 				crouching = true;
-				Animator.SetBool ("crouching", true);
+				animator.SetBool ("crouching", true);
 			}
 		}
 
@@ -136,50 +124,83 @@ public class Character : Controller {
 	#endregion
 
 	#region shoot
-	public override void Shoot_Start () {
+	public override void State3_Start () {
 		
 		Throw ();
 
-		Animator.SetTrigger ("shoot");
+		animator.SetTrigger ("shoot");
 
 		shootCurrentRecoil = shootRecoilSpeed;
 
 		currentSpeed = 0f;
 	}
-	public override void Shoot_Update () {
+	public override void State3_Update () {
 
-		float l = TimeInState * shootDuration;
+		float l = timeInState * shootDuration;
 
-		GetTransform.Translate ( -BodyTransform.right * (shootDuration - l) * Time.deltaTime );
+		getTransform.Translate ( -bodyTransform.right * (shootDuration - l) * Time.deltaTime );
 
-		if ( TimeInState >= shootDuration ) {
-			ChangeState (State.moving);
-		}
-
-		if ( !grounded() ) {
-			
+		if ( timeInState >= shootDuration ) {
+			ChangeState (State.state2);
 		}
 	}
-	public override void Shoot_Exit () {
+	public override void State3_Exit () {
 		//
 	}
 	#endregion
 
-	#region jump
-	bool grounded () {
-
-		Vector2 origin = (Vector2)GetTransform.position + (Vector2.up * groundedDecal);
-		return Physics2D.BoxCast (origin, new Vector2(boxScale , groundedDistance), 0f, -Vector2.up, 0f);
-
-		return Physics2D.Raycast ((Vector2)GetTransform.position + (Vector2.up * groundedDecal), -Vector2.up, groundedDistance);
+	#region physics
+	void DisablePhysics ()
+	{
+		rigidbody.bodyType = RigidbodyType2D.Kinematic;
 	}
+	void EnablePhysics () {
+		rigidbody.bodyType = RigidbodyType2D.Dynamic;
+	}
+	#endregion
+
+	#region swimming
+	public override void State4_Start ()
+	{
+		base.State4_Start ();
+
+		DisablePhysics ();
+	}
+
+
+	public override void State4_Update ()
+	{
+		base.State4_Update ();
+
+		if ( Input.GetButtonDown("Jump") ) {
+			Jump ();
+		}
+	}
+	public override void State4_Exit ()
+	{
+		base.State4_Exit ();
+
+//		EnablePhysics ();
+	}
+	#endregion
+
+	#region jump
+	public bool moving {
+		get {
+			return Input.GetAxis ("Horizontal") > 0 || Input.GetAxis ("Horizontal") < 0;
+		}
+	}
+
+
+	public delegate void OnJump();
+	public OnJump onJump;
 	void Jump ()
 	{
-		if (grounded ()== false) {
+		if (grounded == false) {
 			if (doubleJumped)
 				return;
 
-			Animator.SetTrigger ("doubleJump");
+			animator.SetTrigger ("doubleJump");
 
 			doubleJumped = true;
 		} else {
@@ -189,9 +210,13 @@ public class Character : Controller {
 		Straighten ();
 		rigidbody.velocity = Vector2.zero;
 		rigidbody.AddForce ( Vector2.up * jumpForce );
+
+		if (onJump != null)
+			onJump ();
+
 	}
 	void Straighten () {
-		GetTransform.up = Vector3.up;
+		getTransform.up = Vector3.up;
 	}
 	void OnDrawGizmos () {
 
@@ -206,9 +231,20 @@ public class Character : Controller {
 
 	void UpdateAnimation ()
 	{
-		Animator.SetFloat ("move", currentSpeed / targetSpeed);
-		Animator.SetBool ("jumping", !grounded ());
-		Animator.SetBool ("crouching", pressingCrouch() );
+		animator.SetFloat ("move", currentSpeed / targetSpeed);
+		animator.SetBool ("jumping", !grounded);
+		animator.SetBool ("crouching", pressingCrouch() );
+	}
+
+	void HandleOnCloseInventory ()
+	{
+		ChangeState (State.state2);
+	}
+
+	void HandleOnOpenInventory ()
+	{
+		ChangeState (State.none);
+		print ("stoping");
 	}
 
 	#region touch effects
@@ -223,15 +259,18 @@ public class Character : Controller {
 	}
 	#endregion
 
-	public float CurrentSpeed {
-		get {
-			return currentSpeed;
+	void OnTriggerEnter2D ( Collider2D col ) {
+		if ( col.tag == "Water" ) {
+			ChangeState (State.state4);
+			print ("enter swimming");
 		}
 	}
 
-	public bool Crouching {
-		get {
-			return crouching;
+	void OnTriggerExit2D ( Collider2D col ) {
+		if ( col.tag == "Water" ) {
+			ChangeState (State.state2);
+			print ("leave swimming");
 		}
 	}
+
 }

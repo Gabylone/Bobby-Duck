@@ -24,62 +24,103 @@ public class Bird : Controller {
 	[SerializeField]
 	private float bufferTimeAfterTurn = 1f;
 
-	public override void InitController ()
+	[SerializeField]
+	private GameObject featherPrefab;
+	[SerializeField]
+	private float deathForce = 100f;
+	[SerializeField]
+	private float featherForce = 200f;
+
+	public override void Start ()
 	{
-		base.InitController ();
+		base.Start ();
 	}
 
-	public override void ControllerUpdate ()
+	public override void Update ()
 	{
-		base.ControllerUpdate ();
+		base.Update ();
 	}
 
 	#region idle
-	public override void Idle_Start ()
+	public override void State1_Start ()
 	{
-		Animator.SetBool ("flying", false);
+		animator.SetBool ("flying", false);
 		currentTimeToTurn = Random.Range ( timeToTurnRange.x , timeToTurnRange.y );
 	}
-	public override void Idle_Update ()
+	public override void State1_Update ()
 	{
-		if ( TimeInState >= currentTimeToTurn ) {
-			BodyTransform.right = -BodyTransform.right;
-			TimeInState = 0f;
+		if (timeInState >= currentTimeToTurn) {
+
+			if (direction == Direction.Left)
+				direction = Direction.Right;
+			else
+				direction = Direction.Left;
+			
+			timeInState = 0f;
 		}
 
-		if ( Vector3.Distance (Character.Instance.GetTransform.position, GetTransform.localPosition ) < distanceToFlyAway ) {
+		if ( Vector3.Distance (Character.Instance.getTransform.position, getTransform.localPosition ) < distanceToFlyAway ) {
 
-			Vector2 dirToPlayer = (Character.Instance.GetTransform.position - GetTransform.position).normalized;
+			if (Character.Instance.crouching == false) {
+				ChangeState (State.state2);
+			}
 
-			if ( Vector2.Dot ( BodyTransform.right , dirToPlayer ) > 0 ) {
+			if ( direction != Character.Instance.direction ) {
 
-				if ( Character.Instance.Crouching == false && TimeInState >= bufferTimeAfterTurn ) {
-					ChangeState (State.moving);
+				if ( Character.Instance.crouching == false && timeInState >= bufferTimeAfterTurn ) {
+					ChangeState (State.state2);
 				}
 
 			}
 
 		}
 	}
+	bool caughtPlayer {
+		get {
+			bool playerIsInRange = Vector3.Distance (Character.Instance.getTransform.position, getTransform.localPosition) < distanceToFlyAway;
+			bool playerIsCrouching = Character.Instance.crouching;
+			bool facingPlayer = direction != Character.Instance.direction;
+			bool waitedForBuffer = timeInState >= bufferTimeAfterTurn;
+			bool playerIsMoving = Character.Instance.moving;
+
+			if ( playerIsInRange ) {
+
+				if (playerIsCrouching == false) {
+					print ("flew because player is not crouching");
+					return true;
+				}
+
+				if ( facingPlayer ) {
+					if (playerIsMoving) {
+						print ("flew because player is moving");
+						return true;
+					}
+				}
+
+			}
+
+			return false;
+		}
+	}
 	#endregion
 
 	#region moving
-	public override void Moving_Start ()
+	public override void State2_Start ()
 	{
-		Animator.SetBool ("flying", true);
+		animator.SetBool ("flying", true);
 	}
-	public override void Moving_Update ()
+	public override void State2_Update ()
 	{
-		base.Moving_Update ();
+		base.State2_Update ();
 
-		if (TimeInState <= flying_TimeToStop) {
-			GetTransform.Translate (Vector3.up * flySpeed * Time.deltaTime);
+		if (timeInState <= flying_TimeToStop) {
+			getTransform.Translate (Vector3.up * flySpeed * Time.deltaTime);
 		}
 
-		if ( Vector3.Distance (Character.Instance.GetTransform.position, GetTransform.localPosition ) > distanceToFlyAway ) {
+		if ( Vector3.Distance (Character.Instance.getTransform.position, getTransform.localPosition ) > distanceToFlyAway ) {
 
-			if ( TimeInState >= 5f ) {
-				ChangeState (State.goToAnchor);
+			if ( timeInState >= 5f ) {
+				ChangeState (State.state3);
 			}
 
 		}
@@ -87,27 +128,26 @@ public class Bird : Controller {
 	#endregion
 
 	#region go to anchor
-	public override void GoToAnchor_Start ()
+	public override void State3_Start ()
 	{
-		base.GoToAnchor_Start ();
+		base.State3_Start ();
 	}
-	public override void GoToAnchor_Update ()
+	public override void State3_Update ()
 	{
+		Vector3 dir = (anchor.position - getTransform.position).normalized;
 
-		Vector3 dir = (anchor.position - GetTransform.position).normalized;
+		getTransform.Translate (dir * distanceToFlyAway * Time.deltaTime);
+		bodyTransform.right = dir;
 
-		GetTransform.Translate (dir * distanceToFlyAway * Time.deltaTime);
-		BodyTransform.right = dir;
-
-		if (Vector3.Distance (GetTransform.position, anchor.position) < Anchor_DistanceToIdle) {
-			ChangeState (State.idle);
+		if (Vector3.Distance (getTransform.position, anchor.position) < Anchor_DistanceToIdle) {
+			ChangeState (State.state1);
 		}
 
 	}
-	public override void GoToAnchor_Exit ()
+	public override void State3_Exit ()
 	{
-		BodyTransform.up = Vector2.up;
-		GetTransform.position = anchor.position;
+		bodyTransform.up = Vector2.up;
+		getTransform.position = anchor.position;
 	}
 	#endregion
 
@@ -117,27 +157,23 @@ public class Bird : Controller {
 
 		Gizmos.color = Color.blue;
 		Gizmos.DrawWireSphere (transform.position, Anchor_DistanceToIdle);
+	
+		Gizmos.color = Color.magenta;
+		Gizmos.DrawWireSphere (anchor.position, 0.2f);
 	}
-
-
-	[SerializeField]
-	private GameObject featherPrefab;
-	[SerializeField]
-	private float deathForce = 100f;
-	[SerializeField]
-	private float featherForce = 200f;
 
 	public void Die ()
 	{
 		Stop ();
-		Animator.SetBool ("dead", true);
+		animator.SetBool ("dead", true);
 
 		GetComponent<Rigidbody2D> ().isKinematic = false;
-		GetComponent<Rigidbody2D> ().AddForce ( ((Vector2)Character.Instance.BodyTransform.right + Vector2.up) * deathForce );
+		GetComponent<Rigidbody2D> ().AddForce ( ((Vector2)Character.Instance.bodyTransform.right + Vector2.up) * deathForce );
+		GetComponent<Rigidbody2D> ().AddTorque ( deathForce );
 
 		for (int i = 0; i < 2; i++) {
 			GameObject g = Instantiate (featherPrefab);
-			g.transform.position = GetTransform.position;
+			g.transform.position = getTransform.position;
 			g.GetComponent<Rigidbody2D> ().AddForce (Vector2.up * featherForce);
 		}
 
@@ -147,9 +183,7 @@ public class Bird : Controller {
 	void OnCollisionEnter2D (Collision2D coll) {
 		if ( coll.gameObject.tag == "Rock" ) {
 
-			ChangeState (State.moving);
+			ChangeState (State.state2);
 		}
 	}
 }
- 
-

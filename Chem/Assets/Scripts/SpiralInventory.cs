@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Holoville.HOTween;
 
 public class SpiralInventory : MonoBehaviour {
 
@@ -14,76 +15,87 @@ public class SpiralInventory : MonoBehaviour {
 	private float delay = 1f;
 
 	[SerializeField]
+	private GameObject group;
+
+	[SerializeField]
 	private Transform pointerTransform;
 
 	[SerializeField]
 	private List<Transform> elementTransforms;
 
-	[Header("lerp")]
-	private float lerpTimer = 0f;
-	[SerializeField]
-	private float lerpDuration = 1f;
-	private bool lerping = false;
+	private float openDuration = 1f;
+
+	public delegate void OnOpenInventory ();
+	public OnOpenInventory onOpenInventory;
+
+	public delegate void OnCloseInventory ();
+	public OnCloseInventory onCloseInventory;
 
 	[SerializeField]
 	private float angleDecal = 45f;
 
-	bool showObjects = false;
+	int selectedIndex = 0;
 
-	float timer = 0f;
-	[SerializeField]
-	private float quickTime = 1f;
-	bool quick = false;
 
 	public virtual void Start () {
-		Opened = false;
+		Close ();
 	}
 
 	public virtual void Update () {
 
-		if (lerping) {
-			Lerp ();
-		} else if ( opened && !quick ) {
-			Opened_Update ();
+		if ( opened ) 
+		{
+			PointerUpdate ();
+
+			if ( Input.GetButtonDown ("ShowIngredients") ) {
+				IngredientsSpiral.Instance.Close ();
+			}
 		}
-	}
-
-	public bool Opened {
-		get {
-			return opened;
-		}
-		set {
-
-			opened = value;
-
-			lerpTimer = 0f;
-
-			lerping = true;
-
-			pointerTransform.gameObject.SetActive (value);
-
-			if (value) {
-				ShowObjects = true;
-			} else {
-				Character.Instance.ChangeState (Character.State.moving);
+		else
+		{
+			if ( Input.GetButtonDown ("ShowIngredients") ) {
+				IngredientsSpiral.Instance.Open ();
 			}
 		}
 	}
 
+	#region open / close
+	public void Open () {
 
-	  public void QuickShow() {
-		Opened = true;
-		quick = true;
-		pointerTransform.gameObject.SetActive (false);
+		transform.position = Character.Instance.getTransform.position;
+
+		opened = true;
+
+		pointerTransform.gameObject.SetActive (true);
+
+		UpdateElementPositions ();
+
+		group.SetActive (true);
+
+		if (onOpenInventory != null)
+			onOpenInventory ();
 	}
+	public void Close () {
+		opened = false;
 
-	void Opened_Update ()
+		pointerTransform.gameObject.SetActive (false);
+
+		Character.Instance.ChangeState (Controller.State.state2);
+
+		group.SetActive (false);
+
+		if (onCloseInventory != null)
+			onCloseInventory ();
+	}
+	#endregion
+
+	void PointerUpdate ()
 	{
-		Vector3 dir = Input.mousePosition - Camera.main.WorldToScreenPoint (transform.position);
+//		Vector3 dir = Input.mousePosition - Camera.main.WorldToScreenPoint (transform.position);
+//		Vector3 dir = new Vector3( Input.GetAxis("Mouse X") , Input.GetAxis("Mouse Y") , 0f );
+		Vector3 dir = new Vector3( Input.GetAxis("Horizontal") , Input.GetAxis("Vertical") , 0f );
 
 		pointerTransform.position = transform.position + dir.normalized * radius;
-
-		int selectedIndex = 0;
 
 		float angle = (360f / elementTransforms.Count / 2f);
 
@@ -91,11 +103,16 @@ public class SpiralInventory : MonoBehaviour {
 
 			if (Vector3.Angle (dir, (elementTransforms [i].position - transform.position).normalized) < angle) {
 
+				if (selectedIndex == i)
+					break;
+
+				Tween.Descale (elementTransforms [selectedIndex]);
+				Tween.Scale (elementTransforms [i]);
+
 				selectedIndex = i;
 
-				elementTransforms [i].GetComponentInChildren<SpriteRenderer> ().color = Color.red;
-			} else {
-				elementTransforms [i].GetComponentInChildren<SpriteRenderer> ().color = Color.white;
+//				elementTransforms [i].GetComponentInChildren<SpriteRenderer> ().color = Color.red;
+
 			}
 
 		}
@@ -107,71 +124,49 @@ public class SpiralInventory : MonoBehaviour {
 
 	public virtual void Select (int i) {
 
-		Opened = false;
+		elementTransforms.RemoveAt (i);
+
+		Close ();
 
 	}
 
+	#region items
 	public void AddItem ( Transform t ) {
+		t.SetParent (group.transform);
 		elementTransforms.Add (t);
-		QuickShow ();
 	}
 
-	public bool ShowObjects {
-		get {
-			return showObjects;
-		}
-		set {
-			showObjects = value;
-
-			foreach ( Transform tr in elementTransforms ) {
-				tr.gameObject.SetActive (value);
-			}
-		}
-	}
+	#endregion
 
 	#region lerp 
-	void Lerp () {
+	void UpdateElementPositions () {
 
 		for (int elementIndex = 0; elementIndex < elementTransforms.Count; elementIndex++) {
 
 			Transform t = elementTransforms [elementIndex];
 
-			float l = Opened ? (lerpTimer / lerpDuration) : 1 - (lerpTimer / lerpDuration);
-
-			Vector2 initPos = transform.position;
-
 			float angle = angleDecal + (360f / elementTransforms.Count) * elementIndex;
-			float currentAngle = Mathf.Lerp (0f, angle, l);
 
-			var direction = new Vector3(Mathf.Sin(Mathf.Deg2Rad * currentAngle), Mathf.Cos(Mathf.Deg2Rad * currentAngle), 0f);
-
+			var direction = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle), 0f);
 			var targetPos = transform.position + (direction * radius);
 
+			HOTween.To (elementTransforms [elementIndex], openDuration, "position", targetPos);
 
-			t.position = Vector2.Lerp (initPos , targetPos,l);
 		}
 
-
-		if ( lerpTimer >= lerpDuration ) {
-
-			if (!opened) {
-				ShowObjects = false;
-				lerping = false;
-			} else {
-				if ( quick ) {
-					if (lerpTimer >= lerpDuration + quickTime) {
-						lerping = false;
-						quick = false;
-						Opened = false;
-					}
-				} else {
-					lerping = false;
-				}
-
-			}
-		}
-
-		lerpTimer += Time.deltaTime;
+//		for (int elementIndex = 0; elementIndex < elementTransforms.Count; elementIndex++) {
+//
+//			Transform t = elementTransforms [elementIndex];
+//
+//			Vector2 initPos = transform.position;
+//
+//			float angle = angleDecal + (360f / elementTransforms.Count) * elementIndex;
+//
+//			var direction = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle), 0f);
+//			var targetPos = transform.position + (direction * radius);
+//
+//			t.position = targetPos;
+//		}
 
 	}
 	#endregion

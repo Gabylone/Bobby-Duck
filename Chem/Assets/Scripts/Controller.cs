@@ -3,58 +3,38 @@ using System.Collections;
 
 public class Controller : Touchable {
 
+
+
 	// state machine
 	public enum State {
-		stop,
+		none,
 
-		// bird
-		goToAnchor,
-
-		// character
-		idle,
-		moving,
-		shoot,
+		state1,
+		state2,
+		state3,
+		state4,
 	}
 
 	// components
 	[Header("Components")]
-	[SerializeField]
-	private Transform bodyTransform;
-	private Transform getTransform;
-	private Animator animator;
+	public Transform bodyTransform;
+	public Transform getTransform;
+	public Animator animator;
 
 	[Header("State")]
-	[SerializeField]
-	private State startState = State.moving;
-	private State currentState;
-	private State previousState;
+	public State startState = State.state2;
+	public State currentState;
+	public State previousState;
 
-	private float timeInState = 0f;
+	public float timeInState = 0f;
 
-	private delegate void UpdateState ();
-	private UpdateState updateState;
+	delegate void UpdateState ();
+	UpdateState updateState;
 
 	// STOP
-	private float stopDuration = 0; 
+	float stopDuration = 0; 
 
-	// Use this for initialization
-	void Start () {
-		InitController ();
-	}
-	void LateUpdate () {
-		ControllerUpdate();
-	}
-
-	// Update is called once per frame
-	public virtual void ControllerUpdate () {
-		if (updateState != null) {
-			updateState ();
-			timeInState += Time.deltaTime;
-		}
-	}
-
-	public virtual void InitController () {
-
+	public virtual void Start () {
 
 		getTransform = GetComponent<Transform>();
 		animator = GetComponentInChildren<Animator> ();
@@ -63,81 +43,94 @@ public class Controller : Touchable {
 
 	}
 
+	// Update is called once per frame
+	public virtual void Update () {
+		if (updateState != null) {
+			updateState ();
+			timeInState += Time.deltaTime;
+		}
+
+		UpdateGrounded ();
+
+	}
+
 	#region stop
 	public void Stop (float duration) {
 		stopDuration = duration;
-		ChangeState (State.stop);
+		ChangeState (State.none);
 	}
 	public void Stop () {
 		Stop (0f);
 	}
-	public virtual void Stop_Start () {
+	public virtual void None_Start () {
 
 	}
-	public virtual void Stop_Update () {
+	public virtual void None_Update () {
 		if (stopDuration > 0f) {
-			if (TimeInState >= stopDuration) {
-				ChangeState (State.moving);
+			if (timeInState >= stopDuration) {
+				ChangeState (State.state2);
 			}
 		}
 	}
-	public virtual void Stop_Exit () {
+	public virtual void None_Exit () {
+		//
+	}
+	#endregion
+
+	#region shoot
+	public virtual void State1_Start () {
+
+	}
+	public virtual void State1_Update () {
+
+	}
+	public virtual void State1_Exit () {
 		//
 	}
 	#endregion
 
 	#region moving
-	public virtual void Moving_Start ()
+	public virtual void State2_Start ()
 	{
 
 	}
-	public virtual void Moving_Update ()
+	public virtual void State2_Update()
 	{
 
 	}
-	public virtual void Moving_Exit ()
+	public virtual void State2_Exit ()
 	{
 
 	}
 	#endregion
 
 	#region shoot
-	public virtual void Shoot_Start () {
+	public virtual void State3_Start () {
 
 	}
-	public virtual void Shoot_Update () {
-		
+	public virtual void State3_Update () {
+
 	}
-	public virtual void Shoot_Exit () {
+	public virtual void State3_Exit () {
 		//
 	}
 	#endregion
 
-	#region shoot
-	public virtual void Idle_Start () {
+	#region water
+	public virtual void State4_Start () {
 
 	}
-	public virtual void Idle_Update () {
+	public virtual void State4_Update () {
 
 	}
-	public virtual void Idle_Exit () {
-		//
-	}
-	#endregion
-
-	#region shoot
-	public virtual void GoToAnchor_Start () {
-
-	}
-	public virtual void GoToAnchor_Update () {
-
-	}
-	public virtual void GoToAnchor_Exit () {
+	public virtual void State4_Exit () {
 		//
 	}
 	#endregion
 
 	#region state machine
+	public delegate void OnChangeState ();
+	public OnChangeState onChangeState;
 	public void ChangeState ( State targetState ) {
 
 		previousState = currentState;
@@ -148,31 +141,34 @@ public class Controller : Touchable {
 
 		timeInState = 0f;
 
+		if (onChangeState != null)
+			onChangeState ();
+
 	}
 
 	void StartTargetState ()
 	{
 		switch (currentState) {
-		case State.moving:
-			updateState = Moving_Update;
-			Moving_Start();
+		case State.state1:
+			updateState = State1_Update;
+			State1_Start();
 			break;
-		case State.shoot:
-			updateState = Shoot_Update;
-			Shoot_Start();
+
+		case State.state2:
+			updateState = State2_Update;
+			State2_Start();
 			break;
-		case State.idle:
-			updateState = Idle_Update;
-			Idle_Start();
+
+		case State.state3:
+			updateState = State3_Update;
+			State3_Start();
 			break;
-		case State.goToAnchor:
-			updateState = GoToAnchor_Update;
-			GoToAnchor_Start();
+
+		case State.none:
+			updateState = None_Update;
+			None_Start();
 			break;
-		case State.stop:
-			updateState = Stop_Update;
-			Stop_Start();
-			break;
+
 		default:
 			break;
 		}
@@ -181,63 +177,76 @@ public class Controller : Touchable {
 	void ExitPreviousState ()
 	{
 		switch (previousState) {
-		case State.moving:
-			Moving_Exit ();
+		case State.state1:
+			State1_Exit();
 			break;
-		case State.shoot:
-			Shoot_Exit ();
+
+		case State.state2:
+			State2_Exit ();
 			break;
-		case State.idle:
-			Idle_Exit();
+
+		case State.state3:
+			State3_Exit();
 			break;
-		case State.goToAnchor:
-			GoToAnchor_Exit();
+
+		case State.none:
+			None_Exit ();
 			break;
-		case State.stop:
-			Stop_Exit ();
-			break;
+
 		default:
 			break;
 		}
 	}
+	#endregion
 
-	public State CurrentState {
-		get {
-			return currentState;
+	#region grounded
+
+	public float groundedDistance = 0.2f;
+	public float groundedDecal = 0.2f;
+	public float boxScale = 0.7f;
+	public bool grounded = false;
+	public delegate void OnTouchGround();
+	public OnTouchGround onTouchGround;
+	void UpdateGrounded () {
+
+		Vector2 origin = (Vector2)getTransform.position + (Vector2.up * groundedDecal);
+		bool groundedRayCast = Physics2D.BoxCast (origin, new Vector2 (boxScale, groundedDistance), 0f, -Vector2.up, 0f);
+
+		if (grounded == groundedRayCast)
+			return;
+
+		if ( groundedRayCast == true ) {
+			grounded = true;
+			if ( onTouchGround != null )
+				onTouchGround ();
 		}
-	}
 
-	public State PreviousState {
-		get {
-			return previousState;
+		if ( groundedRayCast == false ) {
+			grounded = false;
 		}
 	}
 	#endregion
 
-	public Transform GetTransform {
-		get {
-			return getTransform;
-		}
+	public enum Direction {
+		Right,
+		Left
 	}
-
-	public Transform BodyTransform {
+	Direction _direction;
+	public delegate void OnChangeDirection ();
+	public OnChangeDirection onChangeDirection;
+	public Direction direction {
 		get {
-			return bodyTransform;
-		}
-	}
-
-	public Animator Animator {
-		get {
-			return animator;
-		}
-	}
-
-	public float TimeInState {
-		get {
-			return timeInState;
+			return _direction;
 		}
 		set {
-			timeInState = value;
+			
+			_direction = value;
+
+			if (value == Direction.Left) {
+				bodyTransform.right = -Vector3.right;
+			} else {
+				bodyTransform.right = Vector3.right;
+			}
 		}
 	}
 }

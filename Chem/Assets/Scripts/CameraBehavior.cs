@@ -12,11 +12,11 @@ public class CameraBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 //		CameraTrigger.touchBorder += MoveCam;
-		transform.position = CenterCam (Character.Instance.GetTransform.position);
+		transform.position = CenterCam (Character.Instance.getTransform.position);
 	}
 
 	void Update () {
-		Vector3 playerPos = Character.Instance.GetTransform.position;
+		Vector3 playerPos = 	Character.Instance.getTransform.position;
 
 		if ( playerPos.x >= (transform.position.x+(cameraDecal.x/2f)+buffer.x) ) {
 			MoveCam (Border.Right);
