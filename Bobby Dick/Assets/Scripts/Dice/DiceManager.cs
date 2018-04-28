@@ -74,6 +74,9 @@ public class DiceManager : MonoBehaviour {
 		case FunctionType.CheckStat:
 			CheckStat ();
 			break;
+		case FunctionType.ThrowDice:
+			ThrowDiceAmount ();
+			break;
 		}
 	}
 	
@@ -125,6 +128,8 @@ public class DiceManager : MonoBehaviour {
 
 		return result;
 	}
+
+
 
 	public void ThrowDice (DiceTypes type, int diceAmount) {
 
@@ -310,6 +315,13 @@ public class DiceManager : MonoBehaviour {
 	#endregion
 
 	#region dice
+	void ThrowDiceAmount ()
+	{
+		string cellParams = StoryFunctions.Instance.CellParams;
+		int amount = int.Parse ( cellParams );
+
+		StartCoroutine (ThrowDiceAmount_Coroutine (amount));
+	}
 	private void CheckStat () {
 
 		int decal = StoryReader.Instance.CurrentStoryHandler.GetDecal ();
@@ -359,10 +371,7 @@ public class DiceManager : MonoBehaviour {
 		while (Throwing)
 			yield return null;
 
-		int captainHighest = HighestResult;
-
-
-		int decal = captainHighest >= 5 ? 0 : 1;
+		int decal = HighestResult == 6 ? 0 : 1;
 
 		StoryReader.Instance.CurrentStoryHandler.SaveDecal (decal);
 
@@ -372,6 +381,25 @@ public class DiceManager : MonoBehaviour {
 
 		StoryReader.Instance.UpdateStory ();
 	}
+
+	IEnumerator ThrowDiceAmount_Coroutine (int amount) {
+
+		ThrowDirection = 1;
+
+		ThrowDice (DiceTypes.CHA, amount);
+
+		while (Throwing)
+			yield return null;
+
+		int decal = HighestResult == 6 ? 0 : 1;
+
+		StoryReader.Instance.NextCell ();
+
+		StoryReader.Instance.SetDecal (decal);
+
+		StoryReader.Instance.UpdateStory ();
+	}
+
 
 	#endregion
 

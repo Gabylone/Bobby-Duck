@@ -40,12 +40,14 @@ public enum FunctionType {
 	Node,
 	Switch,
 	CheckStat,
+	ThrowDice,
 	AddHealth,
 	RemoveHealth,
 	AddKarma,
 	RemoveKarma,
 	CheckKarma,
 	PayBounty,
+	ObserveHorizon,
 
 	// quest
 	NewQuest,

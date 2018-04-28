@@ -69,6 +69,8 @@ public class DisplayMinimap : MonoBehaviour {
 		CombatManager.Instance.onFightStart += FadeOut;
 		CombatManager.Instance.onFightEnd += FadeIn;
 
+		StoryFunctions.Instance.getFunction += HandleOnGetFunction;
+
 		// quest feedback
 		Quest.onSetTargetCoords += HandleOnSetTargetCoords;
 
@@ -111,6 +113,21 @@ public class DisplayMinimap : MonoBehaviour {
 
 	}
 
+	void HandleOnGetFunction (FunctionType func, string cellParameters)
+	{
+		if (func == FunctionType.ObserveHorizon) {
+
+			UpdateRange (4);
+
+			StoryReader.Instance.NextCell ();
+
+			StoryReader.Instance.UpdateStory ();
+
+			Tween.Bounce (minimapChunkParent.transform);
+
+		}
+	}
+
 	#region update minimap chunks
 	void HandleOnSetTargetCoords (Quest quest)
 	{
@@ -146,7 +163,7 @@ public class DisplayMinimap : MonoBehaviour {
 	void HandleChunkEvent ()
 	{
 
-		UpdateBoatRange ();
+		UpdateRange (currentShipRange);
 
 		CenterOnBoat ();
 		MovePlayerIcon ();
@@ -251,13 +268,11 @@ public class DisplayMinimap : MonoBehaviour {
 	#endregion
 
 	#region map range
-	void UpdateBoatRange ()
+	void UpdateRange (int range)
 	{
-		int boatRange = currentShipRange;
-
-		for (int x = -boatRange; x <= boatRange; x++) {
+		for (int x = -range; x <= range; x++) {
 			
-			for (int y = -boatRange; y <= boatRange; y++) {
+			for (int y = -range; y <= range; y++) {
 
 				Coords c = Boats.playerBoatInfo.coords + new Coords (x, y);
 

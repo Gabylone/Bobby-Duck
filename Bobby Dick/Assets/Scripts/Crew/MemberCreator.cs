@@ -39,15 +39,13 @@ public class MemberCreator : MonoBehaviour {
 	[SerializeField]
 	InputField boatName;
 
-	public Image jobImage;
-	public Text jobText;
-
 	public GameObject memberCreatorButtonParent;
 	public MemberCreatorButton[] memberCreatorButtons;
 
+
 	public float tweenDuration = 0.7f;
 
-	public RayBlocker rayblocker;
+	public Image rayblocker;
 
 	void Awake () {
 		Instance = this;
@@ -77,8 +75,6 @@ public class MemberCreator : MonoBehaviour {
 		HOTween.To (GetStep (step).transform, tweenDuration / 2f, "anchoredPosition", Vector2.right * -1000f, false, EaseType.Linear, 0f);
 	}
 	public void ShowStep ( CreationStep step ) {
-
-		rayblocker.Show ();
 
 		confirmButtonObj.SetActive (false);
 
@@ -147,7 +143,7 @@ public class MemberCreator : MonoBehaviour {
 	}
 	void EndMemberCreation () {
 
-		rayblocker.Hide ();
+		HOTween.To (rayblocker , tweenDuration , "color" , Color.clear);
 
 		HideStep (CreationStep.Appearance);
 
