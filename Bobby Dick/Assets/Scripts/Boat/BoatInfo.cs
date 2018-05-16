@@ -6,7 +6,7 @@ public class BoatInfo {
 	public string Name = "bateau";
 
 	public Coords previousCoords;
-	private Coords currentCoords;
+	public Coords coords;
 
 	public Directions currentDirection;
 
@@ -26,23 +26,18 @@ public class BoatInfo {
 
 	}
 
-	public virtual Coords coords {
-		get {
-			return currentCoords;
-		}
-		set {
+    public virtual void SetCoords(Coords newCoords)
+    {
+        previousCoords = coords;
 
-			previousCoords = currentCoords;
+        coords = newCoords;
 
-			currentCoords = value;
-
-			currentCoords.x = Mathf.Clamp (value.x , 0, MapGenerator.Instance.MapScale-1);
-			currentCoords.y = Mathf.Clamp (value.y , 0, MapGenerator.Instance.MapScale-1);
-		}
-	}
+        coords.x = Mathf.Clamp(newCoords.x, 0, MapGenerator.Instance.MapScale - 1);
+        coords.y = Mathf.Clamp(newCoords.y, 0, MapGenerator.Instance.MapScale - 1);
+    }
 
 	public void Move ( Directions dir ) {
 		currentDirection = dir;
-		coords += NavigationManager.Instance.getNewCoords (currentDirection);
+		SetCoords(coords + NavigationManager.Instance.getNewCoords(currentDirection));
 	}
 }

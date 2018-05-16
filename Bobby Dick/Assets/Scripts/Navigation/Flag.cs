@@ -9,12 +9,17 @@ public class Flag : MonoBehaviour {
 
 	public RectTransform rectTransform;
 
-	[SerializeField]
-	private GameObject group = null;
+    [SerializeField]
+    private GameObject group = null;
 
+    public Camera cam;
+
+    bool visible = false;
 
 	[SerializeField]
 	private RectTransform defaultRectTransform = null;
+
+    public LayerMask layerMask;
 
 	void Awake () {
 		Instance = this;
@@ -26,8 +31,8 @@ public class Flag : MonoBehaviour {
 
         rectTransform = GetComponent<RectTransform>();
 
-        WorldTouch.onPointerDown += HandleOnTouchWorld;
-        //WorldTouch.onPointerExit += HandleOnTouchWorld;
+        //WorldTouch.onPointerDown += HandleOnTouchWorld;
+        WorldTouch.onPointerExit += HandleOnPointerExit;
 
         Island.onTouchIsland += HandleOnTouchIsland;
 
@@ -45,65 +50,75 @@ public class Flag : MonoBehaviour {
 
     private void Update()
     {
-        if (WorldTouch.Instance.touching)
+        if ( WorldTouch.Instance.touching && Swipe.Instance.timer > Swipe.Instance.minimumTime )
         {
-            PlaceFlagOnScreen(InputManager.Instance.GetInputPosition());
+            if (!visible)
+                Show();
+
+            UpdateFlagPos();
         }
+    }
+
+    private void UpdateFlagPos()
+    {
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, layerMask))
+        {
+            transform.position = hit.point;
+            PlayerBoat.Instance.SetTargetPos(hit.point);
+        }
+
     }
 
     void HandleChunkEvent ()
 	{
-		Vector2 p = Camera.main.WorldToScreenPoint (PlayerBoat.Instance.defaultRecTransform.position);
-		PlaceFlagOnScreen (p);
-	}
+        Show();
+        transform.localPosition = Vector3.zero;
+        PlayerBoat.Instance.SetTargetPos(transform.position);
+    }
 
-	void HandleOnEndMovement ()
+    void HandleOnEndMovement ()
 	{
 		Hide ();
 	}
-
-	
 
 	void HandleOnTouchIsland ()
 	{
 		Hide ();
 	}
 	
-    void HandleOnTouchWorld ()
+    void HandleOnPointerExit ()
 	{
-		PlaceFlagOnScreen (InputManager.Instance.GetInputPosition ());
-	}
+        Show();
+        UpdateFlagPos();
+    }
 
 	void ResetFlag ()
 	{
-		Show ();
-
 		rectTransform.anchorMin = Vector2.one * 0.5f;
 		rectTransform.anchorMax = Vector2.one * 0.5f;
 
 		rectTransform.localPosition = defaultRectTransform.localPosition;	
 	}
 
-	void PlaceFlagOnScreen ( Vector2 p ) {
-
-		Show ();
-
-		rectTransform.anchoredPosition = Vector2.zero;	
-
-		Vector2 pos = Camera.main.ScreenToViewportPoint (p);
-
-		rectTransform.anchorMin = pos;
-		rectTransform.anchorMax = pos;
-	}
-
     void Show()
     {
+        if (visible)
+            return;
+
+        visible = true;
+
         Tween.Bounce(transform);
         CancelInvoke();
         group.SetActive(true);
     }
+
     void Hide()
     {
+        visible = false;
+
         group.SetActive(false);
     }
 }

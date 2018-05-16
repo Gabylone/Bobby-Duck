@@ -92,8 +92,8 @@ public class DisplayHunger_Icon : DisplayHunger {
 	{
 		NavigationManager.Instance.EnterNewChunk 	+= HandleChunkEvent;
 		CrewInventory.Instance.openInventory 		+= HandleOpenInventory;
-		StoryLauncher.Instance.onStartStory 		+= HandlePlayStoryEvent;
-		StoryLauncher.Instance.endStoryEvent 		+= HandleEndStoryEvent;;
+		StoryLauncher.Instance.onPlayStory 		+= HandlePlayStoryEvent;
+		StoryLauncher.Instance.onEndStory 		+= HandleEndStoryEvent;;
 		CrewInventory.Instance.closeInventory 		+= HandleCloseInventory;
 	}
 
@@ -101,8 +101,8 @@ public class DisplayHunger_Icon : DisplayHunger {
 	{
 		NavigationManager.Instance.EnterNewChunk 	-= HandleChunkEvent;
 		CrewInventory.Instance.openInventory 		-= HandleOpenInventory;
-		StoryLauncher.Instance.onStartStory 		-= HandlePlayStoryEvent;
-		StoryLauncher.Instance.endStoryEvent 		-= HandleEndStoryEvent;;
+		StoryLauncher.Instance.onPlayStory 		-= HandlePlayStoryEvent;
+		StoryLauncher.Instance.onEndStory 		-= HandleEndStoryEvent;;
 		CrewInventory.Instance.closeInventory 		-= HandleCloseInventory;
 	}
 }

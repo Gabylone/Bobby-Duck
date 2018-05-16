@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class ActionGroup : MonoBehaviour {
 
@@ -23,27 +24,31 @@ public class ActionGroup : MonoBehaviour {
 
 	bool visible = false;
 
+    public void UpdateButtons(ButtonType[] buttonTypes) {
 
-	public void UpdateButtons (ButtonType[] buttonTypes) {
+        int a = (int)buttonTypes[0];
 
-        Debug.Log("" + LootUI.Instance.SelectedItem.name);
-
-		foreach ( var item in inventoryActionButtons ) {
-			item.gameObject.SetActive (false);
-		}
+        HideAll();
 
         switch (LootUI.Instance.SelectedItem.category)
         {
+
             case ItemCategory.Weapon:
             case ItemCategory.Clothes:
+
+
                 if (LootUI.Instance.SelectedItem == CrewMember.GetSelectedMember.GetEquipment(LootUI.Instance.SelectedItem.EquipmentPart))
                 {
-                    Debug.Log("setting equipement to unqueipt");
-                    buttonTypes[0] = ButtonType.Unequip;
+                    print("unequip");
+                    a = (int)ButtonType.Unequip;
                 }
                 else
                 {
-                    buttonTypes[0] = ButtonType.Equip;
+                    if (LootUI.Instance.categoryContentType == CategoryContentType.Inventory)
+                    {
+                        a = (int)ButtonType.Equip;
+                        print("equip");
+                    }
 
                 }
                 break;
@@ -51,8 +56,7 @@ public class ActionGroup : MonoBehaviour {
                 break;
         }
 
-
-		inventoryActionButtons [(int)buttonTypes[0]].gameObject.SetActive (true);
+		inventoryActionButtons [a].gameObject.SetActive (true);
 		Tween.Bounce (inventoryActionButtons [(int)buttonTypes [0]].transform);
 
 		if (buttonTypes.Length > 1) {
@@ -62,14 +66,11 @@ public class ActionGroup : MonoBehaviour {
 
 	}
 
-	public bool Visible {
-		get {
-			return visible;
-		}
-		set {
-			visible = value;
-
-			gameObject.SetActive (value);
-		}
-	}
+    public void HideAll()
+    {
+        foreach (var item in inventoryActionButtons)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
 }

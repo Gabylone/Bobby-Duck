@@ -48,8 +48,8 @@ public class NavigationManager : MonoBehaviour {
 	}
 
 	void Start () {
-		StoryLauncher.Instance.onStartStory += HandlePlayStory;
-		StoryLauncher.Instance.endStoryEvent += HandleEndStory;
+		StoryLauncher.Instance.onPlayStory += HandlePlayStory;
+		StoryLauncher.Instance.onEndStory += HandleEndStory;
 
 	}
 
@@ -87,9 +87,10 @@ public class NavigationManager : MonoBehaviour {
 
 		if (EnterNewChunk != null) {
 			EnterNewChunk ();
-		}
 
-	}
+        }
+
+    }
 	#endregion
 
 	#region tools
@@ -197,11 +198,40 @@ public class NavigationManager : MonoBehaviour {
 	public Transform GetOppositeAnchor ( Directions direction ) {
 		return otherAnchors[(int)GetOppositeDirection(direction)];
 	}
+    public Transform GetAnchor(Directions direction)
+    {
+        return anchors[(int)direction];
+    }
+    public LayerMask layerMask;
+    public float minX = 0f;
+    public Vector3 GetOppositeCornerPosition(Directions dir)
+    {
+        return GetCornerPosition(GetOppositeDirection(dir));
+    }
+    public Vector3 GetCornerPosition(Directions dir)
+    {
+        Vector2 viewPort = (getDir(dir) + Vector2.one) / 2f;
 
-	#endregion
+        if ( viewPort.x < minX)
+        {
+            viewPort.x = minX;
+        }
 
-	#region properties
-	public GameObject NavigationTriggers {
+        Ray ray = Camera.allCameras[0].ViewportPointToRay(viewPort);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, layerMask))
+        {
+            return hit.point;
+        }
+
+        return Vector3.zero;
+    }
+
+    #endregion
+
+    #region properties
+    public GameObject NavigationTriggers {
 		get {
 			return navigationTriggers;
 		}

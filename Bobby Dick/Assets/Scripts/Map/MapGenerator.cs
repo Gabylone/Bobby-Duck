@@ -46,7 +46,7 @@ public class MapGenerator : MonoBehaviour {
 
 	public void LoadMap() {
 
-		discoveredCoords = SaveTool.Instance.LoadFromPath ("discovered coords.xml", "DiscoveredCoords") as DiscoveredCoords;
+		discoveredCoords = SaveTool.Instance.LoadFromCurrentMap ("discovered coords.xml", "DiscoveredCoords") as DiscoveredCoords;
 
 		Chunk.chunks.Clear ();
 

@@ -18,21 +18,18 @@ public class PlayerBoatInfo : BoatInfo {
 	{
 		base.Randomize ();
 
-		coords = SaveManager.Instance.GameData.homeCoords;
+		SetCoords(SaveManager.Instance.GameData.homeCoords);
 //		coords = Coords.Zero;
 
 	}
 
-	public override Coords coords {
-		get {
-			return base.coords;
-		}
-		set {
-			base.coords = value;
+    public override void SetCoords(Coords newCoords)
+    {
+        base.SetCoords(newCoords);
 
-			if (value.x < 0 || value.x > MapGenerator.Instance.MapScale - 1 || value.y < 0 || value.y > MapGenerator.Instance.MapScale - 1) {
-				Narrator.Instance.ShowNarratorTimed("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
-			}
-		}
-	}
+        if (newCoords.x < 0 || newCoords.x > MapGenerator.Instance.MapScale - 1 || newCoords.y < 0 || newCoords.y > MapGenerator.Instance.MapScale - 1)
+        {
+            Narrator.Instance.ShowNarratorTimed("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
+        }
+    }
 }

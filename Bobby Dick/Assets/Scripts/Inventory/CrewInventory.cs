@@ -45,8 +45,8 @@ public class CrewInventory : MonoBehaviour {
 
 		LootUI.useInventory += HandleUseInventory;
 
-		StoryLauncher.Instance.onStartStory += HandlePlayStory;
-		StoryLauncher.Instance.endStoryEvent += HandleEndStory;
+		StoryLauncher.Instance.onPlayStory += HandlePlayStory;
+		StoryLauncher.Instance.onEndStory += HandleEndStory;
 
 		RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
 	}

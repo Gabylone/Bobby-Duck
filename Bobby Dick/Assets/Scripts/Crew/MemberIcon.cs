@@ -32,11 +32,47 @@ public class MemberIcon : MonoBehaviour {
 
 	public CrewMember member;
 
-	void Start () {
-		_transform = transform;
-	}
+    IconVisual iconVisual;
 
-	public void SetMember (CrewMember member) {
+	void Start () {
+
+        _transform = transform;
+
+
+        LootUI.useInventory += HandleUseInventory;
+        CrewInventory.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+    }
+
+    void OnDestroy()
+    {
+        LootUI.useInventory -= HandleUseInventory;
+        CrewInventory.onRemoveItemFromMember -= HandleOnRemoveItemFromMember;
+    }
+
+    void HandleOnRemoveItemFromMember(Item item)
+    {
+        iconVisual.UpdateWeaponSprite(item);
+    }
+
+    void HandleUseInventory(InventoryActionType actionType)
+    {
+        switch (actionType)
+        {
+            case InventoryActionType.Equip:
+            case InventoryActionType.PurchaseAndEquip:
+                if (CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon) != null && LootUI.Instance.SelectedItem.category == ItemCategory.Weapon)
+                {
+                    iconVisual.UpdateWeaponSprite(CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon));
+                }
+                break;
+            default:
+                break;
+        }
+
+
+    }
+
+    public void SetMember (CrewMember member) {
 
 		this.member = member;
 
@@ -44,6 +80,7 @@ public class MemberIcon : MonoBehaviour {
 		initScale = group.transform.localScale.x;
 	
 		HideBody ();
+
 		InitVisual (member.MemberID);
 
 	}
@@ -141,18 +178,13 @@ public class MemberIcon : MonoBehaviour {
 		
 		bodyGroup.SetActive (true);
 		animator.SetBool ("enabled", true);
-//
-//		Vector3 targetScale = Vector3.one * bodyScale;
-//		if (member.side == Crews.Side.Player)
-//			targetScale.x = -bodyScale;
-//		
-//		HOTween.To (group.transform, moveDuration / 2f, "localScale", targetScale);
 
 	}
 
 	public void InitVisual (Member memberID)
 	{
-		GetComponent<IconVisual> ().InitVisual (memberID);
-	}
+        iconVisual = GetComponent<IconVisual>();
+		iconVisual.InitVisual (memberID);
+    }
 	#endregion
 }

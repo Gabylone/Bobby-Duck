@@ -42,6 +42,11 @@ public class LootManager : MonoBehaviour {
 	[SerializeField]
 	private Sprite[] miscSprites;
 
+    public Color item_DefaultColor;
+    public Color item_SuperiorColor;
+    public Color item_InferiorColor;
+    public Color item_EquipedColor;
+
 	void Awake (){
 		Instance = this;
 	}

@@ -37,7 +37,6 @@ public class Boats : MonoBehaviour {
 		Karma.onChangeKarma += HandleOnChangeKarma;
 
 		NavigationManager.Instance.EnterNewChunk += SaveBoats;
-		SaveManager.onLoad += LoadBoats;
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
@@ -65,6 +64,8 @@ public class Boats : MonoBehaviour {
 
 			OtherBoatInfo boatInfo = EnemyBoat.Instance.OtherBoatInfo;
 			boatData.boats.Remove (boatInfo);
+
+            Debug.Log("oui?");
 
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
@@ -112,7 +113,7 @@ public class Boats : MonoBehaviour {
 
 		SaveManager.Instance.GameData.playerBoatInfo = playerBoatInfo;
 
-		SaveTool.Instance.SaveToPath ("boat data", boatData);
+		SaveTool.Instance.SaveToCurrentMap ("boat data", boatData);
 
 	}
 
@@ -121,7 +122,7 @@ public class Boats : MonoBehaviour {
 		playerBoatInfo = SaveManager.Instance.GameData.playerBoatInfo;
 		playerBoatInfo.Init ();
 
-		boatData = SaveTool.Instance.LoadFromPath ("boat data.xml", "BoatData") as BoatData;
+		boatData = SaveTool.Instance.LoadFromCurrentMap ("boat data.xml", "BoatData") as BoatData;
 		foreach (var item in getBoats) {
 			item.Init ();
 		}

@@ -21,7 +21,7 @@ public class OtherBoatInfo : BoatInfo {
 	{
 		base.Randomize ();
 
-		coords = MapGenerator.Instance.RandomCoords;
+		SetCoords(MapGenerator.Instance.RandomCoords);
 		currentDirection = (Directions)Random.Range (0,8);
 
 		// assign story
@@ -49,7 +49,6 @@ public class OtherBoatInfo : BoatInfo {
 	{
 		if ( coords == Boats.playerBoatInfo.coords ) {
 			//
-			Debug.Log("le bateau de beb est dans la meme case qu'un autre");
 			ShowOnScreen();
 
 		}
@@ -85,7 +84,7 @@ public class OtherBoatInfo : BoatInfo {
 			}
 		}
 
-		coords = newCoords;
+		SetCoords(newCoords);
 
 	}
 

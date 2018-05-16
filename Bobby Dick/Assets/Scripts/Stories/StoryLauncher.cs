@@ -10,9 +10,9 @@ public class StoryLauncher : MonoBehaviour {
 	private bool playingStory = false;
 
 	public delegate void PlayStoryEvent ();
-	public PlayStoryEvent onStartStory;
+	public PlayStoryEvent onPlayStory;
 	public delegate void EndStoryEvent ();
-	public EndStoryEvent endStoryEvent;
+	public EndStoryEvent onEndStory;
 
 	public enum StorySource {
 
@@ -55,24 +55,30 @@ public class StoryLauncher : MonoBehaviour {
 		if (playingStory)
 			return;
 
-		StoryReader.Instance.Reset ();
+        CurrentStorySource = source;
 
-		StoryReader.Instance.CurrentStoryManager = storyManager;
-//		print ("launching story : " + StoryReader.Instance.CurrentStoryManager.CurrentStoryHandler.Story.name);
+        if (onPlayStory != null)
+            onPlayStory();
 
-		CurrentStorySource = source;
 
-		playingStory = true;
 
-		Transitions.Instance.ActionTransition.FadeIn (0.5f);
+        StoryReader.Instance.CurrentStoryManager = storyManager;
+        StoryReader.Instance.Reset ();
 
-		// place captain
-		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-		StoryReader.Instance.UpdateStory ();
 
-		if (onStartStory != null)
-			onStartStory ();
+        playingStory = true;
+
+        Invoke("PlayStoryDelay", 1f);
 	}
+
+    void PlayStoryDelay()
+    {
+        Transitions.Instance.ActionTransition.FadeIn(0.5f);
+
+        // place captain
+        Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Discussion);
+        StoryReader.Instance.UpdateStory();
+    }
 
 	public void EndStory () {
 
@@ -82,10 +88,13 @@ public class StoryLauncher : MonoBehaviour {
 			break;
 		case StorySource.island:
 			Chunk.currentChunk.state = ChunkState.VisitedIsland;
+            SaveManager.Instance.GameData.progression++;
 			break;
 		default:
 			break;
 		}
+
+
 
 		// hides crew when leaving ISLAND AND STORY
 		if ( StoryReader.Instance.CurrentStoryHandler.storyType != StoryType.Quest )
@@ -105,8 +114,8 @@ public class StoryLauncher : MonoBehaviour {
 
 
 
-		if (endStoryEvent != null)
-			endStoryEvent ();
+		if (onEndStory != null)
+			onEndStory ();
 
 		Chunk.currentChunk.Save (Coords.current);
 

@@ -12,10 +12,14 @@ public class WorldTouch : MonoBehaviour {
 	public delegate void OnPointerDownEvent ();
 	public static OnPointerDownEvent onPointerDown;
 
-
     public bool touching = false;
 
+    float timer = 0f;
 	float timeToTouch = 0.25f;
+
+    public bool isEnabled = false;
+
+    bool invoking = false;
 
     private void Awake()
     {
@@ -29,7 +33,21 @@ public class WorldTouch : MonoBehaviour {
 
         NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
-	}
+        StoryLauncher.Instance.onPlayStory += Disable;
+        StoryLauncher.Instance.onEndStory += Enable;
+
+    }
+
+    private void Enable()
+    {
+        isEnabled = true;
+        invoking = false;
+    }
+
+    private void Disable()
+    {
+        isEnabled = false;
+    }
 
 	void HandleChunkEvent ()
 	{
@@ -38,41 +56,79 @@ public class WorldTouch : MonoBehaviour {
 
 	void HandleOnSwipe (Directions direction)
 	{
-		touching = true;
-
-		timer = 0f;
-
-		timer = timeToTouch + 1;
+		touching = false;
+        swipped = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (touching) {
-			timer += Time.deltaTime;
-		}
+		
+        if ( isEnabled == false )
+        {
+            if ( !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && !invoking )
+            {
+                invoking = true;
+                Invoke("Enable", 0.58f);
+            }
+        }
+        else
+        {
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() )
+            {
+                Disable();
+            }
+        }
+
+        /*if (touching)
+        {
+            if ( Swipe.Instance.timer > Swipe.Instance.minimumTime)
+            {
+                
+            }
+        }*/
+
 	}
 
-	float timer = 0f;
+    //public void OnPointerDown () {
+    public void OnMouseDown()
+    {
+        Debug.Log("touch down");
 
-	public void OnPointerDown () {
+        if (!isEnabled)
+        {
+            Debug.Log("is disabled");
+            return;
+        }
 
         touching = true;
 
-		if (onPointerDown != null) {
-			onPointerDown ();
-		}
-	}
+        if (onPointerDown != null)
+        {
+            onPointerDown();
+        }
 
-	public void OnPointerUp () {
+    }
 
-		touching = false;
+    public bool swipped = false;
 
-		if (timer > timeToTouch) {
-			return;
-		}
+    //public void OnPointerUp () {
+    private void OnMouseUp()
+    {
+        if (!touching)
+            return;
 
-		if (onPointerExit != null) {
-			onPointerExit ();
+        Debug.Log("touch up");
+        if (!isEnabled)
+        {
+        Debug.Log("is disabled");
+            return;
+        }
+
+        touching = false;
+
+
+        if (onPointerExit != null) {
+            onPointerExit();
 		}
 	}
 }

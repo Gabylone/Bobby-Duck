@@ -5,6 +5,7 @@ using System.Collections;
 
 public class MainMenuManager : MonoBehaviour {
 
+    public GameObject mapsGroup;
 
 	[SerializeField]
 	private GameObject quitButton;
@@ -27,20 +28,23 @@ public class MainMenuManager : MonoBehaviour {
 
 		Screen.orientation = ScreenOrientation.Landscape;
 
-		if (SaveTool.Instance.FileExists ("game data")) {
+		/*if (SaveTool.Instance.FileExists ("game data")) {
 			loadButton.SetActive (true);
 			KeepOnLoad.displayTuto = false;
 		} else {
 			loadButton.SetActive (false);
 			KeepOnLoad.displayTuto = true;
-		}
+		}*/
 	}
 
 	public void NewGameButton () {
 
 		Tween.Bounce (playButton.transform);
 
-		if (SaveTool.Instance.FileExists ("game data")) {
+        mapsGroup.SetActive(true);
+        Tween.Bounce(mapsGroup.transform,0.2f , 0.95f);
+
+        /*if (SaveTool.Instance.FileExists ("game data")) {
 
 			MessageDisplay.onValidate += HandleOnValidate;
 			MessageDisplay.Instance.Show ("Ecraser sauvegarde ?");
@@ -49,10 +53,10 @@ public class MainMenuManager : MonoBehaviour {
 			
 			HandleOnValidate ();
 
-		}
-	}
+		}*/
+    }
 
-	void HandleOnValidate ()
+    void HandleOnValidate ()
 	{
 		Transitions.Instance.ScreenTransition.FadeIn (transitionDuration);
 		Invoke ("NewGameDelay" , transitionDuration);

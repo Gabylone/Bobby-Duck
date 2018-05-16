@@ -6,12 +6,6 @@ using UnityEngine.UI;
 public class StatGroup : MonoBehaviour {
 
 	[SerializeField]
-	private Text attackText;
-
-	[SerializeField]
-	private Text defenceText;
-
-	[SerializeField]
 	private GameObject group;
 
 	public Image levelImage;
@@ -22,7 +16,6 @@ public class StatGroup : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Hide ();
-
 	}
 
 	void Show () {

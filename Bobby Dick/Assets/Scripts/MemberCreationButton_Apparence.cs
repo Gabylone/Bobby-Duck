@@ -5,35 +5,41 @@ using UnityEngine.UI;
 
 public class MemberCreationButton_Apparence : MemberCreatorButton {
 
+    public bool raycastOnStart = false;
+
     public override void Start()
     {
         base.Start();
 
-        GetComponent<Image>().raycastTarget = false;
-
+        GetComponent<Image>().raycastTarget = raycastOnStart;
 
     }
-    Transform parent;
 
     public void OnPointerEnter()
     {
         Select();
     }
 
-    public void OnPointerUp()
+    public override void OnPointerUp()
     {
-        Debug.Log("wow " + name);
+        base.OnPointerUp();
 
-        parent = transform.parent;
 
-        GetComponent<RectTransform>().SetParent(null);
-
-        Invoke("wai", 1f);
+        transform.SetAsFirstSibling();
     }
 
-    void wai()
+    public override void Select()
     {
-        transform.SetParent(parent);
+        base.Select();
+
+        if (apparenceItem.locked)
+            return;
+
+        Crews.playerCrew.captain.MemberID.SetCharacterID(apparenceType, id);
+
+        SoundManager.Instance.PlaySound(SoundManager.Sound.Select_Small);
+
+        Crews.playerCrew.captain.Icon.InitVisual(Crews.playerCrew.captain.MemberID);
 
     }
 

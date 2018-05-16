@@ -19,11 +19,10 @@ public class SaveTool : MonoBehaviour
 
 	void Awake () {
 		Instance = this;
-		CreateDirectories ();
 	}
 
 	#region directories
-	void CreateDirectories ()
+	public void CreateDirectories ()
 	{
 		if ( DirectoryExists(GetSaveFolderPath()) == false ) {
 //			Debug.Log ("BYTES SaveData folder doesnt exist, creating it");
@@ -44,49 +43,83 @@ public class SaveTool : MonoBehaviour
 
 	}
 
-	public void DeleteGameData () {
+    public void DeleteFolder (string mapName)
+    {
+        Directory.Delete(GetSaveFolderPath(mapName), true);
+    }
+
+    public void DeleteGameData () {
 		string path = GetSaveFolderPath () + "/game data.xml";
 		File.Delete (path);
 	}
 
-	public void SaveToPath ( string path , object o) {
+    public void SaveToSpecificFolder (string folder , string path , object o)
+    {
+		path = GetSaveFolderPath (folder) + "/" + path + ".xml";
+        Save(path, o);
+    }
+
+    public void SaveToCurrentMap ( string path , object o) {
 
 		path = GetSaveFolderPath () + "/" + path + ".xml";
+        Save(path, o);
+    }
 
-		byte[] bytes = Encoding.Unicode.GetBytes(path);
-		path = Encoding.Unicode.GetString(bytes);
+    public void Save (string path, object o)
+    {
+        byte[] bytes = Encoding.Unicode.GetBytes(path);
+        path = Encoding.Unicode.GetString(bytes);
 
-		File.Delete(path);
+        File.Delete(path);
 
-		FileStream file = File.Open(path, FileMode.CreateNew);
-		XmlSerializer serializer = new XmlSerializer(o.GetType ());
+        FileStream file = File.Open(path, FileMode.CreateNew);
+        XmlSerializer serializer = new XmlSerializer(o.GetType());
 
-		//		file = file.
-		serializer.Serialize(file, o);
+        //		file = file.
+        serializer.Serialize(file, o);
 
-		file.Close();
-	}
+        file.Close();
+    }
 
-	public object LoadFromPath(string path, string className)
+    public object LoadFromSpecificPath ( string mapName , string path , string className)
+    {
+        path = GetSaveFolderPath(mapName) + "/" + path;
+        return LoadFromPath(path, className);
+    }
+	public object LoadFromCurrentMap(string path, string className)
 	{
-		path = GetSaveFolderPath () + "/" + path;
-
-		byte[] bytes = Encoding.Unicode.GetBytes(path);
-		path = Encoding.Unicode.GetString(bytes);
-
-//		FileStream file = File.Open(path, FileMode.OpenOrCreate);
-		FileStream file = File.Open(path, FileMode.Open);
-		XmlSerializer serializer = new XmlSerializer( Type.GetType(className) );
-
-		object o = serializer.Deserialize(file);
-
-		file.Close();
-
-		return o;
+        path = GetSaveFolderPath() + "/" + path;
+        return LoadFromPath(path, className);
 	}
-	#endregion
+    public object LoadFromPath(string path, string className)
+    {
+        byte[] bytes = Encoding.Unicode.GetBytes(path);
+        path = Encoding.Unicode.GetString(bytes);
 
-	public bool FileExists(string path)
+        //		FileStream file = File.Open(path, FileMode.OpenOrCreate);
+        FileStream file = File.Open(path, FileMode.Open);
+        XmlSerializer serializer = new XmlSerializer(Type.GetType(className));
+
+        object o = serializer.Deserialize(file);
+
+        file.Close();
+
+        return o;
+    }
+    #endregion
+
+    public bool FileExists(string mapName , string path)
+    {
+        path = GetSaveFolderPath(mapName) + "/" + path + ".xml";
+
+        byte[] bytes = Encoding.Unicode.GetBytes(path);
+        path = Encoding.Unicode.GetString(bytes);
+
+        bool exists = (File.Exists(path));
+
+        return exists;
+    }
+    public bool FileExists(string path)
     {
 		path = GetSaveFolderPath () + "/" + path + ".xml";
 
@@ -107,15 +140,26 @@ public class SaveTool : MonoBehaviour
 		return exists;
 	}
 
-	#region paths
-	public string GetSaveFolderPath () {
-		string path = Application.dataPath + "/SaveData";
-		if ( Application.isMobilePlatform )
-			path = Application.persistentDataPath + "/SaveData";
+    #region paths
+    public string GetSaveFolderPath(string targetFolder)
+    {
+
+        string path = Application.dataPath + "/SaveData/" + targetFolder;
+
+        if (Application.isMobilePlatform)
+            path = Application.persistentDataPath + "/SaveData/" + targetFolder;
+
+        return path;
+    }
+    public string GetSaveFolderPath () {
+
+		string path = Application.dataPath + "/SaveData/" + KeepOnLoad.mapName;
+
+        if ( Application.isMobilePlatform )
+			path = Application.persistentDataPath + "/SaveData/" + KeepOnLoad.mapName;
 
 		return path;
 	}
-
 	#endregion
 
 }

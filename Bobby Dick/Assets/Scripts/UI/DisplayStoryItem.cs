@@ -15,6 +15,8 @@ public class DisplayStoryItem : MonoBehaviour {
 		LootManager.onAddToInventory += HandleOnAddToInventory;
 
 		StoryInput.onPressInput += HandleOnPressInput;
+
+        group.SetActive(false); 
 	}
 
 	void HandleOnPressInput ()

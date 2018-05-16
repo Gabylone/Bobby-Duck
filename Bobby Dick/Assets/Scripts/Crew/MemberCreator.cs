@@ -13,6 +13,7 @@ public class MemberCreator : MonoBehaviour {
 		Job,
 		Appearance
 	}
+
 	public CreationStep currentStep;
 
 	public GameObject confirmButtonObj;
@@ -30,6 +31,7 @@ public class MemberCreator : MonoBehaviour {
 		return stepObjs [(int)step];
 	}
 
+
 	public Sprite femaleSprite;
 	public Sprite maleSprite;
 
@@ -42,18 +44,17 @@ public class MemberCreator : MonoBehaviour {
 	public GameObject memberCreatorButtonParent;
 	public MemberCreatorButton[] memberCreatorButtons;
 
-
 	public float tweenDuration = 0.7f;
 
 	public Image rayblocker;
+
+    public Animator animator;
 
 	void Awake () {
 		Instance = this;
 	}
 
 	void Start () {
-
-//		initColor = rayblocker.color;
 
 		Hide ();
 	}
@@ -108,8 +109,6 @@ public class MemberCreator : MonoBehaviour {
 		overall.SetActive (true);
 		ShowStep(currentStep);
 
-		UpdateButtons ();
-
 		int ID = Random.Range ( 0, boatNames.Length );
 
 		Boats.playerBoatInfo.Name = captainNames[ID];
@@ -126,7 +125,6 @@ public class MemberCreator : MonoBehaviour {
 
 		if ( currentStep == CreationStep.Appearance ) {
 
-
 			EndMemberCreation ();
 
 		} else {
@@ -140,8 +138,10 @@ public class MemberCreator : MonoBehaviour {
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 
 
-	}
+	} 
 	void EndMemberCreation () {
+
+        animator.SetTrigger("close");
 
 		HOTween.To (rayblocker , tweenDuration , "color" , Color.clear);
 
@@ -150,21 +150,16 @@ public class MemberCreator : MonoBehaviour {
 		confirmButtonObj.SetActive (false);
 
         Crews.playerCrew.captain.Icon.transform.SetParent(iconInitParent);
-
-
+        Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Map);
         Invoke("EndMemberCreationDelay",tweenDuration);
+
 	}
 	void EndMemberCreationDelay () {
+
 		Hide ();
 
 		SaveManager.Instance.SaveGameData ();
 		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
-	}
-
-	private void UpdateButtons () {
-
-		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
-
 	}
 
 	public void ChangeBoatName () {
@@ -183,63 +178,11 @@ public class MemberCreator : MonoBehaviour {
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 	}
 
+	public void ChangeApparence ( ApparenceType apparence , int id) {
 
-	public enum Apparence {
-		genre,
-		bodyColorID,
-		hairSpriteID,
-		hairColorID,
-		eyeSpriteID,
-		eyeBrowsSpriteID,
-		beardSpriteID,
-		noseSpriteID,
-		mouthSpriteId,
-		jobID,
-	}
+		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
 
-	public void ChangeApparence ( Apparence apparence , int id) {
-		
-		switch (apparence) {
-		case Apparence.genre:
-			Crews.playerCrew.captain.MemberID.Male = id == 0;
-			Crews.playerCrew.captain.MemberID.hairSpriteID = 0;
-			Crews.playerCrew.captain.MemberID.beardSpriteID = -1;
-			break;
-		case Apparence.bodyColorID:
-			Crews.playerCrew.captain.MemberID.bodyColorID = id;
-			break;
-		case Apparence.hairSpriteID:
-			Crews.playerCrew.captain.MemberID.hairSpriteID = id;
-			break;
-		case Apparence.hairColorID:
-			Crews.playerCrew.captain.MemberID.hairColorID = id;
-			break;
-		case Apparence.eyeSpriteID:
-			Crews.playerCrew.captain.MemberID.eyeSpriteID = id;
-			break;
-		case Apparence.eyeBrowsSpriteID:
-			Crews.playerCrew.captain.MemberID.eyebrowsSpriteID = id;
-			break;
-		case Apparence.beardSpriteID:
-			Crews.playerCrew.captain.MemberID.beardSpriteID = id;
-			break;
-		case Apparence.noseSpriteID:
-			Crews.playerCrew.captain.MemberID.noseSpriteID = id;
-			break;
-		case Apparence.mouthSpriteId:
-			Crews.playerCrew.captain.MemberID.mouthSpriteID++;
-			break;
-		case Apparence.jobID:
-
-			Crews.playerCrew.captain.MemberID.SetJob ((Job)id);
-			break;
-		default:
-			break;
-		}
-
-		UpdateButtons ();
-
-		Crews.playerCrew.captain.Icon.InitVisual (Crews.playerCrew.captain.MemberID);
+        Crews.playerCrew.captain.Icon.InitVisual (Crews.playerCrew.captain.MemberID);
 
 	}
 

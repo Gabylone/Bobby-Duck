@@ -9,68 +9,72 @@ public class PlayerBoat : Boat {
 	public delegate void OnEndMovement ();
 	public OnEndMovement onEndMovement;
 
-	public RectTransform defaultRecTransform;
+    void Awake()
+    {
+        Instance = this;
+    }
 
-    bool followingPointer = false;
-
-	public override void Start ()
+    public override void Start ()
 	{
 		base.Start();
 
-		WorldTouch.onPointerDown += HandleOnPointerDown;
+
+        //WorldTouch.onPointerDown += HandleOnPointerDown;
 		WorldTouch.onPointerExit += HandleOnPointerExit;
         Island.onTouchIsland += HandleOnTouchIsland;
 
-		StoryLauncher.Instance.onStartStory += EndMovenent;
-		StoryLauncher.Instance.endStoryEvent += EndMovenent;
+		StoryLauncher.Instance.onPlayStory += EndMovenent;
+		StoryLauncher.Instance.onEndStory += EndMovenent;
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
 		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
 
 	}
+    public LayerMask layerMask;
+    public override void Update()
+    {
+        base.Update();
 
+        /*print("cam ! " + Camera.allCameras[0].name);
+        print("boat screen postion : " + Camera.allCameras[0].WorldToViewportPoint(transform.position));
+        print("screen w : " + Screen.width);
+        print("screen h : " + Screen.height);*/
 
-    void Awake () {
-		Instance = this;
-	}
+       
+    }
 
-	void HandleChunkEvent ()
+    void HandleChunkEvent ()
 	{
-
-		SetTargetPos (defaultRecTransform);
+        //SetTargetPos(NavigationManager.Instance.GetAnchor(Directions.None));
 	}
 
 	void HandleOnTouchIsland ()
 	{
-		SetTargetPos (Island.Instance.GetComponent<RectTransform>());
+		SetTargetPos (Island.Instance.transform.position);
 	}
 
     #region events
     void HandleOnPointerDown ()
 	{
-        followingPointer = true;
 
-        Vector2 pos = Camera.main.ScreenToWorldPoint(InputManager.Instance.GetInputPosition());
-        SetTargetPos(Flag.Instance.rectTransform);
+        /*Vector2 pos = Camera.main.ScreenToWorldPoint(InputManager.Instance.GetInputPosition());
+        SetTargetPos(Flag.Instance.transform.position);*/
     }
 
     private void HandleOnPointerExit()
     {
-        
+        Tween.Bounce(getTransform);
+
     }
     #endregion
 
-    public override void Update ()
-	{
-		base.Update ();
-	}
 
-	public override void EndMovenent ()
+    public override void EndMovenent ()
 	{
 		base.EndMovenent ();
 
-        followingPointer = false;
+        WorldTouch.Instance.touching = false;
 
         if ( onEndMovement != null )
 			onEndMovement ();
@@ -80,11 +84,11 @@ public class PlayerBoat : Boat {
 	{
 		base.UpdatePositionOnScreen ();
 
-		getTransform.position = NavigationManager.Instance.Anchors[(int)Boats.playerBoatInfo.currentDirection].position;
+        getTransform.position = NavigationManager.Instance.GetOppositeCornerPosition(Boats.playerBoatInfo.currentDirection);
 
 	}
 
-	void OnTriggerEnter2D (Collider2D collider) {
+	void OnTriggerEnter (Collider collider) {
 		if (collider.tag == "Flag") {
 			EndMovenent ();
 		}

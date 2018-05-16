@@ -10,4 +10,8 @@ public class KeepOnLoad : MonoBehaviour {
 	public static int dataToLoad = -1;
 
 	public static bool displayTuto = false;
+
+    public static string mapName = "";
+
+    public static int pearls = 0;
 }

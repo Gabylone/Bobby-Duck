@@ -3,13 +3,11 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
 
 public class SaveManager : MonoBehaviour
 {
 	public static SaveManager Instance;
-
-	public delegate void OnLoad ();
-	public static OnLoad onLoad;
 
 	GameData gameData;
 
@@ -25,6 +23,15 @@ public class SaveManager : MonoBehaviour
 
 	void Start () {
 		
+        if ( SaveTool.Instance.FileExists ("PlayerInfo" , "player info"))
+        {
+            PlayerInfo.Instance = SaveTool.Instance.LoadFromSpecificPath("PlayerInfo", "player info.xml", "PlayerInfo") as PlayerInfo;
+        }
+        else
+        {
+            PlayerInfo.Instance = new PlayerInfo();
+        }
+
 		gameData = new GameData ();
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
@@ -33,7 +40,15 @@ public class SaveManager : MonoBehaviour
 
 	}
 
-	void HandleOnCrewMemberKilled (CrewMember crewMember)
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PlayerInfo.Instance.AddPearl(1);
+        }
+    }
+
+    void HandleOnCrewMemberKilled (CrewMember crewMember)
 	{
 		SaveGameData ();
 	}
@@ -46,20 +61,18 @@ public class SaveManager : MonoBehaviour
 	#region load game data
 	public void LoadGame () {
 
-	
 		LoadGameData ();
 
 		LoadAllIslands ();
 
-		if (onLoad != null)
-			onLoad ();
+        Boats.Instance.LoadBoats();
 		
 	}
 
-	public void LoadGameData () {
+	void LoadGameData () {
 
 		// GAME DATA
-		gameData = SaveTool.Instance.LoadFromPath ("game data.xml" , "GameData") as GameData;
+		gameData = SaveTool.Instance.LoadFromCurrentMap ("game data.xml" , "GameData") as GameData;
 
 		// player crew
 		Crews.Instance.LoadPlayerCrew ();
@@ -106,9 +119,9 @@ public class SaveManager : MonoBehaviour
 
 		TimeManager.Instance.Save ();
 
-		SaveTool.Instance.SaveToPath ("game data",gameData);
+		SaveTool.Instance.SaveToCurrentMap ("game data",gameData);
 
-		SaveTool.Instance.SaveToPath ("discovered coords", MapGenerator.Instance.discoveredCoords);
+		SaveTool.Instance.SaveToCurrentMap ("discovered coords", MapGenerator.Instance.discoveredCoords);
 
 	}
 	#endregion
@@ -147,7 +160,7 @@ public class SaveManager : MonoBehaviour
 				continue;
 			}
 
-			Chunk chunkToLoad = SaveTool.Instance.LoadFromPath (pathToFile,"Chunk") as Chunk;
+			Chunk chunkToLoad = SaveTool.Instance.LoadFromCurrentMap (pathToFile,"Chunk") as Chunk;
 
 
 			Coords chunkCoords = GetCoordsFromFile (item.Name.Remove ( item.Name.Length - 4 ));
@@ -204,7 +217,7 @@ public class SaveManager : MonoBehaviour
 
 				Coords pathedCoords = GetCoordsFromFile (fileName);
 
-				SaveTool.Instance.SaveToPath (path,targetChunk);
+				SaveTool.Instance.SaveToCurrentMap (path,targetChunk);
 
 				yield return new WaitForEndOfFrame ();
 				++l;
@@ -245,9 +258,66 @@ public class SaveManager : MonoBehaviour
 
 }
 
+[System.Serializable]
+public class PlayerInfo
+{
+    [NonSerialized]
+    public static PlayerInfo Instance;
+
+    /// <summary>
+    /// serializable
+    /// </summary>
+    public int pearlAmount = 100;
+    public List<ApparenceItem> apparenceItems = new List<ApparenceItem>();
+    /// <summary>
+    /// 
+    /// </summary>
+
+    public delegate void OnChangePearlAmount();
+    public static OnChangePearlAmount onChangePearlAmount;
+
+    public void Init()
+    {
+        Instance = this;
+    }
+
+    public PlayerInfo()
+    {
+
+    }
+
+    public void RemovePearl(int i)
+    {
+        pearlAmount -= i;
+
+        onChangePearlAmount();
+    }
+
+    public void AddPearl(int i)
+    {
+        pearlAmount += i;
+
+        onChangePearlAmount();
+
+    }
+
+    public void AddApparenceItem(ApparenceItem apparenceItem)
+    {
+        apparenceItems.Add(apparenceItem);
+    }
+
+    public void Save()
+    {
+        SaveTool.Instance.SaveToSpecificFolder("PlayerInfo", "player info", this);
+    }
+}
+
 //[System.Serializable]
 public class GameData
 {
+
+    public int progression = 0;
+
 	// crew & loot
 	public int					globalID = 0;
 	public Crew 				playerCrew;

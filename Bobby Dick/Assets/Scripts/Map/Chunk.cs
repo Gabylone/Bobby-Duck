@@ -68,7 +68,7 @@ public class Chunk
 	{
 		string fileName = "chk" + "x" + c.x + "y" + c.y;	
 
-		SaveTool.Instance.SaveToPath ( "Islands/"+fileName, this );
+		SaveTool.Instance.SaveToCurrentMap ( "Islands/"+fileName, this );
 	}
 }
 

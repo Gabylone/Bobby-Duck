@@ -75,11 +75,11 @@ public class NameGeneration : MonoBehaviour {
 		}
 
 		if ( text.Contains ("RANDOMFEMALENAME") ) {
-			text = text.Replace ( "RANDOMFEMALENAME" , CrewCreator.Instance.FemaleNames[Random.Range (0,CrewCreator.Instance.FemaleNames.Length)]);
+			text = text.Replace ( "RANDOMFEMALENAME" , CrewCreator.Instance.femaleNames[Random.Range (0,CrewCreator.Instance.femaleNames.Length)]);
 		}
 
 		if ( text.Contains ("RANDOMMALENAME") ) {
-			text = text.Replace ( "RANDOMMALENAME" , CrewCreator.Instance.MaleNames[Random.Range (0,CrewCreator.Instance.MaleNames.Length)]);
+			text = text.Replace ( "RANDOMMALENAME" , CrewCreator.Instance.maleNames[Random.Range (0,CrewCreator.Instance.maleNames.Length)]);
 		}
 
 		return text;

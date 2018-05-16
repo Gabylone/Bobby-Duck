@@ -48,6 +48,7 @@ public enum FunctionType {
 	CheckKarma,
 	PayBounty,
 	ObserveHorizon,
+    EndGame,
 
 	// quest
 	NewQuest,

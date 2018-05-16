@@ -9,20 +9,22 @@ public class NavigationTrigger : MonoBehaviour {
 
 	public Directions direction;
 
-	RectTransform rectTransform;
+	Transform _transform;
 
 	bool targeted = false;
 
 	void Start () {
-	
-		rectTransform = GetComponent<RectTransform> ();
+
+        _transform = GetComponent<Transform> ();
 
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 		Swipe.onSwipe += HandleOnSwipe;
 
 		WorldTouch.onPointerDown += HandleOnTouchWorld;
 
-		StoryLauncher.Instance.onStartStory += HandlePlayStoryEvent;
+		StoryLauncher.Instance.onPlayStory += HandlePlayStoryEvent;
+
+        Targeted = false;
 	}
 
 	void HandlePlayStoryEvent ()
@@ -45,17 +47,17 @@ public class NavigationTrigger : MonoBehaviour {
 		Targeted = false;
 
 		if ( direction == this.direction ) {
-			PlayerBoat.Instance.SetTargetPos (rectTransform);
+
+            Vector3 corner = NavigationManager.Instance.GetCornerPosition(direction);
+            Vector3 p = corner + (corner - PlayerBoat.Instance.getTransform.position).normalized * 2f;
+
+            PlayerBoat.Instance.SetTargetPos(p);
+
 			Target ();
 		}
 	}
 
-//	void HandleOnSwipeDelay () {
-//		NavigationManager.Instance.ChangeChunk (direction);
-//		Targeted = false;
-//	}
-
-	void OnTriggerStay2D ( Collider2D other ) {
+	void OnTriggerStay ( Collider other ) {
 		if (other.tag == "Player" && targeted ) {
 			NavigationManager.Instance.ChangeChunk (direction);
 			Targeted = false;
@@ -65,7 +67,6 @@ public class NavigationTrigger : MonoBehaviour {
 	void Target ()
 	{
 		Tween.Bounce (arrowGroup.transform);
-
 
 		Targeted = true;
 	}

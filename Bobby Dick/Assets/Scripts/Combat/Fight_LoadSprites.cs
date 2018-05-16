@@ -5,20 +5,16 @@ using Holoville.HOTween;
 public class Fight_LoadSprites : MonoBehaviour {
 
 	public enum SpriteIndex {
-		body,
-		rightArm,
-		leftArm,
-		weapon,
-		head,
-		eyes,
-		eyebrows,
-		hair,
-		nose,
-		mouth,
 		beard,
-	}
+		eyebrows,
+		eyes,
+        hair,
+		mouth,
+		nose,
+    }
 
 	public SpriteRenderer[] allSprites;
+    public SpriteRenderer weaponSprite;
 	float fade_Duration;
 	Color[] fade_InitColors;
 	bool fading = false;
@@ -26,7 +22,7 @@ public class Fight_LoadSprites : MonoBehaviour {
 
 	public void Init ()
 	{
-		allSprites = GetComponentsInChildren<SpriteRenderer> (true);
+		//allSprites = GetComponentsInChildren<SpriteRenderer> (true);
 		GetSpriteColors ();
 	}
 
@@ -34,36 +30,36 @@ public class Fight_LoadSprites : MonoBehaviour {
 
 		ResetColors ();
 
-		if (memberID.hairSpriteID > -1)
-			allSprites[(int)SpriteIndex.hair].sprite = memberID.Male ? CrewCreator.Instance.HairSprites_Male [memberID.hairSpriteID] : CrewCreator.Instance.HairSprites_Female [memberID.hairSpriteID];
-		else
-			allSprites[(int)SpriteIndex.hair].enabled = false;
-		
-		allSprites[(int)SpriteIndex.hair].color = CrewCreator.Instance.HairColors [memberID.hairColorID];
+        // hair
+        for (int i = 0; i < (int)ApparenceType.nose; i++)
+        {
+            ApparenceType type = (ApparenceType)i;
+            Sprite spr = CrewCreator.Instance.GetApparenceItem(type, memberID.GetCharacterID(type)).GetSprite();
+            if (spr == null)
+            {
+                allSprites[i].enabled = false;
 
-		if (memberID.beardSpriteID > -1)
-			allSprites[(int)SpriteIndex.beard].sprite = CrewCreator.Instance.BeardSprites [memberID.beardSpriteID];
-		else
-			allSprites[(int)SpriteIndex.beard].enabled = false;
-		allSprites[(int)SpriteIndex.beard].color = CrewCreator.Instance.HairColors [memberID.hairColorID];
+            }
+            else
+            {
+                allSprites[i].enabled = true;
+                allSprites[i].sprite = CrewCreator.Instance.GetApparenceItem(type, memberID.GetCharacterID(type)).GetSprite();
+            }
+        }
 
-		allSprites[(int)SpriteIndex.eyes].sprite = CrewCreator.Instance.EyesSprites [memberID.eyeSpriteID];
-		allSprites[(int)SpriteIndex.eyebrows].sprite = CrewCreator.Instance.EyebrowsSprites [memberID.eyebrowsSpriteID];
-		allSprites[(int)SpriteIndex.eyebrows].color = CrewCreator.Instance.HairColors [memberID.hairColorID];
-
-		allSprites[(int)SpriteIndex.nose].sprite = CrewCreator.Instance.NoseSprites [memberID.noseSpriteID];
-
-		allSprites[(int)SpriteIndex.mouth].sprite = CrewCreator.Instance.MouthSprites [memberID.mouthSpriteID];
+		allSprites[(int)SpriteIndex.hair].color = CrewCreator.Instance.hairColors[memberID.GetCharacterID(ApparenceType.hairColor)];
+		allSprites[(int)SpriteIndex.beard].color = CrewCreator.Instance.hairColors[memberID.GetCharacterID(ApparenceType.hairColor)];
+		allSprites[(int)SpriteIndex.eyebrows].color = CrewCreator.Instance.hairColors[memberID.GetCharacterID(ApparenceType.hairColor)];
 
 		// body
-		allSprites[(int)SpriteIndex.body].sprite = CrewCreator.Instance.BodySprites[memberID.Male ? 0:1];
+		//allSprites[(int)SpriteIndex.body].sprite = CrewCreator.Instance.BodySprites[memberID.Male ? 0:1];
 
 		if (memberID.equipedWeapon == null) {
 			print ("member ID weapond is null ?  " + memberID.equipedWeapon.name);
-			allSprites [(int)SpriteIndex.weapon].sprite = CrewCreator.Instance.handSprite;
+			weaponSprite.sprite = CrewCreator.Instance.handSprite;
 		}
 		else
-			allSprites [(int)SpriteIndex.weapon].sprite = CrewCreator.Instance.weaponSprites [memberID.equipedWeapon.spriteID];
+            weaponSprite.sprite = CrewCreator.Instance.weaponSprites [memberID.equipedWeapon.spriteID];
 
 	}
 

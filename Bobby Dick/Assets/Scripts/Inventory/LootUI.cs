@@ -219,7 +219,7 @@ public class LootUI : MonoBehaviour {
 
         int displayItemIndex = 0;
 
-        if ( currentCat == ItemCategory.Clothes || currentCat == ItemCategory.Weapon && currentPage == 0)
+        if ( currentCat == ItemCategory.Clothes || currentCat == ItemCategory.Weapon && currentPage == 0 && currentSide == Crews.Side.Player)
         {
             Item equipedItem = CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon);
             if ( currentCat == ItemCategory.Clothes)
@@ -323,6 +323,12 @@ public class LootUI : MonoBehaviour {
 			// no items in category
 			if ( handledLoot.AllItems[buttonIndex].Count == 0 ) {
 
+
+                if ( currentSide == Crews.Side.Enemy)
+                {
+                    categoryButtons[buttonIndex].interactable = false;
+                    continue;
+                }
                 if ( buttonIndex == (int)ItemCategory.Clothes )
                 {
                     if ( CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes) != null) {
@@ -379,12 +385,10 @@ public class LootUI : MonoBehaviour {
 	public void UpdateActionButton (Item item) {
 
 		if ( item == null ) {
-			actionGroup.Visible =  false;
+            actionGroup.HideAll();
 			return;
-			//
 		}
 
-		actionGroup.Visible =  true;
 		actionGroup.UpdateButtons (CategoryContent.catButtonType[(int)currentCat].buttonTypes);
 
 	}

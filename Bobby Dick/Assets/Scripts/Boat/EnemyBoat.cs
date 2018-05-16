@@ -16,7 +16,9 @@ public class EnemyBoat : Boat {
 	public float leavingSpeed = 20f;
 	public float followPlayer_Speed= 15f;
 
-	BoxCollider2D boxCollider;
+	BoxCollider boxCollider;
+
+    public GameObject group;
 
 	void Awake (){
 		Instance = this;
@@ -26,22 +28,24 @@ public class EnemyBoat : Boat {
 	{
 		base.Start();
 
-		StoryLauncher.Instance.onStartStory += HandlePlayStoryEvent;
-		StoryLauncher.Instance.endStoryEvent += HandleEndStoryEvent;
+		StoryLauncher.Instance.onPlayStory += HandlePlayStoryEvent;
+		StoryLauncher.Instance.onEndStory += HandleEndStoryEvent;
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
-		boxCollider = GetComponent<BoxCollider2D> ();
+		boxCollider = GetComponent<BoxCollider> ();
 
-	}
+        Hide();
+
+    }
 
 	void HandleChunkEvent ()
 	{
-		Hide ();
-	}
+        Hide();
+    }
 
-	void HandleGetFunction (FunctionType func, string cellParameters)
+    void HandleGetFunction (FunctionType func, string cellParameters)
 	{
 		if ( func == FunctionType.DestroyShip ) {
 			
@@ -67,8 +71,10 @@ public class EnemyBoat : Boat {
 
 		speed = leavingSpeed;
 
-		RectTransform rectTrans = NavigationManager.Instance.GetOppositeAnchor (otherBoatInfo.currentDirection).GetComponent<RectTransform>();
-		SetTargetPos (rectTrans);
+        Vector3 corner = NavigationManager.Instance.GetOppositeCornerPosition(otherBoatInfo.currentDirection);
+        Vector3 p = corner + (corner - getTransform.position).normalized * 2f;
+
+        SetTargetPos(p);
 	}
 	
 	public override void Update ()
@@ -76,7 +82,7 @@ public class EnemyBoat : Boat {
 		base.Update ();
 
 		if  (metPlayer && StoryLauncher.Instance.PlayingStory == false ) {
-			if ( Vector2.Distance ( targetRectTransform.position , transform.position ) < 0.5f ) {
+			if ( Vector2.Distance (targetPos , transform.position ) < 0.5f ) {
 				Hide ();
 			}
 		}
@@ -84,8 +90,6 @@ public class EnemyBoat : Boat {
 
 	public void Show ( OtherBoatInfo boatInfo ) 
 	{
-		print ("showing boat");
-
 		boxCollider.enabled = true;
 
 		this.otherBoatInfo = boatInfo; 
@@ -93,24 +97,30 @@ public class EnemyBoat : Boat {
 		Visible = true;
 
 		UpdatePositionOnScreen ();
-		
-		if (otherBoatInfo.storyManager.CurrentStoryHandler.Story.param == 0) {
 
-			// go about
-			RectTransform rectTrans = NavigationManager.Instance.GetOppositeAnchor (otherBoatInfo.currentDirection).GetComponent<RectTransform> ();
-			SetTargetPos (rectTrans);
+        if (otherBoatInfo.storyManager.CurrentStoryHandler.Story.param == 0)
+        {
 
-			speed = startSpeed;
-		} else {
+            // go about
+            Vector3 corner = NavigationManager.Instance.GetOppositeCornerPosition(otherBoatInfo.currentDirection);
+            Vector3 p = corner + (corner - getTransform.position).normalized * 3f;
 
-			speed = followPlayer_Speed;
+            SetTargetPos(p);
 
-			// follow player
-			RectTransform boatRectTransform = PlayerBoat.Instance.GetComponent<RectTransform>();
-			SetTargetPos (boatRectTransform);
-		}
+            speed = startSpeed;
 
-	}
+        }
+        else
+        {
+
+            // follow player
+            SetTargetPos(PlayerBoat.Instance.getTransform.position);
+
+            speed = followPlayer_Speed;
+
+        }
+
+    }
 
 	void Hide () {
 		Visible = false;
@@ -123,7 +133,7 @@ public class EnemyBoat : Boat {
 
 		Vector2 getDir = NavigationManager.Instance.getDir(OtherBoatInfo.currentDirection);
 
-		getTransform.position = NavigationManager.Instance.OtherAnchors[(int)otherBoatInfo.currentDirection].position;
+        getTransform.position = NavigationManager.Instance.GetCornerPosition(otherBoatInfo.currentDirection);
 
 
 		metPlayer = false;
@@ -131,12 +141,20 @@ public class EnemyBoat : Boat {
 	}
 
 	#region world
-	void OnCollisionEnter2D (Collision2D collider) {
+	void OnTriggerEnter (Collider other) {
+
 		if (metPlayer == false) {
-			if (collider.gameObject.tag == "Player") {
-				Enter ();
-			}
+
+            if (other.tag == "Player")
+            {
+                Enter();
+            }
+
 		}
+        else
+        {
+            print("met player");
+        }
 	}
 	#endregion
 
@@ -146,7 +164,7 @@ public class EnemyBoat : Boat {
 		metPlayer = true;
 		reachedPlayer = true;
 
-		boxCollider.enabled = false;
+        boxCollider.enabled = false;
 
 		StoryLauncher.Instance.PlayStory (OtherBoatInfo.storyManager, StoryLauncher.StorySource.boat);
 	}
@@ -167,12 +185,14 @@ public class EnemyBoat : Boat {
 			return visible;
 		}
 		set {
+
 			visible = value;
 
-			gameObject.SetActive (value);
-
 			reachedPlayer = false;
-		}
+
+            group.SetActive(value);
+
+        }
 	}
 	#endregion
 }

@@ -35,7 +35,7 @@ public class Member {
 	public Item equipedClothID;
 
 	public Member () {
-
+        
 	}
 
 	public void SetJob ( Job _job ) {
@@ -101,9 +101,9 @@ public class Member {
 
 		// NAME
 		if (Male) {
-			Name = CrewCreator.Instance.MaleNames[Random.Range (0, CrewCreator.Instance.MaleNames.Length)];
+			Name = CrewCreator.Instance.maleNames[Random.Range (0, CrewCreator.Instance.maleNames.Length)];
 		} else {
-			Name = CrewCreator.Instance.FemaleNames[Random.Range (0, CrewCreator.Instance.FemaleNames.Length)];
+			Name = CrewCreator.Instance.femaleNames[Random.Range (0, CrewCreator.Instance.femaleNames.Length)];
 		}
 
 		// LEVEL
@@ -131,37 +131,30 @@ public class Member {
 			--statAmount;
 		}
 
-		// il a 35% de chance d'être noir
-		bodyColorID 	= Random.value < 0.35f ? 0 : 1;
-
-		hairColorID 	= Random.Range ( 0 , CrewCreator.Instance.HairColors.Length  );
-		if (Male) {
-			hairSpriteID = Random.value > 0.2f ? Random.Range (0, CrewCreator.Instance.HairSprites_Male.Length) : -1;
-		} else {
-			hairSpriteID = Random.Range (0, CrewCreator.Instance.HairSprites_Female.Length);
-		}
-
-		beardSpriteID 	= Male ? (Random.value > 0.2f ? Random.Range (0 , CrewCreator.Instance.BeardSprites.Length) : -1) : -1;
-		eyeSpriteID 	= Random.Range (0 , CrewCreator.Instance.EyesSprites.Length);
-		eyebrowsSpriteID= Random.Range (0 , CrewCreator.Instance.EyebrowsSprites.Length);
-		noseSpriteID 	= Random.Range (0 , CrewCreator.Instance.NoseSprites.Length);
-		mouthSpriteID 	= Random.Range (0 , CrewCreator.Instance.MouthSprites.Length);
+        foreach (var item in CrewCreator.Instance.apparenceGroups)
+        {
+            List<ApparenceItem> possibleItems = item.items.FindAll(x => x.locked == false);
+            int randomID = possibleItems[Random.Range(0, possibleItems.Count)].id;
+            characterIDS.Add(randomID);
+        }
 
 	}
 
 	// icon index
 	public bool Male = false;
 	public Job job;
-	public int bodyColorID = 0;
-	public int hairSpriteID = 0;
-	public int eyeSpriteID = 0;
-	public int eyebrowsSpriteID = 0;
-	public int hairColorID = 0;
-	public int beardSpriteID = 0;
-	public int noseSpriteID = 0;
-	public int mouthSpriteID = 0;
 
-	public static bool operator ==( Member member1, Member member2) 
+    public List<int> characterIDS = new List<int>();
+    public int GetCharacterID ( ApparenceType type)
+    {
+        return characterIDS[(int)type];
+    }
+    public void SetCharacterID(ApparenceType type, int i)
+    {
+        characterIDS[(int)type] = i;
+    }
+
+    public static bool operator ==( Member member1, Member member2) 
 	{
 		return member1.id == member2.id;
 	}

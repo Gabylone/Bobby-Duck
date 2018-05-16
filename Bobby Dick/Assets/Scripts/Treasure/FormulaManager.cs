@@ -177,6 +177,6 @@ public class Formula {
 	public bool 	found		= false;
 
 	public Formula () {
-		//
+		
 	}
 }

@@ -17,6 +17,7 @@ public class DisplayItem_Loot : DisplayItem {
 	public bool selected = false;
 
 	void Start () {
+
 		itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-30, 30)));
 
 		CrewMember.onWrongLevel += HandleOnWrongLevelEvent;
@@ -69,27 +70,32 @@ public class DisplayItem_Loot : DisplayItem {
 
 	void UpdateColor ()
 	{
-		if (HandledItem == null || lvlObj != null) {
+		if (HandledItem == null ) {
 			return;
 		}
 
 		float a = 0.7f;
 
-        if (CrewMember.GetSelectedMember.GetEquipment(HandledItem.EquipmentPart) == HandledItem)
+        if (CrewMember.GetSelectedMember.GetEquipment(HandledItem.EquipmentPart) == HandledItem && index == 0 )
         {
-            Color myColor = new Color();
-            ColorUtility.TryParseHtmlString("#BB79BEFF", out myColor);
-            image.color = myColor;
-            return;
+            if (HandledItem.category == ItemCategory.Clothes || HandledItem.category == ItemCategory.Weapon)
+            {
+                Debug.Log("equiped color");
+                image.color = LootManager.Instance.item_EquipedColor;
+                return;
+            }
+            
         }
 
 		if ( HandledItem.level > CrewMember.GetSelectedMember.Level ) {
+                image.color = LootManager.Instance.item_SuperiorColor;
 			image.color = new Color(1f, a , a);
-		} else if ( HandledItem.level < CrewMember.GetSelectedMember.Level && HandledItem.level > 0 ) {
+        } else if ( HandledItem.level < CrewMember.GetSelectedMember.Level && HandledItem.level > 0 ) {
+                image.color = LootManager.Instance.item_InferiorColor;
 			image.color = new Color(a, 1f, a);
-		} else {
-			image.color = Color.white;
-		}
+        } else {
+                image.color = LootManager.Instance.item_DefaultColor;
+        }
 	}
 
 	public override Item HandledItem {

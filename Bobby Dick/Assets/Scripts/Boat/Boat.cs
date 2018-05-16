@@ -17,22 +17,12 @@ public class Boat : MonoBehaviour {
 	public float speed = 5f;
 	public float startSpeed = 5f;
 
-	public RectTransform targetRectTransform;
+    public Vector3 targetPos;
 	private Vector2 targetDir;
-
-	public Camera cam;
-
-//	public delegate void OnLeaveScreen ();
-//	public OnLeaveScreen onLeaveScreen;
 
 	public virtual void Start () {
 		
 		getTransform = GetComponent<Transform> ();
-
-		cam = Camera.main;
-
-		CombatManager.Instance.onFightStart += DeactivateCollider;
-		CombatManager.Instance.onFightEnd += ActivateCollider;
 
 	}
 
@@ -47,51 +37,46 @@ public class Boat : MonoBehaviour {
 	{
 		Vector2 p = (Vector2)getTransform.position;
 
-		Vector2 viewportPos = cam.WorldToViewportPoint (p);
 	}
+
+    public float rotationSpeed = 10f;
 
 	private void SetBoatRotation () {
 
-		Vector2 targetDir = ((Vector2)targetRectTransform.localPosition - (Vector2)getTransform.localPosition).normalized;
+		Vector3 targetDir = (targetPos - getTransform.position).normalized;
 
-		float targetAngle = Vector2.Angle (targetDir, Vector2.up);
-		if (Vector2.Dot (Vector2.right, targetDir) < 0)
+		float targetAngle = Vector3.Angle (targetDir, Vector3.forward);
+		if (Vector3.Dot (Vector3.right, targetDir) < 0)
 			targetAngle = -targetAngle;
 
 		Quaternion targetRot = Quaternion.Euler (0, targetAngle, 0);
 
-		boatMesh.localRotation = targetRot;
+		boatMesh.localRotation = Quaternion.RotateTowards(boatMesh.localRotation , targetRot , rotationSpeed * Time.deltaTime );
 
 	}
-	#region moving
-	public virtual void SetTargetPos (RectTransform rectTransform ) {
 
-		Tween.Bounce (getTransform);
+    #region moving
+    public virtual void SetTargetPos(Vector3 p)
+    {
+        moving = true;
+        targetPos = p;
 
-		targetRectTransform = rectTransform;
-
-		moving = true;
-
+    }
+    public virtual void SetTargetPos ( Transform t ) {
+        SetTargetPos(t.position);
 	}
+
 	private void UpdateBoatPosition () {
 
-		Vector2 targetDir = (Vector2)(targetRectTransform.localPosition - getTransform.localPosition).normalized;
+		Vector3 targetDir = (targetPos - getTransform.position).normalized;
 
 		// translate boat
-		getTransform.Translate (boatMesh.forward * speed * Time.deltaTime, Space.World);
+		getTransform.Translate (targetDir * speed * Time.deltaTime, Space.World);
 
 	}
 
 	public virtual void EndMovenent() {
 		moving = false;
-	}
-	void DeactivateCollider ()
-	{
-		GetComponentInChildren<BoxCollider2D> ().enabled = false;
-	}
-	void ActivateCollider ()
-	{
-		GetComponentInChildren<BoxCollider2D> ().enabled = true;
 	}
 	#endregion
 

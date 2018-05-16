@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Swipe : MonoBehaviour {
 
+    public static Swipe Instance;
+
 	public delegate void OnSwipe (Directions direction);
 	public static OnSwipe onSwipe;
 
@@ -17,10 +19,15 @@ public class Swipe : MonoBehaviour {
 
 	bool swiping = false;
 
-	float timer = 0f;
+	public float timer = 0f;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    // Use this for initialization
+    void Start () {
 		WorldTouch.onPointerDown += HandlePointerDownEvent;
 	}
 

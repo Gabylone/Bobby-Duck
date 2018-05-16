@@ -21,6 +21,8 @@ public class InfoFeedbacks : MonoBehaviour {
 
 		Hide ();
 
+        //rectTransform.transform.SetParent(transform.)
+
 	}
 
 	public virtual void Print ( string str ) {

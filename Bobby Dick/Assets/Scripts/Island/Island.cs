@@ -19,13 +19,13 @@ public class Island : MonoBehaviour {
 	private GameObject group;
 
 	[SerializeField]
-	Collider2D collider2D = null;
+	Collider _collider = null;
 
 	Vector2 scale = Vector2.zero;
 
 	public RectTransform uiBackground;
 
-	private RectTransform rectTransform;
+	private Transform _transform;
 
 	[SerializeField]
 	private RectTransform gameViewCenter;
@@ -35,15 +35,14 @@ public class Island : MonoBehaviour {
 		Instance = this;
 	}
 
-	void Start () {	
+	void Start () {
 
-		rectTransform = GetComponent<RectTransform> ();
+        _transform = GetComponent<Transform>();
 		image = GetComponentInChildren<Image> ();
 
 		Init ();
 	
 	}
-
 
 	void Init () {
 
@@ -64,13 +63,13 @@ public class Island : MonoBehaviour {
 
 	void HandleOnSwipe (Directions direction)
 	{
-		collider2D.enabled = false;
+		_collider.enabled = false;
 	}
 
 	void HandleOnTouchWorld ()
 	{
 		targeted = false;
-		collider2D.enabled = false;
+		_collider.enabled = false;
 	}
 
 	void HandleChunkEvent ()
@@ -81,22 +80,22 @@ public class Island : MonoBehaviour {
 
 	void DeactivateCollider ()
 	{
-		collider2D.enabled = false;
+		_collider.enabled = false;
 	}
 	void ActivateCollider () {
-		collider2D.enabled = true;
+		_collider.enabled = true;
 	}
 	#endregion
 
 	#region story
 	public void Enter () {
 
-		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager,StoryLauncher.StorySource.island);
+        StoryLauncher.Instance.PlayStory(Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
 	}
-	#endregion
+    #endregion
 
-	#region render
-	void UpdatePositionOnScreen(Coords coords) {
+    #region render
+    void UpdatePositionOnScreen(Coords coords) {
 
 		Chunk chunk = Chunk.GetChunk (coords);
 
@@ -108,9 +107,10 @@ public class Island : MonoBehaviour {
 
 			gameObject.SetActive ( true );
 
-			GetComponent<RectTransform> ().anchoredPosition = chunk.IslandData.positionOnScreen;
+            //GetComponent<RectTransform> ().anchoredPosition = chunk.IslandData.positionOnScreen;
+            transform.localPosition = new Vector3( chunk.IslandData.positionOnScreen.x  , 0f , chunk.IslandData.positionOnScreen.y);
 
-			GetComponentInChildren<Image>().sprite = sprites [islandData.storyManager.storyHandlers [0].Story.param];
+			//GetComponentInChildren<Image>().sprite = sprites [islandData.storyManager.storyHandlers [0].Story.param];
 
 		} else {
 			
@@ -121,7 +121,7 @@ public class Island : MonoBehaviour {
 	}
 	#endregion
 
-	void OnCollisionStay2D ( Collision2D coll ) {
+	void OnCollisionStay ( Collision coll ) {
 		if ( coll.gameObject.tag == "Player" ) {
 			if (targeted) {
 				Enter ();
@@ -135,10 +135,13 @@ public class Island : MonoBehaviour {
 
 	public bool targeted = false;
 
-	public void Pointer_ClickIsland () {
+	public void OnPointerDown () {
 
 		if (StoryLauncher.Instance.PlayingStory)
 			return;
+
+        if (!WorldTouch.Instance.isEnabled)
+            return;
 
 		Tween.Bounce (transform );
 
@@ -146,29 +149,26 @@ public class Island : MonoBehaviour {
 			onTouchIsland ();
 		}
 
-		collider2D.enabled = true;
+		_collider.enabled = true;
 
 		targeted = true;
 	}
 
-	public Vector2 GetRandomPosition () {
+    public float min_RangeX = 0f;
+    public float min_RangeY = 0f;
 
-		if ( rectTransform == null )
-			rectTransform = GetComponent<RectTransform> ();
+    public float max_RangeX = 0f;
+    public float max_RangeY = 0f;
 
-//		float minX = uiBackground.rect.width + rectTransform.rect.width/2f;
-//		float maxX = Screen.width - rectTransform.rect.width/2f;
-//
-//		float minY = rectTransform.rect.height/2f;
-//		float maxY = Screen.height - rectTransform.rect.height/2f;
-//
-//		float x = Random.Range ( minX ,	maxX);
-//		float y = Random.Range (minY, maxY);
+    private void OnMouseDown()
+    {
+        OnPointerDown();
+    }
+    public Vector2 GetRandomPosition () {
 
-		float x = Random.Range ( rectTransform.rect.width/2f , gameViewCenter.rect.width- (rectTransform.rect.width/2f) );
-		float y = Random.Range ( rectTransform.rect.height/2f , gameViewCenter.rect.height - rectTransform.rect.height/2f );
-
-		return new Vector2 (x,y);
+		if ( _transform == null )
+			_transform= GetComponent<RectTransform> ();
+        return new Vector2 (Random.Range(-min_RangeX,max_RangeX) , Random.Range(-min_RangeY,max_RangeY) );
 
 	}
 }

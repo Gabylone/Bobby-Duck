@@ -77,7 +77,7 @@ public class DisplayMinimap : MonoBehaviour {
 		QuestManager.onFinishQuest += HandleOnFinishQuest;
 		QuestManager.onGiveUpQuest += HandleOnGiveUpQuest;
 
-		StoryLauncher.Instance.onStartStory += HandlePlayStoryEvent;
+		StoryLauncher.Instance.onPlayStory += HandlePlayStoryEvent;
 
 		Vector2 scaleMin = new Vector2(initLeftOffset, initBottomOffset);
 		Vector2 scaleMax = new Vector2(-initRightOffset, -initTopOffset);
