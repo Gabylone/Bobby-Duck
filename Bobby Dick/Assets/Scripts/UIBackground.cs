@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Holoville.HOTween;
+using System;
 
 public class UIBackground : MonoBehaviour {
 
@@ -19,13 +20,39 @@ public class UIBackground : MonoBehaviour {
 	void Start () {
 		rectTransform = GetComponent<RectTransform> ();
 
-		CombatManager.Instance.onFightStart += MoveBackGround;
+        CombatManager.Instance.onChangeState += HandleOnChangeState;
+
+        CombatManager.Instance.onFightStart += MoveBackGround;
 		CombatManager.Instance.onFightEnd += HandleFightEnding;
 
 		initXPos = rectTransform.rect.position.x;
 	}
 
-	void HandleFightEnding ()
+    private void HandleOnChangeState(CombatManager.States currState, CombatManager.States prevState)
+    {
+        switch (currState)
+        {
+            case CombatManager.States.CombatStart:
+            case CombatManager.States.PlayerMemberChoice:
+            case CombatManager.States.EnemyMemberChoice:
+            case CombatManager.States.StartTurn:
+            case CombatManager.States.EnemyActionChoice:
+            case CombatManager.States.PlayerAction:
+            case CombatManager.States.EnemyAction:
+                HideBackground();
+                break;
+
+
+            case CombatManager.States.PlayerActionChoice:
+                MoveBackGround();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    void HandleFightEnding ()
 	{
 		ShowBackGround ();
 

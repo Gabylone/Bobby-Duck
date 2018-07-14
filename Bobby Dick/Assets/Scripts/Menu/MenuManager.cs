@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System;
 
 public class MenuManager : MonoBehaviour {
 
@@ -17,10 +18,24 @@ public class MenuManager : MonoBehaviour {
 
 	bool quit_Confirmed = false;
 
+    bool opened = false;
+
 	void Start () {
 		Hide ();
-	}
-	public void Open () {
+
+        RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
+
+    }
+
+    private void HandleOnTouchRayBlocker()
+    {
+        if (opened)
+            Invoke("Close", 0.01f);
+    }
+
+    public void Open () {
+
+        opened = true;
 
 		menuGroup.SetActive (true);
 
@@ -31,9 +46,11 @@ public class MenuManager : MonoBehaviour {
 
 	public void Close () {
 
+        opened = false;
+
 		CrewInventory.Instance.ShowMenuButtons ();
 
-		Hide ();
+        Hide ();
 
 		quit_Confirmed = false;
 
@@ -59,14 +76,6 @@ public class MenuManager : MonoBehaviour {
 
 		Tween.Bounce (transform);
 		Invoke ("Quit",Tween.defaultDuration);
-//
-//		if (quit_Confirmed) {
-//
-//		} else {
-//			quit_Confirmed = true;
-//			quitFeedback.SetActive (true);
-//			Tween.Bounce (quitFeedback.transform, 0.2f, 1.2f);
-//		}
 	}
 	void Quit () {
 		Application.Quit ();

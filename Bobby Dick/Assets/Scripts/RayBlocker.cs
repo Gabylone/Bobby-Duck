@@ -22,9 +22,9 @@ public class RayBlocker : MonoBehaviour {
 
 		Hide ();
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
-		CrewInventory.Instance.closeInventory += HandleCloseInventory;
-	}
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;
+    }
 
 	public void OnPointerDown () {
 		if (onTouchRayBlocker != null)

@@ -34,13 +34,13 @@ public class TutorialMenuButton : MonoBehaviour {
 
 		if ( KeepOnLoad.displayTuto ) {
 
-            tutoText.text = "Désactiver Didactitiel";
+            tutoText.text = "Didactitiel : Activé";
 
 			//image.sprite = enabledSprite;
 			buttonImage.color = Color.green;
 		} else {
 
-            tutoText.text = "Activer Didactitiel";
+            tutoText.text = "Didactitiel : Désactivé";
 
             //image.sprite = disabledSprite;
 			buttonImage.color = Color.red;

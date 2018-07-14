@@ -37,7 +37,7 @@ LaunchCombat;;;;;;OtherSpeak : Un clébard a bouffé notre jeu de carte.;OtherS
 Node=>salleVide;;;;;;OtherSpeak : Plus moyen de jouer une partie.;Leave;;;;;;;;;;
 ;;;;;;OtherSpeak : T'en as pas un à nous donner par hasard ?;;;;;;;;;;;
 ;;;;;;CheckInInventory<Jeu de carte>/Misc;;;;;;;;;;;
-[salleVide];;;;;;SetChoices2;;;;SetChoices1;;;;;;;
+[salleVide];;;;;;SetChoices3;;;;SetChoices1;;;;;;;
 Narrator : La salle est vide. Le serveur et les musiciens se sont enfuit pendant le combat.;;;;;;Choice : (donner jeu de carte);Choice : J'en ai pas je suis navré;Choice : Je vais le garder pour moi les mecs...;;OtherSpeak : Désolé les potos, j'en ai pas.;;;;;;;
 SetChoices3;;;;;;RemoveFromInventory<Jeu de carte>/Misc;[cest rien];RandomRange2;;Node=>cest rien;;;;;;;
 Choice : (revenir au bateau)(partir);Choice : (fouiller la salle)(loot);Choice : (fouiller comptoir)(loot);;;;Switch=>hommes;OtherSpeak : C'est rien vas.;Node=>cest rien;OtherSpeak : Bah écoute on va doucement te le prendre alors.;;;;;;;;

@@ -14,7 +14,7 @@ public class DisplayLevel : MonoBehaviour {
 	void Start () {
 
 		CrewMember.onWrongLevel += HandleOnWrongLevelEvent;
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
 		StatButton.onClickStatButton += UpdateUI;
 		HandleOpenInventory (CrewMember.GetSelectedMember);
 

@@ -20,18 +20,18 @@ public class CombatButtons : MonoBehaviour {
 		
 		CombatManager.Instance.onChangeState += HandleOnChangeState;
 
+        CombatManager.Instance.onFightEnd += Hide;
+
 		defaultSkillButtons = defaultGroup.GetComponentsInChildren<SkillButton> (true);
 		skillButtons = skillGroup.GetComponentsInChildren<SkillButton> (true);
 
-		defaultGroup.SetActive (false);
-		skillGroup.SetActive (false);
+        Hide();
 
 	}
 
 	void HandleOnChangeState (CombatManager.States currState, CombatManager.States prevState)
 	{
-		defaultGroup.SetActive (false);
-		skillGroup.SetActive (false);
+        Hide();
 
 		if ( currState == CombatManager.States.PlayerActionChoice ) {
 
@@ -40,12 +40,18 @@ public class CombatButtons : MonoBehaviour {
 
 	}
 
-	public void OpenSkills () {
-		
-		defaultGroup.SetActive (false);
-		skillGroup.SetActive (true);
+    void Hide()
+    {
+        defaultGroup.SetActive(false);
+        skillGroup.SetActive(false);
+    }
 
-		UpdateSkillButtons ();
+	public void OpenSkills () {
+
+        defaultGroup.SetActive(false);
+        skillGroup.SetActive(true);
+
+        UpdateSkillButtons ();
 
 		foreach (var item in skillButtons) {
 			Tween.Bounce (item.transform);

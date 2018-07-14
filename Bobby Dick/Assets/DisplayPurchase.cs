@@ -13,7 +13,8 @@ public class DisplayPurchase : MonoBehaviour {
 
     ApparenceItem apparenceItem;
 
-    MemberCreatorButton apparenceButton;
+    Transform targetTransform;
+    Transform initParent;
 
     public Button purchaseButton;
 
@@ -22,28 +23,33 @@ public class DisplayPurchase : MonoBehaviour {
         Instance = this;
     }
 
-    public void Display ( ApparenceItem _item , MemberCreatorButton _apparenceButton)
+    private void Start()
+    {
+        Hide();
+    }
+
+    public void Display ( ApparenceItem _item , Transform _targetTransform)
     {
         Show();
 
         this.apparenceItem = _item;
-        this.apparenceButton = _apparenceButton;
 
-        apparenceButton.transform.parent = itemAnchor;
-
-        apparenceButton.transform.localPosition = Vector3.zero;
+        GameObject g = Instantiate(_targetTransform.gameObject, itemAnchor) as GameObject;
+        targetTransform = g.transform;
+        targetTransform.localPosition = Vector3.zero;
 
         Tween.Bounce(group.transform);
 
         if ( apparenceItem.price > PlayerInfo.Instance.pearlAmount)
         {
             purchaseButton.interactable = false;
+            purchaseButton.GetComponentInChildren<Text>().color = new Color(1, 1, 1, 0.3f);
         }
         else
         {
+            purchaseButton.GetComponentInChildren<Text>().color = Color.white;
             purchaseButton.interactable = true;
         }
-
 
     }
 
@@ -61,7 +67,14 @@ public class DisplayPurchase : MonoBehaviour {
     {
         apparenceItem.locked = false;
 
-        apparenceButton.UpdateImage();
+        if ( targetTransform.GetComponent<MemberCreatorButton>() != null)
+        {
+            targetTransform.GetComponent<MemberCreatorButton>().UpdateImage();
+        }
+        else
+        {
+            targetTransform.GetComponent<Map>().UpdateUI();
+        }
 
         PlayerInfo.Instance.RemovePearl(apparenceItem.price);
 
@@ -74,7 +87,8 @@ public class DisplayPurchase : MonoBehaviour {
 
     public void Close()
     {
-        apparenceButton.transform.SetParent(apparenceButton.initParent);
+        //targetTransform.SetParent(initParent);
+        Destroy(targetTransform.gameObject);
 
         Hide();
     }

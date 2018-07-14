@@ -44,7 +44,7 @@ public class LootUI : MonoBehaviour {
 
 			UpdateActionButton (value);
 
-			if ( onSetSelectedItem != null && value != null ) {
+			if ( onSetSelectedItem != null  ) {
 				onSetSelectedItem ();
 			}
 
@@ -141,7 +141,7 @@ public class LootUI : MonoBehaviour {
 
 		UpdateLootUI ();
 
-		Tween.Bounce ( lootObj.transform , 0.2f , 1.05f);
+		//Tween.Bounce ( lootObj.transform , 0.2f , 1.05f);
 
 		CrewInventory.Instance.HideMenuButtons ();
 
@@ -219,7 +219,7 @@ public class LootUI : MonoBehaviour {
 
         int displayItemIndex = 0;
 
-        if ( currentCat == ItemCategory.Clothes || currentCat == ItemCategory.Weapon && currentPage == 0 && currentSide == Crews.Side.Player)
+        if ( (currentCat == ItemCategory.Clothes || currentCat == ItemCategory.Weapon) && currentPage == 0 && currentSide == Crews.Side.Player)
         {
             Item equipedItem = CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon);
             if ( currentCat == ItemCategory.Clothes)

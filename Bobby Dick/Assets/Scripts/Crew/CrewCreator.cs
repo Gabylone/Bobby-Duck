@@ -66,6 +66,17 @@ public class CrewCreator : MonoBehaviour
 
     public ApparenceItem GetApparenceItem(ApparenceType type, int id)
     {
+
+        if ( (int) type >= apparenceGroups.Count)
+        {
+            Debug.LogError("ATTENTION : le type : " + type + " (" + ((int)type).ToString () + ") dépasse apparence groups count (l " + apparenceGroups.Count + ")");
+            return apparenceGroups[0].items[0];
+        }
+        if ( id >= apparenceGroups[(int)type].items.Count)
+        {
+            Debug.LogError("ATTENTION : l'id : " + id + " du type : " + type + " dépasse apparence groups items count ( l " + apparenceGroups[(int)type].items.Count + ")");
+            return apparenceGroups[0].items[0];
+        }
         return apparenceGroups[(int)type].items[id];
     }
 
@@ -133,6 +144,7 @@ public enum ApparenceType
     //jobs
     job,
     genre,
+    map,
 }
 
 [System.Serializable]

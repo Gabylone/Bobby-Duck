@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Holoville.HOTween;
+using System;
 
 public class DisplayHunger_Icon : DisplayHunger {
 
@@ -25,11 +26,30 @@ public class DisplayHunger_Icon : DisplayHunger {
 
 		HideHunger ();
 		HideHeart ();
+
 	}
 
-	#region hear
-	void ShowHeart () {
-		HideHunger ();
+    private void HandleOnGetFunction(FunctionType func, string cellParameters)
+    {
+        switch (func)
+        {
+            case FunctionType.AddHealth:
+            case FunctionType.RemoveHealth:
+                ShowHeart();
+                Invoke("HandleOnGetFunctionDelay", 1.5f );
+                break;
+            default:
+                break;
+        }
+    }
+
+    void HandleOnGetFunctionDelay()
+    {
+        UpdateHungerIcon(linkedIcon.member);
+    }
+
+    #region hear
+    void ShowHeart () {
 		heartGroup.SetActive (true);
 		Tween.Bounce (heartGroup.transform);
 		UpdateHeartImage ();
@@ -76,11 +96,20 @@ public class DisplayHunger_Icon : DisplayHunger {
 
 	public override void UpdateHungerIcon (CrewMember member)
 	{
+
+        if ( (float)member.Health / member.MemberID.maxHealth < 0.3f )
+        {
+            HideHunger();
+            ShowHeart();
+            return;
+        }
+
 		float fillAmount = 1f - ((float)member.CurrentHunger / (float)Crews.maxHunger);
 
 		if (fillAmount * 100 < hungerToShowLife) {
+		    HideHunger ();
 			ShowHeart ();
-		} else if (fillAmount * 100 < hungerToAppear) {
+        } else if (fillAmount * 100 < hungerToAppear) {
 			base.UpdateHungerIcon (member);
 		} else {
 			HideHunger ();
@@ -91,18 +120,22 @@ public class DisplayHunger_Icon : DisplayHunger {
 	void InitEvents ()
 	{
 		NavigationManager.Instance.EnterNewChunk 	+= HandleChunkEvent;
-		CrewInventory.Instance.openInventory 		+= HandleOpenInventory;
-		StoryLauncher.Instance.onPlayStory 		+= HandlePlayStoryEvent;
-		StoryLauncher.Instance.onEndStory 		+= HandleEndStoryEvent;;
-		CrewInventory.Instance.closeInventory 		+= HandleCloseInventory;
-	}
+		CrewInventory.Instance.onOpenInventory 		+= HandleOpenInventory;
+		StoryLauncher.Instance.onPlayStory 		    += HandlePlayStoryEvent;
+		StoryLauncher.Instance.onEndStory 		    += HandleEndStoryEvent;;
+		CrewInventory.Instance.onCloseInventory 	+= HandleCloseInventory;
+        StoryFunctions.Instance.getFunction         += HandleOnGetFunction;
 
-	void OnDestroy()
+    }
+
+    void OnDestroy()
 	{
 		NavigationManager.Instance.EnterNewChunk 	-= HandleChunkEvent;
-		CrewInventory.Instance.openInventory 		-= HandleOpenInventory;
-		StoryLauncher.Instance.onPlayStory 		-= HandlePlayStoryEvent;
-		StoryLauncher.Instance.onEndStory 		-= HandleEndStoryEvent;;
-		CrewInventory.Instance.closeInventory 		-= HandleCloseInventory;
-	}
+		CrewInventory.Instance.onOpenInventory 		-= HandleOpenInventory;
+		StoryLauncher.Instance.onPlayStory 		    -= HandlePlayStoryEvent;
+		StoryLauncher.Instance.onEndStory 		    -= HandleEndStoryEvent;;
+		CrewInventory.Instance.onCloseInventory 	-= HandleCloseInventory;
+        StoryFunctions.Instance.getFunction         -= HandleOnGetFunction;
+
+    }
 }

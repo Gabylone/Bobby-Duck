@@ -169,7 +169,7 @@ public class DisplayItem : MonoBehaviour {
 			Tween.ClearFade (transform);
 
 			if (handledItem == null) {
-				Tween.Bounce (transform, 0.2f, 1.05f);
+				Tween.Bounce (transform, 0.2f, 1.03f);
 			}
 
 			handledItem = value;

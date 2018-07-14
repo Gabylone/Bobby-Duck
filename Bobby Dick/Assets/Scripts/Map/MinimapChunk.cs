@@ -62,7 +62,6 @@ public class MinimapChunk : MonoBehaviour {
 		Tween.Bounce (islandGroup.transform);
 
 		if (onTouchMinimapChunk != null) {
-			Debug.Log ("coords :" + coords);
 			onTouchMinimapChunk (Chunk.GetChunk (coords), transform);
 		}
 

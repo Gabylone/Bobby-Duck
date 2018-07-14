@@ -71,7 +71,7 @@ public class QuestMenu : MonoBehaviour {
 
 		menuGroup.SetActive (true);
 
-		displayFormulas.ShowFormulas ();
+		//displayFormulas.ShowFormulas ();
 
 		DisplayQuestAmount ();
 
@@ -80,7 +80,7 @@ public class QuestMenu : MonoBehaviour {
 		UpdateButtons ();
 
 //		Tween.ClearFade (menuGroup.transform);
-		Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
+		//Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
 
 		if (onOpenQuestMenu != null)
 			onOpenQuestMenu ();
@@ -104,11 +104,11 @@ public class QuestMenu : MonoBehaviour {
 
 	void DisplayQuestAmount () {
 
-		if (QuestManager.Instance.currentQuests.Count == 0) {
+		/*if (QuestManager.Instance.currentQuests.Count == 0) {
 			displayQuestText.text = "aucune quêtes";
 		} else {
 			displayQuestText.text = QuestManager.Instance.currentQuests.Count + " quêtes en cours";
-		}
+		}*/
 
 	}
 	void HideMenu() {

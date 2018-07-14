@@ -71,9 +71,9 @@ public class VirtualJoystick : MonoBehaviour {
 
 	private void UdpatePointPosition () {
 
-		Vector3 dir = Camera.main.WorldToScreenPoint(backGroundTransform.position) - InputManager.Instance.GetInputPosition ();
+		//Vector3 dir = Camera.main.WorldToScreenPoint(backGroundTransform.position) - InputManager.Instance.GetInputPosition ();
 
-		pointerTransform.position = backGroundTransform.position - (dir.normalized*directionFactor);
+		//pointerTransform.position = backGroundTransform.position - (dir.normalized*directionFactor);
 
 	}
 

@@ -34,19 +34,12 @@ public class SaveManager : MonoBehaviour
 
 		gameData = new GameData ();
 
+        if ( NavigationManager.Instance )
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
 		CrewMember.onCrewMemberKilled += HandleOnCrewMemberKilled;
 
 	}
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            PlayerInfo.Instance.AddPearl(1);
-        }
-    }
 
     void HandleOnCrewMemberKilled (CrewMember crewMember)
 	{
@@ -247,10 +240,7 @@ public class SaveManager : MonoBehaviour
 		string s = str.Remove (0, 4);
 
 		string xString = s.Remove(s.IndexOf ('y'));
-//		Debug.LogError(" trying x string : " + xString);
 		string yString = s.Remove (0, s.IndexOf ('y') + 1);
-//		Debug.LogError(" trying prout : " + yString);
-//		yString = yString.Remove (yString.IndexOf('.'));
 
 		return new Coords (int.Parse (xString), int.Parse (yString));
 	}
@@ -267,7 +257,8 @@ public class PlayerInfo
     /// <summary>
     /// serializable
     /// </summary>
-    public int pearlAmount = 100;
+    public int pearlAmount = 0;
+
     public List<ApparenceItem> apparenceItems = new List<ApparenceItem>();
     /// <summary>
     /// 
@@ -275,6 +266,8 @@ public class PlayerInfo
 
     public delegate void OnChangePearlAmount();
     public static OnChangePearlAmount onChangePearlAmount;
+
+    public List<int> mapIDs = new List<int>();
 
     public void Init()
     {

@@ -25,8 +25,8 @@ public class FormulaManager : MonoBehaviour {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
-		CrewInventory.Instance.closeInventory += HandleCloseInventory;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;
 
 	}
 

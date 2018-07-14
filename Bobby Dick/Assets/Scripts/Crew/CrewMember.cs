@@ -25,11 +25,8 @@ public class CrewMember {
 	}
 
 	public static void SetSelectedMember (CrewMember crewMember) {
-//		
-//		if (selectedMember != null )
-//			previousMember = GetSelectedMember;
-		
-		selectedMember = crewMember;
+
+        selectedMember = crewMember;
 
 	}
 

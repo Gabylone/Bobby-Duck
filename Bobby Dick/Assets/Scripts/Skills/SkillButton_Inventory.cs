@@ -8,13 +8,17 @@ public class SkillButton_Inventory : SkillButton {
 	public GameObject chargeCostObj;
 
 	public GameObject padlockObj;
-	public Text padlockText;
+    public Text padlockText;
+
+    bool selected = false;
 
 	public override void Start ()
 	{
 		base.Start ();
 
 		onUnlockSkill += HandleOnUnlockSkill;
+
+        //HideDescription();
 	}
 
 	void HandleOnUnlockSkill ()
@@ -27,7 +31,21 @@ public class SkillButton_Inventory : SkillButton {
 	public static OnUnlockSkill onUnlockSkill;
 	public void OnPointerDown () {
 
-		Tween.Bounce (skillImage.transform);
+        /*
+        if ( selected)
+        {
+            selected = false;
+            HideDescription();
+        }
+        else
+        {
+            selected = true;
+            ShowDescription();
+        }
+        */
+
+        
+		//Tween.Bounce (skillImage.transform);
 
 		if ( CrewMember.GetSelectedMember.SkillPoints >= GetSkillCost() ) {
 

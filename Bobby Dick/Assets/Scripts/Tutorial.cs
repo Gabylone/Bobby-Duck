@@ -357,14 +357,14 @@ public class TutoStep_CrewMenu: TutoStep {
 	{
 		base.Init ();
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
 	}
 
 	void HandleOpenInventory (CrewMember member)
 	{
 		if (OtherInventory.Instance.type == OtherInventory.Type.None) {
 			Display ();
-			CrewInventory.Instance.openInventory -= HandleOpenInventory;
+			CrewInventory.Instance.onOpenInventory -= HandleOpenInventory;
 			WaitForConfirm ();
 		}
 	}
@@ -588,12 +588,12 @@ public class TutoStep_BoatGestion: TutoStep {
 	{
 		base.Init ();
 
-		BoatUpgradeManager.onOpenBoatUpgrade += HandleOnOpenBoatUpgrade;
+        BoatUpgradeManager.Instance.onOpenBoatUpgrade += HandleOnOpenBoatUpgrade;
 	}
 
 	void HandleOnOpenBoatUpgrade ()
 	{
-		BoatUpgradeManager.onOpenBoatUpgrade -= HandleOnOpenBoatUpgrade;
+		BoatUpgradeManager.Instance.onOpenBoatUpgrade -= HandleOnOpenBoatUpgrade;
 		Display ();
 		WaitForConfirm ();
 	}
@@ -757,6 +757,9 @@ public class TutoStep_ItemMenu1: TutoStep {
 
 	void HandleOnSetSelectedItem ()
 	{
+        if (LootUI.Instance.SelectedItem == null)
+            return;
+
 		corner = DisplayInfo.Corner.TopRight;
 		LootUI.onSetSelectedItem -= HandleOnSetSelectedItem;
 

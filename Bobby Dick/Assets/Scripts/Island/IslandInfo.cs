@@ -37,7 +37,6 @@ public class IslandInfo : MonoBehaviour {
 
 	void HandleOnTouchMinimapChunk (Chunk chunk, Transform tr)
 	{
-		Debug.Log("ISLAND IN FO : " + chunk.state.ToString());
 		if (chunk.state == ChunkState.VisitedIsland) {
 
 //			uiText.text = chunk.IslandData.storyManager.CurrentStoryHandler.Story.name;

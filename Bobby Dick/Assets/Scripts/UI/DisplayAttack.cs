@@ -14,7 +14,7 @@ public class DisplayAttack : MonoBehaviour {
 		image = GetComponent<Image> ();
 		uiText = GetComponentInChildren<Text> ();
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
 		LootUI.useInventory += HandleUseInventory;
 		StatButton.onClickStatButton += HandleOnClickStatButton;
 		CrewInventory.onRemoveItemFromMember += HandleOnRemoveItemFromMember;

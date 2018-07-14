@@ -4,7 +4,7 @@ using Holoville.HOTween;
 
 public class Tween : MonoBehaviour {
 
-	public static float defaultAmount = 1.2f;
+	public static float defaultAmount = 1.05f;
 	public static float defaultDuration = 0.2f;
 
 	public static Transform lastTransform;

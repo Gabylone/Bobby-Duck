@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Crews : MonoBehaviour {
 
-//	public static int maxHunger = 23;
-	public static int maxHunger = 40;
+//	public static int maxHunger = 35;
+	public static int maxHunger = 10;
 
 	public static Crews Instance;
 
@@ -43,14 +43,14 @@ public class Crews : MonoBehaviour {
 		Instance = this;
 	}
 
-	public void Init () {
+    public void Init () {
 		crews [0] = GetComponentsInChildren<CrewManager> () [0];
 		crews [1] = GetComponentsInChildren<CrewManager> () [1];
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
-		CrewInventory.Instance.closeInventory+= HandleCloseInventory;
-		CrewInventory.Instance.openInventory+= HandleOpenInventory;;
+		CrewInventory.Instance.onCloseInventory+= HandleCloseInventory;
+		CrewInventory.Instance.onOpenInventory+= HandleOpenInventory;;
 
 		Canvas.ForceUpdateCanvases ();
 
@@ -264,14 +264,20 @@ public class Crews : MonoBehaviour {
 			
 			crewParams.overideGenre = true;
 
-			if ( parms[1][0] == 'M') 
+			if ( parms[1][0] == 'M')
+            {
 				crewParams.male = true;
-			else if (parms[1][0] == 'F' )
-				crewParams.male = false;
-			else
-				crewParams.male = Random.value > 0.5f;
+            }
+            else if (parms[1][0] == 'F')
+            {
+                crewParams.male = false;
+            }
+            else
+            {
+                crewParams.male = Random.value > 0.5f;
+            }
 
-		}
+        }
 
 		if ( parms.Length > 2 ) {
 

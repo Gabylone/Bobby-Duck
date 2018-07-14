@@ -76,11 +76,13 @@ public class Dice : MonoBehaviour {
 
 		thrown = true;
 
-		EnablePhysics ();
+		//EnablePhysics ();
 
 		Vector3 dir = Vector3.right;
-		GetComponent<Rigidbody> ().AddForce ( dir * throwDirection *  Random.Range (minForce , maxForce) );
-//		GetComponent<Rigidbody> ().AddTorque ( dir * throwDirection * Random.Range (minTorque,maxTorque) );
+        //GetComponent<Rigidbody> ().AddForce ( dir * throwDirection *  Random.Range (minForce , maxForce) );
+
+        Vector3 p = transform.position + dir * Random.Range(minForce, maxForce);
+        HOTween.To( transform , DiceManager.Instance.throwDuration , "position" , p );
 
 	}
 

@@ -36,8 +36,6 @@ public class QuestManager : MonoBehaviour {
 
 				if (item.giver.id == crewMember.MemberID.id) {
 
-					Debug.Log ("le joueur a tué un donneur de quête, abandon de la quête");
-
 					GiveUpQuest (item);
 
 				}

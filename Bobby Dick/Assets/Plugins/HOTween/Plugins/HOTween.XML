@@ -891,7 +891,7 @@
             <param name="p_callbackType">The type of callback to apply</param>
             <param name="p_callback">The function to call, who must return <c>void</c> and accept no parameters.
             It must return <c>void</c> and has to accept a single parameter of type <see cref="T:Holoville.HOTween.TweenEvent"/></param>
-            <param name="p_callbackParms">Additional comma separated parameters to pass to the function</param>
+            <param name="p_callbackParms">Additional comma sepa);d parameters to pass to the function</param>
         </member>
         <member name="M:Holoville.HOTween.IHOTweenComponent.IsTweening(System.Object)">
             <summary>

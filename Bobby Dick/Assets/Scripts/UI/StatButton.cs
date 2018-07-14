@@ -17,7 +17,7 @@ public class StatButton : MonoBehaviour {
 		button = GetComponent<Button> ();
 		text = GetComponentInChildren<Text> ();
 
-		CrewInventory.Instance.openInventory += HandleOnCardUpdate;
+		CrewInventory.Instance.onOpenInventory += HandleOnCardUpdate;
 		StatButton.onClickStatButton += UpdateDisplay;
 		SkillButton_Inventory.onUnlockSkill += UpdateDisplay;
 

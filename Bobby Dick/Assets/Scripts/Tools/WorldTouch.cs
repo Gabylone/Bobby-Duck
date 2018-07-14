@@ -1,21 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class WorldTouch : MonoBehaviour {
+public class WorldTouch : MonoBehaviour
+{
 
     public static WorldTouch Instance;
 
-	public delegate void OnTouchWorld ();
-	public static OnTouchWorld onPointerExit;
+    public delegate void OnTouchWorld();
+    public static OnTouchWorld onPointerExit;
 
-	public delegate void OnPointerDownEvent ();
-	public static OnPointerDownEvent onPointerDown;
+    public delegate void OnPointerDownEvent();
+    public static OnPointerDownEvent onPointerDown;
 
     public bool touching = false;
 
     float timer = 0f;
-	float timeToTouch = 0.25f;
+    float timeToTouch = 0.25f;
 
     public bool isEnabled = false;
 
@@ -27,9 +29,10 @@ public class WorldTouch : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
-		Swipe.onSwipe += HandleOnSwipe;
+        Swipe.onSwipe += HandleOnSwipe;
 
         NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
@@ -49,31 +52,32 @@ public class WorldTouch : MonoBehaviour {
         isEnabled = false;
     }
 
-	void HandleChunkEvent ()
-	{
-		
-	}
+    void HandleChunkEvent()
+    {
 
-	void HandleOnSwipe (Directions direction)
-	{
-		touching = false;
+    }
+
+    void HandleOnSwipe(Directions direction)
+    {
+        touching = false;
         swipped = true;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-        if ( isEnabled == false )
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (isEnabled == false)
         {
-            if ( !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && !invoking )
+            if (!IsPointerOverUIObject() && !invoking)
             {
                 invoking = true;
-                Invoke("Enable", 0.58f);
+                Invoke("Enable", 0.01f);
             }
         }
         else
         {
-            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() )
+            if (IsPointerOverUIObject())
             {
                 Disable();
             }
@@ -87,16 +91,13 @@ public class WorldTouch : MonoBehaviour {
             }
         }*/
 
-	}
+    }
 
     //public void OnPointerDown () {
     public void OnMouseDown()
     {
-        Debug.Log("touch down");
-
         if (!isEnabled)
         {
-            Debug.Log("is disabled");
             return;
         }
 
@@ -117,18 +118,26 @@ public class WorldTouch : MonoBehaviour {
         if (!touching)
             return;
 
-        Debug.Log("touch up");
         if (!isEnabled)
         {
-        Debug.Log("is disabled");
             return;
         }
 
         touching = false;
 
-
-        if (onPointerExit != null) {
+        if (onPointerExit != null)
+        {
             onPointerExit();
-		}
-	}
+        }
+    }
+
+    private bool IsPointerOverUIObject()
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        return results.Count > 0;
+    }
+
 }

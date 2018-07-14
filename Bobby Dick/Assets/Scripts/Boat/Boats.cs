@@ -52,7 +52,8 @@ public class Boats : MonoBehaviour {
 		for (int i = 0; i < otherBoatAmount; i++) {
 			OtherBoatInfo newBoat = new OtherBoatInfo ();
 			newBoat.Init ();
-			newBoat.Randomize ();
+            newBoat.Randomize();
+
 			boatData.boats.Add(newBoat);
 		}
 	}
@@ -65,7 +66,7 @@ public class Boats : MonoBehaviour {
 			OtherBoatInfo boatInfo = EnemyBoat.Instance.OtherBoatInfo;
 			boatData.boats.Remove (boatInfo);
 
-            Debug.Log("oui?");
+            DisplayMinimap.Instance.CheckForOtherBoats();
 
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
@@ -124,7 +125,7 @@ public class Boats : MonoBehaviour {
 
 		boatData = SaveTool.Instance.LoadFromCurrentMap ("boat data.xml", "BoatData") as BoatData;
 		foreach (var item in getBoats) {
-			item.Init ();
+            item.Init();
 		}
 	}
 	#endregion

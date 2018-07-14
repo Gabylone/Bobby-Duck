@@ -77,6 +77,8 @@ public class CombatManager : MonoBehaviour {
 	public delegate void FightEnding ();
 	public FightEnding onFightEnd;
 
+    public bool debugDeath = false;
+
 	void Awake () {
 		Instance = this;
 	}
@@ -101,25 +103,24 @@ public class CombatManager : MonoBehaviour {
 
 	public bool debugKill = false;
 
-	// Update is called once per frame
-	void Update () {
-		
-		if ( updateState != null ) {
-			updateState ();
-			timeInState += Time.deltaTime;
-		}
-//
-//		if ( Input.GetKeyDown(KeyCode.L) ) {
-//
-//			debugKill = true;
-//
-//		}
+    // Update is called once per frame
+    void Update()
+    {
 
-	}
+        if (updateState != null)
+        {
+            updateState();
+            timeInState += Time.deltaTime;
+        }
 
+        if (debugDeath)
+        {
+            debugKill = true;
+        }
+    }
 
-	#region Combat Start
-	private void CombatStart_Start () {
+        #region Combat Start
+        private void CombatStart_Start () {
 
 		foreach (CrewMember member in Crews.enemyCrew.CrewMembers)
 			member.Icon.overable = true;
@@ -367,8 +368,6 @@ public class CombatManager : MonoBehaviour {
 	#region Enemy Action Choice
 	private void EnemyActionChoice_Start () {
 
-		print ("enemy action choice start");
-
 		Skill skill = SkillManager.RandomSkill (currentMember);
 		skill.Trigger (CombatManager.Instance.currentFighter);
 
@@ -384,7 +383,6 @@ public class CombatManager : MonoBehaviour {
 		if ( currentSkill.preferedTarget != null ) {
 			currentSkill.preferedTarget.SetAsTarget ();
 			currentSkill.preferedTarget = null;
-			print ("CURRENT SKILL has prefered target, donc on la prend");
 			return;
 		}
 

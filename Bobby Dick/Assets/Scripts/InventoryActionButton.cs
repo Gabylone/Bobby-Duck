@@ -24,6 +24,7 @@ public class InventoryActionButton : MonoBehaviour {
 	public GameObject fillGroup;
 	public Image fillImage;
 
+    public bool showDescription = true;
 
     void Start()
     {
@@ -85,7 +86,8 @@ public class InventoryActionButton : MonoBehaviour {
 	}
 
 	void ShowDescription () {
-
+        if (!showDescription)
+            return;
 		Tween.Bounce (transform);
 
 		descriptionGroup.SetActive (true);

@@ -44,8 +44,8 @@ public class ChoiceManager : MonoBehaviour {
 
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
-		CrewInventory.Instance.closeInventory += HandleCloseInventory;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;
 	}
 
 	bool previousActive = false;
@@ -120,6 +120,9 @@ public class ChoiceManager : MonoBehaviour {
 	public void Choose (int i) {
 
 		StoryReader.Instance.SetDecal (i);
+
+        /// ici, si tu veux tainter les choix que tu as déjà fais.
+        //StoryReader.Instance.CurrentStoryHandler.SaveDecal(-2);
 
 		foreach ( GameObject button in choiceButtons ) {
 			button.SetActive (false);

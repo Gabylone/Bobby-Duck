@@ -153,10 +153,21 @@ public class SaveTool : MonoBehaviour
     }
     public string GetSaveFolderPath () {
 
-		string path = Application.dataPath + "/SaveData/" + KeepOnLoad.mapName;
+        string s = "";
+
+        if (KeepOnLoad.Instance.mapName != "")
+        {
+            s = KeepOnLoad.Instance.mapName;
+        }
+        else
+        {
+            s = "Default";
+        }
+
+		string path = Application.dataPath + "/SaveData/" + s;
 
         if ( Application.isMobilePlatform )
-			path = Application.persistentDataPath + "/SaveData/" + KeepOnLoad.mapName;
+			path = Application.persistentDataPath + "/SaveData/" + s;
 
 		return path;
 	}

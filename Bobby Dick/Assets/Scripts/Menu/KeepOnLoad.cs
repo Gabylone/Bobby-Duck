@@ -3,7 +3,14 @@ using System.Collections;
 
 public class KeepOnLoad : MonoBehaviour {
 
-	void Start () {
+    public static KeepOnLoad Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    void Start () {
 		DontDestroyOnLoad (gameObject);
 	}
 
@@ -11,7 +18,9 @@ public class KeepOnLoad : MonoBehaviour {
 
 	public static bool displayTuto = false;
 
-    public static string mapName = "";
+    public Map map;
+    public string mapName = "";
+    public int price = 666;
 
     public static int pearls = 0;
 }

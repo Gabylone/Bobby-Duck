@@ -15,12 +15,25 @@ public class DisplayPearls : MonoBehaviour {
 
         UpdateUI();
 
-        CrewInventory.Instance.openInventory += HandleOnOpenInventory;
-        CrewInventory.Instance.closeInventory += HandleOnCloseInventory;
+        if (CrewInventory.Instance != null)
+        {
+            CrewInventory.Instance.onOpenInventory += HandleOnOpenInventory;
+            CrewInventory.Instance.onCloseInventory += HandleOnCloseInventory;
+        }
 
         PlayerInfo.onChangePearlAmount += UpdateUI;
 
 	}
+    private void OnDestroy()
+    {
+        if (CrewInventory.Instance != null)
+        {
+            CrewInventory.Instance.onOpenInventory -= HandleOnOpenInventory;
+            CrewInventory.Instance.onCloseInventory -= HandleOnCloseInventory;
+        }
+
+        PlayerInfo.onChangePearlAmount -= UpdateUI;
+    }
 
     private void HandleOnCloseInventory()
     {

@@ -36,7 +36,7 @@ public class SkillButton : MonoBehaviour {
 		uiText_Description.text = skill.description;
 		uiText_ChargeCost.text = "" + skill.initCharge;
 
-		Tween.Bounce ( descriptionGroup.transform );
+		//Tween.Bounce ( descriptionGroup.transform );
 	}
 
 	public void HideDescription ()
@@ -56,7 +56,7 @@ public class SkillButton : MonoBehaviour {
 
 	public void Show () {
 		gameObject.SetActive (true);
-		Tween.Bounce (transform);
+		//Tween.Bounce (transform);
 	}
 
 	public void Hide () 

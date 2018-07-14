@@ -36,6 +36,8 @@ public class CrewManager : MonoBehaviour {
 			NameGeneration.onDiscoverFormula += HandleOnDiscoverFormula;
 		}
 		CombatManager.Instance.onFightStart += HandleFightStarting;
+
+        //UpdateCrew(Crews.PlacingType.Map);
 	}
 
 	void HandleOnDiscoverFormula (Formula Formula)
@@ -160,7 +162,7 @@ public class CrewManager : MonoBehaviour {
 
 		managedCrew = crew;
 
-		UpdateCrew (Crews.PlacingType.Map);
+        UpdateCrew(Crews.PlacingType.Map);
 	}
 	#endregion
 }

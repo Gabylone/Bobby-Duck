@@ -73,7 +73,7 @@ public class MemberCreator : MonoBehaviour {
 	}
 
 	public void HideStep (CreationStep step) {
-		HOTween.To (GetStep (step).transform, tweenDuration / 2f, "anchoredPosition", Vector2.right * -1000f, false, EaseType.Linear, 0f);
+		HOTween.To (GetStep (step).transform, tweenDuration / 2f, "anchoredPosition", Vector2.up * -1000f, false, EaseType.Linear, 0f);
 	}
 	public void ShowStep ( CreationStep step ) {
 
@@ -86,7 +86,7 @@ public class MemberCreator : MonoBehaviour {
 		}
 
 		GetStep (step).SetActive (true);
-		GetStep (step).transform.localPosition = new Vector3 (1000f , 0f , 0f);
+		GetStep (step).GetComponent<RectTransform>().anchoredPosition = new Vector3 (0f , 1000f , 0f);
 		HOTween.To (GetStep (step).transform, tweenDuration, "anchoredPosition", Vector2.zero, false, EaseType.Linear, 0f);
 
 	}
@@ -104,7 +104,9 @@ public class MemberCreator : MonoBehaviour {
 
 		currentStep = CreationStep.CaptainName;
 
-		Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Combat);
+        CrewInventory.Instance.canOpen = false;
+
+        Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Combat);
 
 		overall.SetActive (true);
 		ShowStep(currentStep);
@@ -151,6 +153,8 @@ public class MemberCreator : MonoBehaviour {
 
         Crews.playerCrew.captain.Icon.transform.SetParent(iconInitParent);
         Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Map);
+        CrewInventory.Instance.canOpen = true;
+
         Invoke("EndMemberCreationDelay",tweenDuration);
 
 	}

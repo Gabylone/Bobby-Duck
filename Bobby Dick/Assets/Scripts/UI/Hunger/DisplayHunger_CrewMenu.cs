@@ -10,7 +10,7 @@ public class DisplayHunger_CrewMenu : DisplayHunger {
 	{
 		base.Start ();
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
 		LootUI.useInventory += HandleUseInventory;
 
 		HandleOpenInventory (CrewMember.GetSelectedMember);
@@ -29,7 +29,7 @@ public class DisplayHunger_CrewMenu : DisplayHunger {
 	}
 
 	void OnDestroy () {
-		CrewInventory.Instance.openInventory -= HandleOpenInventory;
+		CrewInventory.Instance.onOpenInventory -= HandleOpenInventory;
 		LootUI.useInventory -= HandleUseInventory;
 	}
 }

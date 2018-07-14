@@ -34,8 +34,8 @@ public class WeightManager : MonoBehaviour {
 
 	public void Init () {
 //
-		CrewInventory.Instance.openInventory += HandleOpenInventory;;
-		CrewInventory.Instance.closeInventory += Hide;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;;
+		CrewInventory.Instance.onCloseInventory += Hide;
 
 		BoatUpgradeManager.onUpgradeBoat += HandleOnUpgradeBoat;
 

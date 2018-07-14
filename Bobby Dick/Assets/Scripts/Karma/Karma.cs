@@ -47,15 +47,16 @@ public class Karma : MonoBehaviour {
 		UpdateUI ();
 
 	}
-//
-//	void Update () {
-//		if ( Input.GetKeyDown(KeyCode.I) ) {
-//			++CurrentKarma;
-//		}
-//		if ( Input.GetKeyDown(KeyCode.U) ) {
-//			--CurrentKarma;
-//		}
-//	}
+
+	void Update () {
+		if ( Input.GetKeyDown(KeyCode.I) ) {
+            AddKarma(1);
+		}
+		if ( Input.GetKeyDown(KeyCode.U) ) {
+            RemoveKarma(1);
+			--CurrentKarma;
+		}
+	}
 
 	void HandleOpenInventory (CrewMember member)
 	{
@@ -117,7 +118,7 @@ public class Karma : MonoBehaviour {
 	}
 	public void RemoveKarma (int i) {
 		
-		CurrentKarma += i;
+		CurrentKarma -= i;
 
 		bounty += (bountyStep*i);
 

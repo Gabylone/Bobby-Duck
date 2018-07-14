@@ -8,9 +8,9 @@ public class CrewInventory : MonoBehaviour {
 	public static CrewInventory Instance;
 
 	public delegate void OpenInventory (CrewMember member);
-	public OpenInventory openInventory;
+	public OpenInventory onOpenInventory;
 	public delegate void CloseInventory ();
-	public CloseInventory closeInventory;
+	public CloseInventory onCloseInventory;
 
 	private CrewMember selectedMember;
 
@@ -108,7 +108,7 @@ public class CrewInventory : MonoBehaviour {
 		switch (foodItem.spriteID) {
 		// légume
 		case 0:
-			hunger = (int) ((float)Crews.maxHunger/4f);
+			hunger = (int) ((float)Crews.maxHunger/3f);
 			health = 25;
 			break;
 		// poisson
@@ -162,7 +162,6 @@ public class CrewInventory : MonoBehaviour {
 
     private void UnequipItem()
     {
-        Debug.Log("selected item : " + LootUI.Instance.SelectedItem.name);
         LootManager.Instance.getLoot(Crews.Side.Player).AddItem(LootUI.Instance.SelectedItem);
 
         CrewMember.GetSelectedMember.RemoveEquipment(LootUI.Instance.SelectedItem.EquipmentPart);
@@ -198,7 +197,7 @@ public class CrewInventory : MonoBehaviour {
 		}
 
 		// event
-		openInventory (crewMember);
+		onOpenInventory (crewMember);
 
 			// set bool
 		opened = true;
@@ -220,7 +219,7 @@ public class CrewInventory : MonoBehaviour {
 		opened = false;
 
 			// event
-		closeInventory();
+		onCloseInventory();
 
 		// hide elements
 		HideMenuButtons ();

@@ -76,6 +76,9 @@ public class PlayerBoat : Boat {
 
         WorldTouch.Instance.touching = false;
 
+        SetTargetPos(transform.position);
+        moving = false;
+
         if ( onEndMovement != null )
 			onEndMovement ();
 	}

@@ -62,7 +62,7 @@ Node=>debut;Fade;Node=>debut;Node=>debut;;Node=>debut;;;;;;;;;
 PlayerSpeak : Wow !;;;;;;;;;;;;;;
 PlayerSpeak : La vue est impressionante.;;;;;;;;;;;;;;
 [choix mât];;;;;;;;;;;;;;
-SetChoices2;;;;;;;;;;;;;;
+SetChoices3;;;;;;;;;;;;;;
 Choice : On redescend !;Choice : (regarder l'horizon);Choice : (observer avec longue vue);;;;;;;;;;;;
 Fade;PlayerSpeak : On voit pas grand chose.;CheckInInventory<Longue vue>/Misc;;;;;;;;;;;;
 Node=>debut;Fade;Fade;PlayerSpeak : Je n'ai pas de Longue vue...;;;;;;;;;;;

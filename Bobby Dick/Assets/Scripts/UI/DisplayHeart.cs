@@ -6,13 +6,13 @@ using Holoville.HOTween;
 
 public class DisplayHeart : MonoBehaviour {
 
-	public Image backGround;
+	public RectTransform backGround;
 	public Image fillImage;
 
 	// Use this for initialization
 	void Start () {
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
 		LootUI.useInventory += HandleUseInventory;
 
 		UpdateUI ();
@@ -27,9 +27,13 @@ public class DisplayHeart : MonoBehaviour {
 
 		CrewMember member = CrewMember.GetSelectedMember;
 
+        float l = (float)member.Health / (float)member.MemberID.maxHealth;
+        float width = -backGround.rect.width + backGround.rect.width * l;
 
+        Vector2 v = new Vector2(width, fillImage.rectTransform.sizeDelta.y);
+        fillImage.rectTransform.sizeDelta = v;
 
-		Tween.Bounce (transform, 0.2f, 1.05f);
+        Tween.Bounce (transform, 0.2f, 1.05f);
 	}
 
 	void HandleUseInventory (InventoryActionType actionType)

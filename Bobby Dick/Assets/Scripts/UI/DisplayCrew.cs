@@ -17,8 +17,8 @@ public class DisplayCrew : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
-		CrewInventory.Instance.closeInventory += HandleCloseInventory;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;
 
 		Hide ();
 

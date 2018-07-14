@@ -15,7 +15,7 @@ public class DisplayItem_Crew : DisplayItem {
 	public Image itemImage;
 
 	void Start () {
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
 		LootUI.useInventory+= HandleUseInventory;
 
 		Display ();

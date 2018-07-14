@@ -64,7 +64,7 @@ public class Swipe : MonoBehaviour {
 
 	void Swipe_Update() {
 
-		float dis = Vector3.Distance ( prevPoint , InputManager.Instance.GetInputPosition() );
+		float dis = Vector2.Distance ( prevPoint , InputManager.Instance.GetInputPosition() );
 
 		if (dis > minimumDistance && timer < minimumTime) {
 

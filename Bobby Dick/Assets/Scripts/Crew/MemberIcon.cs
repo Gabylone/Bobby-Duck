@@ -15,7 +15,7 @@ public class MemberIcon : MonoBehaviour {
 
 	public Animator animator;
 
-	private Transform _transform;
+    RectTransform rectTransform;
 
 	public bool overable = true;
 
@@ -34,24 +34,31 @@ public class MemberIcon : MonoBehaviour {
 
     IconVisual iconVisual;
 
-	void Start () {
+    private void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
 
-        _transform = transform;
+    }
+
+    void Start () {
 
 
         LootUI.useInventory += HandleUseInventory;
-        CrewInventory.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+    }
+
+    private void Update()
+    {
+        /*if (Input.GetKeyDown(KeyCode.I))
+        {
+            //MoveToPoint(Crews.PlacingType.Discussion);
+		    Vector3 targetPos = Crews.getCrew(Crews.Side.Player).CrewAnchors [(int)Crews.PlacingType.Discussion].position;
+            transform.position = targetPos;
+        }*/
     }
 
     void OnDestroy()
     {
         LootUI.useInventory -= HandleUseInventory;
-        CrewInventory.onRemoveItemFromMember -= HandleOnRemoveItemFromMember;
-    }
-
-    void HandleOnRemoveItemFromMember(Item item)
-    {
-        iconVisual.UpdateWeaponSprite(item);
     }
 
     void HandleUseInventory(InventoryActionType actionType)
@@ -60,7 +67,9 @@ public class MemberIcon : MonoBehaviour {
         {
             case InventoryActionType.Equip:
             case InventoryActionType.PurchaseAndEquip:
-                if (CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon) != null && LootUI.Instance.SelectedItem.category == ItemCategory.Weapon)
+            case InventoryActionType.Unequip:
+                if ( LootUI.Instance.SelectedItem.category == ItemCategory.Weapon)
+                //if (CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon) != null && LootUI.Instance.SelectedItem.category == ItemCategory.Weapon)
                 {
                     iconVisual.UpdateWeaponSprite(CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon));
                 }
@@ -77,7 +86,6 @@ public class MemberIcon : MonoBehaviour {
 		this.member = member;
 
 		animator = GetComponentInChildren<Animator> ();
-		initScale = group.transform.localScale.x;
 	
 		HideBody ();
 
@@ -142,7 +150,7 @@ public class MemberIcon : MonoBehaviour {
 
 //		print ("moviong target : " + Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].name);
 
-		HOTween.To ( transform , moveDuration , "position" , targetPos , false , EaseType.Linear , 0f );
+		HOTween.To (rectTransform, moveDuration , "position" , targetPos , false , EaseType.Linear , 0f );
 
 		switch (currentPlacingType) {
 		case Crews.PlacingType.Map:
@@ -167,11 +175,11 @@ public class MemberIcon : MonoBehaviour {
 		bodyGroup.SetActive (false);
 		animator.SetBool ("enabled", false);
 
-//		Vector3 targetScale = Vector3.one * initScale;
-//		if (member.side == Crews.Side.Player)
-//			targetScale.x = -targetScale.x;
-//
-//		HOTween.To ( group.transform , moveDuration / 2f , "localScale" , targetScale );
+		Vector3 targetScale = Vector3.one * initScale;
+		if (member.side == Crews.Side.Player)
+			targetScale.x = -targetScale.x;
+
+		HOTween.To ( group.transform , moveDuration / 2f , "localScale" , targetScale );
 
 	}
 	public void ShowBody () {
@@ -179,7 +187,13 @@ public class MemberIcon : MonoBehaviour {
 		bodyGroup.SetActive (true);
 		animator.SetBool ("enabled", true);
 
-	}
+        Vector3 targetScale = Vector3.one * bodyScale;
+        if (member.side == Crews.Side.Player)
+            targetScale.x = -targetScale.x;
+
+        HOTween.To(group.transform, moveDuration / 2f, "localScale", targetScale);
+
+    }
 
 	public void InitVisual (Member memberID)
 	{

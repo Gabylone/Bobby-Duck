@@ -24,7 +24,7 @@ Node=>ajouté à l'équipage;RandomRange2;;RandomRange3;;;;;;OtherSpeak :  J'ai
 <;OtherSpeak : Mais je n'ai absolument rien !;RemoveKarma;OtherSpeak : Donnez moi au moins quelque chose à manger;;;Node=>combat naufragé;OtherSpeak : Je comprends…;;OtherSpeak : Je veux une peluche à bord, ensuite je montrerais.;;
 ;Node=>combat dialogue;Node=>combat naufragé;SetChoices2;;;;Leave;;CheckInInventory<Peluche>/Misc;;
 ;;;Choice : Tiens.;;Choice : Non continue à manger des noix de coco.;;;;SetChoices2;;SetChoices1
-;;;[switch manger];;OtherSpeak : Vous êtes sans coeur !;;;;Choice : (donner peluche);Choice : (tanpis pour toi gamin);Choice : (désolé)
+;;;[switch manger];;OtherSpeak : Vous êtes sans coeur !;;;;Choice : (donner peluche);Choice : Tanpis pour toi, gamin;Choice : Désolé gamin, j’en ai pas…
 ;;;Node=>donner à manger;OtherSpeak : Vous m'avez déjà assez donné;RemoveKarma;;;;OtherSpeak : Merci m'sieur !;OtherSpeak : …;OtherSpeak : …
 ;;;[donner à manger];Leave;Node=>plage déserte;;;;OtherSpeak : Me voilà !;Leave;Leave
 ;;;CheckInInventory/Food;;;;;;RandomRange2;;

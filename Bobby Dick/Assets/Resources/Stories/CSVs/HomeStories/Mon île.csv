@@ -1,5 +1,5 @@
 Nom;Fréquence / 5;Sprite ID
-Départ – Ile deserte;100;0
+Mon île;100;0
 [premiere visite];;
 Narrator : Naufragé depuis plus d'un an, CAPITAINE n'a quasiment plus rien à mangé. Il est temps pour lui de partir à bord de son bateau construit de bambous et d'os, NOMBATEAU, et de chercher la richesse auprès du trésor de Bobby Dick.;Node=>retour;
 PlayerSpeak : En route !;;

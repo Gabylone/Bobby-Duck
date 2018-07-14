@@ -1,5 +1,5 @@
 Nom histoire;Fréquence %;Sprite ID;;;;;;;;;;;
-Marchand dе nourriture;1,67;1;;;;;;;;;;;
+Epicier;1,67;1;;;;;;;;;;;
 Narrator : L'île est assez vaste, mais vous en voyez le bout. Elle est couverte de champs de blé.;;;;;;;;;;;;;
 CheckQuest=>debut;;;;;;;;;;;;;
 [debut];;;;;;;;;;;;;

@@ -37,9 +37,14 @@ public class ActionGroup : MonoBehaviour {
             case ItemCategory.Clothes:
 
 
-                if (LootUI.Instance.SelectedItem == CrewMember.GetSelectedMember.GetEquipment(LootUI.Instance.SelectedItem.EquipmentPart))
+                //if (LootUI.Instance.SelectedItem == CrewMember.GetSelectedMember.GetEquipment(LootUI.Instance.SelectedItem.EquipmentPart))
+                if (LootUI.Instance.SelectedItem == CrewMember.GetSelectedMember.GetEquipment(LootUI.Instance.SelectedItem.EquipmentPart)
+                    &&
+                    DisplayItem_Loot.selectedDisplayItem.index == 0
+                    &&
+                    LootUI.Instance.currentSide == Crews.Side.Player
+                    )
                 {
-                    print("unequip");
                     a = (int)ButtonType.Unequip;
                 }
                 else
@@ -47,7 +52,6 @@ public class ActionGroup : MonoBehaviour {
                     if (LootUI.Instance.categoryContentType == CategoryContentType.Inventory)
                     {
                         a = (int)ButtonType.Equip;
-                        print("equip");
                     }
 
                 }

@@ -18,7 +18,7 @@ public class MemberCreationButton_Job : MemberCreatorButton {
     {
         base.UpdateImage();
 
-        text.text = SkillManager.jobNames[id];
+        text.text = SkillManager.jobNames[apparenceItem.id];
     }
 
 

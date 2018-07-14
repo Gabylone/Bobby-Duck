@@ -23,7 +23,7 @@ Node=>choix bateau;;;;;;;;
 ChangeTimeOfDay;;;;[lieu 1];;;;
 Narrator :  Un immense arbre tordu fait de l’ombre à un gros rocher mousseux.;;;;RandomPercent80;;;;
 SetChoices3;;;;Node=>description de rien;RandomRange4;;;
-Choice : (contourner le rocher);Choice : (prendre la direction de l’arbre);Choice : (passer entre les deux);;;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+Choice : (contourner le rocher);Choice : (prendre la direction de l’arbre);Choice : (passer entre les deux);;;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
 Node=>lieu 1;Node=>choix 2;Node=>lieu 1;;;;;;
 ;;;;;;;;
 ;;;;;;;;
@@ -33,14 +33,14 @@ Node=>lieu 1;Node=>choix 2;Node=>lieu 1;;;;;;
 Fade;;;;[lieu 2];;;;
 Narrator : Une cavité fend une falaise colossale. CAPITAINE entend un ruissellement au loin.;;;;RandomPercent80;;;;
 SetChoices3;;;;Node=>description de rien;RandomRange4;;;
-Choice : (suivre ruissellement);Choice : (grimper falaise);Choice : (entrer dans cavité);;;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+Choice : (suivre ruissellement);Choice : (grimper falaise);Choice : (entrer dans cavité);;;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
 Node=>lieu 2;Node=>lieu 2;Node=>choix 3;;;;;;
 ;;;;;;;;
 ;;;;;;;;
 [choix 3];;;;[lieu 3];;;;
 Narrator : Un champs de blé s’étend devant CAPITAINE en sortant de la cavité. A l’est, d’imposantes cimes sapinesques.;;;;RandomPercent80;;;;
 Narrator : Une brume épaisse voile l’ouest.;;;;Node=>description de rien;RandomRange4;;;
-SetChoices3;;;;;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+SetChoices3;;;;;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
 Choice : (vers les cimes);Choice : (vers le brouillard);Choice : (traverser le champs);;;;;;
 Node=>lieu 3;Node=>choix 4;Node=>lieu 3;;;;;;
 ;;;;;;;;
@@ -48,7 +48,7 @@ Node=>lieu 3;Node=>choix 4;Node=>lieu 3;;;;;;
 [choix 4];;;;[lieu 4];;;;
 Narrator : La brume dévoile une clairière. Elle est traversée par une rivière et recouverte d’un tapis de feuille morte.;;;;RandomPercent80;;;;
 SetChoices3;;;;Node=>description de rien;RandomRange4;;;
-Choice : (descendre la rivière);Choice : (remonter la rivière);Choice : (traverser la rivière);;;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+Choice : (descendre la rivière);Choice : (remonter la rivière);Choice : (traverser la rivière);;;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
 Node=>lieu 4;Node=>lieu 4;Node=>choix 5;;;;;;
 ;;;;;;;;
 ;;;;;;;;
@@ -56,7 +56,7 @@ Node=>lieu 4;Node=>lieu 4;Node=>choix 5;;;;;;
 [choix 5];;;;[lieu 5];;;;
 Narrator : Une plaine verdoyante s’étend à perte de vue. Elle est bordée, à l’est, par un marécage, et à l’ouest par une un gigantesque saule pleureur.;;;;RandomPercent80;;;;
 SetChoices3;;;;Node=>description de rien;RandomRange4;;;
-Choice : (vers le saule);Choice : (vers le marécage);Choice : (traverser la plaine);;;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir Abandonné[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
+Choice : (vers le saule);Choice : (vers le marécage);Choice : (traverser la plaine);;;ChangeStory=>Bandits[debut/choix 1];ChangeStory=>Manoir[debut/choix 1];ChangeStory=>Bois[milieu foret/choix 1];ChangeStory=>Ferme[debut/choix 1]
 Node=>lieu 5;Node=>fin;Node=>lieu 5;;;;;;
 ;;;;;;;;
 ;;;;;;;;

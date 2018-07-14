@@ -8,13 +8,44 @@ public class DisplayFormulas : MonoBehaviour {
 	public Image[] images;
 	public Text[] uiTexts;
 
+    bool visible = false;
+
+    public Transform buttonTransform;
+
+    public GameObject group;
+
+    private void Start()
+    {
+        HideFormulas();
+    }
+
+    public void SwitchVisible()
+    {
+        visible = !visible;
+
+        if ( visible)
+        {
+            ShowFormulas();
+        }
+        else
+        {
+            HideFormulas();
+        }
+
+        Tween.Bounce(buttonTransform);
+    }
+
 	public void ShowFormulas () {
 
-		bool foundOne = false;
+        group.SetActive(true);
 
-		foreach (var item in images) {
-			item.gameObject.SetActive (false);
-		}
+
+        foreach (var item in images)
+        {
+            item.gameObject.SetActive(false);
+        }
+
+        bool foundOne = false;
 
 		int formulaIndex = 0;
 		foreach (var form in FormulaManager.Instance.formulas) {
@@ -38,4 +69,9 @@ public class DisplayFormulas : MonoBehaviour {
 		}
 
 	}
+
+    public void HideFormulas()
+    {
+        group.SetActive(false);
+    }
 }

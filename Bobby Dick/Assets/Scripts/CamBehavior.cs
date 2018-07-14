@@ -24,20 +24,6 @@ public class CamBehavior : MonoBehaviour
         StoryLauncher.Instance.onEndStory += UnZoom;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if ( Input.GetKeyDown(KeyCode.C))
-        {
-            Zoom();
-        }
-
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            UnZoom();
-        }
-    }
-
     void Zoom()
     {
         //Vector3 dirFromIsland = Island.Instance.transform.position - decal;
@@ -46,7 +32,6 @@ public class CamBehavior : MonoBehaviour
 
         if (StoryLauncher.Instance.CurrentStorySource == StoryLauncher.StorySource.boat)
         {
-            Debug.Log("source : " + StoryLauncher.Instance.CurrentStorySource);
             targetPos = EnemyBoat.Instance.getTransform.position;
         }
 

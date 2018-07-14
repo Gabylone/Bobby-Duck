@@ -20,6 +20,8 @@ public class EnemyBoat : Boat {
 
     public GameObject group;
 
+    public Directions testDir;
+
 	void Awake (){
 		Instance = this;
 	}

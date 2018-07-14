@@ -43,7 +43,7 @@ Leave;ChangeTimeOfDay;RandomRange2;;;;
 PlayerSpeak : Wow !;;;;Node=>rocher;PlayerSpeak : Aie !;PlayerSpeak : Aie !
 PlayerSpeak : La vue est impressionante.;;;;;RemoveHealth10;Fade
 [choix rocher];;;;;Fade;Switch=>mal
-SetChoices2;;;;;Switch=>mal;Node=>choix plage rocher
+SetChoices3;;;;;Switch=>mal;Node=>choix plage rocher
 Choice : On redescend !;Choice : (regarder l'horizon);Choice : (observer avec longue vue);;;Node=>choix plage rocher;
 Fade;PlayerSpeak : On voit pas grand chose.;CheckInInventory<Longue vue>/Misc;;;;
 Node=>choix plage rocher;Node=>choix rocher;Fade;PlayerSpeak : Je n'ai pas de Longue vue...;;;

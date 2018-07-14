@@ -36,17 +36,16 @@ public class DisplayItem_Loot : DisplayItem {
 			return;
 		}
 
+        // select
 		if (selectedDisplayItem != null) {
 			selectedDisplayItem.Deselect ();
 		}
-
-		selected = true;
+        selectedDisplayItem = this;
+        selected = true;
 
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
 
 		LootUI.Instance.SelectedItem = HandledItem;
-
-		selectedDisplayItem = this;
 
 		Tween.Bounce (transform);
 
@@ -80,7 +79,6 @@ public class DisplayItem_Loot : DisplayItem {
         {
             if (HandledItem.category == ItemCategory.Clothes || HandledItem.category == ItemCategory.Weapon)
             {
-                Debug.Log("equiped color");
                 image.color = LootManager.Instance.item_EquipedColor;
                 return;
             }

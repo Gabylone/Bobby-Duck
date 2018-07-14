@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using Holoville.HOTween;
 
 public class MainMenuManager : MonoBehaviour {
 
@@ -23,6 +24,8 @@ public class MainMenuManager : MonoBehaviour {
 
 	public bool loadMenuOpened = false;
 
+    public float mapsAppearDuration = 0.5f;
+
 	void Start () {
 		Transitions.Instance.ScreenTransition.FadeOut (0.5f);
 
@@ -42,7 +45,11 @@ public class MainMenuManager : MonoBehaviour {
 		Tween.Bounce (playButton.transform);
 
         mapsGroup.SetActive(true);
-        Tween.Bounce(mapsGroup.transform,0.2f , 0.95f);
+
+        CancelInvoke("HideMapsDelay");
+
+        mapsGroup.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, 1000f );
+        HOTween.To(mapsGroup.GetComponent<RectTransform>(), mapsAppearDuration, "anchoredPosition", Vector2.zero);
 
         /*if (SaveTool.Instance.FileExists ("game data")) {
 
@@ -54,6 +61,19 @@ public class MainMenuManager : MonoBehaviour {
 			HandleOnValidate ();
 
 		}*/
+    }
+
+    public void HideMaps ()
+    {
+        HOTween.To(mapsGroup.GetComponent<RectTransform>(), 1f, "anchoredPosition", new Vector2(0f, 1000f));
+
+        Invoke("HideMapsDelay", 1f);
+
+    }
+
+    void HideMapsDelay()
+    {
+        mapsGroup.SetActive(false);
     }
 
     void HandleOnValidate ()

@@ -9,6 +9,8 @@ public class OtherBoatInfo : BoatInfo {
 
 	private float changeOfChangeDirection = 0.2f;
 
+    public Color color;
+
 	public override void Init ()
 	{
 		base.Init ();
@@ -16,12 +18,31 @@ public class OtherBoatInfo : BoatInfo {
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 	}
 
+    public void ShiftFromPlayerPosition()
+    {
+        if (coords == Coords.current)
+        {
+            Debug.Log("boat is on player position, shifting");
+            if (coords.x > (float)MapGenerator.Instance.MapScale / 2)
+            {
+                SetCoords(coords - new Coords(1, 0));
+            }
+            else
+            {
+                SetCoords(coords + new Coords(1, 0));
+            }
+        }
+    }
 
 	public override void Randomize ()
 	{
 		base.Randomize ();
 
+        // random coords, but not player coords
 		SetCoords(MapGenerator.Instance.RandomCoords);
+
+        color = Random.ColorHSV();
+
 		currentDirection = (Directions)Random.Range (0,8);
 
 		// assign story
@@ -40,7 +61,13 @@ public class OtherBoatInfo : BoatInfo {
 
 	void HandleChunkEvent ()
 	{
-		UpdatePosition ();
+        if ( NavigationManager.Instance.chunksTravelled < 2)
+        {
+            ShiftFromPlayerPosition();
+            return;
+        }
+
+        UpdatePosition ();
 
 		CheckForPlayer ();
 	}

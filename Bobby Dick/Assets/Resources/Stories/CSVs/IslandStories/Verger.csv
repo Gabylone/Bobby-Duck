@@ -86,7 +86,7 @@ Leave;Node=>combat fermier;RandomRange2;;;;;;
 [failcha];;Node=>choix consequence;[choix mort fermier];;;;;
 OtherSpeak : Mes fesses ! Je vais vous empaller !;;;SetChoices2;;;;;
 RemoveKarma;;;Choice : (partir);Choice : Faisons un tour dans la ferme;;;;
-Node=>combat fermier;;;Leave;ChangeStory=>Manoir Abandonné[debut/choix mort fermier];;;;
+Node=>combat fermier;;;Leave;ChangeStory=>Manoir[debut/choix mort fermier];;;;
 ;;;;;;;;
 ;;;;;;;;
 ;;;;;;;;

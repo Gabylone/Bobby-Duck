@@ -1,5 +1,5 @@
 Nom;Fréquence %;Sprite ID;;;;;;;;;
-Village Pêcheur;5;1;;;;;;;;;
+Village;5;1;;;;;;;;;
 [debut];;;;;;;;;;;
 Narrator : Après avoir évité une vingtaine de bateau de pêche, le bateau est accosté dans un petit port. L'air empeste le poisson.;;;;;;;;;;;
 SetChoices2;;;;;;;;;;;
@@ -18,27 +18,48 @@ Node=>random village;Node=>random village;;;;;;;;;;
 ;;;;;;;;;;;
 [random village];;;;;;;;;;;
 RandomRange3;;;;;;;;;;;
-RandomRange2;;;;Narrator : Une ruelle part de la place principale, et une autre, plus large, s'enfonce dans le village.;;;Narrator : Un sentier continue vers quelques maisonnettes sur la côté, et deux petites rues s'ouvrent au fond de la place, et derrière quelques arbustes.;;;;
-Narrator : Plus loin sur la place s'ouvre une impasse étroite et sombre.;;Narrator : Pas très loin du port, une grande rue part de la place.;;SetChoices3;;;SetChoices4;;;;
-SetChoices2;;SetChoices2;;Choice : (repartir);Choice : (continuer vers la petite ruelle);Choice : (s'enfoncer dans le village);Choice : (repartir);Choice : (prendre le sentier près de la côte);Choice : (s'enfoncer dans la petite rue au fond de la place);Choice : (s'enfoncer derrière les arbres);
-Choice : (repartir);Choice : (continuer dans la petite impasse);Choice : (repartir);Choice : (continuer sur la grande rue);Fade;Fade;Fade;Fade;Fade;Fade;Fade;
-Fade;Fade;Fade;Fade;Node=>debut;Node=>random village 1;Node=>random village 2;Node=>debut;Node=>random village 1;Node=>random village 2;Node=>random village 3;
+Node=>un chemin;Node=>deux chemins;Node=>trois chemins;;;;;;;;;
+;;;;;;;;;;;
+[un chemin];;;;;;;;;;;
+RandomRange2;;;;;;;;;;;
+Narrator : Plus loin sur la place s'ouvre une impasse étroite et sombre.;;Narrator : Pas très loin du port, une grande rue part de la place.;;;;;;;;;
+SetChoices2;;SetChoices2;;;;;;;;;
+Choice : (repartir);Choice : (continuer dans la petite impasse);Choice : (repartir);Choice : (continuer sur la grande rue);;;;;;;;
+Fade;Fade;Fade;Fade;;;;;;;;
 Node=>debut;Node=>random village 1;Node=>debut;Node=>random village 1;;;;;;;;
+;;;;;;;;;;;
+;;;;;;;;;;;
+[deux chemins];;;;;;;;;;;
+Narrator : Une ruelle part de la place principale, et une autre, plus large, s'enfonce dans le village.;;;;;;;;;;;
+SetChoices3;;;;;;;;;;;
+Choice : (repartir);Choice : (continuer vers la petite ruelle);Choice : (s'enfoncer dans le village);;;;;;;;;
+Fade;Fade;Fade;;;;;;;;;
+Node=>debut;Node=>random village 1;Node=>random village 2;;;;;;;;;
+;;;;;;;;;;;
+[trois chemins];;;;;;;;;;;
+Narrator : Un sentier continue vers quelques maisonnettes sur la côté, et deux petites rues s'ouvrent au fond de la place, et derrière quelques arbustes.;;;;;;;;;;;
+SetChoices4;;;;;;;;;;;
+Choice : (repartir);Choice : (prendre le sentier près de la côte);Choice : (s'enfoncer dans la petite rue au fond de la place);Choice : (s'enfoncer derrière les arbres);;;;;;;;
+Fade;Fade;Fade;Fade;;;;;;;;
+Node=>debut;Node=>random village 1;Node=>random village 2;Node=>random village 3;;;;;;;;
+;;;;;;;;;;;
+;;;;;;;;;;;
+;;;;;;;;;;;
 ;;;;;;;;;;;
 [random village 1];;;;;;;;;;;
 RandomRange12;;;;;;;;;;;
 Node=>puit;Node=>poissoniers;Node=>bandits;Node=>devant taverne;Node=>boutique;Node=>hangar;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : La rue disparaît vite, pour donner place a un petit sentier, menant à une vielle maison immense.;Narrator : La rue mène seulement à une autre place, ce village est définitivement plus grand qu'il n't paraît.
-;;;;;;ChangeStory=>Marchand de nourriture[debut/random village];ChangeStory=>Marchand de indices[debut/random village];ChangeStory=>Marchand de vêtements[debut/random village];ChangeStory=>Marchand de armes[debut/random village];ChangeStory=>Manoir Abandonné[debut/random village];ChangeStory=>Village Pecheur[place du village/random village]
+;;;;;;ChangeStory=>Epicier[debut/random village];ChangeStory=>Devin[debut/random village];ChangeStory=>Armurier[debut/random village];ChangeStory=>Armes[debut/random village];ChangeStory=>Manoir[debut/random village];ChangeStory=>Village[place du village/random village]
 ;;;;;;;;;;;
 [random village 2];;;;;;;;;;;
 RandomRange12;;;;;;;;;;;
 Node=>puit;Node=>poissoniers;Node=>bandits;Node=>devant taverne;Node=>boutique;Node=>hangar;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : La rue disparaît vite, pour donner place a un petit sentier, menant à une vielle maison immense.;Narrator : La rue mène seulement à une autre place, ce village est définitivement plus grand qu'il n't paraît.
-;;;;;;ChangeStory=>Marchand de nourriture[debut/random village];ChangeStory=>Marchand de indices[debut/random village];ChangeStory=>Marchand de vêtements[debut/random village];ChangeStory=>Marchand de armes[debut/random village];ChangeStory=>Manoir Abandonné[debut/random village];ChangeStory=>Village Pecheur[place du village/random village]
+;;;;;;ChangeStory=>Epicier[debut/random village];ChangeStory=>Devin[debut/random village];ChangeStory=>Armurier[debut/random village];ChangeStory=>Armes[debut/random village];ChangeStory=>Manoir[debut/random village];ChangeStory=>Village[place du village/random village]
 ;;;;;;;;;;;
 [random village 3];;;;;;;;;;;
 RandomRange12;;;;;;;;;;;
 Node=>puit;Node=>poissoniers;Node=>bandits;Node=>devant taverne;Node=>boutique;Node=>hangar;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : Après quelques pas, une petite boutique apparaît au fond de la rue.;Narrator : La rue disparaît vite, pour donner place a un petit sentier, menant à une vielle maison immense.;Narrator : La rue mène seulement à une autre place, ce village est définitivement plus grand qu'il n't paraît.
-;;;;;;ChangeStory=>Marchand de nourriture[debut/random village];ChangeStory=>Marchand de indices[debut/random village];ChangeStory=>Marchand de vêtements[debut/random village];ChangeStory=>Marchand de armes[debut/random village];ChangeStory=>Manoir Abandonné[debut/random village];ChangeStory=>Village Pecheur[place du village/random village]
+;;;;;;ChangeStory=>Epicier[debut/random village];ChangeStory=>Devin[debut/random village];ChangeStory=>Armurier[debut/random village];ChangeStory=>Armes[debut/random village];ChangeStory=>Manoir[debut/random village];ChangeStory=>Village[place du village/random village]
 ;;;;;;;;;;;
 ;;;;;;;;;;;
 ;;;;;;;;;;;
@@ -96,7 +117,7 @@ Narrator : La rue mène sur un impasse et la chaleur d'une taverne.;;;;;;;;;;;
 SetChoices2;;;;;;;;;;;
 Choice : Revenons en arrière(partir);Choice : Entrons;;;;;;;;;;
 Fade;Fade;;;;;;;;;;
-Node=>place du village;ChangeStory=>Taverne[taverne/devant taverne];;;;;;;;;;
+Node=>place du village;ChangeStory=>Taverne[taverne normale/devant taverne];;;;;;;;;;
 ;;;;;;;;;;;
 ;;;;;;;;;;;
 ;;;;;;;;;;;
@@ -137,7 +158,7 @@ Node=>random village;;;OtherSpeak : Il habite DIRECTIONTOFORMULA;Node=>choix po
 Narrator : Une petite boutique est ouverte, entre quelques pauvres cabanes.;;;;;;;;;;;
 SetChoices2;;;;;;;;;;;
 Choice : Revenons en arrière(partir);Choice : Rentrons dans la boutique;;;;;;;;;;
-Fade;ChangeStory=>Marchand de choses[marchand/random village];;;;;;;;;;
+Fade;ChangeStory=>Quincaillerie[marchand/random village];;;;;;;;;;
 Node=>place du village;;;;;;;;;;;
 ;;;;;;;;;;;
 ;;;;;;;;;;;

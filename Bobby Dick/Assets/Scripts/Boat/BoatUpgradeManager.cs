@@ -10,7 +10,14 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 	public bool opened = false;
 
-	public enum UpgradeType {
+
+    public delegate void OnOpenBoatUpgrade();
+    public OnOpenBoatUpgrade onOpenBoatUpgrade;
+
+    public delegate void OnCloseBoatUpgrade();
+    public OnCloseBoatUpgrade onCloseBoatUpgrade;
+
+    public enum UpgradeType {
 		Crew,
 		Cargo,
 		Longview
@@ -46,13 +53,13 @@ public class BoatUpgradeManager : MonoBehaviour {
 	public Button[] goldButtons;
 	[SerializeField]
 	private Text[] goldTexts;
-	[SerializeField]
-	private Text[] levelTexts;
 
 	[SerializeField]
 	private Image[] upgradeImages;
+    [SerializeField]
+    private RectTransform[] backgroundImages;
 
-	[Header("Sounds")]
+    [Header("Sounds")]
 	[SerializeField] private AudioClip upgradeSound;
 
 	void Start () {
@@ -81,13 +88,9 @@ public class BoatUpgradeManager : MonoBehaviour {
 	}
 
 	#region show / hide
-	public delegate void OnOpenBoatUpgrade ();
-	public static OnOpenBoatUpgrade onOpenBoatUpgrade;
 	public void Show () {
 
 		menuObj.SetActive (true);
-
-		ShowAllButtons ();
 
 		UpdateInfo ();
 
@@ -98,59 +101,12 @@ public class BoatUpgradeManager : MonoBehaviour {
 		if (onOpenBoatUpgrade != null)
 			onOpenBoatUpgrade ();
 	}
-	void ShowAllButtons () {
-		StartCoroutine (ShowAllButtonsCoroutine ());
-	}
-	void HideAllButtons () {
-//		StartCoroutine (HideAllButtonsCoroutine ());
-		Hide();
-	}
-
-	IEnumerator ShowAllButtonsCoroutine () {
-
-		foreach (var item in buttonObjs) {
-			item.SetActive (false);
-			Tween.ClearFade (item.transform);
-		}
-
-		foreach (var item in buttonObjs) {
-			item.SetActive (true);
-			Tween.Bounce (item.transform);
-			yield return new WaitForSeconds ( timeBetweenButtonDisplay );
-
-		}
-
-		yield return new WaitForEndOfFrame ();
-	}
-
-
-	IEnumerator HideAllButtonsCoroutine () {
-
-		for (int i = 0; i < buttonObjs.Length; i++) {
-
-			int index = buttonObjs.Length -1 - i;
-
-//			Tween.Bounce (buttonObjs [index].transform, timeBetweenButtonDisplay , 0.f);
-			buttonObjs [index].SetActive (false);
-//			Tween.Fade (buttonObjs[index].transform, timeBetweenButtonDisplay);
-
-			yield return new WaitForSeconds ( timeBetweenButtonDisplay );
-
-			if (index > 0) {
-			}
-
-		}
-
-		yield return new WaitForEndOfFrame ();
-
-		Hide ();
-	}
 
 	void Hide () {
-
 		menuObj.SetActive (false);
 
-
+        if (onCloseBoatUpgrade != null)
+            onCloseBoatUpgrade();
 	}
 	#endregion
 
@@ -159,16 +115,12 @@ public class BoatUpgradeManager : MonoBehaviour {
 		switch (upgradeType) {
 		case UpgradeType.Crew:
 			return Boats.playerBoatInfo.crewCapacity * 100;
-			break;
 		case UpgradeType.Cargo:
 			return Boats.playerBoatInfo.cargoLevel * 150;
-			break;
 		case UpgradeType.Longview:
 			return Boats.playerBoatInfo.shipRange * 200;
-			break;
 		default:
 			return 666;
-			break;
 		}
 
 	}
@@ -206,64 +158,64 @@ public class BoatUpgradeManager : MonoBehaviour {
 		
 	}
 
+    public void UpdateJauge ( int id , int fill, int max )
+    {
+        float l = (float)fill / max;
+        float width = -backgroundImages[id].rect.width + backgroundImages[id].rect.width * l;
+
+        Vector2 v = new Vector2(width, upgradeImages[id].rectTransform.sizeDelta.y);
+        upgradeImages[id].rectTransform.sizeDelta = v;
+    }
+
 	public void UpdateInfo () {
 
 		nameTextUI.text = Boats.playerBoatInfo.Name;
 
-		for (int i = 0; i < 3; i++) {
+        int[] ehs = new int[3]
+       {
+            4,4,3
+       };
 
-			switch ((UpgradeType)i) {
-			case UpgradeType.Crew:
-				
-//				levelTexts [(int)UpgradeType.Crew].text = "" + Boats.playerBoatInfo.crewCapacity * 1;
-				upgradeImages [i].fillAmount = (float)(Boats.playerBoatInfo.crewCapacity - 1) / 3f;
-				if ( Boats.playerBoatInfo.crewCapacity == 4 ) {
-					goldButtons [i].interactable = false;
-					goldTexts [i].text = "MAX";
-				} else {
-					goldTexts [i].text = "" + GetPrice ((UpgradeType)i);
-				}
+        int[] maxes = new int[3]
+        {
+            3,4,3
+        };
 
-				break;
-			case UpgradeType.Cargo:
+        int[] ids = new int[3]
+        {
+            Boats.playerBoatInfo.crewCapacity - 1,
+            Boats.playerBoatInfo.cargoLevel,
+            Boats.playerBoatInfo.shipRange
+        };
 
-				upgradeImages [i].fillAmount = (float)Boats.playerBoatInfo.cargoLevel / 4f;
-				if ( Boats.playerBoatInfo.cargoLevel == 4 ) {
-					goldButtons [i].interactable = false;
-					goldTexts [i].text = "MAX";
-				} else {
-					goldTexts [i].text = "" + GetPrice ((UpgradeType)i);
-				}
 
-				break;
-			case UpgradeType.Longview:
+        for (int i = 0; i < 3; i++) {
 
-				upgradeImages [i].fillAmount = (float)Boats.playerBoatInfo.shipRange / 3f;
-				if ( Boats.playerBoatInfo.shipRange == 3 ) {
-					goldButtons [i].interactable = false;
-					goldTexts [i].text = "MAX";
-				} else {
-					goldTexts [i].text = "" + GetPrice ((UpgradeType)i);
-				}
+            UpdateJauge(i, ids[i], maxes[i]);
 
-				break;
-			default:
-				break;
-			}
+            if (ids[i] == ehs[i])
+            {
+                goldButtons[i].interactable = false;
+                goldTexts[i].text = "MAX";
+            }
+            else
+            {
+                goldTexts[i].text = "" + GetPrice((UpgradeType)i);
+            }
 
 		}
 
 		levelTextUI.text = "" + currentLevel;
 //		levelImage.fillAmount = (float)currentLevel / (float)(upgradeMaxLevel*3);
 
-		for (int i = 0; i < crewIcons.Length; ++i ) {
+		/*for (int i = 0; i < crewIcons.Length; ++i ) {
 //			crewIcons [i].SetActive (i <= Crews.playerCrew.currentMemberCapacity);
 			if ( i < Crews.playerCrew.CurrentMemberCapacity ) {
 				crewIcons [i].GetComponentInChildren<Image> ().color = Color.white;
 			} else {
 				crewIcons [i].GetComponentInChildren<Image> ().color = Color.black;
 			}
-		}
+		}*/
 	}
 
 	public bool Trading {
@@ -292,7 +244,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 			Invoke ("CloseDelay",0.01f);
 		}
 
-		HideAllButtons ();
+        Hide();
 
 
 	}

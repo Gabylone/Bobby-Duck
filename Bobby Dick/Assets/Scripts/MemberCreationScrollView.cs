@@ -24,8 +24,8 @@ public class MemberCreationScrollView : MonoBehaviour
         for (int i = 0; i < CrewCreator.Instance.apparenceGroups[(int)apparenceType].items.Count; ++i)
         {
             GameObject inst = Instantiate(memberCreationPrefab, contentFitter.transform) as GameObject;
-            inst.GetComponent<MemberCreationButton_Apparence>().id = i;
-            inst.GetComponent<MemberCreationButton_Apparence>().apparenceType = apparenceType;
+            inst.GetComponent<MemberCreationButton_Apparence>().apparenceItem.id = i;
+            inst.GetComponent<MemberCreationButton_Apparence>().apparenceItem.apparenceType = apparenceType;
         }
 
         initScale = rectTransform.sizeDelta;

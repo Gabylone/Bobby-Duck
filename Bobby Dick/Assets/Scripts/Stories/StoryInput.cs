@@ -14,8 +14,8 @@ public class StoryInput : MonoBehaviour {
 
 	void Start () {
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
-		CrewInventory.Instance.closeInventory += HandleCloseInventory;;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;;
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 

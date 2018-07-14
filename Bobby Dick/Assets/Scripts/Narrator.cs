@@ -18,8 +18,8 @@ public class Narrator : MonoBehaviour {
 	void Start () {
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
 
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
-		CrewInventory.Instance.closeInventory += HandleCloseInventory;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;
 
 		LootManager.onRemoveItemFromInventory += HandleOnRemoveItemFromInventory;
 

@@ -89,6 +89,11 @@ public class DiceManager : MonoBehaviour {
 
 		}
 
+        /*if (Input.GetKeyDown(KeyCode.D))
+        {
+            ThrowDice(DiceTypes.CHA, 6);
+        }*/
+
 //		print ("QUICK THROW RESULT : " + QuickThrow (1));
 	}
 

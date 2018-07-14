@@ -9,7 +9,7 @@ public class IconVisual : MonoBehaviour
     {
 
         // hair
-        for (int i = 0; i < (int)ApparenceType.nose; i++)
+        for (int i = 0; i <= (int)ApparenceType.nose; i++)
         {
             ApparenceType type = (ApparenceType)i;
             Sprite spr = CrewCreator.Instance.GetApparenceItem(type, memberID.GetCharacterID(type)).GetSprite();

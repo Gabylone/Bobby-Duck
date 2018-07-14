@@ -131,17 +131,36 @@ public class Member {
 			--statAmount;
 		}
 
+
+
         foreach (var item in CrewCreator.Instance.apparenceGroups)
         {
+
             List<ApparenceItem> possibleItems = item.items.FindAll(x => x.locked == false);
             int randomID = possibleItems[Random.Range(0, possibleItems.Count)].id;
-            characterIDS.Add(randomID);
+
+
+            if (item.items[0].apparenceType == ApparenceType.genre)
+            {
+                characterIDS.Add(Male ? 1 : 0);
+            }
+            else
+            {
+                characterIDS.Add(randomID);
+            }
+
+
         }
 
-	}
+        if (GetCharacterID(ApparenceType.genre) == 0)
+        {
+            SetCharacterID(ApparenceType.hair, 3);
+            SetCharacterID(ApparenceType.beard, 0);
+        }
+    }
 
-	// icon index
-	public bool Male = false;
+    // icon index
+    public bool Male = false;
 	public Job job;
 
     public List<int> characterIDS = new List<int>();

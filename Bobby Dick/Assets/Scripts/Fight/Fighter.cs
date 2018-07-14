@@ -230,7 +230,6 @@ public class Fighter : MonoBehaviour {
 
 			EndTurn ();
 			CombatManager.Instance.NextTurn ();
-			print ("Skipping Turn : Knocked out");
 			return;
 			//
 		}

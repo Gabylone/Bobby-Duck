@@ -22,12 +22,14 @@ public class InventorySkillButtons : MonoBehaviour {
 		if (CrewMember.GetSelectedMember == null)
 			return;
 
-		StartCoroutine (ShowSkillButtonsCoroutine ());
+        //StartCoroutine (ShowSkillButtons());
+        ShowSkillButtons();
 	}
 
 	public float timeBetweenButtons = 0.5f;
 
-	IEnumerator ShowSkillButtonsCoroutine () {
+    void ShowSkillButtons() {
+    //IEnumerator ShowSkillButtonsCoroutine () {
 
 		HideButtons ();
 
@@ -47,16 +49,15 @@ public class InventorySkillButtons : MonoBehaviour {
 
 			++a;
 
-			yield return new WaitForSeconds (timeBetweenButtons);
+			//yield return new WaitForSeconds (timeBetweenButtons);
 
 		}
 
 		statGroup.SetActive (true);
 		Tween.Bounce (statGroup.transform);
 
-		yield return new WaitForSeconds (timeBetweenButtons);
+		//yield return new WaitForSeconds (timeBetweenButtons);
 
-		yield return new WaitForEndOfFrame ();
 	}
 
 	void HideButtons ()

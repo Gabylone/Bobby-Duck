@@ -3,6 +3,7 @@
 [System.Serializable]
 public class BoatInfo {
 
+
 	public string Name = "bateau";
 
 	public Coords previousCoords;
@@ -10,12 +11,14 @@ public class BoatInfo {
 
 	public Directions currentDirection;
 
-	public BoatInfo () {
+
+    public BoatInfo () {
 		
 	}
 
 	public virtual void Init () {
-		//
+        //
+        
 	}
 
 	public virtual void Randomize () {

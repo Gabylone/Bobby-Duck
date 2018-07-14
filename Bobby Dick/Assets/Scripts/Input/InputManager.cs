@@ -110,10 +110,10 @@ public class InputManager : MonoBehaviour {
 	/// Gets the input position.
 	/// </summary>
 	/// <returns>The input position.</returns>
-	public Vector3 GetInputPosition () {
+	public Vector2 GetInputPosition () {
 		return GetInputPosition (0);
 	}
-	public Vector3 GetInputPosition (int id) {
+	public Vector2 GetInputPosition (int id) {
 		if (OnMobile) {
 			if ( Input.touches.Length <=0 ) {
 				return Vector3.zero;

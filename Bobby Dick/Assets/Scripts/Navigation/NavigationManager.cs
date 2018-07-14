@@ -38,10 +38,10 @@ public class NavigationManager : MonoBehaviour {
 	[SerializeField]
 	private Transform[] anchors;
 
-	[SerializeField]
-	private Transform[] otherAnchors;
 	public delegate void ChunkEvent ();
 	public ChunkEvent EnterNewChunk;
+
+    public int chunksTravelled = 0;
 
 	void Awake () {
 		Instance = this;
@@ -63,27 +63,34 @@ public class NavigationManager : MonoBehaviour {
 	{
 		navigationTriggers.SetActive (false);
 	}
-	#endregion
+    #endregion
 
-//	void Update () {
-//		if ( Input.GetKeyDown(KeyCode.DownArrow) ) {
-//			ChangeChunk (Directions.South);
-//		}
-//		if ( Input.GetKeyDown(KeyCode.UpArrow) ) {
-//			ChangeChunk (Directions.North);
-//		}
-//		if ( Input.GetKeyDown(KeyCode.LeftArrow) ) {
-//			ChangeChunk (Directions.West);
-//		}
-//		if ( Input.GetKeyDown(KeyCode.RightArrow) ) {
-//			ChangeChunk (Directions.East);
-//		}
-//	}
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            ChangeChunk(Directions.South);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            ChangeChunk(Directions.North);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            ChangeChunk(Directions.West);
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            ChangeChunk(Directions.East);
+        }
+    }
 
-	#region movementf
-	public void ChangeChunk ( Directions newDirection ) {
+    #region movementf
+    public void ChangeChunk ( Directions newDirection ) {
 
 		Boats.playerBoatInfo.Move (newDirection);
+
+        chunksTravelled++;
 
 		if (EnterNewChunk != null) {
 			EnterNewChunk ();
@@ -195,9 +202,6 @@ public class NavigationManager : MonoBehaviour {
 		return Vector2.zero;
 
 	}
-	public Transform GetOppositeAnchor ( Directions direction ) {
-		return otherAnchors[(int)GetOppositeDirection(direction)];
-	}
     public Transform GetAnchor(Directions direction)
     {
         return anchors[(int)direction];
@@ -241,12 +245,6 @@ public class NavigationManager : MonoBehaviour {
 	public Transform[] Anchors {
 		get {
 			return anchors;
-		}
-	}
-
-	public Transform[] OtherAnchors {
-		get {
-			return otherAnchors;
 		}
 	}
 

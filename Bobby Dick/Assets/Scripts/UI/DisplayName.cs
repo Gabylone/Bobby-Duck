@@ -10,7 +10,7 @@ public class DisplayName : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		CrewInventory.Instance.openInventory += HandleOpenInventory;
+		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
 
 		if ( CrewMember.GetSelectedMember != null)
 		HandleOpenInventory (CrewMember.GetSelectedMember);

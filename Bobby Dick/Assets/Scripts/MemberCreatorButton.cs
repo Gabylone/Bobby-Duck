@@ -14,13 +14,9 @@ public class MemberCreatorButton : MonoBehaviour {
 
     public ApparenceItem apparenceItem;
 
-    public ApparenceType apparenceType;
-
     public Transform initParent;
 
     public Image image;
-
-    public int id = 0;
 
     public bool selected = false;
 
@@ -56,7 +52,7 @@ public class MemberCreatorButton : MonoBehaviour {
 
         if (apparenceItem.locked)
         {
-            DisplayPurchase.Instance.Display(apparenceItem, this);
+            DisplayPurchase.Instance.Display(apparenceItem, transform);
             return;
         }
 
@@ -72,7 +68,7 @@ public class MemberCreatorButton : MonoBehaviour {
     {
         if ( lastSelected != null)
         {
-            if ( lastSelected.apparenceType == apparenceType)
+            if ( lastSelected.apparenceItem.apparenceType == apparenceItem.apparenceType)
             {
                 lastSelected.Deselect();
             }
@@ -90,7 +86,7 @@ public class MemberCreatorButton : MonoBehaviour {
 
 		Member member = Crews.playerCrew.captain.MemberID;
 
-        apparenceItem = CrewCreator.Instance.GetApparenceItem(apparenceType, id);
+        apparenceItem = CrewCreator.Instance.GetApparenceItem(apparenceItem.apparenceType, apparenceItem.id);
         if (apparenceItem.apparenceType == ApparenceType.hairColor)
         {
             image.enabled = false;
@@ -98,7 +94,15 @@ public class MemberCreatorButton : MonoBehaviour {
         }
         else
         {
-            image.sprite = apparenceItem.GetSprite();
+            if (apparenceItem.GetSprite() == null)
+            {
+                image.enabled = false;
+            }
+            else
+            {
+                image.sprite = apparenceItem.GetSprite();
+                image.enabled = true;
+            }
         }
 
         if (apparenceItem.locked)
@@ -122,7 +126,6 @@ public class MemberCreatorButton : MonoBehaviour {
     void Disable()
     {
         gameObject.SetActive(false);
-        print("disabling image");
     }   
     #endregion
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Holoville.HOTween;
+using System;
 
 public class DisplayMinimap : MonoBehaviour {
 
@@ -40,7 +41,8 @@ public class DisplayMinimap : MonoBehaviour {
 
 	RectTransform previousParent;
 	public RectTransform zoomParent;
-	public float initPosX = 0f;
+    public float initPosY = 0f;
+    public float initPosX = 0f;
 	public float initTopOffset = 0f;
 	public float initBottomOffset = 0f;
 	public float initLeftOffset = 0f;
@@ -77,7 +79,10 @@ public class DisplayMinimap : MonoBehaviour {
 		QuestManager.onFinishQuest += HandleOnFinishQuest;
 		QuestManager.onGiveUpQuest += HandleOnGiveUpQuest;
 
-		StoryLauncher.Instance.onPlayStory += HandlePlayStoryEvent;
+        StoryLauncher.Instance.onPlayStory += HandlePlayStoryEvent;
+
+        CrewInventory.Instance.onOpenInventory += HandleOnOpenInventory;
+        CrewInventory.Instance.onCloseInventory += HandleOnCloseInventory;
 
 		Vector2 scaleMin = new Vector2(initLeftOffset, initBottomOffset);
 		Vector2 scaleMax = new Vector2(-initRightOffset, -initTopOffset);
@@ -93,17 +98,17 @@ public class DisplayMinimap : MonoBehaviour {
 		ClampScrollView ();
 	}
 
-//	void Update () 
-//	{
-////		if (Input.GetKeyDown (KeyCode.Z)) {
-////			Zoom ();
-////		}
-////		if ( Input.GetKeyDown(KeyCode.E) ) {
-////			UnZoom ();
-////		}
-//	}
+    private void HandleOnCloseInventory()
+    {
+        FadeIn();
+    }
 
-	public void Init () {
+    private void HandleOnOpenInventory(CrewMember member)
+    {
+        FadeOut();
+    }
+
+    public void Init () {
 
 		InitMap ();
 
@@ -153,12 +158,13 @@ public class DisplayMinimap : MonoBehaviour {
 		minimapChunks [quest.targetCoords].HideQuestFeedback ();
 	}
 
-	void HandlePlayStoryEvent ()
-	{
-		if ( StoryLauncher.Instance.CurrentStorySource == StoryLauncher.StorySource.island ) {
-			minimapChunks [Coords.current].SetVisited ();
-		}
-	}	#endregion
+    void HandlePlayStoryEvent()
+    {
+        if (StoryLauncher.Instance.CurrentStorySource == StoryLauncher.StorySource.island)
+        {
+            minimapChunks[Coords.current].SetVisited();
+        }
+    }
 
 	void HandleChunkEvent ()
 	{
@@ -170,8 +176,9 @@ public class DisplayMinimap : MonoBehaviour {
 
 		CheckForOtherBoats ();
 	}
-
-	void InitMap ()
+    #endregion
+        
+    void InitMap ()
 	{
 
 		// get minimap chunk scale
@@ -205,12 +212,30 @@ public class DisplayMinimap : MonoBehaviour {
 	#region quest
 	void HandleShowQuestOnMap (Quest quest)
 	{
-		CenterMap (quest.targetCoords);
+        StartCoroutine(HandleShowQuestOnMapCoroutine(quest));
+		
 	}
-	#endregion
+    public float showOnMapDuration = 4f;
+    IEnumerator HandleShowQuestOnMapCoroutine(Quest quest)
+    {
+        FadeIn();
 
-	#region center
-	void CenterOnBoat() {
+        yield return new WaitForSeconds(hideDuration);
+
+        CenterMap(quest.targetCoords);
+
+        yield return new WaitForSeconds(showOnMapDuration);
+
+        FadeOut();
+    }
+    void HandleShowQuestOnMapDelay()
+    {
+
+    }
+    #endregion
+
+    #region center
+    void CenterOnBoat() {
 		CenterMap (Boats.playerBoatInfo.coords);
 	}
 	void ClampScrollView() {
@@ -365,11 +390,16 @@ public class DisplayMinimap : MonoBehaviour {
 		}
 	}
 
-	void CheckForOtherBoats ()
+	public void CheckForOtherBoats ()
 	{
 		int boatIndexInRange = 0;
 
 		int boatRange = currentShipRange;
+
+        foreach (var item in enemyBoatIcons)
+        {
+            item.gameObject.SetActive(false);
+        }
 
 		foreach ( OtherBoatInfo boatInfo in Boats.Instance.getBoats ) {
 
@@ -393,6 +423,7 @@ public class DisplayMinimap : MonoBehaviour {
 
 		enemyBoatIcons [boatIndexInRange].gameObject.SetActive (true);
 		enemyBoatIcons [boatIndexInRange].anchoredPosition = getPosFromCoords (boatInfo.coords);
+        enemyBoatIcons[boatIndexInRange].GetComponentInChildren<Image>().color = boatInfo.color;
 
 	}
 	void CreateEnemyIcon() {
@@ -508,7 +539,7 @@ public class DisplayMinimap : MonoBehaviour {
 	}
 	void FadeIn ()
 	{
-		HOTween.To ( rectTransform  , hideDuration , "anchoredPosition" , new Vector2 ( initPosX , 0f ) );
+		HOTween.To ( rectTransform  , hideDuration , "anchoredPosition" , new Vector2 ( initPosX , initPosY ) );
 	}
 	#endregion
 }

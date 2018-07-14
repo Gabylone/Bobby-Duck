@@ -11,13 +11,13 @@ public class Map : MonoBehaviour {
 
     public GameObject padlockGroup;
 
-    public bool locked = true;
-
     public int progression = 0;
     int max = 0;
 
     public Image progression_FillImage;
     public Image progression_BackgroundImage;
+
+    public Text pearls_UiText;
 
     public string mapName = "Map Name";
 
@@ -31,6 +31,8 @@ public class Map : MonoBehaviour {
 
     bool load = false;
 
+    public ApparenceItem apparenceItem;
+
     // Use this for initialization
     void Start()
     {
@@ -40,20 +42,25 @@ public class Map : MonoBehaviour {
 
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
-        if ( locked)
+        apparenceItem = CrewCreator.Instance.GetApparenceItem(apparenceItem.apparenceType, apparenceItem.id);
+
+        if (apparenceItem.locked)
         {
 
-            mapImage.raycastTarget = false;
+            //mapImage.raycastTarget = false;
 
             padlockGroup.SetActive(true);
             mapImage.color = Color.black;
+            newGameGroup.SetActive(false);
+
+            pearls_UiText.text = "" + apparenceItem.price;
         }
         else
         {
 
-            mapImage.raycastTarget = true;
+            //mapImage.raycastTarget = true;
 
             padlockGroup.SetActive(false);
             mapImage.color = Color.white;
@@ -87,16 +94,13 @@ public class Map : MonoBehaviour {
 
             iconVisualGroup.SetActive(false);
 
-            if ( !locked)
-            {
-                newGameGroup.SetActive(true);
-            }
-
+            newGameGroup.SetActive(!apparenceItem.locked);
         }
     }
 
     void UpdateProgressionBar()
     {
+
         float w = progression_BackgroundImage.rectTransform.rect.width;
         float l1 = (float)(progression - 1) / (float)max;
         float l2 = (float)progression / (float)max;
@@ -107,8 +111,11 @@ public class Map : MonoBehaviour {
 
     public void LaunchMap()
     {
-        if (locked)
+        if (apparenceItem.locked)
+        {
+            DisplayPurchase.Instance.Display(apparenceItem, transform);
             return;
+        }
 
         Tween.Bounce(transform);
 
@@ -123,7 +130,11 @@ public class Map : MonoBehaviour {
             KeepOnLoad.dataToLoad = -1;
         }
 
-        KeepOnLoad.mapName = mapName;
+        KeepOnLoad.Instance.price = 100;
+        KeepOnLoad.Instance.mapName = mapName;
+
+
+        Debug.Log("map : " + mapName);
         SaveTool.Instance.CreateDirectories();
 
         Invoke("LaunchMapDelay", 1f);
@@ -132,13 +143,14 @@ public class Map : MonoBehaviour {
 
     void LaunchMapDelay()
     {
-       
         SceneManager.LoadScene(1);
 
     }
 
     public void EraseMap()
     {
+        Debug.Log("erasing map");
+
         MessageDisplay.Instance.Show("Ecraser sauvegarde ?");
 
         MessageDisplay.onValidate += ConfirmEraseMap;
@@ -150,6 +162,7 @@ public class Map : MonoBehaviour {
         SaveTool.Instance.DeleteFolder(mapName);
 
         Tween.Bounce(transform);
+
         UpdateUI();
     }
 

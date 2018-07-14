@@ -1,5 +1,5 @@
 Nom;Fréquence / 5;Sprite ID;;;;;;;
-Départ – Maison;0;1;;;;;;;
+Mon île;0;1;;;;;;;
 [premiere visite];;;;;;;;;
 Narrator : Et c'est ainsi que CAPITAINE parti enfin de sa vielle maison, à la recherche du trésor de Bobby Dick. Accompagné de sa fidèle galère, NOMBATEAU, et de seulement quelques rations.;Node=>retour;;;;;;;;
 PlayerSpeak : En route !;;;;;;;;;
