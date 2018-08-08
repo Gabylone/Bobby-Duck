@@ -4,10 +4,10 @@ Narrator : L'île est assez grande. Une musique émane de derrière des dunes d
 [debut];;;;;;;;;;;;;;;;;OtherSpeak : Bienvenue
 SetChoices2;;;;;;;;;;;;;[jeu de carte];;;;Node=>entrée casino
 Choice : (lever l'ancre)(partir);Choice : (suivre le chemin);;[garde];;;;;;;;;;CheckInInventory<Jeu de carte>/Misc;Node=>cest daccord;;;
-PlayerSpeak : On s'en va !;Fade;;Narrator : Un videur se tient devant une vielle porte en bois. Il s'approche de vous.;;;;;;;;;;SetChoices2;;SetChoices1;;
-Leave;CheckQuest=>entrée casino;;NewCrew1/M;;;;;;;;;;Choice : J'en ai pas !;Choice : (donner jeu de carte);Choice : J'en ai pas !;;
-;RandomRange2;;OtherSpeak : Pour rentrer, il faut présenter un jeu de carte.;;;;;;;;;;OtherSpeak : Tanpis alors...;Switch=>jeu de carte;OtherSpeak : Tanpis alors...;;
-;Node=>entrée casino;Node=>garde;OtherSpeak : C'est la règle;;;;;;;;;;Leave;OtherSpeak : Ok vous êtes bons.;Leave;;
+PlayerSpeak : On s'en va !;Fade;;Narrator : Un videur se tient devant une vielle porte en bois. Il s'approche de vous.;;;;;;;;;;SetChoices2;;SetChoices2;;
+Leave;CheckQuest=>entrée casino;;NewCrew1/M;;;;;;;;;;Choice : J'en ai pas !;Choice : (donner jeu de carte);Choice : J'en ai pas !;Choice : (donner jeu de carte);
+;RandomRange2;;OtherSpeak : Pour rentrer, il faut présenter un jeu de carte.;;;;;;;;;;OtherSpeak : Tanpis alors...;Switch=>jeu de carte;OtherSpeak : Tanpis alors...;OtherSpeak : Vous n’avez rien à me donner;
+;Node=>entrée casino;Node=>garde;OtherSpeak : C'est la règle;;;;;;;;;;Leave;OtherSpeak : Ok vous êtes bons.;Leave;Leave;
 ;;;Node=>jeu de carte;;;;;;;;;;;[cest daccord];;;
 ;;;;;;;;;;;;;;OtherSpeak : Bienvenue.;;;
 [entrée casino];;;;;;;;;;;;;;Node=>entrée casino;;;
@@ -37,11 +37,11 @@ LaunchCombat;;;;;;OtherSpeak : Un clébard a bouffé notre jeu de carte.;OtherS
 Node=>salleVide;;;;;;OtherSpeak : Plus moyen de jouer une partie.;Leave;;;;;;;;;;
 ;;;;;;OtherSpeak : T'en as pas un à nous donner par hasard ?;;;;;;;;;;;
 ;;;;;;CheckInInventory<Jeu de carte>/Misc;;;;;;;;;;;
-[salleVide];;;;;;SetChoices3;;;;SetChoices1;;;;;;;
-Narrator : La salle est vide. Le serveur et les musiciens se sont enfuit pendant le combat.;;;;;;Choice : (donner jeu de carte);Choice : J'en ai pas je suis navré;Choice : Je vais le garder pour moi les mecs...;;OtherSpeak : Désolé les potos, j'en ai pas.;;;;;;;
-SetChoices3;;;;;;RemoveFromInventory<Jeu de carte>/Misc;[cest rien];RandomRange2;;Node=>cest rien;;;;;;;
-Choice : (revenir au bateau)(partir);Choice : (fouiller la salle)(loot);Choice : (fouiller comptoir)(loot);;;;Switch=>hommes;OtherSpeak : C'est rien vas.;Node=>cest rien;OtherSpeak : Bah écoute on va doucement te le prendre alors.;;;;;;;;
-Fade;Narrator : Il n'y a pas grands choses, a part le jeu de carte posé sur l'une des tables.;RandomPercent30;;;;OtherSpeak : Merci copain !;OtherSpeak : Mais si tu en trouves un tu sais à qui parler.;;Node=>combatSalle;;;;;;;;
+[salleVide];;;;;;SetChoices3;;;;SetChoices2;;;;;;;
+Narrator : La salle est vide. Le serveur et les musiciens se sont enfuit pendant le combat.;;;;;;Choice : (donner jeu de carte);Choice : J'en ai pas je suis navré;Choice : Je vais le garder pour moi les mecs...;;OtherSpeak : Désolé les potos, j'en ai pas.;Choice : Je vais le garder pour moi les mecs...;;;;;;
+SetChoices3;;;;;;RemoveFromInventory<Jeu de carte>/Misc;[cest rien];RandomRange2;;Node=>cest rien;RandomRange2;;;;;;
+Choice : (revenir au bateau)(partir);Choice : (fouiller la salle)(loot);Choice : (fouiller comptoir)(loot);;;;Switch=>hommes;OtherSpeak : C'est rien vas.;Node=>cest rien;OtherSpeak : Bah écoute on va doucement te le prendre alors.;;Node=>cest rien;OtherSpeak : Bah écoute on va doucement te le prendre alors.;;;;;
+Fade;Narrator : Il n'y a pas grands choses, a part le jeu de carte posé sur l'une des tables.;RandomPercent30;;;;OtherSpeak : Merci copain !;OtherSpeak : Mais si tu en trouves un tu sais à qui parler.;;Node=>combatSalle;;;Node=>combatSalle;;;;;
 Node=>debut;AddToInventory<Jeu de carte>/Misc;PlayerSpeak : Bingo !;PlayerSpeak : Rien du tout…;;;OtherSpeak : Joue avec nous tiens !;Leave;;;;;;;;;;
 ;Node=>salleVide;LootFood;Node=>salleVide;;;OtherSpeak : Je te donne de quoi commencer !;;;;;;;;;;;
 ;;Node=>salleVide;;;;AddGold100;;;;;;;;;;;

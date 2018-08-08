@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class NameGeneration : MonoBehaviour {
 
 	public static NameGeneration Instance;
 
+
 	void Awake () {
 		Instance = this;
+
+        onDiscoverFormula = null;
 	}
 
-	private char[] vowels = new char[6] {
+    private char[] vowels = new char[6] {
 		'a','e','y','u','i','o'
 	};
 

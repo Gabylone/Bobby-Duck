@@ -8,6 +8,8 @@ public class Crews : MonoBehaviour {
 
 	public static Crews Instance;
 
+    public float reducedDamage = 50f;
+
 	public enum Side {
 		Player,
 		Enemy,
@@ -41,7 +43,12 @@ public class Crews : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
-	}
+
+        // empty things
+        CrewMember.SetSelectedMember(null);
+        CrewMember.onCrewMemberKilled = null;
+        CrewMember.onWrongLevel = null;
+    }
 
     public void Init () {
 		crews [0] = GetComponentsInChildren<CrewManager> () [0];

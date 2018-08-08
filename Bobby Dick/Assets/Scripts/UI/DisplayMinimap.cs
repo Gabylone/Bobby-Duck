@@ -56,6 +56,8 @@ public class DisplayMinimap : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+
+        onZoom = null;
 	}
 
 	// Use this for initialization

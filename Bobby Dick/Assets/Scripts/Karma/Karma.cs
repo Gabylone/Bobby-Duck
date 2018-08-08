@@ -35,8 +35,10 @@ public class Karma : MonoBehaviour {
 
 
 	void Awake () {
-		Instance = this;
+        Instance = this;
+        onChangeKarma = null;
 	}
+
 	void Start () {
 
 //		CrewInventory.Instance.openInventory += HandleOpenInventory;;
@@ -46,16 +48,6 @@ public class Karma : MonoBehaviour {
 
 		UpdateUI ();
 
-	}
-
-	void Update () {
-		if ( Input.GetKeyDown(KeyCode.I) ) {
-            AddKarma(1);
-		}
-		if ( Input.GetKeyDown(KeyCode.U) ) {
-            RemoveKarma(1);
-			--CurrentKarma;
-		}
 	}
 
 	void HandleOpenInventory (CrewMember member)

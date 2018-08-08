@@ -16,7 +16,12 @@ public class DisplayItem_Loot : DisplayItem {
 
 	public bool selected = false;
 
-	void Start () {
+    private void Awake()
+    {
+        selectedDisplayItem = null;
+    }
+
+    void Start () {
 
 		itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-30, 30)));
 

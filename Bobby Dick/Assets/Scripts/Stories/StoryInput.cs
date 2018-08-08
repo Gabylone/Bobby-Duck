@@ -8,9 +8,12 @@ public class StoryInput : MonoBehaviour {
 
 	bool waitForInput = false;
 
-	void Awake () {
-		Instance = this;
-	}
+    void Awake()
+    {
+        Instance = this;
+        onPressInput = null;
+
+    }
 
 	void Start () {
 

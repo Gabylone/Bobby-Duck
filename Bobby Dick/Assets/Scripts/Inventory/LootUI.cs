@@ -89,6 +89,11 @@ public class LootUI : MonoBehaviour {
 	void Awake () {
 		Instance = this;
 
+        onSetSelectedItem = null;
+        onHideLoot = null;
+        onShowLoot = null;
+        useInventory = null;
+
 		Init ();
 	}
 

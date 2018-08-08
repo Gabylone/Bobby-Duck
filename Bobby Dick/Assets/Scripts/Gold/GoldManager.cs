@@ -32,6 +32,8 @@ public class GoldManager : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+        onChangeGold = null;
+        onCheckGold = null;
 	}
 
 	void Start () {

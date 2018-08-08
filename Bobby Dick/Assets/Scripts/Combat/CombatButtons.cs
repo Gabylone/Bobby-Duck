@@ -33,6 +33,9 @@ public class CombatButtons : MonoBehaviour {
 	{
         Hide();
 
+        if (CombatManager.Instance.fighting == false)
+            return;
+
 		if ( currState == CombatManager.States.PlayerActionChoice ) {
 
 			OpenDefaultButtons ();

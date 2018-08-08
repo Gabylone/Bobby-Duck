@@ -198,7 +198,7 @@ public class CrewMember {
 //		float maxHits = 14;
 //		float minHits = 2;
 //
-		float maxHits = 7;
+		float maxHits = 10;
 		float minHits = 2;
 
 		float maxAttack = 120f;
@@ -212,6 +212,13 @@ public class CrewMember {
 		float hits = minHits + ((maxHits - minHits) * lerp);
 
 		float damageTaken = maxAttack / hits;
+
+        if ( side == Crews.Side.Player) {
+            //
+            Debug.Log("init dam taken : " + damageTaken);
+            damageTaken = Crews.Instance.reducedDamage * damageTaken / 100;
+            Debug.Log("lowered dam taken : " + damageTaken);
+        }
 
 		int roundedDamage = Mathf.RoundToInt(damageTaken);
 

@@ -23,6 +23,8 @@ public class MapGenerator : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+
+        MinimapChunk.onTouchMinimapChunk = null;
 	}
 
 	#region map data

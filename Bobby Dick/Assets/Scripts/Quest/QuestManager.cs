@@ -16,6 +16,15 @@ public class QuestManager : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+
+        Quest.onSetTargetCoords = null;
+        Quest.currentQuest = null;
+        Quest.showQuestOnMap = null;
+        onFinishQuest = null;
+        onGiveUpQuest = null;
+        onNewQuest = null;
+        
+
 	}
 
 	void Start () {

@@ -25,7 +25,7 @@ Leave;[charpentier];;;;;;;;;;;
 ;;;;;Node=>conversation;Node=>Combat Charpentier;;;;;;
 ;;;;;;;;;;;;
 [Combat Charpentier];;;;;;;;;;;;
-OtherSpeak : Enculé de pirate !;;;;;;;;;;;;
+OtherSpeak : Imbécile de pirate !;;;;;;;;;;;;
 LaunchCombat;;;;;;;;;;;;
 Node=>Charpentier Mort;;;;;;;;;;;;
 ;;;;;;;;;;;;

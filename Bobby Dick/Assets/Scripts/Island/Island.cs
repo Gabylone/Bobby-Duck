@@ -33,12 +33,15 @@ public class Island : MonoBehaviour {
 	#region mono
 	void Awake () {
 		Instance = this;
-	}
+        onTouchIsland = null;
 
-	void Start () {
+    }
+
+    void Start () {
 
         _transform = GetComponent<Transform>();
 		image = GetComponentInChildren<Image> ();
+
 
 		Init ();
 	

@@ -24,6 +24,8 @@ public class Swipe : MonoBehaviour {
     private void Awake()
     {
         Instance = this;
+
+        onSwipe = null;
     }
 
     // Use this for initialization

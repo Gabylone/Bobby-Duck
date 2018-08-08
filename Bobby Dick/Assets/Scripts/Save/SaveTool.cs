@@ -155,7 +155,7 @@ public class SaveTool : MonoBehaviour
 
         string s = "";
 
-        if (KeepOnLoad.Instance.mapName != "")
+        if ( KeepOnLoad.Instance != null && KeepOnLoad.Instance.mapName != "")
         {
             s = KeepOnLoad.Instance.mapName;
         }

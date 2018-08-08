@@ -19,14 +19,14 @@ Node=>dialogue;;;;;;;;;;;
 ;;;;;;;;;[dialogue enfant];;
 [dialogue];;;;;;;;;SetChoices2;;
 SetChoices3;;;;;;;;;Choice : Monte un coup alors ! (nouveau membre);;Choice : Je dois y aller (partir)
-Choice : Monte !(membre);Choice : Donne nous tout ce que tu as ou on te croque la bite.(attaquer);;Choice : Désolé mon gars, pas assez de place à bord;;;;;;OtherSpeak : Je sais pas si je peux vous faire confiance.;;OtherSpeak : Vous êtes sans cœur...
+Choice : Monte !(membre);Choice : Donne nous tout ce que tu as ou c’est fini toi ! (attaquer);;Choice : Désolé mon gars, pas assez de place à bord;;;;;;OtherSpeak : Je sais pas si je peux vous faire confiance.;;OtherSpeak : Vous êtes sans cœur...
 Node=>ajouté à l'équipage;RandomRange2;;RandomRange3;;;;;;OtherSpeak :  J'ai besoin de savoir que je garderais mon âme d'enfant.;;Leave
 <;OtherSpeak : Mais je n'ai absolument rien !;RemoveKarma;OtherSpeak : Donnez moi au moins quelque chose à manger;;;Node=>combat naufragé;OtherSpeak : Je comprends…;;OtherSpeak : Je veux une peluche à bord, ensuite je montrerais.;;
-;Node=>combat dialogue;Node=>combat naufragé;SetChoices2;;;;Leave;;CheckInInventory<Peluche>/Misc;;
-;;;Choice : Tiens.;;Choice : Non continue à manger des noix de coco.;;;;SetChoices2;;SetChoices1
-;;;[switch manger];;OtherSpeak : Vous êtes sans coeur !;;;;Choice : (donner peluche);Choice : Tanpis pour toi, gamin;Choice : Désolé gamin, j’en ai pas…
-;;;Node=>donner à manger;OtherSpeak : Vous m'avez déjà assez donné;RemoveKarma;;;;OtherSpeak : Merci m'sieur !;OtherSpeak : …;OtherSpeak : …
-;;;[donner à manger];Leave;Node=>plage déserte;;;;OtherSpeak : Me voilà !;Leave;Leave
+;Node=>combat dialogue;Node=>combat naufragé;SetChoices2;;;;Leave;;SetChoices2;;
+;;;Choice : Tiens.;;Choice : Non continue à manger des noix de coco.;;;;Choice : (donner peluche);;
+;;;[switch manger];;OtherSpeak : Vous êtes sans coeur !;;;;CheckInInventory<Peluche>/Misc;PlayerSpeak : J’en ai pas, désolé.;
+;;;Node=>donner à manger;OtherSpeak : Vous m'avez déjà assez donné;RemoveKarma;;;;OtherSpeak : Merci m'sieur !;OtherSpeak : …;
+;;;[donner à manger];Leave;Node=>plage déserte;;;;OtherSpeak : Me voilà !;Leave;
 ;;;CheckInInventory/Food;;;;;;RandomRange2;;
 ;;;RemoveFromInventory/Food;OtherSpeak : Mais… Vous n'avez rien…;;;;;AddMember;OtherSpeak : D'ailleurs en attendant quelqu'un;
 ;;;OtherSpeak : Merci…;RemoveKarma;;;;;Node=>naufragé;OtherSpeak : J'ai fabriqué ce magnifique collier de nouilles.;
@@ -52,7 +52,7 @@ Leave;RandomRange2;;;;;;;;;;
 ;;;;;;;;;;;
 ;;;;;;;;;;;
 [combat naufragé];;;;;;;;;;;
-OtherSpeak : Enculé !;;;;;;;;;;;
+OtherSpeak : A l’aide !;;;;;;;;;;;
 LaunchCombat;;;;;;;;;;;
 Node=>plage déserte;;;;;;;;;;;
 ;;;;;;;;;;;

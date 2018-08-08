@@ -34,31 +34,7 @@ public class DisplayInfo : MonoBehaviour {
 		Hide ();
 	}
 
-//	void Update () 
-//	{
-//		if ( Input.GetKeyDown (KeyCode.J) )
-//		{
-//			Move (Corner.None);
-//		}
-//		if ( Input.GetKeyDown (KeyCode.K) )
-//		{
-//			Move (Corner.BottomLeft);
-//		}
-//		if ( Input.GetKeyDown (KeyCode.L) )
-//		{
-//			Move (Corner.BottomRight);
-//		}
-//		if ( Input.GetKeyDown (KeyCode.M) )
-//		{
-//			Move (Corner.TopRight);
-//		}
-//		if ( Input.GetKeyDown (KeyCode.O) )
-//		{
-//			Move (Corner.TopLeft);
-//		}
-//	}
-
-	public void Move ( Corner corner ) {
+	public virtual void Move ( Corner corner ) {
 
 		Canvas.ForceUpdateCanvases ();
 		LayoutRebuilder.ForceRebuildLayoutImmediate (rectTransform);
@@ -67,26 +43,61 @@ public class DisplayInfo : MonoBehaviour {
 		case Corner.None:
 			float x = (parentRectTransform.rect.width / 2f) - (rectTransform.rect.width/2f);
 			float y = -(parentRectTransform.rect.height / 2f) + (rectTransform.rect.height/2f);
-			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (x,y)  );
-			break;
+                //HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (x,y)  );
+
+                rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+                rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+                rectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+                break;
+
 		case Corner.TopLeft:
-			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (250f, -60f) );
-			break;
+
+                //HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (250f, -60f) );
+
+                rectTransform.anchorMax = new Vector2(0, 1);
+                rectTransform.anchorMin = new Vector2(0, 1);
+                rectTransform.pivot = new Vector2(0, 1);
+
+                break;
+
 		case Corner.BottomLeft:
-			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (250f, -parentRectTransform.rect.height + (rectTransform.rect.height+60f) ) );
-			//			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (200f,- parentRectTransform.rect.height) );
-			break;
+                //HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (250f, -parentRectTransform.rect.height + (rectTransform.rect.height+60f) ) );
+                //			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (200f,- parentRectTransform.rect.height) );
+
+                rectTransform.anchorMax = new Vector2(0, 0);
+                rectTransform.anchorMin = new Vector2(0, 0);
+                rectTransform.pivot = new Vector2(0, 0);
+
+                break;
+
 		case Corner.BottomRight:
-			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (parentRectTransform.rect.width - rectTransform.rect.width - 10 , -parentRectTransform.rect.height + (rectTransform.rect.height+60f) )  );
-			break;
+
+                //HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (parentRectTransform.rect.width - rectTransform.rect.width - 10 , -parentRectTransform.rect.height + (rectTransform.rect.height+60f) )  );
+
+                rectTransform.anchorMax = new Vector2(1, 0);
+                rectTransform.anchorMin = new Vector2(1, 0);
+                rectTransform.pivot = new Vector2(1, 0);
+
+                break;
+
 		case Corner.TopRight:
-			HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (parentRectTransform.rect.width - rectTransform.rect.width - 10 ,-60f) );
-			break;
+
+                //HOTween.To (rectTransform, tweenDuration, "anchoredPosition", new Vector2 (parentRectTransform.rect.width - rectTransform.rect.width - 10 ,-60f) );
+
+                rectTransform.anchorMax = new Vector2(1, 1);
+                rectTransform.anchorMin = new Vector2(1, 1);
+                rectTransform.pivot = new Vector2(1, 1);
+
+                break;
+
 		}
 
-	}
+        //HOTween.To(rectTransform, tweenDuration, "anchoredPosition", Vector2.zero);
+        rectTransform.anchoredPosition = Vector2.zero;
+    }
 
-	public void Fade() {
+    public void Fade() {
 
 		Tween.Bounce (group.transform);
 		Tween.Fade (group.transform, Tween.defaultDuration);

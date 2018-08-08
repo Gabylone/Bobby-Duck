@@ -39,6 +39,10 @@ public class CrewInventory : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+
+        onCloseInventory = null;
+        onOpenInventory = null;
+        StatButton.onClickStatButton = null;
 	}
 
 	public void Init () {

@@ -8,7 +8,13 @@ public class SkillMenu : MonoBehaviour {
 
 	public bool opened = false;
 
-	void Start () {
+    private void Awake()
+    {
+        onShowSkillMenu = null;
+        onHideSkillMenu = null;
+    }
+
+    void Start () {
 		Hide ();
 
 		RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;

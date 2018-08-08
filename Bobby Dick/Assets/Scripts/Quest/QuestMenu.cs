@@ -39,6 +39,9 @@ public class QuestMenu : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+
+        onOpenQuestMenu = null;
+        
 	}
 
 	void Start () {

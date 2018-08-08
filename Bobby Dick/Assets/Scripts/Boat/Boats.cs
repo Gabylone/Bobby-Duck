@@ -30,6 +30,9 @@ public class Boats : MonoBehaviour {
 	private float timer = 0f;
 
 	void Awake () {
+
+        playerBoatInfo = null;
+
 		Instance = this;
 	}
 

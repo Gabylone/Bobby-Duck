@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DisplayInfo_Tuto : DisplayInfo {
+
+    public Corner corner = Corner.BottomLeft;
 
 	public override void Start ()
 	{
@@ -17,7 +20,7 @@ public class DisplayInfo_Tuto : DisplayInfo {
 		}
 	}
 
-	void HandleOnHideTutorial ()
+    void HandleOnHideTutorial ()
 	{
 		Fade ();
 	}
@@ -34,7 +37,7 @@ public class DisplayInfo_Tuto : DisplayInfo {
 		Move (tutoStep.corner);
 
 	}
-
+    
 	public override void Confirm ()
 	{
 		base.Confirm ();

@@ -30,6 +30,11 @@ public class UIBackground : MonoBehaviour {
 
     private void HandleOnChangeState(CombatManager.States currState, CombatManager.States prevState)
     {
+        if (!CombatManager.Instance.fighting)
+        {
+            ShowBackGround();
+            return;
+        }
         switch (currState)
         {
             case CombatManager.States.CombatStart:
@@ -54,13 +59,13 @@ public class UIBackground : MonoBehaviour {
 
     void HandleFightEnding ()
 	{
-		ShowBackGround ();
-
 		Invoke("HandleFightEndingDelay" , duration);
-	}
+        ShowBackGround();
+    }
 
-	void HandleFightEndingDelay () {
-		Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
+    void HandleFightEndingDelay () {
+
+        Crews.playerCrew.UpdateCrew (Crews.PlacingType.Map);
 	}
 
 	void ShowBackGround ()

@@ -20,8 +20,14 @@ public class SkillManager : MonoBehaviour {
 
 	public TextAsset skillData;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        SkillButton_Inventory.onUnlockSkill = null;
+        StatusFeedback.onTouchStatusFeedback = null;
+    }
+
+    // Use this for initialization
+    void Start () {
 		
 		skills = GetComponentsInChildren<Skill> ();
 

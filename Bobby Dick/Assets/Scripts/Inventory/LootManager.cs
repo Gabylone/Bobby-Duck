@@ -49,6 +49,9 @@ public class LootManager : MonoBehaviour {
 
 	void Awake (){
 		Instance = this;
+
+        onRemoveItemFromInventory = null;
+        onAddToInventory = null;
 	}
 
 	void Start () {

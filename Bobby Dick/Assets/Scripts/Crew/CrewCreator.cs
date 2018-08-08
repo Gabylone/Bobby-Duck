@@ -45,6 +45,8 @@ public class CrewCreator : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
+        MemberCreatorButton.lastSelected = null;
     }
 
     public List<ApparenceGroup> apparenceGroups = new List<ApparenceGroup>();

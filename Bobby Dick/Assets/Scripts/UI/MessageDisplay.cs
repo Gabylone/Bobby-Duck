@@ -18,6 +18,8 @@ public class MessageDisplay : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+
+        onValidate = null;
 	}
 
 	public void Show (string str) {

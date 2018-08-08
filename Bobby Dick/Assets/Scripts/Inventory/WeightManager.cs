@@ -30,6 +30,8 @@ public class WeightManager : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+
+        onTooMuchWeight = null;
 	}
 
 	public void Init () {

@@ -18,6 +18,8 @@ public class RayBlocker : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+        onTouchRayBlocker = null;
+
 		initColor = image.color;
 
 		Hide ();

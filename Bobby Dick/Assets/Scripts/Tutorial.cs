@@ -22,7 +22,14 @@ public class Tutorial : MonoBehaviour {
 
 	private TutoStep[] tutoSteps;
 
-	void Start () {
+    private void Awake()
+    {
+        onWaitForConfirm = null;
+        onHideTutorial = null;
+        onDisplayTutorial = null;
+    }
+
+    void Start () {
 
 		if (debugTutorial) {
 			KeepOnLoad.displayTuto = true;

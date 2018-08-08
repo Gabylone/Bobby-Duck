@@ -480,14 +480,15 @@ public class CombatManager : MonoBehaviour {
 
 	public void ExitFight () {
 
-		ChangeState (States.None);
+        fighting = false;
+
+        ChangeState(States.None);
 
 		HideFighters (Crews.Side.Player);
 		HideFighters (Crews.Side.Enemy);
 
 		onFightEnd ();
 
-		fighting = false;
 
 
 	}

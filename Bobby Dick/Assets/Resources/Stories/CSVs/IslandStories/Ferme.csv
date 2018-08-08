@@ -98,10 +98,10 @@ SetChoices3;;;;;CheckStatCHA;;OtherSpeak : L'univers des marins et machiste et 
 Choice : (retourner sur la plage)(partir);Choice : (fouiller maison)(loot);Choice : (suivre chemin);;;OtherSpeak : Oh, et puis pourquoi pas.;OtherSpeak : Sûrement pas !;OtherSpeak : J'ai besoin de savoir que vous me considérez en tant que femme.;;;;;;;;;
 Fade;Node=>maison;Node=>plage2;;;OtherSpeak : Si vous avez la place…;OtherSpeak : La vie de pirate n'est pas pour moi !;OtherSpeak : Offrez moi une jolie paire de boucles d'oreilles, et je suis de la partie.;;;;;;;;;
 Node=>debut;;;;;AddMember;Node=>discussion fermière;CheckInInventory<Boucles d’oreille>/Misc;;;;;;;;;
-;;;;;Fade;;SetChoices2;;SetChoices1;;;;;;;
-[maison];;;;;Node=>fermière morte;;Choice : J'en ai pas !;Choice : (donner boucles);Choice : J'en ai pas !;;;;;;;
-Fade;;;;;;;OtherSpeak : Tanpis alors...;OtherSpeak : Oh, et puis pourquoi pas.;OtherSpeak : Tanpis alors...;;;;;;;
-RandomRange2;;;;;;;Leave;RemoveFromInventory<Boucles d’oreille>/Misc;Leave;;;;;;;
+;;;;;Fade;;SetChoices2;;SetChoices2;;;;;;;
+[maison];;;;;Node=>fermière morte;;Choice : J'en ai pas !;Choice : (donner boucles);Choice : J'en ai pas !;Choice : (donner boucles);;;;;;
+Fade;;;;;;;OtherSpeak : Tanpis alors...;OtherSpeak : Oh, et puis pourquoi pas.;OtherSpeak : Tanpis alors...;OtherSpeak : C’est du bluff ! Vous n’avez rien !;;;;;;
+RandomRange2;;;;;;;Leave;RemoveFromInventory<Boucles d’oreille>/Misc;Leave;Leave;;;;;;
 Narrator : La maison est totalement vide.;ChangeStory=>Manoir[entrée maison/fermière morte];;;;;;;AddMember;;;;;;;;
 Fade;;;;;;;;Fade;;;;;;;;
 Node=>fermière morte;;;;;;;;Node=>fermière morte;;;;;;;;

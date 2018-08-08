@@ -26,6 +26,9 @@ public class WorldTouch : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        onPointerDown = null;
+        onPointerExit = null;
     }
 
     // Use this for initialization

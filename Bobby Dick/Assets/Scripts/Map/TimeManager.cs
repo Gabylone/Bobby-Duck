@@ -35,6 +35,10 @@ public class TimeManager : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+
+        onNextHour = null;
+        onSetRain = null;
+        onSetTimeOfDay = null;
 	}
 
 	void Start () {
