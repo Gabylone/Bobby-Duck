@@ -8,6 +8,7 @@ public class DisplayUpgrades : DisplayGroup {
     public static DisplayUpgrades Instance;
 
     public GameObject tavernButton;
+    public GameObject blobButton;
 
     public GameObject[] upgradeScrollViews;
 

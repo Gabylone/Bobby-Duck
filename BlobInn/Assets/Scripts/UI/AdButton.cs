@@ -29,6 +29,7 @@ public class AdButton : MonoBehaviour {
 
     }
 
+#if UNITY_ANDROID
     void OnPointerClickDelay()
     {
         if (Advertisement.IsReady())
@@ -92,4 +93,5 @@ public class AdButton : MonoBehaviour {
         Inventory.Instance.Save();
 
     }
+#endif
 }

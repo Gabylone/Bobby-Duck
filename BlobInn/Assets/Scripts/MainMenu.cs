@@ -5,18 +5,23 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Holoville.HOTween;
 
-public class MainMenu : MonoBehaviour {
+public class MainMenu : DisplayGroup {
 
     public Button newGameButton;
     public Button loadGameButotn;
     public Button quitGameButton;
 
+    public Transform mapButton;
+
     public Transform sound_OnTransform;
     public Transform sound_OffTransform;
 
     // Use this for initialization
-    void Start () {
-		
+
+    public override void Start()
+    {
+        base.Start();
+
         if ( PlayerPrefs.GetInt("progress", -1) < 0)
         {
             loadGameButotn.interactable = false;
@@ -31,6 +36,10 @@ public class MainMenu : MonoBehaviour {
 
     public void NewGame()
     {
+        Close();
+
+        Tween.Bounce( newGameButton.transform );
+
         PlayerPrefs.DeleteAll();
         Invoke("NewGameDelay", 1f);
 
@@ -61,6 +70,7 @@ public class MainMenu : MonoBehaviour {
 
     public void QuitGame()
     {
+        Close();
         Invoke("QuitGameDelay", 1f);
 
         Tween.Bounce(quitGameButton.transform);
@@ -76,17 +86,28 @@ public class MainMenu : MonoBehaviour {
 
     public void RetourCarte()
     {
-        Tween.Bounce(quitGameButton.transform);
+        Close();
+
+        Tween.Bounce(mapButton.transform);
 
         Invoke("LoadGameDelay", 1f);
 
-        SoundManager.Instance.Play(SoundManager.SoundType.Door_Close);
+        SoundManager.Instance.Play(SoundManager.SoundType.UI_Bip);
         Transition.Instance.Fade(1f);
     }
 
-    public void SwitchSounds()
+    public void Sounds_On()
     {
-        SoundManager.Instance.playSounds = !SoundManager.Instance.playSounds;
+        SoundManager.Instance.playSounds = true;
+
+        Inventory.Instance.Save();
+
+        UpdateSoundUI();
+    }
+
+    public void Sounds_Off()
+    {
+        SoundManager.Instance.playSounds = false;
 
         Inventory.Instance.Save();
 

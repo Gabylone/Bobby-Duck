@@ -336,6 +336,7 @@ public class Client : Movable {
     void WaitForOrder_Start()
     {
         HOTween.To(transform, moveDuration, "position", transform.position - Vector3.up * tableDecal);
+        //HOTween.To(transform, moveDuration, "position", targetTable.transform.position + Vector3.up * tableDecal);
 
         sitted = true;
 
@@ -513,6 +514,7 @@ public class Client : Movable {
     {
         //UpdatePatience();
     }
+
     void WaitForBill_Exit()
     {
 
@@ -520,7 +522,6 @@ public class Client : Movable {
 
     public void TakeBill()
     {
-
         HOTween.To(transform, moveDuration, "position", transform.position + Vector3.up * tableDecal);
 
         Invoke("TakeBillDelay", moveDuration);
@@ -537,7 +538,6 @@ public class Client : Movable {
         payedBill = true;
 
         SoundManager.Instance.Play(audioSource, SoundManager.SoundType.Star);
-
     }
 
     void TakeBillDelay()
@@ -607,7 +607,14 @@ public class Client : Movable {
     }
     void PatienceTutorial()
     {
-        Tutorial.Instance.Show(TutorialStep.Patience1);
+        if (Inventory.Instance.goldAquiredInLevel < 10 )
+        {
+            Tutorial.Instance.Show(TutorialStep.Patience1);
+        }
+        else
+        {
+            Tutorial.Instance.Show(TutorialStep.Patience2);
+        }
     }
     void Leaving_Update()
     {

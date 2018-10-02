@@ -32,11 +32,13 @@ public class DisplayInvitation : DisplayGroup {
         Close();
     }
 
-    public override void Close()
+    public override void Close(bool _showBottomBar)
     {
-        base.Close();
+        base.Close(_showBottomBar);
 
         DisplayLevel.Instance.HandleOnPointerClick(10);
+
     }
+
 
 }

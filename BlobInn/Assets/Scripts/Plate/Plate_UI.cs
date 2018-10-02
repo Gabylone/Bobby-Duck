@@ -32,17 +32,17 @@ public class Plate_UI : Plate {
         Player.Instance.plates[id].onClearPlate += Clear;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(keyCode))
-        {
-            Select();
-        }
-    }
-
     #region selection
     public void OnPointerClick()
     {
+        if (Current == this)
+        {
+            return;
+        }
+
+        SoundManager.Instance.Play(SoundManager.SoundType.Plate);
+
+
         Select();
     }
 
@@ -65,17 +65,11 @@ public class Plate_UI : Plate {
 
     public void Select()
     {
-        if (Current == this)
-        {
-            return;
-        }
-
         if (Current != null)
         {
             Current.Deselect();
         }
 
-        SoundManager.Instance.Play(SoundManager.SoundType.Plate);
 
 
         Tween.Scale(transform, scaleDuration, scaleAmount);

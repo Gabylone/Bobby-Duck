@@ -8,6 +8,8 @@ public class BlobApparenceManager : MonoBehaviour {
 
     public string[] spritePaths;
 
+    public Color[] blobColors;
+
     public Sprite[][] sprites;
 
     private void Awake()
@@ -20,9 +22,9 @@ public class BlobApparenceManager : MonoBehaviour {
     {
         sprites = new Sprite[(int)Blob_Apparence.Type.None][];
 
-        for (int i = 0; i < (int)Blob_Apparence.Type.None; i++)
+        for (int i = 0; i < (int)Blob_Apparence.Type.Color; i++)
         {
-            sprites[i] = Resources.LoadAll<Sprite>(spritePaths[i]);
+                sprites[i] = Resources.LoadAll<Sprite>(spritePaths[i]);
         } 
 
     }

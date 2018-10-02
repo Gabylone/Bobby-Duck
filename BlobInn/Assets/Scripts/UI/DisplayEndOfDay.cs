@@ -45,6 +45,8 @@ public class DisplayEndOfDay : DisplayGroup {
 
         base.Open();
 
+        Music.Instance.PlayMenu();
+
         Swipe.Instance.enabled = false;
 
         if (LevelManager.endless)

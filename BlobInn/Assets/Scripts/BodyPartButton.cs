@@ -18,7 +18,17 @@ public class BodyPartButton : MonoBehaviour {
 
     public void UpdateSprite()
     {
-        image.sprite = BlobApparenceManager.Instance.GetSprite(type, DisplayCharacterCustomization.Instance.blob_Apparence.ids[(int)type]);
+        if ( type == Blob_Apparence.Type.Color)
+        {
+            int i = DisplayCharacterCustomization.Instance.blob_Apparence.ids[(int)type];
+            GetComponent<Image>().color = BlobApparenceManager.Instance.blobColors[i];
+            image.enabled = false;
+        }
+        else
+        {
+            image.enabled = true;
+            image.sprite = BlobApparenceManager.Instance.GetSprite(type, DisplayCharacterCustomization.Instance.blob_Apparence.ids[(int)type]);
+        }
     }
 
     public void OnPointerClick()

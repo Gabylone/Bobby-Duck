@@ -80,10 +80,12 @@ public class DisplayInfo_Tuto : DisplayGroup {
 
     private void UpdateLayoutGroup()
     {
-        titleText.text = currentTutoInfo.title;
-        string str = currentTutoInfo.description.Remove(0, 1).Remove(currentTutoInfo.description.Length - 2);
+        titleText.text = currentTutoInfo.titles[(int)Inventory.currentLanguageType];
 
+        string description = currentTutoInfo.descriptions[(int)Inventory.currentLanguageType];
+        string str = description.Remove(0, 1).Remove(description.Length - 2);
         descriptionText.text = str;
+
         LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGroup);
     }
 
@@ -140,17 +142,17 @@ public class DisplayInfo_Tuto : DisplayGroup {
     {
         switch (currentTutoInfo.step)
         {
-            case TutorialStep.Patience1:
+            /*case TutorialStep.Patience1:
                 Tutorial.Instance.Show(TutorialStep.Patience2);
-                break;
+                break;*/
             case TutorialStep.Tables:
                 Tutorial.Instance.Show(TutorialStep.Plates, DisplayUpgrades.Instance.upgradeScrollViews[1].transform);
                 break;
             case TutorialStep.Plates:
                 Tutorial.Instance.Show(TutorialStep.NewIngredients, DisplayUpgrades.Instance.upgradeScrollViews[2].transform);
                 break;
-            case TutorialStep.NewIngredients:
-                //Tutorial.Instance.Show(TutorialStep.Waiters, DisplayUpgrades.Instance.upgradeScrollViews[3].transform);
+            case TutorialStep.Map:
+                Tutorial.Instance.Show(TutorialStep.BlobCust, DisplayUpgrades.Instance.blobButton.transform);
                 break;
             default:
                 break;

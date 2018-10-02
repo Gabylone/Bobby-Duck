@@ -29,6 +29,8 @@ public class DisplayLevel : DisplayGroup {
     public GameObject multiplyGoldGroup;
     public GameObject continueButton;
 
+    bool locked = false;
+
     public Button multiplyGoldButton;
 
     Level levelDisplayed;
@@ -79,13 +81,35 @@ public class DisplayLevel : DisplayGroup {
             closeGroup.SetActive(false);
             Invoke("DisplayNewClientType", 0.2f);
         }
+
+        if ( levelDisplayed.id < 2)
+        {
+            
+        }
+        else
+        {
+            if (!Inventory.Instance.showedMultGold)
+            {
+                Tutorial.Instance.Show(TutorialStep.GoldMult, multiplyGoldGroup.transform, true);
+                Inventory.Instance.showedMultGold = true;
+                Inventory.Instance.Save();
+            }
+            else
+            {
+                if ( locked)
+                {
+                    Debug.Log("is locked");
+                    Tutorial.Instance.Show(TutorialStep.Health, displayHeartGroup.transform , true);
+                }
+            }
+        }
     }
 
     void DisplayNewClientType()
     {
         DisplayNewClient.Instance.Display(levelDisplayed.newClientType);
 
-        Invoke("DisplayNewClientTypeDelay" ,0.5f);
+        Invoke("DisplayNewClientTypeDelay", 0.5f);
     }
 
     void DisplayNewClientTypeDelay()
@@ -198,10 +222,10 @@ public class DisplayLevel : DisplayGroup {
         }
     }
 
-   
-
     public void Lock()
     {
+        locked = true;
+
         lockedGroup.SetActive(true);
 
         continueButton.SetActive(false);
@@ -211,6 +235,8 @@ public class DisplayLevel : DisplayGroup {
 
     public void Unlock()
     {
+        locked = false;
+
         continueButton.SetActive(true);
         displayHeartGroup.SetActive(false);
         lockedGroup.SetActive(false);

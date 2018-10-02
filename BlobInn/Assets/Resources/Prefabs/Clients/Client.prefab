@@ -430,7 +430,7 @@ MonoBehaviour:
   targetTable: {fileID: 0}
   tableDecal: 0.3
   patienceTimer: 0
-  maxPatienceTime: 32
+  maxPatienceTime: 30
   order: 
   minOrderSize: 2
   maxOrderSize: 4

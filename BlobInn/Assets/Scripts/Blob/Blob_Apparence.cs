@@ -7,6 +7,7 @@ public class Blob_Apparence : MonoBehaviour {
         Head,
         Eyes,
         EyesAccessories,
+        Color,
 
         None,
     }
@@ -22,6 +23,9 @@ public class Blob_Apparence : MonoBehaviour {
 
     private void Start()
     {
+        ids = new int[(int)Type.None];
+
+
         initSortingOrders = new int[spriteRenderers.Length];
         int a = 0;
         foreach (var rend in spriteRenderers)
@@ -113,6 +117,13 @@ public class Blob_Apparence : MonoBehaviour {
 
     public void SetSpriteRenderer ( Type type, int id)
     {
-        spriteRenderers[(int)type].sprite = BlobApparenceManager.Instance.sprites[(int)type][id];
+        if ( type == Type.Color)
+        {
+            bodySpriteRenderer.color = BlobApparenceManager.Instance.blobColors[id];
+        }
+        else
+        {
+            spriteRenderers[(int)type].sprite = BlobApparenceManager.Instance.sprites[(int)type][id];
+        }
     }
 }

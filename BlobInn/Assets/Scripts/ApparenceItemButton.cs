@@ -25,15 +25,27 @@ public class ApparenceItemButton : MonoBehaviour {
     public GameObject lockedGroup;
     public Text diamond_Text;
     public Image diamond_Image;
+    public Image backgroundImage;
 
     public GameObject diamondGroup;
 
     public void UpdateSprite ( Blob_Apparence.Type type , int id)
     {
-        image.sprite = BlobApparenceManager.Instance.GetSprite(type, id);
-        image.SetNativeSize();
-
         this.type = type;
+
+        if (type == Blob_Apparence.Type.Color)
+        {
+            image.enabled = false;
+            button.image.color = BlobApparenceManager.Instance.blobColors[id];
+            backgroundImage.color = BlobApparenceManager.Instance.blobColors[id];
+        }
+        else
+        {
+            image.enabled = true;
+            image.sprite = BlobApparenceManager.Instance.GetSprite(type, id);
+            image.SetNativeSize();
+            backgroundImage.color = Color.white;
+        }
 
         if (!Inventory.Instance.aquiredApparenceItems[(int)type].ids.Contains(id))
         {

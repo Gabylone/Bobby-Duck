@@ -64,7 +64,18 @@ public class DisplayCharacterCustomization : DisplayGroup {
             ++a;
         }
 
-        for (int spriteIndex = 0; spriteIndex < BlobApparenceManager.Instance.sprites[(int)type].Length; spriteIndex++)
+        int l;
+
+        if ( type == Blob_Apparence.Type.Color)
+        {
+            l = BlobApparenceManager.Instance.blobColors.Length;
+        }
+        else
+        {
+            l = BlobApparenceManager.Instance.sprites[(int)type].Length;
+        }
+
+        for (int spriteIndex = 0; spriteIndex < l; spriteIndex++)
         {
             apparenceItemButtons[spriteIndex].gameObject.SetActive(true);
             apparenceItemButtons[spriteIndex].UpdateSprite(type, spriteIndex);

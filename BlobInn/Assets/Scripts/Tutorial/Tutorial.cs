@@ -36,6 +36,7 @@ public class Tutorial : MonoBehaviour {
     }
 
     void Start() {
+
         if (debugTutorial)
         {
             show = true;
@@ -52,21 +53,31 @@ public class Tutorial : MonoBehaviour {
 
         for (int i = 0; i < rows.Length - 1; i++) {
 
-
             string row = rows[i].TrimStart('\r', '\n');
 
             string[] cells = row.Split(';');
 
-            tutoInfos[tutoIndex].title = cells[0];
-            tutoInfos[tutoIndex].description = cells[1];
+            tutoInfos[tutoIndex].titles = new string[2];
+
+            tutoInfos[tutoIndex].titles[0] = cells[0];
+            tutoInfos[tutoIndex].titles[1] = cells[1];
+
+            tutoInfos[tutoIndex].descriptions = new string[2];
+
+            tutoInfos[tutoIndex].descriptions[0] = cells[2];
+            tutoInfos[tutoIndex].descriptions[1] = cells[3];
 
             ++tutoIndex;
         }
     }
 
-    public void Show(TutorialStep tutorialStep, Transform focusTransform) {
+    public void Show(TutorialStep tutorialStep, Transform focusTransform)
+    {
+        Show(tutorialStep, focusTransform, false);
+    }
+    public void Show(TutorialStep tutorialStep, Transform focusTransform, bool overrideTuto ) {
 
-        if (show == false)
+        if (!show && !overrideTuto)
         {
             return;
         }
@@ -129,25 +140,26 @@ public enum TutorialStep {
     Plates,
     NewIngredients,
     Waiters,
-    NewClients
+    NewClients,
+    GoldMult,
+    BlobCust,
+    Health,
 
 }
 
 public class TutoInfo {
 
-	public TutorialStep step;
+    public TutorialStep step;
 
-	public string title = "";
+    public string[] titles;
 
-	public string description = "";
+	public string[] descriptions;
 
 	public void Display () {
 		//
 		Tutorial.onDisplayTutorial ( this );
 
         Tutorial.count++;
-
-        Debug.Log("displaying : " + title);
 
 	}
 

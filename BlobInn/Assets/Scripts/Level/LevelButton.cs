@@ -20,10 +20,6 @@ public class LevelButton : MonoBehaviour {
 
     public Star[] stars;
 
-    public float turningSpeed = 5f;
-
-    public Transform turningTarget;
-
     public GameObject tutoGroup;
 
     public Image image;
@@ -127,12 +123,6 @@ public class LevelButton : MonoBehaviour {
         {
             item.gameObject.SetActive(false);
         }
-    }
-
-    private void Update()
-    {
-        if (!locked)
-        turningTarget.Rotate(0,0,turningSpeed*Time.deltaTime);
     }
 
     public void PointerClick()

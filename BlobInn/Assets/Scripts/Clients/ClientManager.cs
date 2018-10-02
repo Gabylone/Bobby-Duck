@@ -137,6 +137,11 @@ public class ClientManager : MonoBehaviour
 
         Door.Instance.Close();
 
+        Invoke("NewClientDelayDelay",0.1f);
+    }
+
+    void NewClientDelayDelay()
+    {
         Tutorial.Instance.Show(TutorialStep.Client);
     }
 

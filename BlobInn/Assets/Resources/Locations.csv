@@ -1,0 +1,34 @@
+;Appelation;Genre;Loc;Adj Group;Continuation
+Plain;Plaine;fs;sur;Rural;continued
+Field;Champ;ms;dans;Rural;continued
+Clearing;Clairière;fs;dans;Rural;continued
+Hill;Coline;fs;sur;Rural;continued
+Mountain;Montagne;fs;sur;Rural;continued
+Forest;Forêt;fs;dans;Rural;continued
+Woods;Bois;ms;dans;Rural;continued
+Sea;Mer;fs;sur;Rural;continued
+Lake;Lac;ms;sur;Rural;continued
+River;Rivière;fs;sur;Rural;continued
+Beach;Plage;fs;sur;Rural;continued
+Road;Route;fs;sur;Rural;continued
+TownRoad;Route de village;fs;sur;Rural;continued
+CoastalRoad;Route Côtiere;fs;sur;Rural;continued
+Path;Chemin;ms;sur;Rural;continued
+Bridge;Pont;ms;sur;Rural;continued
+Building;Maison;fs;devant;Urbain;single
+Farm;Ferme;fs;devant;Urbain;single
+ForestCabin;Cabane;fs;devant;Urbain;single
+CountryHouse;Maison de campagne;fs;devant;Urbain;single
+Hallway;Couloir;ms;dans;Urbain;continued
+Stairs;Escalier;ms;sur;Urbain;continued
+LivingRoom;Salon;ms;dans;Urbain;single
+Kitchen;Cuisine;fs;dans;Urbain;single
+DiningRoom;Salle à manger;fs;dans;Urbain;single
+ChildBedroom;Chambre pour enfant;fs;dans;Urbain;single
+Bedroom;Chambre à coucher;fs;dans;Urbain;single
+Bathroom;Salle de bain;fs;dans;Urbain;single
+Toilet;Toilette;fs;dans;Urbain;single
+Attic;Grenier;ms;dans;Urbain;single
+Basement;Cave;fs;dans;Urbain;single
+Cellar;Cellier;ms;dans;Urbain;single
+Office;Bureau;ms;dans;Urbain;single

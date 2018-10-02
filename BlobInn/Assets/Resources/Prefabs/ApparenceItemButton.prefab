@@ -201,10 +201,11 @@ MonoBehaviour:
   image: {fileID: 114472376233270644}
   button: {fileID: 114659747133048656}
   type: 0
-  price: 10
+  price: 5
   lockedGroup: {fileID: 1684231631789402}
   diamond_Text: {fileID: 114484985249405608}
   diamond_Image: {fileID: 114643454009759062}
+  backgroundImage: {fileID: 114155696027596608}
   diamondGroup: {fileID: 1030330553758240}
 --- !u!114 &114472376233270644
 MonoBehaviour:

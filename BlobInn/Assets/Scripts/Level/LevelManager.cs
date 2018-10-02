@@ -36,7 +36,6 @@ public class LevelManager : MonoBehaviour
         if (endless)
         {
             SetCurrentLevel(10);
-            Debug.Log("lanceer endless monde");
         }
 
         Invoke("InitTiles", 0.001f);
@@ -51,6 +50,8 @@ public class LevelManager : MonoBehaviour
     public void StartRushHour()
     {
         rushHour = true;
+
+        Music.Instance.PlayRushHour();
 
         ClientManager.Instance.ResetTimer();
 

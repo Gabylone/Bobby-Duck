@@ -24,7 +24,6 @@ public class Transition : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
         if ( clearOnStart)
         {
             Show();
@@ -45,6 +44,7 @@ public class Transition : MonoBehaviour {
     public void Fade(float duration)
     {
         Show();
+
         image.color = Color.clear;
         HOTween.To( image , duration , "color" , Color.black);
     }

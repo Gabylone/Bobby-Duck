@@ -19,6 +19,8 @@ public class Inventory : MonoBehaviour {
     public int waiterAmount = 0;
     public List<Ingredient.Type> ingredientTypes = new List<Ingredient.Type>();
 
+    public bool showedMultGold = false;
+
     public int highscore = 0;
 
     public int goldAquiredInLevel = 0;
@@ -77,6 +79,11 @@ public class Inventory : MonoBehaviour {
 
         Screen.orientation = ScreenOrientation.Portrait;
 
+        if (currentLanguageType == LanguageType.None && DisplayLanguage.Instance != null)
+        {
+            DisplayLanguage.Instance.Open();
+        }
+
         if (loadOnStart)
             Load();
 
@@ -105,9 +112,10 @@ public class Inventory : MonoBehaviour {
         PlayerPrefs.SetInt("waiterAmount", waiterAmount);
         PlayerPrefs.SetInt("languageType", (int)currentLanguageType);
         PlayerPrefs.SetInt("highscore", highscore);
-        PlayerPrefs.SetInt("displayedInvitation", displayedInvitation ? 1 : 0);
 
+        PlayerPrefs.SetInt("displayedInvitation", displayedInvitation ? 1 : 0);
         PlayerPrefs.SetInt("enableSound", SoundManager.Instance.playSounds ? 1 : 0);
+        PlayerPrefs.SetInt("showedMultGold", showedMultGold ? 1 : 0);
 
         SaveLifes();
 
@@ -146,11 +154,12 @@ public class Inventory : MonoBehaviour {
         plateAmount = PlayerPrefs.GetInt("plateAmount",1);
         tableAmount = PlayerPrefs.GetInt("tableAmount",2);
         waiterAmount = PlayerPrefs.GetInt("waiterAmount", 0);
-        currentLanguageType =  (LanguageType)PlayerPrefs.GetInt("languageType", (int)LanguageType.None);
+        currentLanguageType =  (LanguageType)PlayerPrefs.GetInt("languageType", (int)LanguageType.French);
         highscore = PlayerPrefs.GetInt("highscore", 0);
 
+        displayedInvitation = PlayerPrefs.GetInt("displayedInvitation", 0) == 1;
         SoundManager.Instance.playSounds = PlayerPrefs.GetInt("enableSound", 1) == 1;
-        displayedInvitation = PlayerPrefs.GetInt("displayedInvitation", 1) == 1;
+        showedMultGold = PlayerPrefs.GetInt("showedMultGold", 0) == 1;
 
         // ingredients //
         ingredientTypes.Clear();
@@ -198,10 +207,7 @@ public class Inventory : MonoBehaviour {
         LoadBlobApparence();
         //
         
-        if ( currentLanguageType == LanguageType.None && DisplayLanguage.Instance != null)
-        {
-            DisplayLanguage.Instance.Open();
-        }
+       
     }
 
     public void SetStarAmount ( int levelID , int starAmount)
@@ -260,13 +266,10 @@ public class Inventory : MonoBehaviour {
     {
         if (aquiredApparenceItems[(int)type].ids.Contains(id))
         {
-            Debug.LogError("aquired items : " + type + " already contains id " + id);
             return;
         }
 
         aquiredApparenceItems[(int)type].ids.Add(id);
-
-        Debug.LogError("adding id : " + id + " to " + type );
     }
 
     void LoadBlobApparence()
@@ -314,10 +317,18 @@ public class Inventory : MonoBehaviour {
         if (!loadedSomething)
         {
             aquiredApparenceItems[(int)Blob_Apparence.Type.Head].ids.Add(0);
+            aquiredApparenceItems[(int)Blob_Apparence.Type.Head].ids.Add(1);
 
             aquiredApparenceItems[(int)Blob_Apparence.Type.Eyes].ids.Add(0);
+            aquiredApparenceItems[(int)Blob_Apparence.Type.Eyes].ids.Add(1);
 
             aquiredApparenceItems[(int)Blob_Apparence.Type.EyesAccessories].ids.Add(0);
+            aquiredApparenceItems[(int)Blob_Apparence.Type.EyesAccessories].ids.Add(1);
+
+            for (int i = 0; i < BlobApparenceManager.Instance.blobColors.Length; i++)
+            {
+                aquiredApparenceItems[(int)Blob_Apparence.Type.Color].ids.Add(i);
+            }
 
         }
     }
