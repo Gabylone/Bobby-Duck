@@ -1,0 +1,10 @@
+;Genre ;Poids;Valeur(1);aller;ouvrir;fermer;manger;dormir;regarder, observer;prendre, ramasser, saisir;remplir;boire;déplacer;lire;couper;entrer;jeter, bazarder;équiper, mettre;déséquiper, enlever;écouter;continuer;sortir
+frigo;ms;;;;OPENCONTAINER;CLOSECONTAINER;;;DESCRIBEITEM;;;;;;;;;;;;;
+coffre;ms;;;;OPENCONTAINER;CLOSECONTAINER;;;DESCRIBEITEM;;;;;;;;;;;;;
+armoire;fs;;;;OPENCONTAINER;CLOSECONTAINER;;;DESCRIBEITEM;;;;;;;;;;;;;
+placard;ms;;;;OPENCONTAINER;CLOSECONTAINER;;;DESCRIBEITEM;;;;;;;;;;;;;
+étagère;fs;;;;OPENCONTAINER;CLOSECONTAINER;;;DESCRIBEITEM;;;;;;;;;;;;;
+porte monnaie;ms;2;;;OPENCONTAINER;CLOSECONTAINER;;;DESCRIBEITEM;TAKE;;;;;;;;;;;;
+boîte à outil;ms;;;;OPENCONTAINER;CLOSECONTAINER;;;DESCRIBEITEM;;;;;;;;;;;;;
+armoire de toilette;fs;;;;OPENCONTAINER;CLOSECONTAINER;;;DESCRIBEITEM;;;;;;;;;;;;;
+carton;ms;;;;OPENCONTAINER;CLOSECONTAINER;;;DESCRIBEITEM;;;;;;;;;;;;;

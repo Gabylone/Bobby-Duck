@@ -1,0 +1,22 @@
+﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Adjective.cs">
+    <Files>
+      <File FileName="Assets\DisplayInput.cs" Line="34" Column="3" />
+      <File FileName="Assets\ActionManager.cs" Line="86" Column="9" />
+      <File FileName="Assets\Player.cs" Line="128" Column="3" />
+      <File FileName="Assets\DisplayDescription.cs" Line="163" Column="63" />
+      <File FileName="Assets\WorldGeneration.cs" Line="282" Column="18" />
+      <File FileName="Assets\MapTexture.cs" Line="26" Column="5" />
+      <File FileName="Assets\Word.cs" Line="141" Column="18" />
+      <File FileName="Assets\Adjective.cs" Line="38" Column="2" />
+      <File FileName="Assets\LocationLoader.cs" Line="39" Column="1" />
+      <File FileName="Assets\TextTyper.cs" Line="60" Column="69" />
+      <File FileName="Assets\Tile.cs" Line="52" Column="40" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
