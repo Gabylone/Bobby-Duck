@@ -1,0 +1,496 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7BEADDEB-0C2D-7C0B-E1C0-2DE11A1029F1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile></CompilerResponseFile>
+    <UnityProjectType>GamePlugins:3</UnityProjectType>
+    <UnityBuildTarget>Android:13</UnityBuildTarget>
+    <UnityVersion>2017.1.0f3</UnityVersion>
+    <RootNamespace></RootNamespace>
+    <LangVersion>4</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_1_0;UNITY_2017_1;UNITY_2017;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;PLATFORM_ANDROID;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_SUBSTANCE;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;DEVELOPMENT_BUILD;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_HAS_GOOGLEVR</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_1_0;UNITY_2017_1;UNITY_2017;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;PLATFORM_ANDROID;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_SUBSTANCE;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;DEVELOPMENT_BUILD;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_HAS_GOOGLEVR</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="Boo.Lang" />
+    <Reference Include="UnityScript.Lang" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TestRunner">
+      <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Timeline">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HoloLens">
+      <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="HOTween">
+      <HintPath>Assets\Plugins\HOTween\Plugins\HOTween.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Plugins\HOTween\_Demo\HOTweenDemoBrain.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\HOTween\Plugins\HOTween.XML" />
+    <None Include="Assets\Plugins\HOTween\readme.txt" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx0y11.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx0y31.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx0y37.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx0y46.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx10y10.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx10y13.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx10y15.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx10y18.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx10y22.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx10y35.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx11y13.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx11y21.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx11y3.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx11y37.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx11y9.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx12y12.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx12y26.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx12y32.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx12y40.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx12y42.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx12y9.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx13y28.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx13y34.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx13y44.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx13y45.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx14y1.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx14y2.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx14y40.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx14y48.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx15y0.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx15y17.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx16y11.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx16y22.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx16y25.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx16y27.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx16y29.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx16y47.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx16y6.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx17y14.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx17y2.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx17y24.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx17y35.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx17y37.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx17y39.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx18y0.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx18y19.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx18y20.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx18y23.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx18y36.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx18y38.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx18y45.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx18y48.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx18y8.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx19y26.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx19y4.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx1y22.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx1y32.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx20y40.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx20y5.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx21y20.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx22y16.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx22y27.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx22y30.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx22y9.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx23y12.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx23y14.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx23y18.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx23y32.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx23y4.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx24y13.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx24y33.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx25y15.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx25y17.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx25y28.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx25y33.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx25y34.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx26y23.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx26y28.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx26y35.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx27y3.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx27y30.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx27y4.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx27y7.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx28y13.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx29y20.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx29y25.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx29y4.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx29y43.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx29y6.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx2y25.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx2y30.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx2y32.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx2y41.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx30y28.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx31y1.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx31y44.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx31y5.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx31y7.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx32y0.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx32y17.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx32y24.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx32y3.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx33y14.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx33y26.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx33y44.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx33y48.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx34y16.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx34y22.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx34y38.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx34y41.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx34y6.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx35y17.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx36y10.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx37y23.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx37y42.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx38y15.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx38y21.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx38y36.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx38y43.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx38y44.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx38y47.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx39y12.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx39y23.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx39y43.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx39y45.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx39y47.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx3y18.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx3y26.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx3y3.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx3y38.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx40y1.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx40y14.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx40y27.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx40y28.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx40y43.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx40y8.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx41y10.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx41y2.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx42y19.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx42y29.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx42y47.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx42y48.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx42y5.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx43y27.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx43y35.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx43y46.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx44y10.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx44y18.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx44y21.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx44y31.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx44y39.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx44y43.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx44y8.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx45y15.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx45y39.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx45y41.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx45y45.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx46y11.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx46y19.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx46y34.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx47y11.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx47y24.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx47y30.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx47y8.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx48y2.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx48y21.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx48y29.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx48y32.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx48y36.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx48y41.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx4y0.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx4y16.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx4y42.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx5y19.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx5y21.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx6y29.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx6y39.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx6y40.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx6y42.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx6y46.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx6y7.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx7y31.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx7y33.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx7y37.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx8y1.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx8y25.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx8y31.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx8y34.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx8y46.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx8y5.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx9y12.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx9y38.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx9y6.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx9y7.xml" />
+    <None Include="Assets\SaveData\Beginning\Islands\chkx9y9.xml" />
+    <None Include="Assets\SaveData\Beginning\boat data.xml" />
+    <None Include="Assets\SaveData\Beginning\discovered coords.xml" />
+    <None Include="Assets\SaveData\Beginning\game data.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx0y15.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx0y19.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx0y20.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx0y24.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx0y47.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx0y48.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx10y4.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx10y5.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx11y18.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx11y25.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx11y41.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx11y45.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx12y1.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx12y12.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx12y30.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx12y42.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx12y6.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx13y0.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx13y23.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx14y10.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx14y11.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx14y16.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx14y21.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx14y26.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx14y29.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx14y39.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx14y4.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx14y40.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx14y44.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx14y8.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx15y1.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx15y16.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx16y2.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx16y38.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx16y46.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx17y2.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx17y27.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx17y30.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx17y34.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx18y15.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx18y19.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx18y26.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx18y46.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx19y17.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx19y23.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx19y38.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx1y10.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx1y21.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx1y33.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx1y42.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx20y0.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx20y24.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx20y8.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx21y23.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx21y39.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx21y47.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx22y0.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx22y17.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx22y21.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx22y29.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx22y31.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx22y44.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx22y48.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx23y15.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx23y20.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx23y31.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx23y32.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx23y33.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx23y36.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx23y41.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx23y9.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx24y12.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx24y30.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx24y45.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx25y1.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx25y19.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx25y25.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx25y37.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx25y9.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx26y2.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx26y26.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx26y30.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx26y5.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx26y9.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx27y10.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx27y18.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx27y41.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx27y6.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx28y12.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx28y33.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx28y42.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx29y10.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx29y13.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx29y18.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx29y24.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx29y32.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx29y35.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx2y36.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx2y38.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx2y8.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx30y14.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx30y3.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx30y31.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx30y36.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx30y8.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx31y13.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx31y27.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx31y34.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx31y36.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx32y17.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx32y22.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx32y35.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx32y4.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx32y43.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx32y46.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx33y12.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx33y18.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx33y24.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx33y31.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx33y4.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx33y46.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx33y48.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx34y0.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx34y16.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx34y33.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx34y39.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx35y13.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx35y6.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx36y29.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx36y32.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx36y37.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx36y43.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx36y7.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx37y14.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx37y26.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx37y27.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx37y28.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx37y45.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx38y25.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx38y3.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx38y35.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx38y44.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx38y7.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx38y9.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx39y19.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx39y32.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx39y35.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx39y43.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx3y13.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx3y42.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx3y5.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx3y6.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx40y28.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx41y28.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx42y11.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx42y17.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx42y3.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx42y40.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx42y43.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx42y45.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx43y11.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx43y44.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx44y2.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx44y22.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx45y39.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx45y48.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx46y5.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx47y14.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx47y20.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx47y34.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx48y25.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx48y29.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx48y47.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx4y15.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx4y27.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx5y34.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx5y40.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx5y46.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx6y1.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx6y20.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx6y23.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx6y3.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx6y37.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx6y47.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx7y40.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx8y11.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx8y20.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx8y7.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx9y14.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx9y16.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx9y21.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx9y22.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx9y37.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx9y40.xml" />
+    <None Include="Assets\SaveData\Default\Islands\chkx9y41.xml" />
+    <None Include="Assets\SaveData\Default\boat data.xml" />
+    <None Include="Assets\SaveData\Default\discovered coords.xml" />
+    <None Include="Assets\SaveData\Default\game data.xml" />
+    <None Include="Assets\bob-debug.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
+</Project>
