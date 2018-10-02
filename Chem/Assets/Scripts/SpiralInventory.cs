@@ -31,8 +31,14 @@ public class SpiralInventory : MonoBehaviour {
 	public delegate void OnCloseInventory ();
 	public OnCloseInventory onCloseInventory;
 
-	[SerializeField]
-	private float angleDecal = 45f;
+    public int inventoryScale = 10;
+
+    [SerializeField]
+    private float angleDecal = 45f;
+
+    public float scaleAmount = 2f;
+
+    public float pointerAngle = 10f;
 
 	int selectedIndex = 0;
 
@@ -53,7 +59,7 @@ public class SpiralInventory : MonoBehaviour {
 		}
 		else
 		{
-			if ( Input.GetButtonDown ("ShowIngredients") ) {
+			if ( Input.GetButtonDown ("ShowIngredients") && elementTransforms.Count > 0) {
 				IngredientsSpiral.Instance.Open ();
 			}
 		}
@@ -72,59 +78,62 @@ public class SpiralInventory : MonoBehaviour {
 
 		group.SetActive (true);
 
-		if (onOpenInventory != null)
-			onOpenInventory ();
+        if (onOpenInventory != null)
+            onOpenInventory();
+
 	}
 	public void Close () {
+
 		opened = false;
 
 		pointerTransform.gameObject.SetActive (false);
 
-		Character.Instance.ChangeState (Controller.State.state2);
+		Character.Instance.ChangeState (Character.State.moving);
 
 		group.SetActive (false);
 
-		if (onCloseInventory != null)
-			onCloseInventory ();
+        if (onCloseInventory != null)
+            onCloseInventory();
+
 	}
 	#endregion
 
 	void PointerUpdate ()
 	{
-//		Vector3 dir = Input.mousePosition - Camera.main.WorldToScreenPoint (transform.position);
-//		Vector3 dir = new Vector3( Input.GetAxis("Mouse X") , Input.GetAxis("Mouse Y") , 0f );
-		Vector3 dir = new Vector3( Input.GetAxis("Horizontal") , Input.GetAxis("Vertical") , 0f );
+		Vector3 dir = Input.mousePosition - Camera.main.WorldToScreenPoint (transform.position);
 
 		pointerTransform.position = transform.position + dir.normalized * radius;
 
-		float angle = (360f / elementTransforms.Count / 2f);
-
 		for (int i = 0; i < elementTransforms.Count; i++) {
 
-			if (Vector3.Angle (dir, (elementTransforms [i].position - transform.position).normalized) < angle) {
+			if (Vector3.Angle (dir, (elementTransforms [i].position - transform.position).normalized) < pointerAngle) {
 
 				if (selectedIndex == i)
 					break;
 
 				Tween.Descale (elementTransforms [selectedIndex]);
-				Tween.Scale (elementTransforms [i]);
+				Tween.Scale (elementTransforms [i], scaleAmount);
 
 				selectedIndex = i;
-
-//				elementTransforms [i].GetComponentInChildren<SpriteRenderer> ().color = Color.red;
 
 			}
 
 		}
 
-		if (Input.GetButtonDown ("Fire2")) {
+		if (Input.GetButtonDown ("Fire2") ) {
 			Select (selectedIndex);
 		}
 	}
 
 	public virtual void Select (int i) {
 
-		elementTransforms.RemoveAt (i);
+        Tween.Descale(elementTransforms[i]);
+
+        elementTransforms[i].transform.position = Character.Instance.transform.position + Vector3.up * 2f + Character.Instance.bodyTransform.right * 1.5f;
+
+        elementTransforms.RemoveAt(i);
+
+
 
 		Close ();
 
@@ -145,29 +154,24 @@ public class SpiralInventory : MonoBehaviour {
 
 			Transform t = elementTransforms [elementIndex];
 
-			float angle = angleDecal + (360f / elementTransforms.Count) * elementIndex;
+			float angle = angleDecal + (360f / inventoryScale) * elementIndex;
 
 			var direction = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle), 0f);
 			var targetPos = transform.position + (direction * radius);
 
+            int a = 0;
+            foreach (var item in elementTransforms[elementIndex].GetComponentsInChildren<SpriteRenderer>())
+            {
+                item.sortingOrder = 3 + a;
+
+                ++a;
+            }
+
+            elementTransforms[elementIndex].position = transform.position;
+
 			HOTween.To (elementTransforms [elementIndex], openDuration, "position", targetPos);
 
 		}
-
-//		for (int elementIndex = 0; elementIndex < elementTransforms.Count; elementIndex++) {
-//
-//			Transform t = elementTransforms [elementIndex];
-//
-//			Vector2 initPos = transform.position;
-//
-//			float angle = angleDecal + (360f / elementTransforms.Count) * elementIndex;
-//
-//			var direction = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle), 0f);
-//			var targetPos = transform.position + (direction * radius);
-//
-//			t.position = targetPos;
-//		}
-
 	}
 	#endregion
 

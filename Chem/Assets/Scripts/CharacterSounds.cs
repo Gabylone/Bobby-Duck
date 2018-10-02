@@ -14,6 +14,10 @@ public class CharacterSounds : MonoBehaviour {
 
 	Character character;
 
+    float timer = 0f;
+
+    public float soundRate = 0.5f;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -26,7 +30,10 @@ public class CharacterSounds : MonoBehaviour {
 	}
 
 	void Update () {
-		//
+		if ( timer >= 0f)
+        {
+            timer -= Time.deltaTime;
+        }
 	}
 
 	void HandleOnTouchGround ()
@@ -42,8 +49,16 @@ public class CharacterSounds : MonoBehaviour {
 	}
 
 	public void Step () {
+
+        if ( timer >= 0f)
+        {
+            return;
+        }
+
 		audioSource_Steps.clip = stepClips [Random.Range (0, stepClips.Length)];
 		audioSource_Steps.Play();
+
+        timer = soundRate;
 	}
 
 	public void PickUp() {

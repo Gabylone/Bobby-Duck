@@ -19,8 +19,12 @@ public class Tween : MonoBehaviour {
 	public static void Scale (Transform t) {
 		HOTween.To (t , dur , "localScale" , Vector3.one * amount , false , EaseType.EaseOutBounce , 0f);
 	}
+    public static void Scale(Transform t, float _amount )
+    {
+        HOTween.To(t, dur, "localScale", Vector3.one * _amount, false, EaseType.EaseOutBounce, 0f);
+    }
 
-	public static void Descale (Transform t) {
+    public static void Descale (Transform t) {
 		HOTween.To (t , dur , "localScale" , Vector3.one, false , EaseType.Linear , 0f);
 	}
 

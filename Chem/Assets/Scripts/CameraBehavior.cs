@@ -3,16 +3,24 @@ using System.Collections;
 
 public class CameraBehavior : MonoBehaviour {
 
+    public static CameraBehavior Instance;
 
-	[SerializeField]
-	private Vector2 cameraDecal = Vector2.zero;
-	[SerializeField]
-	private Vector2 buffer;
+	public Vector2 cameraDecal = Vector2.zero;
+	public Vector2 buffer;
 
-	// Use this for initialization
-	void Start () {
+    public int x = 0;
+    public int y = 0;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    // Use this for initialization
+    void Start () {
 //		CameraTrigger.touchBorder += MoveCam;
 		transform.position = CenterCam (Character.Instance.getTransform.position);
+        MoveCam(Border.None);
 	}
 
 	void Update () {
@@ -49,20 +57,34 @@ public class CameraBehavior : MonoBehaviour {
 			break;
 		case Border.Left:
 			transform.position += new Vector3 (-cameraDecal.x,0f);
-			break;
+                break;
+            case Border.None:
+                break;
 		default:
 			break;
 		}
+
+        if ( onCamMove != null )
+        {
+            onCamMove(Coords.GetWorldCoords(transform.position) );
+        }
 	}
+
+    public delegate void OnCamMove(Coords newCoords);
+    public OnCamMove onCamMove;
 
 	Vector2 CenterCam ( Vector2 pos )
 	{
 		float x = Mathf.Round(pos.x / cameraDecal.x) * cameraDecal.x;
 		float y = Mathf.Round(pos.y / cameraDecal.y) * cameraDecal.y;
 
-		return new
+
+
+
+        return new
 			Vector2(x , y);
 	}
+
 
 	#region Grid
 	[Header("camera gizmos")]
@@ -106,4 +128,24 @@ public class CameraBehavior : MonoBehaviour {
 	}
 	#endregion
 
+}
+
+public class Coords
+{
+    public int x = 0;
+    public int y = 0;
+
+    public Coords(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    public static Coords GetWorldCoords(Vector2 pos)
+    {
+        int x = Mathf.RoundToInt(pos.x / CameraBehavior.Instance.cameraDecal.x);
+        int y = Mathf.RoundToInt(pos.y / CameraBehavior.Instance.cameraDecal.y);
+
+        return new Coords(x, y);
+    }
 }

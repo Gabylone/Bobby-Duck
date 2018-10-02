@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-
 public class Fish : Ingredient {
 
 	[SerializeField]
@@ -42,9 +41,16 @@ public class Fish : Ingredient {
 		currentTime = Random.Range (range_TimeToJump.x ,range_TimeToJump.y);
 
 		canInteract = false;
+
+        CameraBehavior.Instance.onCamMove += HandleOnCamMove;
 	}
 
-	void Update ()
+    private void HandleOnCamMove(Coords newCoords)
+    {
+        
+    }
+
+    void Update ()
 	{
 		if ( !harvested )
 			FishAround ();
@@ -80,10 +86,10 @@ public class Fish : Ingredient {
 			currentTime += Time.deltaTime;
 
 			if ( transform.position.y < initPos.y && currentTime >= 0.1f ) {
+
 				Vector2 dir = Random.value < 0.5f ? Vector2.left : Vector2.right;
 
 				transform.right = dir;
-
 
 				transform.position = new Vector3 ( transform.position.x , initPos.y , 0f );
 
@@ -101,13 +107,19 @@ public class Fish : Ingredient {
 		}
 	}
 
-	void OnCollisionEnter2D (Collision2D coll) {
-		
-		if (coll.gameObject.tag == "Player" && jumping) {
-			harvested = true;
-			canInteract = true;
-			Push ();
-		}
+	void OnTriggerEnter2D (Collider2D coll) {
+
+        if (coll.tag == "Player" && jumping)
+        {
+
+            harvested = true;
+            canInteract = true;
+
+            Interact();
+            
+            //Push ();
+        }
+
 	}
 
 	void OnDrawGizmos () {

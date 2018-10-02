@@ -14,20 +14,19 @@ public class Interactable : MonoBehaviour {
 	public delegate void OnExitInteractable();
 	public static OnExitInteractable onExitInteractable;
 
+    public static Interactable currInteractable;
+
 	bool containsPlayer = false;
 
 	void OnTriggerEnter2D ( Collider2D other ) {
 		if (other.tag == "Player") {
-			Tween.Bounce (transform);
-			if (onEnterInteractable != null ) {
-				onEnterInteractable (transform);
-			}
+            Enter();
 		}
 	}
 
 	void OnTriggerStay2D ( Collider2D other ) {
 		if (other.tag == "Player" && canInteract  ) {
-			if ( Input.GetButtonDown("Fire2") ) {
+			if ( Input.GetButtonDown("Fire2") && currInteractable == this) {
 				Interact ();
 			}
 		}
@@ -35,9 +34,7 @@ public class Interactable : MonoBehaviour {
 
 	void OnTriggerExit2D ( Collider2D other ) {
 		if (other.tag == "Player") {
-			if ( onExitInteractable != null ) {
-				onExitInteractable ();
-			}
+            Leave();
 		}
 	}
 
@@ -46,4 +43,29 @@ public class Interactable : MonoBehaviour {
 			onInteract ();
 		}
 	}
+
+    public void Enter()
+    {
+        if( currInteractable != null )
+        {
+            currInteractable.Leave();
+        }
+
+        currInteractable = this;
+
+        Tween.Bounce(transform);
+
+        if (onEnterInteractable != null)
+        {
+            onEnterInteractable(transform);
+        }
+    }
+
+    public void Leave()
+    {
+        if (onExitInteractable != null)
+        {
+            onExitInteractable();
+        }
+    }
 }

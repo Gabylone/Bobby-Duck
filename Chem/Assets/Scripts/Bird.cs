@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bird : Controller {
+public class Bird : Touchable {
 
 	[SerializeField]
 	private Transform anchor;
@@ -23,6 +23,7 @@ public class Bird : Controller {
 
 	[SerializeField]
 	private float bufferTimeAfterTurn = 1f;
+    public float characterSpeedToFly = 1f;
 
 	[SerializeField]
 	private GameObject featherPrefab;
@@ -31,108 +32,135 @@ public class Bird : Controller {
 	[SerializeField]
 	private float featherForce = 200f;
 
-	public override void Start ()
-	{
-		base.Start ();
-	}
+    #region states vars
+    // state machine
+    public enum State
+    {
+        none,
 
-	public override void Update ()
-	{
-		base.Update ();
-	}
+        idle,
+        moving,
+        goToAnchor,
+    }
 
-	#region idle
-	public override void State1_Start ()
+    // components
+    [Header("Components")]
+    public Transform bodyTransform;
+    public Transform getTransform;
+    public Animator animator;
+
+    [Header("State")]
+    public State startState = State.idle;
+    public State currentState;
+    public State previousState;
+
+    public float timeInState = 0f;
+
+    delegate void UpdateState();
+    UpdateState updateState;
+    #endregion
+
+
+    // Use this for initialization
+    public void Start()
+    {
+        getTransform = GetComponent<Transform>();
+        animator = GetComponentInChildren<Animator>();
+
+        ChangeState(startState);
+
+    }
+
+    public void Update()
+    {
+        if (updateState != null)
+        {
+            updateState();
+            timeInState += Time.deltaTime;
+        }
+
+    }
+
+    #region idle
+    public void Idle_Start ()
 	{
 		animator.SetBool ("flying", false);
 		currentTimeToTurn = Random.Range ( timeToTurnRange.x , timeToTurnRange.y );
 	}
-	public override void State1_Update ()
+	public void Idle_Update ()
 	{
 		if (timeInState >= currentTimeToTurn) {
 
-			if (direction == Direction.Left)
-				direction = Direction.Right;
+            timeInState = 0f;
+
+            if (direction == Direction.Left)
+                SetDirection(Direction.Right);
 			else
-				direction = Direction.Left;
-			
-			timeInState = 0f;
+                SetDirection(Direction.Left);
+
 		}
 
 		if ( Vector3.Distance (Character.Instance.getTransform.position, getTransform.localPosition ) < distanceToFlyAway ) {
 
-			if (Character.Instance.crouching == false) {
-				ChangeState (State.state2);
-			}
+			if (!Character.Instance.crouching )
+            {
+                ChangeState(State.moving);
+                return;
+            }
 
-			if ( direction != Character.Instance.direction ) {
 
-				if ( Character.Instance.crouching == false && timeInState >= bufferTimeAfterTurn ) {
-					ChangeState (State.state2);
+            if ( direction != Character.Instance.direction ) {
+
+				if ( Character.Instance.crouching && timeInState > bufferTimeAfterTurn && Character.Instance.currentSpeed > characterSpeedToFly) {
+
+                    if (timeInState > bufferTimeAfterTurn)
+                    {
+                        Debug.Log("time in state : " + timeInState);
+                    }
+					ChangeState (State.moving);
 				}
 
 			}
 
 		}
 	}
-	bool caughtPlayer {
-		get {
-			bool playerIsInRange = Vector3.Distance (Character.Instance.getTransform.position, getTransform.localPosition) < distanceToFlyAway;
-			bool playerIsCrouching = Character.Instance.crouching;
-			bool facingPlayer = direction != Character.Instance.direction;
-			bool waitedForBuffer = timeInState >= bufferTimeAfterTurn;
-			bool playerIsMoving = Character.Instance.moving;
+    void Idle_Exit()
+    {
 
-			if ( playerIsInRange ) {
-
-				if (playerIsCrouching == false) {
-					print ("flew because player is not crouching");
-					return true;
-				}
-
-				if ( facingPlayer ) {
-					if (playerIsMoving) {
-						print ("flew because player is moving");
-						return true;
-					}
-				}
-
-			}
-
-			return false;
-		}
-	}
+    }
 	#endregion
 
 	#region moving
-	public override void State2_Start ()
+	public void Moving_Start ()
 	{
 		animator.SetBool ("flying", true);
 	}
-	public override void State2_Update ()
+	public void Moving_Update ()
 	{
-		base.State2_Update ();
-
 		if (timeInState <= flying_TimeToStop) {
 			getTransform.Translate (Vector3.up * flySpeed * Time.deltaTime);
 		}
 
-		if ( Vector3.Distance (Character.Instance.getTransform.position, getTransform.localPosition ) > distanceToFlyAway ) {
+		if ( Vector3.Distance (Character.Instance.getTransform.position, anchor.position) > distanceToFlyAway ) {
 
 			if ( timeInState >= 5f ) {
-				ChangeState (State.state3);
+				ChangeState (State.goToAnchor);
 			}
 
 		}
 	}
+    void Moving_Exit()
+    {
+
+    }
 	#endregion
 
 	#region go to anchor
-	public override void State3_Start ()
+	public void GoToAnchor_Start ()
 	{
-		base.State3_Start ();
+		
 	}
-	public override void State3_Update ()
+	public void GoToAnchor_Update ()
 	{
 		Vector3 dir = (anchor.position - getTransform.position).normalized;
 
@@ -140,11 +168,11 @@ public class Bird : Controller {
 		bodyTransform.right = dir;
 
 		if (Vector3.Distance (getTransform.position, anchor.position) < Anchor_DistanceToIdle) {
-			ChangeState (State.state1);
+			ChangeState (State.idle);
 		}
 
 	}
-	public override void State3_Exit ()
+	public void GoToAnchor_Exit ()
 	{
 		bodyTransform.up = Vector2.up;
 		getTransform.position = anchor.position;
@@ -164,26 +192,119 @@ public class Bird : Controller {
 
 	public void Die ()
 	{
-		Stop ();
 		animator.SetBool ("dead", true);
 
 		GetComponent<Rigidbody2D> ().isKinematic = false;
 		GetComponent<Rigidbody2D> ().AddForce ( ((Vector2)Character.Instance.bodyTransform.right + Vector2.up) * deathForce );
 		GetComponent<Rigidbody2D> ().AddTorque ( deathForce );
 
-		for (int i = 0; i < 2; i++) {
+
+
+
+        for (int i = 0; i < 2; i++) {
 			GameObject g = Instantiate (featherPrefab);
 			g.transform.position = getTransform.position;
 			g.GetComponent<Rigidbody2D> ().AddForce (Vector2.up * featherForce);
 		}
 
+        Destroy(this);
 
-	}
+    }
 
-	void OnCollisionEnter2D (Collision2D coll) {
+    void OnCollisionEnter2D (Collision2D coll) {
 		if ( coll.gameObject.tag == "Rock" ) {
 
-			ChangeState (State.state2);
+			ChangeState (State.moving);
 		}
 	}
+
+    #region state machine
+    public delegate void OnChangeState();
+    public OnChangeState onChangeState;
+    public void ChangeState(State targetState)
+    {
+
+        previousState = currentState;
+        currentState = targetState;
+
+        ExitPreviousState();
+        StartTargetState();
+
+        timeInState = 0f;
+
+        if (onChangeState != null)
+            onChangeState();
+
+    }
+
+    void StartTargetState()
+    {
+        switch (currentState)
+        {
+            case State.idle:
+                updateState = Idle_Update;
+                Idle_Start();
+                break;
+
+            case State.moving:
+                updateState = Moving_Update;
+                Moving_Start();
+                break;
+
+            case State.goToAnchor:
+                updateState = GoToAnchor_Update;
+                GoToAnchor_Start();
+                break;
+            default:
+                break;
+        }
+    }
+
+    void ExitPreviousState()
+    {
+        switch (previousState)
+        {
+            case State.idle:
+                Idle_Exit();
+                break;
+
+            case State.moving:
+                Moving_Exit();
+                break;
+
+            case State.goToAnchor:
+                GoToAnchor_Exit();
+                break;
+
+            default:
+                break;
+        }
+    }
+    #endregion
+
+    #region direction
+    public Direction direction;
+    public delegate void OnChangeDirection();
+    public OnChangeDirection onChangeDirection;
+    public void SetDirection ( Direction dir )
+    {
+        direction = dir;
+
+        if (dir == Direction.Left)
+        {
+            bodyTransform.right = -Vector3.right;
+        }
+        else
+        {
+            bodyTransform.right = Vector3.right;
+        }
+    }
+    #endregion
+}
+
+
+public enum Direction
+{
+    Right,
+    Left
 }

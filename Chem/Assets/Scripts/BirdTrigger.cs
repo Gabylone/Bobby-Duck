@@ -9,7 +9,6 @@ public class BirdTrigger : Interactable {
 		bird = GetComponentInParent<Bird> ();
 
 		bird.onChangeState += HandleOnChangeState;
-		bird.onChangeDirection += HandleOnChangeDirection;
 	}
 
 	void HandleOnChangeDirection ()
@@ -25,18 +24,21 @@ public class BirdTrigger : Interactable {
 
 	void HandleOnChangeState ()
 	{
-		if (bird.currentState == Controller.State.state1) {
+		if (bird.currentState == Bird.State.idle) {
 			GetComponent<BoxCollider2D> ().enabled = true;
 		} else {
 			GetComponent<BoxCollider2D> ().enabled = false;
 		}
 	}
 
-	public override void Interact ()
-	{
-		base.Interact ();
+    public override void Interact()
+    {
+        base.Interact();
 
-		bird.Die ();
-		canInteract = false;
-	}
+        bird.Die();
+        canInteract = false;
+        GetComponent<BoxCollider2D>().enabled = false;
+
+
+    }
 }

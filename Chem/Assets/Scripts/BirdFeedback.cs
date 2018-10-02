@@ -18,7 +18,7 @@ public class BirdFeedback : MonoBehaviour {
 	}
 
 	void HandleOnChangeState () {
-		if ( bird.currentState == Controller.State.state2 ) {
+		if ( bird.currentState == Bird.State.moving ) {
 			Show ();
 		}
 	}

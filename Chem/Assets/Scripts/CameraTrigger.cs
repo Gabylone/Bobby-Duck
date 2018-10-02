@@ -5,7 +5,9 @@ public enum Border {
 	Top,
 	Right,
 	Bottom,
-	Left
+	Left,
+
+    None,
 }
 
 public class CameraTrigger : MonoBehaviour {

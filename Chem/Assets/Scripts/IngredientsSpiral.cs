@@ -21,12 +21,10 @@ public class IngredientsSpiral : SpiralInventory {
 
 	public override void Select (int i)
 	{
-
 		Ingredient ingr = ElementTransforms [i].GetComponent<Ingredient> ();
 
 		ingr.ExitInventory ();
 
 		base.Select (i);
-
 	}
 }
