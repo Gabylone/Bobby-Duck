@@ -15,7 +15,6 @@ public class AdButton : MonoBehaviour {
 
     public Type type;
 
-
     public int lifeReward = 10;
     public int goldReward = 100;
 

@@ -158,7 +158,9 @@ public class Inventory : MonoBehaviour {
         highscore = PlayerPrefs.GetInt("highscore", 0);
 
         displayedInvitation = PlayerPrefs.GetInt("displayedInvitation", 0) == 1;
-        SoundManager.Instance.playSounds = PlayerPrefs.GetInt("enableSound", 1) == 1;
+        bool playSounds = PlayerPrefs.GetInt("enableSound", 1) == 1;
+        SoundManager.Instance.playSounds = playSounds;
+        Music.Instance.source.enabled = playSounds;
         showedMultGold = PlayerPrefs.GetInt("showedMultGold", 0) == 1;
 
         // ingredients //

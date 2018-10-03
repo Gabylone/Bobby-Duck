@@ -99,6 +99,7 @@ public class MainMenu : DisplayGroup {
     public void Sounds_On()
     {
         SoundManager.Instance.playSounds = true;
+        Music.Instance.source.enabled = true;
 
         Inventory.Instance.Save();
 
@@ -108,6 +109,7 @@ public class MainMenu : DisplayGroup {
     public void Sounds_Off()
     {
         SoundManager.Instance.playSounds = false;
+        Music.Instance.source.enabled = false;
 
         Inventory.Instance.Save();
 
@@ -120,16 +122,11 @@ public class MainMenu : DisplayGroup {
         {
             sound_OffTransform.localScale = Vector3.one;
             sound_OnTransform.localScale = Vector3.one * 1.2f;
-            /*HOTween.To(sound_OnTransform.transform, 0.5f, "localScale", Vector3.one * 1.2f);
-            HOTween.To(sound_OffTransform.transform, 0.5f, "localScale", Vector3.one);*/
         }
         else
         {
             sound_OnTransform.localScale = Vector3.one;
             sound_OffTransform.localScale = Vector3.one * 1.2f;
-
-            /*HOTween.To(sound_OffTransform.transform, 0.5f, "localScale", Vector3.one * 1.2f);
-            HOTween.To(sound_OnTransform.transform, 0.5f, "localScale", Vector3.one);*/
         }
         
     }

@@ -27,11 +27,11 @@ public class Star : MonoBehaviour {
     {
         image.color = Color.white;
 
-        Tween.Scale(transform, bounceDuration , bounceAmount );
+        Tween.Bounce(transform);
     }
 
     public void Fade()
     {
-        image.color = Color.gray;
+        image.color = new Color(0.5f, 0.5f, 0.5f, 0.8f);
     }
 }

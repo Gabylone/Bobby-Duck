@@ -78,7 +78,7 @@ public class LevelButton : MonoBehaviour {
             else
             {
                 stars[starIndex].Fade();
-                stars[starIndex].transform.localScale = Vector3.one * 0.8f;
+                //stars[starIndex].transform.localScale = Vector3.one * 0.8f;
 
                 --count;
             }

@@ -60,6 +60,7 @@ public class SoundManager : MonoBehaviour {
         {
             return;
         }
+
         audioSource.clip = audioClip;
         audioSource.Play();
     }

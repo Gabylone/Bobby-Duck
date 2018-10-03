@@ -11,10 +11,13 @@ public class Music : MonoBehaviour {
     public AudioClip rushHourClip;
     public AudioClip menuClip;
 
+
+    public bool play = true;
+
     private void Awake()
     {
         Instance = this;
-    }
+    }   
 
     public void PlayRushHour()
     {
