@@ -25,6 +25,8 @@ public class OrderBubble : MonoBehaviour {
 
     AudioSource audioSource;
 
+    Image image;
+
     public Image tableNumberImage;
 
     bool onClient = false;
@@ -38,6 +40,12 @@ public class OrderBubble : MonoBehaviour {
     {
         group.SetActive(true);
         tableNumberGroup.SetActive(true);
+
+        if (image == null)
+        {
+            image = GetComponent<Image>();
+        }
+        image.enabled = true;
     }
 
     void Hide()
@@ -45,15 +53,24 @@ public class OrderBubble : MonoBehaviour {
 
         group.SetActive(false);
         tableNumberGroup.SetActive(false);
+
+        if (image == null)
+        {
+            image = GetComponent<Image>();
+        }
+        image.enabled = false;
+
     }
 
 
     // Use this for initialization
     void Start()
     {
-        Hide();
+        image = GetComponent<Image>();
 
         audioSource = GetComponent<AudioSource>();
+
+        Hide();
     }
 
     void UpdateLayoutGroups()

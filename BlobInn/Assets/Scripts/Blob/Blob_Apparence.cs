@@ -106,6 +106,13 @@ public class Blob_Apparence : MonoBehaviour {
     {
         for (int i = 0; i < (int)Type.None; i++)
         {
+            if ( i >= ids.Length)
+            {
+                Debug.LogError("client update sprites : id " + i + " is superior than " + ids.Length);
+
+                break;
+            }
+
             SetSpriteRenderer((Type)i, ids[i]);
         }
     }

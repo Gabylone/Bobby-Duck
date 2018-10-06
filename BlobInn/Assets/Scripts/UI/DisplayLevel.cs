@@ -82,7 +82,7 @@ public class DisplayLevel : DisplayGroup {
             Invoke("DisplayNewClientType", 0.2f);
         }
 
-        if ( levelDisplayed.id < 2)
+        if ( levelDisplayed.id < 2 && levelDisplayed.id != 31)
         {
             
         }
