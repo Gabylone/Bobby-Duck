@@ -24,8 +24,9 @@ public class MapTexture : MonoBehaviour {
 	void HandleOnPlayerMove (Coords previousCoords, Coords newCoords)
 	{
 		Paint (previousCoords, TileSet.current.GetTile(previousCoords).type );
-		Paint (newCoords, Color.red);
-		RefreshTexture ();
+		Paint (newCoords, Color.blue);
+		Paint (ClueManager.Instance.clueCoords, Color.cyan);
+        RefreshTexture ();
 	}
 
 	int scale = 0;

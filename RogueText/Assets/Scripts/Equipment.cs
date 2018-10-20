@@ -65,12 +65,12 @@ public class Equipment {
             Inventory.Instance.AddItem(GetEquipement(part));
         }
 
-        SetEquipment(part, Action.last.item);
+        SetEquipment(part, Action.last.primaryItem);
 
-        Item.Remove(Action.last.item);
+        Item.Remove(Action.last.primaryItem);
 
 
-        DisplayFeedback.Instance.Display("Vous avez équipé " + Action.last.item.word.GetDescription(Word.Def.Undefined) + " à " + part.ToString());
+        DisplayFeedback.Instance.Display("Vous avez équipé " + Action.last.primaryItem.word.GetDescription(Word.Def.Undefined) + " à " + part.ToString());
 
     }
 
@@ -78,15 +78,15 @@ public class Equipment {
     {
         Part part = GetPartFromString(Action.last.contents[0]);
 
-        if ( GetEquipement(part) != Action.last.item)
+        if ( GetEquipement(part) != Action.last.primaryItem)
         {
-            DisplayFeedback.Instance.Display("Vous n'avez pas " + Action.last.item.word.GetDescription(Word.Def.Defined, Word.Preposition.De) + " sur vous");
+            DisplayFeedback.Instance.Display("Vous n'avez pas " + Action.last.primaryItem.word.GetDescription(Word.Def.Defined, Word.Preposition.De) + " sur vous");
             return;
         }
 
-        Inventory.Instance.AddItem(Action.last.item);
+        Inventory.Instance.AddItem(Action.last.primaryItem);
 
-        DisplayFeedback.Instance.Display("Vous enlevez " + Action.last.item.word.GetDescription(Word.Def.Defined) );
+        DisplayFeedback.Instance.Display("Vous enlevez " + Action.last.primaryItem.word.GetDescription(Word.Def.Defined) );
 
         SetEquipment(part, null);
     }

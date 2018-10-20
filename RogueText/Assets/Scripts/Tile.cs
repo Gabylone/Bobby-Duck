@@ -50,6 +50,7 @@ public class Tile {
 
 	public static Tile current;
     public static Tile previous;
+    public bool locked = false;
 
     public static bool itemsChanged = false;
 
@@ -141,7 +142,10 @@ public class Tile {
                 {
                     if (Random.value * 100f < appearRate.rate)
                     {
-                        items.Add(item);
+                        Item newItem = item;
+
+                        items.Add(newItem);
+
                     }
                 }
 
@@ -153,8 +157,6 @@ public class Tile {
     public void RemoveItem( Item item )
     {
         items.Remove(item);
-
-        Debug.Log("removing item from tile");
 
         itemsChanged = true;
 

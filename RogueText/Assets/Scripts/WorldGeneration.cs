@@ -57,6 +57,8 @@ public class WorldGeneration : MonoBehaviour {
 	[Header("Interiors")]
 	public float roomAppearRate = 0.35f;
 	public float[] tileTypeAppearChances;
+    public float chanceClosedDoor = 1f;
+    public float chanceLockedRoom = 1f;
 
     [Header("Empty")]
     public float emptyTileChance = 20f;
@@ -128,18 +130,6 @@ public class WorldGeneration : MonoBehaviour {
 		}
 	}
 
-	void Update (){ 
-
-//		if (Input.GetKeyDown (KeyCode.L)) {
-//
-//			StopCoroutine (GenerateMap ());
-//			StartCoroutine(GenerateMap ());
-////			TileSet.current.GetTile (coords).SetType (Tile.Type.Forest);
-////			RefreshTexture ();
-//		}
-//
-	}
-
 	IEnumerator GenerateMap () {
 		
 
@@ -173,11 +163,11 @@ public class WorldGeneration : MonoBehaviour {
 
 		Direction[] directions = new Direction[8];
 		for (int i = 0; i < 8; i += 2) {
-//		for (int i = 0; i < 8; i++) {
 			directions[i] = (Direction)i;
 		}
-		Coords origin = new Coords ((int)((float)Instance.mapScale / 2f), (int)((float)Instance.mapScale / 2f));
-		yield return RoadCoroutine (origin , directions);
+        Coords origin = new Coords ((int)((float)Instance.mapScale / 2f), (int)((float)Instance.mapScale / 2f));
+        Interior.Add(TileSet.current.GetTile(origin), Tile.Type.TownHouse);
+        yield return RoadCoroutine (origin , directions, Tile.Type.Road);
 
 		yield return GenerateRandomHouses ();
 
@@ -215,11 +205,12 @@ public class WorldGeneration : MonoBehaviour {
 
 		yield return new WaitForEndOfFrame ();
 
-//		Debug.Log ("Finished World");
-
-		Player.Instance.Init ();
+        //		Debug.Log ("Finished World");
 
         ClueManager.Instance.Init();
+
+        Player.Instance.Init ();
+
 
     }
 
@@ -282,7 +273,7 @@ public class WorldGeneration : MonoBehaviour {
 			case Tile.Type.ForestCabin:
 			case Tile.Type.CountryHouse:
 				if ( Random.value * 100 < chanceOfLoneHouseCreatingPath ) {
-					yield return RoadCoroutine ( c, new Direction[1] { (Direction)Random.Range(0,8) } );
+					yield return RoadCoroutine ( c, new Direction[1] { (Direction)(Random.Range(0,4) * 2) } , Tile.Type.Path );
 				}
 				break;
 			default:
@@ -380,69 +371,8 @@ public class WorldGeneration : MonoBehaviour {
 
 	#endregion
 
-	#region towns
-	IEnumerator GenerateTown (Coords origin) {
-
-		int townScale = Random.Range (minTownScale, maxTownScale);
-		int midTown = townScale;
-//		int midTown = (int)(townScale / 2f);
-
-		for (int x = -midTown; x <= midTown; x++) {
-			for (int y = -midTown; y <= midTown; y++) {
-
-				if ( Random.value * 100f < houseAppearChance ) 
-				{
-					Coords c = origin + new Coords ( x,y );
-					if (c.OutOfMap ())
-						continue;
-
-					Tile tile = TileSet.current.GetTile (c);
-					switch (tile.type) {
-					case Tile.Type.Forest:
-					case Tile.Type.Plain:
-						Interior.Add (tile, Tile.Type.TownHouse);
-						break;
-					default:
-						break;
-					}
-
-//
-//					int houseSurroundingScale = 3;
-//					for (int x1 = -houseSurroundingScale; x1 <= houseSurroundingScale; x1++) {
-//						for (int y1 = -houseSurroundingScale; y1 <= houseSurroundingScale; y1++) {
-//							Coords houseSurrounding = c + new Coords (x1, y1);
-//
-//							if (houseSurrounding.OutOfMap ())
-//								continue;
-//
-//							Tile surroundingTile = TileSet.current.GetTile (houseSurrounding);
-//							switch (tile.type) {
-//							case Tile.Type.Forest:
-//								tile.SetType (Tile.Type.Plain);
-////								Debug.Log ("removing forest, making plain");
-//								break;
-//							default:
-//								break;
-//							}
-//
-//						}
-//					}
-				}
-
-			}
-
-//			yield return new WaitForEndOfFrame ();
-		}
-
-		yield return new WaitForEndOfFrame ();
-		RefreshTexture ();
-
-
-	}
-	#endregion
-
 	#region roads
-	IEnumerator RoadCoroutine (Coords origin , Direction[] directions) {
+	IEnumerator RoadCoroutine (Coords origin , Direction[] directions, Tile.Type tileType) {
 
 		List<GenerationPath> roads = new List<GenerationPath>();
 
@@ -455,7 +385,7 @@ public class WorldGeneration : MonoBehaviour {
 
 			Coords startCoords = origin + new Coords (c.x,c.y);
 
-			GenerationPath originPath = new GenerationPath (startCoords, directions[i]);
+            GenerationPath originPath = new GenerationPath(startCoords, directions[i], tileType);
 			roads.Add (originPath);
 		}
 
@@ -481,7 +411,7 @@ public class WorldGeneration : MonoBehaviour {
 				case Tile.Type.Plain:
 				case Tile.Type.Forest:
 					if (Random.value * 100f < road_ChanceChangeDirection)
-						item.ChangeDirection (1);
+						item.ChangeDirection (2);
 					
 					break;
 				}
@@ -489,7 +419,7 @@ public class WorldGeneration : MonoBehaviour {
 				switch (tile.type) {
 				case Tile.Type.Plain:
 					if ( Random.value * 100f < road_ChanceDeviatingNewRoad && item.rate > 2) {
-						GenerationPath newPath = new GenerationPath (item.coords, item.dir);
+						GenerationPath newPath = new GenerationPath (item.coords, item.dir, Tile.Type.Road);
 						newPath.ChangeDirection (2);
 						item.rate = 0;
 						roads.Add (newPath);
@@ -533,11 +463,14 @@ public class GenerationPath {
 	public int rate = 0;
 
 	bool buildingTown = false;
+    int townLength = 0;
 
 	public Coords coords;
 	public Direction dir;
 	public Coords dir_Coords;
 	public Adjective adj;
+
+    public Tile.Type tileType;
 
 	public enum IsNotBridgeType {
 		NotDecidedYet,
@@ -557,15 +490,28 @@ public class GenerationPath {
 			return false;
 		}
 
+        Coords right = coords + (Coords)Coords.GetRelativeDirection(dir, Player.Facing.Right);
+        if (TileSet.current.GetTile(coords).type == Tile.Type.Road)
+        {
+            return false;
+        }
+
+        Coords left = coords + (Coords)Coords.GetRelativeDirection(dir, Player.Facing.Left);
+        if (TileSet.current.GetTile(coords).type == Tile.Type.Road)
+        {
+            return false;
+        }
+
 		return true;
 	}
 
-	public GenerationPath ( Coords _coords, Direction _dir ) {
+	public GenerationPath ( Coords _coords, Direction _dir , Tile.Type _tileType ) {
 
 		coords = _coords;
 		dir = _dir;
 		dir_Coords = (Coords)dir;
 		adj = Adjective.GetRandom (Adjective.Type.Rural);
+        tileType = _tileType;
 
 	}
 
@@ -588,28 +534,19 @@ public class GenerationPath {
 
 		CheckBuildTown ();
 
-		Tile.Type type = Tile.Type.Road;
-
 		switch (TileSet.current.GetTile (coords).type) {
 
 		case Tile.Type.Plain:
 			
-			if (buildingTown)
-				type = Tile.Type.TownRoad;
-			else
-				type = Tile.Type.Road;
-			TileSet.current.GetTile (coords).SetType (type, adj);
-
+			    TileSet.current.GetTile (coords).SetType (tileType, adj);
 			break;
 
 		case Tile.Type.Forest:
 		case Tile.Type.Woods:
 			
-			type = Tile.Type.Path;
+			    TileSet.current.GetTile (coords).SetType (tileType, adj);
 
-			TileSet.current.GetTile (coords).SetType (type, adj);
-
-			break;
+                break;
 
 		case Tile.Type.Sea:
 			break;
@@ -624,19 +561,21 @@ public class GenerationPath {
 				}
 			}
 
-			if (isNotBridgeType == IsNotBridgeType.DefenitelyBridge) {
-				type = Tile.Type.Bridge;
-			}
+			if (isNotBridgeType == IsNotBridgeType.DefenitelyBridge)
+                {
+			        TileSet.current.GetTile (coords).SetType (Tile.Type.Bridge, adj);
+                }
+                else
+                {
+                    TileSet.current.GetTile(coords).SetType(tileType, adj);
+                }
 
-			TileSet.current.GetTile (coords).SetType (type, adj);
 
-			break;
+                break;
 
 		case Tile.Type.River:
 			
-			type = Tile.Type.Bridge;
-
-			TileSet.current.GetTile (coords).SetType (type, adj);
+			TileSet.current.GetTile (coords).SetType (Tile.Type.Bridge, adj);
 
 			break;
 
@@ -650,57 +589,50 @@ public class GenerationPath {
 
 	void CheckBuildTown ()
 	{
-		switch (TileSet.current.GetTile (coords).type) {
-		case Tile.Type.Plain:
-			if ( !buildingTown && rate > 5) {
-				float chance = Random.value * 100f;
-				if ( chance < WorldGeneration.Instance.chanceBuildingTown ) {
+        if (TileSet.current.GetTile(coords).type != Tile.Type.Plain)
+        {
+            return;
+        }
 
-					buildingTown = true;
-				}
-			} else {
+        float chance = Random.value * 100f;
+        if (!buildingTown)
+        {
+            if (chance < WorldGeneration.Instance.chanceBuildingTown)
+            {
+                buildingTown = true;
+                townLength = 0;
+            }
+            
+        }
+        else
+        {
 
-				List<Coords> townCoords = new List<Coords>();
+            List<Coords> townCoords = new List<Coords>();
 
-				switch (dir) {
-				case Direction.North:
-				case Direction.East:
-				case Direction.South:
-				case Direction.West:
-				case Direction.NorthEast:
-				case Direction.SouthEast:
-				case Direction.SouthWest:
-				case Direction.NorthWest:
-					townCoords.Add (coords + (Coords)Coords.GetRelativeDirection (dir, Player.Facing.Right));
-					townCoords.Add (coords + (Coords)Coords.GetRelativeDirection (dir, Player.Facing.Left));
-					break;
-				case Direction.None:
-					break;
-				default:
-					break;
-				}
+            townCoords.Add(coords + (Coords)Coords.GetRelativeDirection(dir, Player.Facing.Right));
+            townCoords.Add(coords + (Coords)Coords.GetRelativeDirection(dir, Player.Facing.Left));
 
-				foreach (var c in townCoords) {
-					Tile tile = TileSet.current.GetTile (c);
-					switch (tile.type) {
-					case Tile.Type.Forest:
-					case Tile.Type.Plain:
-						Interior.Add (tile, Tile.Type.TownHouse);
-						break;
-					default:
-						break;
-					}
-				}
+            foreach (var c in townCoords)
+            {
+                Tile tile = TileSet.current.GetTile(c);
+                switch (tile.type)
+                {
+                    case Tile.Type.Forest:
+                    case Tile.Type.Plain:
+                        Interior.Add(tile, Tile.Type.TownHouse);
+                        break;
+                    default:
+                        break;
+                }
+            }
 
-				if ( rate > WorldGeneration.Instance.townLenght ) {
-					buildingTown = false;
-				}
-			}
-			break;
-		default:
-			buildingTown = false;
-			break;
-		}
+            if (townLength >= WorldGeneration.Instance.townLenght)
+            {
+                buildingTown = false;
+            }
+
+            ++townLength;
+        }
 	}
 
 	public void Continue () {
@@ -746,16 +678,46 @@ public struct Coords {
 	public int x;
 	public int y;
 
+    public static Direction GetDirectionFromCoords(Coords c1, Coords c2)
+    {
+        Coords c = c2 - c1;
+
+        Vector2 v = (Vector2)c;
+
+        Direction direction = Direction.North;
+
+        Direction closestDirection = Direction.North;
+
+        while (direction != Direction.None)
+        {
+            Coords ce = (Coords)direction;
+
+            float angle = Vector2.Angle(v, (Vector2)ce);
+
+            float closestDirectionAngle = Vector2.Angle(v, (Vector2)((Coords)closestDirection));
+
+            string direction_str = Coords.GetWordsDirection(direction).GetDescription(Word.Def.Defined, Word.Preposition.A, Word.Number.Singular);
+
+            if ( angle < closestDirectionAngle)
+            {
+                closestDirection = direction;
+            }
+
+            ++direction;
+        }
+        return closestDirection;
+    }
+
 	public static Coords random {
 		get {
 			return new Coords ( Random.Range (1,WorldGeneration.Instance.mapScale-1) , Random.Range (1,WorldGeneration.Instance.mapScale-1) );
 		}
 	}
-
 	public Coords (int x,int y) {
 		this.x = x;
 		this.y = y;
 	}
+
 
 	public static string GetPhraseDirecton (Player.Facing facing) {
 
@@ -905,7 +867,7 @@ public struct Coords {
 	}
 
 	public static Word GetWordsDirection ( Direction direction ) {
-		return Item.items [(int)direction].word;
+		return Item.items [(int)direction+1].word;
 	}
 
 	// string
@@ -914,7 +876,35 @@ public struct Coords {
 		return "X : " + x + " / Y : " + y;
 	}
 
-	public static Direction GetRelativeDirection (Direction direction, Player.Facing facing)
+    public static Player.Facing GetFacing(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.North:
+                return Player.Facing.Front;
+            case Direction.NorthEast:
+                break;
+            case Direction.East:
+                return Player.Facing.Left;
+            case Direction.SouthEast:
+                break;
+            case Direction.South:
+                return Player.Facing.Back;
+            case Direction.SouthWest:
+                break;
+            case Direction.West:
+                return Player.Facing.Right;
+            case Direction.NorthWest:
+                break;
+            case Direction.None:
+                break;
+        }
+
+        return Player.Facing.None;
+
+    }
+
+    public static Direction GetRelativeDirection (Direction direction, Player.Facing facing)
 	{
 		int a = (int)direction + (int)facing;
 		if ( a >= 8 ) {

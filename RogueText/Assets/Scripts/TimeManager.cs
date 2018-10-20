@@ -15,7 +15,7 @@ public class TimeManager : MonoBehaviour {
     /// </summary>
 	public int rainRate_Max = 40;
 	public int rainRate_Min = 10;
-	public int rainRate = 0;
+	public int hoursToRain = 0;
 	public int rainDuration_Max = 10;
 	public int rainDuration_Min = 1;
     public bool raining = false;
@@ -30,7 +30,10 @@ public class TimeManager : MonoBehaviour {
 	public int hourToDusk = 18;
 	public int hourToNight = 21;
 
-	public bool changedPartOfDay = false;
+    public int movesToNextHour = 3;
+    public int currentMoves = 0;
+
+    public bool changedPartOfDay = false;
 
 	public int [] hoursToPartOfDay;
 
@@ -83,43 +86,70 @@ public class TimeManager : MonoBehaviour {
 
     void HandleOnPlayerMove (Coords prevCoords, Coords newCoords)
 	{
-		++timeOfDay;
+        UpdateTime();
+	}
 
-		previousPartOfDay = currentPartOfDay;
+    private void UpdateTime()
+    {
+        currentMoves++;
 
-		currentPartOfDay = GetPartOfDay ();
+        if (currentMoves >= movesToNextHour)
+        {
+            currentMoves = 0;
+
+            NextHour();
+        }
+    }
+
+    public void ChangeMovesPerHour(int i)
+    {
+        movesToNextHour = i;
+
+        currentMoves = 0;
+
+        NextHour();
+    }
+
+    void NextHour()
+    {
+        ++timeOfDay;
+
+        previousPartOfDay = currentPartOfDay;
+
+        currentPartOfDay = GetPartOfDay();
+
+        Player.Instance.UpdateStates();
 
         UpdateRain();
 
-		changedPartOfDay = false;
-		if (previousPartOfDay != currentPartOfDay)
-			changedPartOfDay = true;
+        changedPartOfDay = false;
+        if (previousPartOfDay != currentPartOfDay)
+            changedPartOfDay = true;
 
-		if ( timeOfDay == 24 ) {
+        if (timeOfDay == 24)
+        {
             timeOfDay = 0;
-			NextDay ();
-		}
-	}
+            NextDay();
+        }
+    }
 
     private void UpdateRain()
     {
-        --rainRate;
+        --hoursToRain;
 
-        if ( rainRate == 0) {
+        if ( hoursToRain == 0) {
 
             if (raining)
             {
                 DisplayFeedback.Instance.Display("Il commence à pleuvoir...");
                 raining = false;
                 ResetRain();
-                DisplayWeather.Instance.DisplayCurrentWeather();
             }
             else
             {
                 DisplayFeedback.Instance.Display("Il s'est arrêté de pleuvoir");
                 raining = true;
                 ResetRain();
-                DisplayWeather.Instance.DisplayCurrentWeather();
             }
         }
     }
@@ -128,11 +158,11 @@ public class TimeManager : MonoBehaviour {
     {
         if (raining)
         {
-            rainRate = Random.Range(rainDuration_Min, rainDuration_Max);
+            hoursToRain = Random.Range(rainDuration_Min, rainDuration_Max);
         }
         else
         {
-            rainRate = Random.Range(rainRate_Min, rainRate_Max);
+            hoursToRain = Random.Range(rainRate_Min, rainRate_Max);
         }
     }
 

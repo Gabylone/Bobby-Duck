@@ -20,9 +20,14 @@ public class DisplayThirst : TextTyper {
 
     private void HandleOnAction(Action action)
     {
-        if ( action.type == Action.Type.Drink)
+        switch (action.type)
         {
+            case Action.Type.Drink:
+            case Action.Type.DrinkAndRemove:
             UpdateUI();
+                break;
+            default:
+                break;
         }
     }
 
@@ -39,19 +44,19 @@ public class DisplayThirst : TextTyper {
     void UpdateUIDelay() {
         string str = "";
 
-        if (Player.Instance.thirst == 0)
+        if (Player.Instance.thirst_CurrentStep == 0)
         {
             str = "";
         }
-        else if (Player.Instance.thirst == 1)
+        else if (Player.Instance.thirst_CurrentStep == 1)
         {
             str = "lègere soif";
         }
-        else if (Player.Instance.thirst == 2)
+        else if (Player.Instance.thirst_CurrentStep == 2)
         {
             str = "soif";
         }
-        else if (Player.Instance.thirst == 3)
+        else if (Player.Instance.thirst_CurrentStep == 3)
         {
             str = "assoifé";
         }

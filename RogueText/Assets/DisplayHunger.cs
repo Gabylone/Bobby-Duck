@@ -41,15 +41,15 @@ public class DisplayHunger : TextTyper {
     {
         string str = "";
 
-        if (Player.Instance.hunger == 0)
+        if (Player.Instance.hunger_CurrentStep == 0)
         {
             str = "";
         }
-        else if (Player.Instance.hunger == 1)
+        else if (Player.Instance.hunger_CurrentStep == 1)
         {
             str = "lègere faim";
         }
-        else if (Player.Instance.hunger == 2)
+        else if (Player.Instance.hunger_CurrentStep == 2)
         {
             str = "faim";
         }

@@ -20,6 +20,7 @@ public class Action {
         GoOut,
 		Eat,
 		Drink,
+        DrinkAndRemove,
 		Sleep,
 		Take,
         Throw,
@@ -28,7 +29,7 @@ public class Action {
         AddToTile,
         RemoveFromTile,
 		Require,
-		Display,
+        Display,
         GiveClue,
         MoveAway,
         OpenContainer,
@@ -39,6 +40,10 @@ public class Action {
         DisplayTimeOfDay,
         ExitByWindow,
         DescribeItem,
+        PointNorth,
+        RemoveLastItem,
+        CheckStat,
+        ReplaceItem,
     }
 
 	public Type type;
@@ -47,7 +52,10 @@ public class Action {
 
 	public List<int> ints = new List<int>();
 
-	public Item item;
+    public Verb verb;
+
+	public Item primaryItem;
+    public Item secundaryItem;
 
 }
 
@@ -72,9 +80,9 @@ public class ActionManager : MonoBehaviour {
 		DisplayInput.onInput += HandleOnInput;
 	}
 
-    void HandleOnInput (Verb verb, Item item)
+    void HandleOnInput (Verb verb, Item primaryItem, Item secundaryItem)
 	{
-        if (item == null && verb == null)
+        if (primaryItem == null && verb == null)
         {
             DisplayFeedback.Instance.Display("Quoi ?");
             return;
@@ -82,39 +90,39 @@ public class ActionManager : MonoBehaviour {
 
         if (verb == null)
         {
-            DisplayFeedback.Instance.Display("Que faire avec " + item.word.GetDescription(Word.Def.Defined));
+            DisplayFeedback.Instance.Display("Que faire avec " + primaryItem.word.GetDescription(Word.Def.Defined));
             return;
         }
 
-        if (verb != null && item == null)
+        if (verb != null && primaryItem == null)
         {
-            item = Item.FindByName("verbe seul");
-            if (!verb.cellContents.ContainsKey(item.row))
+            primaryItem = Item.FindByName("verbe seul");
+            if (!verb.cellContents.ContainsKey(primaryItem.row))
             {
                 DisplayFeedback.Instance.Display(verb.question + " voulez vous " + verb.names[0]);
                 return;
             }
         }
 
-        if (item == null)
+        if (primaryItem == null)
         {
             DisplayFeedback.Instance.Display(verb.question + " voulez vous " + verb.names[0]);
             return;
         }
 
-        if (!verb.cellContents.ContainsKey(item.row))
+        if (!verb.cellContents.ContainsKey(primaryItem.row))
         {
-            DisplayFeedback.Instance.Display("Vous ne pouvez pas " + verb.names[0] + " " + item.word.GetDescription(Word.Def.Defined));
+            DisplayFeedback.Instance.Display("Vous ne pouvez pas " + verb.names[0] + " " + primaryItem.word.GetDescription(Word.Def.Defined));
             return;
         }
 
-        string str = verb.cellContents [item.row];
+        string str = verb.cellContents [primaryItem.row];
 
 		bool foundAction = false;
 
-		foreach (var part in str.Split('/') ) {
+		foreach (var part in str.Split('\n') ) {
 
-            Action action = GetAction(part, item);
+            Action action = GetAction(verb, part, primaryItem, secundaryItem);
 
             if (action != null)
             {
@@ -138,15 +146,21 @@ public class ActionManager : MonoBehaviour {
 		}
 	}
 
-	public Action GetAction ( string str , Item item ) {
+	public Action GetAction ( Verb verb , string str , Item primaryItem, Item secundaryItem) {
 
 		Action.Type[] actionTypes = System.Enum.GetValues (typeof(Action.Type)) as Action.Type[];
 
-		bool hasParameters = str.Contains ( "(" );
+        Debug.Log("reading action : " + str);
+
+        str = str.TrimEnd('"');
+        str = str.TrimStart('"');
+        Debug.Log("then reading action : " + str);
+
+
+        bool hasParameters = str.Contains ( "(" );
 		string function_str = str;
 		if ( hasParameters ) {
 			function_str = str.Remove (str.IndexOf ('('));
-
 		}
 
 		Action.Type actionType = System.Array.Find ( actionTypes , x => function_str.ToLower() == x.ToString().ToLower() );
@@ -160,10 +174,10 @@ public class ActionManager : MonoBehaviour {
 
 		Action newAction = new Action ();
 		newAction.type = actionType;
-		newAction.item = item;
-
+		newAction.primaryItem = primaryItem;
+        newAction.secundaryItem = secundaryItem;
+        newAction.verb = verb;
 	
-
 		if ( hasParameters ) {
 
 			string parameters_str = str.Remove (0,actionType.ToString().Length);

@@ -1,0 +1,49 @@
+notes jeu textuel :
+
+
+- faire les premieres recettes
+
+- quand on regarder les fenetre de l'intérieur. on voit quoi ?
+
+- "vous avez besoin : clé" : changer en moins évident
+
+- regarder au loin
+
+- faire les rivières
+
+- le joueur commence avec des habits.
+- faire le froid ou la protection parce que les habits ne servent à rien-
+
+- la maison tourne et les couloirs se divisent.
+- systeme d'étage
+
+xxx- parsing : autant d'objets que possible pour :
+	remplir gourde DANS évier
+	panser blessure AVEC serviette
+	jeter serpillère SUR zombie
+
+- verbe : retourner
+
+- alors oui on peut prendre la radio c'est cool
+	mais il faut qu'elle ne marche pas au bout d'un moment
+	et qu'elle indique toujours la meme direction ( bonne chance )	
+
+- observation lieu : mettre l'adjectif. et eventuellement un phrase de temps "sous la pluie etc..."
+en intérieur : (vous entendez les goutes SOUS le toit de la NOM DU LIEU...)
+en extérieur : (sous la pluie, la NOM DU LIEU est d'autant plus ADJECTIF...)
+
+- la vision et la lumière
+- roman : déscription de romans connus ( par M.I.M )
+
+- capacités : 
+foraging : permet de trouver des racines ou autres dans la forêt.
+réparation : répare les appareils cassés.
+cuisine : 
+
+pouvoir considérer les lieux comme des items
+( entre : maison / regarder : plaine etc.. )
+( là tu l'as déjà mais c'est dégueu il considére que tu veux dire porte etc. ..)
+
+à réfléchir - on ne peut pas accéder aux objets de la tile, il faut se rapprocher d'eux. ( avec des doublons de position ( vous voyez un micro ondes et un frigo ))
+
+- mode aveugle

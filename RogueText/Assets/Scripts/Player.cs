@@ -13,20 +13,34 @@ public class Player : MonoBehaviour {
 	public int health = 0;
     public int maxHealth = 10;
 
-    public int hunger_rate = 5;
-    public int hunger_currRate = 0;
-	public int hunger = 0;
-    public int maxHunger = 20;
+    /// <summary>
+    /// hunger
+    /// </summary>
+    public int hunger_HoursToNextStep = 5;
+    public int hunger_HourCount = 0;
+	public int hunger_CurrentStep = 0;
+    public int hunger_MaxStep = 20;
 
-    public int thirst_rate = 5;
-    public int thirst_currRate = 0;
-	public int thirst = 0;
-    public int maxThirst = 10;
+    /// <summary>
+    /// thirst
+    /// </summary>
+    public int thirst_HoursToNextStep = 5;
+    public int thirst_CurrentHour = 0;
+	public int thirst_CurrentStep = 0;
+    public int thirst_MaxStep = 10;
 
-    public int sleep_rate = 4;
-    public int sleep_currRate = 0;
-	public int sleep = 0;
-	public int maxSleep = 40;
+    /// <summary>
+    /// sleep
+    /// </summary>
+    public int sleep_HoursToNextStep = 4;
+    public int sleep_CurrentHour = 0;
+	public int sleep_CurrentStep = 0;
+	public int sleep_MaxStep = 40;
+
+    /// <summary>
+    /// STATs
+    /// </summary>
+    public Stats stats;
 
 	// COORDS
 	public Coords prevCoords = new Coords(-1,-1);
@@ -46,12 +60,19 @@ public class Player : MonoBehaviour {
 
 	public void Init () {
 
-		coords = Interior.interiors.Values.ElementAt (0).coords;
+        int startInteriorID = Random.Range(0, Interior.interiors.Count);
+        coords = Interior.interiors.Values.ElementAt(startInteriorID).coords;
+
+        //coords = Interior.interiors.Values.ElementAt (0).coords;
 
 		Move (Direction.None);
 
+        // equipement
         Equipment equipment = new Equipment();
         equipment.Init();
+
+        // stats
+        stats = new Stats();
 
 		ActionManager.onAction+= HandleOnAction;
 
@@ -84,10 +105,16 @@ public class Player : MonoBehaviour {
 		case Action.Type.Eat:
 			Eat ();
 			break;
-		case Action.Type.Drink:
+        case Action.Type.DrinkAndRemove:
+            DrinkAndRemove();
+            break;
+        case Action.Type.Drink:
 			Drink ();
 			break;
-		case Action.Type.Sleep:
+        case Action.Type.CheckStat:
+            CheckStat();
+            break;
+            case Action.Type.Sleep:
 			Sleep();
 			break;
 		default:
@@ -103,6 +130,7 @@ public class Player : MonoBehaviour {
         }
         else
         {
+            Debug.Log("exiting");
             Interior.current.ExitByDoor();
         }
 	}
@@ -112,7 +140,6 @@ public class Player : MonoBehaviour {
 		Coords targetCoords = coords + (Coords)dir;
 
 		if (!CanMoveForward (targetCoords)) {
-			Debug.Log ("cannot move forward");
 			return;
 		}
 
@@ -134,18 +161,17 @@ public class Player : MonoBehaviour {
 		
 		direction = dir;
 
-		UpdateStates ();
-
 		if (onPlayerMove != null)
 			onPlayerMove (prevCoords ,coords);
 
 		Tile.current.visited = true;
 
 	}
+    
 
 	void HandleOnMoveAction ()
 	{
-		DisplayFeedback.Instance.Display ("Vous vous déplacez...");
+		//DisplayFeedback.Instance.Display ("Vous vous déplacez...");
 
 		float moveDelay = 2f;
 		Invoke ("MoveDelay",moveDelay);
@@ -188,33 +214,28 @@ public class Player : MonoBehaviour {
 	}
 
 	#region states
-	void UpdateStates ()
+	public void UpdateStates ()
 	{
-        if ( Interior.current != null )
-        {
-            return;
-        }
-
         //++sleep;
-        ++thirst_currRate;
-        ++sleep_currRate;
-        ++hunger_currRate;
+        ++thirst_CurrentHour;
+        ++sleep_CurrentHour;
+        ++hunger_HourCount;
 
-        if ( hunger_currRate == hunger_rate)
+        if ( hunger_HourCount == hunger_HoursToNextStep)
         {
-            hunger_currRate = 0;
+            hunger_HourCount = 0;
             AddHunger(1);
         }
 
-        if ( sleep_currRate == sleep_rate)
+        if ( sleep_CurrentHour == sleep_HoursToNextStep)
         {
-            sleep_currRate = 0;
+            sleep_CurrentHour = 0;
             AddSleep(1);
         }
 
-        if ( thirst_currRate == thirst_rate)
+        if ( thirst_CurrentHour == thirst_HoursToNextStep)
         {
-            thirst_currRate = 0;
+            thirst_CurrentHour = 0;
             AddThirst(1);
         }
 
@@ -233,17 +254,17 @@ public class Player : MonoBehaviour {
 
         string str = "";
 
-        string name = "" + Action.last.item.word.GetDescription(Word.Def.Defined);
+        string name = "" + Action.last.primaryItem.word.GetDescription(Word.Def.Defined);
 
-        if (hunger == 3)
+        if (hunger_CurrentStep == 3)
         {
             str = name + " ne vous a pas vraiment nourri, il va faloir manger dans peu de temps...";
         }
-        else if (hunger == 2)
+        else if (hunger_CurrentStep == 2)
         {
             str = name + " vous permet d'attendre quelques heures, mais ce n'était pas très consistent";
         }
-        else if (hunger == 1)
+        else if (hunger_CurrentStep == 1)
         {
             str = name + " ne vous rassasis pas mais vous êtes satisfait";
         }
@@ -252,39 +273,39 @@ public class Player : MonoBehaviour {
             str = name + " vous rempli totalement le ventre, vous êtes rassasié";
         }
 
-        hunger_currRate = 0;
+        hunger_HourCount = 0;
 
         DisplayFeedback.Instance.Display(str);
 
-        Item.Remove(Action.last.item);
+        Item.Remove(Action.last.primaryItem);
 
 	}
     public void RemoveHunger ( int i)
     {
-        hunger -= i;
+        hunger_CurrentStep -= i;
 
-        hunger = Mathf.Clamp(hunger, 0, 4);
+        hunger_CurrentStep = Mathf.Clamp(hunger_CurrentStep, 0, 4);
     }
     public void AddHunger(int i)
     {
-        hunger += i;
+        hunger_CurrentStep += i;
 
-        hunger = Mathf.Clamp(hunger, 0, 4);
+        hunger_CurrentStep = Mathf.Clamp(hunger_CurrentStep, 0, 4);
     }
     #endregion
 
     #region sleep
     public void RemoveSleep(int i)
     {
-        sleep -= i;
+        sleep_CurrentStep -= i;
 
-        sleep = Mathf.Clamp(sleep, 0, 4);
+        sleep_CurrentStep = Mathf.Clamp(sleep_CurrentStep, 0, 4);
     }
     public void AddSleep(int i)
     {
-        sleep += i;
+        sleep_CurrentStep += i;
 
-        sleep = Mathf.Clamp(sleep, 0, 4);
+        sleep_CurrentStep = Mathf.Clamp(sleep_CurrentStep, 0, 4);
     }
     void Sleep()
     {
@@ -292,15 +313,15 @@ public class Player : MonoBehaviour {
 
         string str = "";
 
-        if (sleep == 3)
+        if (sleep_CurrentStep == 3)
         {
             str = "Vous n'avez pas très bien dormis, mais récupérez un peu d'énergie";
         }
-        else if (sleep == 2)
+        else if (sleep_CurrentStep == 2)
         {
             str = "Vous avez dormis et récupérez un peu d'énergie";
         }
-        else if (sleep == 3)
+        else if (sleep_CurrentStep == 3)
         {
             str = "Après quelques heures de sommeil, vous vous sentez légèrement reposé";
         }
@@ -309,7 +330,7 @@ public class Player : MonoBehaviour {
             str = "Vous vous sentez entièrement reposé";
         }
 
-        sleep_currRate = 0;
+        sleep_CurrentHour = 0;
 
         DisplayDescription.Instance.ClearAll();
 
@@ -328,28 +349,35 @@ public class Player : MonoBehaviour {
     #region thirst
     public void RemoveThirst(int i)
     {
-        thirst -= i;
+        thirst_CurrentStep -= i;
 
-        thirst = Mathf.Clamp(thirst, 0, 4);
+        thirst_CurrentStep = Mathf.Clamp(thirst_CurrentStep, 0, 4);
     }
     public void AddThirst(int i)
     {
-        thirst += i;
+        thirst_CurrentStep += i;
 
-        thirst = Mathf.Clamp(thirst, 0, 4);
+        thirst_CurrentStep = Mathf.Clamp(thirst_CurrentStep, 0, 4);
+    }
+    void DrinkAndRemove()
+    {
+        Drink();
+
+        Item.Remove(Action.last.primaryItem);
+
     }
     void Drink ()
 	{
         RemoveThirst(4);
 
-        thirst_currRate = 0;
+        thirst_CurrentHour = 0;
 
-        DisplayFeedback.Instance.Display(Action.last.item.word.GetDescription(Word.Def.Defined, Word.Preposition.None) + " vous déshydrate, vous n'avez plus soif");
+        DisplayFeedback.Instance.Display(Action.last.primaryItem.word.GetDescription(Word.Def.Defined, Word.Preposition.None) + " vous déshydrate, vous n'avez plus soif");
 
-        Item.Remove(Action.last.item);
+        Item.Remove(Action.last.primaryItem);
 
     }
-	#endregion
+    #endregion
 
 	public Direction GetDirection ( Facing facing ) {
 
@@ -360,6 +388,17 @@ public class Player : MonoBehaviour {
 
 		return (Direction)a;
 	}
+    public Facing GetFacing(Direction dir)
+    {
+
+        int a = (int)dir - (int)direction;
+        if (a < 0)
+        {
+            a += 8;
+        }
+
+        return (Facing)a;
+    }
 
     public enum Facing
     {
@@ -377,107 +416,55 @@ public class Player : MonoBehaviour {
         Current,
     }
 
+    #region stats
+    void CheckStat()
+    {
+        string str = Action.last.contents[0];
+
+        Stats.Type statType = Stats.Type.Strengh;
+
+        switch (str)
+        {
+            case "STR":
+                statType = Stats.Type.Strengh;
+                break;
+            case "DEX":
+                statType = Stats.Type.Dexterity;
+                break;
+            case "CHA":
+                statType = Stats.Type.Charisma;
+                break;
+            case "CON":
+                statType = Stats.Type.Constitution;
+                break;
+            default:
+                break;
+        }
+
+        if ( stats.GetStat(statType) < Action.last.ints[0])
+        {
+			ActionManager.Instance.BreakAction ();
+            DisplayFeedback.Instance.Display("Vous n'avez pas assez de : " + statType);
+        }
+    }
+    #endregion
 
 }
 
+public class Stats
+{
+    public enum Type
+    {
+        Strengh,
+        Dexterity,
+        Charisma,
+        Constitution,
+    }
 
-/*using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+    public int[] values = new int[4];
 
-public class Interior {
-
-	public Coords coords;
-
-    public static Interior current;
-
-	public static Dictionary<Coords, Interior> interiors= new Dictionary<Coords, Interior>();
-
-    public TileSet tileSet;
-
-    public static void Add ( Tile tile , Tile.Type type) {
-
-		tile.SetType (type);
-
-		Interior newInterior = new Interior ();
-
-		newInterior.coords = tile.coords;
-		interiors.Add (tile.coords, newInterior);
-	}
-
-	public static Interior Get (Coords coords)
-	{
-		return interiors[coords];
-	}
-
-    
-
-    #region generation
-    public void Genererate() {
-
-		tileSet = new TileSet ();
-
-		List<Tile.Type> roomTypes = new List<Tile.Type> ();
-
-		Tile.Type type = Tile.Type.LivingRoom;
-
-		for (int i = 0; i < WorldGeneration.Instance.tileTypeAppearChances.Length; i++) {
-			
-			if ( Random.value * 100 < WorldGeneration.Instance.tileTypeAppearChances[i] ) {
-
-				roomTypes.Add (type);
-
-			}
-
-			++type;
-
-		}
-
-		Coords hallway_Coords = new Coords ((int)(WorldGeneration.Instance.mapScale/2f),(int)(WorldGeneration.Instance.mapScale/2f));
-
-        int hallWayIndex = 0;
-
-		while ( roomTypes.Count > 0 ) {
-
-			Tile newHallwayTile = new Tile (hallway_Coords);
-
-			newHallwayTile.SetType (Tile.Type.Hallway);
-
-            if (hallWayIndex  == 0)
-            {
-                newHallwayTile.AddItem(Item.FindByName("porte"));
-            }
-
-            tileSet.Add (hallway_Coords, newHallwayTile);
-
-			if ( Random.value * 100 < WorldGeneration.Instance.roomAppearRate ) {
-
-				Coords coords = newHallwayTile.coords + new Coords (1, 0);
-
-				Tile newRoomTile = new Tile(coords);
-				Tile.Type roomType = roomTypes [Random.Range (0, roomTypes.Count)];
-				newRoomTile.SetType (roomType);
-
-				roomTypes.Remove (roomType);
-
-				tileSet.Add ( coords, newRoomTile );
-			}
-
-			hallway_Coords += new Coords (0, 1);
-
-            ++hallWayIndex;
-        }
-
-        // GENERATING BUNKER
-
-        if ( coords == ClueManager.Instance.bunkerCoords)
-        {
-            int a = Random.Range(1, tileSet.tiles.Count);
-            Item bunkerItem = Item.FindByName("tableau");
-            tileSet.tiles.Values.ElementAt(a).items.Add(bunkerItem);
-        }
-
-	}
-#endregion
-
-}*/
+    public int GetStat(Type t)
+    {
+        return values[(int)t];
+    }
+}

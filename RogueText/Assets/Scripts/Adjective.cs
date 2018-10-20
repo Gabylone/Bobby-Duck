@@ -6,12 +6,11 @@ public class Adjective {
 
 	public static List<List<Adjective>> adjectives = new List<List<Adjective>>();
 
- 
-
 	public enum Type
 	{
 		Rural,
 		Urbain,
+        Item,
 
 		Any,
 	}

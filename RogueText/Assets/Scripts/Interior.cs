@@ -13,15 +13,30 @@ public class Interior {
 
     public TileSet tileSet;
 
-    public static void Add ( Tile tile , Tile.Type type) {
+    public static void Add(Tile tile, Tile.Type type)
+    {
 
-		tile.SetType (type);
+        tile.SetType(type);
 
-		Interior newInterior = new Interior ();
+        Interior newInterior = new Interior();
 
-		newInterior.coords = tile.coords;
-		interiors.Add (tile.coords, newInterior);
-	}
+        newInterior.coords = tile.coords;
+        interiors.Add(tile.coords, newInterior);
+
+        if (Random.value < WorldGeneration.Instance.chanceClosedDoor)
+        {
+            tile.AddItem(Item.FindByName("porte (f)"));
+            tile.AddItem(Item.FindByName("clé"));
+            tile.AddItem(Item.FindByName("clé"));
+        }
+        else
+        {
+            tile.AddItem(Item.FindByName("porte (o)"));
+            tile.AddItem(Item.FindByName("clé"));
+            tile.AddItem(Item.FindByName("clé"));
+        }
+
+    }
 
 	public static Interior Get (Coords coords)
 	{
@@ -33,6 +48,7 @@ public class Interior {
     {
         current = this;
 
+
         if (tileSet == null)
         {
             tileSet = new TileSet();
@@ -43,22 +59,33 @@ public class Interior {
 
         TileSet.Set(tileSet);
 
+
+
         Player.Instance.coords = new Coords((int)(WorldGeneration.Instance.mapScale / 2f), (int)(WorldGeneration.Instance.mapScale / 2f));
 
         Player.Instance.Move(Direction.None);
 
-        DisplayWeather.Instance.DisplayCurrentWeather();
-
+        TimeManager.Instance.ChangeMovesPerHour(4);
 
     }
 
     public void ExitByWindow()
     {
-        Coords tCoords = TileSet.map.playerCoords + (Coords)Player.Instance.direction;
+        //Coords tCoords = TileSet.map.playerCoords + (Coords)Player.Instance.direction;
+        Coords tCoords = TileSet.map.playerCoords;
 
-        Player.Instance.coords = tCoords;
+        Tile tile = TileSet.map.GetTile(tCoords);
 
-        Exit();
+        if ( tile!= null)
+        {
+            Player.Instance.coords = tCoords;
+            Exit();
+        }
+        else
+        {
+            DisplayFeedback.Instance.Display("la fenêtre est bloquée par une haie");
+        }
+        
     }
 
     public void ExitByDoor()
@@ -76,7 +103,8 @@ public class Interior {
 
         Player.Instance.Move(Direction.None);
 
-        DisplayWeather.Instance.DisplayCurrentWeather();
+        TimeManager.Instance.ChangeMovesPerHour(10);
+
 
     }
     #endregion
@@ -113,10 +141,10 @@ public class Interior {
 
             if ( a == 0)
             {
-                newHallwayTile.AddItem(Item.FindByName("porte"));
+                newHallwayTile.AddItem(Item.FindByName("porte (o)"));
             }
 
-			if ( Random.value * 100 < WorldGeneration.Instance.roomAppearRate ) {
+            if ( Random.value * 100 < WorldGeneration.Instance.roomAppearRate ) {
 
 				Coords coords = newHallwayTile.coords + new Coords (1, 0);
 
@@ -144,5 +172,74 @@ public class Interior {
             tileSet.tiles.Values.ElementAt(i).items.Add(bunkerItem);
         }
 
+        if (coords== ClueManager.Instance.clueCoords)
+        {
+            int i = Random.Range(1, tileSet.tiles.Count);
+            Item clueItem = Item.FindByName("radio");
+            tileSet.tiles.Values.ElementAt(i).items.Add(clueItem);
+        }
+
+        // ADDING DOORS
+        AddDoors(tileSet);
+
 	}
+    
+    void AddDoors(TileSet tileset)
+    {
+        foreach (var tile in tileset.tiles.Values)
+        {
+            if (tile.type != Tile.Type.Hallway)
+            {
+                AddDoors(tileSet, tile);
+            }
+        }
+    }
+    void AddDoors(TileSet tileset, Tile tile)
+    {
+
+        if (Random.value < WorldGeneration.Instance.chanceLockedRoom)
+        {
+            tile.locked = true;
+
+            Direction[] surr = new Direction[4] {
+                        Direction.North, Direction.West, Direction.South, Direction.West
+                    };
+
+            foreach (var dir in surr)
+            {
+                Coords c = tile.coords + (Coords)dir;
+                Tile adjTile = tileset.GetTile(c);
+
+                if (adjTile != null)
+                {
+                    switch (dir)
+                    {
+                        case Direction.North:
+                            tile.AddItem(Item.FindByName("porte (o)(n)"));
+                            adjTile.AddItem(Item.FindByName("porte (o)(s)"));
+                            break;
+                        case Direction.East:
+                            tile.AddItem(Item.FindByName("porte (o)(e)"));
+                            adjTile.AddItem(Item.FindByName("porte (o)(w)"));
+                            break;
+                        case Direction.South:
+                            tile.AddItem(Item.FindByName("porte (o)(s)"));
+                            adjTile.AddItem(Item.FindByName("porte (o)(n)"));
+                            break;
+                        case Direction.West:
+                            tile.AddItem(Item.FindByName("porte (o)(w)"));
+                            adjTile.AddItem(Item.FindByName("porte (o)(e)"));
+                            break;
+                        case Direction.None:
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+
+            }
+
+        }
+    }
 }

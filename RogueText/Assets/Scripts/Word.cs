@@ -10,15 +10,20 @@ public class Word {
 
 	public string name = "";
 
-	public Genre genre;	
+	public Genre genre;
 
 	public Adjective.Type adjType;
 
     public bool used = false;
 
+    public Number number = Number.None;
+
 	public enum Number {
-		Singular,
+        None,
+
+        Singular,
 		Plural,
+
 	}
 
 	public enum Genre {
@@ -58,7 +63,6 @@ public class Word {
 	}
     public string GetDescription(Def def, Preposition prep, Number num, TextColor textColor)
     {
-
         string article = GetArticle(def, prep, num);
         if (prep == Preposition.Loc)
         {
@@ -89,13 +93,17 @@ public class Word {
 
     }
 
-    public string GetName(Number number, TextColor c )
+    public string GetName(Number _number, TextColor c )
     {
-
         string str = name.ToLower();
 
-        if (number == Number.Plural)
+        if (_number == Number.Plural)
             str += "s";
+
+        if (str.Contains("("))
+        {
+            str = str.Remove(str.IndexOf("(") - 1);
+        }
 
         if ( c == TextColor.None)
         {
@@ -109,14 +117,15 @@ public class Word {
     }
 
     public void UpdateGenre ( string str ) {
+
 		switch (str) {
 		case "ms":
 			genre = Genre.Masculine;
 			break;
 		case "fs" :
 			genre = Genre.Feminine;
-			break;
-		default:
+            break; 
+            default:
 			Debug.LogError ("pas trouvé de genre pour l'item : " + name + " ( content : " + str + ")");
 			break;
 		}

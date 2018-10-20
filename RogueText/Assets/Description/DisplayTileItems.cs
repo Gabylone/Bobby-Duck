@@ -31,12 +31,10 @@ public class DisplayTileItems : TextTyper {
             else if (Inventory.Instance.opened)
             {
                 Inventory.Instance.DisplayInventory();
-                Debug.Log("updating inventory items description");
             }
             else
             {
-                UpdateCurrentTileDescription();
-                Debug.Log("updating tile items description");
+                UpdateAndDisplay();
             }
 
             Tile.itemsChanged = false;
@@ -70,7 +68,7 @@ public class DisplayTileItems : TextTyper {
 
         public string GetText()
         {
-            string itemText = Item.ItemListString(itemSockets);
+            string itemText = Item.ItemListString(itemSockets, false ,false );
 
             // phrases de vision ( vous voyez, remarquez etc... )
             string visionPhrase = LocationLoader.Instance.visionPhrases[Random.Range(0, LocationLoader.Instance.visionPhrases.Length)];
@@ -137,7 +135,12 @@ public class DisplayTileItems : TextTyper {
             ItemSocket itemSocket = itemSockets[i];
 
             // retourne la phrase de position appropriée
-            string itemPosition = itemSocket.GetItemPosition();
+            string itemPosition = itemSocket.item.GetItemPosition();
+
+            if (itemPosition.StartsWith("relative"))
+            {
+                itemPosition = GetRelativeItemPositionPhrase(itemSocket.item.word.name);
+            }
 
             // si la position a déjà été trouve ( pour éviter : près du mur, une armoire, près de mur, une fenêtre )
             // et donc addictioner les noms ( près du mur, une armoire ET une fenêtre )
@@ -175,8 +178,53 @@ public class DisplayTileItems : TextTyper {
             ++a;
         }
 
-        Display(text);
+        textToType = text;
+        //Display(text);
 	}
 
-    
+    string GetRelativeItemPositionPhrase (string itemName)
+    {
+        string itemPosition = "";
+        char dirChar = itemName[itemName.Length - 2];
+
+        Player.Facing fac = Player.Facing.None;
+
+        switch (dirChar)
+        {
+            case 'n':
+                fac = Player.Instance.GetFacing(Direction.North);
+                break;
+            case 'e':
+                fac = Player.Instance.GetFacing(Direction.East);
+                break;
+            case 's':
+                fac = Player.Instance.GetFacing(Direction.South);
+                break;
+            case 'w':
+                fac = Player.Instance.GetFacing(Direction.West);
+                break;
+            default:
+                break;
+        }
+
+        switch (fac)
+        {
+            case Player.Facing.Front:
+                itemPosition = "devant vous";
+                break;
+            case Player.Facing.Right:
+                itemPosition = "à droite";
+                break;
+            case Player.Facing.Back:
+                itemPosition = "derrière vous";
+                break;
+            case Player.Facing.Left:
+                itemPosition = "à gauche";
+                break;
+            default:
+                break;
+        }
+
+        return itemPosition;
+    }
 }

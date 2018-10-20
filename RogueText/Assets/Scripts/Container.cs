@@ -28,7 +28,7 @@ public class Container
         {
             text = "Dans " + Container.current.item.word.GetDescription(Word.Def.Defined) + ", vous voyez : ";
 
-            text += Item.ItemListString(items);
+            text += Item.ItemListString(items, false , false);
 
         }
 
@@ -45,7 +45,7 @@ public class Container
         foreach (var item in Item.items)
         {
 
-            int id = Action.last.item.row;
+            int id = Action.last.primaryItem.row;
             Item.AppearRate appearRate = item.appearRates.Find(x => x.type == Item.AppearRate.Type.Container && x.id == id);
 
             if (appearRate != null)

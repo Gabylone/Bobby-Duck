@@ -19,7 +19,7 @@ public class DisplayCharacterStates : TextTyper {
 		switch (action.type) {
 		case Action.Type.Take:
 		case Action.Type.Eat:
-                UpdateCurrentTileDescription();
+                UpdateAndDisplay();
 			break;
 		default:
 			break;
@@ -52,14 +52,14 @@ public class DisplayCharacterStates : TextTyper {
 			return;
 		}
 
-		if ( Player.Instance.sleep == Player.Instance.maxSleep ) {
+		if ( Player.Instance.sleep_CurrentStep == Player.Instance.sleep_MaxStep ) {
 
             string str = "" +
                 "Vos paupières se ferment toutes seules, vous êtes épuisé";
 
             phrases.Add(str);
 
-		} else if ( Player.Instance.sleep > (float)(Player.Instance.maxSleep * 0.65f) ) {
+		} else if ( Player.Instance.sleep_CurrentStep > (float)(Player.Instance.sleep_MaxStep * 0.65f) ) {
 
             string str = "" +
                 "Vous vous sentez légerement fatigué...";
@@ -67,14 +67,14 @@ public class DisplayCharacterStates : TextTyper {
             phrases.Add(str);
 		}
 
-		if ( Player.Instance.hunger == Player.Instance.maxHunger ) {
+		if ( Player.Instance.hunger_CurrentStep == Player.Instance.hunger_MaxStep ) {
 
             string str = "" +
                 "Votre ventre est vide, vous avez faim...";
 
             phrases.Add(str);
 
-		} else if ( Player.Instance.hunger > (float)(Player.Instance.maxHunger * 0.65f) ) {
+		} else if ( Player.Instance.hunger_CurrentStep > (float)(Player.Instance.hunger_MaxStep * 0.65f) ) {
 
             string str = "" +
                 "Votre ventre commence à gargouiller...";
@@ -83,14 +83,14 @@ public class DisplayCharacterStates : TextTyper {
 
 		}
 
-		if ( Player.Instance.thirst == Player.Instance.maxThirst ) {
+		if ( Player.Instance.thirst_CurrentStep == Player.Instance.thirst_MaxStep ) {
 
             string str = "" +
                 "Votre gorge est sêche, vous avez soif";
 
             phrases.Add(str);
 
-		} else if ( Player.Instance.thirst > (float)(Player.Instance.maxThirst * 0.65f) ) {
+		} else if ( Player.Instance.thirst_CurrentStep > (float)(Player.Instance.thirst_MaxStep * 0.65f) ) {
 
             string str = "" +
                 "Vos lévres se durcissent, vous ressentez une légère soif...";
@@ -139,6 +139,7 @@ public class DisplayCharacterStates : TextTyper {
             ++a;
         }
 
-        Display(text);
+        textToType = text;
+        //Display(text);
 	}
 }

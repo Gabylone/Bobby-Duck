@@ -97,6 +97,18 @@ public class TextTyper : MonoBehaviour {
 
 	}
 
+    public void Hide()
+    {
+        group.SetActive(false);
+        finished = true;
+    }
+
+    public void UpdateAndDisplay()
+    {
+        UpdateCurrentTileDescription();
+        Display();
+    }
+
     void TypeCharacter()
     {
         char currentChar = textToType[characterIndex];
@@ -162,7 +174,12 @@ public class TextTyper : MonoBehaviour {
         return str [0].ToString ().ToUpper () + str.Remove (0,1).ToLower();
     }
 
-	public virtual void Display ( string str ) {
+    public void Display()
+    {
+        Display(textToType);
+    }
+
+    public virtual void Display ( string str ) {
         textToType = str;
 		UpdateText ();
 	}
@@ -177,8 +194,7 @@ public class TextTyper : MonoBehaviour {
 		uiText.text = "";
 
 		if (textToType.Length < 1) {
-			group.SetActive (false);
-			finished = true;
+            Hide();
 			return;
 		}
 

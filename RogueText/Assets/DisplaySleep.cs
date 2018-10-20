@@ -38,21 +38,21 @@ public class DisplaySleep : TextTyper {
 
     void UpdateUIDelay()
     {
-        string str = "" + Player.Instance.sleep + " / " + Player.Instance.maxSleep;
+        string str = "" + Player.Instance.sleep_CurrentStep + " / " + Player.Instance.sleep_MaxStep;
 
-        if (Player.Instance.sleep < Player.Instance.maxSleep * 0.3f)
+        if (Player.Instance.sleep_CurrentStep < Player.Instance.sleep_MaxStep * 0.3f)
         {
             str = "";
         }
-        else if (Player.Instance.sleep < Player.Instance.maxSleep * 0.5f)
+        else if (Player.Instance.sleep_CurrentStep < Player.Instance.sleep_MaxStep * 0.5f)
         {
             str = "légere fatigue";
         }
-        else if (Player.Instance.sleep < Player.Instance.maxSleep * 0.7f)
+        else if (Player.Instance.sleep_CurrentStep < Player.Instance.sleep_MaxStep * 0.7f)
         {
             str = "fatigue";
         }
-        else if (Player.Instance.sleep < Player.Instance.maxSleep)
+        else if (Player.Instance.sleep_CurrentStep < Player.Instance.sleep_MaxStep)
         {
             str = "épuisé";
         }

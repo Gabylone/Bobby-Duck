@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DisplayCurrentTile : TextTyper {
 
+    bool displayedGoal = false;
+
 	// Use this for initialization
 	public override void Start ()
 	{
@@ -17,9 +19,12 @@ public class DisplayCurrentTile : TextTyper {
         //UpdateCurrentTileDescription();
 	}
 
+    
+
     public override void UpdateCurrentTileDescription()
     {
         base.UpdateCurrentTileDescription();
+
 		Clear ();
 
 		Tile currentTile = Tile.current;
@@ -45,8 +50,9 @@ public class DisplayCurrentTile : TextTyper {
 
 		}
 
-        Display(str);
-	}
+        //Display(str);
+        textToType = str;
+    }
 
 	string GetIntroText ()
 	{

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,13 +21,12 @@ public class DisplayInput : MonoBehaviour {
 	public void Show (){
 		gameObject.SetActive (true);
 
-	}
+    }
 	public void Hide (){
 		gameObject.SetActive (false);
+    }
 
-	}
-
-	void HandleOnStopTyping ()
+    void HandleOnStopTyping ()
 	{
 		Show ();
 		Focus ();
@@ -40,10 +37,12 @@ public class DisplayInput : MonoBehaviour {
 		Hide ();
 	}
 
-	public delegate void OnInput ( Verb verb , Item item );
+	public delegate void OnInput ( Verb verb , Item primaryItem , Item secundaryItem );
 	public static OnInput onInput;
 
-	public void OnEndEdit () {
+    public List<string> inputParts;
+
+    public void OnEndEdit () {
 
 
 		string str = inputField.text;
@@ -51,7 +50,7 @@ public class DisplayInput : MonoBehaviour {
 		if (str.Length == 0)
 			return;
 
-        List<string> inputParts = str.Split(new char[2] { ' ', '\'' }).ToList<string>();
+        inputParts = str.Split(new char[2] { ' ', '\'' }).ToList<string>();
 
         Verb verb = Verb.Find(inputParts[0]);
 
@@ -64,18 +63,36 @@ public class DisplayInput : MonoBehaviour {
             inputParts.RemoveAt(0);
         }
 
-        Item item = null;
+
+        Item primaryItem = null;
+        Item secundaryItem = null;
 
         if ( inputParts.Count > 0)
         {
             /// ITEM ///
             string[] wordGroups = SplitInWordGroups(inputParts.ToArray());
-            item = Item.GetInWords(wordGroups);
 
-            if (item == null)
+            foreach (var item in inputParts)
             {
-                
+                Debug.Log("wordGroup : " + item);
+
+                primaryItem = Item.GetInWord(item);
+
+                if (primaryItem != null)
+                    break;
             }
+
+            if ( primaryItem != null)
+            {
+                foreach (var inputPart in inputParts)
+                {
+                    secundaryItem = Item.GetInWord(inputPart);
+                    if (secundaryItem != null && secundaryItem.row != primaryItem.row)
+                        break;
+                }
+            }
+
+            ///
         }
         else
         {
@@ -83,7 +100,7 @@ public class DisplayInput : MonoBehaviour {
         }
 
         if (onInput != null)
-			onInput (verb, item);
+			onInput (verb, primaryItem, secundaryItem);
 
 		Clear ();
 

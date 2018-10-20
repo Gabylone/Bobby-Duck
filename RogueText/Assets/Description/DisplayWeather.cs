@@ -30,7 +30,10 @@ public class DisplayWeather : TextTyper {
 		Clear ();
 
 		if (TimeManager.Instance.changedPartOfDay == false)
-			return;
+        {
+            Hide();
+            return;
+        }
 
         DisplayCurrentWeather();
 		
@@ -151,6 +154,7 @@ public class DisplayWeather : TextTyper {
             }
         }
 
-        Display(str);
+        textToType = str;
+        //Display(str);
     }
 }

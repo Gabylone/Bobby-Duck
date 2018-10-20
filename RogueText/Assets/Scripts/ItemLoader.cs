@@ -73,7 +73,6 @@ public class ItemLoader : MonoBehaviour {
         Resources.Load("Containers & Verbs") as TextAsset
             });
 
-
         /// ITEMS ///
         LoadItems(rows);
 
@@ -120,11 +119,15 @@ public class ItemLoader : MonoBehaviour {
                     Debug.Log("item parameter : " + cells[3] + " does not parse");
                 }
 
-                newItem.param1 = param;
+                newItem.value = param;
             }
 
+            // word
             newItem.word = itemWord;
 			newItem.row = itemIndex;
+
+            // adjective
+            /*newItem.adjective = Adjective.GetRandom(Adjective.Type.Item);*/
 
 			Item.items.Add (newItem);
 
@@ -248,7 +251,7 @@ public class ItemLoader : MonoBehaviour {
 
         int a = 0;
 
-        string[] split1 = textAsset.text.Split('\n');
+        string[] split1 = textAsset.text.Split('&');
 
         foreach (var item in split1)
         {

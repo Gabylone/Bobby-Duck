@@ -1,100 +1,148 @@
-;;;;aller;ouvrir;fermer;manger;dormir;regarder, observer;prendre, ramasser, saisir;remplir;boire;déplacer;lire;couper;entrer;jeter, bazarder;équiper, mettre;déséquiper, enlever;écouter;continuer;sortir
-;;;;ou;que;que;que;ou;que;que;que;que;que;que;que;ou;que;que;que;que;ou;par ou
-;Genre ;Poids;Valeur(1);;ITEM contient peut être des choses utiles.;;ITEM à l’air comestible;ITEM sera bien pour prendre un peu de repos;;on dirait que ITEM peut rentrer dans votre sac;ITEM peut peut être remplir quelque chose d’eau;ITEM peut être bon pour se déshydrater un peu…;;ITEM pourra vous enseigner une chose ou deux.;;;;;;;;
-verbe seul;ms;;;;;CLOSECONTAINER;;// dormir par terre;// description précise des lieux;;;;;;;;;;;;MOVEREL(0);
-nord;ms;;;MOVE(0);;;;;;;;;;;;;;;;;;
-nord-est;ms;;;MOVE(1);;;;;;;;;;;;;;;;;;
-est;ms;;;MOVE(2);;;;;;;;;;;;;;;;;;
-sud-est;ms;;;MOVE(3);;;;;;;;;;;;;;;;;;
-sud;ms;;;MOVE(4);;;;;;;;;;;;;;;;;;
-sud-ouest;ms;;;MOVE(5);;;;;;;;;;;;;;;;;;
-ouest;ms;;;MOVE(6);;;;;;;;;;;;;;;;;;
-nord-ouest;ms;;;MOVE(7);;;;;;;;;;;;;;;;;;
-devant;ms;;;MOVEREL(0);;;;;;;;;;;;;;;;;;
-droite;ms;;;MOVEREL(2);;;;;;;;;;;;;;;;;;
-derrière;ms;;;MOVEREL(4);;;;;;;;;;;;;;;;;;
-gauche;ms;;;MOVEREL(6);;;;;;;;;;;;;;;;;;
-inventaire;ms;;;;DISPLAYINVENTORY;CLOSEINVENTORY;;;DISPLAYINVENTORY;;;;;;;;;;;;;
-sac;ms;;;;DISPLAYINVENTORY;CLOSEINVENTORY;;;DISPLAYINVENTORY;;;;;;;;;;;;;
-alentours;ms;;;;;;;;DESCRIBE;;;;;;;;;;;;;
-porte;fs;;;;ENTER;;;;DESCRIBEITEM;;;;;;;ENTER;ENTER;;;;;
-champignon;ms;1;;;;;EAT(1,1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-flaque;fs;;;;;;;;DESCRIBEITEM;;;DRINK(1);;;;;;;;;;
-lit;ms;;;;;;;SLEEP(4);DESCRIBEITEM;;;;;;;;;;;;;
-gourde pleine;fs;3;;;;;;;DESCRIBEITEM;TAKE;;DRINK(5)/ADDTOINVENTORY(gourde vide)/REMOVEFROMINVENTORY(gourde pleine);;;;;THROW;;;;;
-gourde vide;fs;2;;;;;;;DESCRIBEITEM;TAKE;REQUIRE(évier,douche,cuvette)/REMOVEFROMINVENTORY(gourde vide)/ADDTOINVENTORY(gourde pleine)/DISPLAY(La gourde est maintenant pleine);;;;;;THROW;;;;;
-évier;ms;;;;;;;;DESCRIBEITEM;;;DRINK(10);;;;;;;;;;
-douche;fs;;;;;;;;DESCRIBEITEM;;;DRINK(10);;;;;;;;;;
-cuvette;fs;;;;;;;;DESCRIBEITEM;;;DRINK(10);;;;;;;;;;
-lettre;ms;;;;;;;;GIVECLUE;;;;;GIVECLUE;;;;;;;;
-tableau;ms;;;;;;;;DESCRIBEITEM;;;;MOVEAWAY;;;;;;;;;
-arbre;ms;;;;;;;;DESCRIBEITEM;;;;MOVEAWAY;;DISPLAY(L’arbre s’écroule par terre)/REMOVEFROMTILE(arbre)/ADDTOTILE(bûche,5)/ADDTOTILE(petit bois,10);DISPLAY(L’arbre s’écroule par terre)/REMOVEFROMTILE(arbre)/ADDTOTILE(bûche,5)/ADDTOTILE(petit bois,10);;;;;;
-bûche;ms;4;;;;;;;DESCRIBEITEM;TAKE;;;;;DISPLAY(Vous découpez la bûche en plusieurs morceaux)/ADDTOTILE(petit bois,3);DISPLAY(Vous découpez la bûche en plusieurs morceaux)/ADDTOTILE(petit bois,3);THROW;;;;;
-branche;ms;3;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-tomate pourrie;fs;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-brocoli pourri;ms;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-pomme pourrie;fs;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-banane pourrie;fs;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-bouteille de lait;ms;2;;;;;;;DESCRIBEITEM;TAKE;;DRINK(5);;;;;THROW;;;;;
-bouteille de lait périmé;ms;2;;;;;;;DESCRIBEITEM;TAKE;;DRINK(3);;;;;THROW;;;;;
-pain;ms;1;;;;;EAT(1,1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-pain périmé;ms;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-bouteille d’eau;fs;2;;;;;;;DESCRIBEITEM;TAKE;;DRINK(10);;;;;THROW;;;;;
-carotte;fs;1;;;;;EAT(1,1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-carotte douteuse;fs;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-conserve de viande;fs;3;;;;;EAT(4);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-conserve de tomate;fs;3;;;;;EAT(3);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-conserve de thon;fs;3;;;;;EAT(3);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-cannette de soda;fs;3;;;;;;;DESCRIBEITEM;TAKE;;DRINK(3);;;;;THROW;;;;;
-couteau;ms;2;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-serpillière;fs;5;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(weapon);UNEQUIP;;;
-pelle;fs;6;3;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(weapon);UNEQUIP;;;
-clé;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-roman;ms;3;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-recette;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-manuel;ms;2;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-journal;ms;2;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-magazine;ms;2;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-dollar;ms;;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-lecteur mp3;ms;4;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-poupée;fs;3;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-stylo;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-cuillère;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-fourchette;fs;1;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(weapon);UNEQUIP;;;
-assiette;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-bol;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-verre;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-éponge;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-parfum;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-canard en plastique;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-serviette;fs;2;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-dentifrice;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-brosse à dent;fs;1;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(weapon);UNEQUIP(weapon);;;
-téléviseur;ms;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;
-table;fs;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;
-canapé;ms;;;;;;;SLEEP(2);DESCRIBEITEM;;;;;;;;;;;;;
-horloge;fs;;;;;;;;DISPLAYTIMEOFDAY;;;;;;;;;;;;;
-fenêtre ouverte;fs;;;;DISPLAY(La fenêtre est déjà ouverte);DISPLAY(Vous fermez la fenêtre)/REMOVEFROMTILE(fenêtre ouverte)/ADDTOTILE(fenêtre fermée);;;DESCRIBEEXTERIOR;;;;;;;;;;;;;DISPLAY(Vous sortez pas la fenêtre)/EXITBYWINDOW
-fenêtre fermée;fs;;;;DISPLAY(Vous ouvrez la fenêtre)/REMOVEFROMTILE(fenêtre fermée)/ADDTOTILE(fenêtre ouverte);DISPLAY(La fenêtre est déjà fermée);;;DESCRIBEEXTERIOR;;;;;;;;;;;;;DISPLAY(La fenêtre est fermée, impossible de passer)
-téléphone;ms;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;
-ordinateur;ms;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;
-radio;fs;5;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;GIVECLUE;;
-appareil photo;ms;3;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-voiture;fs;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;
-bâteau;ms;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;
-pantalon;ms;1;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(bottom);UNEQUIP(bottom);;;
-t-shirt;ms;1;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(body);UNEQUIP(body);;;
-veste;fs;1;2;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(body);UNEQUIP(body);;;
-manteau;ms;1;3;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(body);UNEQUIP(body);;;
-chaussures;fs;2;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(feet);UNEQUIP(feet);;;
-lunettes;ms;1;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(head);UNEQUIP(head);;;
-montre;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(head);UNEQUIP(head);;;
-casque moto;ms;3;3;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(head);UNEQUIP(head);;;
-machine à laver;fs;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;
-bougie;ms;;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-lampe torche;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(misc);UNEQUIP(misc);;;
-rouleau de scotch;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-vise;fs;;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-papier;ms;;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-baie;fs;;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;
-lavabo;ms;;;;;;;;DESCRIBEITEM;;REQUIRE(évier,douche,cuvette)/REMOVEFROMINVENTORY(gourde vide)/ADDTOINVENTORY(gourde pleine)/DISPLAY(La gourde est maintenant pleine);DRINK(10);;;;;;;;;;
+;;;;aller, retourner;ouvrir;fermer;manger;dormir;regarder, observer;prendre, ramasser, saisir;remplir;boire;déplacer;lire;couper;entrer;jeter, bazarder;équiper, mettre;déséquiper, enlever;écouter;continuer;sortir;retourner;casser;déchirer;&
+;;;;ou;que;que;que;ou;que;que;que;que;que;que;que;ou;que;que;que;que;ou;par ou;ou;ou;ou;&
+;Genre ;Poids / 6;Valeur(1);;ITEM contient peut être des choses utiles.;;ITEM à l’air comestible;ITEM sera bien pour prendre un peu de repos;;on dirait que ITEM peut rentrer dans votre sac;ITEM peut peut être remplir quelque chose d’eau;ITEM peut être bon pour se déshydrater un peu…;;ITEM pourra vous enseigner une chose ou deux.;;;;;;;;;;;;&
+verbe seul;ms;;;;;CLOSECONTAINER;;dormir par terre;description précise des lieux;;;;;;;;;;;;MOVEREL(0);;MOVEREL(4);;;&
+nord;ms;;;MOVE(0);;;;;;;;;;;;;;;;;;;;;;&
+nord-est;ms;;;MOVE(1);;;;;;;;;;;;;;;;;;;;;;&
+est;ms;;;MOVE(2);;;;;;;;;;;;;;;;;;;;;;&
+sud-est;ms;;;MOVE(3);;;;;;;;;;;;;;;;;;;;;;&
+sud;ms;;;MOVE(4);;;;;;;;;;;;;;;;;;;;;;&
+sud-ouest;ms;;;MOVE(5);;;;;;;;;;;;;;;;;;;;;;&
+ouest;ms;;;MOVE(6);;;;;;;;;;;;;;;;;;;;;;&
+nord-ouest;ms;;;MOVE(7);;;;;;;;;;;;;;;;;;;;;;&
+devant;ms;;;MOVEREL(0);;;;;;;;;;;;;;;;;;;;;;&
+droite;ms;;;MOVEREL(2);;;;;;;;;;;;;;;;;;;;;;&
+arrière;ms;;;MOVEREL(4);;;;;;;;;;;;;;;;;;;;;;&
+derrière;ms;;;MOVEREL(4);;;;;;;;;;;;;;;;;;;;;;&
+gauche;ms;;;MOVEREL(6);;;;;;;;;;;;;;;;;;;;;;&
+inventaire;ms;;;;DISPLAYINVENTORY;CLOSEINVENTORY;;;DISPLAYINVENTORY;;;;;;;;;;;;;;;;;&
+sac;ms;;;;DISPLAYINVENTORY;CLOSEINVENTORY;;;DISPLAYINVENTORY;;;;;;;;;;;;;;;;;&
+alentours;ms;;;;;;;;DESCRIBE;;;;;;;;;;;;;;;;;&
+porte (o);fs;;;;ENTER;;;;DESCRIBEITEM;;;;;;;ENTER;;;;;;;;;;&
+porte (f);fs;;;;"REQUIRE(clé)
+DISPLAY(Vous dévérouillez la porte)
+REPLACEITEM(porte (o))";;;;DESCRIBEITEM;;;;;;;DISPLAY(La porte est fermée);;;;;;;;CHECKSTAT(STR);;&
+porte (o)(n);fs;;;;MOVE(0);;;;DESCRIBEITEM;;;;;;;MOVEREL(6);;;;;;;;;;&
+porte (o)(w);fs;;;;MOVE(6);;;;DESCRIBEITEM;;;;;;;MOVEREL(0);;;;;;;;;;&
+porte (o)(s);fs;;;;MOVE(4);;;;DESCRIBEITEM;;;;;;;MOVEREL(2);;;;;;;;;;&
+porte (o)(e);fs;;;;MOVE(2);;;;;;;;;;;;;;;;;;;;;&
+porte (f)(n);fs;;;;"REQUIRE(clé)
+DISPLAY(Vous dévérouillez la porte)
+REPLACEITEM(porte (o)(n))";;;;DESCRIBEITEM;;;;;;;DISPLAY(La porte est fermée);;;;;;;;;;&
+porte (f)(w);fs;;;;"REQUIRE(clé)
+DISPLAY(Vous dévérouillez la porte)
+REPLACEITEM(porte (o)(w))";;;;DESCRIBEITEM;;;;;;;DISPLAY(La porte est fermée);;;;;;;;;;&
+porte (f)(s);fs;;;;"REQUIRE(clé)
+DISPLAY(Vous dévérouillez la porte)
+REPLACEITEM(porte (o)(s))";;;;DESCRIBEITEM;;;;;;;DISPLAY(La porte est fermée);;;;;;;;;;&
+porte (f)(e);fs;;;;"REQUIRE(clé)
+DISPLAY(Vous dévérouillez la porte)
+REPLACEITEM(porte (o)(e))";;;;;;;;;;;;;;;;;;;;;&
+champignon;ms;1;;;;;EAT(1,1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+flaque;fs;;;;;;;;DESCRIBEITEM;;;DRINK(1);;;;;;;;;;;;;;&
+lit;ms;;;;;;;SLEEP(4);DESCRIBEITEM;;;;;;;;;;;;;;;;;&
+gourde pleine;fs;3;;;;;;;DESCRIBEITEM;TAKE;;"DRINK(5)
+REPLACEITEM(gourde vide)";;;;;THROW;;;;;;;;;&
+gourde vide;fs;2;;;;;;;DESCRIBEITEM;TAKE;"REQUIRE(évier,douche,cuvette)
+REPLACEITEM(gourde pleine)
+DISPLAY(La gourde est maintenant pleine)";;;;;;THROW;;;;;;;;;&
+évier;ms;;;;;;;;DESCRIBEITEM;;;DRINK(10);;;;;;;;;;;;;;&
+douche;fs;;;;;;;;DESCRIBEITEM;;;DRINK(10);;;;;;;;;;;;;;&
+cuvette;fs;;;;;;;;DESCRIBEITEM;;;DRINK(10);;;;;;;;;;;;;;&
+lettre;ms;;;;;;;;GIVECLUE;;;;;GIVECLUE;;;;;;;;;;;;&
+tableau;ms;;;;;;;;DESCRIBEITEM;;;;MOVEAWAY;;;;;;;;;;;;;&
+arbre;ms;;;;;;;;DESCRIBEITEM;;;;MOVEAWAY;;"DISPLAY(L’arbre s’écroule par terre)
+REMOVEFROMTILE(arbre)
+ADDTOTILE(bûche,5)
+ADDTOTILE(petit bois,10)";"DISPLAY(L’arbre s’écroule par terre)
+REMOVEFROMTILE(arbre)
+ADDTOTILE(bûche,5)
+ADDTOTILE(petit bois,10)";;;;;;;;;;&
+bûche;ms;4;;;;;;;DESCRIBEITEM;TAKE;;;;;"DISPLAY(Vous découpez la bûche en plusieurs morceaux)
+ADDTOTILE(petit bois,3)";"DISPLAY(Vous découpez la bûche en plusieurs morceaux)
+ADDTOTILE(petit bois,3)";THROW;;;;;;;;;&
+branche;ms;3;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+tomate pourrie;fs;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+brocoli pourri;ms;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+pomme pourrie;fs;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+banane pourrie;fs;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+bouteille de lait;ms;2;;;;;;;DESCRIBEITEM;TAKE;;DRINKANDREMOVE(5);;;;;THROW;;;;;;;;;&
+bouteille de lait périmé;ms;2;;;;;;;DESCRIBEITEM;TAKE;;DRINKANDREMOVE(5);;;;;THROW;;;;;;;;;&
+pain;ms;1;;;;;EAT(1,1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+pain périmé;ms;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+bouteille d’eau;fs;2;;;;;;;DESCRIBEITEM;TAKE;;DRINKANDREMOVE(5);;;;;THROW;;;;;;;;;&
+carotte;fs;1;;;;;EAT(1,1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+carotte douteuse;fs;1;;;;;EAT(1);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+conserve de viande;fs;3;;;;;EAT(4);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+conserve de tomate;fs;3;;;;;EAT(3);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+conserve de thon;fs;3;;;;;EAT(3);;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+cannette de soda;fs;3;;;;;;;DESCRIBEITEM;TAKE;;DRINKANDREMOVE(5);;;;;THROW;;;;;;;;;&
+couteau;ms;2;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+serpillière;fs;5;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(weapon);UNEQUIP;;;;;;;&
+pelle;fs;6;3;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(weapon);UNEQUIP;;;;;;;&
+clé;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+roman;ms;3;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+recette;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+manuel;ms;2;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+journal;ms;2;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+magazine;ms;2;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+dollar;ms;;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+lecteur mp3;ms;4;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+poupée;fs;3;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+stylo;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+cuillère;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+fourchette;fs;1;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(weapon);UNEQUIP;;;;;;;&
+assiette;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+bol;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+verre;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+éponge;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+parfum;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+canard en plastique;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+serviette;fs;2;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+tube de dentifrice;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+brosse à dent;fs;1;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(weapon);UNEQUIP(weapon);;;;;;;&
+téléviseur;ms;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;;;;;&
+table;fs;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;;;"DISPLAY(La table se brise)
+REMOVEFROMTILE(table)
+ADDTOTILE(petit bois,4)
+ADDTOTILE(planche,1)";;&
+canapé;ms;;;;;;;SLEEP(2);DESCRIBEITEM;;;;;;;;;;;;;;;;;&
+horloge;fs;;;;;;;;DISPLAYTIMEOFDAY;;;;;;;;;;;;;;;;;&
+fenêtre ouverte;fs;;;;DISPLAY(La fenêtre est déjà ouverte);"DISPLAY(Vous fermez la fenêtre)
+REPLACEITEM(fenêtre fermée)";;;DESCRIBEEXTERIOR;;;;;;;;;;;;;"DISPLAY(Vous sortez pas la fenêtre)
+EXITBYWINDOW";;;;&
+fenêtre fermée;fs;;;;"DISPLAY(Vous ouvrez la fenêtre)
+REPLACEITEM(fenêtre ouverte)";DISPLAY(La fenêtre est déjà fermée);;;DESCRIBEEXTERIOR;;;;;;;;;;;;;DISPLAY(La fenêtre est fermée, impossible de passer);;;;&
+téléphone;ms;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;;;;;&
+ordinateur;ms;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;;;;;&
+radio;fs;5;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;GIVECLUE;;;;;;&
+appareil photo;ms;3;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+voiture;fs;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;;;;;&
+bâteau;ms;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;;;;;&
+pantalon;ms;1;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(bottom);UNEQUIP(bottom);;;;;;"DISPLAY(Vous déchirez le pantalon en quelques bouts de tissu)
+ADDTOTILE(morceau de tissu,5)
+REMOVELASTITEM";&
+t-shirt;ms;1;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(body);UNEQUIP(body);;;;;;"DISPLAY(Vous déchirez le pantalon en quelques bouts de tissu)
+ADDTOTILE(morceau de tissu,5)
+REMOVELASTITEM";&
+veste;fs;1;2;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(body);UNEQUIP(body);;;;;;"DISPLAY(Vous déchirez le pantalon en quelques bouts de tissu)
+ADDTOTILE(morceau de tissu,5)
+REMOVELASTITEM";&
+manteau;ms;1;3;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(body);UNEQUIP(body);;;;;;"DISPLAY(Vous déchirez le pantalon en quelques bouts de tissu)
+ADDTOTILE(morceau de tissu,5)
+REMOVELASTITEM";&
+paire de chaussures;fs;2;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(feet);UNEQUIP(feet);;;;;;;&
+lunettes;ms;1;1;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(head);UNEQUIP(head);;;;;;;&
+montre;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(head);UNEQUIP(head);;;;;;;&
+casque moto;ms;3;3;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(head);UNEQUIP(head);;;;;;;&
+machine à laver;fs;;;;;;;;DESCRIBEITEM;;;;;;;;;;;;;;;;;&
+bougie;ms;;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+lampe torche;fs;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;EQUIP(misc);UNEQUIP(misc);;;;;;;&
+rouleau de scotch;ms;1;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+vise;fs;;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+papier;ms;;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+baie;fs;;;;;;;;DESCRIBEITEM;TAKE;;;;;;;THROW;;;;;;;;;&
+lavabo;ms;;;;;;;;DESCRIBEITEM;;;DRINK(10);;;;;;;;;;;;;;&
+boussole;fs;1;;;;;;;POINTNORTH;TAKE;;;;;;;THROW;;;;;;;;;&
+planche;fs;4;;;;;;;DESCRIBEITEM;;;;;;;;THROW;;;;;;;;;&
+morceau de tissu;ms;1;;;;;;;DESCRIBEITEM;;;;;;;;THROW;;;;;;;;DISPLAY(Le morceau de tissu est déjà assez petit…);&

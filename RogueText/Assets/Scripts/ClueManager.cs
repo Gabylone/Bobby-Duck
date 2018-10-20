@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -9,6 +10,8 @@ public class ClueManager : MonoBehaviour {
 
 	public Coords bunkerCoords;
 
+    public Coords clueCoords;
+
 	void Awake () {
 		Instance = this;
 	}
@@ -17,8 +20,22 @@ public class ClueManager : MonoBehaviour {
     public void Init()
     {
 
-        int i = Random.Range(1, Interior.interiors.Count);
-        bunkerCoords = Interior.interiors.Values.ElementAt(i).coords;
+        int bunkerID = Random.Range(1, Interior.interiors.Count);
+        bunkerCoords = Interior.interiors.Values.ElementAt(bunkerID).coords;
+
+        int clueID = Random.Range(1, Interior.interiors.Count);
+        if ( clueID == bunkerID)
+        {
+            if ( clueID == 1)
+            {
+                clueID++;
+            }
+            else
+            {
+                clueID--;
+            }
+        }
+        clueCoords = Interior.interiors.Values.ElementAt(clueID).coords;
 
         ActionManager.onAction += HandleOnAction;
 
@@ -43,38 +60,31 @@ public class ClueManager : MonoBehaviour {
     {
         if (Interior.current.coords == bunkerCoords)
         {
-            Item.Remove(Action.last.item);
+            Item.Remove(Action.last.primaryItem);
 
             DisplayDescription.Instance.Display
                 ("Derrière le tableau, un trou béant se dévoile.\n" +
                 "Après avoir rampé de longues minutes, une grotte apparait.\n" +
                 "Des centaines de gens vivent ici.\n" +
-                "Ils marchandent, parlent, dorment et flannent. C'est le début d'une nouvelle ère");
+                "Ils marchandent, parlent, dorment et flannent. C'est le début d'une nouvelle ère\n" +
+                "\n" +
+                "Vous avez gagné.");
+
+            DisplayInput.Instance.EndInput();
 
 
         }
     }
 
-    public Tile BunkerTile {
-		get {
-			return TileSet.map.GetTile (bunkerCoords);
-		}
-	}
-
 	public void GetClueText() {
 
 		string str = "";
 
-
-
 	}
 
-	void DisplayBunkerSurrounding ()
+    void DisplayBunkerSurrounding ()
 	{
-		List<SurroundingTile_Direction> surroundingTiles = new List<SurroundingTile_Direction> ();
-
-		//		for (int i = 0; i < 8; ++i) {
-		//		for (int i = 0; i < 8; i += 2) {
+		List<DisplaySurroundingTiles.SurroundingTile_Direction> surroundingTiles = new List<DisplaySurroundingTiles.SurroundingTile_Direction> ();
 
 		List<Direction> directions = new List<Direction> ();
 

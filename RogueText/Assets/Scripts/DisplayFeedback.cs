@@ -26,7 +26,6 @@ public class DisplayFeedback : TextTyper {
     public override void Display(string str)
     {
         base.Display(str);
-
     }
 
     void HandleOnAction (Action action)
@@ -44,6 +43,9 @@ public class DisplayFeedback : TextTyper {
             case Action.Type.DescribeItem:
                 DescribeItem();
                 break;
+            case Action.Type.PointNorth:
+                PointNorth();
+                break;
             default:
 			break;
 		}
@@ -51,14 +53,39 @@ public class DisplayFeedback : TextTyper {
 
     private void DisplayTimeOfDay()
     {
-        string str = "Il est " + TimeManager.Instance.timeOfDay + "h...";
+        string str = "";
+
+        if ( TimeManager.Instance.timeOfDay == 12)
+        {
+            str = "Il est midi";
+        }
+        else if(TimeManager.Instance.timeOfDay == 0)        {
+            str = "Il est minuit";
+        }
+        else if (TimeManager.Instance.timeOfDay < 12)
+        {
+            str = "Il est " + TimeManager.Instance.timeOfDay + "h du matin";
+        }
+        else 
+        {
+            str = "Il est " + (TimeManager.Instance.timeOfDay-12) + "h du soir";
+        }
+
+        Display(str);
+    }
+
+
+    private void PointNorth()
+    {
+        string facing = Coords.GetPhraseDirecton(Coords.GetFacing(Player.Instance.direction));
+        string str = "Le nord est " + facing;
 
         Display(str);
     }
 
     private void DescribeItem()
     {
-        Item item = Action.last.item;
+        Item item = Action.last.primaryItem;
 
         string str = "";
         int count = 0;
@@ -91,18 +118,36 @@ public class DisplayFeedback : TextTyper {
             }
         }
 
-        Display(str);
+        if ( count == 0)
+        {
+            Display(str);
+        }
+        else
+        {
+            Display("Vous ne vous pouvez pas faire grand chose avec " + item.word.GetDescription(Word.Def.Defined, Word.Preposition.None));
+        }
 
-        
     }
 
     private void DescribeExterior()
     {
-        Coords tCoords = TileSet.map.playerCoords + (Coords)Player.Instance.direction;
+        Direction dir = Direction.East;
+
+        if (Player.Instance.coords.x < 0)
+        {
+            dir = Direction.West;
+        }
+
+        Coords tCoords = TileSet.map.playerCoords + (Coords)dir;
 
         Tile tile = TileSet.map.GetTile(tCoords);
 
         string str = "Par la fenêtre, vous apercevez " + tile.GetDescription();
+
+        if ( tile == null)
+        {
+            str = "la fenêtre est bloquée par une haie, vous ne voyez rien...";
+        }
 
         Display(str);
 

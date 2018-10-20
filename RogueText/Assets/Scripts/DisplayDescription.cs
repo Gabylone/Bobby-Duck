@@ -21,6 +21,7 @@ public class DisplayDescription : MonoBehaviour {
 		textTypers = textTyperParent.GetComponentsInChildren<TextTyper> ();
 
 		Player.onPlayerMove += HandleOnPlayerMove;
+
 	}
 
 	void HandleOnPlayerMove (Coords previousCoords, Coords newCoords)
@@ -31,6 +32,11 @@ public class DisplayDescription : MonoBehaviour {
 
     public void DisplayTileDescription()
     {
+        foreach (var item in textTypers)
+        {
+            item.Hide();
+        }
+
         StartCoroutine(DisplayCoroutine());
 
     }
@@ -48,9 +54,14 @@ public class DisplayDescription : MonoBehaviour {
             item.Clear();
         }
 
+        foreach (var item in textTypers)
+        {
+            item.UpdateCurrentTileDescription();
+        }
+
 		foreach (var item in textTypers) {
 
-            item.UpdateCurrentTileDescription();
+            item.Display();
 
 			while (!item.finished)
 				yield return null;
@@ -60,6 +71,7 @@ public class DisplayDescription : MonoBehaviour {
 		yield return new WaitForEndOfFrame ();
 
 		DisplayInput.Instance.Show ();
+
 	}
 
     public void Display( string text )
@@ -67,6 +79,7 @@ public class DisplayDescription : MonoBehaviour {
         foreach (var item in textTypers)
         {
             item.Clear();
+            item.Hide();
         }
 
         textTypers[0].Display(text);

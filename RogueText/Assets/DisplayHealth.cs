@@ -35,21 +35,21 @@ public class DisplayHealth : TextTyper {
 
     void UpdateUIDelay()
     {
-        string str = "" + Player.Instance.hunger + " / " + Player.Instance.maxHunger;
+        string str = "" + Player.Instance.hunger_CurrentStep + " / " + Player.Instance.hunger_MaxStep;
 
-        if (Player.Instance.hunger < Player.Instance.maxHealth * 0.25f)
+        if (Player.Instance.hunger_CurrentStep < Player.Instance.maxHealth * 0.25f)
         {
             str = "";
         }
-        else if (Player.Instance.hunger < Player.Instance.maxHealth * 0.5f)
+        else if (Player.Instance.hunger_CurrentStep < Player.Instance.maxHealth * 0.5f)
         {
             str = "faiblissant";
         }
-        else if (Player.Instance.hunger < Player.Instance.maxHealth * 0.75f)
+        else if (Player.Instance.hunger_CurrentStep < Player.Instance.maxHealth * 0.75f)
         {
             str = "faible";
         }
-        else if (Player.Instance.hunger < Player.Instance.maxHealth)
+        else if (Player.Instance.hunger_CurrentStep < Player.Instance.maxHealth)
         {
             str = "mourrant";
         }
