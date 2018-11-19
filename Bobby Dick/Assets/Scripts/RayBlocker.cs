@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Holoville.HOTween;
+using System;
 
 public class RayBlocker : MonoBehaviour {
+
+    public static RayBlocker Instance;
 
 	public delegate void OnTouchRayBlocker ();
 	public static OnTouchRayBlocker onTouchRayBlocker;
@@ -15,8 +18,13 @@ public class RayBlocker : MonoBehaviour {
 	public float tweenDur = 1f;
 	Color initColor;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    // Use this for initialization
+    void Start () {
 
         onTouchRayBlocker = null;
 
@@ -26,9 +34,10 @@ public class RayBlocker : MonoBehaviour {
 
 		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
 		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;
+
     }
 
-	public void OnPointerDown () {
+    public void OnPointerDown () {
 		if (onTouchRayBlocker != null)
 			onTouchRayBlocker ();
 	}

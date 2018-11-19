@@ -31,12 +31,12 @@ public class InventoryActionButton : MonoBehaviour {
         fillGroup.SetActive(false);
         descriptionGroup.SetActive(false);
 
-        ShowDescription();
+        //ShowDescription();
     }
 
     private void OnEnable()
     {
-        ShowDescription();
+        //ShowDescription();
     }
 
     public void OnPointerDown () {
@@ -119,10 +119,14 @@ public class InventoryActionButton : MonoBehaviour {
 	/// Triggers the action.
 	/// </summary>
 	void TriggerAction () {
+		
 		Tween.Bounce (transform);
 
-		CancelInvoke ("TriggerActionDelay");
-		Invoke ("TriggerActionDelay" , Tween.defaultDuration);
+		TriggerActionDelay ();
+
+		/*CancelInvoke ("TriggerActionDelay");
+		Invoke ("TriggerActionDelay" , Tween.defaultDuration);*/
+
 	}
 
 	void TriggerActionDelay () {

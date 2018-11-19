@@ -13,6 +13,7 @@ public class DisplayItem_Loot : DisplayItem {
 
 	public int index = 0;
 
+	public Vector3 decal;
 
 	public bool selected = false;
 
@@ -45,12 +46,14 @@ public class DisplayItem_Loot : DisplayItem {
 		if (selectedDisplayItem != null) {
 			selectedDisplayItem.Deselect ();
 		}
+
         selectedDisplayItem = this;
         selected = true;
 
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
 
 		LootUI.Instance.SelectedItem = HandledItem;
+		LootUI.Instance.selectedItemDisplay.transform.position = transform.position + LootUI.Instance.selectedItemDisplay.decal;
 
 		Tween.Bounce (transform);
 

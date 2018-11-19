@@ -75,6 +75,8 @@ public class LootUI : MonoBehaviour {
 	[SerializeField] private Button[] categoryButtons;
 	private CategoryContent categoryContent;
 	public CategoryContentType categoryContentType;
+	public Transform selectedParent;
+	public Transform initParent;
 
 	[Header("Pages")]
 	[SerializeField] private GameObject previousPageButton;
@@ -325,6 +327,8 @@ public class LootUI : MonoBehaviour {
 
 		for (int buttonIndex = 0; buttonIndex < categoryButtons.Length; ++buttonIndex) {
 
+			categoryButtons [buttonIndex].transform.SetParent (initParent);
+
 			// no items in category
 			if ( handledLoot.AllItems[buttonIndex].Count == 0 ) {
 
@@ -334,6 +338,7 @@ public class LootUI : MonoBehaviour {
                     categoryButtons[buttonIndex].interactable = false;
                     continue;
                 }
+
                 if ( buttonIndex == (int)ItemCategory.Clothes )
                 {
                     if ( CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes) != null) {
@@ -354,12 +359,14 @@ public class LootUI : MonoBehaviour {
                 categoryButtons[buttonIndex].interactable = false;
 
             }
-            else {
+            else
+			{
 				categoryButtons [buttonIndex].interactable = true;
 			}
 		}
 
 		categoryButtons [(int)currentCat].interactable = false;
+		categoryButtons [(int)currentCat].transform.SetParent (selectedParent);
 	}
 	#endregion
 

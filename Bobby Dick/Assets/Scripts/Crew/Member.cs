@@ -135,17 +135,15 @@ public class Member {
 
         foreach (var item in CrewCreator.Instance.apparenceGroups)
         {
-
-            List<ApparenceItem> possibleItems = item.items.FindAll(x => x.locked == false);
-            int randomID = possibleItems[Random.Range(0, possibleItems.Count)].id;
-
-
             if (item.items[0].apparenceType == ApparenceType.genre)
             {
                 characterIDS.Add(Male ? 1 : 0);
             }
             else
             {
+                List<ApparenceItem> possibleItems = item.items.FindAll(x => x.locked == false);
+                int randomID = possibleItems[Random.Range(0, possibleItems.Count)].id;
+
                 characterIDS.Add(randomID);
             }
 

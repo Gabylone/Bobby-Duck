@@ -84,6 +84,7 @@ public class StoryLoader : MonoBehaviour {
 			{
 				newStory.name = rowContent [0];
 
+
 				decimal frequence;
 
 				string value = rowContent [1].Replace (',', '.');
@@ -94,12 +95,18 @@ public class StoryLoader : MonoBehaviour {
 					print ("ne peut pas parse la freq dans : " + newStory.name + " TRY PARSE : " + rowContent[1]);
 				}
 
+
 					// set story frequence
 				newStory.freq = (float)frequence;
 				newStory.rangeMin = minFreq;
 				newStory.rangeMax = minFreq + newStory.freq;
 
+
 				minFreq += newStory.freq;
+
+//				Debug.Log ("current freq : " + minFreq);
+//				Debug.Log ("story : " + newStory.name + " FREQUENCE MAX : " + newStory.rangeMax);
+//				Debug.Log ("story : " + newStory.name + " FREQUENCE MIN : " + newStory.rangeMin);
 
 				bool containsParam = int.TryParse (rowContent [2], out newStory.param);
 				if (containsParam == false ) {
@@ -179,11 +186,15 @@ public class StoryLoader : MonoBehaviour {
 		}
 	}
 	public int getStoryIndexFromPercentage ( StoryType type ) {
-		float random = Random.value * 100f;
+
+		float max = getStories (type) [getStories (type).Count - 1].rangeMax;
+		float random = Random.value * max;
+		//float random = Random.value * 100f;
 
 		int a = 0;
 
 		foreach (Story story in getStories(type)) {
+			
 			if (random < story.rangeMax && random >= story.rangeMin) {
 //				print ("oui random : " + random);
 				return a;
@@ -192,11 +203,14 @@ public class StoryLoader : MonoBehaviour {
 			++a;
 		}
 
+
 		Debug.LogError ("percentage is outside of range : " + random + " story type : (" + type + ")");
-		Debug.LogError ("RANGE MIN : " + getStories(type)[getStories(type).Count-1].rangeMin);
+		Debug.LogError ("RANGE MIN : " + getStories(type)[0].rangeMin);
+//		Debug.LogError ("RANGE MIN : " + getStories(type)[getStories(type).Count-1].rangeMin);
 		Debug.LogError ("RANGE MAX : " + getStories(type)[getStories(type).Count-1].rangeMax);
 
 		return Random.Range (0,getStories(type).Count);
+
 	}
 	#endregion
 

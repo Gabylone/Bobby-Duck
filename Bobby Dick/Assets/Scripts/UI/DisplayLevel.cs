@@ -33,7 +33,8 @@ public class DisplayLevel : MonoBehaviour {
 		CrewMember member = CrewMember.GetSelectedMember;
 
 		// INFO
-		text.text = "niveau " + member.Level.ToString ();
+//		text.text = "niveau " + member.Level.ToString ();
+		text.text = member.Level.ToString ();
 
 		float l = (float)member.CurrentXp / (float)member.xpToLevelUp;
 		float width = -backGround.rectTransform.rect.width + backGround.rectTransform.rect.width * l;

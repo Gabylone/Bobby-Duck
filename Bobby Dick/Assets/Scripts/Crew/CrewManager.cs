@@ -94,6 +94,8 @@ public class CrewManager : MonoBehaviour {
 	#endregion
 
 	#region crew list
+	public delegate void OnChangeCrewMembers ();
+	public OnChangeCrewMembers onChangeCrewMembers;
 	public void AddMember ( CrewMember member ) {
 
 		if (crewMembers.Count == CurrentMemberCapacity)
@@ -101,6 +103,10 @@ public class CrewManager : MonoBehaviour {
 
 		managedCrew.Add (member.MemberID);
 		crewMembers.Add (member);
+
+		if (onChangeCrewMembers != null) {
+			onChangeCrewMembers ();
+		}
 	}
 	public void RemoveMember ( CrewMember member ) {
 
@@ -120,6 +126,9 @@ public class CrewManager : MonoBehaviour {
 		}
 
 
+		if (onChangeCrewMembers != null) {
+			onChangeCrewMembers ();
+		}
 	}
 
 	public List<CrewMember> CrewMembers {

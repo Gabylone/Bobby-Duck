@@ -105,8 +105,8 @@ public class WeightManager : MonoBehaviour {
 		UpdateDisplay ();
 	}
 	public void UpdateDisplay () {
-//		currentWeightText.text = "" + CurrentWeight;
-		weightImage.fillAmount = ((float)CurrentWeight / (float)CurrentCapacity);
+		currentWeightText.text = "" + CurrentWeight;
+//		weightImage.fillAmount = ((float)CurrentWeight / (float)CurrentCapacity);
 	}
 	#endregion
 

@@ -63,8 +63,6 @@ public class BoatUpgradeManager : MonoBehaviour {
 	[SerializeField] private AudioClip upgradeSound;
 
 	void Start () {
-		
-		Trading = false;
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
@@ -82,8 +80,7 @@ public class BoatUpgradeManager : MonoBehaviour {
 	void HandleGetFunction (FunctionType func, string cellParameters)
 	{
 		if ( func == FunctionType.BoatUpgrades ) {
-			Show ();
-			Trading = true;
+            StartTrading();
 		}
 	}
 
@@ -98,7 +95,13 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 		CrewInventory.Instance.HideMenuButtons();
 
-		if (onOpenBoatUpgrade != null)
+        // activate trading ?
+        foreach (var item in goldButtons)
+        {
+            item.gameObject.SetActive(trading);
+        }
+
+        if (onOpenBoatUpgrade != null)
 			onOpenBoatUpgrade ();
 	}
 
@@ -218,30 +221,42 @@ public class BoatUpgradeManager : MonoBehaviour {
 		}*/
 	}
 
-	public bool Trading {
-		get {
-			return trading;
-		}
-		set {
-			trading = value;
+    public void StartTrading()
+    {
+        trading = true;
+        Show();
 
-			foreach (var item in goldButtons) {
-				item.gameObject.SetActive (value);
-			}
-		}
-	}
+        RayBlocker.Instance.Show();
 
-	public void Close () {
+        CrewInventory.Instance.Lock();
+
+    }
+
+    public void StopTrading()
+    {
+        StoryReader.Instance.NextCell();
+        StoryReader.Instance.UpdateStory();
+
+        trading = false;
+
+        RayBlocker.Instance.Hide();
+
+        CrewInventory.Instance.Unlock();
+
+    }
+
+    public void Close () {
 		
 		opened = false;
 
-		if ( Trading == true ) {
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.UpdateStory ();
+		if ( trading == true ) {
 
-			Trading = false;
+            StopTrading();
+
 		} else {
-			Invoke ("CloseDelay",0.01f);
+
+            Invoke("CloseDelay", 0.01f);
+
 		}
 
         Hide();

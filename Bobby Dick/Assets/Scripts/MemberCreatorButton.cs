@@ -66,12 +66,9 @@ public class MemberCreatorButton : MonoBehaviour {
 
     public virtual void Select()
     {
-        if ( lastSelected != null)
+        if ( lastSelected != null && lastSelected.apparenceItem.apparenceType == apparenceItem.apparenceType)
         {
-            if ( lastSelected.apparenceItem.apparenceType == apparenceItem.apparenceType)
-            {
-                lastSelected.Deselect();
-            }
+            lastSelected.Deselect();
         }
 
         Tween.Scale(transform, 0.2f, scaleAmount);
@@ -84,9 +81,13 @@ public class MemberCreatorButton : MonoBehaviour {
     #region image
     public virtual void UpdateImage() {
 
+
 		Member member = Crews.playerCrew.captain.MemberID;
 
         apparenceItem = CrewCreator.Instance.GetApparenceItem(apparenceItem.apparenceType, apparenceItem.id);
+
+        
+
         if (apparenceItem.apparenceType == ApparenceType.hairColor)
         {
             image.enabled = false;
@@ -103,6 +104,11 @@ public class MemberCreatorButton : MonoBehaviour {
                 image.sprite = apparenceItem.GetSprite();
                 image.enabled = true;
             }
+        }
+
+        if (apparenceItem.id == Crews.playerCrew.captain.MemberID.GetCharacterID(apparenceItem.apparenceType))
+        {
+            OnPointerUp();
         }
 
         if (apparenceItem.locked)
