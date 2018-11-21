@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,18 +15,34 @@ public class PlayerIcons : MonoBehaviour {
 
 		Crews.playerCrew.onChangeCrewMembers += HandleOnChangeCrewMembers;
 
-
 		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+		CrewInventory.Instance.onCloseInventory += HandleOnCloseInventory;
 
-
+        HandleOnChangeCrewMembers();
 	}
 
-	void HandleOpenInventory (CrewMember member)
+    private void HandleOnCloseInventory()
+    {
+        foreach (var item in images)
+        {
+            item.color = Color.white;
+        }
+    }
+
+    void HandleOpenInventory (CrewMember member)
 	{
 		foreach (var item in images) {
-
-
+            item.color = Color.grey;
 		}
+
+
+        int id = Crews.playerCrew.CrewMembers.FindIndex(x => x.MemberID == CrewMember.GetSelectedMember.MemberID);
+        if ( id < 0)
+        {
+            Debug.Log("pas select");
+        }
+
+        images[id].color = Color.white;
 	}
 
 	void HandleOnChangeCrewMembers ()

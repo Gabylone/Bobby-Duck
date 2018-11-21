@@ -5,14 +5,10 @@ using UnityEngine.UI;
 
 public class DisplayAttack : MonoBehaviour {
 
-	Image image;
-	Text uiText;
+	public Text uiText;
 
 	// Use this for initialization
 	void Start () {
-
-		image = GetComponent<Image> ();
-		uiText = GetComponentInChildren<Text> ();
 
 		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
 		LootUI.useInventory += HandleUseInventory;
