@@ -17,7 +17,7 @@ Leave;Node=>épave;Node=>choix1;;Leave;Node=>épave;Node=>choix2;Fade;Narrator 
 [épave];;;;;;;;Fade;CheckStatDEX;;;;;
 RandomRange2;;;;;;;;Node=>choix2;Fade;Narrator : En essayant de monter, CAPITAINE tombe en arrière.;;;;
 Narrator : La cale du bateau est obscure. Impossible d’y voir plus loin que ses pieds.;Node=>suite épave;;;;;;;;PlayerSpeak : Fouh... J'y suis.;[mal];;;;
-SetChoices2;;;;;;;;;;;;;;
+SetChoices2;;;;;;;;;Node=>haut mât;;;;;
 Choice : (sortir lampe torche);;Choice : (partir);;;;;;;;RemoveHealth10;Fade;;;
 CheckInInventory<Lanterne>/Misc;;Leave;;;;;;;;;;;;
 PlayerSpeak : On y voit nettement mieux !;PlayerSpeak : Malheureusement, je n’en ai pas !;;;;;;;;;Fade;Switch=>mal;;;

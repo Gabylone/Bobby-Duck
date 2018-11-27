@@ -111,6 +111,12 @@ public class LootUI : MonoBehaviour {
 			Close ();
 	}
 
+	public void DeselectCurrentItem(){
+		if (DisplayItem_Loot.selectedDisplayItem != null) {
+			DisplayItem_Loot.selectedDisplayItem.Deselect ();
+		}
+	}
+
 	private void Init () {
 
 		if ( displayItems.Length == 0 )

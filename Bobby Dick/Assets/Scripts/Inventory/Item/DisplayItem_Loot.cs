@@ -100,7 +100,7 @@ public class DisplayItem_Loot : DisplayItem {
                 image.color = LootManager.Instance.item_InferiorColor;
 			image.color = new Color(a, 1f, a);
         } else {
-                image.color = LootManager.Instance.item_DefaultColor;
+			image.color = LootManager.Instance.item_DefaultColor;
         }
 	}
 
