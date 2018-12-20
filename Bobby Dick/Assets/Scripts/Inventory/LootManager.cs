@@ -45,7 +45,8 @@ public class LootManager : MonoBehaviour {
     public Color item_DefaultColor;
     public Color item_SuperiorColor;
     public Color item_InferiorColor;
-    public Color item_EquipedColor;
+	public Color item_EquipedColor;
+    public Color item_EmptyColor;
 
 	void Awake (){
 		Instance = this;

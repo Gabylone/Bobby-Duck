@@ -5,15 +5,17 @@ using UnityEngine.UI;
 
 public class DisplayItem_Loot : DisplayItem {
 
-	public GameObject group;
+    [Header("UI elements")]
+    public Button button;
+    public Image image;
+
+    public GameObject group;
 
 	public static DisplayItem_Loot selectedDisplayItem = null;
 
 	public Image itemImage;
 
 	public int index = 0;
-
-	public Vector3 decal;
 
 	public bool selected = false;
 
@@ -22,17 +24,12 @@ public class DisplayItem_Loot : DisplayItem {
         selectedDisplayItem = null;
     }
 
-    void Start () {
+    public override void Start()
+    {
+        base.Start();
 
-		itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-30, 30)));
+        itemImage.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, Random.Range (-30, 30)));
 
-		CrewMember.onWrongLevel += HandleOnWrongLevelEvent;
-
-	}
-
-	void HandleOnWrongLevelEvent ()
-	{
-		Tween.Bounce (transform);
 	}
 
 	public void Select () {
@@ -44,7 +41,9 @@ public class DisplayItem_Loot : DisplayItem {
 
         // select
 		if (selectedDisplayItem != null) {
+			Debug.Log ("deselecting current : " + selectedDisplayItem.button.name);
 			selectedDisplayItem.Deselect ();
+
 		}
 
         selectedDisplayItem = this;
@@ -53,7 +52,7 @@ public class DisplayItem_Loot : DisplayItem {
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
 
 		LootUI.Instance.SelectedItem = HandledItem;
-		LootUI.Instance.selectedItemDisplay.transform.position = transform.position + LootUI.Instance.selectedItemDisplay.decal;
+		LootUI.Instance.selectedItemDisplay.transform.position = (Vector2)transform.position + LootUI.Instance.selectedItemDisplay.decalToItem;
 
 		Tween.Bounce (transform);
 
@@ -67,7 +66,7 @@ public class DisplayItem_Loot : DisplayItem {
 
 		selected = false;
 
-		LootUI.Instance.SelectedItem = null;
+		LootUI.Instance.ClearSelectedItem();
 
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Small);
 
@@ -97,14 +96,41 @@ public class DisplayItem_Loot : DisplayItem {
                 image.color = LootManager.Instance.item_SuperiorColor;
 			image.color = new Color(1f, a , a);
         } else if ( HandledItem.level < CrewMember.GetSelectedMember.Level && HandledItem.level > 0 ) {
-                image.color = LootManager.Instance.item_InferiorColor;
+            image.color = LootManager.Instance.item_InferiorColor;
 			image.color = new Color(a, 1f, a);
         } else {
 			image.color = LootManager.Instance.item_DefaultColor;
         }
 	}
 
-	public override Item HandledItem {
+    public void UpdateBackGroundColor(Item handledItem)
+    {
+        if ( handledItem.category == ItemCategory.Clothes || handledItem.category == ItemCategory.Weapon)
+        {
+            CrewMember.EquipmentPart part = handledItem.category == ItemCategory.Weapon ? CrewMember.EquipmentPart.Weapon : CrewMember.EquipmentPart.Clothes;
+
+            if (CrewMember.GetSelectedMember.GetEquipment(part) == null)
+            {
+                return;
+            }
+
+            if (CrewMember.GetSelectedMember.GetEquipment(part) == handledItem)
+            {
+                Color myColor = new Color();
+                ColorUtility.TryParseHtmlString("#BB79BEFF", out myColor);
+                image.color = myColor;
+            }
+            else
+            {
+                Color myColor = new Color();
+                ColorUtility.TryParseHtmlString("#B2884FFF", out myColor);
+                image.color = myColor;
+
+            }
+        }
+    }
+
+    public override Item HandledItem {
 		get {
 			return base.HandledItem;
 		}
@@ -113,7 +139,6 @@ public class DisplayItem_Loot : DisplayItem {
 			base.HandledItem = value;
 
 			if (value == null) {
-//				itemImage.enabled = false;
 				group.SetActive (false);
 				return;
 			}
@@ -122,12 +147,13 @@ public class DisplayItem_Loot : DisplayItem {
 
 			UpdateColor ();
 
-			if (value.spriteID < 0) {
+            itemImage.enabled = true;
+            itemImage.sprite = LootManager.Instance.getItemSprite(value.category, value.spriteID);
+
+            /*if (value.spriteID < 0) {
 				itemImage.enabled = false;
 			} else {
-				itemImage.enabled = true;
-				itemImage.sprite = LootManager.Instance.getItemSprite (value.category, value.spriteID);
-			}
+			}*/
 
 		}
 	}

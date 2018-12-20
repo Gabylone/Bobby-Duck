@@ -30,6 +30,10 @@ public class LootUI : MonoBehaviour {
 	public delegate void OnSetSelectedItem ();
 	public static OnSetSelectedItem onSetSelectedItem;
 
+    public void ClearSelectedItem()
+    {
+        selectedItemDisplay.Hide();
+    }
 	public Item SelectedItem {
 		
 		get {
@@ -69,7 +73,8 @@ public class LootUI : MonoBehaviour {
 	[SerializeField]
 	private GameObject itemButtonGroup;
 	private DisplayItem_Loot[] displayItems = new DisplayItem_Loot[0];
-	public DisplayItem_Loot selectedItemDisplay;
+
+    public DisplayItem_Selected selectedItemDisplay;
 
 	[Header("Categories")]
 	[SerializeField] private Button[] categoryButtons;
@@ -102,13 +107,13 @@ public class LootUI : MonoBehaviour {
 	void Start () {
 		CrewInventory.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
 
-		RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
+		//RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
 	}
 
 	void HandleOnTouchRayBlocker ()
 	{
-		if (visible)
-			Close ();
+		/*if (visible)
+			Close ();*/
 	}
 
 	public void DeselectCurrentItem(){
@@ -137,7 +142,7 @@ public class LootUI : MonoBehaviour {
 	public static OnShowLoot onShowLoot;
 	public void Show (CategoryContentType _catContentType,Crews.Side side) {
 
-		SelectedItem = null;
+        ClearSelectedItem();
 
 		currentSide = side;
 
@@ -295,7 +300,7 @@ public class LootUI : MonoBehaviour {
 
 		currentPage = 0;
 
-		SelectedItem = null;
+        ClearSelectedItem();
 
 		UpdateLootUI ();
 
@@ -310,8 +315,6 @@ public class LootUI : MonoBehaviour {
 
 		UpdateItemButtons ();
 		UpdateCategoryButtons ();
-
-		selectedItemDisplay.HandledItem = selectedItemDisplay.HandledItem;
 
 
 	}
@@ -342,6 +345,7 @@ public class LootUI : MonoBehaviour {
                 if ( currentSide == Crews.Side.Enemy)
                 {
                     categoryButtons[buttonIndex].interactable = false;
+					categoryButtons [buttonIndex].image.color = LootManager.Instance.item_EmptyColor;
                     continue;
                 }
 
@@ -362,7 +366,9 @@ public class LootUI : MonoBehaviour {
                     }
                 }
 
-                categoryButtons[buttonIndex].interactable = false;
+				categoryButtons	[buttonIndex].interactable = false;
+				categoryButtons [buttonIndex].image.color = LootManager.Instance.item_EmptyColor;
+
 
             }
             else
@@ -372,6 +378,7 @@ public class LootUI : MonoBehaviour {
 		}
 
 		categoryButtons [(int)currentCat].interactable = false;
+		categoryButtons [(int)currentCat].image.color = Color.white;
 		categoryButtons [(int)currentCat].transform.SetParent (selectedParent);
 	}
 	#endregion
@@ -397,7 +404,7 @@ public class LootUI : MonoBehaviour {
 		if (DisplayItem_Loot.selectedDisplayItem != null)
 			DisplayItem_Loot.selectedDisplayItem.Deselect ();
 
-		SelectedItem = null;
+        ClearSelectedItem();
 
 	}
 	public void UpdateActionButton (Item item) {

@@ -215,9 +215,9 @@ public class CrewMember {
 
         if ( side == Crews.Side.Player) {
             //
-            Debug.Log("init dam taken : " + damageTaken);
+            //Debug.Log("init dam taken : " + damageTaken);
             damageTaken = Crews.Instance.reducedDamage * damageTaken / 100;
-            Debug.Log("lowered dam taken : " + damageTaken);
+            //Debug.Log("lowered dam taken : " + damageTaken);
         }
 
 		int roundedDamage = Mathf.RoundToInt(damageTaken);

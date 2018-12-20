@@ -41,9 +41,9 @@ Choice : (partir);Choice : (fouiller)(loot);;;;
 DestroyShip;Fade;;;;
 Leave;RandomPercent20;;;;
 ;PlayerSpeak : Rien de bien beau…;[fouille];;;
-;Leave;RandomRange3;;;PlayerSpeak : Il n'y a plus rien.
-;;PlayerSpeak : Des armes ! ;PlayerSpeak : De quoi manger.;PlayerSpeak : Des babioles;Leave
-;;LootWeapons;LootFood;LootMisc;
+;Fade;RandomRange3;;;PlayerSpeak : Il n'y a plus rien.
+;Node=>bateau vide;PlayerSpeak : Des armes ! ;PlayerSpeak : De quoi manger.;PlayerSpeak : Des babioles;Fade
+;;LootWeapons;LootFood;LootMisc;Node=>bateau vide
 ;;Switch=>fouille;Switch=>fouille;Switch=>fouille;
 ;;Fade;Fade;Fade;
 ;;Node=>bateau vide;Node=>bateau vide;Node=>bateau vide;

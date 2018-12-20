@@ -425,7 +425,7 @@ public class DisplayMinimap : MonoBehaviour {
 
 		enemyBoatIcons [boatIndexInRange].gameObject.SetActive (true);
 		enemyBoatIcons [boatIndexInRange].anchoredPosition = getPosFromCoords (boatInfo.coords);
-        enemyBoatIcons[boatIndexInRange].GetComponentInChildren<Image>().color = boatInfo.color;
+        enemyBoatIcons [boatIndexInRange].GetComponentInChildren<Image>().color = boatInfo.color;
 
 	}
 	void CreateEnemyIcon() {

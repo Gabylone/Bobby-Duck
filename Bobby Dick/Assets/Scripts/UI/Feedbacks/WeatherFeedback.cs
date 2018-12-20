@@ -36,7 +36,8 @@ public class WeatherFeedback : InfoFeedbacks {
 
 	void HandleOnWrongLevel ()
 	{
-		Print ("niveau insuffisant");
+//		Print ("niveau insuffisant");
+		Print ("X");
 	}
 
 	void HandleOnFinishQuest (Quest quest)

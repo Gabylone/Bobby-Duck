@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class WorldTouch : MonoBehaviour
@@ -18,6 +19,8 @@ public class WorldTouch : MonoBehaviour
 
     float timer = 0f;
     float timeToTouch = 0.25f;
+
+	public Image testimage;
 
     public bool isEnabled = false;
 
@@ -69,6 +72,8 @@ public class WorldTouch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+		//testimage.color = isEnabled ? Color.green : Color.red;
 
         if (isEnabled == false)
         {

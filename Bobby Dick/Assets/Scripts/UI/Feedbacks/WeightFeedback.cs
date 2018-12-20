@@ -22,6 +22,6 @@ public class WeightFeedback : InfoFeedbacks {
 
 	void HandleOnTooMuchWeight ()
 	{
-		Print ("Pas assez de place", Color.red);
+		Print ("X", Color.red);
 	}
 }

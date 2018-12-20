@@ -9,8 +9,8 @@ RandomRange4;;;;;Node=>choix;Node=>choix;;LaunchCombat;;Choice : (partir);Choic
 Node=>vetement;Node=>armes;Node=>nourriture;Node=>babiole;;;;;Node=>bateau vide;;DestroyShip;Fade;;;;
 ;;;;;;;;;;Leave;RandomPercent20;;;;
 ;;;;;;;;;;;PlayerSpeak : Rien de bien beau…;[fouille];;;
-;;;;;;;;;;;Leave;RandomRange3;;;PlayerSpeak : Il n'y a plus rien.
-[vetement];;;;[autre];;;;;;;;PlayerSpeak : Des armes ! ;PlayerSpeak : De quoi manger.;PlayerSpeak : Des babioles;Leave
+;;;;;;;;;;;Node=>bateau vide;RandomRange3;;;PlayerSpeak : Il n'y a plus rien.
+[vetement];;;;[autre];;;;;;;;PlayerSpeak : Des armes ! ;PlayerSpeak : De quoi manger.;PlayerSpeak : Des babioles;Node=>bateau vide
 SetChoices3;;;;SetChoices4;;;;;;;;LootWeapons;LootFood;LootMisc;
 Choice : Qu'est-ce que vous vendez ?;Choice : Montrez moi votre marchandise(trade);Choice : (autre);;Choice : (partir);Choice : (attaquer);Choice : (autre);Choice : Le trésor de Bobby Dick ?;;;;;Switch=>fouille;Switch=>fouille;Switch=>fouille;
 OtherSpeak : Des vêtements, protections en tout genre.;TradeClothes;Node=>autre;;OtherSpeak : Au revoir !;Node=>combat;Node=>choix;Node=>bobby;;;;;Fade;Fade;Fade;

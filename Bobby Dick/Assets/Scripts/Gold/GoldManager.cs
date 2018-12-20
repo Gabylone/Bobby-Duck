@@ -108,7 +108,7 @@ public class GoldManager : MonoBehaviour {
 	private void HideFeedback () {
 		feedbackActive = false;
 
-		goldImage.color = Color.white;
+		goldImage.color = Color.black;
 		goldText.color = Color.white;
 
 //		Hide ();
@@ -144,8 +144,6 @@ public class GoldManager : MonoBehaviour {
 
 		Tween.Bounce (goldGroup.transform);
 
-
-
 		if ( amount > goldAmount ) {
 
 			if (onCheckGold != null)
@@ -162,7 +160,7 @@ public class GoldManager : MonoBehaviour {
 		SoundManager.Instance.PlaySound (buySound);
 
 		goldImage.color = Color.white;
-		goldText.color = Color.white;
+		goldText.color = Color.black;
 
 		return true;
 	}
@@ -176,7 +174,6 @@ public class GoldManager : MonoBehaviour {
 		int amount = 0;
 
 		if ( StoryFunctions.Instance.CellParams == "THIRD" ) {
-			Debug.Log ("le tiers de l'or");
 			amount = (int)((float)goldAmount / 3f);
 		} else {
 			amount = int.Parse (StoryFunctions.Instance.CellParams);

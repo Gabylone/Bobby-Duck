@@ -24,7 +24,8 @@ public class GoldFeedback : InfoFeedbacks {
 	void HandleOnCheckGold (bool enoughtGold)
 	{
 		if (enoughtGold == false) {
-			Print ("Pas assez d'or", Color.red);
+//			Print ("Pas assez d'or", Color.red);
+			Print ("X", Color.red);
 		}
 
 	}

@@ -53,6 +53,8 @@ public class EnemyBoat : Boat {
 			
 			Visible = false;
 
+			Debug.Log ("destroying ship : boat objet");
+
 
 		}
 	}

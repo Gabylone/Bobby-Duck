@@ -5,7 +5,7 @@ using UnityEngine;
 public class DisplayStoryItem : MonoBehaviour {
 
 	[SerializeField]
-	DisplayItem_Loot displayItem_Loot;
+	DisplayItem_Selected displayItem;
 
 	[SerializeField]
 	private GameObject group;
@@ -28,8 +28,8 @@ public class DisplayStoryItem : MonoBehaviour {
 	{
 		group.SetActive (true);
 
-		displayItem_Loot.HandledItem = item;
+		displayItem.HandledItem = item;
 
-		Tween.Bounce (displayItem_Loot.transform);
+		Tween.Bounce (displayItem.transform);
 	}
 }
