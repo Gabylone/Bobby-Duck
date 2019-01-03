@@ -31,7 +31,7 @@ Node=>ajouté à l'équipage;RandomRange2;;RandomRange3;;;;;;OtherSpeak :  J'ai
 ;;;RemoveFromInventory/Food;OtherSpeak : Mais… Vous n'avez rien…;;;;;AddMember;OtherSpeak : D'ailleurs en attendant quelqu'un;
 ;;;OtherSpeak : Merci…;RemoveKarma;;;;;Node=>naufragé;OtherSpeak : J'ai fabriqué ce magnifique collier de nouilles.;
 [ajouté à l'équipage];;;AddKarma;HideOther;;;;;;AddToInventory<Collier de nouilles>/Misc;
-OtherSpeak : Merci m'sieur !;;;Swich=>switch manger;Node=>debut;;;;;;SetChoices2;
+OtherSpeak : Merci m'sieur !;;;Switch=>switch manger;Node=>debut;;;;;;SetChoices2;
 AddMember;;;HideOther;;;;;;;Choice : Merci (nouveau membre);Choice : J'ai changé d'avis.
 Node=>plage déserte;;;Node=>debut;;;;;;;AddMember;OtherSpeak : Ah...
 ;;;;;;;;;;Node=>naufragé;Node=>naufragé

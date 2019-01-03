@@ -69,9 +69,8 @@ public class MemberIcon : MonoBehaviour {
             case InventoryActionType.PurchaseAndEquip:
             case InventoryActionType.Unequip:
                 if ( LootUI.Instance.SelectedItem.category == ItemCategory.Weapon)
-                //if (CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon) != null && LootUI.Instance.SelectedItem.category == ItemCategory.Weapon)
                 {
-                    iconVisual.UpdateWeaponSprite(CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon));
+                    iconVisual.UpdateWeaponSprite(CrewMember.GetSelectedMember.MemberID);
                 }
                 break;
             default:

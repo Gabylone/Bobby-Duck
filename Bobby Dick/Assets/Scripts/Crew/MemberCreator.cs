@@ -155,12 +155,13 @@ public class MemberCreator : MonoBehaviour {
         Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Map);
         CrewInventory.Instance.canOpen = true;
 
+        Hide();
+
         Invoke("EndMemberCreationDelay",tweenDuration);
 
 	}
 	void EndMemberCreationDelay () {
 
-		Hide ();
 
 		SaveManager.Instance.SaveGameData ();
 		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);

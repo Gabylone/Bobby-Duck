@@ -108,8 +108,8 @@ public class GoldManager : MonoBehaviour {
 	private void HideFeedback () {
 		feedbackActive = false;
 
-		goldImage.color = Color.black;
-		goldText.color = Color.white;
+		goldImage.color = Color.white;
+		goldText.color = Color.black;
 
 //		Hide ();
 	}

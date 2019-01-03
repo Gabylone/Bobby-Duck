@@ -23,6 +23,16 @@ public class SaveManager : MonoBehaviour
 
 	void Start () {
 		
+        if ( Directory.Exists(SaveTool.Instance.GetSaveFolderPath("PlayerInfo")))
+        {
+            Debug.Log("save file exists");
+
+        }
+        else
+        {
+            Debug.Log("save file does not exist");
+        }
+
         if ( SaveTool.Instance.FileExists ("PlayerInfo" , "player info"))
         {
             PlayerInfo.Instance = SaveTool.Instance.LoadFromSpecificPath("PlayerInfo", "player info.xml", "PlayerInfo") as PlayerInfo;
@@ -297,6 +307,8 @@ public class PlayerInfo
     public void AddApparenceItem(ApparenceItem apparenceItem)
     {
         apparenceItems.Add(apparenceItem);
+
+        CrewCreator.Instance.GetApparenceItem(apparenceItem.apparenceType, apparenceItem.id).locked = false;
     }
 
     public void Save()

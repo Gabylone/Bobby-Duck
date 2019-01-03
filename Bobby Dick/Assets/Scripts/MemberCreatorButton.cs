@@ -86,8 +86,6 @@ public class MemberCreatorButton : MonoBehaviour {
 
         apparenceItem = CrewCreator.Instance.GetApparenceItem(apparenceItem.apparenceType, apparenceItem.id);
 
-        
-
         if (apparenceItem.apparenceType == ApparenceType.hairColor)
         {
             image.enabled = false;
@@ -113,14 +111,22 @@ public class MemberCreatorButton : MonoBehaviour {
 
         if (apparenceItem.locked)
         {
-            lockGroup.SetActive(true);
-
-            pearlPriceUIText.text = "" + apparenceItem.price;
+            ShowLockGroup();
         }
         else
         {
-            lockGroup.SetActive(false);
+            HideLockGroup();
         }
+    }
+    public void ShowLockGroup()
+    {
+        lockGroup.SetActive(true);
+
+        pearlPriceUIText.text = "" + apparenceItem.price;
+    }
+    public void HideLockGroup()
+    {
+        lockGroup.SetActive(false);
     }
     #endregion
 

@@ -43,10 +43,10 @@ public class DisplayMinimap : MonoBehaviour {
 	public RectTransform zoomParent;
     public float initPosY = 0f;
     public float initPosX = 0f;
-	public float initTopOffset = 0f;
-	public float initBottomOffset = 0f;
-	public float initLeftOffset = 0f;
-	public float initRightOffset = 0f;
+	public float initScaleY = 0f;
+	public float initScaleX = 0f;
+
+    public GameObject zoomBackground;
 
 	public Image outlineImage;
 
@@ -86,13 +86,8 @@ public class DisplayMinimap : MonoBehaviour {
         CrewInventory.Instance.onOpenInventory += HandleOnOpenInventory;
         CrewInventory.Instance.onCloseInventory += HandleOnCloseInventory;
 
-		Vector2 scaleMin = new Vector2(initLeftOffset, initBottomOffset);
-		Vector2 scaleMax = new Vector2(-initRightOffset, -initTopOffset);
-
-		initLeftOffset = rectTransform.offsetMin.x;
-		initBottomOffset = rectTransform.offsetMin.y;
-		initRightOffset = -rectTransform.offsetMax.x;
-		initTopOffset = -rectTransform.offsetMax.y;
+		initScaleX = rectTransform.sizeDelta.x;
+        initScaleY = rectTransform.sizeDelta.y;
 
 		Show ();
 		HideCloseButton ();
@@ -459,10 +454,11 @@ public class DisplayMinimap : MonoBehaviour {
 		Invoke ("ZoomDelay",zoomDuration/2f);
 	}
 	void ZoomDelay () {
+
 		Vector2 scale = new Vector2(0f,0f);
 
-//		HOTween.To (rectTransform , zoomDuration , "offsetMin", scale);
-//		HOTween.To (rectTransform , zoomDuration , "offsetMax", scale);
+        rectTransform.anchorMin = new Vector2 ( 0,0 );
+        rectTransform.anchorMax = new Vector2 ( 1,1 );
 
 		rectTransform.offsetMin = scale;
 		rectTransform.offsetMax = scale;
@@ -470,7 +466,10 @@ public class DisplayMinimap : MonoBehaviour {
 //		HOTween.To (outlineImage, zoomDuration /2f , "color" , Color.clear );
 		outlineImage.gameObject.SetActive(false);
 
-		rayBlockerImage.gameObject.SetActive(true);
+        zoomBackground.SetActive(true);
+
+
+        rayBlockerImage.gameObject.SetActive(true);
 		rayBlockerImage.color = Color.black;
 
 		viewPortMask.enabled = false;
@@ -496,31 +495,29 @@ public class DisplayMinimap : MonoBehaviour {
 
 		Transitions.Instance.ScreenTransition.FadeIn (zoomDuration/2f);
 
-
 		unzooming = true;
+
 
 		Invoke ("HideCloseButton",0.2f);
 		Invoke ("UnZoomDelay", zoomDuration/2f);
 	}
 	void UnZoomDelay () {
 
-//		HOTween.To (rayBlockerImage, zoomDuration, "color", Color.clear);
 		rayBlockerImage.gameObject.SetActive(false);
 
-		Vector2 scaleMin = new Vector2(initLeftOffset, initBottomOffset);
-		Vector2 scaleMax = new Vector2(-initRightOffset, -initTopOffset);
+        rectTransform.anchorMin = new Vector2( 0, 0);
+        rectTransform.anchorMax = new Vector2( 0, 0);
 
-//		HOTween.To (rectTransform , zoomDuration , "offsetMin" , scaleMin, false , EaseType.Linear, zoomDuration);
-//		HOTween.To (rectTransform , zoomDuration , "offsetMax" , scaleMax, false , EaseType.Linear, zoomDuration);
-		rectTransform.offsetMin = scaleMin;
-		rectTransform.offsetMax = scaleMax;
+        rectTransform.sizeDelta = new Vector2( initScaleX , initScaleY );
 
-		viewPortMask.enabled = true;
+        rectTransform.anchoredPosition = Vector2.zero;
+
+        zoomBackground.SetActive(false);
+
+        viewPortMask.enabled = true;
 
 		ClampScrollView ();
 
-
-//		HOTween.To (outlineImage, zoomDuration /2f , "color" , Color.clear , false , EaseType.Linear , zoomDuration /2f);
 		outlineImage.gameObject.SetActive(true);
 		Transitions.Instance.ScreenTransition.FadeOut (zoomDuration/2f);
 	}

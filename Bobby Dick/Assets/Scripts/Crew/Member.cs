@@ -42,15 +42,10 @@ public class Member {
 		
 		this.job = _job;
 
-//		defaultSkills.Clear ();
 		specialSkillsIndexes.Clear();
-//		specialSkills.Clear ();
 
 		// special
 		List<Skill> jobSkills = SkillManager.getJobSkills (job);
-//		for (int skillIndex = 0; skillIndex < jobSkills.Count; skillIndex++) {
-//			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [skillIndex]));
-//		}
 
 		if (Lvl >= 0) {
 			specialSkillsIndexes.Add (SkillManager.getSkillIndex (jobSkills [0]));
@@ -84,6 +79,8 @@ public class Member {
 			equipedWeapon = anyWeapon;
 			//
 		}
+
+        Debug.Log("setting job : " + job);
 	}
 
 	public Member (CrewParams crewParams) {
@@ -119,9 +116,11 @@ public class Member {
 
 		Lvl = Mathf.Clamp ( Lvl , 1 , 10 );
 
-		// JOB & SKILLS
-		SetJob( (Job)Random.Range (0, 5) );
-//		SetJob(Job.Flibuster );
+        // JOB & SKILLS
+        List<int> possibleIDs = new List<int>();
+        List<ApparenceItem> appItems = CrewCreator.Instance.apparenceGroups[(int)ApparenceType.job].items.FindAll( x => !x.locked );
+
+        SetJob((Job)appItems[Random.Range(0, appItems.Count)].id);
 
 		// STATS
 		int statAmount = Lvl - 1;

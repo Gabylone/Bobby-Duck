@@ -70,9 +70,8 @@ public class LootUI : MonoBehaviour {
 	public bool visible = false;
 
 	[Header("Item Buttons")]
-	[SerializeField]
-	private GameObject itemButtonGroup;
-	private DisplayItem_Loot[] displayItems = new DisplayItem_Loot[0];
+	public DisplayItem_Loot[] displayItems = new DisplayItem_Loot[0];
+    public DisplayItem_Loot displayEquipedItem;
 
     public DisplayItem_Selected selectedItemDisplay;
 
@@ -107,13 +106,13 @@ public class LootUI : MonoBehaviour {
 	void Start () {
 		CrewInventory.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
 
-		//RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
+		RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
 	}
 
 	void HandleOnTouchRayBlocker ()
 	{
-		/*if (visible)
-			Close ();*/
+		if (visible && !OnOtherLoot())
+			Close ();
 	}
 
 	public void DeselectCurrentItem(){
@@ -123,9 +122,6 @@ public class LootUI : MonoBehaviour {
 	}
 
 	private void Init () {
-
-		if ( displayItems.Length == 0 )
-			displayItems = itemButtonGroup.GetComponentsInChildren<DisplayItem_Loot>();
 
 		int a = 0;
 		foreach ( DisplayItem_Loot itemButton in displayItems ) {
@@ -157,7 +153,10 @@ public class LootUI : MonoBehaviour {
 		visible = true;
 		lootObj.SetActive (true);
 
-		UpdateLootUI ();
+        closeButton.SetActive(OnOtherLoot());
+
+
+        UpdateLootUI ();
 
 		//Tween.Bounce ( lootObj.transform , 0.2f , 1.05f);
 
@@ -200,11 +199,15 @@ public class LootUI : MonoBehaviour {
 	void Hide () {
 		lootObj.SetActive (false);
 	}
+    bool OnOtherLoot ()
+    {
+        return OtherInventory.Instance.type == OtherInventory.Type.Loot || OtherInventory.Instance.type == OtherInventory.Type.Trade;
+    }
 	public void Close () {
 		
 		visible = false;
 
-		if (OtherInventory.Instance.type == OtherInventory.Type.Loot || OtherInventory.Instance.type == OtherInventory.Type.Trade) {
+		if (OnOtherLoot()) {
 
 			StoryReader.Instance.NextCell ();
 			StoryReader.Instance.UpdateStory ();
@@ -237,37 +240,49 @@ public class LootUI : MonoBehaviour {
 
         int displayItemIndex = 0;
 
+
+        displayEquipedItem.gameObject.SetActive(false);
+
         if ( (currentCat == ItemCategory.Clothes || currentCat == ItemCategory.Weapon) && currentPage == 0 && currentSide == Crews.Side.Player)
         {
+            // get equiped item 
             Item equipedItem = CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon);
             if ( currentCat == ItemCategory.Clothes)
                 equipedItem = CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes);
 
+            // check  if there's a thing
             if ( equipedItem != null)
             {
-                displayItems[displayItemIndex].HandledItem = equipedItem;
+                displayEquipedItem.gameObject.SetActive(true);
+                displayEquipedItem.HandledItem = equipedItem;
 
-                ++displayItemIndex;
+                // displayItems[displayItemIndex].HandledItem = equipedItem;
+                // ++displayItemIndex;
+
             }
 
         }
 
 		int a = currentPage * ItemPerPage;
 
-		for (int i = displayItemIndex; i < ItemPerPage; ++i ) {
+		for (int i = 0; i < ItemPerPage; ++i ) {
 
 			DisplayItem_Loot displayItem = displayItems [i];
 
-			displayItem.gameObject.SetActive ( a < handledLoot.AllItems [(int)currentCat].Count );
-
 			if ( a < handledLoot.AllItems [(int)currentCat].Count ) {
 
-				Item item = handledLoot.AllItems[(int)currentCat][a];
+                Item item = handledLoot.AllItems[(int)currentCat][a];
 				displayItem.HandledItem = item;
 
-			}
+                displayItem.gameObject.SetActive(true);
 
-			a++;
+            }
+            else
+            {
+                displayItem.gameObject.SetActive(false);
+            }
+
+            a++;
 		}
 
 	}
@@ -374,8 +389,9 @@ public class LootUI : MonoBehaviour {
             else
 			{
 				categoryButtons [buttonIndex].interactable = true;
-			}
-		}
+		        categoryButtons [buttonIndex].image.color = Color.white;
+            }
+        }
 
 		categoryButtons [(int)currentCat].interactable = false;
 		categoryButtons [(int)currentCat].image.color = Color.white;

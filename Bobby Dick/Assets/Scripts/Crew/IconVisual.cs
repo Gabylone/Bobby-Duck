@@ -38,23 +38,20 @@ public class IconVisual : MonoBehaviour
         
         //BodyImage.sprite = CrewCreator.Instance.BodySprites[memberID.Male ? 0:1];
 
-        //		Debug.Log (memberID.equipedWeapon.name);
-        if (memberID.equipedWeapon != null)
-            UpdateWeaponSprite(memberID.equipedWeapon);
+        UpdateWeaponSprite(memberID);
 
     }
 
-
-
-    public void UpdateWeaponSprite(Item item)
+    public void UpdateWeaponSprite(Member member)
     {
-        weaponImage.enabled = true;
-        if (item == null)
+        if (member.equipedWeapon == null)
         {
             weaponImage.sprite = CrewCreator.Instance.handSprite;
-            return;
         }
-        weaponImage.sprite = CrewCreator.Instance.weaponSprites[item.spriteID];
+        else
+        {
+            weaponImage.sprite = CrewCreator.Instance.weaponSprites[member.equipedWeapon.spriteID];
+        }
     }
 
     [Header("BobyParts")]

@@ -245,10 +245,10 @@ public class CrewMember {
 		if (onCrewMemberKilled != null)
 			onCrewMemberKilled (this);
 
-		if (this == selectedMember)
-			Debug.Log ("le membre mourrant est bel et bien le séléctionné");
+        //if (this == selectedMember)
+        //Debug.Log ("le membre mourrant est bel et bien le séléctionné");
 
-		SetSelectedMember (null);
+        SetSelectedMember(null);
 
 		Crews.getCrew(side).RemoveMember (this);
 

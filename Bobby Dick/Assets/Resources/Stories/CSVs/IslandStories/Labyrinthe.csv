@@ -65,7 +65,7 @@ Node=>lieu 5;Node=>fin;Node=>lieu 5;;;;;;
 Narrator : Au beau milieu du marécage, une petite grotte apparaît devant CAPITAINE.;;;;;;;;
 SetChoices2;;;;;;;;
 Choice : (entrer);Choice : (continuer sa route);;;;;;;
-Fade;Node=>bateau;;;;;;;
+Fade;Leave;;;;;;;
 PlayerSpeak : Quel immense butin !;;;;;;;;
 Loot;;;;;;;;
 PlayerSpeak : A moi la mer !;;;;;;;;

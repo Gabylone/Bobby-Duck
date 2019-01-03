@@ -67,18 +67,21 @@ public class DisplayPurchase : MonoBehaviour {
     {
         apparenceItem.locked = false;
 
-        if ( targetTransform.GetComponent<MemberCreatorButton>() != null)
+        PlayerInfo.Instance.RemovePearl(apparenceItem.price);
+
+        PlayerInfo.Instance.AddApparenceItem(apparenceItem);
+
+        CrewCreator.Instance.UpdateApparenceItems();
+
+        if (MemberCreatorButton.lastSelected != null)
         {
-            targetTransform.GetComponent<MemberCreatorButton>().UpdateImage();
+            MemberCreatorButton.lastSelected.UpdateImage();
+
         }
         else
         {
             targetTransform.GetComponent<Map>().UpdateUI();
         }
-
-        PlayerInfo.Instance.RemovePearl(apparenceItem.price);
-
-        PlayerInfo.Instance.AddApparenceItem(apparenceItem);
 
         Close();
 
@@ -87,7 +90,6 @@ public class DisplayPurchase : MonoBehaviour {
 
     public void Close()
     {
-        //targetTransform.SetParent(initParent);
         Destroy(targetTransform.gameObject);
 
         Hide();

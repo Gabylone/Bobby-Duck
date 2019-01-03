@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerIcons : MonoBehaviour {
 
-	Image[] images;
+	private Image[] images;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +16,10 @@ public class PlayerIcons : MonoBehaviour {
 		Crews.playerCrew.onChangeCrewMembers += HandleOnChangeCrewMembers;
 
 		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
-		CrewInventory.Instance.onCloseInventory += HandleOnCloseInventory;
+        CrewInventory.Instance.onCloseInventory += HandleOnCloseInventory;
+
+        CombatManager.Instance.onFightStart += Hide;
+        CombatManager.Instance.onFightEnd += Show;
 
         HandleOnChangeCrewMembers();
 	}
@@ -61,4 +64,19 @@ public class PlayerIcons : MonoBehaviour {
 
 		}
 	}
+
+    void Show ()
+    {
+        foreach (var item in images)
+        {
+            item.gameObject.SetActive(true);
+        }
+    }
+
+    void Hide () {
+        foreach (var item in images)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
 }

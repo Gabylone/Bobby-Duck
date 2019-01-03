@@ -143,7 +143,7 @@ public class Island : MonoBehaviour {
 		if (StoryLauncher.Instance.PlayingStory)
 			return;
 
-        if (!WorldTouch.Instance.isEnabled)
+        if (!WorldTouch.Instance.IsEnabled())
             return;
 
 		Tween.Bounce (transform );

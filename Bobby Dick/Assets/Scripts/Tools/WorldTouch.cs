@@ -73,13 +73,12 @@ public class WorldTouch : MonoBehaviour
     void Update()
     {
 
-		//testimage.color = isEnabled ? Color.green : Color.red;
-
         if (isEnabled == false)
         {
             if (!IsPointerOverUIObject() && !invoking)
             {
                 invoking = true;
+                CancelInvoke("Enable");
                 Invoke("Enable", 0.01f);
             }
         }
@@ -91,20 +90,17 @@ public class WorldTouch : MonoBehaviour
             }
         }
 
-        /*if (touching)
-        {
-            if ( Swipe.Instance.timer > Swipe.Instance.minimumTime)
-            {
-                
-            }
-        }*/
+    }
 
+    public bool IsEnabled ()
+    {
+        return isEnabled && IsPointerOverUIObject() == false;
     }
 
     //public void OnPointerDown () {
     public void OnMouseDown()
     {
-        if (!isEnabled)
+        if (!IsEnabled())
         {
             return;
         }
@@ -123,13 +119,15 @@ public class WorldTouch : MonoBehaviour
     //public void OnPointerUp () {
     private void OnMouseUp()
     {
-        if (!touching)
-            return;
-
-        if (!isEnabled)
+        if (!IsEnabled())
         {
             return;
         }
+
+        if (!touching)
+            return;
+
+        
 
         touching = false;
 

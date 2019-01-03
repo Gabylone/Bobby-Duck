@@ -34,7 +34,6 @@ public class MemberCreationButton_Apparence : MemberCreatorButton {
     {
         base.Select();
 
-
         if (apparenceItem.locked)
             return;
 

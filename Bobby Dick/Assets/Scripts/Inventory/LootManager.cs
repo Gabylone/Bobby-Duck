@@ -48,6 +48,8 @@ public class LootManager : MonoBehaviour {
 	public Color item_EquipedColor;
     public Color item_EmptyColor;
 
+    public bool debugItems = false;
+
 	void Awake (){
 		Instance = this;
 
@@ -76,10 +78,19 @@ public class LootManager : MonoBehaviour {
 
 	public void CreateNewLoot () {
 		Loot playerLoot = new Loot (0, 0);
-		playerLoot.Randomize (new ItemCategory[1] {ItemCategory.Provisions},1);
-		//playerLoot.Randomize (ItemLoader.allCategories,20);
 
-		setLoot (Crews.Side.Player, playerLoot);
+        if ( debugItems)
+        {
+            playerLoot.Randomize (ItemLoader.allCategories,3);
+            Debug.LogError("debugging items");
+        }
+        else
+        {
+            playerLoot.Randomize(new ItemCategory[1] { ItemCategory.Provisions }, 1);
+
+        }
+
+        setLoot (Crews.Side.Player, playerLoot);
 	}
 
 	public Loot PlayerLoot {

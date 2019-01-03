@@ -53,6 +53,11 @@ public class CrewCreator : MonoBehaviour
 
     private void Start()
     {
+        UpdateApparenceItems();
+    }
+
+    public void UpdateApparenceItems()
+    {
         foreach (var item in apparenceGroups)
         {
             int i = 0;

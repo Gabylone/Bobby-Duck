@@ -106,7 +106,6 @@ public class CombatManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
         if (updateState != null)
         {
             updateState();
@@ -116,6 +115,11 @@ public class CombatManager : MonoBehaviour {
         if (debugDeath)
         {
             debugKill = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            PlayerInfo.Instance.AddPearl( 100 );
         }
     }
 
@@ -174,15 +178,15 @@ public class CombatManager : MonoBehaviour {
 
 		if ( currentFighter.killed ) {
 			//
-			print ("combattant mort");
+			//print ("combattant mort");
 			NextTurn ();
 			return;
 		}
 
 		if ( currentFighter.escaped ) {
-			//
-			print ("combattant enfuit");
-			NextTurn ();
+            //
+            //print ("combattant enfuit");
+            NextTurn();
 			return;
 		}
 
@@ -290,9 +294,9 @@ public class CombatManager : MonoBehaviour {
 
 			if (provoking) {
 
-				print ("y'a eu provocation apparemment, donc y'en a qui sont pas pickable ?");
+                //print ("y'a eu provocation apparemment, donc y'en a qui sont pas pickable ?");
 
-				foreach (Fighter fighter in getCurrentFighters (side)) {
+                foreach (Fighter fighter in getCurrentFighters (side)) {
 					if (fighter.HasStatus (Fighter.Status.Provoking)) {
 						fighter.Pickable = true;
 					}

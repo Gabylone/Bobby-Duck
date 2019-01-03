@@ -133,6 +133,7 @@ public class StoryReader : MonoBehaviour {
 
 		if ( node == null ) {
 			Debug.LogError ("couldn't find node " + text + " // story : " + story.name);
+            
 			return null;
 		}
 		return node;

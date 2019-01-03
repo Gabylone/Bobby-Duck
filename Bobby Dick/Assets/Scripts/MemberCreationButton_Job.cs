@@ -21,5 +21,13 @@ public class MemberCreationButton_Job : MemberCreatorButton {
         text.text = SkillManager.jobNames[apparenceItem.id];
     }
 
+    public override void OnPointerUp()
+    {
+        base.OnPointerUp();
+
+        Crews.playerCrew.captain.MemberID.SetJob((Job)apparenceItem.id);
+
+        Crews.playerCrew.captain.memberIcon.InitVisual(Crews.playerCrew.captain.MemberID);
+    }
 
 }
