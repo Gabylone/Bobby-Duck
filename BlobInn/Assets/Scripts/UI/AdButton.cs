@@ -58,6 +58,7 @@ public class AdButton : MonoBehaviour {
                 break;
             case ShowResult.Skipped:
                 Debug.Log("skipped");
+				RewardPlayer();
                 break;
             case ShowResult.Finished:
                 Debug.Log("ad watched");

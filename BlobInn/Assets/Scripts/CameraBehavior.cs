@@ -17,10 +17,12 @@ public class CameraBehavior : MonoBehaviour {
 
     public float decalToPlayer = 2f;
 
+    Transform _transform;
+
     // Use this for initialization
     private void Start()
     {
-
+        _transform = GetComponent<Transform>();
     }
 
     public float currentScale = 0;
@@ -37,9 +39,9 @@ public class CameraBehavior : MonoBehaviour {
 
     void UpdateCamPosition()
     {
-        float y = Mathf.Clamp(Player.Instance.transform.position.y, Tile.minY+decalMinY, Tile.maxY + decalMaxY);
+        float y = Mathf.Clamp(Player.Instance._transform.position.y, Tile.minY+decalMinY, Tile.maxY + decalMaxY);
 
-        transform.position = Vector3.up * (y + decalToPlayer);
+        _transform.position = Vector3.up * (y + decalToPlayer);
     }
 
     void LerpCameraPosition()
@@ -53,10 +55,10 @@ public class CameraBehavior : MonoBehaviour {
 
         }*/
 
-        float y = Mathf.Clamp(Player.Instance.transform.position.y, Tile.minY + decalMinY, Tile.maxY + decalMaxY);
+        float y = Mathf.Clamp(Player.Instance._transform.position.y, Tile.minY + decalMinY, Tile.maxY + decalMaxY);
 
-        Vector3 tPos = Vector3.up * (y+decalToPlayer); 
-        transform.position = Vector3.MoveTowards(transform.position, tPos, speed * Time.deltaTime);
+        Vector3 tPos = Vector3.up * (y+decalToPlayer);
+        _transform.position = Vector3.MoveTowards(_transform.position, tPos, speed * Time.deltaTime);
 
 
     }

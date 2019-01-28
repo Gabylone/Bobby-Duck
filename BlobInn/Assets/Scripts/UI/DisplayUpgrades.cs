@@ -45,6 +45,12 @@ public class DisplayUpgrades : DisplayGroup {
         }
     }
 
+	public override void Update ()
+	{
+		base.Update ();
+	}
+
+
     void ShowDelay()
     {
         Tutorial.Instance.Show(TutorialStep.Tables, DisplayUpgrades.Instance.upgradeScrollViews[0].transform);

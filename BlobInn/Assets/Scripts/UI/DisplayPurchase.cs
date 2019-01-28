@@ -24,6 +24,12 @@ public class DisplayPurchase : DisplayGroup {
         Instance = this;
     }
 
+	public override void Update ()
+	{
+		base.Update ();
+	}
+
+
     public void Display(UpgradeButton upgradeButton)
     {
         Open();

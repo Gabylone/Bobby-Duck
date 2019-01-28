@@ -16,6 +16,12 @@ public class DisplayInvitation : DisplayGroup {
         base.Start();
     }
 
+	public override void Update ()
+	{
+		base.Update ();
+	}
+
+
     public override void Open()
     {
         base.Open();

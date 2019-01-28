@@ -18,6 +18,12 @@ public class DisplayLanguage : DisplayGroup {
         base.Start();
     }
 
+	public override void Update ()
+	{
+		base.Update ();
+	}
+
+
     public void SetLanguage(int i)
     {
         Tween.Bounce(buttons[i]);
@@ -29,4 +35,8 @@ public class DisplayLanguage : DisplayGroup {
         Close();
     }
 
+	public override void Open ()
+	{
+		base.Open ();
+	}
 }

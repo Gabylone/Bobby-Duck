@@ -27,6 +27,8 @@ public class LevelButton : MonoBehaviour {
     public GameObject endlessGroup;
     public Text endlessText;
 
+	public Animator animator;
+
     // Use this for initialization
     void Start()
     {
@@ -155,6 +157,8 @@ public class LevelButton : MonoBehaviour {
         lockedGroup.SetActive(true);
 
         locked = true;
+
+		animator.enabled = false;
 
         foreach (var star in stars)
         {

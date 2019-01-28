@@ -20,12 +20,12 @@ public class OrderBubble : MonoBehaviour {
 
     public Transform layoutGroup;
 
+    Transform _transform;
+
     bool showingIngredients = false;
     public float ingredientAppearRate = 0.2f;
 
     AudioSource audioSource;
-
-    Image image;
 
     public Image tableNumberImage;
 
@@ -40,12 +40,6 @@ public class OrderBubble : MonoBehaviour {
     {
         group.SetActive(true);
         tableNumberGroup.SetActive(true);
-
-        if (image == null)
-        {
-            image = GetComponent<Image>();
-        }
-        image.enabled = true;
     }
 
     void Hide()
@@ -53,21 +47,13 @@ public class OrderBubble : MonoBehaviour {
 
         group.SetActive(false);
         tableNumberGroup.SetActive(false);
-
-        if (image == null)
-        {
-            image = GetComponent<Image>();
-        }
-        image.enabled = false;
-
     }
 
 
     // Use this for initialization
     void Start()
     {
-        image = GetComponent<Image>();
-
+        _transform = GetComponent<Transform>();
         audioSource = GetComponent<AudioSource>();
 
         Hide();
@@ -189,18 +175,18 @@ public class OrderBubble : MonoBehaviour {
 
         onClient = false;
 
-        transform.SetParent(OrderBubbleManager.Instance.layoutAnchor);
+        _transform.SetParent(OrderBubbleManager.Instance.layoutAnchor);
 
         OrderBubbleManager.Instance.UpdateLayoutGroup();
 
-        Tween.Bounce(transform);
+        Tween.Bounce(_transform);
 
     }
 
     void ShowOnClient()
     {
         CancelInvoke();
-        HOTween.Kill(transform);
+        HOTween.Kill(_transform);
 
         foreach (var item in GetComponentsInChildren<Image>())
         {
@@ -210,29 +196,29 @@ public class OrderBubble : MonoBehaviour {
 
         Show();
 
-        transform.SetParent(OrderBubbleManager.Instance.appearAnchor);
+        _transform.SetParent(OrderBubbleManager.Instance.appearAnchor);
 
         UpdatePositionOnClient();
 
         onClient = true;
 
-        Tween.Bounce(transform);
+        Tween.Bounce(_transform);
 
 
     }
 
     void UpdatePositionOnClient()
     {
-        Vector3 p = client.transform.position;
+        Vector3 p = client._transform.position;
 
         if (p.x < Camera.main.transform.position.x)
         {
-            transform.position = p + Vector3.right * clientDecal.x + Vector3.up * clientDecal.y;
+            _transform.position = p + Vector3.right * clientDecal.x + Vector3.up * clientDecal.y;
             bubbleImage.transform.localScale = new Vector3(1f, 1f, 1f);
         }
         else
         {
-            transform.position = p + Vector3.left * clientDecal.x + Vector3.up * clientDecal.y;
+            _transform.position = p + Vector3.left * clientDecal.x + Vector3.up * clientDecal.y;
             bubbleImage.transform.localScale = new Vector3(-1f, 1f, 1f);
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using Holoville.HOTween;
 using System;
@@ -43,6 +44,12 @@ public class DisplayInfo_Tuto : DisplayGroup {
         initColor = backgroundImage.color;
     }
 
+	public override void Update ()
+	{
+		base.Update ();
+	}
+
+
     public void Display(TutoInfo tutoInfo)
     {
 
@@ -73,7 +80,7 @@ public class DisplayInfo_Tuto : DisplayGroup {
 
         initScale.y = layoutGroup.sizeDelta.y;
 
-        Invoke("StopTime", tweenDuration * 2f);
+		Invoke("DisplayDelay", tweenDuration * 2f);
 
 
     }
@@ -95,45 +102,51 @@ public class DisplayInfo_Tuto : DisplayGroup {
         maskRectTransform.sizeDelta = new Vector2(minWidth, layoutGroup.sizeDelta.y);
     }
 
-    void StopTime()
+	void DisplayDelay()
     {
-        backgroundImage.raycastTarget = true;
+		backgroundImage.raycastTarget = true;
         confirmGroup.SetActive(true);
 
         // change text
         canClose = true;
 
-        Time.timeScale = 0f;
-
-        
-
+		if ( SceneManager.GetActiveScene().name == "tavern" )
+		{
+			Time.timeScale = 0f;
+		}
 
     }
 
     public override void Close(bool b)
     {
+		Debug.Log ("closing");
+
         Time.timeScale = 1f;
 
         base.Close(false);
 
-        CancelInvoke("StopTime");
+		CancelInvoke("DisplayDelay");
 
         confirmGroup.SetActive(false);
 
         HOTween.To(backgroundImage, tweenDuration, "color", Color.clear);
 
-        Invoke("CheckDoubleTutos", tweenDuration + 0.1f);
+		if (focus_Transform != null)
+		{
+			Unfocus();
+		}
 
-        if (focus_Transform != null)
-        {
-            Unfocus();
-        }
+        Invoke("CheckDoubleTutos", tweenDuration + 0.2f);
+
+        
     }
 
     public void Confirm()
     {
-        if (!canClose)
-            return;
+		if (!canClose) {
+			Debug.Log ("cannot close");
+			return;
+		}
 
         Close(false);
     }
@@ -180,6 +193,10 @@ public class DisplayInfo_Tuto : DisplayGroup {
         //focus_Transform.localPosition = Vector3.zero;
 
         Tween.Bounce(focus_Transform);
+
+		foreach (var button in focus_Transform.GetComponentsInChildren<Button>()) {
+			button.enabled = false;
+		}
     }
 
     void Unfocus()
@@ -199,7 +216,13 @@ public class DisplayInfo_Tuto : DisplayGroup {
             LayoutRebuilder.ForceRebuildLayoutImmediate(focusLayoutGroup.GetComponent<RectTransform>());
         }
 
+		foreach (var button in focus_Transform.GetComponentsInChildren<Button>()) {
+			button.enabled = true;
+		}
+
         focus_Transform = null;
+
+
 
     }
     #endregion

@@ -48,6 +48,7 @@ public class Inventory : MonoBehaviour {
 
     public delegate void OnChanceLife();
     public OnChanceLife onChanceLife;
+	public bool portrait = false;
 
     public bool displayedInvitation = false;
 
@@ -79,13 +80,8 @@ public class Inventory : MonoBehaviour {
 
         Screen.orientation = ScreenOrientation.Portrait;
 
-        if (currentLanguageType == LanguageType.None && DisplayLanguage.Instance != null)
-        {
-            DisplayLanguage.Instance.Open();
-        }
-
-        if (loadOnStart)
-            Load();
+		if (loadOnStart)
+			Load();
 
     }
 
@@ -110,12 +106,16 @@ public class Inventory : MonoBehaviour {
         PlayerPrefs.SetInt("tableAmount", tableAmount);
         PlayerPrefs.SetInt("plateAmount", plateAmount);
         PlayerPrefs.SetInt("waiterAmount", waiterAmount);
+
         PlayerPrefs.SetInt("languageType", (int)currentLanguageType);
+
         PlayerPrefs.SetInt("highscore", highscore);
 
         PlayerPrefs.SetInt("displayedInvitation", displayedInvitation ? 1 : 0);
         PlayerPrefs.SetInt("enableSound", SoundManager.Instance.playSounds ? 1 : 0);
         PlayerPrefs.SetInt("showedMultGold", showedMultGold ? 1 : 0);
+
+		PlayerPrefs.SetInt("portrait", portrait ? 1 : 0);
 
         SaveLifes();
 
@@ -154,14 +154,20 @@ public class Inventory : MonoBehaviour {
         plateAmount = PlayerPrefs.GetInt("plateAmount",1);
         tableAmount = PlayerPrefs.GetInt("tableAmount",2);
         waiterAmount = PlayerPrefs.GetInt("waiterAmount", 0);
-        currentLanguageType =  (LanguageType)PlayerPrefs.GetInt("languageType", (int)LanguageType.French);
+        
         highscore = PlayerPrefs.GetInt("highscore", 0);
+
+		LoadLanguage ();
 
         displayedInvitation = PlayerPrefs.GetInt("displayedInvitation", 0) == 1;
         bool playSounds = PlayerPrefs.GetInt("enableSound", 1) == 1;
         SoundManager.Instance.playSounds = playSounds;
         Music.Instance.source.enabled = playSounds;
         showedMultGold = PlayerPrefs.GetInt("showedMultGold", 0) == 1;
+
+		// screen orientation
+		portrait = PlayerPrefs.GetInt("portrait", 1) == 1;
+		UpdateScreenOrientation ();
 
         // ingredients //
         ingredientTypes.Clear();
@@ -208,9 +214,28 @@ public class Inventory : MonoBehaviour {
         // blob apparence
         LoadBlobApparence();
         //
-        
        
     }
+
+	public void UpdateScreenOrientation ()
+	{
+		if ( portrait ) {
+			Screen.orientation = ScreenOrientation.Portrait;
+		} else {
+			Screen.orientation = ScreenOrientation.Landscape;
+		}
+	}
+
+	void LoadLanguage ()
+	{
+		currentLanguageType =  (LanguageType)PlayerPrefs.GetInt("languageType", (int)LanguageType.None);
+
+		if (currentLanguageType == LanguageType.None && DisplayLanguage.Instance != null)
+		{
+			DisplayLanguage.Instance.Open();
+
+		}
+	}
 
     public void SetStarAmount ( int levelID , int starAmount)
     {
@@ -384,7 +409,6 @@ public class Inventory : MonoBehaviour {
 
     public void RemoveLife(int i)
     {
-
         lifes -= i;
 
         lifes = Mathf.Clamp(lifes, 0, lifes);

@@ -25,7 +25,6 @@ public class Blob_Apparence : MonoBehaviour {
     {
         ids = new int[(int)Type.None];
 
-
         initSortingOrders = new int[spriteRenderers.Length];
         int a = 0;
         foreach (var rend in spriteRenderers)
@@ -104,12 +103,11 @@ public class Blob_Apparence : MonoBehaviour {
 
     public void UpdateSprites()
     {
-        for (int i = 0; i < (int)Type.None; i++)
+        for (int i = 0; i < (int)4; i++)
         {
             if ( i >= ids.Length)
             {
                 Debug.LogError("client update sprites : id " + i + " is superior than " + ids.Length);
-
                 break;
             }
 

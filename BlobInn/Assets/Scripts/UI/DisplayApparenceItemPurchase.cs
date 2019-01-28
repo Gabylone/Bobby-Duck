@@ -25,6 +25,12 @@ public class DisplayApparenceItemPurchase : DisplayGroup {
         Instance = this;
     }
 
+	public override void Update ()
+	{
+		base.Update ();
+	}
+
+
     public void Display( Blob_Apparence.Type type , int id , int price )
     {
         //DisplayCharacterCustomization.Instance.Close(false);

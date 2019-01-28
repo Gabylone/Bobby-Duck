@@ -27,9 +27,12 @@ public class DisplayGroup : MonoBehaviour {
 
     public bool stopTime = false;
 
+	public bool closeOnPressAndroidBack = true;
+
+	bool tweening = false;
+
     public virtual void Start()
     {
-        //_transform = base.transform;
         initPos = maskRectTransform.anchoredPosition;
 
         initScale = maskRectTransform.sizeDelta;
@@ -38,6 +41,18 @@ public class DisplayGroup : MonoBehaviour {
             closeGroup.SetActive(false);
 
         Hide();
+    }
+
+	public virtual void Update () {
+
+		if ( opened && closeOnPressAndroidBack && Input.GetKeyDown(KeyCode.Escape) ) {
+            Return();
+		}
+	}
+    
+    public virtual void Return()
+    {
+        Close();
     }
 
     public virtual void Show()
@@ -57,6 +72,12 @@ public class DisplayGroup : MonoBehaviour {
 
     public virtual void Open ( bool hideBottomBar )
     {
+		if (tweening) {
+			return;
+		}
+
+		tweening = true;
+
         Show();
 
         if (hideBottomBar && BottomBar.Instance != null) {
@@ -64,17 +85,25 @@ public class DisplayGroup : MonoBehaviour {
         }
 
         maskRectTransform.anchoredPosition = initPos + Vector2.up * decalY;
+		HOTween.Kill (maskRectTransform);
         HOTween.To(maskRectTransform, tweenDuration, "anchoredPosition", initPos);
 
         opened = true;
 
         UpdateSize();
 
+		if (stopTime){
+			CancelInvoke ("StopTime");
+		}
+		CancelInvoke ("Hide");
+		CancelInvoke("OpenDelay");
         Invoke("OpenDelay", tweenDuration);
     }
 
     public virtual void OpenDelay()
     {
+		tweening = false;
+
         HOTween.To(maskRectTransform, tweenDuration, "sizeDelta", initScale);
 
         if (closeGroup != null)
@@ -84,8 +113,10 @@ public class DisplayGroup : MonoBehaviour {
 
         if ( stopTime)
         {
+			CancelInvoke ("StopTime");
             Invoke("StopTime", tweenDuration * 2f);
         }
+
     }
 
     void StopTime()
@@ -106,6 +137,11 @@ public class DisplayGroup : MonoBehaviour {
 
     public virtual void Close(bool _showBottomBar)
     {
+		if (tweening)
+			return;
+
+		tweening = true;
+
         if ( closeGroup != null)
         {
             closeGroup.SetActive(false);
@@ -114,12 +150,18 @@ public class DisplayGroup : MonoBehaviour {
         if (stopTime)
         {
             Time.timeScale = 1f;
+
         }
 
         showBottomBar = _showBottomBar;
 
         HOTween.To(maskRectTransform, tweenDuration, "sizeDelta", new Vector2(minWidth, maskRectTransform.rect.height));
 
+		if ( stopTime ){
+			CancelInvoke ("StopTime");
+			//
+		}
+		CancelInvoke ("CloseDelay");
         Invoke("CloseDelay", tweenDuration);
     }
 
@@ -128,8 +170,10 @@ public class DisplayGroup : MonoBehaviour {
         Close(true);
     }
 
-    void CloseDelay()
+    public virtual void CloseDelay()
     {
+		tweening = false;
+
         Invoke("Hide", tweenDuration);
 
         opened = false;

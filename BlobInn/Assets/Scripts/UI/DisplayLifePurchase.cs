@@ -14,6 +14,12 @@ public class DisplayLifePurchase : DisplayGroup {
         Inventory.Instance.onChanceLife += UpdateUI;
     }
 
+	public override void Update ()
+	{
+		base.Update ();
+	}
+
+
     public override void Open()
     {
         base.Open();

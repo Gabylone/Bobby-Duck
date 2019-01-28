@@ -35,6 +35,7 @@ public class DisplayLevel : DisplayGroup {
 
     Level levelDisplayed;
 
+
     private void Awake()
     {
         Instance = this;
@@ -49,6 +50,11 @@ public class DisplayLevel : DisplayGroup {
         Invoke("StartDelay", 1.5f);
 
     }
+
+	public override void Update ()
+	{
+		base.Update ();
+	}
 
     void StartDelay()
     {
@@ -76,13 +82,13 @@ public class DisplayLevel : DisplayGroup {
     {
         base.OpenDelay();
 
-        if (levelDisplayed.newClientType != Client.Type.None)
+		if (levelDisplayed.newClientType != Client.Type.None || LevelManager.endless )
         {
             closeGroup.SetActive(false);
             Invoke("DisplayNewClientType", 0.2f);
         }
 
-        if ( levelDisplayed.id < 2 && levelDisplayed.id != 31)
+        if ( levelDisplayed.id < 2 || levelDisplayed.id == 31)
         {
             
         }
@@ -98,7 +104,6 @@ public class DisplayLevel : DisplayGroup {
             {
                 if ( locked)
                 {
-                    Debug.Log("is locked");
                     Tutorial.Instance.Show(TutorialStep.Health, displayHeartGroup.transform , true);
                 }
             }
@@ -107,7 +112,11 @@ public class DisplayLevel : DisplayGroup {
 
     void DisplayNewClientType()
     {
-        DisplayNewClient.Instance.Display(levelDisplayed.newClientType);
+		if (LevelManager.endless) {
+			DisplayNewClient.Instance.Display (Client.Type.Brunch);
+		} else {
+			DisplayNewClient.Instance.Display (levelDisplayed.newClientType);
+		}
 
         Invoke("DisplayNewClientTypeDelay", 0.5f);
     }

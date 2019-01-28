@@ -18,6 +18,24 @@ public class PurchaseDiamondButton : MonoBehaviour {
     {
         Tween.Bounce(transform);
 
-        Purchaser.Instance.BuyProductID( type.ToString() );
+        switch (type)
+        {
+            case Type.Five:
+
+                Purchaser.Instance.BuyProductID(Purchaser.fiveDiamondsID);
+                break;
+            case Type.Fifty:
+
+                Purchaser.Instance.BuyProductID(Purchaser.fiftyDiamondsID);
+
+                break;
+            case Type.Hundred:
+                Purchaser.Instance.BuyProductID( Purchaser.hundredDiamondsID );
+                break;
+            default:
+                break;
+        }
+
+
     }
 }

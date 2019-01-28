@@ -7,6 +7,15 @@ public class Client : Movable {
 
     Blob_Apparence blob_Apparence;
 
+	public struct Info {
+		public string[] names;
+	}
+	public static Info[] infos;
+	public static Info GetInfo ( Type type ) {
+		return infos [(int)type];
+	}
+//	public static string[] descriptions;
+
     bool sitted = false;
 
     public static Sprite[] bodySprites = new Sprite[0];
@@ -335,7 +344,7 @@ public class Client : Movable {
     #region WaitForOrder
     void WaitForOrder_Start()
     {
-        HOTween.To(transform, moveDuration, "position", transform.position - Vector3.up * tableDecal);
+        HOTween.To(_transform, moveDuration, "position", _transform.position - Vector3.up * tableDecal);
         //HOTween.To(transform, moveDuration, "position", targetTable.transform.position + Vector3.up * tableDecal);
 
         sitted = true;
@@ -410,6 +419,7 @@ public class Client : Movable {
         if (waiter.CurrentPlate.ingredientTypes.Count != tmpOrder.Count)
         {
             orderBubble.WaitingForDish();
+			targetTable.ShowCross ();
             return;
         }
 
@@ -442,6 +452,7 @@ public class Client : Movable {
         else
         {
             orderBubble.WaitingForDish();
+			targetTable.ShowCross ();
         }
 
     }
@@ -522,13 +533,14 @@ public class Client : Movable {
 
     public void TakeBill()
     {
-        HOTween.To(transform, moveDuration, "position", transform.position + Vector3.up * tableDecal);
+        HOTween.To(_transform, moveDuration, "position", _transform.position + Vector3.up * tableDecal);
 
+        Transform payamentTransform = payement_Obj.transform;
         Invoke("TakeBillDelay", moveDuration);
 
-        Tween.Bounce(payement_Obj.transform);
+        Tween.Bounce(payamentTransform);
 
-        HOTween.To(payement_Obj.transform, payement_FadeDuration, "position", payement_Obj.transform.position + Vector3.up * payement_FadeDecal);
+        HOTween.To(payamentTransform, payement_FadeDuration, "position", payamentTransform.position + Vector3.up * payement_FadeDecal);
 
         foreach (var item in payement_Obj.GetComponentsInChildren<SpriteRenderer>())
         {
@@ -573,7 +585,7 @@ public class Client : Movable {
     {
         if (sitted)
         {
-            HOTween.To(transform, moveDuration, "position", transform.position + Vector3.up * tableDecal);
+            HOTween.To(_transform, moveDuration, "position", _transform.position + Vector3.up * tableDecal);
             sitted = false;
 
             Invoke("GoToDoor", moveDuration);
@@ -642,7 +654,7 @@ public class Client : Movable {
 
         animator.SetTrigger("move");
 
-        HOTween.To(transform, moveDuration, "position", transform.position + Vector3.right * 1f);
+        HOTween.To(_transform, moveDuration, "position", _transform.position + Vector3.right * 1f);
 
         Invoke("LeaveDelay", moveDuration);
 
@@ -656,6 +668,7 @@ public class Client : Movable {
         if (payedBill == false)
         {
             Inventory.Instance.RemoveLife(1);
+			Inventory.Instance.Save ();
             ClientManager.Instance.lostClientAmount++;
 
             if (Inventory.Instance.lifes == 0)

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Purchasing;
 
 public class Purchaser : MonoBehaviour, IStoreListener
@@ -27,6 +28,10 @@ public class Purchaser : MonoBehaviour, IStoreListener
 
     // Google Play Store-specific product identifier subscription product.
     private static string kProductNameGooglePlaySubscription = "com.unity3d.subscription.original";
+
+    public const string fiveDiamondsID = "com.gabylone.blobinn.5diamonds";
+    public const string fiftyDiamondsID = "com.gabylone.blobinn.50diamonds";
+    public const string hundredDiamondsID = "com.gabylone.blobinn.200diamonds";
 
     private void Awake()
     {
@@ -57,9 +62,9 @@ public class Purchaser : MonoBehaviour, IStoreListener
 
         // Add a product to sell / restore by way of its identifier, associating the general identifier
         // with its store-specific identifiers.
-        builder.AddProduct(PurchaseDiamondButton.Type.Five.ToString(), ProductType.Consumable);
-        builder.AddProduct(PurchaseDiamondButton.Type.Fifty.ToString(), ProductType.Consumable);
-        builder.AddProduct(PurchaseDiamondButton.Type.Hundred.ToString(), ProductType.Consumable);
+        builder.AddProduct(fiveDiamondsID, ProductType.Consumable);
+        builder.AddProduct(fiftyDiamondsID, ProductType.Consumable);
+        builder.AddProduct(hundredDiamondsID, ProductType.Consumable);
 
         // Continue adding the non-consumable product.
         // en gros ici les vetements et tout
@@ -101,6 +106,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
             {
                 // ... report the product look-up failure situation  
                 Debug.Log("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase");
+
             }
         }
         // Otherwise ...
@@ -109,6 +115,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
             // ... report the fact Purchasing has not succeeded initializing yet. Consider waiting longer or 
             // retrying initiailization.
             Debug.Log("BuyProductID FAIL. Not initialized.");
+
         }
     }
 
@@ -173,18 +180,17 @@ public class Purchaser : MonoBehaviour, IStoreListener
         Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
     }
 
-
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
         // A consumable product has been purchased by this user.
-        if (String.Equals(args.purchasedProduct.definition.id, PurchaseDiamondButton.Type.Five.ToString(), StringComparison.Ordinal))
+        if (String.Equals(args.purchasedProduct.definition.id, fiveDiamondsID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
             Inventory.Instance.AddDiamonds(5);
         }
         // Or ... a non-consumable product has been purchased by this user.
-        else if (String.Equals(args.purchasedProduct.definition.id, PurchaseDiamondButton.Type.Fifty.ToString(), StringComparison.Ordinal))
+        else if (String.Equals(args.purchasedProduct.definition.id, fiftyDiamondsID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             // TODO: The non-consumable item has been successfully purchased, grant this item to the player.
@@ -193,7 +199,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
 
         }
         // Or ... a subscription product has been purchased by this user.
-        else if (String.Equals(args.purchasedProduct.definition.id, PurchaseDiamondButton.Type.Hundred.ToString(), StringComparison.Ordinal))
+        else if (String.Equals(args.purchasedProduct.definition.id, hundredDiamondsID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
@@ -218,6 +224,5 @@ public class Purchaser : MonoBehaviour, IStoreListener
     {
         // A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
         // this reason with the user to guide their troubleshooting actions.
-        Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
     }
 }

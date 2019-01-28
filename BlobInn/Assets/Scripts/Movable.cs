@@ -5,7 +5,6 @@ using Holoville.HOTween;
 
 public class Movable : Tilable
 {
-
     public Animator animator;
 
     public bool sliding = false;
@@ -13,17 +12,19 @@ public class Movable : Tilable
     public float moveDuration = 0.3f;
     public float moveRate = 0.2f;
 
-
     public AudioSource audioSource;
 
     public AudioSource movementAudioSource;
 
     public Transform bodyTransform;
+    public Transform _transform;
 
     public bool blocked = false;
 
     public override void Start()
     {
+        _transform = GetComponent<Transform>();
+
         base.Start();
 
         animator = GetComponentInChildren<Animator>();
@@ -55,7 +56,7 @@ public class Movable : Tilable
 
         Vector3 dir = GetTargetDirection(direction);
 
-        HOTween.To(transform, moveDuration, "position", transform.position + dir, false, move_EaseType, 0f);
+        HOTween.To(_transform, moveDuration, "position", _transform.position + dir, false, move_EaseType, 0f);
 
         sliding = true;
 

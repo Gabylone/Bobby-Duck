@@ -36,6 +36,12 @@ public class DisplayEndOfDay : DisplayGroup {
         base.Start();
     }
 
+	public override void Update ()
+	{
+		base.Update ();
+	}
+
+
     public override void Open()
     {
         if (opened)
@@ -168,6 +174,8 @@ public class DisplayEndOfDay : DisplayGroup {
 
             yield return new WaitForSeconds(timeBetweenGoldLoss);
         }
+
+		Inventory.Instance.Save ();
 
         closeGroup.SetActive(true);
         Tween.Bounce(closeGroup.transform);

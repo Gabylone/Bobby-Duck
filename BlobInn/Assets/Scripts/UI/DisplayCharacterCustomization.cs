@@ -28,6 +28,12 @@ public class DisplayCharacterCustomization : DisplayGroup {
         HideGrid();
     }
 
+	public override void Update ()
+	{
+		base.Update ();
+	}
+
+
     public override void Open()
     {
         //DisplayUpgrades.Instance.Close(false);

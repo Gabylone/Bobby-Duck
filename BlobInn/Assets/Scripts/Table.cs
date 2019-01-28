@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Holoville.HOTween;
 
 public class Table : Interactable
 {
@@ -13,6 +14,12 @@ public class Table : Interactable
     public SpriteRenderer tableSpriteRenderer;
     public SpriteRenderer tableNumberBGSpriteRenderer;
     public SpriteRenderer tableNumberSpriteRenderer;
+
+	public GameObject crossGroup;
+	public SpriteRenderer crossRend;
+	public float crossDuration = 1f;
+	public float crossDecal = 1f;
+	Vector3 crossInitPos = Vector3.zero;
 
     public Transform goldSackAnchor;
 
@@ -32,6 +39,9 @@ public class Table : Interactable
         base.Start();
 
         HandleOnPlayerMove();
+
+		HideCross ();
+		crossInitPos = crossGroup.transform.position;
     }
 
     public void Show()
@@ -44,7 +54,7 @@ public class Table : Interactable
         group.SetActive(false);
     }
 
-    private void Update()
+    /*private void Update()
     {
         if (Input.GetKeyDown(KeyCode.D))
         {
@@ -52,13 +62,14 @@ public class Table : Interactable
             tableNumberBGSpriteRenderer.sortingOrder = initA2;
             tableNumberSpriteRenderer.sortingOrder = initA3;
         }
+
         if (Input.GetKeyDown(KeyCode.U))
         {
             tableSpriteRenderer.sortingOrder = initA1 + spriteDecal;
             tableNumberBGSpriteRenderer.sortingOrder = initA2 + spriteDecal;
             tableNumberSpriteRenderer.sortingOrder = initA3 + spriteDecal;
         }
-    }
+    }*/
 
     public void Init()
     {
@@ -231,5 +242,29 @@ public class Table : Interactable
             }
         }
     }
+
+	#region cross
+	public void ShowCross() {
+		
+		crossGroup.SetActive (true);
+		Tween.Bounce (crossGroup.transform, Tween.defaultDuration , 1.2f);
+
+		crossGroup.transform.position = crossInitPos;
+		HOTween.Kill ( crossGroup.transform );
+		HOTween.To ( crossGroup.transform , crossDuration , "position" , crossInitPos + Vector3.up * crossDecal , false , EaseType.EaseInCirc , 0f );
+
+		crossRend.color = Color.white;
+		HOTween.Kill (crossRend);
+		HOTween.To ( crossRend , crossDuration , "color" , Color.clear , false , EaseType.EaseInCirc , 0f );
+
+		CancelInvoke ("HideCross");
+		Invoke ("HideCross" , crossDuration);
+
+	}
+
+	void HideCross () {
+		crossGroup.SetActive (false);
+	}
+	#endregion
 }
 

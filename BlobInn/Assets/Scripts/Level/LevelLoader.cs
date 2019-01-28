@@ -28,6 +28,8 @@ public class LevelLoader : MonoBehaviour {
 
         TextAsset textAsset = Resources.Load("Levels") as TextAsset;
 
+		Client.infos = new Client.Info[(int)Client.Type.None];
+
         string[] rows = textAsset.text.Split('\n');
 
         int levelIndex = 0;
@@ -103,17 +105,23 @@ public class LevelLoader : MonoBehaviour {
 
                 newLevel.newClientType = currentClientType;
 
-                newLevel.newClientNames = new string[(int)Inventory.LanguageType.None];
 
-                newLevel.newClientNames[(int)Inventory.LanguageType.French] = cells[cellIndex];
-                newLevel.newClientNames[(int)Inventory.LanguageType.English] = cells[cellIndex + 2];
+				Client.infos [(int)currentClientType] = new Client.Info ();
+				Client.infos [(int)currentClientType].names = new string[(int)Inventory.LanguageType.None];
+                //newLevel.newClientNames = new string[(int)Inventory.LanguageType.None];
+
+				Client.infos [(int)currentClientType].names[(int)Inventory.LanguageType.French] = cells[cellIndex];
+				Client.infos [(int)currentClientType].names[(int)Inventory.LanguageType.English] = cells[cellIndex + 2];
+//                newLevel.newClientNames[(int)Inventory.LanguageType.French] = cells[cellIndex];
+//                newLevel.newClientNames[(int)Inventory.LanguageType.English] = cells[cellIndex + 2];
+
 
                 ++cellIndex;
 
-                newLevel.newClientDescriptions = new string[(int)Inventory.LanguageType.None];
+                /*newLevel.newClientDescriptions = new string[(int)Inventory.LanguageType.None];
 
                 newLevel.newClientDescriptions[(int)Inventory.LanguageType.French] = cells[cellIndex];
-                newLevel.newClientDescriptions[(int)Inventory.LanguageType.English] = cells[cellIndex + 2];
+                newLevel.newClientDescriptions[(int)Inventory.LanguageType.English] = cells[cellIndex + 2];*/
             }
 
             newLevel.clientType = currentClientType;
