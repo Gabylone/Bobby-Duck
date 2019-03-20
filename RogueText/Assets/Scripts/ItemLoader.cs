@@ -44,7 +44,7 @@ public class ItemLoader : MonoBehaviour {
 
         string[] itemPositions = rows_ItemPositions[0].Split(';');
 
-        int rowIndex = 0;
+        int rowIndex = 1;
 
         foreach (var item in Item.items)
         {
@@ -54,8 +54,6 @@ public class ItemLoader : MonoBehaviour {
             {
                 if (cells[cellIndex].Contains("1"))
                 {
-                    //Debug.Log("pour l'item : " + item.word.name + " la phrase : " + itemPositions[cellIndex]);
-
                     item.itemPositions.Add(itemPositions[cellIndex]);
                 }
             }
@@ -96,7 +94,10 @@ public class ItemLoader : MonoBehaviour {
 
 			itemWord.name = cells[0];
 
-			itemWord.UpdateGenre(cells[1]);
+            // word
+            newItem.word = itemWord;
+            newItem.row = itemIndex;
+            itemWord.UpdateGenre(cells[1]);
 
             if (cells[2].Length > 0)
             {
@@ -112,24 +113,27 @@ public class ItemLoader : MonoBehaviour {
 
             if (cells[3].Length > 0)
             {
-                int param = 1;
-
-                if ( int.TryParse(cells[3],out param) == false )
-                {
-                    Debug.Log("item parameter : " + cells[3] + " does not parse");
-                }
-
-                newItem.value = param;
+                newItem.stackable = false;
             }
 
-            // word
-            newItem.word = itemWord;
-			newItem.row = itemIndex;
+            int param = -1;
+
+            if (cells[4].Length > 0)
+            {
+                if (int.TryParse(cells[4], out param) == false)
+                {
+                    Debug.Log("item parameter : " + cells[4] + " does not parse");
+                }
+
+
+            }
+            newItem.value = param;
+
 
             // adjective
             /*newItem.adjective = Adjective.GetRandom(Adjective.Type.Item);*/
 
-			Item.items.Add (newItem);
+            Item.items.Add (newItem);
 
 			++itemIndex;
 
@@ -149,12 +153,19 @@ public class ItemLoader : MonoBehaviour {
 
                 int verbIndex = 0;
 
-				for (int cellIndex = 4; cellIndex < cells.Length; cellIndex++) {
+				for (int cellIndex = 5; cellIndex < cells.Length-1; cellIndex++) {
 
                     // create verbs
                     if ( rowIndex == 0)
                     {
                         Verb newVerb = new Verb();
+
+                        if (cells[cellIndex][0] == '(')
+                        {
+                            cells[cellIndex] = cells[cellIndex].Remove(0, 1);
+                            newVerb.availableForAllItems = true;
+
+                        }
 
                         newVerb.names = cells[cellIndex].Split(new string[] { ", " }, System.StringSplitOptions.None);
 
@@ -180,7 +191,7 @@ public class ItemLoader : MonoBehaviour {
 
 				int verbIndex = 0;
 
-				for (int cellIndex = 4; cellIndex < cells.Length; cellIndex++) {
+				for (int cellIndex = 5; cellIndex < cells.Length; cellIndex++) {
 
 					if ( cells[cellIndex].Length >= 2 ) {
 
@@ -320,7 +331,7 @@ public class ItemLoader : MonoBehaviour {
                 int appearRate = 0;
                 if (int.TryParse(cell, out appearRate) == false)
                 {
-                    Debug.LogError("APPEAR RATES : la cellule : " + cell + " ne peut pas être parsée");
+                    Debug.LogError("Appear Rates : la cellule : " + cell + " ne peut pas être parsée");
                 }
 
                 Item.AppearRate newAppearRate = new Item.AppearRate();

@@ -113,6 +113,59 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &9734449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9734450}
+  - component: {fileID: 9734452}
+  - component: {fileID: 9734451}
+  m_Layer: 0
+  m_Name: SaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9734450
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 9734449}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 226.04619, y: 326.9962, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9734451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 9734449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f75a2bccc94a94a98dbb6c7afc5d43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkLimit: 10
+--- !u!114 &9734452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 9734449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dafca24e646b74084bb2ec12c9d562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &21310290
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,7 +779,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 301153516}
   m_HandleRect: {fileID: 301153515}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1152,7 +1205,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &314841086
@@ -2365,8 +2418,6 @@ MonoBehaviour:
   - vous remarquez
   locationPhrases:
   - se trouve
-  - se tient
-  - se situe
 --- !u!4 &840204699
 Transform:
   m_ObjectHideFlags: 0
@@ -2487,6 +2538,46 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 850424665}
   m_CullTransparentMesh: 0
+--- !u!1 &892232395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 892232396}
+  - component: {fileID: 892232397}
+  m_Layer: 0
+  m_Name: CraftManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &892232396
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 892232395}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1014188666}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &892232397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 892232395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e6b4a56d323b1e4892778d008def70a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &902775529
 GameObject:
   m_ObjectHideFlags: 0
@@ -2717,6 +2808,7 @@ Transform:
   - {fileID: 1377419343}
   - {fileID: 1976029676}
   - {fileID: 1461773440}
+  - {fileID: 892232396}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3566,6 +3658,8 @@ MonoBehaviour:
   blobExpendRangeMin: 1
   blobExpendRangeMax: 4
   blobBorderBuffer: 2
+  minRiverAmount: 7
+  maxRiverAmount: 10
   maxForestScale: 50
   minForestScale: 20
   maxForestAmount: 7
@@ -3594,8 +3688,8 @@ MonoBehaviour:
   - 20
   - 10
   - 0
-  chanceClosedDoor: 1
-  chanceLockedRoom: 0
+  chanceClosedDoor: 0.15
+  chanceLockedRoom: 0.6
   emptyTileChance: 20
   borderWidth: 0
   loneHouseAmount: 200
@@ -3744,7 +3838,7 @@ MonoBehaviour:
   - {r: 0.3328287, g: 0.5955882, b: 0.3328287, a: 1}
   - {r: 0.29065743, g: 0.48651204, b: 0.61764705, a: 1}
   - {r: 0.47437286, g: 0.6612501, b: 0.78676474, a: 1}
-  - {r: 0.6433823, g: 0.7823529, b: 0.875, a: 1}
+  - {r: 0.7305091, g: 0.83559984, b: 0.9056604, a: 1}
   - {r: 0.7840519, g: 0.684, b: 0.2700584, a: 1}
   - {r: 0.85294116, g: 0.85294116, b: 0.85294116, a: 1}
   - {r: 0.85294116, g: 0.797, b: 0.809, a: 1}
@@ -4508,7 +4602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   group: {fileID: 1148358284}
   uiText: {fileID: 1148358286}
-  typeRate: 0.01
+  typeRate: 0.05
   debug: 0
   textToType: 
   letterRate: 2
@@ -4584,7 +4678,7 @@ MonoBehaviour:
   - eur
   - f
   - aux
-  - eux
+  - vieux
   - oux
   - ic
   - ec
@@ -4593,6 +4687,11 @@ MonoBehaviour:
   - iet
   - ais
   - as
+  - eux
+  - "\xE9"
+  - eu
+  - tit
+  - and
   femaleTerminaisons:
   - elle
   - "\xE8re"
@@ -4602,7 +4701,7 @@ MonoBehaviour:
   - euse
   - ve
   - ausse
-  - euse
+  - vielle
   - ouce
   - ique
   - anche
@@ -4611,6 +4710,11 @@ MonoBehaviour:
   - ette
   - iete
   - aichea
+  - euse
+  - "\xE9e"
+  - eue
+  - tite
+  - ande
 --- !u!4 &1976029676
 Transform:
   m_ObjectHideFlags: 0

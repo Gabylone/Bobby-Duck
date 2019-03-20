@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RogueText", "RogueText.csproj", "{94A32B16-CB43-95EB-3A92-4A2CE2C4906A}"
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{B214FE6A-E2FB-2825-7A6A-DE3C307E0067}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{94A32B16-CB43-95EB-3A92-4A2CE2C4906A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94A32B16-CB43-95EB-3A92-4A2CE2C4906A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94A32B16-CB43-95EB-3A92-4A2CE2C4906A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94A32B16-CB43-95EB-3A92-4A2CE2C4906A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B214FE6A-E2FB-2825-7A6A-DE3C307E0067}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B214FE6A-E2FB-2825-7A6A-DE3C307E0067}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B214FE6A-E2FB-2825-7A6A-DE3C307E0067}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B214FE6A-E2FB-2825-7A6A-DE3C307E0067}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

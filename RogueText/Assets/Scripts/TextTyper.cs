@@ -16,7 +16,9 @@ public class TextTyper : MonoBehaviour {
 	int characterIndex = 0;
 	public int letterRate = 3;
 
-	string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+    string typingText = "";
+
+    string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
 
 	public bool finished = false;
 
@@ -42,11 +44,15 @@ public class TextTyper : MonoBehaviour {
 
 	}
 
-    string typingText = "";
+
+    private void Update()
+    {
+        
+    }
 
     public IEnumerator TypeCoroutine () {
 
-		characterIndex = 0;
+		
 
         if ( debug)
         {
@@ -87,9 +93,6 @@ public class TextTyper : MonoBehaviour {
                 break;
             }
         }
-
-        textToType = "";
-        typingText = "";
 
 		Sound.Instance.PlayRandomComputerSound ();
 
@@ -180,6 +183,9 @@ public class TextTyper : MonoBehaviour {
     }
 
     public virtual void Display ( string str ) {
+
+        StopCoroutine(TypeCoroutine());
+        uiText.text = "";
         textToType = str;
 		UpdateText ();
 	}
@@ -201,8 +207,10 @@ public class TextTyper : MonoBehaviour {
 		group.SetActive (true);
 
 		finished = false;
+        characterIndex = 0;
+        typingText = "";
 
-		StartCoroutine (TypeCoroutine ());
+        StartCoroutine (TypeCoroutine ());
 
 	}
 	public void QuickUpdateText () {

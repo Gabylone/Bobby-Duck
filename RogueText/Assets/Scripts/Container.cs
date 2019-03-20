@@ -7,6 +7,8 @@ public class Container
     public static bool opened = false;
     public static Container current;
 
+    bool emptied = false;
+
     public List<Item> items = new List<Item>();
 
     public int id = 0;
@@ -17,11 +19,17 @@ public class Container
     {
         string text = "";
 
-
         if ( items.Count == 0)
         {
             item.word.used = true;
-            text = "Il n'y a plus rien dans " + Container.current.item.word.GetDescription(Word.Def.Defined);
+            if ( emptied)
+            {
+                text = "Il n'y a plus rien dans " + Container.current.item.word.GetDescription(Word.Def.Defined);
+            }
+            else
+            {
+                text = "Il n'y a rien dans " + Container.current.item.word.GetDescription(Word.Def.Defined);
+            }
 
         }
         else
@@ -69,6 +77,11 @@ public class Container
         items.Remove(item);
 
         Tile.itemsChanged = true;
+
+        if ( items.Count == 0)
+        {
+            emptied = true;
+        }
 
         Debug.Log("removing container");
     }

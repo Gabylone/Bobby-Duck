@@ -2,55 +2,75 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item {
+public class Item
+{
 
     public static List<Item> items = new List<Item>();
 
+    /// <summary>
+    /// declaration
+    /// </summary>
     public int row;
-
-    public int weight;
-
-    public int value;
-
+    public int weight = 0;
+    public int value = 0;
+    public bool usableAnytime = false;
+    public List<AppearRate> appearRates = new List<AppearRate>();
+    public List<string> itemPositions = new List<string>();
     public Word word;
-    Adjective adjective;
-    public Adjective Adjective {
-        get {
-            if (adjective == null)
-                SetAdjective(Adjective.GetRandom(Adjective.Type.Item));
-            return adjective;
+    private Adjective adjective;
+    public bool stackable = true;
+
+    public Item()
+    {
+        
+    }
+    public Item (Item copy)
+    {
+        this.row = copy.row;
+        this.weight = copy.weight;
+        this.value = copy.value;
+        this.usableAnytime = copy.usableAnytime;
+        this.appearRates = copy.appearRates;
+        this.itemPositions = copy.itemPositions;
+        this.word = copy.word;
+        this.stackable = copy.stackable;
+
+        if (copy.adjective == null)
+        {
+            SetRandomAdj();
+        }
+        else
+        {
+            this.adjective = copy.adjective;
         }
     }
-    public void SetAdjective ( Adjective adj)
+    
+    public string GetWord()
     {
-        adjective = adj;
-    }
-
-    public string GetWordGroup()
-    {
-        string adjStr = Adjective.GetName(word.genre, Word.Number.Singular);
-
         string wordStr = word.GetName(Word.Number.Singular);
 
-        string wordGroup = wordStr + " " + adjStr;
-
-        if (adjStr.Contains("("))
+        if (!stackable)
         {
-            //Debug.Log("contains par, replacing");
-            adjStr = adjStr.Replace("(", "");
+            string adjStr = GetAdjective.GetName(word.genre, Word.Number.Singular);
 
-            wordGroup = adjStr + " " + wordStr;
+            string wordGroup = wordStr + " " + adjStr;
+
+            if (GetAdjective.beforeWord)
+            {
+                wordGroup = adjStr + " " + wordStr;
+            }
+
+            return wordGroup;
         }
 
-        return wordGroup;
+        return wordStr;
     }
 
-    public bool usableAnytime = false;
 
     #region remove
-    public static void Remove (Item item)
+    public static void Remove(Item item)
     {
-        if (Container.opened )
+        if (Container.opened)
         {
             if (Container.current.items.Contains(item))
             {
@@ -59,8 +79,8 @@ public class Item {
             }
             return;
         }
-        
-        if ( Tile.current.items.Contains(item))
+
+        if (Tile.current.items.Contains(item))
         {
             Tile.current.RemoveItem(item);
             return;
@@ -73,9 +93,6 @@ public class Item {
         }
     }
     #endregion
-
-    // les positions sauvegardées de l'objet ( pour qu'il soit toujours au même endroit )
-    public List<string> itemPositions = new List<string>();
 
     public class AppearRate
     {
@@ -93,12 +110,8 @@ public class Item {
         public int amount = 0;
     }
 
-    public List<AppearRate> appearRates = new List<AppearRate>();
-
-
-
     #region list
-    public static string ItemListString(List<Item> _items, bool separate , bool displayWeight)
+    public static string ItemListString(List<Item> _items, bool separate, bool displayWeight)
     {
         string text = "";
 
@@ -106,7 +119,7 @@ public class Item {
 
         foreach (var item in _items)
         {
-            text += item.GetWordGroup();
+            text += item.GetWord();
 
             if (displayWeight)
             {
@@ -148,7 +161,7 @@ public class Item {
     public static string ItemListString(List<ItemSocket> _itemSockets, bool separateWithLigns, bool displayWeight)
     {
         string text = "";
-
+        
         int i = 0;
 
         foreach (var itemSocket in _itemSockets)
@@ -162,7 +175,7 @@ public class Item {
 
             if (_itemSockets.Count > 1 && i < _itemSockets.Count - 1)
             {
-                if ( separateWithLigns)
+                if (separateWithLigns)
                 {
                     text += "\n";
                 }
@@ -184,7 +197,7 @@ public class Item {
                         text += " et ";
                     }
                 }
-               
+
             }
 
             ++i;
@@ -194,9 +207,8 @@ public class Item {
     }
     #endregion
 
-
     #region search
-    public static Item GetInWord ( string str )
+    public static Item GetInWord(string str)
     {
         Item item = null;
 
@@ -231,6 +243,12 @@ public class Item {
             item = Container.current.items.Find(x => x.word.name.StartsWith(str));
         }
 
+        // chercher une premiere fois dans l'inventaire s'il est ouvert
+        if (Inventory.Instance.opened)
+        {
+            item = FindInInventory(str);
+        }
+
         if (item == null)
         {
             item = FindInTile(str);
@@ -241,6 +259,7 @@ public class Item {
             item = FindUsableAnytime(str);
         }
 
+        // et en dernier s'il est fermé
         if (item == null)
         {
             item = FindInInventory(str);
@@ -256,31 +275,30 @@ public class Item {
 
         List<Item> items = Tile.current.items.FindAll(x => x.word.name.StartsWith(str));
 
-        if (items.Count == 1)
-            return items[0];
+        /*if (items.Count == 1)
+            return items[0];*/
 
-        if ( items.Count > 1)
+        if (items.Count > 0)
         {
-            Debug.Log("found more than one item of the same type");
 
             foreach (var inputPart in DisplayInput.Instance.inputParts)
             {
 
                 foreach (var item in items)
                 {
-                    Debug.Log("searhcing in input part : " + inputPart + " for adjective : " + item.Adjective.GetName(item.word.genre, Word.Number.Singular));
 
-                    if (item.Adjective.GetName(item.word.genre, Word.Number.Singular) == inputPart)
+                    string adjSTR = item.GetAdjective.GetName(item.word.genre, Word.Number.Singular);
+
+                    if (adjSTR == inputPart)
                     {
-                        Debug.Log("found matching adjective for item : " + item.GetWordGroup());
                         return item;
                     }
                 }
 
-                Debug.Log("no matching adjective for items");
-                return items[0];
+                
 
             }
+            return items[0];
 
         }
 
@@ -328,7 +346,8 @@ public class Item {
     {
         Item item = items.Find(x => x.word.name.ToLower() == s.ToLower());
 
-        if ( item == null ){
+        if (item == null)
+        {
             Debug.LogError("couldn't find item by name : " + s);
             return null;
         }
@@ -354,6 +373,25 @@ public class Item {
         return LocationLoader.Instance.positionPhrases[Random.Range(0, LocationLoader.Instance.positionPhrases.Length)];
     }
 
+    #region adjective 
+    public Adjective GetAdjective
+    {
+        get
+        {
+            if (adjective == null)
+                SetRandomAdj();
 
+            return adjective;
+        }
+    }
+    public void SetRandomAdj()
+    {
+        SetAdjective(Adjective.GetRandom(Adjective.Type.Item));
+    }
+    public void SetAdjective(Adjective adj)
+    {
+        adjective = adj;
+    }
+    #endregion
 }
 

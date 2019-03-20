@@ -4,9 +4,13 @@ using System.Collections.Generic;
 
 public class TileSet {
 
+    public static int ids = 0;
+    public int id = 0;
+
     public static TileSet current;
     public static TileSet map;
 
+    public Coords coords;
     public Coords playerCoords = Coords.Zero;
 
     public List<Container> containers = new List<Container>();
@@ -43,6 +47,16 @@ public class TileSet {
 
 public class Tile {
 
+    /*public void Save()
+    {
+        string tileCode = "tileset0(x:" + coords.x + "/y" + coords.y + ")";
+    }
+
+    public static Tile Load(string tileCode)
+    {
+        Tile newTile = new Tile();
+    }
+    */
 	public Coords coords;
 	public Type type;
 
@@ -142,7 +156,9 @@ public class Tile {
                 {
                     if (Random.value * 100f < appearRate.rate)
                     {
-                        Item newItem = item;
+                        Item newItem = new Item(item);
+
+                        newItem.SetRandomAdj();
 
                         items.Add(newItem);
 
@@ -163,7 +179,7 @@ public class Tile {
     }
     public void AddItem ( Item item)
     {
-        items.Add(item);
+        items.Add(new Item (item));
 
         //itemsChanged= true;
     }

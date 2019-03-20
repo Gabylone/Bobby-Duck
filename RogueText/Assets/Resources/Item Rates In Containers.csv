@@ -16,8 +16,8 @@ gauche;;;;;;;;;
 inventaire;;;;;;;;;
 sac;;;;;;;;;
 alentours;;;;;;;;;
-porte (o);;;;;;;;;
-porte (f);;;;;;;;;
+porte d’entrée (o);;;;;;;;;
+porte d’entrée (f);;;;;;;;;
 porte (o)(n);;;;;;;;;
 porte (o)(w);;;;;;;;;
 porte (o)(s);;;;;;;;;
@@ -100,7 +100,8 @@ montre;;2;;;;;;;2
 casque moto;;;;;;;;;2
 machine à laver;;;;;;;;;
 bougie;;;;;;;;;
-lampe torche;;;;;;;25;;10
+lampe torche (e);;;;;;;15;;10
+lampe torche (a);;;;;;;10;;10
 rouleau de scotch;;;;;;;20;;3
 vise;;;;;;;5*10;;3
 papier;;;;;;;;;3
@@ -109,3 +110,7 @@ lavabo;;;;;;;;;
 boussole;;5;;;5;;5;;5
 planche;;;;;;;;;
 morceau de tissu;;;;;;;;;
+paire de ciseaux;;;;;;;;;
+dé à coudre;;;;;;;;;
+fil à tricoter;;;;;;;;;
+pile;;;;;;;;;

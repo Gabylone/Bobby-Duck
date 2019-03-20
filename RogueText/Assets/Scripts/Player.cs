@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[System.Serializable]
 public class Player : MonoBehaviour {
 
 	public static Player Instance;
@@ -53,10 +54,14 @@ public class Player : MonoBehaviour {
     public delegate void OnPlayerInit();
     public OnPlayerInit onPlayerInit;
     
+    public Player()
+    {
+
+    }
+
 	void Awake () {
 		Instance = this;
 	}
-
 
 	public void Init () {
 
@@ -130,7 +135,6 @@ public class Player : MonoBehaviour {
         }
         else
         {
-            Debug.Log("exiting");
             Interior.current.ExitByDoor();
         }
 	}
@@ -143,9 +147,11 @@ public class Player : MonoBehaviour {
 			return;
 		}
 
-		if (coords.x > 0) {
-			prevCoords = coords;
-		}
+        if (coords.x > 0)
+        {
+            prevCoords = coords;
+        }
+
 		coords += (Coords)dir;
 
 		Tile.previous = Tile.current;
@@ -154,9 +160,9 @@ public class Player : MonoBehaviour {
 
 		if ( Tile.current.visited == false) {
 			Tile.current.GenerateItems ();
-		}
+        }
 
-		if (dir == Direction.None)
+        if (dir == Direction.None)
 			dir = Direction.North;
 		
 		direction = dir;
@@ -339,6 +345,8 @@ public class Player : MonoBehaviour {
         TimeManager.Instance.timeOfDay = 6;
         TimeManager.Instance.NextDay();
 
+        Invoke("SleepDelay",3f);
+
     }
     void SleepDelay()
     {
@@ -448,6 +456,11 @@ public class Player : MonoBehaviour {
         }
     }
     #endregion
+
+    public void Save()
+    {
+        
+    }
 
 }
 

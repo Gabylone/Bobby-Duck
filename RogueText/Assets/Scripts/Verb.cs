@@ -12,6 +12,8 @@ public class Verb {
 
     public string helpPhrase = "";
 
+    public bool availableForAllItems = false;
+
 	public string[] names;
 
 	public Dictionary<int,string> cellContents = new Dictionary<int, string> ();

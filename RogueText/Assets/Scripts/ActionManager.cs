@@ -44,6 +44,8 @@ public class Action {
         RemoveLastItem,
         CheckStat,
         ReplaceItem,
+        Craft,
+        ReadRecipe,
     }
 
 	public Type type;
@@ -150,12 +152,8 @@ public class ActionManager : MonoBehaviour {
 
 		Action.Type[] actionTypes = System.Enum.GetValues (typeof(Action.Type)) as Action.Type[];
 
-        Debug.Log("reading action : " + str);
-
         str = str.TrimEnd('"');
         str = str.TrimStart('"');
-        Debug.Log("then reading action : " + str);
-
 
         bool hasParameters = str.Contains ( "(" );
 		string function_str = str;

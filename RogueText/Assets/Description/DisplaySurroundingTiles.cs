@@ -63,8 +63,23 @@ public class DisplaySurroundingTiles : TextTyper {
     {
         base.UpdateCurrentTileDescription();
 
+        string str = "";
+
         // init
-		Clear ();
+        Clear();
+
+        if ( TimeManager.Instance.currentPartOfDay == TimeManager.PartOfDay.Night)
+        {
+            if ( Inventory.Instance.GetItem("lampe torche (a)") != null)
+            {
+                str += "La lampe torche vous éclaire" + "\n";
+            }
+            else
+            {
+                Display("Il fait trop sombre, vous ne voyez rien autour de vous");
+            return;
+            }
+        }
 
         positionPhrases = LocationLoader.Instance.positionPhrases.ToList();
         visionPhrases = LocationLoader.Instance.visionPhrases.ToList();
@@ -73,7 +88,6 @@ public class DisplaySurroundingTiles : TextTyper {
         // get tiles
         GetSurroundingTiles();
 
-        string str = "";
 
         List<string> phrases = new List<string>();
 
@@ -120,7 +134,10 @@ public class DisplaySurroundingTiles : TextTyper {
                 continue;
 
             if (tile.locked)
+            {
+                Debug.Log("la tile " + tile.type + " est fermée donc on l'affiche pas ");
                 continue;
+            }
 
             SurroudingTile_Facing newSurrTile = surroundingTiles.Find(x => x.tile.type == tile.type);
 
@@ -175,6 +192,7 @@ public class DisplaySurroundingTiles : TextTyper {
         currentDescriptionType = (DescriptionType)Random.Range(0, (int)DescriptionType.None);
 
         string locationDescription = GetLocationDescription(surroundingTile.tile);
+
         string directonStr = surroundingTile.GetDirectionText();
 
         // ENTOURE //
@@ -182,7 +200,6 @@ public class DisplaySurroundingTiles : TextTyper {
             return GetSurroundedDescription(surroundingTile.tile);
 
         string link = GetLink();
-
 
         if ( Tile.current.type == surroundingTile.tile.type && Location.GetLocation(Tile.current.type).continuationType == Location.ContinuationType.Continued )
         {
@@ -227,6 +244,9 @@ public class DisplaySurroundingTiles : TextTyper {
             string locationPhrase = locationPhrases[id];
             locationPhrases.RemoveAt(id);
 
+            if ( locationPhrases.Count == 0)
+                locationPhrases = LocationLoader.Instance.locationPhrases.ToList();
+
             return locationPhrase;
         }
 
@@ -236,6 +256,9 @@ public class DisplaySurroundingTiles : TextTyper {
             string visionPhrase = visionPhrases[id];
             visionPhrases.RemoveAt(id);
 
+            if (visionPhrases.Count == 0)
+                visionPhrases = LocationLoader.Instance.visionPhrases.ToList();
+
             return visionPhrase;
         }
         else
@@ -243,6 +266,9 @@ public class DisplaySurroundingTiles : TextTyper {
             int id = Random.Range(0, locationPhrases.Count);
             string locationPhrase = locationPhrases[id];
             locationPhrases.RemoveAt(id);
+
+            if (locationPhrases.Count == 0)
+                locationPhrases = LocationLoader.Instance.locationPhrases.ToList();
 
             return locationPhrase;
         }
@@ -272,6 +298,13 @@ public class DisplaySurroundingTiles : TextTyper {
         public List<Player.Facing> facings;
         public string GetDirectionText()
         {
+
+            /*if ( Random.value < 0.35f)
+            {
+                return LocationLoader.Instance.positionPhrases[Random.Range(0, LocationLoader.Instance.positionPhrases.Length)];
+            }*/
+
+            // text sans direction
             string str = "";
 
             int i = 0;

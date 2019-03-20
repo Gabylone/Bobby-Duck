@@ -22,7 +22,6 @@ public class Inventory : MonoBehaviour {
         ActionManager.onAction += HandleOnAction;
 
         items.Add( Item.FindByName("boussole") );
-        items.Add( Item.FindByName("clé") );
     }
 
 	void HandleOnAction (Action action)
@@ -65,16 +64,21 @@ public class Inventory : MonoBehaviour {
             RemoveLastItem();
             break;
         case Action.Type.ReplaceItem:
-                ReplaceCurrentItem();
+            ReplaceCurrentItem();
             break;
             default:
 			break;
 		}
 	}
 
+    public Item GetItem (string itemName)
+    {
+        return items.Find(x => x.word.name == itemName);
+    }
+
     private void ThrowCurrentItem()
     {
-        Item item = items.Find(x => x.word.name == Action.last.primaryItem.word.name);
+        Item item = GetItem(Action.last.primaryItem.word.name);
 
         if (item == null)
         {
@@ -106,8 +110,12 @@ public class Inventory : MonoBehaviour {
         DisplayFeedback.Instance.Display ("Vous avez pris : " + Action.last.primaryItem.word.GetName(Word.Number.Singular) );
 	}
 
-	#region remove item
-	public void RemoveItem ( Item item ) {
+    #region remove item
+    public void RemoveItem(int itemRow)
+    {
+        RemoveItem(items.Find(x => x.row == itemRow));
+    }
+    public void RemoveItem ( Item item ) {
 
         Tile.itemsChanged = true;
 
@@ -154,7 +162,7 @@ public class Inventory : MonoBehaviour {
     {
         Item item = AddToTile();
 
-        item.SetAdjective(Action.last.primaryItem.Adjective);
+        item.SetAdjective(Action.last.primaryItem.GetAdjective);
 
         Item.Remove(Action.last.primaryItem);
 
@@ -221,7 +229,6 @@ public class Inventory : MonoBehaviour {
 
             if (Action.last.secundaryItem != null)
             {
-                //
                 if (content.StartsWith(Action.last.secundaryItem.word.name))
                 {
                     Debug.Log("found required item : " + Action.last.secundaryItem.word.name);
@@ -242,7 +249,7 @@ public class Inventory : MonoBehaviour {
 			}*/
 
             //DisplayFeedback.Instance.Display("Vous ne pouvez pas " + Action.last.verb.names[0] + " " + Action.last.primaryItem.word.GetDescription(Word.Def.Defined));
-            DisplayFeedback.Instance.Display("Vous avez besoin : " + Action.last.contents[0]);
+            //DisplayFeedback.Instance.Display("Vous avez besoin : " + Action.last.contents[0]);
         }
     }
 

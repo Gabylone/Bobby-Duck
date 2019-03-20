@@ -56,7 +56,7 @@ public class DisplayInput : MonoBehaviour {
 
         if ( verb == null)
         {
-            
+
         }
         else
         {
@@ -67,21 +67,26 @@ public class DisplayInput : MonoBehaviour {
         Item primaryItem = null;
         Item secundaryItem = null;
 
-        if ( inputParts.Count > 0)
+        if ( inputParts.Count > 0 )
         {
             /// ITEM ///
-            string[] wordGroups = SplitInWordGroups(inputParts.ToArray());
+            //string[] wordGroups = SplitInWordGroups(inputParts.ToArray());
 
-            foreach (var item in inputParts)
+            foreach (var item_str in inputParts)
             {
-                Debug.Log("wordGroup : " + item);
-
-                primaryItem = Item.GetInWord(item);
+                if ( verb != null && verb.availableForAllItems )
+                {
+                    primaryItem = Item.FindByName(item_str);
+                }
+                else
+                {
+                    primaryItem = Item.GetInWord(item_str);
+                }
 
                 if (primaryItem != null)
                     break;
             }
-
+            
             if ( primaryItem != null)
             {
                 foreach (var inputPart in inputParts)

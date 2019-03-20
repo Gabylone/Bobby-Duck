@@ -7,18 +7,23 @@ public class AdjectiveLoader : MonoBehaviour {
     public string[] maleTerminaisons;
     public string[] femaleTerminaisons;
 
+    public static AdjectiveLoader Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Use this for initialization
     void Start () {
 
 		TextAsset textAsset = Resources.Load ("Adjectives") as TextAsset;
-
 
 		for (int i = 0; i < (int)Adjective.Type.Any; i++) {
 
 			Adjective.adjectives.Add (new List<Adjective> ());
 
 		}
-
 		string[] rows = textAsset.text.Split ('\n');
 
 		for (int rowIndex = 2; rowIndex < rows.Length-1; rowIndex++) {
@@ -36,6 +41,11 @@ public class AdjectiveLoader : MonoBehaviour {
 					Adjective newAdjective = new Adjective ();
 
 					newAdjective._name = cells [(int)adjType];
+                    if (newAdjective._name.Contains("("))
+                    {
+                        newAdjective.beforeWord = true;
+                        newAdjective._name = newAdjective._name.Replace("(", "");
+                    }
 
 					Adjective.adjectives [(int)adjType].Add (newAdjective);
 

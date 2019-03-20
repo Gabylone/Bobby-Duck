@@ -18,6 +18,14 @@ public class WorldGeneration : MonoBehaviour {
 	public int originRoadAmount_min = 6;
 	public int originRoadAmount_max = 8;
 
+    // pas encore utilisé
+    public class PathInfo
+    {
+        public float chanceChangeDirection;
+        public float chanceDeviatingOnRoad;
+        public float chanceBuildingTown;
+    }
+
 	public float road_ChanceChangeDirection = 3f;
 	public float road_ChanceDeviatingNewRoad = 4f;
 
@@ -30,7 +38,11 @@ public class WorldGeneration : MonoBehaviour {
 	public int blobExpendRangeMax = 3;
 	public int blobBorderBuffer = 2;
 
-	[Header("Forests")]
+    [Header("Rivers")]
+    public int minRiverAmount = 1;
+    public int maxRiverAmount = 4;
+
+    [Header("Forests")]
 	public int maxForestScale = 30;
 	public int minForestScale = 10;
 	public int maxForestAmount = 4;
@@ -83,7 +95,6 @@ public class WorldGeneration : MonoBehaviour {
 	void InitMapTiles ()
 	{
 		TileSet.map = new TileSet ();
-
 
         Adjective adjective = Adjective.GetRandom(Adjective.Type.Rural);
 
@@ -161,16 +172,53 @@ public class WorldGeneration : MonoBehaviour {
 			yield return BlobCoroutine (Tile.Type.Forest, Tile.Type.Woods, Coords.random, forestScale);
 		}
 
-		Direction[] directions = new Direction[8];
-		for (int i = 0; i < 8; i += 2) {
-			directions[i] = (Direction)i;
+		Direction[] directions = new Direction[4];
+		for (int i = 0; i < 4; i++) {
+			directions[i] = (Direction)(i * 2);
 		}
-        Coords origin = new Coords ((int)((float)Instance.mapScale / 2f), (int)((float)Instance.mapScale / 2f));
-        Interior.Add(TileSet.current.GetTile(origin), Tile.Type.TownHouse);
-        yield return RoadCoroutine (origin , directions, Tile.Type.Road);
 
-		yield return GenerateRandomHouses ();
 
+        // rivers
+        int riverAmount = Random.Range(minRiverAmount, maxRiverAmount);
+        for (int i = 0; i < riverAmount; i++)
+        {
+            Direction randomDirection = directions[Random.Range(0, directions.Length)];
+
+            Coords riverOrigin = new Coords(0, mapScale);
+
+            int min = 3;
+            int max = mapScale - 3;
+
+            int random = Random.Range(min, max);
+
+            switch (randomDirection)
+            {
+                case Direction.North:
+                    riverOrigin = new Coords( random , min);
+                    break;
+                case Direction.East:
+                    riverOrigin = new Coords( min, random);
+                    break;
+                case Direction.South:
+                    riverOrigin = new Coords( random , max );
+                    break;
+                case Direction.West:
+                    riverOrigin = new Coords( max , random);
+                    break;
+            }
+
+            yield return PathCoroutine(riverOrigin, new Direction[1] { randomDirection }, Tile.Type.River);
+        }
+
+
+        // roads
+        Coords roadOrigin = new Coords((int)((float)Instance.mapScale / 2f), (int)((float)Instance.mapScale / 2f));
+        Interior.Add(TileSet.current.GetTile(roadOrigin), Tile.Type.TownHouse);
+        yield return PathCoroutine(roadOrigin, directions, Tile.Type.Road);
+
+
+        // random houses
+        yield return GenerateRandomHouses ();
 
         for (int x = 0; x < Instance.mapScale; x++)
         {
@@ -273,7 +321,7 @@ public class WorldGeneration : MonoBehaviour {
 			case Tile.Type.ForestCabin:
 			case Tile.Type.CountryHouse:
 				if ( Random.value * 100 < chanceOfLoneHouseCreatingPath ) {
-					yield return RoadCoroutine ( c, new Direction[1] { (Direction)(Random.Range(0,4) * 2) } , Tile.Type.Path );
+					yield return PathCoroutine ( c, new Direction[1] { (Direction)(Random.Range(0,4) * 2) } , Tile.Type.Path );
 				}
 				break;
 			default:
@@ -338,9 +386,7 @@ public class WorldGeneration : MonoBehaviour {
 				yield return new WaitForEndOfFrame ();
 			}
 			
-
 			--y;
-
 
 			if (y > 0) {
 				if (Random.value * 100f < blobExpendChance) {
@@ -372,11 +418,12 @@ public class WorldGeneration : MonoBehaviour {
 	#endregion
 
 	#region roads
-	IEnumerator RoadCoroutine (Coords origin , Direction[] directions, Tile.Type tileType) {
+	IEnumerator PathCoroutine (Coords origin , Direction[] directions, Tile.Type tileType) {
 
-		List<GenerationPath> roads = new List<GenerationPath>();
+		List<GenerationPath> paths = new List<GenerationPath>();
 
 		// create origin paths
+
 //		for (int i = 0; i < 1; i++) {
 		for (int i = 0; i < directions.Length; i++) {
 
@@ -386,21 +433,21 @@ public class WorldGeneration : MonoBehaviour {
 			Coords startCoords = origin + new Coords (c.x,c.y);
 
             GenerationPath originPath = new GenerationPath(startCoords, directions[i], tileType);
-			roads.Add (originPath);
+			paths.Add (originPath);
 		}
 
 		int a = 0;
 
-		while (roads.Count > 0) {
+		while (paths.Count > 0) {
 
 			// advance paths
-			for (int i = 0; i < roads.Count; i++) {
+			for (int i = 0; i < paths.Count; i++) {
 
-				GenerationPath item = roads [i];
+				GenerationPath item = paths [i];
 
 				if ( !item.CanContinue () ) {
 //					yield return GenerateTown (item.coords);
-					roads.Remove (item);
+					paths.Remove (item);
 					continue;
 				}
 
@@ -422,7 +469,7 @@ public class WorldGeneration : MonoBehaviour {
 						GenerationPath newPath = new GenerationPath (item.coords, item.dir, Tile.Type.Road);
 						newPath.ChangeDirection (2);
 						item.rate = 0;
-						roads.Add (newPath);
+						paths.Add (newPath);
 						newPath.Continue ();
 					}
 					break;
@@ -433,7 +480,7 @@ public class WorldGeneration : MonoBehaviour {
 
 			}
 
-			if (roads.Count == 0) {
+			if (paths.Count == 0) {
 				break;
 			}
 
@@ -450,9 +497,9 @@ public class WorldGeneration : MonoBehaviour {
 		}
 
 	}
-	#endregion
+    #endregion
 
-	void RefreshTexture () {
+    void RefreshTexture () {
 		if (MapTexture.Instance)
 			MapTexture.Instance.RefreshTexture ();
 	}
@@ -479,26 +526,29 @@ public class GenerationPath {
 	}
 
 	IsNotBridgeType isNotBridgeType;
-
 	public bool CanContinue ()
 	{
 		if (coords.OutOfMap()) {
+            //Debug.Log("break path generation of type : " + tileType + " : out of map");
 			return false;
 		}
 
 		if (TileSet.current.GetTile (coords).type == Tile.Type.Road) {
+            //Debug.Log("break path generation of type : " + tileType + " : hit road");
 			return false;
-		}
+        }
 
         Coords right = coords + (Coords)Coords.GetRelativeDirection(dir, Player.Facing.Right);
         if (TileSet.current.GetTile(coords).type == Tile.Type.Road)
         {
+            //Debug.Log("break path generation of type : " + tileType + " : road on right");
             return false;
         }
 
         Coords left = coords + (Coords)Coords.GetRelativeDirection(dir, Player.Facing.Left);
         if (TileSet.current.GetTile(coords).type == Tile.Type.Road)
         {
+            //Debug.Log("break path generation of type : " + tileType + " : road on left");
             return false;
         }
 
@@ -553,6 +603,11 @@ public class GenerationPath {
 
 		case Tile.Type.Lake:
 			
+                if ( tileType == Tile.Type.River)
+                {
+                    isNotBridgeType = IsNotBridgeType.NotBridge;
+                    break;
+                }
 			if (isNotBridgeType == IsNotBridgeType.NotDecidedYet) {
 				if (Random.value < 0.45f) {
 					isNotBridgeType = IsNotBridgeType.NotBridge;
@@ -674,6 +729,11 @@ public enum Direction {
 
 [System.Serializable]
 public struct Coords {
+
+    public string GetCode()
+    {
+        return "x:" + x + ",y:" + y;
+    }
 
 	public int x;
 	public int y;

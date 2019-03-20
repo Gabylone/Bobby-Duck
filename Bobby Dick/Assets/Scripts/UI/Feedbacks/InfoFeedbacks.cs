@@ -16,16 +16,26 @@ public class InfoFeedbacks : MonoBehaviour {
 
 	public float duration = 2f;
 
+    Vector3 initPos;
+
 	// Use this for initialization
 	public virtual void Start () {
 
 		Hide ();
 
+
+        initPos = rectTransform.localPosition;
         //rectTransform.transform.SetParent(transform.)
 
 	}
 
-	public virtual void Print ( string str ) {
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F)) {
+            Print("soir");
+        }
+    }
+    public virtual void Print ( string str ) {
 		Print (str, Color.white);
 	}
 	public virtual void Print ( string str , Color color ) {
@@ -33,7 +43,7 @@ public class InfoFeedbacks : MonoBehaviour {
 		Show ();
 
 
-		rectTransform.localPosition = Vector3.zero;
+		rectTransform.localPosition = initPos;
 
 		HOTween.Kill (rectTransform);
 		HOTween.Kill (transform);
@@ -44,7 +54,7 @@ public class InfoFeedbacks : MonoBehaviour {
 		CancelInvoke ("Hide");
 		CancelInvoke ("Fade");
 
-		HOTween.To (rectTransform, duration, "localPosition", Vector3.up * decalY);
+		HOTween.To (rectTransform, duration, "localPosition", initPos + Vector3.up * decalY);
 
 		text.text = str;
 		image.color = color;

@@ -1,10 +1,10 @@
-;Plain;Field;Clearing;Hill;Mountain;Forest;Woods;Sea;Lake;River;Beach;Road;TownRoad;CoastalRoad;Path;Bridge;Building;Farm;ForestCabin;CountryHouse;Hallway;Stairs;LivingRoom;Kitchen;DiningRoom;ChildBedroom;Bedroom;Bathroom;Toilet;Attic;Basement;Cellar;Office
-frigo;;;;;;;;;;;;;;;;;;;;;;;;100;;;;;;;;;
-coffre;;;;;;;;;;;;;;;;;;;;;6;;10;;;10;10;;;40;30;;
-armoire;;;;;;;;;;;;;;;;;;;;;;;30;;30;40;40;;;;;;
-placard;;;;;;;;;;;;;;;;;;;;;;;30;2*40;15;;;;;;;;
-étagère;;;;;;;;;;;;;;;;;;;;;;;30;20;;15;20;;;;4;;
-porte monnaie;;;;;;;;;;;;;;;;;;;;;;;5;3;;;1;;;;;;
-boîte à outil;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;15;;
-armoire de toilette;;;;;;;;;;;;;;;;;;;;;;;;;;;;20;10;;15;;
-carton;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5*10;5*15;5*10;
+;Plain;Field;Clearing;Hill;Mountain;Forest;Woods;Sea;Lake;River;Beach;Road;TownRoad;CoastalRoad;Path;Bridge;Building;Farm;ForestCabin;CountryHouse;Hallway;Stairs;LivingRoom;Kitchen;DiningRoom;ChildBedroom;Bedroom;Bathroom;Toilet;Attic;Basement;Cellar;Office;&
+frigo;;;;;;;;;;;;;;;;;;;;;;;;100;;;;;;;;;;&
+coffre;;;;;;;;;;;;;;;;;;;;;6;;10;;;10;10;;;40;30;;;&
+armoire;;;;;;;;;;;;;;;;;;;;;;;30;;30;40;40;;;;;;;&
+placard;;;;;;;;;;;;;;;;;;;;;;;30;2*40;15;;;;;;;;;&
+étagère;;;;;;;;;;;;;;;;;;;;;;;30;20;;15;20;;;;4;;;&
+porte monnaie;;;;;;;;;;;;;;;;;;;;;;;5;3;;;1;;;;;;;&
+boîte à outil;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;15;;;&
+armoire de toilette;;;;;;;;;;;;;;;;;;;;;;;;;;;;20;10;;15;;;&
+carton;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5*10;5*15;5*10;;&

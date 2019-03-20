@@ -10,7 +10,6 @@ public class ItemSocket
 
     public string GetWordGroup()
     {
-        Debug.Log("getting word group :=for item " + item.GetWordGroup());
         if (count > 5)
         {
             return "beaucoup " + item.word.GetDescription(Word.Def.Undefined, Word.Preposition.De, Word.Number.Plural);
@@ -27,7 +26,7 @@ public class ItemSocket
         {
             string article = item.word.GetArticle(Word.Def.Undefined, Word.Preposition.None, Word.Number.Singular);
 
-            return article + " " + item.GetWordGroup();
+            return article + " " + item.GetWord();
         }
     }
 
@@ -37,8 +36,8 @@ public class ItemSocket
 
         foreach (var item in items)
         {
-            //ItemSocket itemSocket = itemSockets.Find(x => x.item == item && x.item.adjective == item.adjective);
-            ItemSocket itemSocket = null;
+            ItemSocket itemSocket = itemSockets.Find(x => x.item.row == item.row && item.stackable);
+            //ItemSocket itemSocket = null;
 
             if (itemSocket == null)
             {
