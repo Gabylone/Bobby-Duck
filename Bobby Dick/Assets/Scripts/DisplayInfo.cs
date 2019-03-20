@@ -39,7 +39,7 @@ public class DisplayInfo : MonoBehaviour {
 		Canvas.ForceUpdateCanvases ();
 		LayoutRebuilder.ForceRebuildLayoutImmediate (rectTransform);
 
-		switch (corner) {
+		/*switch (corner) {
 		case Corner.None:
 			float x = (parentRectTransform.rect.width / 2f) - (rectTransform.rect.width/2f);
 			float y = -(parentRectTransform.rect.height / 2f) + (rectTransform.rect.height/2f);
@@ -91,10 +91,10 @@ public class DisplayInfo : MonoBehaviour {
 
                 break;
 
-		}
+		}*/
 
         //HOTween.To(rectTransform, tweenDuration, "anchoredPosition", Vector2.zero);
-        rectTransform.anchoredPosition = Vector2.zero;
+        //rectTransform.anchoredPosition = Vector2.zero;
     }
 
     public void Fade() {

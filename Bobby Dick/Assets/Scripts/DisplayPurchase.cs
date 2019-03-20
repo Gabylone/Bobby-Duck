@@ -18,6 +18,8 @@ public class DisplayPurchase : MonoBehaviour {
 
     public Button purchaseButton;
 
+    public Text pearlPrice_Text;
+
     private void Awake()
     {
         Instance = this;
@@ -39,6 +41,8 @@ public class DisplayPurchase : MonoBehaviour {
         targetTransform.localPosition = Vector3.zero;
 
         Tween.Bounce(group.transform);
+
+        pearlPrice_Text.text = "" + apparenceItem.price;
 
         if ( apparenceItem.price > PlayerInfo.Instance.pearlAmount)
         {

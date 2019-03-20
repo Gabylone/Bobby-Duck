@@ -14,6 +14,8 @@ public class MemberCreator : MonoBehaviour {
 		Appearance
 	}
 
+    public Image fadeImage;
+
 	public CreationStep currentStep;
 
 	public GameObject confirmButtonObj;
@@ -30,7 +32,6 @@ public class MemberCreator : MonoBehaviour {
 	public GameObject GetStep ( CreationStep step ) {
 		return stepObjs [(int)step];
 	}
-
 
 	public Sprite femaleSprite;
 	public Sprite maleSprite;
@@ -139,15 +140,17 @@ public class MemberCreator : MonoBehaviour {
 
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 
-
 	} 
 	void EndMemberCreation () {
 
-        animator.SetTrigger("close");
+        //animator.SetTrigger("close");
 
-		HOTween.To (rayblocker , tweenDuration , "color" , Color.clear);
+        HOTween.To(rayblocker, tweenDuration, "color", Color.clear);
 
-		HideStep (CreationStep.Appearance);
+        HOTween.To(fadeImage, tweenDuration, "color" , Color.black);
+
+
+        HideStep(CreationStep.Appearance);
 
 		confirmButtonObj.SetActive (false);
 
@@ -155,13 +158,16 @@ public class MemberCreator : MonoBehaviour {
         Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Map);
         CrewInventory.Instance.canOpen = true;
 
-        Hide();
+
 
         Invoke("EndMemberCreationDelay",tweenDuration);
 
 	}
 	void EndMemberCreationDelay () {
 
+        HOTween.To(fadeImage, tweenDuration, "color", Color.clear);
+
+        Hide();
 
 		SaveManager.Instance.SaveGameData ();
 		StoryLauncher.Instance.PlayStory (Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);

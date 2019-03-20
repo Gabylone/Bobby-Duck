@@ -10,6 +10,8 @@ public class Island : MonoBehaviour {
 	public static Sprite[] sprites;
 	public static Sprite[] minimapSprites;
 
+    public GameObject[] islandMeshes;
+
 	private Image image;
 
 	[SerializeField]
@@ -111,9 +113,16 @@ public class Island : MonoBehaviour {
 			gameObject.SetActive ( true );
 
             //GetComponent<RectTransform> ().anchoredPosition = chunk.IslandData.positionOnScreen;
-            transform.localPosition = new Vector3( chunk.IslandData.positionOnScreen.x  , 0f , chunk.IslandData.positionOnScreen.y);
+            transform.localPosition = new Vector3( chunk.IslandData.worldPosition.x  , 0f , chunk.IslandData.worldPosition.y);
+            transform.rotation = Quaternion.EulerAngles(0,chunk.IslandData.worldRotation,0);
 
-			//GetComponentInChildren<Image>().sprite = sprites [islandData.storyManager.storyHandlers [0].Story.param];
+            //GetComponentInChildren<Image>().sprite = sprites [islandData.storyManager.storyHandlers [0].Story.param];
+
+            foreach (var item in islandMeshes)
+            {
+                item.SetActive(false);
+            }
+            islandMeshes[islandData.storyManager.storyHandlers[0].Story.param].SetActive(true);
 
 		} else {
 			
@@ -167,10 +176,12 @@ public class Island : MonoBehaviour {
     {
         OnPointerDown();
     }
+
     public Vector2 GetRandomPosition () {
 
 		if ( _transform == null )
 			_transform= GetComponent<RectTransform> ();
+
         return new Vector2 (Random.Range(-min_RangeX,max_RangeX) , Random.Range(-min_RangeY,max_RangeY) );
 
 	}

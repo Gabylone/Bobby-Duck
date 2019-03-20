@@ -170,12 +170,9 @@ public class Member {
         characterIDS[(int)type] = i;
     }
 
-    public static bool operator ==( Member member1, Member member2) 
-	{
-		return member1.id == member2.id;
-	}
-	public static bool operator != (Member member1, Member member2) 
-	{
-		return !(member1 == member2);
-	}
+    public bool SameAs (Member member)
+    {
+        return id == member.id;
+    }
+
 }

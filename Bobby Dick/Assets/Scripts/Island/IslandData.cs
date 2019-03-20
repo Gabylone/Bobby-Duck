@@ -5,7 +5,8 @@ using System.Collections.Generic;
 [System.Serializable]
 public class IslandData {
 
-	public Vector2 positionOnScreen;
+	public Vector2 worldPosition;
+    public float worldRotation = 0f;
 
 	public StoryManager storyManager;
 
@@ -20,7 +21,8 @@ public class IslandData {
 
 		storyManager.InitHandler (storyType);
 
-		positionOnScreen = Island.Instance.GetRandomPosition ();
+		worldPosition = Island.Instance.GetRandomPosition ();
+        worldRotation = Random.Range( 0, 360f );
 
 
 	}

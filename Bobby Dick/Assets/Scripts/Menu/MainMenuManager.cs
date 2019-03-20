@@ -11,7 +11,10 @@ public class MainMenuManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject quitButton;
 
-	[SerializeField]
+
+    public GameObject HandObj;
+
+    [SerializeField]
 	private GameObject loadButton;
 
 	[SerializeField]
@@ -30,6 +33,9 @@ public class MainMenuManager : MonoBehaviour {
 		Transitions.Instance.ScreenTransition.FadeOut (0.5f);
 
 		Screen.orientation = ScreenOrientation.Landscape;
+
+        mapsGroup.SetActive(false);
+        MenuObj.SetActive(false);
 
 		/*if (SaveTool.Instance.FileExists ("game data")) {
 			loadButton.SetActive (true);
@@ -51,6 +57,8 @@ public class MainMenuManager : MonoBehaviour {
         mapsGroup.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, 1000f );
         HOTween.To(mapsGroup.GetComponent<RectTransform>(), mapsAppearDuration, "anchoredPosition", Vector2.zero);
 
+        MenuObj.SetActive(false);
+
         /*if (SaveTool.Instance.FileExists ("game data")) {
 
 			MessageDisplay.onValidate += HandleOnValidate;
@@ -68,6 +76,9 @@ public class MainMenuManager : MonoBehaviour {
         HOTween.To(mapsGroup.GetComponent<RectTransform>(), 1f, "anchoredPosition", new Vector2(0f, 1000f));
 
         Invoke("HideMapsDelay", 1f);
+
+        MenuObj.SetActive(true);
+
 
     }
 
@@ -119,4 +130,11 @@ public class MainMenuManager : MonoBehaviour {
 		loadMenu.SetActive (false);
 		loadButton.SetActive (true);
 	}
+
+    public GameObject MenuObj;
+    public void OnTapBackground()
+    {
+        MenuObj.SetActive(true);
+        HandObj.SetActive(false);
+    }
 }

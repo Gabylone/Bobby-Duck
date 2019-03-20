@@ -62,7 +62,13 @@ public class GameManager : MonoBehaviour {
 
 			TimeManager.Instance.Reset ();
 
-		}
+            KeepOnLoad.displayTuto = true;
+
+            /// TEST
+            /// 
+
+
+        }
 
 		CrewInventory.Instance.Init ();
 

@@ -39,7 +39,6 @@ public class DisplayFormulas : MonoBehaviour {
 
         group.SetActive(true);
 
-
         foreach (var item in images)
         {
             item.gameObject.SetActive(false);

@@ -71,7 +71,6 @@ public class QuestMenu : MonoBehaviour {
 
 	public void Open () {
 
-
 		menuGroup.SetActive (true);
 
 		//displayFormulas.ShowFormulas ();
@@ -82,10 +81,12 @@ public class QuestMenu : MonoBehaviour {
 
 		UpdateButtons ();
 
-//		Tween.ClearFade (menuGroup.transform);
-		//Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
+        DisplayQuest.Instance.Hide();
 
-		if (onOpenQuestMenu != null)
+//		Tween.ClearFade (menuGroup.transform);
+//Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
+
+        if (onOpenQuestMenu != null)
 			onOpenQuestMenu ();
 
 		opened = true;

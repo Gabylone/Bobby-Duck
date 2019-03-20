@@ -92,6 +92,11 @@ public class Tutorial : MonoBehaviour {
 
 	}
 
+    public void DisableTuto()
+    {
+        KeepOnLoad.displayTuto = false;
+    }
+
 }
 
 public enum TutorialStep {
@@ -237,7 +242,9 @@ public class TutoStep_Movements: TutoStep {
 
 			Display ();
 
-			StoryLauncher.Instance.onEndStory -= HandleEndStoryEvent;
+            DisplayInfo_Tuto.Instance.handObj.SetActive(true);
+
+            StoryLauncher.Instance.onEndStory -= HandleEndStoryEvent;
 
 			NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 		}
@@ -248,8 +255,9 @@ public class TutoStep_Movements: TutoStep {
 	void HandleChunkEvent ()
 	{
 		NavigationManager.Instance.EnterNewChunk -= HandleChunkEvent;
+        DisplayInfo_Tuto.Instance.handObj.SetActive(false);
 
-		Kill ();
+        Kill();
 	}
 
 }

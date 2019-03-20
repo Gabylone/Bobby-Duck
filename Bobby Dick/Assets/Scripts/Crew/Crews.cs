@@ -213,7 +213,7 @@ public class Crews : MonoBehaviour {
 			
 			} else {
 				
-				Quest linkedQuest = QuestManager.Instance.currentQuests.Find (x => x.giver == Crews.enemyCrew.captain.MemberID);
+				Quest linkedQuest = QuestManager.Instance.currentQuests.Find (x => x.giver.SameAs(Crews.enemyCrew.captain.MemberID));
 				if (linkedQuest != null) {
 					linkedQuest.ReturnToGiver ();
 				}

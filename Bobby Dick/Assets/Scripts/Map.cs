@@ -21,6 +21,8 @@ public class Map : MonoBehaviour {
 
     public string mapName = "Map Name";
 
+    public Text mapName_UIText;
+
     public GameObject iconVisualGroup;
     public IconVisual targetIconVisual;
     public Text captainUIText;
@@ -45,6 +47,8 @@ public class Map : MonoBehaviour {
     public void UpdateUI()
     {
         apparenceItem = CrewCreator.Instance.GetApparenceItem(apparenceItem.apparenceType, apparenceItem.id);
+
+        mapName_UIText.text = mapName;
 
         if (apparenceItem.locked)
         {
@@ -134,7 +138,6 @@ public class Map : MonoBehaviour {
         KeepOnLoad.Instance.mapName = mapName;
 
 
-        Debug.Log("map : " + mapName);
         SaveTool.Instance.CreateDirectories();
 
         Invoke("LaunchMapDelay", 1f);

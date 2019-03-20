@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class QuestManager : MonoBehaviour {
 
@@ -15,11 +16,13 @@ public class QuestManager : MonoBehaviour {
 	public int maxQuestAmount = 20;
 
 	void Awake () {
+
 		Instance = this;
 
         Quest.onSetTargetCoords = null;
         Quest.currentQuest = null;
         Quest.showQuestOnMap = null;
+
         onFinishQuest = null;
         onGiveUpQuest = null;
         onNewQuest = null;
@@ -35,7 +38,7 @@ public class QuestManager : MonoBehaviour {
 
 	}
 
-	void HandleOnCrewMemberKilled (CrewMember crewMember)
+    void HandleOnCrewMemberKilled (CrewMember crewMember)
 	{
 		if ( crewMember.side == Crews.Side.Enemy ) {
 
@@ -88,7 +91,9 @@ public class QuestManager : MonoBehaviour {
 		}
 	}
 
-	void CheckIfQuestIsAccomplished ()
+   
+
+    void CheckIfQuestIsAccomplished ()
 	{
 		if ( Quest.currentQuest == null ) {
 			Debug.LogError ("QUEST IS NULL : CheckIfQuestIsAccomplished");
@@ -293,7 +298,7 @@ public class QuestManager : MonoBehaviour {
 				storyLayer = StoryReader.Instance.previousStoryLayer;
 			}
 
-			return currentQuests.Find ( x => x.giver == Crews.enemyCrew.captain.MemberID );
+			return currentQuests.Find ( x => x.giver.SameAs(Crews.enemyCrew.captain.MemberID));
 //			return currentQuests.Find ( x => 
 //				x.originCoords == Boats.playerBoatInfo.coords && 
 //				storyLayer == x.layer &&
@@ -312,7 +317,7 @@ public class QuestManager : MonoBehaviour {
 				storyLayer = StoryReader.Instance.previousStoryLayer;
 			}
 
-			return finishedQuests.Find ( x => x.giver == Crews.enemyCrew.captain.MemberID );
+			return finishedQuests.Find ( x => x.giver.SameAs(Crews.enemyCrew.captain.MemberID));
 
 //			return finishedQuests.Find ( x => 
 //				x.originCoords == Boats.playerBoatInfo.coords && 

@@ -5,9 +5,18 @@ using UnityEngine.UI;
 
 public class DisplayInfo_Tuto : DisplayInfo {
 
+    public static DisplayInfo_Tuto Instance;
+
     public Corner corner = Corner.BottomLeft;
 
-	public override void Start ()
+    public GameObject handObj;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    public override void Start ()
 	{
 		base.Start ();
 
@@ -18,6 +27,8 @@ public class DisplayInfo_Tuto : DisplayInfo {
 			Tutorial.onHideTutorial += HandleOnHideTutorial;
 
 		}
+
+        handObj.SetActive(false);
 	}
 
     void HandleOnHideTutorial ()
