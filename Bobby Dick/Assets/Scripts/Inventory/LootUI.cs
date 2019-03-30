@@ -240,7 +240,6 @@ public class LootUI : MonoBehaviour {
 
         int displayItemIndex = 0;
 
-
         displayEquipedItem.gameObject.SetActive(false);
 
         if ( (currentCat == ItemCategory.Clothes || currentCat == ItemCategory.Weapon) && currentPage == 0 && currentSide == Crews.Side.Player)

@@ -466,7 +466,7 @@ public class DisplayMinimap : MonoBehaviour {
 //		HOTween.To (outlineImage, zoomDuration /2f , "color" , Color.clear );
 		outlineImage.gameObject.SetActive(false);
 
-        zoomBackground.SetActive(true);
+        //zoomBackground.SetActive(true);
 
 
         rayBlockerImage.gameObject.SetActive(true);
@@ -512,7 +512,7 @@ public class DisplayMinimap : MonoBehaviour {
 
         rectTransform.anchoredPosition = Vector2.zero;
 
-        zoomBackground.SetActive(false);
+        //zoomBackground.SetActive(false);
 
         viewPortMask.enabled = true;
 

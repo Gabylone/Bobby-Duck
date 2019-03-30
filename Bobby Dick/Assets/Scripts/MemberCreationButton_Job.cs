@@ -14,6 +14,17 @@ public class MemberCreationButton_Job : MemberCreatorButton {
         
     }
 
+    public override void Select()
+    {
+        if ( apparenceItem.locked)
+        {
+            return;
+        }
+
+        base.Select();
+
+    }
+
     public override void UpdateImage()
     {
         base.UpdateImage();
@@ -24,6 +35,11 @@ public class MemberCreationButton_Job : MemberCreatorButton {
     public override void OnPointerUp()
     {
         base.OnPointerUp();
+
+        if ( apparenceItem.locked)
+        {
+            return;
+        }
 
         Crews.playerCrew.captain.MemberID.SetJob((Job)apparenceItem.id);
 
