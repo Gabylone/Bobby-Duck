@@ -23,29 +23,45 @@ public class Island : MonoBehaviour {
 	[SerializeField]
 	Collider _collider = null;
 
-	Vector2 scale = Vector2.zero;
+    Vector2 scale = Vector2.zero;
 
-	public RectTransform uiBackground;
+    public RectTransform uiBackground;
 
 	private Transform _transform;
 
 	[SerializeField]
 	private RectTransform gameViewCenter;
 
-	#region mono
-	void Awake () {
+    private IslandTrigger[] islandTriggers;
+
+    public delegate void OnClickIsland();
+    public static OnClickIsland onClickIsland;
+
+    public bool targeted = false;
+
+    public float min_RangeX = 0f;
+    public float min_RangeY = 0f;
+
+    public float max_RangeX = 0f;
+    public float max_RangeY = 0f;
+
+    #region mono
+    void Awake () {
+
+
 		Instance = this;
-        onTouchIsland = null;
+        onClickIsland = null;
 
     }
 
     void Start () {
 
         _transform = GetComponent<Transform>();
-		image = GetComponentInChildren<Image> ();
+        image = GetComponentInChildren<Image>();
 
+        islandTriggers = GetComponentsInChildren<IslandTrigger>(true );
 
-		Init ();
+        Init();
 	
 	}
 
@@ -68,13 +84,13 @@ public class Island : MonoBehaviour {
 
 	void HandleOnSwipe (Directions direction)
 	{
-		_collider.enabled = false;
+        DeactivateCollider();
 	}
 
 	void HandleOnTouchWorld ()
 	{
 		targeted = false;
-		_collider.enabled = false;
+        DeactivateCollider();
 	}
 
 	void HandleChunkEvent ()
@@ -85,10 +101,18 @@ public class Island : MonoBehaviour {
 
 	void DeactivateCollider ()
 	{
-		_collider.enabled = false;
+        Debug.Log("deactivating colliders");
+        foreach (var item in islandTriggers)
+        {
+            item.DeactivateCollider();
+        }
 	}
 	void ActivateCollider () {
-		_collider.enabled = true;
+        Debug.Log("activating colliders");
+        foreach (var item in islandTriggers)
+        {
+            item.ActivateCollider();
+        }
 	}
 	#endregion
 
@@ -133,21 +157,11 @@ public class Island : MonoBehaviour {
 	}
 	#endregion
 
-	void OnCollisionStay ( Collision coll ) {
-		if ( coll.gameObject.tag == "Player" ) {
-			if (targeted) {
-				Enter ();
-				targeted = false;
-			}
-		}
-	}
-
-	public delegate void OnTouchIsland ();
-	public static OnTouchIsland onTouchIsland;
-
-	public bool targeted = false;
+	
 
 	public void OnPointerDown () {
+
+        Debug.Log("ON POINTER ISLAND ");
 
 		if (StoryLauncher.Instance.PlayingStory)
 			return;
@@ -157,20 +171,14 @@ public class Island : MonoBehaviour {
 
 		Tween.Bounce (transform );
 
-		if ( onTouchIsland != null ) {
-			onTouchIsland ();
+		if ( onClickIsland != null ) {
+			onClickIsland ();
 		}
 
-		_collider.enabled = true;
+        ActivateCollider();
 
 		targeted = true;
 	}
-
-    public float min_RangeX = 0f;
-    public float min_RangeY = 0f;
-
-    public float max_RangeX = 0f;
-    public float max_RangeY = 0f;
 
     private void OnMouseDown()
     {
@@ -185,5 +193,16 @@ public class Island : MonoBehaviour {
         return new Vector2 (Random.Range(-min_RangeX,max_RangeX) , Random.Range(-min_RangeY,max_RangeY) );
 
 	}
+
+
+
+    public void CollideWithPlayer()
+    {
+        if (targeted)
+        {
+            Enter();
+            targeted = false;
+        }
+    }
 }
  

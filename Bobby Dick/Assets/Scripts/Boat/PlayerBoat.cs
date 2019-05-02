@@ -21,7 +21,7 @@ public class PlayerBoat : Boat {
 
         //WorldTouch.onPointerDown += HandleOnPointerDown;
 		WorldTouch.onPointerExit += HandleOnPointerExit;
-        Island.onTouchIsland += HandleOnTouchIsland;
+        Island.onClickIsland += HandleOnTouchIsland;
 
 		StoryLauncher.Instance.onPlayStory += EndMovenent;
 		StoryLauncher.Instance.onEndStory += EndMovenent;
@@ -57,7 +57,6 @@ public class PlayerBoat : Boat {
     #region events
     void HandleOnPointerDown ()
 	{
-
         /*Vector2 pos = Camera.main.ScreenToWorldPoint(InputManager.Instance.GetInputPosition());
         SetTargetPos(Flag.Instance.transform.position);*/
     }
@@ -65,7 +64,6 @@ public class PlayerBoat : Boat {
     private void HandleOnPointerExit()
     {
         Tween.Bounce(getTransform);
-
     }
     #endregion
 
@@ -77,6 +75,7 @@ public class PlayerBoat : Boat {
         WorldTouch.Instance.touching = false;
 
         SetTargetPos(transform.position);
+
         moving = false;
 
         if ( onEndMovement != null )

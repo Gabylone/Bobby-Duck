@@ -73,7 +73,7 @@ public class EnemyBoat : Boat {
 		reachedPlayer = false;
 		followPlayer = false;
 
-		speed = leavingSpeed;
+        SetSpeed(leavingSpeed);
 
         Vector3 corner = NavigationManager.Instance.GetOppositeCornerPosition(otherBoatInfo.currentDirection);
         Vector3 p = corner + (corner - getTransform.position).normalized * 2f;
@@ -111,7 +111,7 @@ public class EnemyBoat : Boat {
 
             SetTargetPos(p);
 
-            speed = startSpeed;
+            SetSpeed(startSpeed);
 
         }
         else
@@ -120,7 +120,7 @@ public class EnemyBoat : Boat {
             // follow player
             SetTargetPos(PlayerBoat.Instance.getTransform.position);
 
-            speed = followPlayer_Speed;
+            SetSpeed(followPlayer_Speed);
 
         }
 
@@ -170,6 +170,8 @@ public class EnemyBoat : Boat {
 
         boxCollider.enabled = false;
 
+        SetSpeed(0);
+
 		StoryLauncher.Instance.PlayStory (OtherBoatInfo.storyManager, StoryLauncher.StorySource.boat);
 	}
 	#endregion
@@ -190,11 +192,14 @@ public class EnemyBoat : Boat {
 		}
 		set {
 
-			visible = value;
+            gameObject.SetActive(value);
+
+            visible = value;
 
 			reachedPlayer = false;
 
             group.SetActive(value);
+
 
         }
 	}

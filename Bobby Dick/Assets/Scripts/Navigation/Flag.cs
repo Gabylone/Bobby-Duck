@@ -34,7 +34,7 @@ public class Flag : MonoBehaviour {
         //WorldTouch.onPointerDown += HandleOnTouchWorld;
         WorldTouch.onPointerExit += HandleOnPointerExit;
 
-        Island.onTouchIsland += HandleOnTouchIsland;
+        Island.onClickIsland += HandleOnTouchIsland;
 
         PlayerBoat.Instance.onEndMovement += HandleOnEndMovement;
         NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;

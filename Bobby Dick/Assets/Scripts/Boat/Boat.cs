@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -14,22 +15,31 @@ public class Boat : MonoBehaviour {
 
 	[Space]
 	[Header ("Boat Position Parameters")]
-	public float speed = 5f;
 	public float startSpeed = 5f;
 
     public Vector3 targetPos;
 	private Vector2 targetDir;
 
+    public NavMeshAgent agent;
+
 	public virtual void Start () {
 		
 		getTransform = GetComponent<Transform> ();
+        SetSpeed(startSpeed);
 
 	}
 
 	public virtual void Update () {
 		if ( moving ) {
-			UpdateBoatPosition ();
-			SetBoatRotation ();
+
+            if (agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0)
+            {
+                EndMovenent();
+                Debug.Log("reached destination");
+            }
+
+            /*UpdateBoatPosition ();
+			SetBoatRotation ();*/
 		}
 	}
 
@@ -58,22 +68,23 @@ public class Boat : MonoBehaviour {
     #region moving
     public virtual void SetTargetPos(Vector3 p)
     {
+        agent.SetDestination(p);
+
         moving = true;
         targetPos = p;
-
     }
     public virtual void SetTargetPos ( Transform t ) {
         SetTargetPos(t.position);
 	}
 
-	private void UpdateBoatPosition () {
+	/*private void UpdateBoatPosition () {
 
 		Vector3 targetDir = (targetPos - getTransform.position).normalized;
 
 		// translate boat
 		getTransform.Translate (targetDir * speed * Time.deltaTime, Space.World);
 
-	}
+	}*/
 
 	public virtual void EndMovenent() {
 		moving = false;
@@ -85,6 +96,10 @@ public class Boat : MonoBehaviour {
 		foreach (TrailRenderer renderer in GetComponentsInChildren<TrailRenderer>())
 			renderer.Clear ();
 	}
-	#endregion
+    public void SetSpeed(float newSpeed)
+    {
+        agent.speed = newSpeed;
+    }
+    #endregion
 
 }
