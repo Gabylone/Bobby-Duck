@@ -6,7 +6,11 @@ using Holoville.HOTween;
 [System.Serializable]
 public class SoldierInfo
 {
-    public string name = "";
+	public SoldierInfo () {
+		
+	}
+
+	public string name = "";
 
     public int colorID = 0;
 
