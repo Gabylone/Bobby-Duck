@@ -52,9 +52,6 @@ public class LootManager : MonoBehaviour {
 
 	void Awake (){
 		Instance = this;
-
-        onRemoveItemFromInventory = null;
-        onAddToInventory = null;
 	}
 
 	void Start () {
@@ -86,11 +83,11 @@ public class LootManager : MonoBehaviour {
         }
         else
         {
-            playerLoot.Randomize(new ItemCategory[1] { ItemCategory.Provisions }, 1);
+            playerLoot.Randomize(new ItemCategory[1] { ItemCategory.Provisions }, 2);
 
         }
 
-        setLoot (Crews.Side.Player, playerLoot);
+        SetLoot (Crews.Side.Player, playerLoot);
 	}
 
 	public Loot PlayerLoot {
@@ -109,7 +106,7 @@ public class LootManager : MonoBehaviour {
 		return side == Crews.Side.Player ? playerLoot : otherLoot;
 	}
 
-	public void setLoot ( Crews.Side side , Loot targetLoot) {
+	public void SetLoot ( Crews.Side side , Loot targetLoot) {
 		if (side == Crews.Side.Player) {
 			playerLoot = targetLoot;
 		} else {
@@ -189,8 +186,6 @@ public class LootManager : MonoBehaviour {
 	}
 
 	#region item
-	public delegate void OnRemoveItemFromInventory (Item item);
-	public static OnRemoveItemFromInventory onRemoveItemFromInventory;
 	void RemoveFromInventory () {
 
 		string cellParams = StoryFunctions.Instance.CellParams;
@@ -211,16 +206,11 @@ public class LootManager : MonoBehaviour {
 			item = LootManager.Instance.getLoot (Crews.Side.Player).AllItems [(int)targetCat].Find (x => x.name == itemName);
 		}
 
-		if (onRemoveItemFromInventory != null) {
-			onRemoveItemFromInventory (item);
-		}
+        Narrator.Instance.ShowNarrator("Objet perdu : " + item.name);
 
-		LootManager.Instance.getLoot (Crews.Side.Player).RemoveItem (item);
+        LootManager.Instance.getLoot (Crews.Side.Player).RemoveItem (item);
 
 	}
-
-	public delegate void OnAddToInventory (Item item);
-	public static OnAddToInventory onAddToInventory;
 	void AddToInventory () {
 
 		string cellParams = StoryFunctions.Instance.CellParams;
@@ -243,9 +233,7 @@ public class LootManager : MonoBehaviour {
 			item = ItemLoader.Instance.GetRandomItem (targetCat);
 		}
 
-		if (onAddToInventory != null) {
-			onAddToInventory (item);
-		}
+        DisplayStoryItem.Instance.DisplayItem( item );
 
 		getLoot (Crews.Side.Player).AddItem (item);
 	}

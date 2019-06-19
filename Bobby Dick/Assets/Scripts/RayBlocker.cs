@@ -32,8 +32,8 @@ public class RayBlocker : MonoBehaviour {
 
 		Hide ();
 
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
-		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;
+		InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
+		InGameMenu.Instance.onCloseMenu += HandleCloseInventory;
 
     }
 
@@ -51,7 +51,7 @@ public class RayBlocker : MonoBehaviour {
 		Hide ();
 	}
 
-	void HandleOpenInventory (CrewMember member)
+	void HandleOpenInventory ()
 	{
 //		HOTween.To ( image , tweenDur , "color" , initColor );
 //

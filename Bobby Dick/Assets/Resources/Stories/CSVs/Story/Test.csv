@@ -1,0 +1,18 @@
+[main];;
+Choice(André);Choice(Christine);Choice(Samantha)
+GoToNode(andré);GoToNode(christine);GoToNode(samantha)
+;;
+[andré];;
+Choice(Montrer André);Choice(Ajouter à jauge Faim);
+ShowCharacter(André);AddToGauge(Faim,25);
+GoToNode(main);GoToNode(main);
+;;
+[christine];;
+Choice(Montrer Christine);Choice(Ajouter à jauge Soif);
+ShowCharacter(Christine);AddToGauge(Soif,25);
+GoToNode(main);GoToNode(main);
+;;
+[samantha];;
+Choice(Montrer Samantha);Choice(Ajouter à jauge Sommeil);
+ShowCharacter(Samantha);AddToGauge(Sommeil,25);
+GoToNode(main);GoToNode(main);

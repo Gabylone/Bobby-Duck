@@ -44,14 +44,14 @@ public class DialogueManager : MonoBehaviour {
 	void Start () {
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
 
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
-		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;
+		InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
+		InGameMenu.Instance.onCloseMenu += HandleCloseInventory;
 
 		StoryInput.onPressInput += HandleOnPressInput;
 	}
 
 	bool previousActive = false;
-	void HandleOpenInventory (CrewMember member)
+	void HandleOpenInventory ()
 	{
 		if (bubble_Obj.activeSelf) {
 			previousActive = true;
@@ -76,14 +76,19 @@ public class DialogueManager : MonoBehaviour {
 	{
 		switch (func) {
 		case FunctionType.OtherSpeak:
-			Crews.enemyCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-			SetDialogue (cellParameters.Remove (0, 2), Crews.enemyCrew.captain);
 
-			break;
+                Crews.enemyCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Discussion);
+                Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Discussion);
+
+                SetDialogue(cellParameters.Remove (0, 2), Crews.enemyCrew.captain);
+                break;
+
 		case FunctionType.PlayerSpeak:
-			Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-			SetDialogue (cellParameters.Remove (0, 2), Crews.playerCrew.captain);
-			break;
+
+                Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Discussion);
+
+			    SetDialogue (cellParameters.Remove (0, 2), Crews.playerCrew.captain);
+                break;
 		}
 	}
 
@@ -99,12 +104,16 @@ public class DialogueManager : MonoBehaviour {
 	#region set dialogue
 	// TIMED
 	public void SetDialogueTimed (string phrase, Transform _target) {
-		timed = true;
-		SetDialogue (phrase, _target);
+
+        timed = true;
+
+        SetDialogue(phrase, _target);
+
 	}
-	public void SetDialogueTimed (string phrase, CrewMember crewMember) {
-		SetDialogueTimed (phrase, crewMember.Icon.dialogueAnchor);
-	}
+    public void SetDialogueTimed(string phrase, CrewMember crewMember)
+    {
+        SetDialogueTimed(phrase, crewMember.Icon.dialogueAnchor);
+    }
 
 
 	// INPUT
@@ -164,7 +173,7 @@ public class DialogueManager : MonoBehaviour {
 		}
 		else
 		{
-			EndDialogue ();
+            EndDialogue();
 		}
 	}
 	public void EndDialogue ()

@@ -15,6 +15,7 @@ public class UIBackground : MonoBehaviour {
 	public float duration = 0.3f;
 
 	public GameObject uiGroup;
+    public GameObject playerIconsObj;
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +23,7 @@ public class UIBackground : MonoBehaviour {
 
         CombatManager.Instance.onChangeState += HandleOnChangeState;
 
-        CombatManager.Instance.onFightStart += MoveBackGround;
+        CombatManager.Instance.onFightStart += HideBackground;
 		CombatManager.Instance.onFightEnd += HandleFightEnding;
 
 		initXPos = rectTransform.rect.position.x;
@@ -72,21 +73,24 @@ public class UIBackground : MonoBehaviour {
 	{
 		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( initXPos , 0f ) );
 
-		uiGroup.SetActive (true);
-	}
+        playerIconsObj.SetActive(true);
+		//uiGroup.SetActive (true);
+    }
 
 	void MoveBackGround ()
 	{
 		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( skillX , 0f ) );
 
-		uiGroup.SetActive (false);
+		//uiGroup.SetActive (false);
+        playerIconsObj.SetActive(false);
 	}
 
 	void HideBackground ()
 	{
 		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( hiddenX , 0f ) );
 
-		uiGroup.SetActive (false);
+        playerIconsObj.SetActive(false);
+		//uiGroup.SetActive (false);
 
-	}
+    }
 }

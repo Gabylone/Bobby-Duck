@@ -20,6 +20,7 @@ public class StoryLauncher : MonoBehaviour {
 
 		island,
 		boat,
+        other,
 	}
 
 	private StorySource currentStorySource;
@@ -60,15 +61,14 @@ public class StoryLauncher : MonoBehaviour {
         if (onPlayStory != null)
             onPlayStory();
 
-
-
         StoryReader.Instance.CurrentStoryManager = storyManager;
         StoryReader.Instance.Reset ();
 
 
         playingStory = true;
 
-        Invoke("PlayStoryDelay", 1f);
+        PlayStoryDelay();
+        //Invoke("PlayStoryDelay", 1f);
 	}
 
     void PlayStoryDelay()
@@ -76,7 +76,7 @@ public class StoryLauncher : MonoBehaviour {
         Transitions.Instance.ActionTransition.FadeIn(0.5f);
 
         // place captain
-        Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Discussion);
+        //Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Discussion);
         StoryReader.Instance.UpdateStory();
     }
 

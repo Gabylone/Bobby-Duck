@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class DisplayStoryItem : MonoBehaviour {
 
+    public static DisplayStoryItem Instance;
+
 	[SerializeField]
 	DisplayItem_Selected displayItem;
 
 	[SerializeField]
 	private GameObject group;
 
-	// Use this for initialization
-	void Start () {
-		LootManager.onAddToInventory += HandleOnAddToInventory;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
+    // Use this for initialization
+    void Start () {
 		StoryInput.onPressInput += HandleOnPressInput;
 
         group.SetActive(false); 
@@ -24,7 +29,7 @@ public class DisplayStoryItem : MonoBehaviour {
 		group.SetActive (false);
 	}
 
-	void HandleOnAddToInventory (Item item)
+	public void DisplayItem (Item item)
 	{
 		group.SetActive (true);
 

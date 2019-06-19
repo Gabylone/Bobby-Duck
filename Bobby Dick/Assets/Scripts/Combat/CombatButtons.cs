@@ -11,27 +11,40 @@ public class CombatButtons : MonoBehaviour {
 	public Button openSkillButton;
 	public Image jobImage;
 
+    public GameObject group;
+
 	public GameObject defaultGroup;
 	public GameObject skillGroup;
-
-
-	// Use this for initialization
+    
+    // Use this for initialization
 	void Start () {
 		
 		CombatManager.Instance.onChangeState += HandleOnChangeState;
 
+        CombatManager.Instance.onFightStart+= Show;
         CombatManager.Instance.onFightEnd += Hide;
 
 		defaultSkillButtons = defaultGroup.GetComponentsInChildren<SkillButton> (true);
 		skillButtons = skillGroup.GetComponentsInChildren<SkillButton> (true);
 
-        Hide();
+        HideButtons();
 
 	}
 
+    void Show()
+    {
+        group.SetActive(true);
+    }
+
+    void Hide()
+    {
+        HideButtons();
+        group.SetActive(false);
+    }
+
 	void HandleOnChangeState (CombatManager.States currState, CombatManager.States prevState)
 	{
-        Hide();
+        HideButtons();
 
         if (CombatManager.Instance.fighting == false)
             return;
@@ -43,7 +56,7 @@ public class CombatButtons : MonoBehaviour {
 
 	}
 
-    void Hide()
+    void HideButtons()
     {
         defaultGroup.SetActive(false);
         skillGroup.SetActive(false);

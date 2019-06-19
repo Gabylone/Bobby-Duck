@@ -10,13 +10,13 @@ public class DisplayName : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+		InGameMenu.Instance.onDisplayCrewMember += OnDisplayCrewMember;
 
 		if ( CrewMember.GetSelectedMember != null)
-		HandleOpenInventory (CrewMember.GetSelectedMember);
+		OnDisplayCrewMember (CrewMember.GetSelectedMember);
 	}
 
-	void HandleOpenInventory (CrewMember member)
+	void OnDisplayCrewMember (CrewMember member)
 	{
 		if (CrewMember.GetSelectedMember == null)
 			return;

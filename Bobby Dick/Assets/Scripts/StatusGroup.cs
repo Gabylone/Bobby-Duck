@@ -16,9 +16,6 @@ public class StatusGroup : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		GetComponentInParent<Card> ().linkedFighter.onAddStatus += HandleOnAddStatus;
-		GetComponentInParent<Card> ().linkedFighter.onRemoveStatus += HandleOnRemoveStatus;
-
 		CombatManager.Instance.onFightStart += HandleFightStarting;
 
 //		print ((int)Fighter.Status.None);
@@ -45,22 +42,27 @@ public class StatusGroup : MonoBehaviour {
 		}
 	}
 
-	void HandleOnAddStatus (Fighter.Status status, int count)
+	public void HandleOnAddStatus (Fighter.Status status, int count)
 	{
 		if ((int)status >= statusFeedbacks.Length) {
 			print (status.ToString () + " doesct fit in feedbacks ( L : " + statusFeedbacks.Length + ")");
 		}
 
-		statusFeedbacks [(int)status].gameObject.SetActive (true);
-		statusFeedbacks [(int)status].SetColor (GetStatusColor (status));
-		statusFeedbacks [(int)status].SetCount (count);
+        Debug.Log("adding status");
 
-		statusFeedbacks [(int)status].transform.localScale = Vector3.one;
+        statusFeedbacks[(int)status].Show();
+
+        statusFeedbacks[(int)status].SetMax(count);
+        statusFeedbacks[(int)status].SetCount(count);
+
+        statusFeedbacks[(int)status].SetColor (GetStatusColor (status));
+
+        statusFeedbacks [(int)status].transform.localScale = Vector3.one;
 
 		Tween.Bounce (statusFeedbacks [(int)status].transform);
 	}
 
-	void HandleOnRemoveStatus (Fighter.Status status , int count)
+	public void HandleOnRemoveStatus (Fighter.Status status , int count)
 	{
 		statusFeedbacks [(int)status].SetCount (count);
 

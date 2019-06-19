@@ -14,13 +14,14 @@ public class DisplayLevel : MonoBehaviour {
 	void Start () {
 
 		CrewMember.onWrongLevel += HandleOnWrongLevelEvent;
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+        InGameMenu.Instance.onDisplayCrewMember += HandleOnDisplayCrewMemberDisplay;
 		StatButton.onClickStatButton += UpdateUI;
-		HandleOpenInventory (CrewMember.GetSelectedMember);
+
+        HandleOnDisplayCrewMemberDisplay(CrewMember.GetSelectedMember);
 
 	}
 
-	void HandleOpenInventory (CrewMember member)
+	void HandleOnDisplayCrewMemberDisplay(CrewMember member)
 	{
 		UpdateUI ();
 	}

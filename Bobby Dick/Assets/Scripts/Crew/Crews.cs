@@ -25,7 +25,7 @@ public class Crews : MonoBehaviour {
 	public enum PlacingType {
 
 		Map,
-		Combat,
+		MemberCreation,
 		Inventory,
 		Discussion,
 		Hidden,
@@ -56,53 +56,10 @@ public class Crews : MonoBehaviour {
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
-		CrewInventory.Instance.onCloseInventory+= HandleCloseInventory;
-		CrewInventory.Instance.onOpenInventory+= HandleOpenInventory;;
+		InGameMenu.Instance.onCloseMenu+= HandleCloseInventory;
 
 		Canvas.ForceUpdateCanvases ();
 
-	}
-
-	void HandleOpenInventory (CrewMember member)
-	{
-		CrewMember previousMember = null;
-
-		if ( CrewMember.GetSelectedMember != null ) {
-			previousMember = CrewMember.GetSelectedMember;
-		}
-
-		// return
-		CrewMember.SetSelectedMember (member);
-
-		if (previousMember != null) {
-
-			if (StoryLauncher.Instance.PlayingStory && OtherInventory.Instance.type == OtherInventory.Type.None) {
-
-				if (CrewMember.GetSelectedMember != Crews.playerCrew.captain) {
-
-					Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Map);
-
-					if (previousMember != Crews.playerCrew.captain) {
-						previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
-					}
-//					CrewMember.selectedMember.Icon.MoveToPoint (Crews.PlacingType.Map);
-				} else {
-					if (previousMember != Crews.playerCrew.captain) {
-						previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
-					}
-				}
-
-
-
-			} else {
-				
-				previousMember.Icon.MoveToPoint (Crews.PlacingType.Map);
-
-			}
-
-		}
-
-		CrewMember.GetSelectedMember.Icon.MoveToPoint (Crews.PlacingType.Inventory);
 	}
 
 	void HandleCloseInventory ()
@@ -343,6 +300,7 @@ public class Crews : MonoBehaviour {
 		StoryReader.Instance.UpdateStory ();
 	}
 	private void RemoveHealth () {
+
 		string cellParams = StoryFunctions.Instance.CellParams;
 		int health = int.Parse ( cellParams );
 		Crews.getCrew (Crews.Side.Player).captain.RemoveHealth(health);

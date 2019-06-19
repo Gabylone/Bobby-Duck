@@ -5,17 +5,27 @@ using UnityEngine.UI;
 
 public class MinimapTexture : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public static MinimapTexture Instance;
+
+    public Image targetImage;
+    public Color color_VisitedSea;
+    public Color color_UnvisitedSea;
+    public Color color_InRange;
+
+    public Image gridImage;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    // Use this for initialization
+    /*void Start () {
 		NavigationManager.Instance.EnterNewChunk += UpdateBackgroundImage;
-		UpdateBackgroundImage ();
-	}
+		//UpdateBackgroundImage ();
+	}*/
 
-	public Image targetImage;
-	public Color color_VisitedSea;
-	public Color color_UnvisitedSea;
-
-	void UpdateBackgroundImage () {
+	public void UpdateBackgroundImage () {
 
 		Texture2D texture = new Texture2D (MapGenerator.Instance.MapScale, MapGenerator.Instance.MapScale);
 
@@ -47,7 +57,21 @@ public class MinimapTexture : MonoBehaviour {
 			}
 		}
 
-		texture.Apply ();
+        int currentShipRange = DisplayMinimap.Instance.GetCurrentShipRange;
+
+        for (int x = -currentShipRange; x <= currentShipRange; x++)
+        {
+            for (int y = -currentShipRange; y <= currentShipRange; y++)
+            {
+                Coords c = Boats.playerBoatInfo.coords + new Coords(x, y);
+                if (c.OutOfMap())
+                    continue;
+                //Debug.Log("eh ?");
+                texture.SetPixel(c.x, c.y, color_InRange);
+            }
+        }
+
+        texture.Apply ();
 
 		targetImage.sprite = Sprite.Create ( texture, new Rect (0, 0, MapGenerator.Instance.MapScale,  MapGenerator.Instance.MapScale) , Vector2.one * 0.5f );
 

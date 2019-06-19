@@ -25,8 +25,8 @@ public class FormulaManager : MonoBehaviour {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
 
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
-		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;
+		InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
+		InGameMenu.Instance.onCloseMenu += HandleCloseInventory;
 
 	}
 
@@ -41,7 +41,7 @@ public class FormulaManager : MonoBehaviour {
 
 	#region inv
 	bool previousActive = false;
-	void HandleOpenInventory (CrewMember member)
+	void HandleOpenInventory ()
 	{
 		if (formulaGroup.activeSelf) {
 

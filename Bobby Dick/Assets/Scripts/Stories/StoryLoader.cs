@@ -223,7 +223,7 @@ public class StoryLoader : MonoBehaviour {
 
 		return getStories(type)[index];
 	}
-
+     
 	public int FindIndexByName (string storyName,StoryType storyType)
 	{
 		int storyIndex = getStories (storyType).FindIndex (x => x.name == storyName);

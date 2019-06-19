@@ -10,8 +10,6 @@ public class MemberCreationButton_Job : MemberCreatorButton {
     public override void Start()
     {
         base.Start();
-
-        
     }
 
     public override void Select()
@@ -22,6 +20,15 @@ public class MemberCreationButton_Job : MemberCreatorButton {
         }
 
         base.Select();
+
+        backgroundImage.color = Color.gray;
+    }
+
+    public override void Deselect()
+    {
+        base.Deselect();
+
+        backgroundImage.color = Color.white;
 
     }
 
@@ -36,13 +43,14 @@ public class MemberCreationButton_Job : MemberCreatorButton {
     {
         base.OnPointerUp();
 
-        if ( apparenceItem.locked)
+        if (apparenceItem.locked)
         {
             return;
         }
 
-        Crews.playerCrew.captain.MemberID.SetJob((Job)apparenceItem.id);
+        MemberCreator.Instance.UpdateDescriptionText( apparenceItem.id );
 
+        Crews.playerCrew.captain.MemberID.SetJob((Job)apparenceItem.id);
         Crews.playerCrew.captain.memberIcon.InitVisual(Crews.playerCrew.captain.MemberID);
     }
 

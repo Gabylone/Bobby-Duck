@@ -80,7 +80,6 @@ public class Member {
 			//
 		}
 
-        Debug.Log("setting job : " + job);
 	}
 
 	public Member (CrewParams crewParams) {

@@ -17,12 +17,16 @@ public class WorldTouch : MonoBehaviour
 
     public bool touching = false;
 
+    public bool swipped = false;
+
     float timer = 0f;
     float timeToTouch = 0.25f;
 
 	public Image testimage;
 
     public bool isEnabled = false;
+
+    public bool locked = false;
 
     bool invoking = false;
 
@@ -37,14 +41,7 @@ public class WorldTouch : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
         Swipe.onSwipe += HandleOnSwipe;
-
-        NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
-
-        StoryLauncher.Instance.onPlayStory += Disable;
-        StoryLauncher.Instance.onEndStory += Enable;
-
     }
 
     private void Enable()
@@ -53,14 +50,19 @@ public class WorldTouch : MonoBehaviour
         invoking = false;
     }
 
-    private void Disable()
+    public void Disable()
     {
         isEnabled = false;
     }
 
-    void HandleChunkEvent()
+    public void Lock()
     {
+        locked = true;
+    }
 
+    public void Unlock()
+    {
+        locked = false;
     }
 
     void HandleOnSwipe(Directions direction)
@@ -72,12 +74,12 @@ public class WorldTouch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (isEnabled == false)
         {
             if (!IsPointerOverUIObject() && !invoking)
             {
                 invoking = true;
+
                 CancelInvoke("Enable");
                 Invoke("Enable", 0.01f);
             }
@@ -94,12 +96,15 @@ public class WorldTouch : MonoBehaviour
 
     public bool IsEnabled ()
     {
-        return isEnabled && IsPointerOverUIObject() == false;
+        //return isEnabled && IsPointerOverUIObject() == false;
+        return isEnabled;
     }
 
-    //public void OnPointerDown () {
     public void OnMouseDown()
     {
+        if (locked)
+            return;
+
         if (!IsEnabled())
         {
             return;
@@ -114,20 +119,20 @@ public class WorldTouch : MonoBehaviour
 
     }
 
-    public bool swipped = false;
-
-    //public void OnPointerUp () {
     private void OnMouseUp()
     {
+        if (locked)
+            return;
+
         if (!IsEnabled())
         {
             return;
         }
 
         if (!touching)
+        {
             return;
-
-        
+        }
 
         touching = false;
 
@@ -143,6 +148,16 @@ public class WorldTouch : MonoBehaviour
         eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+        /*if ( results.Count > 0)
+        {
+            Debug.LogError("results : " + results[0].gameObject.name);
+        }
+        else
+        {
+            Debug.LogError("not touching anything");
+        }*/
+
         return results.Count > 0;
     }
 

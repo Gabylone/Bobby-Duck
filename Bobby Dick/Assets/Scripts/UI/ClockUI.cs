@@ -8,6 +8,9 @@ public class ClockUI : MonoBehaviour {
 
 	[SerializeField]
 	private Transform clockBackground;
+
+    public float duration = 0.6f;
+
 //	[SerializeField]
 //	private Transform minuteNeedle;
 
@@ -56,7 +59,7 @@ public class ClockUI : MonoBehaviour {
 		float angle = TimeManager.Instance.timeOfDay * 360f / TimeManager.Instance.dayDuration;
 		Vector3 targetAngles = new Vector3 (0,0, angle);
 
-		HOTween.To ( clockBackground , 1f , "eulerAngles" , targetAngles , false , EaseType.EaseOutBounce , 0f );
+		HOTween.To ( clockBackground , duration , "eulerAngles" , targetAngles , false , EaseType.Linear , 0f );
 		//clockBackground.eulerAngles = targetAngles;
 	}
 }

@@ -12,7 +12,7 @@ public enum StoryType {
 }
 
 [System.Serializable]
-public class StoryManager {
+public class StoryManager  {
 
 	public List<StoryHandler> storyHandlers = new List<StoryHandler>();
 

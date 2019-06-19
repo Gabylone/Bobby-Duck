@@ -30,6 +30,9 @@ public class LootUI : MonoBehaviour {
 	public delegate void OnSetSelectedItem ();
 	public static OnSetSelectedItem onSetSelectedItem;
 
+    public Sprite itemSprite;
+    public Sprite equipedItemSprite;
+
     public void ClearSelectedItem()
     {
         selectedItemDisplay.Hide();
@@ -65,9 +68,11 @@ public class LootUI : MonoBehaviour {
 
 	public GameObject closeButton;
 	public GameObject switchToPlayer;
-	public GameObject switchToOther;
+	public GameObject switchToTrade;
+	public GameObject switchToLoot;
+    public GameObject takeAllButton;
 
-	public bool visible = false;
+    public bool visible = false;
 
 	[Header("Item Buttons")]
 	public DisplayItem_Loot[] displayItems = new DisplayItem_Loot[0];
@@ -104,7 +109,7 @@ public class LootUI : MonoBehaviour {
 	}
 
 	void Start () {
-		CrewInventory.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+		InGameMenu.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
 
 		RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
 	}
@@ -138,6 +143,8 @@ public class LootUI : MonoBehaviour {
 	public static OnShowLoot onShowLoot;
 	public void Show (CategoryContentType _catContentType,Crews.Side side) {
 
+        InGameMenu.Instance.Open();
+
         ClearSelectedItem();
 
 		currentSide = side;
@@ -147,7 +154,7 @@ public class LootUI : MonoBehaviour {
 		categoryContent = LootManager.Instance.GetCategoryContent(_catContentType);
 		categoryContentType = _catContentType;
 
-		InitButtons (_catContentType);
+		InitButtons ();
 		InitCategory();
 
 		visible = true;
@@ -158,37 +165,114 @@ public class LootUI : MonoBehaviour {
 
         UpdateLootUI ();
 
-		//Tween.Bounce ( lootObj.transform , 0.2f , 1.05f);
+        //Tween.Bounce ( lootObj.transform , 0.2f , 1.05f);
 
-		CrewInventory.Instance.HideMenuButtons ();
 
 		if (onShowLoot != null)
 			onShowLoot ();
 	}
 
-	void InitButtons (CategoryContentType catContentType)
+    public void Close()
+    {
+        InGameMenu.Instance.Hide();
+        DisplayCrew.Instance.Hide();
+
+        visible = false;
+
+        if (OnOtherLoot())
+        {
+
+            StoryReader.Instance.NextCell();
+            StoryReader.Instance.UpdateStory();
+
+            InGameMenu.Instance.Hide();
+
+            Crews.getCrew(Crews.Side.Player).captain.Icon.MoveToPoint(Crews.PlacingType.Discussion);
+
+        }
+
+        OtherInventory.Instance.type = OtherInventory.Type.None;
+
+        Hide();
+
+        if (onHideLoot != null)
+        {
+            onHideLoot();
+        }
+    }
+
+    public void TakeAll()
+    {
+        StartCoroutine(TakeAllCoroutine());
+    }
+
+    IEnumerator TakeAllCoroutine()
+    {
+        takeAllButton.SetActive(false);
+        closeButton.SetActive(false);
+
+        HideAllSwitchButtons();
+
+        //for (int i = 0; i < handledLoot.AllItems[(int)currentCat].Count; i++)
+        while (handledLoot.AllItems[(int)currentCat].Count > 0)
+        {
+            Item targetItem = handledLoot.AllItems[(int)currentCat][0];
+
+            if (!WeightManager.Instance.CheckWeight(targetItem.weight))
+            {
+                break;
+            }
+
+            //displayItems[i].Select();
+
+            LootUI.Instance.SelectedItem = targetItem;
+            InventoryAction(InventoryActionType.PickUp);
+            //OtherInventory.Instance.PickUp(targetItem);
+
+            yield return new WaitForSeconds(0.1f);
+
+        }
+
+        //yield return new WaitForSeconds(0.1f);
+
+        closeButton.SetActive(true);
+
+        InitButtons();
+    }
+
+    public void HideAllSwitchButtons()
+    {
+        switchToTrade.SetActive(false);
+        switchToLoot.SetActive(false);
+        switchToPlayer.SetActive(false);
+        takeAllButton.SetActive(false);
+    }
+
+    public void InitButtons ()
 	{
-		switch (catContentType) {
-		case CategoryContentType.PlayerTrade:
-		case CategoryContentType.PlayerLoot:
-//			closeButton.SetActive (true);
-			switchToOther.SetActive (true);
-			switchToPlayer.SetActive (false);
-			break;
+        HideAllSwitchButtons();
 
-		case CategoryContentType.OtherTrade:
-		case CategoryContentType.OtherLoot:
-//			closeButton.SetActive (true);
-			switchToOther.SetActive (false);
-			switchToPlayer.SetActive (true);
-			break;
+        switch (categoryContentType) {
 
-		case CategoryContentType.Inventory:
-		case CategoryContentType.Combat:
-//			closeButton.SetActive (false);
-			switchToOther.SetActive (false);
-			switchToPlayer.SetActive (false);
-			break;
+		    case CategoryContentType.PlayerTrade:
+                switchToTrade.SetActive(true);
+                break;
+            case CategoryContentType.PlayerLoot:
+			    switchToLoot.SetActive(true);
+			    break;
+
+		    case CategoryContentType.OtherTrade:
+                switchToPlayer.SetActive(true);
+                break;
+            case CategoryContentType.OtherLoot:
+
+                switchToPlayer.SetActive(true);
+
+                if ( handledLoot.AllItems[(int)currentCat].Count > 0)
+                {
+                    takeAllButton.SetActive(true);
+                }
+                break;
 		default:
 			break;
 		}
@@ -203,31 +287,6 @@ public class LootUI : MonoBehaviour {
     {
         return OtherInventory.Instance.type == OtherInventory.Type.Loot || OtherInventory.Instance.type == OtherInventory.Type.Trade;
     }
-	public void Close () {
-		
-		visible = false;
-
-		if (OnOtherLoot()) {
-
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.UpdateStory ();
-
-			CrewInventory.Instance.HideInventory ();
-
-			Crews.getCrew (Crews.Side.Player).captain.Icon.MoveToPoint (Crews.PlacingType.Discussion);
-
-		} else {
-			CrewInventory.Instance.ShowMenuButtons ();
-		}
-
-		OtherInventory.Instance.type = OtherInventory.Type.None;
-
-		Hide ();
-
-		if (onHideLoot != null) {
-			onHideLoot ();
-		}
-	}
 	#endregion
 
 	void HandleOnRemoveItemFromMember (Item item)
@@ -329,7 +388,7 @@ public class LootUI : MonoBehaviour {
 
 		UpdateItemButtons ();
 		UpdateCategoryButtons ();
-
+        InitButtons();
 
 	}
 
@@ -355,34 +414,33 @@ public class LootUI : MonoBehaviour {
 			// no items in category
 			if ( handledLoot.AllItems[buttonIndex].Count == 0 ) {
 
-
-                if ( currentSide == Crews.Side.Enemy)
+                if (currentSide == Crews.Side.Enemy)
                 {
                     categoryButtons[buttonIndex].interactable = false;
-					categoryButtons [buttonIndex].image.color = LootManager.Instance.item_EmptyColor;
-                    continue;
+                    categoryButtons[buttonIndex].image.color = LootManager.Instance.item_EmptyColor;
                 }
-
-                if ( buttonIndex == (int)ItemCategory.Clothes )
+                else
                 {
-                    if ( CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes) != null) {
-                        categoryButtons[buttonIndex].interactable = true;
-                        continue;
-                    }
-                }
 
-                if (buttonIndex == (int)ItemCategory.Weapon)
-                {
-                    if (CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon) != null)
+                    if (buttonIndex == (int)ItemCategory.Clothes
+                        && CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes) != null)
                     {
                         categoryButtons[buttonIndex].interactable = true;
+                        categoryButtons[buttonIndex].image.color = Color.white;
                         continue;
                     }
+
+                    if (buttonIndex == (int)ItemCategory.Weapon
+                        && CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon) != null)
+                    {
+                        categoryButtons[buttonIndex].interactable = true;
+                        categoryButtons[buttonIndex].image.color = Color.white;
+                        continue;
+                    }
+
+                    categoryButtons[buttonIndex].interactable = false;
+                    categoryButtons[buttonIndex].image.color = LootManager.Instance.item_EmptyColor;
                 }
-
-				categoryButtons	[buttonIndex].interactable = false;
-				categoryButtons [buttonIndex].image.color = LootManager.Instance.item_EmptyColor;
-
 
             }
             else
@@ -448,6 +506,27 @@ public class LootUI : MonoBehaviour {
 			lootObj = value;
 		}
 	}
+
+    public void OpenMemberLoot()
+    {
+        OpenMemberLoot(Crews.playerCrew.captain);
+    }
+    public void OpenMemberLoot(CrewMember targetCrewMember)
+    {
+        InGameMenu.Instance.Open();
+
+        DisplayCrew.Instance.Show(targetCrewMember);
+
+        if (visible)
+        {
+            UpdateLootUI();
+        }
+        else
+        {
+            Show(CategoryContentType.Inventory, Crews.Side.Player);
+        }
+    }
+
 }
 
 [System.Serializable]

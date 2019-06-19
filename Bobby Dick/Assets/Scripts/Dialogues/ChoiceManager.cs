@@ -44,12 +44,12 @@ public class ChoiceManager : MonoBehaviour {
 
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
 
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
-		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;
+		InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
+		InGameMenu.Instance.onCloseMenu += HandleCloseInventory;
 	}
 
 	bool previousActive = false;
-	void HandleOpenInventory (CrewMember member)
+	void HandleOpenInventory ()
 	{
 		if (choiceGroup.activeSelf) {
 

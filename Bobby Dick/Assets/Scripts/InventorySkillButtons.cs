@@ -6,8 +6,6 @@ public class InventorySkillButtons : MonoBehaviour {
 
 	SkillButton_Inventory[] skillButtons;
 
-	public GameObject statGroup;
-
 	// Use this for initialization
 	void Start () {
 		
@@ -22,14 +20,12 @@ public class InventorySkillButtons : MonoBehaviour {
 		if (CrewMember.GetSelectedMember == null)
 			return;
 
-        //StartCoroutine (ShowSkillButtons());
         ShowSkillButtons();
 	}
 
 	public float timeBetweenButtons = 0.5f;
 
     void ShowSkillButtons() {
-    //IEnumerator ShowSkillButtonsCoroutine () {
 
 		HideButtons ();
 
@@ -49,14 +45,8 @@ public class InventorySkillButtons : MonoBehaviour {
 
 			++a;
 
-			//yield return new WaitForSeconds (timeBetweenButtons);
-
 		}
 
-		statGroup.SetActive (true);
-		Tween.Bounce (statGroup.transform);
-
-		//yield return new WaitForSeconds (timeBetweenButtons);
 
 	}
 
@@ -65,8 +55,6 @@ public class InventorySkillButtons : MonoBehaviour {
 		foreach (var item in skillButtons) {
 			item.gameObject.SetActive (false);
 		}
-
-		statGroup.SetActive (false);
 	}
 
 	void UpdateSkillButtons () {

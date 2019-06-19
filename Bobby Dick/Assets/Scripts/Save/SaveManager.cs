@@ -9,6 +9,10 @@ public class SaveManager : MonoBehaviour
 {
 	public static SaveManager Instance;
 
+    public int loadLimit = 10;
+
+    public float timeBetweenFrames = 0.2f;
+
 	GameData gameData;
 
 	public GameData GameData {
@@ -23,7 +27,7 @@ public class SaveManager : MonoBehaviour
 
 	void Start () {
 		
-        if ( Directory.Exists(SaveTool.Instance.GetSaveFolderPath("PlayerInfo")))
+        /*if ( Directory.Exists(SaveTool.Instance.GetSaveFolderPath("PlayerInfo")))
         {
             Debug.Log("save file exists");
 
@@ -31,7 +35,7 @@ public class SaveManager : MonoBehaviour
         else
         {
             Debug.Log("save file does not exist");
-        }
+        }*/
 
         if ( SaveTool.Instance.FileExists ("PlayerInfo" , "player info"))
         {
@@ -44,10 +48,12 @@ public class SaveManager : MonoBehaviour
 
 		gameData = new GameData ();
 
-        if ( NavigationManager.Instance )
-		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+        if ( NavigationManager.Instance)
+        {
+            NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
+        }
 
-		CrewMember.onCrewMemberKilled += HandleOnCrewMemberKilled;
+        CrewMember.onCrewMemberKilled += HandleOnCrewMemberKilled;
 
 	}
 
@@ -83,7 +89,7 @@ public class SaveManager : MonoBehaviour
 		FormulaManager.Instance.LoadFormulas ();
 
 		// player loot
-		LootManager.Instance.setLoot (Crews.Side.Player, gameData.playerLoot);
+		LootManager.Instance.SetLoot (Crews.Side.Player, gameData.playerLoot);
 
 		QuestManager.Instance.currentQuests = gameData.currentQuests;
 		QuestManager.Instance.finishedQuests = gameData.finishedQuests;
@@ -204,6 +210,8 @@ public class SaveManager : MonoBehaviour
 
 		int l = 0;
 
+        int currentLoadLimit = 0;
+
 		for ( int y = 0; y < MapGenerator.Instance.MapScale ; ++y ) {
 
 			for (int x = 0; x < MapGenerator.Instance.MapScale; ++x ) {
@@ -222,9 +230,18 @@ public class SaveManager : MonoBehaviour
 
 				SaveTool.Instance.SaveToCurrentMap (path,targetChunk);
 
-				yield return new WaitForEndOfFrame ();
 				++l;
-				LoadingScreen.Instance.Push (l);
+
+                ++currentLoadLimit;
+
+                if( currentLoadLimit == loadLimit)
+                {
+                    //yield return new WaitForEndOfFrame();
+                    yield return new WaitForSeconds(timeBetweenFrames);
+                    LoadingScreen.Instance.Push (l);
+                    currentLoadLimit = 0;
+                }
+
 
 			}
 

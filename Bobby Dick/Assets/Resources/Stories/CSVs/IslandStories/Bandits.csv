@@ -39,7 +39,7 @@ Leave;LaunchCombat;Node=>ile vide;RandomPercent65;
 Narrator : Le sol est jonché de corps de bandits;;;;
 [ile vide];;;;
 SetChoices3;;;;
-Choice : (partir);Choice : (rester pour la nuit)(dormir);Choice : (regarder l'île);;
+Choice : (partir);Choice : (rester pour la nuit)(dormir);Choice : (fouiller les environs);;
 Leave;ChangeTimeOfDay;PlayerSpeak : Il y a pas grands choses.;;
 ;Node=>bandits morts;CheckQuest=>ile vide;;
 ;;Node=>ile vide;;

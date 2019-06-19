@@ -71,20 +71,20 @@ public class QuestMenu : MonoBehaviour {
 
 	public void Open () {
 
-		menuGroup.SetActive (true);
+        InGameMenu.Instance.Open();
+
+        menuGroup.SetActive (true);
 
 		//displayFormulas.ShowFormulas ();
 
 		DisplayQuestAmount ();
 
-		CrewInventory.Instance.HideMenuButtons ();
-
 		UpdateButtons ();
 
         DisplayQuest.Instance.Hide();
 
-//		Tween.ClearFade (menuGroup.transform);
-//Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
+        //		Tween.ClearFade (menuGroup.transform);
+        //Tween.Bounce ( menuGroup.transform , 0.2f , 1.05f);
 
         if (onOpenQuestMenu != null)
 			onOpenQuestMenu ();
@@ -94,19 +94,18 @@ public class QuestMenu : MonoBehaviour {
 	}
 
 	public void Close () {
-		opened = false;
 
-		Invoke ("CloseDelay",0.01f);
+        InGameMenu.Instance.Hide();
+
+        opened = false;
 
 		HideMenu();
-	}
 
-	void CloseDelay () {
-		CrewInventory.Instance.ShowMenuButtons ();
-		//
-	}
+        
 
-	void DisplayQuestAmount () {
+    }
+
+    void DisplayQuestAmount () {
 
 		/*if (QuestManager.Instance.currentQuests.Count == 0) {
 			displayQuestText.text = "aucune quêtes";

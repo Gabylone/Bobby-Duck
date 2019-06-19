@@ -20,6 +20,7 @@ public class MinimapChunk : MonoBehaviour {
 	{
 		Chunk chunk = Chunk.GetChunk (worldCoords);
 		IslandData islandData = chunk.IslandData;
+
 		image.sprite = Island.minimapSprites[islandData.storyManager.storyHandlers [0].Story.param];
 
 		coords = worldCoords;
@@ -54,16 +55,13 @@ public class MinimapChunk : MonoBehaviour {
 
 	public void SetUnvisited () {
 		image.color = new Color( 0.5f,0.5f,0.5f );
-//		image.color = Color.black;
 	}
 
 	public void TouchMinimapChunk () {
 		
 		Tween.Bounce (islandGroup.transform);
 
-		if (onTouchMinimapChunk != null) {
-			onTouchMinimapChunk (Chunk.GetChunk (coords), transform);
-		}
-
-	}
+        IslandInfo.Instance.DisplayIslandInfo(Chunk.GetChunk(coords));
+        IslandInfo.Instance.ShowAtTransform(islandGroup.transform);
+    }
 }

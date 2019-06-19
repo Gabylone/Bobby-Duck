@@ -22,14 +22,4 @@ public class PlayerBoatInfo : BoatInfo {
 //		coords = Coords.Zero;
 
 	}
-
-    public override void SetCoords(Coords newCoords)
-    {
-        base.SetCoords(newCoords);
-
-        if (newCoords.x < 0 || newCoords.x > MapGenerator.Instance.MapScale - 1 || newCoords.y < 0 || newCoords.y > MapGenerator.Instance.MapScale - 1)
-        {
-            Narrator.Instance.ShowNarratorTimed("CAPITAINE entre dans un abîme d'océan, mieux vaut faire demi-tour");
-        }
-    }
 }

@@ -14,7 +14,7 @@ Node=>chantage;Node=>a payé;;;;
 ;;;;;
 ;;;;;
 [chantage];;;;;
-OtherSpeak : C'est simple : 30 pièces d'or ou c'est fini !;;;;;
+OtherSpeak : C'est simple : le tiers de ton or ou c'est fini !;;;;;
 SetChoices3;;;;;
 Choice : Tenez…(trade);;Choice : Plutôt mourir !(attaquer);Choice : Je n'ai pas assez;;
 Switch=>payed ?;;Node=>combat;OtherSpeak : Tanpis Pour vous !;;

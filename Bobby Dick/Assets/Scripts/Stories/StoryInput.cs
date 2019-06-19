@@ -17,8 +17,8 @@ public class StoryInput : MonoBehaviour {
 
 	void Start () {
 
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
-		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;;
+		InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
+		InGameMenu.Instance.onCloseMenu += HandleCloseInventory;;
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
@@ -29,31 +29,40 @@ public class StoryInput : MonoBehaviour {
 	void HandlePointerDownEvent ()
 	{
 		if ( waitForInput ) {
-
 			PressInput ();
 		}
 	}
 
 	void HandleCloseInventory ()
 	{
-		Invoke ("Unlock", 0.2f);
+        UnlockDelay();
 	}
 
-	void Unlock () {
+    public void UnlockDelay()
+    {
+        CancelInvoke("Unlock");
+		Invoke ("Unlock", 0.2f);
+    }
+
+	public void Unlock () {
 		locked = false;
 	}
 
-	void HandleOpenInventory (CrewMember member)
+	void HandleOpenInventory ()
 	{
-		locked = true;
+		Lock();
 	}
 
 	public void LockFromMember () {
-		locked = true;
-		Invoke ("Unlock", 0.3f);
+        UnlockDelay();
 	}
 
-	void HandleGetFunction (FunctionType func, string cellParameters)
+    public void Lock()
+    {
+        locked = true;
+    }
+
+    void HandleGetFunction (FunctionType func, string cellParameters)
 	{
 		switch (func) {
 		case FunctionType.Narrator:
@@ -92,17 +101,20 @@ public class StoryInput : MonoBehaviour {
 		waitForInput = true;
 	}
 
-	void PressInput () {
+    void PressInput()
+    {
 
-		if (locked) {
-			return;
-		}
+        if (locked)
+        {
+            return;
+        }
 
-		if (onPressInput != null) {
-			onPressInput ();
-		}
+        if (onPressInput != null)
+        {
+            onPressInput();
+        }
 
-		waitForInput = false;
-	}
+        waitForInput = false;
+    }
 
 }

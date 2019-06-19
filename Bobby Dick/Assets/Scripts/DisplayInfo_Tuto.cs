@@ -38,6 +38,8 @@ public class DisplayInfo_Tuto : DisplayInfo {
 
 	void HandleOnWaitForConfirm ()
 	{
+        StoryInput.Instance.Lock();
+
 		confirmGroup.SetActive (true);
 	}
 
@@ -53,9 +55,13 @@ public class DisplayInfo_Tuto : DisplayInfo {
 	{
 		base.Confirm ();
 
-		if (Tutorial.onHideTutorial != null) {
-			Tutorial.onHideTutorial ();
-		}
+        StoryInput.Instance.Unlock();
 
-	}
+        Tutorial.Instance.ExitCurrent();
+
+        //StoryInput.Instance.CancelInvoke("Unlock");
+        
+
+
+    }
 }

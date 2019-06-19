@@ -41,7 +41,6 @@ public class DisplayItem_Loot : DisplayItem {
 
         // select
 		if (selectedDisplayItem != null) {
-			Debug.Log ("deselecting current : " + selectedDisplayItem.button.name);
 			selectedDisplayItem.Deselect ();
 
 		}
@@ -86,20 +85,31 @@ public class DisplayItem_Loot : DisplayItem {
         {
             if (HandledItem.category == ItemCategory.Clothes || HandledItem.category == ItemCategory.Weapon)
             {
-                image.color = LootManager.Instance.item_EquipedColor;
+                image.sprite = LootUI.Instance.equipedItemSprite;
+
+                //image.color = LootManager.Instance.item_EquipedColor;
+                image.color = Color.white;
+
                 return;
             }
-            
         }
 
-		if ( HandledItem.level > CrewMember.GetSelectedMember.Level ) {
-                image.color = LootManager.Instance.item_SuperiorColor;
-			image.color = new Color(1f, a , a);
+        image.sprite = LootUI.Instance.itemSprite;
+
+        if ( HandledItem.level > CrewMember.GetSelectedMember.Level ) {
+
+            image.color = LootManager.Instance.item_SuperiorColor;
+            image.color = new Color(1f, a, a);
+
         } else if ( HandledItem.level < CrewMember.GetSelectedMember.Level && HandledItem.level > 0 ) {
+
             image.color = LootManager.Instance.item_InferiorColor;
-			image.color = new Color(a, 1f, a);
+            image.color = new Color(a, 1f, a);
+
         } else {
-			image.color = LootManager.Instance.item_DefaultColor;
+
+            image.color = LootManager.Instance.item_DefaultColor;
+
         }
 	}
 

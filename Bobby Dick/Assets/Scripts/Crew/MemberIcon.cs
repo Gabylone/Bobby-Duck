@@ -28,9 +28,13 @@ public class MemberIcon : MonoBehaviour {
 	public Crews.PlacingType currentPlacingType = Crews.PlacingType.None;
 	public Crews.PlacingType previousPlacingType  = Crews.PlacingType.None;
 
+    public Vector2 decal = Vector2.zero;
+
 	public Transform dialogueAnchor;
 
 	public CrewMember member;
+
+    public DisplayHunger_Icon hungerIcon;
 
     IconVisual iconVisual;
 
@@ -41,19 +45,7 @@ public class MemberIcon : MonoBehaviour {
     }
 
     void Start () {
-
-
         LootUI.useInventory += HandleUseInventory;
-    }
-
-    private void Update()
-    {
-        /*if (Input.GetKeyDown(KeyCode.I))
-        {
-            //MoveToPoint(Crews.PlacingType.Discussion);
-		    Vector3 targetPos = Crews.getCrew(Crews.Side.Player).CrewAnchors [(int)Crews.PlacingType.Discussion].position;
-            transform.position = targetPos;
-        }*/
     }
 
     void OnDestroy()
@@ -68,10 +60,12 @@ public class MemberIcon : MonoBehaviour {
             case InventoryActionType.Equip:
             case InventoryActionType.PurchaseAndEquip:
             case InventoryActionType.Unequip:
-                if ( LootUI.Instance.SelectedItem.category == ItemCategory.Weapon)
+
+                if (LootUI.Instance.SelectedItem.category == ItemCategory.Weapon)
                 {
                     iconVisual.UpdateWeaponSprite(CrewMember.GetSelectedMember.MemberID);
                 }
+
                 break;
             default:
                 break;
@@ -101,69 +95,98 @@ public class MemberIcon : MonoBehaviour {
 			return;
 		}
 
-		if ( !CrewInventory.Instance.canOpen ) {
+		if ( !InGameMenu.Instance.canOpen ) {
 			print ("cannot open player loot");
 			return;
 		}
 
-		if (StoryLauncher.Instance.PlayingStory) {
+        LootUI.Instance.OpenMemberLoot( member );
+    }
+    #endregion
 
-			switch (OtherInventory.Instance.type) {
-			case OtherInventory.Type.None:
-				CrewInventory.Instance.ShowInventory (CategoryContentType.Inventory , member);
-				break;
-			case OtherInventory.Type.Loot:
-				CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerLoot, member);
-				break;
-			case OtherInventory.Type.Trade:
-				CrewInventory.Instance.ShowInventory (CategoryContentType.PlayerTrade, member);
-				break;
-			}
-
-		} else {
-			CrewInventory.Instance.ShowInventory (CategoryContentType.Inventory , member);
-		}
-		
-	}
-	#endregion
-
-	#region movement
-	public void MoveToPoint ( Crews.PlacingType targetPlacingType ) {
+    #region movement
+    public void MoveToPoint ( Crews.PlacingType targetPlacingType ) {
 
 		previousPlacingType = currentPlacingType;
 		currentPlacingType = targetPlacingType;
 
-		float decal = 0f;
-
 		Vector3 targetPos = Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].position;
 
-		if (currentPlacingType == Crews.PlacingType.Map) {
-			int index = member.GetIndex;
-			if (index < 0) {
+        int index = member.GetIndex;
+
+        if (currentPlacingType == Crews.PlacingType.Map) {
+
+            PlayerIcons.Instance.GetImage(index).color = Color.white;
+
+            if (index < 0) {
 				Debug.LogError ("index : " + index + " mapanchors :" + Crews.getCrew (member.side).mapAnchors.Length);
 				Debug.LogError ("membre à probleme  "+ member.MemberName);
 				Debug.LogError ("current membre  "+ CrewMember.GetSelectedMember.MemberName);
 			}
+
 			targetPos = Crews.getCrew (member.side).mapAnchors [member.GetIndex].position;
 		}
+        else
+        {
+            PlayerIcons.Instance.GetImage(index).color = Color.clear;
+        }
 
-//		print ("moviong target : " + Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].name);
+		//Debug.Log ("Moving To : " + Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].name);
 
 		HOTween.To (rectTransform, moveDuration , "position" , targetPos , false , EaseType.Linear , 0f );
 
 		switch (currentPlacingType) {
-		case Crews.PlacingType.Map:
-		case Crews.PlacingType.Hidden:
-		case Crews.PlacingType.None:
-			HideBody ();
-			break;
-		case Crews.PlacingType.Combat:
-		case Crews.PlacingType.Inventory:
-		case Crews.PlacingType.Discussion:
-			ShowBody ();
-			break;
-		default:
-			break;
+
+            case Crews.PlacingType.Map:
+
+                HideBody();
+
+                break;
+
+            case Crews.PlacingType.Hidden:
+
+                HideBody();
+
+                break;
+
+            case Crews.PlacingType.None:
+
+                HideBody();
+
+                break;
+
+            case Crews.PlacingType.MemberCreation:
+
+                ShowBody();
+
+                break;
+
+            case Crews.PlacingType.Inventory:
+
+                ShowBody();
+
+                if ( member.side == Crews.Side.Player)
+                {
+                    hungerIcon.HideInfo();
+                }
+
+                break;
+
+            case Crews.PlacingType.Discussion:
+
+                ShowBody();
+
+                if (member.side == Crews.Side.Player)
+                {
+                    hungerIcon.HideInfo();
+                }
+
+                break;
+
+            default:
+
+                break;
+
 		}
 	}
 	#endregion

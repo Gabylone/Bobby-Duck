@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour {
 
         }
 
-		CrewInventory.Instance.Init ();
+		InGameMenu.Instance.Init ();
 
 		WeightManager.Instance.Init ();
 
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour {
 		Invoke ("GameOver", delay);
 	}
 
-	public void GameOver () {
+	void GameOver () {
 
 		overallObj.SetActive (true);
 
@@ -115,4 +115,16 @@ public class GameManager : MonoBehaviour {
 		textObj.SetActive (true);
 		Tween.Bounce ( textObj.transform );
 	}
+
+    public void QuitGame()
+    {
+        Transitions.Instance.ScreenTransition.FadeIn(1);
+
+        Invoke("QuitGameDelay" , 1f);
+    }
+
+    void QuitGameDelay()
+    {
+        Application.Quit();
+    }
 }

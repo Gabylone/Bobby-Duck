@@ -6,20 +6,32 @@ using UnityEngine.UI;
 
 public class PlayerIcons : MonoBehaviour {
 
-	Image[] images;
+    public static PlayerIcons Instance;
 
-	// Use this for initialization
-	void Start () {
+	public Image[] images;
 
-		images = GetComponentsInChildren<Image> ();
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    // Use this for initialization
+    void Start () {
+
+		//images = GetComponentsInChildren<Image> ();
 
 		Crews.playerCrew.onChangeCrewMembers += HandleOnChangeCrewMembers;
 
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
-		CrewInventory.Instance.onCloseInventory += HandleOnCloseInventory;
+		InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
+		InGameMenu.Instance.onCloseMenu += HandleOnCloseInventory;
 
         HandleOnChangeCrewMembers();
 	}
+
+    public Image GetImage ( int id)
+    {
+        return images[id];
+    }
 
     private void HandleOnCloseInventory()
     {
@@ -29,12 +41,11 @@ public class PlayerIcons : MonoBehaviour {
         }
     }
 
-    void HandleOpenInventory (CrewMember member)
+    void HandleOpenInventory ()
 	{
 		foreach (var item in images) {
             item.color = Color.grey;
 		}
-
 
         int id = Crews.playerCrew.CrewMembers.FindIndex(x => x.MemberID.SameAs(CrewMember.GetSelectedMember.MemberID));
         if ( id < 0)
@@ -43,6 +54,7 @@ public class PlayerIcons : MonoBehaviour {
         }
 
         images[id].color = Color.white;
+        //images[id].color = Color.clear;
 	}
 
 	void HandleOnChangeCrewMembers ()

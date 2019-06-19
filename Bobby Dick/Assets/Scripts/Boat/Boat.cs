@@ -11,7 +11,8 @@ public class Boat : MonoBehaviour {
 	[Header ("Boat Elements")]
 	[SerializeField]
 	private Transform boatMesh;
-	public Transform getTransform;
+    public Transform getTransform;
+    public Animator animator;
 
 	[Space]
 	[Header ("Boat Position Parameters")]
@@ -30,17 +31,15 @@ public class Boat : MonoBehaviour {
 	}
 
 	public virtual void Update () {
-		if ( moving ) {
 
-            if (agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0)
+        if (moving)
+        {
+            if (agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance <= agent.stoppingDistance)
             {
                 EndMovenent();
-                Debug.Log("reached destination");
             }
+        }
 
-            /*UpdateBoatPosition ();
-			SetBoatRotation ();*/
-		}
 	}
 
 	void CheckForBounds ()
@@ -72,34 +71,35 @@ public class Boat : MonoBehaviour {
 
         moving = true;
         targetPos = p;
+
     }
-    public virtual void SetTargetPos ( Transform t ) {
-        SetTargetPos(t.position);
-	}
-
-	/*private void UpdateBoatPosition () {
-
-		Vector3 targetDir = (targetPos - getTransform.position).normalized;
-
-		// translate boat
-		getTransform.Translate (targetDir * speed * Time.deltaTime, Space.World);
-
-	}*/
 
 	public virtual void EndMovenent() {
 		moving = false;
 	}
-	#endregion
+    #endregion
 
-	#region map position 
-	public virtual void UpdatePositionOnScreen () {
-		foreach (TrailRenderer renderer in GetComponentsInChildren<TrailRenderer>())
-			renderer.Clear ();
-	}
+    #region map position 
+    public virtual void UpdatePositionOnScreen()
+    {
+        foreach (TrailRenderer renderer in GetComponentsInChildren<TrailRenderer>())
+        {
+            renderer.emitting = false;
+            renderer.Clear();
+        }
+
+        Invoke("UpdatePositionOnScreenDelay", 0.1f);
+    }
+    void UpdatePositionOnScreenDelay()
+    {
+        foreach (TrailRenderer renderer in GetComponentsInChildren<TrailRenderer>())
+        {
+            renderer.emitting = true;
+        }
+    }
     public void SetSpeed(float newSpeed)
     {
         agent.speed = newSpeed;
     }
     #endregion
-
 }

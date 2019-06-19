@@ -6,6 +6,17 @@ public class Karma : MonoBehaviour {
 
 	public static Karma Instance;
 
+    public enum KarmaStep
+    {
+        Best,
+        Good,
+        Neutral,
+        Bad,
+        Worst
+    }
+
+    public KarmaStep karmaStep;
+
 	private bool visible = false;
 
 	private int currentKarma = 0;
@@ -39,18 +50,29 @@ public class Karma : MonoBehaviour {
         onChangeKarma = null;
 	}
 
-	void Start () {
+    void Start()
+    {
 
-//		CrewInventory.Instance.openInventory += HandleOpenInventory;;
-//		CrewInventory.Instance.closeInventory += Hide;
+        StoryFunctions.Instance.getFunction += HandleGetFunction;
 
-		StoryFunctions.Instance.getFunction+= HandleGetFunction;
+        UpdateKarmaStep();
 
-		UpdateUI ();
+    }
 
-	}
+    /*private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            AddKarma(1);
+        }
 
-	void HandleOpenInventory (CrewMember member)
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            RemoveKarma(1);
+        }
+    }*/
+
+    void HandleOpenInventory (CrewMember member)
 	{
 		Show ();
 	}
@@ -77,23 +99,28 @@ public class Karma : MonoBehaviour {
 
 	public void CheckKarma () {
 
-		int decal = 0;
+		int decal = (int)karmaStep;
 
-		if ( CurrentKarma > (float)(maxKarma / 2) ) {
-			decal = 0;
-			// un exemple de moralité
-		} else if ( CurrentKarma > 0 ) {
-			decal = 1;
-			// rien à signaler
-		} else if ( CurrentKarma > -(float)(maxKarma/2) ) {
-			decal = 2;
-			// un mec louche
-		} else {
-			decal = 3;
-			// une sous merde
-		}
+        switch (karmaStep)
+        {
+            case KarmaStep.Best:
+                decal = 0;
+                break;
+            case KarmaStep.Good:
+                decal = 1;
+                break;
+            case KarmaStep.Neutral:
+                decal = 2;
+                break;
+            case KarmaStep.Bad:
+            case KarmaStep.Worst:
+                decal = 3;
+                break;
+            default:
+                break;
+        }
 
-		StoryReader.Instance.NextCell ();
+        StoryReader.Instance.NextCell ();
 		StoryReader.Instance.SetDecal (decal);
 
 		StoryReader.Instance.UpdateStory ();
@@ -166,45 +193,46 @@ public class Karma : MonoBehaviour {
 
 			previousKarma = CurrentKarma;
 
-			currentKarma = Mathf.Clamp ( value , -maxKarma , maxKarma);
+            currentKarma = Mathf.Clamp(value, -maxKarma, maxKarma);
 
-			UpdateUI ();
+            UpdateKarmaStep();
+
+            DisplayKarma.Instance.UpdateUI();
 		}
-	}
-
-	public void UpdateUI () {
-
-		float targetFillAmount = ((float)currentKarma / (float)maxKarma);
-
-		if ( targetFillAmount < 0.5 && targetFillAmount > -0.5f ) {
-			feedbackImage.sprite = sprites [2];
-		} else if (targetFillAmount < 0) {
-			feedbackImage.sprite = sprites [1];
-		} else {
-			feedbackImage.sprite = sprites [0];
-		}
-
-		if (currentKarma < 0) {
-			targetFillAmount = -targetFillAmount;
-			progressionImage.fillClockwise = false;
-			progressionImage.color = Color.red;
-			SoundManager.Instance.PlaySound ( karmaBadSound );
-		} else {
-			progressionImage.fillClockwise = true;
-			progressionImage.color = Color.green;
-			SoundManager.Instance.PlaySound ( karmaGoodSound );
-		}
-
-		progressionImage.fillAmount = targetFillAmount;
-
-		Tween.Bounce (group.transform);
-
-
 	}
 
 	public void FeedbackKarma () {
 		//
 	}
+
+    void UpdateKarmaStep()
+    {
+        if (CurrentKarma > (float)(maxKarma / 1.5f))
+        {
+            karmaStep = KarmaStep.Best;
+            // un exemple de moralité
+        }
+        else if (CurrentKarma > 0)
+        {
+            karmaStep = KarmaStep.Good;
+            // un mec bien
+        }
+        else if (CurrentKarma == 0)
+        {
+            karmaStep = KarmaStep.Neutral;
+            // rien à signaler
+        }
+        else if (CurrentKarma > -(float)(maxKarma / 1.5f))
+        {
+            karmaStep = KarmaStep.Bad;
+            // un mec louche
+        }
+        else
+        {
+            karmaStep = KarmaStep.Worst;
+            // une sous merde
+        }
+    }
 
 	public void Show () {
 		Visible = true;

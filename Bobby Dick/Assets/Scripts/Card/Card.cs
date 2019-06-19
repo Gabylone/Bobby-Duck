@@ -10,15 +10,14 @@ public class Card : MonoBehaviour {
 		// components
 	private Transform _transform;
 
-	[Header("UI Elements")]
-	[SerializeField]
-	private GameObject cardObject;
+    [Header("UI Elements")]
+    [SerializeField]
+    private GameObject cardObject;
+
+    public Transform barGroup;
 
 	[SerializeField]
 	private Image targetFeedbackImage;
-
-	[SerializeField]
-	private Text nameText;
 
 	[SerializeField]
 	private RectTransform healthBackground;
@@ -36,12 +35,6 @@ public class Card : MonoBehaviour {
 
 	[SerializeField]
 	private GameObject heartGroup;
-
-	[SerializeField]
-	private Text defenceText;
-
-	[SerializeField]
-	private Text attackText;
 
 	[SerializeField]
 	private Image levelImage;
@@ -86,11 +79,15 @@ public class Card : MonoBehaviour {
 	void HandleOnSetPickable (bool pickable)
 	{
 		if (pickable) {
-			ShowTargetFeedback (Color.yellow);
-		} else {
+
+            ShowTargetFeedback(Color.yellow);
+            targetFeedbackImage.GetComponent<Animator>().SetBool("bouncing", true);
+
+        }
+        else {
 
 			if ( playingTurn ) {
-				ShowTargetFeedback (Color.magenta);
+				ShowTargetFeedback (Color.white);
 				//
 			} else {
 				HideTargetFeedback ();
@@ -108,6 +105,7 @@ public class Card : MonoBehaviour {
 	}
 
 	void HideTargetFeedback () {
+        targetFeedbackImage.GetComponent<Animator>().SetBool("bouncing", false);
 		targetFeedbackImage.gameObject.SetActive (false);
 	}
 
@@ -123,7 +121,7 @@ public class Card : MonoBehaviour {
 
 	void HandleOnEndTurn ()
 	{
-		Tween.Scale (transform, 0.2f, 1f);
+		Tween.Scale (barGroup, 0.2f, 1f);
 
 		HideTargetFeedback ();
 
@@ -182,11 +180,11 @@ public class Card : MonoBehaviour {
 
 		UpdateMember ();
 
-		ShowTargetFeedback (Color.magenta);
+		ShowTargetFeedback (Color.white);
 
 		energyGroup.SetActive (true);
 
-		Tween.Scale (transform, 0.2f, 1.15f);
+		Tween.Scale (barGroup, 0.2f, 1.15f);
 	}
 
 	void HandleUseInventory (InventoryActionType actionType)
@@ -200,8 +198,6 @@ public class Card : MonoBehaviour {
 
 	public virtual void UpdateMember ( CrewMember member ) {
 
-		nameText.text = member.MemberName;
-
 		levelText.text = member.Level.ToString ();
 
 		if( member.side == Crews.Side.Enemy ) {
@@ -213,16 +209,16 @@ public class Card : MonoBehaviour {
 		float l = (float)member.Health / (float)member.MemberID.maxHealth;
 		float health_Width = -healthBackground.rect.width + healthBackground.rect.width * l;
 
-		Vector2 v = new Vector2 (health_Width, healthBackground.sizeDelta.y);
+		Vector2 v = new Vector2 (health_Width, 0f);
 
 		float dur = 0.15f;
 
 		HOTween.To (healthFill, dur , "sizeDelta" , v );
-		HOTween.To (healthFillDelay, dur * 3F , "sizeDelta" , v , false , EaseType.EaseOutCirc , dur * 3f );
+		HOTween.To (healthFillDelay, dur * 3f , "sizeDelta" , v , false , EaseType.EaseOutCirc , dur * 3f );
 
 		// STATS
-		attackText.text = member.Attack.ToString ();
-		defenceText.text = member.Defense.ToString ();
+		/*attackText.text = member.Attack.ToString ();
+		defenceText.text = member.Defense.ToString ();*/
 
 		if (SkillManager.jobSprites.Length <= (int)member.job)
 			print ("skill l : " + SkillManager.jobSprites.Length + " / member job " + (int)member.job);

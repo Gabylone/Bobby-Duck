@@ -51,10 +51,23 @@ public class MemberCreationButton_Apparence : MemberCreatorButton {
             {
                 Crews.playerCrew.captain.MemberID.SetCharacterID(ApparenceType.hair, 0);
             }
+
+            backgroundImage.color = Color.gray;
         }
 
         Crews.playerCrew.captain.Icon.InitVisual(Crews.playerCrew.captain.MemberID);
 
+
+    }
+
+    public override void Deselect()
+    {
+        base.Deselect();
+
+        if (apparenceItem.apparenceType == ApparenceType.genre)
+        {
+            backgroundImage.color = Color.white;
+        }
     }
 
 

@@ -44,7 +44,7 @@ public class SkillManager : MonoBehaviour {
 			if (cells.Length <= 1)
 				print (item.type);
 			
-			item.name = cells [1];
+			item.skillName = cells [1];
 			item.energyCost = int.Parse ( cells[3] );
 			item.initCharge = int.Parse ( cells[4] );
 			item.priority = int.Parse ( cells[5] );

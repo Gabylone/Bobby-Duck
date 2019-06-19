@@ -5,11 +5,17 @@ using System.Collections.Generic;
 [System.Serializable]
 public class OtherBoatInfo : BoatInfo {
 
+    public int id = 0;
+
 	public StoryManager storyManager;
 
 	private float changeOfChangeDirection = 0.2f;
 
+    public bool alreadyMet = false;
+
     public Color color;
+
+    public float timeToShowBoat = 1.5f;
 
 	public override void Init ()
 	{
@@ -22,7 +28,6 @@ public class OtherBoatInfo : BoatInfo {
     {
         if (coords == Coords.current)
         {
-            Debug.Log("boat is on player position, shifting");
             if (coords.x > (float)MapGenerator.Instance.MapScale / 2)
             {
                 SetCoords(coords - new Coords(1, 0));
@@ -74,14 +79,19 @@ public class OtherBoatInfo : BoatInfo {
 
 	void CheckForPlayer ()
 	{
-		if ( coords == Boats.playerBoatInfo.coords ) {
-			//
-			ShowOnScreen();
-
-		}
+        if (coords == Boats.playerBoatInfo.coords)
+        {
+            /*if (currentDirection == Boats.playerBoatInfo.currentDirection)
+            {
+                currentDirection++;
+                if (currentDirection == Directions.None)
+                    currentDirection = Directions.North;
+            }*/
+            ShowOnScreen();
+        }
 	}
 
-	void MoveToOtherChunk ()
+	public void MoveToOtherChunk ()
 	{
 		Coords newCoords = coords + NavigationManager.Instance.getNewCoords (currentDirection);
 
@@ -107,7 +117,7 @@ public class OtherBoatInfo : BoatInfo {
 
 		} else {
 			if (Random.value < changeOfChangeDirection) {
-				currentDirection = (Directions)Random.Range (0, 8);
+				//currentDirection = (Directions)Random.Range (0, 8);
 			}
 		}
 

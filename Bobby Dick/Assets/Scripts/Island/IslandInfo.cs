@@ -5,6 +5,8 @@ using Holoville.HOTween;
 
 public class IslandInfo : MonoBehaviour {
 
+    public static IslandInfo Instance;
+
 	[Header("Island Info")]
 	[SerializeField]
 	private GameObject obj;
@@ -19,13 +21,14 @@ public class IslandInfo : MonoBehaviour {
 
 	Transform currentTransform;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        Instance = this;
+    }
 
-		MinimapChunk.onTouchMinimapChunk += HandleOnTouchMinimapChunk;
-
+    // Use this for initialization
+    void Start () {
 		Hide ();
-
 	}
 
 	void Update () 
@@ -35,32 +38,41 @@ public class IslandInfo : MonoBehaviour {
 		}
 	}
 
-	void HandleOnTouchMinimapChunk (Chunk chunk, Transform tr)
+    public void DisplayBoatInfo(OtherBoatInfo boatInfo)
+    {
+        if (boatInfo.alreadyMet)
+        {
+            string storyName = boatInfo.storyManager.storyHandlers[0].Story.name;
+            uiText.text = storyName;
+        }
+        else
+        {
+            uiText.text = "?";
+        }
+    }
+
+	public void DisplayIslandInfo (Chunk chunk)
 	{
-		if (chunk.state == ChunkState.VisitedIsland) {
-
-//			uiText.text = chunk.IslandData.storyManager.CurrentStoryHandler.Story.name;
+		if (chunk.state == ChunkState.VisitedIsland)
+        {
 			uiText.text = chunk.IslandData.storyManager.CurrentStoryHandler.Story.name;
-
 		} else {
-
 			uiText.text = "?";
-		
 		}
-
-		Show ();
-
-		Tween.Bounce (transform, 0.2f , 1.05f);
-
-//		HOTween.To ( transform , 0.5f , "position" , Vector3 );
-
-
-		currentTransform = tr;
-		UpdatePosition ();
-
-		CancelInvoke ();
-		Invoke ("Hide" , displayDuration);
 	}
+
+    public void ShowAtTransform(Transform tr)
+    {
+        Show();
+
+        Tween.Bounce(transform, 0.2f, 1.05f);
+
+        currentTransform = tr;
+        UpdatePosition();
+
+        CancelInvoke();
+        Invoke("Hide", displayDuration);
+    }
 
 	void UpdatePosition ()
 	{

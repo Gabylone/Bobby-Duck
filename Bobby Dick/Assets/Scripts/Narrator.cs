@@ -10,26 +10,20 @@ public class Narrator : MonoBehaviour {
 	[Header("Narrator")]
 	[SerializeField] private Text narratorText;
 	[SerializeField] private GameObject narratorObj;
+	[SerializeField] private GameObject narratorButtonObj;
 
-	void Awake () {
+    void Awake () {
 		Instance = this;
 	}
 
 	void Start () {
 		StoryFunctions.Instance.getFunction+= HandleGetFunction;
 
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
-		CrewInventory.Instance.onCloseInventory += HandleCloseInventory;
-
-		LootManager.onRemoveItemFromInventory += HandleOnRemoveItemFromInventory;
+		InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
+		InGameMenu.Instance.onCloseMenu += HandleCloseInventory;
 
 		StoryInput.onPressInput += HandleOnPressInput;
 
-	}
-
-	void HandleOnRemoveItemFromInventory (Item item)
-	{
-		ShowNarrator ("objet retiré : " + item.name);
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -47,7 +41,7 @@ public class Narrator : MonoBehaviour {
 	}
 
 	bool previousActive = false;
-	void HandleOpenInventory (CrewMember member)
+	void HandleOpenInventory ()
 	{
 		if (narratorObj.activeSelf) {
 
@@ -71,18 +65,31 @@ public class Narrator : MonoBehaviour {
 	public void ShowNarratorTimed (string text) {
 
 		ShowNarrator (text);
+
+        narratorButtonObj.SetActive(false);
+
 		Invoke ("HideNarrator" , 2.5f );
 	}
 	public void ShowNarrator (string text) {
 
-		Tween.Bounce (narratorObj.transform , 0.1f , 1.01f);
+        InGameMenu.Instance.HideMenuButtons();
+
+        Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Hidden);
+        //Crews.enemyCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Hidden);
+
+        narratorButtonObj.SetActive(true);
+
+        Tween.Bounce (narratorObj.transform , 0.1f , 1.01f);
 
 		narratorObj.SetActive (true);
 
 		narratorText.text = NameGeneration.CheckForKeyWords (text);
 	}
 	public void HideNarrator () {
-		narratorObj.SetActive (false);
+
+        InGameMenu.Instance.ShowMenuButtons();
+
+        narratorObj.SetActive (false);
 	}
 	#endregion
 }

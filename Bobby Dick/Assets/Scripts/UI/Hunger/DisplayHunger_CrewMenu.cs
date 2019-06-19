@@ -10,13 +10,13 @@ public class DisplayHunger_CrewMenu : DisplayHunger {
 	{
 		base.Start ();
 
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+		InGameMenu.Instance.onDisplayCrewMember += HandleOnDisplayCrewMember;
 		LootUI.useInventory += HandleUseInventory;
 
-		HandleOpenInventory (CrewMember.GetSelectedMember);
+        HandleOnDisplayCrewMember(CrewMember.GetSelectedMember);
 	}
 
-	void HandleOpenInventory (CrewMember crewMember)
+	void HandleOnDisplayCrewMember(CrewMember crewMember)
 	{
 		UpdateHungerIcon (CrewMember.GetSelectedMember);
 	}
@@ -29,7 +29,6 @@ public class DisplayHunger_CrewMenu : DisplayHunger {
 	}
 
 	void OnDestroy () {
-		CrewInventory.Instance.onOpenInventory -= HandleOpenInventory;
 		LootUI.useInventory -= HandleUseInventory;
 	}
 }

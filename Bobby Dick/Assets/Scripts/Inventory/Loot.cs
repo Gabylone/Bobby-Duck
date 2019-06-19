@@ -10,8 +10,6 @@ public class Loot {
 	public int row = 0;
 	public int col = 0;
 
-	public string eh = "";
-
 	public List<List<int>> ids = new List<List<int>>();
 
 	[NonSerialized]
@@ -95,21 +93,6 @@ public class Loot {
 
 	}
 	#endregion
-
-	[OnSerialized()]
-	internal void OnSerializedMethod(StreamingContext context)
-	{
-		eh = "je me suis fais sérialisée";
-		Debug.Log ("serialized loot");
-	}
-
-	[OnDeserialized()]
-	internal void OnDeserializedMethod(StreamingContext context)
-	{
-		//		this = ItemLoader;
-		Debug.Log ("deserialized loot");
-		eh = "je me suis fais désérialisée";
-	}
 
 	public bool IsEmpty ()
 	{

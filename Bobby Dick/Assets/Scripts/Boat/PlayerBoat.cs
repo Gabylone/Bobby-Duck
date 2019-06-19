@@ -9,6 +9,8 @@ public class PlayerBoat : Boat {
 	public delegate void OnEndMovement ();
 	public OnEndMovement onEndMovement;
 
+    public LayerMask layerMask;
+
     void Awake()
     {
         Instance = this;
@@ -18,10 +20,7 @@ public class PlayerBoat : Boat {
 	{
 		base.Start();
 
-
-        //WorldTouch.onPointerDown += HandleOnPointerDown;
 		WorldTouch.onPointerExit += HandleOnPointerExit;
-        Island.onClickIsland += HandleOnTouchIsland;
 
 		StoryLauncher.Instance.onPlayStory += EndMovenent;
 		StoryLauncher.Instance.onEndStory += EndMovenent;
@@ -31,17 +30,10 @@ public class PlayerBoat : Boat {
 		NavigationManager.Instance.EnterNewChunk += UpdatePositionOnScreen;
 
 	}
-    public LayerMask layerMask;
+
     public override void Update()
     {
         base.Update();
-
-        /*print("cam ! " + Camera.allCameras[0].name);
-        print("boat screen postion : " + Camera.allCameras[0].WorldToViewportPoint(transform.position));
-        print("screen w : " + Screen.width);
-        print("screen h : " + Screen.height);*/
-
-       
     }
 
     void HandleChunkEvent ()
@@ -55,18 +47,11 @@ public class PlayerBoat : Boat {
 	}
 
     #region events
-    void HandleOnPointerDown ()
-	{
-        /*Vector2 pos = Camera.main.ScreenToWorldPoint(InputManager.Instance.GetInputPosition());
-        SetTargetPos(Flag.Instance.transform.position);*/
-    }
-
     private void HandleOnPointerExit()
     {
         Tween.Bounce(getTransform);
     }
     #endregion
-
 
     public override void EndMovenent ()
 	{
@@ -91,7 +76,9 @@ public class PlayerBoat : Boat {
 	}
 
 	void OnTriggerEnter (Collider collider) {
-		if (collider.tag == "Flag") {
+
+		if (collider.tag == "Flag")
+        {
 			EndMovenent ();
 		}
 	}

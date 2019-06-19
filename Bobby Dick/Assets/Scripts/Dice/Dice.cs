@@ -37,9 +37,13 @@ public class Dice : MonoBehaviour {
 
 	public int targetResult = 1;
 
+    SpriteRenderer[] rends;
+
 	// Use this for initialization
 	public void Init () {
 		settleDuration = DiceManager.Instance.settlingDuration;
+
+        rends = GetComponentsInChildren<SpriteRenderer>();
 	}
 
 	void LateUpdate () {
@@ -53,8 +57,6 @@ public class Dice : MonoBehaviour {
 	}
 
 	public void Reset () {
-
-		DisablePhysics ();
 
 		// POS
 		throwDirection = DiceManager.Instance.ThrowDirection;
@@ -86,44 +88,36 @@ public class Dice : MonoBehaviour {
 
 	}
 
-	void EnablePhysics ()
-	{
-		GetComponent<BoxCollider> ().enabled = true;
-		GetComponent<Rigidbody> ().isKinematic = false;
-	}
-
-	void DisablePhysics ()
-	{
-		GetComponent<BoxCollider> ().enabled = false;
-		GetComponent<Rigidbody> ().isKinematic = true;
-	}
-
 	#region settle
 	float targetScale;
 
 	public void SettleDown () {
 
-//		HOTween.To ( transform , settleDuration , "localScale" , Vector3.one * 0f );
+        HOTween.Kill(transform);
+		HOTween.To ( transform , settleDuration , "localScale" , Vector3.one * 0.8f );
 
-		foreach (SpriteRenderer rend in GetComponentsInChildren<SpriteRenderer>()) {
+        Color c = rends[0].color;
 
-			HOTween.To (rend, settleDuration, "color", Color.clear);
+        c.a = 0.6f;
 
+		foreach (SpriteRenderer rend in rends) {
+			HOTween.To (rend, settleDuration, "color", c);
 		}
 
 	}
 
 	public void SettleUp() {
 		
-//		HOTween.To ( transform , settleDuration , "localScale" , Vector3.one * 1.5f );
+		HOTween.Kill ( transform );
+		HOTween.To ( transform , settleDuration , "localScale" , Vector3.one * 1.2f);
 
-		Tween.Bounce (transform);
+        //Tween.Bounce (transform);
 
-		foreach (SpriteRenderer rend in GetComponentsInChildren<SpriteRenderer>()) {
+		/*foreach (SpriteRenderer rend in GetComponentsInChildren<SpriteRenderer>()) {
 
 			HOTween.To (rend, settleDuration, "color", Color.white);
 
-		}
+		}*/
 	}
 	#endregion
 
@@ -170,8 +164,6 @@ public class Dice : MonoBehaviour {
 //		GetComponent<Rigidbody> ().velocity = Vector3.zero;
 //		GetComponent<Rigidbody> ().angularVelocity = Vector3.zero;
 
-		DisablePhysics ();
-
 		thrown = false;
 
 		switch(i) {
@@ -194,33 +186,6 @@ public class Dice : MonoBehaviour {
 			transform.up = -Vector3.up;
 			break;
 		}
-
-//		switch(i) {
-//		case 1:
-//			HOTween.To ( transform ,settleDuration/2 , "up" 		, Vector3.up , false , EaseType.EaseOutBounce , settleDuration/2);
-//			HOTween.To ( transform ,settleDuration/2 , "forward" 	, Vector3.up , false , EaseType.Linear , 0f);
-//			break;
-//		case 2:
-//			HOTween.To ( transform ,settleDuration/2 , "right" 	, Vector3.up , false , EaseType.EaseOutBounce , settleDuration/2);
-//			HOTween.To ( transform ,settleDuration/2 , "forward" 	, -Vector3.up, false , EaseType.Linear , 0f );
-//			break;
-//		case 3:
-//			HOTween.To ( transform ,settleDuration/2 , "forward" 	, Vector3.up , false , EaseType.EaseOutBounce , settleDuration/2);
-//			HOTween.To ( transform ,settleDuration/2 , "right" 	, -Vector3.up , false , EaseType.Linear , 0f);
-//			break;
-//		case 4:
-//			HOTween.To ( transform ,settleDuration/2 , "forward" 	, -Vector3.up, false , EaseType.EaseOutBounce , settleDuration/2 );
-//			HOTween.To ( transform ,settleDuration/2 , "up" 		, -Vector3.up, false , EaseType.Linear , 0f);
-//			break;
-//		case 5:
-//			HOTween.To ( transform ,settleDuration/2 , "right" 	, -Vector3.up , false , EaseType.EaseOutBounce , settleDuration/2);
-//			HOTween.To ( transform ,settleDuration/2 , "up" 		, Vector3.up , false , EaseType.Linear , 0f);
-//			break;
-//		case 6:
-//			HOTween.To ( transform ,settleDuration/2 , "up" 		, -Vector3.up, false , EaseType.EaseOutBounce , settleDuration/2);
-//			HOTween.To ( transform ,settleDuration/2 , "right" 	, Vector3.up , false , EaseType.Linear , 0f);
-//			break;
-//		}
 	}
 	#endregion
 

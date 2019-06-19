@@ -37,6 +37,7 @@ public class Boats : MonoBehaviour {
 	}
 
 	void Start () {
+
 		Karma.onChangeKarma += HandleOnChangeKarma;
 
 		NavigationManager.Instance.EnterNewChunk += SaveBoats;
@@ -44,7 +45,15 @@ public class Boats : MonoBehaviour {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
 
-	public void RandomizeBoats( ) {
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            DestroyCurrentShip();
+        }
+    }
+
+    public void RandomizeBoats( ) {
 
 		playerBoatInfo = new PlayerBoatInfo ();
 		playerBoatInfo.Init ();
@@ -53,32 +62,37 @@ public class Boats : MonoBehaviour {
 		boatData = new BoatData ();
 		boatData.boats = new List<OtherBoatInfo> ();
 		for (int i = 0; i < otherBoatAmount; i++) {
-			OtherBoatInfo newBoat = new OtherBoatInfo ();
-			newBoat.Init ();
-            newBoat.Randomize();
-
-			boatData.boats.Add(newBoat);
-		}
-	}
+            OtherBoatInfo newBoat = CreateNewBoat();
+        }
+    }
 
 	#region story
 	void HandleGetFunction (FunctionType func, string cellParameters)
 	{
 		if ( func == FunctionType.DestroyShip ) {
 
-			OtherBoatInfo boatInfo = EnemyBoat.Instance.OtherBoatInfo;
-			boatData.boats.Remove (boatInfo);
-
-            DisplayMinimap.Instance.CheckForOtherBoats();
-
-			StoryReader.Instance.NextCell ();
-			StoryReader.Instance.UpdateStory ();
-
-			Debug.Log ("destroying ship : boat manager");
+            DestroyCurrentShip();
 
 
 		}
 	}
+
+    void DestroyCurrentShip()
+    {
+        OtherBoatInfo boatInfo = EnemyBoat.Instance.OtherBoatInfo;
+        boatData.boats.Remove(boatInfo);
+
+        EnemyBoat.Instance.Hide();
+
+        Debug.Log("destroying boat");
+
+        DisplayMinimap.Instance.UpdateOtherBoatsMinimapIcon();
+
+        StoryReader.Instance.NextCell();
+        StoryReader.Instance.UpdateStory();
+
+        Debug.Log("destroying ship : boat manager");
+    }
 	#endregion
 
 	#region karma
@@ -97,17 +111,25 @@ public class Boats : MonoBehaviour {
 
 	void AddImperialBoat ()
 	{
-		OtherBoatInfo newBoat = new OtherBoatInfo ();
-		newBoat.Init ();
-		newBoat.Randomize ();
+        OtherBoatInfo newBoat = CreateNewBoat();
 
 		int imperialID = StoryLoader.Instance.FindIndexByName ("Impériaux",StoryType.Boat);
 
 		newBoat.storyManager.storyHandlers[0].storyID = imperialID;
-			
-		boatData.boats.Add (newBoat);
-
 	}
+
+    public OtherBoatInfo CreateNewBoat()
+    {
+        OtherBoatInfo newBoat = new OtherBoatInfo();
+        newBoat.Init();
+        newBoat.Randomize();
+
+        newBoat.id = boatData.boats.Count;
+
+        boatData.boats.Add(newBoat);
+
+        return newBoat;
+    }
 
 	void RemoveImperialBoat ()
 	{

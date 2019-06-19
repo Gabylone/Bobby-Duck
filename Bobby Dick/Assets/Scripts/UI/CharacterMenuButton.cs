@@ -14,16 +14,18 @@ public class CharacterMenuButton : MonoBehaviour {
 
 	public GameObject group;
 
-	void Start () {
-		
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
-		SkillMenu.onHideSkillMenu += UpdateUI;
+    void Start()
+    {
 
-		UpdateUI ();
-	}
+        InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
+        SkillMenu.onHideSkillMenu += UpdateUI;
+
+        UpdateUI();
+
+    }
 
 
-	void HandleOpenInventory (CrewMember member)
+	void HandleOpenInventory ()
 	{
 		UpdateUI ();
 	}

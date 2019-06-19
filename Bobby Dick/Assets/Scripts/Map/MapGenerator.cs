@@ -23,14 +23,12 @@ public class MapGenerator : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
-
-        MinimapChunk.onTouchMinimapChunk = null;
 	}
 
 	#region map data
 	public void CreateNewMap () {
 
-		islandsPerCol = Mathf.RoundToInt (mapScale / 10);
+		//islandsPerCol = Mathf.RoundToInt (mapScale / 10);
 
 		discoveredCoords = new DiscoveredCoords ();
 

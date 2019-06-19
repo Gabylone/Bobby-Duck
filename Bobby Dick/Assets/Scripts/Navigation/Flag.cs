@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Holoville.HOTween;
+
 public class Flag : MonoBehaviour {
 
 	public static Flag Instance;
-
-	public RectTransform rectTransform;
 
     [SerializeField]
     private GameObject group = null;
@@ -16,8 +16,7 @@ public class Flag : MonoBehaviour {
 
     bool visible = false;
 
-	[SerializeField]
-	private RectTransform defaultRectTransform = null;
+    SpriteRenderer spriteRenderer;
 
     public LayerMask layerMask;
 
@@ -28,18 +27,14 @@ public class Flag : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
-        rectTransform = GetComponent<RectTransform>();
-
-        //WorldTouch.onPointerDown += HandleOnTouchWorld;
         WorldTouch.onPointerExit += HandleOnPointerExit;
-
-        Island.onClickIsland += HandleOnTouchIsland;
 
         PlayerBoat.Instance.onEndMovement += HandleOnEndMovement;
         NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
         Swipe.onSwipe += HandleOnSwipe;
+
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
     }
 
@@ -69,6 +64,10 @@ public class Flag : MonoBehaviour {
             transform.position = hit.point;
             PlayerBoat.Instance.SetTargetPos(hit.point);
         }
+        else
+        {
+            Debug.Log("failed to update flag position");
+        }
 
     }
 
@@ -79,43 +78,50 @@ public class Flag : MonoBehaviour {
         PlayerBoat.Instance.SetTargetPos(transform.position);
     }
 
-    void HandleOnEndMovement ()
-	{
-		Hide ();
-	}
+    void HandleOnEndMovement()
+    {
+        Tween.Bounce(transform);
+
+        HOTween.Kill(spriteRenderer);
+        HOTween.To( spriteRenderer , Tween.defaultDuration , "color" , Color.clear );
+
+        CancelInvoke("Hide");
+        Invoke("Hide", Tween.defaultDuration);
+    }
 
 	void HandleOnTouchIsland ()
 	{
 		Hide ();
 	}
-	
-    void HandleOnPointerExit ()
-	{
+
+
+    void HandleOnPointerExit()
+    {
         Show();
         UpdateFlagPos();
+
+        Tween.Bounce(transform);
+
     }
-
-	void ResetFlag ()
-	{
-		rectTransform.anchorMin = Vector2.one * 0.5f;
-		rectTransform.anchorMax = Vector2.one * 0.5f;
-
-		rectTransform.localPosition = defaultRectTransform.localPosition;	
-	}
 
     void Show()
     {
+        HOTween.Kill(spriteRenderer);
+        CancelInvoke("Hide");
+        spriteRenderer.color = Color.white;
+
         if (visible)
             return;
 
+
         visible = true;
 
-        Tween.Bounce(transform);
         CancelInvoke();
+
         group.SetActive(true);
     }
 
-    void Hide()
+    public void Hide()
     {
         visible = false;
 

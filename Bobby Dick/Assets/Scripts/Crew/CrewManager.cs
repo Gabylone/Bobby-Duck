@@ -64,7 +64,7 @@ public class CrewManager : MonoBehaviour {
 	void AddToStates ()
 	{
 		for (int i = 0; i < CrewMembers.Count; i++) {
-			CrewMembers [i].UpdateHunger ();
+			CrewMembers [i].AddHunger ();
 		}
 	}
 
@@ -96,9 +96,11 @@ public class CrewManager : MonoBehaviour {
 	#region crew list
 	public delegate void OnChangeCrewMembers ();
 	public OnChangeCrewMembers onChangeCrewMembers;
-	public void AddMember ( CrewMember member ) {
+   
+	public void AddMember ( CrewMember member )
+        {
 
-		if (crewMembers.Count == CurrentMemberCapacity)
+            if (crewMembers.Count == CurrentMemberCapacity)
 			return;
 
 		managedCrew.Add (member.MemberID);
@@ -108,7 +110,11 @@ public class CrewManager : MonoBehaviour {
 			onChangeCrewMembers ();
 		}
 	}
-	public void RemoveMember ( CrewMember member ) {
+    public void RemoveMember(int i)
+    {
+        RemoveMember(CrewMembers[i]);
+    }
+    public void RemoveMember ( CrewMember member ) {
 
 		if ( member.Icon != null )
 			Destroy (member.Icon.gameObject);
@@ -124,7 +130,6 @@ public class CrewManager : MonoBehaviour {
 			}
 
 		}
-
 
 		if (onChangeCrewMembers != null) {
 			onChangeCrewMembers ();

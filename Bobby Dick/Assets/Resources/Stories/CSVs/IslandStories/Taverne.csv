@@ -20,7 +20,7 @@ Node=>avant taverne;Node=>choix taverne;Node=>choix taverne;Node=>choix taverne;
 ;;;;;;Choice : (sortir lampe torche);;Choice : (partir);;;;;
 ;;;;;;CheckInInventory<Lanterne>/Misc;;Leave;;;;;
 [avant taverne];;;;;;PlayerSpeak : On y voit nettement mieux !;PlayerSpeak : Je n’en ai aucune !;;;;;;
-RandomRange2;;;;;;Node=>auberge vide;;;;;;;
+RandomRange2;;;;;;Node=>auberge vide;CheckQuest=>choix taverne abandonnée;;;;;;
 Node=>choix taverne;Node=>choix taverne – musiciens;;;;;;;;;;;;
 ;;;;;;;;;;;;;
 ;;;;;;;;;;;;;
@@ -87,20 +87,20 @@ Node=>combat tavernier;Node=>ignorer;;PlayerSpeak : Ma bourse ! Qui a pris ma 
 ;;;;;;;;;;Choice : Tiens, tu peux dormir maintenant;Choice : J'en ai pas, gamin;Choice : Navré, je vais en manquer.;Choice : Tiens !
 ;;;;;;;;;;RemoveFromInventory<Oreiller>/Misc;OtherSpeak : C'est rien.;OtherSpeak : C'est rien.;OtherSpeak : Vous n’en avez pas !
 ;;;;;;;;;;AddKarma;Fade;Fade;Fade
-;;;;;;;;;;OtherSpeak : Alors là, vous êtes bien sympathique !;Node=>taverne normale;Node=>taverne normale;Node=>taverne normale
+;;;;;;;;;;OtherSpeak : Alors là, vous êtes bien sympathique !;Node=>choix taverne;Node=>choix taverne;Node=>choix taverne
 ;;;;;;;;;;OtherSpeak :  Venez jettez un coup d'oeil à ce que j'ai.;;;
 ;;;;;;;;;;RandomRange2;;;
 ;;;;;;;;;;OtherSpeak : Je colporte des bétises de tavernes en tavernes,;OtherSpeak : A vrai dire, je ne suis pas ici pou rien.;;
 ;;;;;;;;;;OtherSpeak : Donc je dois bien avoir quelques unes à vous offrir.;;;
 ;;;;;;;;;;LootMisc;OtherSpeak : Je vends des armes aux bandits de passage ici.;;
 ;;;;;;;;;;Fade;OtherSpeak : Vous voulez jetter un coup d'oeil au matos ?;;
-;;;;;;;;;;Node=>taverne normale;SetChoices2;;
+;;;;;;;;;;Node=>choix taverne;SetChoices2;;
 ;;;;;;;;;;;Choice : Fais y voir;Choice : Au nom du Bien, je me dois d'arrêter votre cirque (attaquer);
 ;;;;;;;;;;;RemoveKarma;AddKarma;
 ;;;;;;;;;;;LootWeapons;LaunchCombat;
 ;;;;;;;;;;;OtherSpeak : Allez, à la prochaine;PlayerSpeak : Voilà une bonne chose de faite.;
-[salle];;;;;;;;;;;Fade;Node=>taverne normale;
-RandomRange4;;;;;;;;;;;Node=>taverne normale;;
+[salle];;;;;;;;;;;Fade;Node=>choix taverne;
+RandomRange4;;;;;;;;;;;Node=>choix taverne;;
 Node=>salle_mercenaire;Node=>salle_vendeur de trucs;Node=>salle_joueurs;Node=>salle_rien;;;;;;;;;;
 ;;;;;;;;;;;;;
 ;;;;;;;;;;;;;
@@ -111,10 +111,10 @@ SetChoices2;;;Node=>combat salle;;Fade;;HideOther;OtherSpeak : 100 tout rond.;C
 Choice : (partir);Choice : (parler au groupe de mercenaire);;;;Node=>salle_mercenaire;;Fade;Node=>choix mercenaires;RemoveGold100;OtherSpeak : C'est gentil mais t'as pas l'oseille gamin;Node=>gamin;;
 HideOther;Node=>achat mercenaire;;;;;;Node=>salle_mercenaire;;OtherSpeak : Vous ne le regretterez pas !;HideOther;;;
 Fade;;;;;;;;;Switch=>achat mercenaire;Fade;;;
-Node=>taverne normale;;;;;;;;;AddMember;Node=>taverne normale;;;
+Node=>choix taverne;;;;;;;;;AddMember;Node=>choix taverne;;;
 ;;;;;;;;;HideOther;;;;
 ;;;;;;;;;Fade;;;;
-;;;;;;;;;Node=>taverne normale;;;;
+;;;;;;;;;Node=>choix taverne;;;;
 ;;;;;;;;;;;;;
 ;;;;;;;;;;;;;
 [salle_vendeur de trucs];;;;[choix vendeur];;;;;;;;;
@@ -122,9 +122,9 @@ NewCrew;;;;SetChoices3;;;;;;;;;
 Narrator : Un homme au fond de la salle a déballé un bordel immense sur sa table.;Node=>salle vide;Node=>combat salle;;Choice : Je veux voir la marchandise(trade);Choice : Non rien(partir);Choice : Tu vends quoi ?;;;[gamin];;[salle vide];;
 SetChoices2;;;;TradeMisc/Clothes;HideOther;OtherSpeak : D'abord tu me vouvoie.;;;OtherSpeak : Y'a un probleme ?;;Narrator : La salle est vide.;;
 Choice : (partir);Choice : (parler au vendeur);;;HideOther;Fade;OtherSpeak : Ensuite, des objets en tout genre.;;;SetChoices2;;Fade;;
-HideOther;OtherSpeak : Salut gamin !;;;Fade;Node=>salle_vendeur de trucs;SetChoices2;;;Choice : Aucun;Choice : Oh que oui (attaquer);Node=>taverne normale;;
-Fade;Node=>choix vendeur;;;Node=>salle_vendeur de trucs;;Choice : Je te vouvoie si je veux;Choice : Ok;;HideOther;[combat salle];;;
-Node=>taverne normale;;;;;;Node=>gamin;Node=>choix vendeur;;Fade;LaunchCombat;;;
+HideOther;OtherSpeak : Salut gamin !;;;Fade;Node=>salle_vendeur de trucs;SetChoices2;;;Choice : Aucun;Choice : Oh que oui (attaquer);Node=>choix taverne;;
+Fade;Node=>choix vendeur;;;Node=>salle_vendeur de trucs;;Choice : je te vouvoie si je veux;Choice : Ok;;HideOther;[combat salle];;;
+Node=>choix taverne;;;;;;Node=>gamin;Node=>choix vendeur;;Fade;LaunchCombat;;;
 ;;;;;;;;;Node=>salle;Node=>salle vide;;;
 ;;;;;;;;;;;;;
 [salle_rien];;;;;;;;;;;;;
@@ -143,7 +143,7 @@ SetChoices2;;;;;;;;;;;;;
 Choice : (partir);Choice : Je peux jouer ?!;;;;;;;;;;;;
 HideOther;Node=>jeu;;;;;;;;;;;;
 Fade;;;;;;;;;;;;;
-Node=>taverne normale;;;;;;;;;;;;;
+Node=>choix taverne;;;;;;;;;;;;;
 ;;;;;;;;;;;;;
 ;;;;;;;;;;;;;
 ;;;;;;;;;;;;;

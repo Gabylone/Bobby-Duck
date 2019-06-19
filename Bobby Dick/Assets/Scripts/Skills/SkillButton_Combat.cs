@@ -19,9 +19,6 @@ public class SkillButton_Combat : SkillButton {
 
 	bool canTriggerSkill = true;
 
-	bool touching = false;
-
-
 	public override void Start ()
 	{
 		base.Start ();
@@ -37,14 +34,16 @@ public class SkillButton_Combat : SkillButton {
 	void Enable () {
 		canTriggerSkill = true;
 		skillImage.color = Color.black;
+        button.interactable = true;
 	}
 
 	void Disable() {
 		canTriggerSkill = false;
 		skillImage.color = new Color ( 1,1,1,0.35f );
-	}
+        button.interactable = false;
+    }
 
-	void CheckSkill ()
+    void CheckSkill ()
 	{
 		if (skill.energyCost == 0) {
 			energyGroup.SetActive (false);
@@ -83,53 +82,16 @@ public class SkillButton_Combat : SkillButton {
 		}
 	}
 
-	public void OnPointerDown () {
-
-		touching = true;
-
-		CancelInvoke("TriggerSkillDelay");
-		CancelInvoke ("SkillDelayFeedback");
-		Invoke ("TriggerSkillDelay" , timeToShowDescription);
-		Invoke ("SkillDelayFeedback", timeToShowDescriptionFeedback);
-
-	}
-
-	void SkillDelayFeedback() {
-
-		if (!touching)
-			return;
-		
-		chargeGroup.SetActive (true);
-		chargeFillImage.fillAmount = 0f;
-		chargeText.text = "";
-
-		HOTween.Kill (chargeFillImage);
-		HOTween.To ( chargeFillImage , timeToShowDescription - timeToShowDescriptionFeedback, "fillAmount", 1f );
-
-	}
-
-	void TriggerSkillDelay () {
-
-		if ( touching )
-			ShowDescription ();
-
-		touching = false;
-
-	}
-
 	public void OnPointerUp () {
 
-		if (canTriggerSkill && touching) {
+		if (canTriggerSkill ) {
 			skill.Trigger (CombatManager.Instance.currentFighter);
 		}
 
-		HideDescription ();
 		HOTween.Kill (chargeFillImage);
 		CrewMember member = CombatManager.Instance.currentFighter.crewMember;
 		int charge = member.charges[skill.GetSkillIndex(member)];
 		UpdateCharge (charge);
-
-		touching = false;
 
 	}
 }

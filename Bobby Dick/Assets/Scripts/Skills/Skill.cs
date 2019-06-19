@@ -7,7 +7,7 @@ public class Skill : MonoBehaviour {
 	public Fighter fighter;
 	public Fighter preferedTarget;
 
-	public string name = "";
+	public string skillName = "";
 	public string description = "";
 	public int energyCost = 5;
 	public float animationDelay = 0.6f;
@@ -244,7 +244,7 @@ public class Skill : MonoBehaviour {
 
 
 		if (skillIndex < 0) {
-			Debug.LogError ("pas trouvé l'index de " + name);
+			Debug.LogError ("pas trouvé l'index de " + skillName);
 		}
 
 		return skillIndex;

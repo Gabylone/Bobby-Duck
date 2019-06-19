@@ -6,61 +6,64 @@ using Holoville.HOTween;
 
 public class StatusFeedback : MonoBehaviour {
 
-	public Image image;
+	public Image statusImage_BG;
+	public Image statusImage_Fill;
 
-	public Text uiText;
+    public Image backgroundImage_BG;
+    public Image backgroundImage_Fill;
 
-	public GameObject textGroup;
-
-	public float tweenDur = 0.5f;
+    public float tweenDur = 0.5f;
 	public float tweenScaleAmount = 1.2f;
 
 	public Fighter.Status status;
 
-	public void SetCount ( int count ) {
+    int max = 1;
 
-		if (count > 1) {
-			textGroup.SetActive (true);
-			uiText.text = count.ToString ();
-		} else {
-			textGroup.SetActive (false);
-		}
+    public void SetMax(int i)
+    {
+        max = i;
+    }
 
+    public void SetCount ( int count )
+    {
+        UpdateUI(count);
 	}
 
 	public void SetStatus ( Fighter.Status status ) {
 		this.status = status;
-		image.sprite = SkillManager.statusSprites [(int)status];
+		statusImage_BG.sprite = SkillManager.statusSprites [(int)status];
 	}
+
+    private void UpdateUI(int i)
+    {
+        float lerp = i / max;
+
+        statusImage_Fill.fillAmount = lerp;
+        backgroundImage_Fill.fillAmount = lerp;
+    }
 
 	public void SetColor (Color color)
 	{
-		GetComponent<Image>().color = color;
+		statusImage_Fill.color = color;
+		backgroundImage_Fill.color = color;
 
-		int a = 0;
+		/*int a = 0;
 		foreach (var item in GetComponentsInChildren<Image>()) {
 			if ( a > 0 )
 				HOTween.To ( item , tweenDur , "color" , Color.black );
 			++a;
-		}
-		uiText.color = Color.white;
+		}*/
 	}
 
-	public void Hide (){
-		HOTween.To ( transform , tweenDur , "localScale" , Vector3.one * tweenScaleAmount );
+	public void Hide ()
+    {
+        gameObject.SetActive(false);
+    }
 
-		foreach (var item in GetComponentsInChildren<Image>()) {
-			HOTween.To ( item , tweenDur , "color" , Color.clear );
-		}
-
-		HOTween.To ( uiText , tweenDur , "color" , Color.clear );
-//		Tween.Bounce(transform,tweenDur,1.2f);
-		Invoke ("HideDelay" , tweenDur);
-	}
-
-	void HideDelay () {
-		gameObject.SetActive (false);
-	}
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
 
 	public delegate void OnTouchStatusFeedback ( Fighter.Status status);
 	public static OnTouchStatusFeedback onTouchStatusFeedback;

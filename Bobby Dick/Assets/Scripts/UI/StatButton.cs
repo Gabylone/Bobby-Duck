@@ -19,9 +19,8 @@ public class StatButton : MonoBehaviour {
 
         onClickStatButton += UpdateDisplay;
 
-        CrewInventory.Instance.onOpenInventory += HandleOnCardUpdate;
+        InGameMenu.Instance.onDisplayCrewMember += HandleOnCardUpdate;
 		SkillButton_Inventory.onUnlockSkill += UpdateDisplay;
-
 
 		Display (CrewMember.GetSelectedMember);
 

@@ -7,6 +7,8 @@ using Holoville.HOTween;
 
 public class Tutorial : MonoBehaviour {
 
+    public static Tutorial Instance;
+
 	public TextAsset tutoData;
 
 	public bool debugTutorial = true;
@@ -24,6 +26,8 @@ public class Tutorial : MonoBehaviour {
 
     private void Awake()
     {
+        Instance = this;
+
         onWaitForConfirm = null;
         onHideTutorial = null;
         onDisplayTutorial = null;
@@ -92,6 +96,12 @@ public class Tutorial : MonoBehaviour {
 
 	}
 
+    public void ExitCurrent()
+    {
+        if (Tutorial.onHideTutorial != null)
+            Tutorial.onHideTutorial();
+    }
+
     public void DisableTuto()
     {
         KeepOnLoad.displayTuto = false;
@@ -141,6 +151,7 @@ public enum TutorialStep {
 
 public class TutoStep {
 
+
 	public TutorialStep step;
 
 	public DisplayInfo.Corner corner = DisplayInfo.Corner.None;
@@ -159,8 +170,7 @@ public class TutoStep {
 	}
 
 	public virtual void Kill () {
-		if ( Tutorial.onHideTutorial != null )
-			Tutorial.onHideTutorial ();
+        Tutorial.Instance.ExitCurrent();
 	}
 
 	public void WaitForConfirm () {
@@ -179,23 +189,11 @@ public class TutoStep_Islands : TutoStep {
 
 	void HandleEndStoryEvent ()
 	{
-		Display ();
+        StoryLauncher.Instance.onEndStory -= HandleEndStoryEvent;
 
-		StoryLauncher.Instance.onEndStory -= HandleEndStoryEvent;
+        Display();
 
-		StoryLauncher.Instance.onPlayStory += HandlePlayStoryEvent;
-	}
-
-	void HandlePlayStoryEvent ()
-	{
-		Kill ();
-	}
-
-	public override void Kill ()
-	{
-		base.Kill ();
-
-		StoryLauncher.Instance.onPlayStory -= HandlePlayStoryEvent;
+        WaitForConfirm();
 	}
 
 }
@@ -241,23 +239,26 @@ public class TutoStep_Movements: TutoStep {
 		if (count > 0) {
 
 			Display ();
-
             DisplayInfo_Tuto.Instance.handObj.SetActive(true);
 
             StoryLauncher.Instance.onEndStory -= HandleEndStoryEvent;
 
-			NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
-		}
-		count++;
+            Tutorial.onHideTutorial += HandleOnHideTutorial;
+
+            WaitForConfirm();
+        }
+
+        count++;
 
 	}
 
-	void HandleChunkEvent ()
-	{
-		NavigationManager.Instance.EnterNewChunk -= HandleChunkEvent;
-        DisplayInfo_Tuto.Instance.handObj.SetActive(false);
 
-        Kill();
+    void HandleOnHideTutorial()
+	{
+        DisplayInfo_Tuto.Instance.handObj.SetActive(false);
+        Tutorial.onHideTutorial -= HandleOnHideTutorial;
+
+        //Kill();
 	}
 
 }
@@ -372,14 +373,14 @@ public class TutoStep_CrewMenu: TutoStep {
 	{
 		base.Init ();
 
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+		InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
 	}
 
-	void HandleOpenInventory (CrewMember member)
+	void HandleOpenInventory ()
 	{
 		if (OtherInventory.Instance.type == OtherInventory.Type.None) {
 			Display ();
-			CrewInventory.Instance.onOpenInventory -= HandleOpenInventory;
+			InGameMenu.Instance.onOpenMenu -= HandleOpenInventory;
 			WaitForConfirm ();
 		}
 	}

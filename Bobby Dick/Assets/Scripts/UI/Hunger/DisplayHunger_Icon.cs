@@ -11,44 +11,79 @@ public class DisplayHunger_Icon : DisplayHunger {
 
 	public int hungerToAppear = 50;
 
-	public GameObject heartGroup;
+    public GameObject heartGroup;
+    public RectTransform healthBackground;
 	public Image heartImage;
 
-	public float hungerToShowLife = 25f;
+    public float hungerToShowLife = 25f;
 
-	public override void Start ()
+        // display food
+    public GameObject displayFood_Obj;
+    public float displayFood_Delay = 1.2f;
+    public Text displayFood_Text;
+    public Image displayFood_Image;
+    public Sprite displayFood_FoodSprite;
+    public Sprite displayFood_HeartSprite;
+
+    public float lerpToHideHunger = 0.3f;
+
+    public override void Start ()
 	{
 		base.Start ();
 
 		linkedIcon = GetComponentInParent<MemberIcon> ();
 
-		InitEvents ();
 
 		HideHunger ();
 		HideHeart ();
 
-	}
+        HideFoodFeedback();
 
-    private void HandleOnGetFunction(FunctionType func, string cellParameters)
+        InitEvents();
+
+    }
+
+    void ShowFoodFeedback()
     {
-        switch (func)
+        if (linkedIcon.member.CurrentHunger >= Crews.maxHunger)
         {
-            case FunctionType.AddHealth:
-            case FunctionType.RemoveHealth:
-                ShowHeart();
-                Invoke("HandleOnGetFunctionDelay", 1.5f );
-                break;
-            default:
-                break;
+            DisplayHealthAmount(linkedIcon.member.hungerDamage);
         }
+        else
+        {
+            DisplayFoodAmount(1);
+        }
+
     }
 
-    void HandleOnGetFunctionDelay()
+    public void DisplayHealthAmount(int i)
     {
-        UpdateHungerIcon(linkedIcon.member);
+        displayFood_Obj.SetActive(true);
+
+        displayFood_Image.sprite = displayFood_HeartSprite;
+        displayFood_Text.text = "- " + i;
+
+        CancelInvoke("HideFoodFeedback");
+        Invoke("HideFoodFeedback", displayFood_Delay + 1f);
     }
 
-    #region hear
+    public void DisplayFoodAmount(int i)
+    {
+        displayFood_Obj.SetActive(true);
+
+        displayFood_Image.sprite = displayFood_FoodSprite;
+        displayFood_Text.text = "- " +i;
+
+        CancelInvoke("HideFoodFeedback");
+        Invoke("HideFoodFeedback", displayFood_Delay + 1f);
+    }
+
+    void HideFoodFeedback()
+    {
+        displayFood_Obj.SetActive(false);
+    }
+
+    #region health
     void ShowHeart () {
 		heartGroup.SetActive (true);
 		Tween.Bounce (heartGroup.transform);
@@ -59,57 +94,69 @@ public class DisplayHunger_Icon : DisplayHunger {
 		//
 	}
 	void UpdateHeartImage () {
+
 		float l = (float)linkedIcon.member.Health / (float)linkedIcon.member.MemberID.maxHealth;
-		HOTween.Kill (heartImage.rectTransform);
-		HOTween.To ( heartImage , 0.5f , "fillAmount" , l );
-	}
+
+        float width = -healthBackground.rect.width + healthBackground.rect.width * l;
+
+        Vector2 v = new Vector2(width, heartImage.rectTransform.sizeDelta.y);
+        heartImage.rectTransform.sizeDelta = v;
+
+    }
 	#endregion
 
 	void HandleEndStoryEvent ()
 	{
+        ShowHeart();
 		UpdateHungerIcon (linkedIcon.member);
 	}
 
 	void HandlePlayStoryEvent ()
 	{
-		HideHeart ();
-		HideHunger ();
+        HideInfo();
 	}
 
 	void HandleCloseInventory ()
 	{
 		if (StoryLauncher.Instance.PlayingStory == false) {
-			HandleChunkEvent ();
-		}
+            ShowHeart();
+            UpdateHungerIcon(linkedIcon.member);
+        }
 	}
 
-	void HandleOpenInventory (CrewMember member)
-	{
-		HideHeart ();
-		HideHunger ();
-	}
+    void HandleOnOpenInventory()
+    {
+        HideInfo();
+    }
 
-	void HandleChunkEvent ()
+    public void HideInfo()
+    {
+        HideHeart();
+        HideHunger();
+    }
+
+	void HandleOnAddHunger ()
 	{
 		UpdateHungerIcon (linkedIcon.member);
-	}
+        HideFoodFeedback();
+
+        if ( NavigationManager.Instance.chunksTravelled > 1)
+        {
+            CancelInvoke("ShowFoodFeedback");
+            Invoke("ShowFoodFeedback", displayFood_Delay);
+        }
+    }
 
 	public override void UpdateHungerIcon (CrewMember member)
 	{
-
-        if ( (float)member.Health / member.MemberID.maxHealth < 0.3f )
-        {
-            HideHunger();
-            ShowHeart();
-            return;
-        }
-
 		float fillAmount = 1f - ((float)member.CurrentHunger / (float)Crews.maxHunger);
 
-		if (fillAmount * 100 < hungerToShowLife) {
+        UpdateHeartImage();
+
+        /*if (fillAmount * 100 < hungerToShowLife) {
 		    HideHunger ();
-			ShowHeart ();
-        } else if (fillAmount * 100 < hungerToAppear) {
+        } else */
+        if (fillAmount * 100 < hungerToAppear) {
 			base.UpdateHungerIcon (member);
 		} else {
 			HideHunger ();
@@ -117,25 +164,49 @@ public class DisplayHunger_Icon : DisplayHunger {
 
 	}
 
-	void InitEvents ()
-	{
-		NavigationManager.Instance.EnterNewChunk 	+= HandleChunkEvent;
-		CrewInventory.Instance.onOpenInventory 		+= HandleOpenInventory;
-		StoryLauncher.Instance.onPlayStory 		    += HandlePlayStoryEvent;
-		StoryLauncher.Instance.onEndStory 		    += HandleEndStoryEvent;;
-		CrewInventory.Instance.onCloseInventory 	+= HandleCloseInventory;
-        StoryFunctions.Instance.getFunction         += HandleOnGetFunction;
+    public override void ShowHunger()
+    {
+        base.ShowHunger();
+    }
 
+    public override void HideHunger()
+    {
+        base.HideHunger();
+    }
+
+    void HandleOnChangeHealth()
+    {
+        UpdateHeartImage();
+    }
+
+    void InitEvents()
+    {
+        //NavigationManager.Instance.EnterNewChunk    += HandleOnAddHunger;
+        linkedIcon.member.onAddHunger += HandleOnAddHunger;
+
+        StoryLauncher.Instance.onPlayStory          += HandlePlayStoryEvent;
+        StoryLauncher.Instance.onEndStory           += HandleEndStoryEvent;
+
+        InGameMenu.Instance.onCloseMenu             += HandleCloseInventory;
+        InGameMenu.Instance.onOpenMenu              += HandleOnOpenInventory;
+
+        linkedIcon.member.onChangeHealth            += HandleOnChangeHealth;
+
+        
     }
 
     void OnDestroy()
-	{
-		NavigationManager.Instance.EnterNewChunk 	-= HandleChunkEvent;
-		CrewInventory.Instance.onOpenInventory 		-= HandleOpenInventory;
-		StoryLauncher.Instance.onPlayStory 		    -= HandlePlayStoryEvent;
-		StoryLauncher.Instance.onEndStory 		    -= HandleEndStoryEvent;;
-		CrewInventory.Instance.onCloseInventory 	-= HandleCloseInventory;
-        StoryFunctions.Instance.getFunction         -= HandleOnGetFunction;
+    {
+        //NavigationManager.Instance.EnterNewChunk    -= HandleOnAddHunger;
+        linkedIcon.member.onAddHunger -= HandleOnAddHunger;
+
+        StoryLauncher.Instance.onPlayStory          -= HandlePlayStoryEvent;
+        StoryLauncher.Instance.onEndStory           -= HandleEndStoryEvent; 
+
+        InGameMenu.Instance.onCloseMenu             -= HandleCloseInventory;
+        InGameMenu.Instance.onOpenMenu              -= HandleOnOpenInventory;
+
+        linkedIcon.member.onChangeHealth            -= HandleOnChangeHealth;
 
     }
 }

@@ -6,7 +6,7 @@ SetChoices2;;;;;;;;;;;
 Choice : (partir);Choice : (accoster sur l'île);;;;;;;;;;
 PlayerSpeak : On a rien à faire ici !;Fade;;;;;;;;;;
 Leave;Node=>naufragé;;;;;;;;;;
-;;;;;;;;;;;
+;AddToInventory;;;;;;;;;;
 ;;;;;;;;;;;
 [naufragé];;;;;;;;;;;
 NewCrew1;;;;;;;;;;;

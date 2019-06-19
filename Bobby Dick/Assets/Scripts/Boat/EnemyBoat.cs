@@ -8,19 +8,25 @@ public class EnemyBoat : Boat {
 	private OtherBoatInfo otherBoatInfo;
 
 	public bool followPlayer = false;
-	private bool reachedPlayer = false;
+
+    private bool reachedPlayer = false;
+
 	private bool metPlayer = false;
 
-	private bool visible = false;
+    private bool visible = false;
+
+    private bool exitingScreen = false;
 
 	public float leavingSpeed = 20f;
 	public float followPlayer_Speed= 15f;
 
-	BoxCollider boxCollider;
+    public float decalToCenter = 5f;
+
+    public float timeToShowBoat = 1.5f;
+
+    BoxCollider boxCollider;
 
     public GameObject group;
-
-    public Directions testDir;
 
 	void Awake (){
 		Instance = this;
@@ -33,7 +39,6 @@ public class EnemyBoat : Boat {
 		StoryLauncher.Instance.onPlayStory += HandlePlayStoryEvent;
 		StoryLauncher.Instance.onEndStory += HandleEndStoryEvent;
 
-		StoryFunctions.Instance.getFunction += HandleGetFunction;
 		NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
 
 		boxCollider = GetComponent<BoxCollider> ();
@@ -47,18 +52,6 @@ public class EnemyBoat : Boat {
         Hide();
     }
 
-    void HandleGetFunction (FunctionType func, string cellParameters)
-	{
-		if ( func == FunctionType.DestroyShip ) {
-			
-			Visible = false;
-
-			Debug.Log ("destroying ship : boat objet");
-
-
-		}
-	}
-
 	void HandlePlayStoryEvent ()
 	{
 		EndMovenent ();
@@ -66,68 +59,100 @@ public class EnemyBoat : Boat {
 
 	void HandleEndStoryEvent ()
 	{
+		if (StoryReader.Instance.CurrentStoryHandler.storyType == StoryType.Boat)
+        {
+            reachedPlayer = false;
+            followPlayer = false;
 
-		if (StoryReader.Instance.CurrentStoryHandler.storyType != StoryType.Boat)
-			return;
+            ExitScreen();
+            SetSpeed(leavingSpeed);
+        }
+    }
 
-		reachedPlayer = false;
-		followPlayer = false;
+    public override void SetTargetPos(Vector3 p)
+    {
+        base.SetTargetPos(p);
 
-        SetSpeed(leavingSpeed);
+    }
 
-        Vector3 corner = NavigationManager.Instance.GetOppositeCornerPosition(otherBoatInfo.currentDirection);
-        Vector3 p = corner + (corner - getTransform.position).normalized * 2f;
-
-        SetTargetPos(p);
-	}
-	
-	public override void Update ()
+    public override void Update ()
 	{
 		base.Update ();
 
-		if  (metPlayer && StoryLauncher.Instance.PlayingStory == false ) {
-			if ( Vector2.Distance (targetPos , transform.position ) < 0.5f ) {
-				Hide ();
-			}
+		if  (exitingScreen ) {
+
+            if (Vector2.Distance(targetPos, transform.position) < 0.5f)
+            {
+                Debug.Log("left");
+                Leave();
+            }
+
 		}
-	}
+        else 
+        {
+            SetTargetPos(PlayerBoat.Instance.transform.position);
+        }
+    }
+
+    void Leave()
+    {
+        otherBoatInfo.MoveToOtherChunk();
+
+        DisplayMinimap.Instance.UpdateOtherBoatsMinimapIcon();
+
+        Hide();
+    }
 
 	public void Show ( OtherBoatInfo boatInfo ) 
 	{
-		boxCollider.enabled = true;
+        this.otherBoatInfo = boatInfo;
 
-		this.otherBoatInfo = boatInfo; 
+        CancelInvoke("ShowDelay");
+        Invoke("ShowDelay", timeToShowBoat);
 
-		Visible = true;
+    }
 
-		UpdatePositionOnScreen ();
+    void ShowDelay()
+    {
+        exitingScreen = false;
+        boxCollider.enabled = true;
+
+        Visible = true;
+
+        UpdatePositionOnScreen();
 
         if (otherBoatInfo.storyManager.CurrentStoryHandler.Story.param == 0)
         {
-
             // go about
-            Vector3 corner = NavigationManager.Instance.GetOppositeCornerPosition(otherBoatInfo.currentDirection);
-            Vector3 p = corner + (corner - getTransform.position).normalized * 3f;
-
-            SetTargetPos(p);
+            ExitScreen();
 
             SetSpeed(startSpeed);
 
         }
         else
         {
-
-            // follow player
-            SetTargetPos(PlayerBoat.Instance.getTransform.position);
-
             SetSpeed(followPlayer_Speed);
 
+            SetTargetPos(PlayerBoat.Instance.getTransform.position);
         }
-
     }
 
-	void Hide () {
-		Visible = false;
+    void ExitScreen()
+    {
+        Vector3 corner = NavigationManager.Instance.GetCornerPosition(otherBoatInfo.currentDirection);
+        Debug.Log("target position : " + otherBoatInfo.currentDirection);
+
+        Vector3 p = corner + (corner - Vector3.zero).normalized * decalToCenter;
+
+        SetTargetPos(p);
+
+        exitingScreen = true;
+    }
+
+	public void Hide () {
+        CancelInvoke("ShowDelay");
+
+        Visible = false;
 		OtherBoatInfo = null;
 	}
 
@@ -135,13 +160,13 @@ public class EnemyBoat : Boat {
 	{
 		base.UpdatePositionOnScreen ();
 
-		Vector2 getDir = NavigationManager.Instance.getDir(OtherBoatInfo.currentDirection);
+        Vector3 corner = NavigationManager.Instance.GetOppositeCornerPosition(otherBoatInfo.currentDirection);
 
-        getTransform.position = NavigationManager.Instance.GetCornerPosition(otherBoatInfo.currentDirection);
+        Debug.Log("starting position : " + NavigationManager.GetOppositeDirection(otherBoatInfo.currentDirection) );
 
+        getTransform.position = corner;
 
 		metPlayer = false;
-
 	}
 
 	#region world
@@ -165,7 +190,14 @@ public class EnemyBoat : Boat {
 	#region story
 	public void Enter () {
 
-		metPlayer = true;
+        Tween.Bounce(transform);
+
+        // if he met the player once IN THE SCREEN
+        metPlayer = true;
+
+        // if he met the player in the WHOLE story
+        otherBoatInfo.alreadyMet = true;
+
 		reachedPlayer = true;
 
         boxCollider.enabled = false;
@@ -174,10 +206,17 @@ public class EnemyBoat : Boat {
 
 		StoryLauncher.Instance.PlayStory (OtherBoatInfo.storyManager, StoryLauncher.StorySource.boat);
 	}
-	#endregion
 
-	#region properties
-	public OtherBoatInfo OtherBoatInfo {
+    private void OnMouseDown()
+    {
+        Tween.Bounce(transform);
+
+        PlayerBoat.Instance.SetTargetPos(transform.position);
+    }
+    #endregion
+
+    #region properties
+    public OtherBoatInfo OtherBoatInfo {
 		get {
 			return otherBoatInfo;
 		}

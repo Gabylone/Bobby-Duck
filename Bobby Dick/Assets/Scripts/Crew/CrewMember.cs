@@ -12,7 +12,6 @@ public class CrewMember {
 
 			if (selectedMember == null) {
 				if (Crews.playerCrew.CrewMembers.Count != 0) {
-//					Debug.LogError ("no selected member, return captain");
 					return Crews.playerCrew.captain;
 				} else {
 					Debug.LogError("no captain, merde chier");
@@ -45,7 +44,7 @@ public class CrewMember {
 	private Member memberID;
 
 	// HUNGER
-	private int hungerDamage = 10;
+	public int hungerDamage = 10;
 
 	// JOB
 	public Job job {
@@ -190,14 +189,70 @@ public class CrewMember {
 		return true;
 
 	}
-	#endregion
+    #endregion
 
-	#region health
-	public float GetDamage ( float incomingAttack ) {
+    #region in inventory
+    public delegate void OnShowInventory();
+    public OnShowInventory onShowInInventory;
+    public void ShowInInventory()
+    {
+        CrewMember previousMember = null;
+
+        if (GetSelectedMember != null)
+        {
+            previousMember = GetSelectedMember;
+        }
+
+        // return
+        SetSelectedMember(this);
+
+        if (previousMember != null)
+        {
+            if (StoryLauncher.Instance.PlayingStory && OtherInventory.Instance.type == OtherInventory.Type.None)
+            {
+                if (GetSelectedMember != Crews.playerCrew.captain)
+                {
+                    Crews.getCrew(Crews.Side.Player).captain.Icon.MoveToPoint(Crews.PlacingType.Map);
+
+                    if (previousMember != Crews.playerCrew.captain)
+                    {
+                        previousMember.Icon.MoveToPoint(Crews.PlacingType.Map);
+                    }
+                }
+                else
+                {
+                    if (previousMember != Crews.playerCrew.captain)
+                    {
+                        previousMember.Icon.MoveToPoint(Crews.PlacingType.Map);
+                    }
+                }
+
+            }
+            else
+            {
+                previousMember.Icon.MoveToPoint(Crews.PlacingType.Map);
+
+            }
+
+        }
+
+        Icon.MoveToPoint(Crews.PlacingType.Inventory);
+
+        if ( onShowInInventory != null) {
+            onShowInInventory();
+        }
+
+        if ( InGameMenu.Instance.onDisplayCrewMember != null)
+        {
+            InGameMenu.Instance.onDisplayCrewMember(this);
+        }
+
+    }
+    #endregion
+
+    #region health
+    public float GetDamage ( float incomingAttack ) {
 //		
-//		float maxHits = 14;
-//		float minHits = 2;
-//
 		float maxHits = 10;
 		float minHits = 2;
 
@@ -253,10 +308,13 @@ public class CrewMember {
 		Crews.getCrew(side).RemoveMember (this);
 
 	}
-	#endregion
+    #endregion
 
-	#region states
-	public void UpdateHunger () {
+    #region states
+    public delegate void OnAddHunger();
+    public OnAddHunger onAddHunger;
+
+	public void AddHunger () {
 
 		++CurrentHunger;
 
@@ -275,7 +333,12 @@ public class CrewMember {
 
 		}
 
-		++daysOnBoard;
+        if (onAddHunger != null)
+        {
+            onAddHunger();
+        }
+
+        ++daysOnBoard;
 
 	}
 	private int daysOnBoard {
@@ -286,16 +349,24 @@ public class CrewMember {
 			memberID.daysOnBoard = value;
 		}
 	}
-	#endregion
+    #endregion
 
-	#region parameters
+    #region parameters
+    public delegate void OnChangeHealth();
+    public OnChangeHealth onChangeHealth;
 	public int Health {
 		get {
 			return memberID.health;
 		}
-		set {
+		set
+        {
 			memberID.health = Mathf.Clamp (value , 0 , memberID.maxHealth);
-//
+
+            if ( onChangeHealth != null)
+            {
+                onChangeHealth();
+            }
+
 //			if (memberID.health <= 0)
 //				Kill ();
 		}
@@ -357,7 +428,7 @@ public class CrewMember {
 	}
 	public int GetIndex {
 		get {
-			return Crews.getCrew (side).CrewMembers.FindIndex (x => x == this);
+            return Crews.getCrew(side).CrewMembers.FindIndex(x => x.memberID.SameAs(this.memberID));
 		}
 	}
 	#endregion

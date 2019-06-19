@@ -88,7 +88,9 @@ public class CombatManager : MonoBehaviour {
 
 		InitFighters ();
 
-		StoryFunctions.Instance.getFunction += HandleGetFunction;
+        cancelPlayerMemberChoiceButton.SetActive(false);
+
+        StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
 
 	void HandleGetFunction (FunctionType func, string cellParameters)
@@ -469,7 +471,11 @@ public class CombatManager : MonoBehaviour {
 	}
 
 	void ShowLoot () {
-		OtherInventory.Instance.StartLooting ();
+
+        Invoke("ReceiveGold", 0.8f);
+        //ReceiveGold();
+
+        OtherInventory.Instance.StartLooting ();
 	}
 	#endregion 
 
@@ -503,7 +509,6 @@ public class CombatManager : MonoBehaviour {
 	{
 		enemyFighters_Parent.SetActive (true);
 		playerFighters_Parent.SetActive (true);
-
 
 		initPlayerFighters = playerFighters_Parent.GetComponentsInChildren<Fighter> (true);
 		initEnemyFighters = enemyFighters_Parent.GetComponentsInChildren<Fighter> (true);
@@ -578,7 +583,6 @@ public class CombatManager : MonoBehaviour {
 		case OutCome.EnemyCrewKilled:
 			Transitions.Instance.ActionTransition.FadeIn (0.5f);
 			ReceiveXp ();
-			ReceiveGold ();
 			Invoke ("ExitFight", 1f);
 			Invoke ("ShowLoot", 1f);
 			break;

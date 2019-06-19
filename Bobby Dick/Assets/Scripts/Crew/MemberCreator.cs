@@ -9,16 +9,17 @@ public class MemberCreator : MonoBehaviour {
 
 	public enum CreationStep {
 		CaptainName,
-		BoatName,
-		Job,
-		Appearance
-	}
+		//BoatName,
+		Appearance,
+		Job
+    }
 
     public Image fadeImage;
 
 	public CreationStep currentStep;
 
 	public GameObject confirmButtonObj;
+    public GameObject previousButtonObj;
 
     public Transform iconTargetParent;
     public Transform iconInitParent;
@@ -32,6 +33,9 @@ public class MemberCreator : MonoBehaviour {
 	public GameObject GetStep ( CreationStep step ) {
 		return stepObjs [(int)step];
 	}
+
+    public Text jobDescription_Text;
+    private string[] jobDescriptions_Str;
 
 	public Sprite femaleSprite;
 	public Sprite maleSprite;
@@ -58,9 +62,17 @@ public class MemberCreator : MonoBehaviour {
 	void Start () {
 
 		Hide ();
+
+        LoadJobTexts();
 	}
 
-	public string[] boatNames;
+    private void LoadJobTexts()
+    {
+        TextAsset textAsset = Resources.Load("JobDescriptions") as TextAsset;
+        jobDescriptions_Str = textAsset.text.Split('\n');
+    }
+
+    public string[] boatNames;
 	public string[] captainNames;
 
 	void Hide ()
@@ -76,40 +88,72 @@ public class MemberCreator : MonoBehaviour {
 	public void HideStep (CreationStep step) {
 		HOTween.To (GetStep (step).transform, tweenDuration / 2f, "anchoredPosition", Vector2.up * -1000f, false, EaseType.Linear, 0f);
 	}
+    
 	public void ShowStep ( CreationStep step ) {
 
 		confirmButtonObj.SetActive (false);
+        previousButtonObj.SetActive(false);
 
-		Invoke ("ShowStepDelay", tweenDuration);
-
-		if ( step > CreationStep.CaptainName ) {
-			HideStep (step-1);
-		}
-
-		GetStep (step).SetActive (true);
+        // TWEEN NEXT STEP
+        GetStep(step).SetActive (true);
 		GetStep (step).GetComponent<RectTransform>().anchoredPosition = new Vector3 (0f , 1000f , 0f);
+
 		HOTween.To (GetStep (step).transform, tweenDuration, "anchoredPosition", Vector2.zero, false, EaseType.Linear, 0f);
 
-	}
-	void ShowStepDelay () {
-		if ( currentStep > CreationStep.CaptainName ) {
-			GetStep (currentStep - 1).SetActive(false);
-		}
-		confirmButtonObj.SetActive (true);
-		Tween.Bounce (confirmButtonObj.transform);
+        Invoke("ShowStepDelay", tweenDuration);
+
+    }
+
+    void ShowStepDelay () {
+
+        if ( currentStep == 0)
+        {
+            previousButtonObj.SetActive(false);
+        }
+        else
+        {
+            previousButtonObj.SetActive(true);
+        }
+
+        confirmButtonObj.SetActive (true);
 	}
 
-	public void Show ()
+    private void NextStep()
+    {
+        ++currentStep;
+
+        if (currentStep > CreationStep.CaptainName)
+        {
+            GetStep(currentStep - 1).SetActive(false);
+        }
+
+        ShowStep(currentStep);
+
+       
+    }
+
+    public void PreviousStep()
+    {
+        --currentStep;
+
+        HideStep(currentStep + 1);
+        GetStep(currentStep + 1).SetActive(false);
+
+        ShowStep(currentStep);
+    }
+
+    public void Show ()
 	{
 		Transitions.Instance.ActionTransition.FadeIn (0.5f);
 
 		currentStep = CreationStep.CaptainName;
 
-        CrewInventory.Instance.canOpen = false;
+        InGameMenu.Instance.canOpen = false;
 
-        Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.Combat);
+        Crews.playerCrew.captain.Icon.MoveToPoint (Crews.PlacingType.MemberCreation);
 
-		overall.SetActive (true);
+        overall.SetActive(true);
+
 		ShowStep(currentStep);
 
 		int ID = Random.Range ( 0, boatNames.Length );
@@ -126,22 +170,21 @@ public class MemberCreator : MonoBehaviour {
 
 	public void Confirm () {
 
-		if ( currentStep == CreationStep.Appearance ) {
+		if ( currentStep == CreationStep.Job ) {
 
 			EndMemberCreation ();
 
 		} else {
 
-			++currentStep;
-			ShowStep (currentStep);
-
+            NextStep();
 
 		}
 
 		SoundManager.Instance.PlaySound (SoundManager.Sound.Select_Big);
 
-	} 
-	void EndMemberCreation () {
+	}
+
+    void EndMemberCreation () {
 
         //animator.SetTrigger("close");
 
@@ -153,10 +196,11 @@ public class MemberCreator : MonoBehaviour {
         HideStep(CreationStep.Appearance);
 
 		confirmButtonObj.SetActive (false);
+		previousButtonObj.SetActive (false);
 
         Crews.playerCrew.captain.Icon.transform.SetParent(iconInitParent);
         Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Map);
-        CrewInventory.Instance.canOpen = true;
+        InGameMenu.Instance.canOpen = true;
 
 
 
@@ -196,5 +240,10 @@ public class MemberCreator : MonoBehaviour {
         Crews.playerCrew.captain.Icon.InitVisual (Crews.playerCrew.captain.MemberID);
 
 	}
+
+    public void UpdateDescriptionText(int i)
+    {
+        jobDescription_Text.text = jobDescriptions_Str[i];
+    }
 
 }

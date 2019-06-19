@@ -28,6 +28,9 @@ public class CamBehavior : MonoBehaviour
     {
         //Vector3 dirFromIsland = Island.Instance.transform.position - decal;
 
+        if (StoryLauncher.Instance.CurrentStorySource == StoryLauncher.StorySource.other)
+            return;
+
         Vector3 targetPos = Island.Instance.transform.position;
 
         if (StoryLauncher.Instance.CurrentStorySource == StoryLauncher.StorySource.boat)
@@ -44,6 +47,9 @@ public class CamBehavior : MonoBehaviour
 
     void UnZoom()
     {
+        if (StoryLauncher.Instance.CurrentStorySource == StoryLauncher.StorySource.other)
+            return;
+
         HOTween.To(transform, zoomDuration, "position", initPos, false, EaseType.EaseInOutCubic, 0f);
         HOTween.To(transform, zoomDuration, "forward", initRot, false, EaseType.EaseInOutCubic, 0f);
 

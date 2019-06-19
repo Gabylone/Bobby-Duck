@@ -10,10 +10,10 @@ public class DisplayAttack : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+        InGameMenu.Instance.onDisplayCrewMember += HandleOnDisplayCrewMember;
 		LootUI.useInventory += HandleUseInventory;
 		StatButton.onClickStatButton += HandleOnClickStatButton;
-		CrewInventory.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
+		InGameMenu.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
 
 		UpdateUI (CrewMember.GetSelectedMember);
 
@@ -30,7 +30,7 @@ public class DisplayAttack : MonoBehaviour {
 		UpdateUI (CrewMember.GetSelectedMember);
 	}
 
-	void HandleOpenInventory (CrewMember crewMember)
+	void HandleOnDisplayCrewMember (CrewMember crewMember)
 	{
 		UpdateUI (crewMember);
 	}

@@ -16,21 +16,8 @@ public enum Directions {
 
 public class NavigationManager : MonoBehaviour {
 
-
-	[SerializeField]
-	public Sprite[] arrowSprites;
-
-	[SerializeField]
-	public Sprite flagSprite;
-
 		// singleton
 	public static NavigationManager Instance;
-
-		// player boat info
-	[SerializeField]
-	private Boat playerBoat;
-
-	private bool changingChunk = false;
 
 	[SerializeField]
 	private GameObject navigationTriggers;
@@ -48,6 +35,7 @@ public class NavigationManager : MonoBehaviour {
 	}
 
 	void Start () {
+
 		StoryLauncher.Instance.onPlayStory += HandlePlayStory;
 		StoryLauncher.Instance.onEndStory += HandleEndStory;
 
@@ -94,7 +82,6 @@ public class NavigationManager : MonoBehaviour {
 
 		if (EnterNewChunk != null) {
 			EnterNewChunk ();
-
         }
 
     }
@@ -214,7 +201,9 @@ public class NavigationManager : MonoBehaviour {
     }
     public Vector3 GetCornerPosition(Directions dir)
     {
-        Vector2 viewPort = (getDir(dir) + Vector2.one) / 2f;
+        return anchors[(int)dir].transform.position;
+
+        /*Vector2 viewPort = (getDir(dir) + Vector2.one) / 2f;
 
         if ( viewPort.x < minX)
         {
@@ -229,7 +218,7 @@ public class NavigationManager : MonoBehaviour {
             return hit.point;
         }
 
-        return Vector3.zero;
+        return Vector3.zero;*/
     }
 
     #endregion
@@ -259,34 +248,24 @@ public class NavigationManager : MonoBehaviour {
 		switch (direction) {
 		case Directions.North:
 			return Directions.South;
-			break;
 		case Directions.NorthEast:
 			return Directions.SouthWest;
-			break;
 		case Directions.East:
 			return Directions.West;
-			break;
 		case Directions.SouthEast:
 			return Directions.NorthWest;
-			break;
 		case Directions.South:
 			return Directions.North;
-			break;
 		case Directions.SouthWest:
 			return Directions.NorthEast;
-			break;
 		case Directions.West:
 			return Directions.East;
-			break;
 		case Directions.NorthWest:
 			return Directions.SouthEast;
-			break;
 		case Directions.None:
 			return Directions.North;
-			break;
 		default:
 			return Directions.None;
-			break;
 		}
 
 	}

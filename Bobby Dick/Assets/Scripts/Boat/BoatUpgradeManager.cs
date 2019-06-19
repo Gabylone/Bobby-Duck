@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class BoatUpgradeManager : MonoBehaviour {
 
@@ -10,23 +11,13 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 	public bool opened = false;
 
-
     public delegate void OnOpenBoatUpgrade();
     public OnOpenBoatUpgrade onOpenBoatUpgrade;
-
-    public delegate void OnCloseBoatUpgrade();
-    public OnCloseBoatUpgrade onCloseBoatUpgrade;
 
     public enum UpgradeType {
 		Crew,
 		Cargo,
 		Longview
-	}
-
-	public float timeBetweenButtonDisplay = 0.2f;
-
-	void Awake () {
-		Instance = this;
 	}
 
 	[Header("Name & Level")]
@@ -42,27 +33,25 @@ public class BoatUpgradeManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject menuObj;
 
-	[SerializeField]
-	public GameObject[] buttonObjs;
-
 	[Header("Crew")]
 	[SerializeField]
 	private GameObject[] crewIcons;
+    public GameObject[] crewIconCloseButtons;
+    public Text crewPriceText;
 
-	[Header("Prices")]
-	public Button[] goldButtons;
-	[SerializeField]
-	private Text[] goldTexts;
-
-	[SerializeField]
-	private Image[] upgradeImages;
-    [SerializeField]
-    private RectTransform[] backgroundImages;
+    public Button upgradeCrewButton;
 
     [Header("Sounds")]
-	[SerializeField] private AudioClip upgradeSound;
+    [SerializeField] private AudioClip upgradeSound;
 
-	void Start () {
+    public BoatUpgradeButton[] boatUpgradeButtons;
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void Start () {
 
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 
@@ -87,19 +76,13 @@ public class BoatUpgradeManager : MonoBehaviour {
 	#region show / hide
 	public void Show () {
 
-		menuObj.SetActive (true);
+        InGameMenu.Instance.Open();
+
+        menuObj.SetActive (true);
 
 		UpdateInfo ();
 
 		opened = true;
-
-		CrewInventory.Instance.HideMenuButtons();
-
-        // activate trading ?
-        foreach (var item in goldButtons)
-        {
-            item.gameObject.SetActive(trading);
-        }
 
         if (onOpenBoatUpgrade != null)
 			onOpenBoatUpgrade ();
@@ -107,13 +90,25 @@ public class BoatUpgradeManager : MonoBehaviour {
 
 	void Hide () {
 		menuObj.SetActive (false);
-
-        if (onCloseBoatUpgrade != null)
-            onCloseBoatUpgrade();
 	}
-	#endregion
+    public void Close()
+    {
+        InGameMenu.Instance.Hide();
 
-	public int GetPrice ( UpgradeType upgradeType ) {
+        opened = false;
+
+        if (trading == true)
+        {
+            StopTrading();
+
+        }
+
+        Hide();
+
+    }
+    #endregion
+
+    public int GetPrice ( UpgradeType upgradeType ) {
 
 		switch (upgradeType) {
 		case UpgradeType.Crew:
@@ -123,21 +118,25 @@ public class BoatUpgradeManager : MonoBehaviour {
 		case UpgradeType.Longview:
 			return Boats.playerBoatInfo.shipRange * 200;
 		default:
-			return 666;
+			return -1;
 		}
 
 	}
 
 	public delegate void OnUpgradeBoat ( UpgradeType upgradeType );
 	public static OnUpgradeBoat onUpgradeBoat;
-	public void Upgrade ( int i ) {
-
-		if ( !GoldManager.Instance.CheckGold ( GetPrice((UpgradeType)i) ))
+    public void Upgrade(int i)
+    {
+        Upgrade((UpgradeType)i);
+    }
+	public void Upgrade ( UpgradeType upgradeType )
+    {
+        if ( !GoldManager.Instance.CheckGold ( GetPrice(upgradeType) ))
 			return;
 
-		GoldManager.Instance.RemoveGold (GetPrice((UpgradeType)i));
+		GoldManager.Instance.RemoveGold (GetPrice(upgradeType));
 
-		switch ( (UpgradeType)i ) {
+		switch ( upgradeType ) {
 		case UpgradeType.Crew:
 			Crews.playerCrew.CurrentMemberCapacity++;
 			break;
@@ -149,86 +148,82 @@ public class BoatUpgradeManager : MonoBehaviour {
 			break;
 		}
 
-
-		SoundManager.Instance.PlaySound (upgradeSound);
-
 		++currentLevel;
 
 		UpdateInfo ();
 
 		if (onUpgradeBoat != null)
-			onUpgradeBoat ((UpgradeType)i);
-		
-	}
+			onUpgradeBoat (upgradeType);
 
-    public void UpdateJauge ( int id , int fill, int max )
-    {
-        float l = (float)fill / max;
-        float width = -backgroundImages[id].rect.width + backgroundImages[id].rect.width * l;
+        SoundManager.Instance.PlaySound(upgradeSound);
 
-        Vector2 v = new Vector2(width, upgradeImages[id].rectTransform.sizeDelta.y);
-        upgradeImages[id].rectTransform.sizeDelta = v;
     }
 
-	public void UpdateInfo () {
+
+    public void UpdateInfo () {
 
 		nameTextUI.text = Boats.playerBoatInfo.Name;
 
-        int[] ehs = new int[3]
-       {
-            4,4,3
-       };
+        boatUpgradeButtons[0].UpdateUI( Boats.playerBoatInfo.shipRange );
+        boatUpgradeButtons[1].UpdateUI( Boats.playerBoatInfo.cargoLevel);
 
-        int[] maxes = new int[3]
+        UpgradeCrewButton();
+	}
+
+    private void UpgradeCrewButton()
+    {
+        // starts at one to leave captain alone
+        for (int i = 1; i < crewIcons.Length; ++i)
         {
-            3,4,3
-        };
-
-        int[] ids = new int[3]
-        {
-            Boats.playerBoatInfo.crewCapacity - 1,
-            Boats.playerBoatInfo.cargoLevel,
-            Boats.playerBoatInfo.shipRange
-        };
-
-
-        for (int i = 0; i < 3; i++) {
-
-            UpdateJauge(i, ids[i], maxes[i]);
-
-            if (ids[i] == ehs[i])
+            if (i < Crews.playerCrew.CrewMembers.Count)
             {
-                goldButtons[i].interactable = false;
-                goldTexts[i].text = "MAX";
+                crewIcons[i].GetComponentInChildren<Image>().color = Color.white;
+                crewIconCloseButtons[i].SetActive(true);
+            }
+            else if (i < Crews.playerCrew.CurrentMemberCapacity)
+            {
+                crewIcons[i].GetComponentInChildren<Image>().color = Color.gray;
+                crewIconCloseButtons[i].SetActive(false);
             }
             else
             {
-                goldTexts[i].text = "" + GetPrice((UpgradeType)i);
+                crewIcons[i].GetComponentInChildren<Image>().color = Color.black;
+                crewIconCloseButtons[i].SetActive(false);
             }
+        }
 
-		}
 
-		levelTextUI.text = "" + currentLevel;
-//		levelImage.fillAmount = (float)currentLevel / (float)(upgradeMaxLevel*3);
+        if (trading)
+        {
 
-		/*for (int i = 0; i < crewIcons.Length; ++i ) {
-//			crewIcons [i].SetActive (i <= Crews.playerCrew.currentMemberCapacity);
-			if ( i < Crews.playerCrew.CurrentMemberCapacity ) {
-				crewIcons [i].GetComponentInChildren<Image> ().color = Color.white;
-			} else {
-				crewIcons [i].GetComponentInChildren<Image> ().color = Color.black;
-			}
-		}*/
-	}
+            upgradeCrewButton.gameObject.SetActive(true);
+
+            if (Crews.playerCrew.CurrentMemberCapacity == crewIcons.Length)
+            {
+                upgradeCrewButton.interactable = false;
+                crewPriceText.text = "MAX";
+            }
+            else
+            {
+                upgradeCrewButton.interactable = true;
+                crewPriceText.text = "" + GetPrice(UpgradeType.Crew);
+            }
+        }
+        else
+        {
+            upgradeCrewButton.gameObject.SetActive(false);
+        }
+    }
 
     public void StartTrading()
     {
         trading = true;
+
         Show();
 
         RayBlocker.Instance.Show();
 
-        CrewInventory.Instance.Lock();
+        InGameMenu.Instance.Lock();
 
     }
 
@@ -241,30 +236,24 @@ public class BoatUpgradeManager : MonoBehaviour {
 
         RayBlocker.Instance.Hide();
 
-        CrewInventory.Instance.Unlock();
+        InGameMenu.Instance.Unlock();
 
     }
 
-    public void Close () {
-		
-		opened = false;
+    int memberToRemove = -1;
+    public void RemoveMember(int i)
+    {
+        memberToRemove = i;
 
-		if ( trading == true ) {
+        MessageDisplay.Instance.Show("Abandonner " + Crews.playerCrew.CrewMembers[i].MemberName + " ?");
+        MessageDisplay.onValidate += ConfirmRemoveMember;
+    }
 
-            StopTrading();
+    public void ConfirmRemoveMember()
+    {
+        Crews.playerCrew.RemoveMember(memberToRemove);
 
-		} else {
+    }
 
-            Invoke("CloseDelay", 0.01f);
-
-		}
-
-        Hide();
-
-
-	}
-
-	void CloseDelay () {
-		CrewInventory.Instance.ShowMenuButtons();
-	}
+    
 }

@@ -40,6 +40,8 @@ public class DisplayPurchase : MonoBehaviour {
         targetTransform = g.transform;
         targetTransform.localPosition = Vector3.zero;
 
+        targetTransform.GetComponent<RectTransform>().sizeDelta = itemAnchor.GetComponent<RectTransform>().sizeDelta;
+
         Tween.Bounce(group.transform);
 
         pearlPrice_Text.text = "" + apparenceItem.price;

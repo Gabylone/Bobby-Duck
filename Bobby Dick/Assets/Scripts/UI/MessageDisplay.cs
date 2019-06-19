@@ -22,7 +22,12 @@ public class MessageDisplay : MonoBehaviour {
         onValidate = null;
 	}
 
-	public void Show (string str) {
+    private void Start()
+    {
+        Close();
+    }
+
+    public void Show (string str) {
 
 		group.SetActive (true);
 

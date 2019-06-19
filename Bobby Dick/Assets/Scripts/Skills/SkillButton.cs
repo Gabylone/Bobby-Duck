@@ -12,8 +12,6 @@ public class SkillButton : MonoBehaviour {
 	public Text uiText_SkillName;
 	public Text uiText_Description;
 
-	public Text uiText_ChargeCost;
-
 	public Skill skill;
 
 	public Button button;
@@ -21,8 +19,7 @@ public class SkillButton : MonoBehaviour {
 	public float timeToShowDescription = 0.5f;
 
 	public virtual void Start () {
-		button = GetComponentInChildren<Button> ();
-		HideDescription ();
+		//button = GetComponentInChildren<Button> ();
 	}
 
 	#region description
@@ -32,11 +29,8 @@ public class SkillButton : MonoBehaviour {
 
 		descriptionGroup.SetActive (true);
 
- 		uiText_SkillName.text = skill.name;
+ 		uiText_SkillName.text = skill.skillName;
 		uiText_Description.text = skill.description;
-		uiText_ChargeCost.text = "" + skill.initCharge;
-
-		//Tween.Bounce ( descriptionGroup.transform );
 	}
 
 	public void HideDescription ()
@@ -51,12 +45,11 @@ public class SkillButton : MonoBehaviour {
 
 		skillImage.sprite = SkillManager.skillSprites [(int)skill.type];
 
-		uiText_SkillName.text = _skill.type.ToString ();
+        uiText_SkillName.text = _skill.skillName;
 	}
 
 	public void Show () {
 		gameObject.SetActive (true);
-		//Tween.Bounce (transform);
 	}
 
 	public void Hide () 

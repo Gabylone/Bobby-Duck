@@ -30,22 +30,36 @@ public class LoadingScreen : MonoBehaviour {
 		CancelInvoke ("Hide");
 		Tween.ClearFade (group.transform);
 
-		loadText1.text = title;
+		//loadText1.text = title;
 
 		this.max = max;
 
 		UpdateImage (0);
 	}
 
+    int dotCount = 0;
 	public void Push (int currentLoad) {
 
-		if (currentLoad > max) {
+        loadText1.text = "Chargement";
+        for (int i = 0; i < dotCount; i++)
+        {
+            loadText1.text += ".";
+        }
+
+        ++dotCount;
+
+        if ( dotCount == 4)
+        {
+            dotCount = 0;
+        }
+
+        /*if (currentLoad > max) {
 			max += 2;
 		}
 
-		UpdateImage (currentLoad);
+		UpdateImage (currentLoad);*/
 
-	}
+    }
 
 	void UpdateImage (int c) {
 
@@ -57,16 +71,17 @@ public class LoadingScreen : MonoBehaviour {
 
 	public void End ()
 	{
-		UpdateImage (max);
-		Invoke ("Hide",1f);
-		Tween.Fade(group.transform,0.4f);
-		Tween.Bounce (group.transform,0.4f,1.02f);
+        //UpdateImage (max);
+
+        Transitions.Instance.ScreenTransition.FadeIn(0.5f);
+
+        Invoke ("Hide",1f);
 	}
 
 	void Hide () 
 	{
-
-		group.SetActive (false);
+        Transitions.Instance.ScreenTransition.FadeOut(0.5f);
+        group.SetActive (false);
 	}
 
 	void Show ()

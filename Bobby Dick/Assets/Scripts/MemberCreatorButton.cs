@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class MemberCreatorButton : MonoBehaviour {
 
+    public Image backgroundImage;
+
     public static MemberCreatorButton lastSelected;
 
     public GameObject lockGroup;
@@ -50,6 +52,10 @@ public class MemberCreatorButton : MonoBehaviour {
     {
         initParent = transform.parent;
 
+        //Deselect();
+
+        //transform.SetAsFirstSibling();
+
         if (apparenceItem.locked)
         {
             DisplayPurchase.Instance.Display(apparenceItem, transform);
@@ -58,7 +64,7 @@ public class MemberCreatorButton : MonoBehaviour {
 
     }
 
-    public void Deselect()
+    public virtual void Deselect()
     {
         selected = false;
         Tween.Scale(transform, 0.2f, 1f);
@@ -75,6 +81,7 @@ public class MemberCreatorButton : MonoBehaviour {
 
         selected = true;
         lastSelected = this;
+
     }
     #endregion
 

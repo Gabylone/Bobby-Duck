@@ -109,7 +109,7 @@ Node=>random village;Choice : (remonter)(partir);Choice : (aller dans trou);;;
 ;;;;;;;;;;;
 [bandits];;;;;;;;;;;
 Narrator : La rue devient de plus en plus sombre et étroire, lorsque CAPITAINE aperçoit quelques voyous zoner près des maisons.;;;;;;;;;;;
-ChangeStory=>Bandits[debut/random village];;;;;;;;;;;
+ChangeStory=>Bandits[arrivée bandits/random village];;;;;;;;;;;
 ;;;;;;;;;;;
 ;;;;;;;;;;;
 [devant taverne];;;;;;;;;;;

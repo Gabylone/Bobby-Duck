@@ -9,6 +9,7 @@ public class Fighter : MonoBehaviour {
 	public bool escaped = false;
 
 	public enum states {
+
 		dead,
 
 		none,
@@ -19,6 +20,7 @@ public class Fighter : MonoBehaviour {
 		getHit,
 		guard,
 		blocked
+
 	}
 	private states currentState = states.moveToTarget;
 
@@ -45,6 +47,7 @@ public class Fighter : MonoBehaviour {
 	private Animator animator;
 	public CrewMember crewMember;
 	public Transform arrowAnchor;
+    public StatusGroup statusGroup;
 
 	public Fight_LoadSprites fightSprites;
 
@@ -809,6 +812,8 @@ public class Fighter : MonoBehaviour {
 		statusCount[(int)status] = count;
 		statusCount [(int)status] = Mathf.Clamp (statusCount [(int)status], 0, 10);
 
+        statusGroup.HandleOnAddStatus(status, statusCount[(int)status]);
+
 		if (onAddStatus != null)
 			onAddStatus (status, statusCount[(int)status]);
 	}
@@ -822,8 +827,15 @@ public class Fighter : MonoBehaviour {
 
 	public void RemoveStatus (Status status, int count) {
 
+        if (statusCount[(int)status] == 0)
+        {
+            return;
+        }
+
 		statusCount[(int)status] -= count;
 		statusCount [(int)status] = Mathf.Clamp (statusCount [(int)status], 0, 10);
+
+        statusGroup.HandleOnRemoveStatus(status, statusCount[(int)status]);
 
 		if (onRemoveStatus != null)
 			onRemoveStatus ( status, statusCount[(int)status] );

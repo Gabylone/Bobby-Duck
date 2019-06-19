@@ -10,12 +10,10 @@ public class MinimapCenterFeedback : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-//		DisplayMinimap.Instance.onCenterMap += HandleOnCenterMap;
-		Quest.showQuestOnMap += HandleShowQuestOnMap;
+
+        Quest.showQuestOnMap += HandleShowQuestOnMap;
 
 		GetComponent<RectTransform> ().sizeDelta = DisplayMinimap.Instance.minimapChunkScale;
-
 
 		Hide ();
 	}
@@ -34,6 +32,7 @@ public class MinimapCenterFeedback : MonoBehaviour {
 		CancelInvoke ("Hide");
 
 		Show ();
+
 		Invoke ("Hide",displayDuration);
 	}
 

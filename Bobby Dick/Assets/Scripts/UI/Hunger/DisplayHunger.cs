@@ -13,21 +13,21 @@ public class DisplayHunger : MonoBehaviour {
 	public Image backGroundImage;
 
 	public virtual void Start () {
-//		HideHunger ();
-
 		maxFillAmountScale = fillImage.rectTransform.rect.height;
 	}
 
-	public void Show () {
+	public virtual void ShowHunger () {
+
 		hungerGroup.SetActive (true);
 	}
-	public void HideHunger () {
+	public virtual void HideHunger () {
 		hungerGroup.SetActive (false);
 	}
 
 	public virtual void UpdateHungerIcon ( CrewMember member ) {
 
-		Show ();
+		ShowHunger ();
+
 		HOTween.Kill (fillImage.rectTransform);
 
 		float fillAmount = 1f - ((float)member.CurrentHunger / (float)Crews.maxHunger);

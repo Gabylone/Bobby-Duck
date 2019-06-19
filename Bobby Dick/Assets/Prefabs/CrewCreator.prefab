@@ -1,21 +1,11 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1579096574675352}
-  m_IsPrefabAsset: 1
 --- !u!1 &1579096574675352
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4446151890109792}
@@ -29,9 +19,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4446151890109792
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579096574675352}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -42,9 +33,10 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114628212657648020
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579096574675352}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -53,8 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crewParent: {fileID: 0}
   memberIconPrefabs:
-  - {fileID: 1000013980746724, guid: 0f7ec307f5350c54fad27e869f18be00, type: 2}
-  - {fileID: 1942506556775618, guid: 5ae378bbf90b6bf4aa13e94f3a2167cd, type: 2}
+  - {fileID: 1000013980746724, guid: 0f7ec307f5350c54fad27e869f18be00, type: 3}
+  - {fileID: 1942506556775618, guid: 5ae378bbf90b6bf4aa13e94f3a2167cd, type: 3}
   maleNames:
   - Jean
   - Eric
@@ -368,38 +360,38 @@ MonoBehaviour:
       price: 10
   - items:
     - apparenceType: 7
-      sprite: {fileID: 21300000, guid: 6e38b3a23ff8bbb4ea8ae922ca3f9637, type: 3}
+      sprite: {fileID: 21300000, guid: 608ec5b653dc12947b82741c7f5d0baf, type: 3}
       locked: 0
       id: 0
       price: 10
     - apparenceType: 7
-      sprite: {fileID: 21300000, guid: 1442a4caf1f0cbe4c89b077a7fc31fc3, type: 3}
+      sprite: {fileID: 21300000, guid: 0176b080fb5ef994b99565d1168b9726, type: 3}
       locked: 0
       id: 0
       price: 10
     - apparenceType: 7
-      sprite: {fileID: 21300000, guid: d08109ab9b4bb0f40a1c224130e8a323, type: 3}
+      sprite: {fileID: 21300000, guid: 27032965e2f4d174cbb966a09a85d289, type: 3}
       locked: 0
       id: 0
       price: 10
     - apparenceType: 7
-      sprite: {fileID: 21300000, guid: d229c7ad45f26ee499a8a4698cca0788, type: 3}
+      sprite: {fileID: 21300000, guid: d7201fbeafe85e548a8eccbd7f05fd2d, type: 3}
       locked: 1
       id: 0
       price: 50
     - apparenceType: 7
-      sprite: {fileID: 21300000, guid: 9adee62d243dff441bf230c726a7bf41, type: 3}
+      sprite: {fileID: 21300000, guid: 0adba394aaa8bfa4d9f9d0a8184d386f, type: 3}
       locked: 1
       id: 0
       price: 50
   - items:
     - apparenceType: 8
-      sprite: {fileID: 21300000, guid: e34527dd7ade9a04b999651cb7b9e590, type: 3}
+      sprite: {fileID: 21300000, guid: 958177fdca612f84fbe4946d0d148952, type: 3}
       locked: 0
       id: 0
       price: 10
     - apparenceType: 8
-      sprite: {fileID: 21300002, guid: e34527dd7ade9a04b999651cb7b9e590, type: 3}
+      sprite: {fileID: 21300000, guid: c8ed01a2ceff63f4180841e70b1f78d0, type: 3}
       locked: 0
       id: 0
       price: 10

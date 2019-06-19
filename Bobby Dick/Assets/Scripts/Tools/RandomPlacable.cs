@@ -1,0 +1,138 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+using Holoville.HOTween;
+
+public class RandomPlacable : MonoBehaviour
+{
+    public float minX = 0f;
+    public float maxX = 0f;
+    public float maxY = 0f;
+    public float minY = 0f;
+
+    public float chanceAppearing = 15f;
+
+    public float disappearDelay = 0.3f;
+
+    public float minDistanceToIsland = 5f;
+    public float minDistanceToPlayerBoat = 5f;
+
+    private bool canTrigger = true;
+
+    private bool locked = false;
+
+    // Start is called before the first frame update
+    public virtual void Start()
+    {
+        NavigationManager.Instance.EnterNewChunk += HandleOnEnterNewChunk;
+
+        CombatManager.Instance.onFightStart += Lock;
+        CombatManager.Instance.onFightEnd += Unlock;
+    }
+
+    void Lock()
+    {
+        locked = true;
+    }
+
+    void Unlock()
+    {
+        locked = false;
+    }
+
+    public virtual void HandleOnEnterNewChunk()
+    {
+        canTrigger = true;
+    }
+
+    public void CheckProximityWithPlayer()
+    {
+        if (Random.value * 100 < chanceAppearing)
+        {
+            ResetPosition();
+
+            if (Vector3.Distance(transform.position, Island.Instance.transform.position) < minDistanceToIsland)
+            {
+                gameObject.SetActive(false);
+            }
+            else if (Vector3.Distance(transform.position, PlayerBoat.Instance.transform.position) < minDistanceToPlayerBoat)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
+
+        
+    }
+
+    void ResetPosition()
+    {
+        float x = Random.Range(minX, maxX);
+        float y = Random.Range(minY, maxY);
+
+        transform.position = new Vector3(x, 0f, y);
+    }
+
+    public virtual void OnMouseDown()
+    {
+        if ( locked )
+        {
+            return;
+        }
+
+        if ( !canTrigger )
+        {
+            return;
+        }
+
+        if (StoryLauncher.Instance.PlayingStory)
+        {
+            return;
+        }
+
+        if (!WorldTouch.Instance.IsEnabled())
+        {
+            return;
+        }
+
+        Tween.Bounce(transform);
+
+        Flag.Instance.Hide();
+        PlayerBoat.Instance.SetTargetPos(transform.position);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player" && canTrigger)
+        {
+            Trigger();
+        }
+    }
+
+    public virtual void Trigger()
+    {
+        canTrigger = false;
+
+        Tween.Bounce(PlayerBoat.Instance.getTransform);
+    }
+
+    public void Disappear()
+    {
+        HOTween.To(transform, disappearDelay, "localScale", Vector3.zero, false, EaseType.EaseInBounce, 0f);
+
+        Invoke("DisappearDelay", disappearDelay);
+    }
+
+    void DisappearDelay()
+    {
+        gameObject.SetActive(false);
+    }
+}

@@ -11,26 +11,9 @@ public class InputManager : MonoBehaviour {
 		Right
 	}
 
-	[SerializeField]
-	private VirtualJoystick virtualJoystick;
-
-	public bool mobileTest = false;
-
 	void Awake () {
 		Instance = this;
 	}
-
-//	void Update () {
-//		if ( OnInputDown (0,ScreenPart.Left) ) {
-//			print ("touch left");
-//		}
-//		if ( OnInputDown (0,ScreenPart.Right) ) {
-//			print ("touch right");
-//		}
-//		if ( OnInputDown (0,ScreenPart.Any) ) {
-//			print ("touch any");
-//		}
-//	}
 
 	#region get touch & click
 	/// <summary>

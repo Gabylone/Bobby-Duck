@@ -16,12 +16,18 @@ public class Transition : MonoBehaviour {
 
 	public void FadeIn (float duration)
 	{
-		transitionCanvas.SetActive (true);
+        CancelInvoke("FadeOutDelay");
+        HOTween.Kill(targetImage);
+
+        transitionCanvas.SetActive (true);
 		targetImage.color = Color.clear;
 		HOTween.To (targetImage , duration, "color" , targetColor);
 	}
 	public void FadeOut (float duration)
 	{
+        CancelInvoke("FadeOutDelay");
+        HOTween.Kill(targetImage);
+
 		targetImage.color = targetColor;
 		HOTween.To (targetImage , duration, "color" , Color.clear);
 		Invoke ("FadeOutDelay", duration);

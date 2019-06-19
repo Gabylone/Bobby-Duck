@@ -16,6 +16,7 @@ public class DiceManager : MonoBehaviour {
 
 		// STATES
 	public enum states {
+
 		none,
 
 		throwing,
@@ -52,7 +53,7 @@ public class DiceManager : MonoBehaviour {
 	private int highestResult = 0;
 
 	private bool throwing = false;
-	float timer = 0f;
+	private float timer = 0f;
 
 	void Awake () {
 		Instance = this;
@@ -89,10 +90,10 @@ public class DiceManager : MonoBehaviour {
 
 		}
 
-        /*if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D))
         {
             ThrowDice(DiceTypes.CHA, 6);
-        }*/
+        }
 
 //		print ("QUICK THROW RESULT : " + QuickThrow (1));
 	}
@@ -196,14 +197,27 @@ public class DiceManager : MonoBehaviour {
 
 		highestResult = 0;
 
-		for (int diceIndex = 0; diceIndex < CurrentThrow.diceAmount; diceIndex++) {
+        int highestIndex = 0;
+
+        for (int diceIndex = 0; diceIndex < CurrentThrow.diceAmount; diceIndex++) {
+
 			if (dices[diceIndex].result > highestResult) {
 				highestResult = dices [diceIndex].result;
-				highestDie = dices [diceIndex];
+                highestDie = dices[diceIndex];
+                highestIndex = diceIndex;
 			}
 		}
 
-		highestDie.SettleUp ();
+        int a = 0;
+        foreach (var die in dices)
+        {
+            if ( a != highestIndex)
+            dices[a].SettleDown();
+
+            ++a;
+        }
+
+        highestDie.SettleUp ();
 		Throwing = false;
 
 		if (onEndThrow != null)

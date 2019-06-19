@@ -12,13 +12,13 @@ public class DisplayHeart : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		CrewInventory.Instance.onOpenInventory += HandleOpenInventory;
+		InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
 		LootUI.useInventory += HandleUseInventory;
 
 		UpdateUI ();
 	}
 
-	void HandleOpenInventory (CrewMember crewMember)
+	void HandleOpenInventory ()
 	{
 		UpdateUI ();
 	}

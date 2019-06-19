@@ -32,9 +32,12 @@ public class SkillMenu : MonoBehaviour {
 	public static OnShowCharacterStats onShowSkillMenu;
 	public void Show () {
 
-		opened = true;
+        InGameMenu.Instance.Open();
+        DisplayCrew.Instance.Show(CrewMember.GetSelectedMember);
 
-		CrewInventory.Instance.HideMenuButtons ();
+        DisplayCrew.Instance.ShowSkillMenu();
+
+        opened = true;
 
 		group.SetActive (true);
 
@@ -45,18 +48,17 @@ public class SkillMenu : MonoBehaviour {
 	public static OnHideCharacterStats onHideSkillMenu;
 	public void Close () {
 
-		opened = false;
+        InGameMenu.Instance.Hide();
+        DisplayCrew.Instance.Hide();
+
+        DisplayCrew.Instance.HideSkillMenu();
+
+        opened = false;
 
 		Hide ();
 
-		Invoke ("CloseDelay",0.01f);
-
 		if (onHideSkillMenu != null)
 			onHideSkillMenu ();
-	}
-	void CloseDelay () {
-		CrewInventory.Instance.ShowMenuButtons ();
-
 	}
 	void Hide () {
 		group.SetActive (false);

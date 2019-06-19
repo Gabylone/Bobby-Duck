@@ -40,27 +40,29 @@ public class DisplayQuest : MonoBehaviour {
         currentQuest = quest;
         nameText.text = quest.Story.name;
 
-        levelText.text = "Niveau conseillé : " + quest.level.ToString();
         rewardText.text = "Récompense : " + quest.goldValue + " / XP : " + quest.experience;
 
         descriptionText.text = "Donnée par " + quest.giver.Name + "\n";
 
-        for (int i = 0; i < 3; i++)
+        descriptionText.text += "\n";
+
+        for (int i = 1; i < 3; i++)
         {
-            descriptionText.text += quest.Story.content[0][i];
+            descriptionText.text += "''" + quest.Story.content[0][i].Remove(0,13) + "''";
         }
 
         giveUpButtonObj.SetActive(true);
 
+        currentQuest.ShowOnMap();
+
         if (quest.accomplished)
         {
-
             levelText.gameObject.SetActive(false);
             achievedFeedback.SetActive(true);
         }
         else
         {
-            levelText.text = quest.level.ToString();
+            levelText.text = "Niveau conseillé : " + quest.level.ToString();
             levelText.gameObject.SetActive(true);
             achievedFeedback.SetActive(false);
         }
@@ -127,7 +129,7 @@ public class DisplayQuest : MonoBehaviour {
 
     public void ShowOnMap()
     {
-        currentQuest.ShowOnMap();
+        
     }
 
     public void GiveUp()
