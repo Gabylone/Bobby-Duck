@@ -17,6 +17,8 @@ public class Container
 
     public void DisplayItemDescription ()
     {
+        Debug.Log("DISPLAYING CONTAINER");
+
         string text = "";
 
         if ( items.Count == 0)
@@ -53,7 +55,7 @@ public class Container
         foreach (var item in Item.items)
         {
 
-            int id = Action.last.primaryItem.row;
+            int id = Action.current.primaryItem.row;
             Item.AppearRate appearRate = item.appearRates.Find(x => x.type == Item.AppearRate.Type.Container && x.id == id);
 
             if (appearRate != null)

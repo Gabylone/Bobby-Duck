@@ -17,6 +17,7 @@ public class DisplayTileItems : TextTyper {
 
 	void HandleOnAction (Action action)
 	{
+        // called every time an action is made
         Invoke("UpdateUI", 0.01f);
     }
 

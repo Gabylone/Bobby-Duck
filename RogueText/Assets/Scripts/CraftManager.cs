@@ -24,7 +24,7 @@ public class CraftManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        LoadCraftables();
+        //LoadCraftables();
 
         ActionManager.onAction += HandleOnAction;
     }
@@ -59,22 +59,22 @@ public class CraftManager : MonoBehaviour {
 
         CraftInfo targetCraftInfo;
 
-        Debug.Log("item vaklue : "+ Action.last.primaryItem.value);
-        if (Action.last.primaryItem.value < 0)
+        Debug.Log("item vaklue : "+ Action.current.primaryItem.value);
+        if (Action.current.primaryItem.value < 0)
         {
 
 
             int i = itemRows[Random.Range(0, itemRows.Count)];
             targetCraftInfo = craftInfos[i];
 
-            Action.last.primaryItem.value = i;
+            Action.current.primaryItem.value = i;
 
                 Debug.Log("craft info : " + Item.items[i].word.name + " choisi");
 
         }
         else
         {
-            targetCraftInfo = craftInfos[Action.last.primaryItem.value];
+            targetCraftInfo = craftInfos[Action.current.primaryItem.value];
         }
 
         List<Item> requiredItems = new List<Item>();
@@ -93,11 +93,11 @@ public class CraftManager : MonoBehaviour {
 
     private void Craft()
     {
-        CraftInfo craftInfo = craftInfos[Action.last.primaryItem.row];
+        CraftInfo craftInfo = craftInfos[Action.current.primaryItem.row];
         if ( craftInfo.requiredToolItemRows == null)
         {
             //DisplayFeedback.Instance.Display("vous ne pouvez pas fabriquer de " + Action.last.primaryItem.word.GetDescription(Word.Def.Undefined,Word.Preposition.De));
-            DisplayFeedback.Instance.Display("vous ne pouvez pas fabriquer de " + Action.last.primaryItem.word.name);
+            DisplayFeedback.Instance.Display("vous ne pouvez pas fabriquer de " + Action.current.primaryItem.word.name);
         }
         else
         {
@@ -132,14 +132,14 @@ public class CraftManager : MonoBehaviour {
                     }
                 }
 
-                Inventory.Instance.AddItem(Action.last.primaryItem);
+                Inventory.Instance.AddItem(Action.current.primaryItem);
 
-                DisplayFeedback.Instance.Display("Vous avez fabriqué " + Action.last.primaryItem.word.GetDescription(Word.Def.Undefined));
+                DisplayFeedback.Instance.Display("Vous avez fabriqué " + Action.current.primaryItem.word.GetDescription(Word.Def.Undefined));
 
             }
             else
             {
-                DisplayFeedback.Instance.Display("Vous n'avez pas de quoi fabriquer de " + Action.last.primaryItem.word.name);
+                DisplayFeedback.Instance.Display("Vous n'avez pas de quoi fabriquer de " + Action.current.primaryItem.word.name);
             }
         }
         

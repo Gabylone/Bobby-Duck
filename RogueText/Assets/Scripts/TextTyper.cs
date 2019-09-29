@@ -8,7 +8,7 @@ public class TextTyper : MonoBehaviour {
 	public GameObject group;
 	public Text uiText;
 
-	public float typeRate = 0.5f;
+	public float typeRate = 0.01f;
 
     public bool debug = false;
 
@@ -18,7 +18,7 @@ public class TextTyper : MonoBehaviour {
 
     string typingText = "";
 
-    string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+    private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
 
 	public bool finished = false;
 
@@ -41,18 +41,10 @@ public class TextTyper : MonoBehaviour {
 		uiText = group.GetComponentInChildren<Text> ();
 
         Clear();
-
+         
 	}
 
-
-    private void Update()
-    {
-        
-    }
-
     public IEnumerator TypeCoroutine () {
-
-		
 
         if ( debug)
         {

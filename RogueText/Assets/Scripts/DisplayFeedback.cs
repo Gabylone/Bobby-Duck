@@ -9,7 +9,7 @@ public class DisplayFeedback : TextTyper {
 	public static DisplayFeedback Instance;
 
 	void Awake () {
-		Instance = this;
+        Instance = this;
 	}
 
 	public override void Start ()
@@ -19,8 +19,6 @@ public class DisplayFeedback : TextTyper {
 		Player.onPlayerMove += HandleOnPlayerMove;
 
 		ActionManager.onAction += HandleOnAction;
-
-        Display("Loading world");
     }
 
     public override void Display(string str)
@@ -46,10 +44,20 @@ public class DisplayFeedback : TextTyper {
             case Action.Type.PointNorth:
                 PointNorth();
                 break;
+            case Action.Type.DisplayHelp:
+                DisplayHelp();
+                break;
             default:
 			break;
 		}
 	}
+
+    private void DisplayHelp()
+    {
+        string str = "";
+
+        Display(str);
+    }
 
     private void DisplayTimeOfDay()
     {
@@ -85,7 +93,7 @@ public class DisplayFeedback : TextTyper {
 
     private void DescribeItem()
     {
-        Item item = Action.last.primaryItem;
+        Item item = Action.current.primaryItem;
 
         string str = "";
         int count = 0;

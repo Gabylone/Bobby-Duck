@@ -69,8 +69,6 @@ public class Word {
             article = locationPrep + " " + GetArticle(def, Preposition.None, num);
         }
 
-        //		string adj = GetAdjective ().GetName(genre, num);
-
         string placeName = GetName(num, textColor);
 
         return article + " " + placeName;

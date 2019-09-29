@@ -60,7 +60,7 @@ public class ClueManager : MonoBehaviour {
     {
         if (Interior.current.coords == bunkerCoords)
         {
-            Item.Remove(Action.last.primaryItem);
+            Item.Remove(Action.current.primaryItem);
 
             DisplayDescription.Instance.Display
                 ("Derrière le tableau, un trou béant se dévoile.\n" +

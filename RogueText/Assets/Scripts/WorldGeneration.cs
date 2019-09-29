@@ -71,6 +71,8 @@ public class WorldGeneration : MonoBehaviour {
 	public float[] tileTypeAppearChances;
     public float chanceClosedDoor = 1f;
     public float chanceLockedRoom = 1f;
+    public float chanceHallwayTurn = 0.3f;
+    public float chanceHallwaySplit = 0.2f;
 
     [Header("Empty")]
     public float emptyTileChance = 20f;

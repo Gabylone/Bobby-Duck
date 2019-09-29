@@ -76,6 +76,7 @@ public class DisplayDescription : MonoBehaviour {
 
     public void Display( string text )
     {
+        Debug.Log("main description displays : " + text);
         foreach (var item in textTypers)
         {
             item.Clear();

@@ -15,7 +15,6 @@ public class Interior {
 
     public static void Add(Tile tile, Tile.Type type)
     {
-
         tile.SetType(type);
 
         Interior newInterior = new Interior();
@@ -44,7 +43,6 @@ public class Interior {
     {
         current = this;
 
-
         TileSet.map.playerCoords = Player.Instance.coords;
 
         if (tileSet == null)
@@ -53,9 +51,7 @@ public class Interior {
             Genererate();
         }
 
-
         TileSet.Set(tileSet);
-
 
 
         Player.Instance.coords = new Coords((int)(WorldGeneration.Instance.mapScale / 2f), (int)(WorldGeneration.Instance.mapScale / 2f));
@@ -108,34 +104,36 @@ public class Interior {
 
     public void Genererate() {
 
+        /// create tile set 
 		tileSet = new TileSet ();
 
+        // create room types
 		List<Tile.Type> roomTypes = new List<Tile.Type> ();
-
 		Tile.Type type = Tile.Type.LivingRoom;
 
 		for (int i = 0; i < WorldGeneration.Instance.tileTypeAppearChances.Length; i++) {
-			
-			if ( Random.value * 100 < WorldGeneration.Instance.tileTypeAppearChances[i] ) {
 
-				roomTypes.Add (type);
-
-			}
+            if (Random.value * 100 < WorldGeneration.Instance.tileTypeAppearChances[i])
+            {
+                roomTypes.Add(type);
+            }
 
 			++type;
-
 		}
 
+        // create hallway
 		Coords hallway_Coords = new Coords ((int)(WorldGeneration.Instance.mapScale/2f),(int)(WorldGeneration.Instance.mapScale/2f));
 
         int a = 0;
 
 		while ( roomTypes.Count > 0 ) {
 
+            // add new hallway tile
 			Tile newHallwayTile = new Tile (hallway_Coords);
 			newHallwayTile.SetType (Tile.Type.Hallway);
 			tileSet.Add (hallway_Coords, newHallwayTile);
 
+            // set entrance door
             if (a == 0)
             {
                 Item doorItem = Item.FindByName("porte d’entrée (o)");
@@ -144,6 +142,7 @@ public class Interior {
                 newHallwayTile.items[0].SetAdjective(TileSet.map.GetTile(TileSet.map.playerCoords).items[0].GetAdjective);
             }
 
+            // check if room appears
             if ( Random.value * 100 < WorldGeneration.Instance.roomAppearRate ) {
 
 				Coords coords = newHallwayTile.coords + new Coords (1, 0);

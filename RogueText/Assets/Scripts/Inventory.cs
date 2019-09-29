@@ -78,36 +78,36 @@ public class Inventory : MonoBehaviour {
 
     private void ThrowCurrentItem()
     {
-        Item item = GetItem(Action.last.primaryItem.word.name);
+        Item item = GetItem(Action.current.primaryItem.word.name);
 
         if (item == null)
         {
-            DisplayFeedback.Instance.Display("Vous n'avez pas " + Action.last.primaryItem.word.GetDescription(Word.Def.Undefined));
+            DisplayFeedback.Instance.Display("Vous n'avez pas " + Action.current.primaryItem.word.GetDescription(Word.Def.Undefined));
             return;
         }
 
         RemoveItem(item);
 
-        Tile.current.AddItem(Action.last.primaryItem);
+        Tile.current.AddItem(Action.current.primaryItem);
 
-        DisplayFeedback.Instance.Display("Vous posez " + Action.last.primaryItem.word.GetDescription(Word.Def.Defined) + " par terre");
+        DisplayFeedback.Instance.Display("Vous posez " + Action.current.primaryItem.word.GetDescription(Word.Def.Defined) + " par terre");
 
     }
 
     void PickUpCurrentItem ()
 	{
-        if ( weight + Action.last.primaryItem.weight > maxWeight)
+        if ( weight + Action.current.primaryItem.weight > maxWeight)
         {
-            DisplayFeedback.Instance.Display(Action.last.primaryItem.word.GetName(Word.Number.Singular) + " est trop lourd pour le sac, il ne rentre pas");
+            DisplayFeedback.Instance.Display(Action.current.primaryItem.word.GetName(Word.Number.Singular) + " est trop lourd pour le sac, il ne rentre pas");
             Debug.LogError("trop lourd ?");
             return;
         }
 
-        Item.Remove(Action.last.primaryItem);
+        Item.Remove(Action.current.primaryItem);
 
-        AddItem(Action.last.primaryItem);
+        AddItem(Action.current.primaryItem);
 
-        DisplayFeedback.Instance.Display ("Vous avez pris : " + Action.last.primaryItem.word.GetName(Word.Number.Singular) );
+        DisplayFeedback.Instance.Display ("Vous avez pris : " + Action.current.primaryItem.word.GetName(Word.Number.Singular) );
 	}
 
     #region remove item
@@ -124,15 +124,15 @@ public class Inventory : MonoBehaviour {
 	}
     void RemoveLastItem()
     {
-        Item.Remove(Action.last.primaryItem);
+        Item.Remove(Action.current.primaryItem);
     }
 
 	void RemoveFromInventoryFromString ()
 	{
-		Item item = items.Find ( x => x.word.name.ToLower() == Action.last.contents[0].ToLower() );
+		Item item = items.Find ( x => x.word.name.ToLower() == Action.current.contents[0].ToLower() );
 
 		if (item == null) {
-			Debug.LogError ("couldn't find item " + Action.last.contents[0] + " in inventory");
+			Debug.LogError ("couldn't find item " + Action.current.contents[0] + " in inventory");
 			return;
 		}
 
@@ -140,11 +140,11 @@ public class Inventory : MonoBehaviour {
 	}
     void RemoveCurrentItemFromTile()
     {
-        Item item = Tile.current.items.Find(x => x.word.name.ToLower() == Action.last.contents[0].ToLower());
+        Item item = Tile.current.items.Find(x => x.word.name.ToLower() == Action.current.contents[0].ToLower());
 
         if (item == null)
         {
-            Debug.LogError("couldn't find item " + Action.last.contents[0] + " in inventory");
+            Debug.LogError("couldn't find item " + Action.current.contents[0] + " in inventory");
             return;
         }
 
@@ -162,25 +162,25 @@ public class Inventory : MonoBehaviour {
     {
         Item item = AddToTile();
 
-        item.SetAdjective(Action.last.primaryItem.GetAdjective);
+        item.SetAdjective(Action.current.primaryItem.GetAdjective);
 
-        Item.Remove(Action.last.primaryItem);
+        Item.Remove(Action.current.primaryItem);
 
     }
 
     void AddToInventoryFromString ()
 	{
-		Item item = Item.items.Find ( x => x.word.name.ToLower() == Action.last.contents[0].ToLower() );
+		Item item = Item.items.Find ( x => x.word.name.ToLower() == Action.current.contents[0].ToLower() );
 
 		if (item == null) {
-			Debug.LogError ("couldn't find item " + Action.last.contents[0] + " in item list");
+			Debug.LogError ("couldn't find item " + Action.current.contents[0] + " in item list");
 			return;
 		}
 
         int amount = 1;
-        if ( Action.last.ints.Count > 0)
+        if ( Action.current.ints.Count > 0)
         {
-            amount = Action.last.ints[0];
+            amount = Action.current.ints[0];
         }
 
         for (int i = 0; i < amount; i++)
@@ -190,18 +190,18 @@ public class Inventory : MonoBehaviour {
     }
     Item AddToTile()
     {
-		Item item = Item.items.Find ( x => x.word.name.ToLower() == Action.last.contents[0].ToLower() );
+		Item item = Item.items.Find ( x => x.word.name.ToLower() == Action.current.contents[0].ToLower() );
 
         if (item == null)
         {
-            Debug.LogError("couldn't find item " + Action.last.contents[0] + " in item list");
+            Debug.LogError("couldn't find item " + Action.current.contents[0] + " in item list");
             return null;
         }
 
         int amount = 1;
-        if (Action.last.ints.Count > 0)
+        if (Action.current.ints.Count > 0)
         {
-            amount = Action.last.ints[0];
+            amount = Action.current.ints[0];
         }
 
         for (int i = 0; i < amount; i++)
@@ -217,7 +217,7 @@ public class Inventory : MonoBehaviour {
 	{
 		bool hasOnOfTheItems = false;
 
-        foreach (var content in Action.last.contents) {
+        foreach (var content in Action.current.contents) {
 
             /*Item item = Item.GetInWord(content);
 
@@ -227,11 +227,11 @@ public class Inventory : MonoBehaviour {
 				break;
 			}*/
 
-            if (Action.last.secundaryItem != null)
+            if (Action.current.secundaryItem != null)
             {
-                if (content.StartsWith(Action.last.secundaryItem.word.name))
+                if (content.StartsWith(Action.current.secundaryItem.word.name))
                 {
-                    Debug.Log("found required item : " + Action.last.secundaryItem.word.name);
+                    Debug.Log("found required item : " + Action.current.secundaryItem.word.name);
                     hasOnOfTheItems = true;
                     break;
                 }
@@ -283,15 +283,17 @@ public class Inventory : MonoBehaviour {
     #region container
     private void OpenContainer()
     {
-        Container container = Tile.current.containers.Find(x => x.id == Action.last.primaryItem.row);
+        Debug.Log("opening container");
+
+        Container container = Tile.current.containers.Find(x => x.id == Action.current.primaryItem.row);
 
         if (container == null)
         {
             container = new Container();
 
-            container.id = Action.last.primaryItem.row;
+            container.id = Action.current.primaryItem.row;
 
-            container.item = Action.last.primaryItem;
+            container.item = Action.current.primaryItem;
 
             container.GenerateItems();
 
@@ -302,8 +304,8 @@ public class Inventory : MonoBehaviour {
         {
         }
 
-        Container.opened = true;
         Container.current = container;
+        Container.opened = true;
 
         container.DisplayItemDescription();
 

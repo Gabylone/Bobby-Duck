@@ -11,6 +11,8 @@ public class DisplayGoal : TextTyper {
     public override void Start()
     {
         base.Start();
+
+        TextAsset goal_TextAsset = Resources.Load("GoalText") as TextAsset;
     }
 
     public override void UpdateCurrentTileDescription()

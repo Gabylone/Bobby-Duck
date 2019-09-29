@@ -44,14 +44,18 @@ public class DisplayInput : MonoBehaviour {
 
     public void OnEndEdit () {
 
-
+            // get text from  input field
 		string str = inputField.text;
 
 		if (str.Length == 0)
-			return;
+        {
+            return;
+        }
 
+            // separate text
         inputParts = str.Split(new char[2] { ' ', '\'' }).ToList<string>();
 
+            // get verb
         Verb verb = Verb.Find(inputParts[0]);
 
         if ( verb == null)
@@ -62,18 +66,18 @@ public class DisplayInput : MonoBehaviour {
         {
             inputParts.RemoveAt(0);
         }
-
-
+        
+            // get items
         Item primaryItem = null;
         Item secundaryItem = null;
 
+            // look for items in parts
         if ( inputParts.Count > 0 )
         {
-            /// ITEM ///
-            //string[] wordGroups = SplitInWordGroups(inputParts.ToArray());
 
             foreach (var item_str in inputParts)
             {
+                    // look for first item
                 if ( verb != null && verb.availableForAllItems )
                 {
                     primaryItem = Item.FindByName(item_str);
@@ -85,8 +89,10 @@ public class DisplayInput : MonoBehaviour {
 
                 if (primaryItem != null)
                     break;
+
             }
             
+                // look for second item 
             if ( primaryItem != null)
             {
                 foreach (var inputPart in inputParts)
@@ -99,11 +105,8 @@ public class DisplayInput : MonoBehaviour {
 
             ///
         }
-        else
-        {
-            
-        }
 
+            // launch event 
         if (onInput != null)
 			onInput (verb, primaryItem, secundaryItem);
 

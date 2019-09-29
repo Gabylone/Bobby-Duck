@@ -1,59 +1,91 @@
 notes jeu textuel :
 
-xxx - parsing : autant d'objets que possible pour :
-	remplir gourde DANS évier
-	panser blessure AVEC serviette
-	jeter serpillère SUR zombie
+MAISONS :
 
-xxx - faire les premieres recettes
+- la maison tourne et les couloirs se divisent
 
-- enfaisant "aller devant" on peut alelr dans une pière meme si elle est fermée.
+- systeme d'étage
+	- grenier que au dernier étage.
+
+- dans une autre maison, le mot "frigo" était pas coloré parce que fouillé ?????!? regarde code.
+
+- douche et lavabo disparaissent quand on boit dedans
+- fatigue / légère fatigue ????
+
+// // 
 - jamais deux fois le meme adjectif dans une pièce
-xxx - remettre description après "vous vous sentez entièrement reposé"
-- continuer c'est pas aller devant mais aller dans la première tile qui est du meme type
-- les trucs qui sont entourés de portes sont quand meme décris
+- si il y a deux memes objets dans une piece, mettre "autre" et TOUJOURS UN ADJECTIF ( à part avec les troncs d'arbres etc... )
+- si on essaye d'utiliser un objet qu'il y a deux fois dans la pièce, il dit "lequel"
+// //
 
+- les salles doivent avoir un lien avec le couloir, mais pas forcément aved les autres salles
+
+- autre couleur si la porte a déjà été ouverte
+
+- chaque salle de la maison apparraissent sur la carte
+	- donc moins de maison, plus écartées
+	- donc feentre
 
 - quand on regarder les fenetre de l'intérieur. on voit quoi ?
+	- donc, la salle en question et on peut meme rentrer dedant
+
+- c'est quoi cette histoire d'ile fait trop sombre
+
+- FONCTION HELP
+
+ECRITURE :
+
+- en intérieur : (vous entendez les goutes SOUS le toit de la NOM DU LIEU...)
+- en extérieur : (sous la pluie, la NOM DU LIEU est d'autant plus ADJECTIF...)
+
+LOCALIZATION
+important pour faire tester aux gens sur reddit
+
+BUGS :
+
+
+- enfaisant "aller devant" on peut alelr dans une pière meme si elle est fermée.
+- continuer c'est pas aller devant mais aller dans la première tile qui est du meme type
+- les trucs qui sont entourés de portes sont quand meme décris
+- la radio ne fonctionne plus à partir de quelques utilisations
+
 
 // DESCRIPTIONS
-- regarder au loin
-en intérieur : (vous entendez les goutes SOUS le toit de la NOM DU LIEU...)
-en extérieur : (sous la pluie, la NOM DU LIEU est d'autant plus ADJECTIF...)
 
-xxx - faire les rivières
+- regarder au loin
 
 // FROID / CHAUD / DEFENSE
+
 - le joueur commence avec des habits.
 - faire le froid ou la protection parce que les habits ne servent à rien-
 - les 4 saisons ?
 
-// MAISON
-- la maison tourne et les couloirs se divisent.
-- systeme d'étage
-
 // QUETE
-- alors oui on peut prendre la radio c'est cool
-	mais il faut qu'elle ne marche pas au bout d'un moment
-	et qu'elle indique toujours la meme direction ( bonne chance )	
 
 - pour qu'il n'y ait pas constamment les directions ( droite gauche devant ) dans les descriptions de surrounding tiles,
 quand le joueur regarde la boussole, on peut afficher : "le nord se trouve vers la maison abandonnée" ou "le chemin vers le nord est bloqué"
 
+// LUMIERE 
+
 - lampe torche
 - la vision et la lumière
+
+// PLUS
+
 - roman : déscription de romans connus ( par M.I.M )
 
-- capacités : ( 1 / 3 )
-foraging : permet de trouver des racines ou autres dans la forêt.
-réparation: répare les appareils cassés.
-	
-	artisanat : certaines recettes requirent un certain niveau
-cuisine 
-mécano
-construction
+// SKILLS
 
-les manuels améliorent les objets
+- foraging : permet de trouver des racines ou autres dans la forêt.
+- réparation: répare les appareils cassés.	
+	artisanat : certaines recettes requirent un certain niveau
+- cuisine 
+- mécano
+- construction
+
+les manuels améliorent les compétences
+
+RESTE
 
 pouvoir considérer les lieux comme des items
 ( entre : maison / regarder : plaine etc.. )
@@ -62,3 +94,4 @@ pouvoir considérer les lieux comme des items
 à réfléchir - on ne peut pas accéder aux objets de la tile, il faut se rapprocher d'eux. ( avec des doublons de position ( vous voyez un micro ondes et un frigo ))
 
 - mode aveugle
+

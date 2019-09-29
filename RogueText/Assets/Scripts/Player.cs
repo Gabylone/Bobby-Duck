@@ -92,10 +92,10 @@ public class Player : MonoBehaviour {
 	{
 		switch (action.type) {
 		case Action.Type.Move:
-			Move ((Direction)Action.last.ints[0]);
+			Move ((Direction)Action.current.ints[0]);
 			break;
 		case Action.Type.MoveRel:
-			Move (GetDirection((Facing)Action.last.ints[0]));
+			Move (GetDirection((Facing)Action.current.ints[0]));
 			break;
 		case Action.Type.Look:
 			break;
@@ -184,7 +184,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void MoveDelay () {
-		Move ((Direction)Action.last.ints[0]);
+		Move ((Direction)Action.current.ints[0]);
 	}
 
 	bool CanMoveForward (Coords c)
@@ -251,16 +251,16 @@ public class Player : MonoBehaviour {
     #region hunger
     void Eat ()
 	{
-        RemoveHunger(Action.last.ints[0]);
+        RemoveHunger(Action.current.ints[0]);
 
-        if (Action.last.ints.Count > 1)
+        if (Action.current.ints.Count > 1)
         {
-            health -= Action.last.ints[1];
+            health -= Action.current.ints[1];
         }
 
         string str = "";
 
-        string name = "" + Action.last.primaryItem.word.GetDescription(Word.Def.Defined);
+        string name = "" + Action.current.primaryItem.word.GetDescription(Word.Def.Defined);
 
         if (hunger_CurrentStep == 3)
         {
@@ -283,7 +283,7 @@ public class Player : MonoBehaviour {
 
         DisplayFeedback.Instance.Display(str);
 
-        Item.Remove(Action.last.primaryItem);
+        Item.Remove(Action.current.primaryItem);
 
 	}
     public void RemoveHunger ( int i)
@@ -315,7 +315,7 @@ public class Player : MonoBehaviour {
     }
     void Sleep()
     {
-        RemoveSleep(Action.last.ints[0]);
+        RemoveSleep(Action.current.ints[0]);
 
         string str = "";
 
@@ -371,7 +371,7 @@ public class Player : MonoBehaviour {
     {
         Drink();
 
-        Item.Remove(Action.last.primaryItem);
+        Item.Remove(Action.current.primaryItem);
 
     }
     void Drink ()
@@ -380,9 +380,9 @@ public class Player : MonoBehaviour {
 
         thirst_CurrentHour = 0;
 
-        DisplayFeedback.Instance.Display(Action.last.primaryItem.word.GetDescription(Word.Def.Defined, Word.Preposition.None) + " vous déshydrate, vous n'avez plus soif");
+        DisplayFeedback.Instance.Display(Action.current.primaryItem.word.GetDescription(Word.Def.Defined, Word.Preposition.None) + " vous déshydrate, vous n'avez plus soif");
 
-        Item.Remove(Action.last.primaryItem);
+        Item.Remove(Action.current.primaryItem);
 
     }
     #endregion
@@ -427,7 +427,7 @@ public class Player : MonoBehaviour {
     #region stats
     void CheckStat()
     {
-        string str = Action.last.contents[0];
+        string str = Action.current.contents[0];
 
         Stats.Type statType = Stats.Type.Strengh;
 
@@ -449,7 +449,7 @@ public class Player : MonoBehaviour {
                 break;
         }
 
-        if ( stats.GetStat(statType) < Action.last.ints[0])
+        if ( stats.GetStat(statType) < Action.current.ints[0])
         {
 			ActionManager.Instance.BreakAction ();
             DisplayFeedback.Instance.Display("Vous n'avez pas assez de : " + statType);
