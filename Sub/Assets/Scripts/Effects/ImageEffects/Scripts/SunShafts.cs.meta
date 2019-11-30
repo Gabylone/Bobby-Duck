@@ -1,6 +1,7 @@
 fileFormatVersion: 2
-guid: 60e318a6043c1cb4a8ce1c8805bab930
+guid: 30a2d32601cec4b4f8a168958cca1e1b
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
   defaultReferences:
   - sunTransform: {instanceID: 0}
@@ -10,3 +11,4 @@ MonoImporter:
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 
+  assetBundleVariant: 

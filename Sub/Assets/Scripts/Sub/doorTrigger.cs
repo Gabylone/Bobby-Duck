@@ -20,9 +20,9 @@ public class doorTrigger : MonoBehaviour {
 
 	void OnTriggerEnter ( Collider other ) {
 
-		Humanoid humanoid = other.GetComponent<Humanoid> ();
+        Player player = other.GetComponent<Player>();
 
-		if ( humanoid != null && canOpen) {
+		if (player != null && canOpen) {
 			++Count;
 
 			if (count == 1)
@@ -36,9 +36,10 @@ public class doorTrigger : MonoBehaviour {
 
 	void OnTriggerExit ( Collider other ) {
 
-		Humanoid humanoid = other.GetComponent<Humanoid> ();
+        Player player = other.GetComponent<Player>();
 
-		if ( humanoid != null && canOpen) {
+        if (player != null && canOpen)
+        {
 			--Count;
 
 			if (count == 0)
