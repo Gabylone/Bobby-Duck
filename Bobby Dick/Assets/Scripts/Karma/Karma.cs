@@ -59,7 +59,7 @@ public class Karma : MonoBehaviour {
 
     }
 
-    /*private void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.U))
         {
@@ -70,7 +70,7 @@ public class Karma : MonoBehaviour {
         {
             RemoveKarma(1);
         }
-    }*/
+    }
 
     void HandleOpenInventory (CrewMember member)
 	{
@@ -110,9 +110,9 @@ public class Karma : MonoBehaviour {
                 decal = 1;
                 break;
             case KarmaStep.Neutral:
+            case KarmaStep.Bad:
                 decal = 2;
                 break;
-            case KarmaStep.Bad:
             case KarmaStep.Worst:
                 decal = 3;
                 break;
@@ -149,16 +149,16 @@ public class Karma : MonoBehaviour {
 
 		AddKarma (1);
 
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
-	}
+        StoryReader.Instance.NextCell();
+        StoryReader.Instance.Wait(1f);
+    }
 
 	public void RemoveKarma_Story () {
 
 		RemoveKarma (2);
 
-		StoryReader.Instance.NextCell ();
-		StoryReader.Instance.UpdateStory ();
+        StoryReader.Instance.NextCell();
+        StoryReader.Instance.Wait(1f);
 	}
 
 	public void PayBounty () {
@@ -207,7 +207,8 @@ public class Karma : MonoBehaviour {
 
     void UpdateKarmaStep()
     {
-        if (CurrentKarma > (float)(maxKarma / 1.5f))
+        if (CurrentKarma == maxKarma )
+        //if (CurrentKarma > (float)(maxKarma / 1.5f))
         {
             karmaStep = KarmaStep.Best;
             // un exemple de moralité
@@ -222,7 +223,7 @@ public class Karma : MonoBehaviour {
             karmaStep = KarmaStep.Neutral;
             // rien à signaler
         }
-        else if (CurrentKarma > -(float)(maxKarma / 1.5f))
+        else if (CurrentKarma > -maxKarma)
         {
             karmaStep = KarmaStep.Bad;
             // un mec louche

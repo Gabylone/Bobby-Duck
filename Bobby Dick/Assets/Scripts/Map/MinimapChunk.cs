@@ -25,11 +25,20 @@ public class MinimapChunk : MonoBehaviour {
 
 		coords = worldCoords;
 
-		if (chunk.state != ChunkState.VisitedIsland) {
-			SetUnvisited ();
-		} else {
-			SetVisited ();
-		}
+        switch (chunk.state)
+        {
+            case ChunkState.UndiscoveredIsland:
+                SetUndiscovered();
+                break;
+            case ChunkState.DiscoveredIsland:
+                SetDiscovered();
+                break;
+            case ChunkState.VisitedIsland:
+                SetVisited();
+                break;
+            default:
+                break;
+        }
 
 		if (QuestManager.Instance.currentQuests.Find (x => x.targetCoords == worldCoords) != null) {
 			ShowQuestFeedback ();
@@ -47,17 +56,30 @@ public class MinimapChunk : MonoBehaviour {
 		questGroup.SetActive (false);
 	}
 
-	public void SetVisited () {
-		Tween.Bounce (transform);
-		image.color = Color.white;
-		//
-	}
+    public void Bounce()
+    {
+        Tween.Bounce(transform);
+    }
 
-	public void SetUnvisited () {
+    public void SetVisited ()
+    {
+        gameObject.SetActive(true);
+		image.color = Color.white;
+    }
+
+	public void SetDiscovered ()
+    {
+        gameObject.SetActive(true);
 		image.color = new Color( 0.5f,0.5f,0.5f );
 	}
 
-	public void TouchMinimapChunk () {
+    void SetUndiscovered()
+    {
+        gameObject.SetActive(false);
+        image.color = Color.clear;
+    }
+
+    public void TouchMinimapChunk () {
 		
 		Tween.Bounce (islandGroup.transform);
 

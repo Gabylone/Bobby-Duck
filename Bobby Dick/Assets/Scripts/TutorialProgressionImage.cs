@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class TutorialProgressionImage : MonoBehaviour {
 
@@ -41,7 +41,7 @@ public class TutorialProgressionImage : MonoBehaviour {
 		float l2 = (float)progression / (float)max;
 
 		Vector2 targetScale = new Vector2 (-(w) + (l2 * w), 0);
-		HOTween.To ( progression_FillImage.rectTransform , 1f , "sizeDelta" , targetScale );
+        progression_FillImage.rectTransform.DOSizeDelta(targetScale, 1f);
 
 	}
 }

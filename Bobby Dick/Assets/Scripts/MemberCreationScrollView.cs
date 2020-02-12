@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class MemberCreationScrollView : MonoBehaviour
 {
     public RectTransform rectTransform;
-
+    
     public RectTransform contentFitter;
 
     public GameObject memberCreationPrefab;
@@ -48,7 +48,8 @@ public class MemberCreationScrollView : MonoBehaviour
 
         initScale = rectTransform.sizeDelta;
 
-        initCellScale = gridLayout.cellSize.x;
+        //initCellScale = gridLayout.cellSize.x;
+        gridLayout.cellSize = Vector2.one * initCellScale;
     }
 
     public void OnPointerDown()
@@ -89,8 +90,8 @@ public class MemberCreationScrollView : MonoBehaviour
     {
         showing = false;
 
-        HOTween.To(rectTransform, dur, "sizeDelta", initScale);
-        HOTween.To(gridLayout, dur, "cellSize", Vector2.one * initCellScale);
+        rectTransform.DOSizeDelta(initScale, dur);
+        gridLayout.cellSize = Vector2.one * initCellScale;
 
         if (MemberCreationButton_Apparence.lastSelected != null)
         {

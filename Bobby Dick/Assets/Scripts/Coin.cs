@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class Coin : MonoBehaviour {
 
@@ -24,8 +24,8 @@ public class Coin : MonoBehaviour {
 
 		initPos = mTransform.localPosition;
 
-		HOTween.To (mTransform , tweenDuration / 2f , "localPosition" , initPos + Vector3.up * decalUp );
-		HOTween.To (mTransform , tweenDuration / 2f , "localPosition" , initPos, false , EaseType.Linear , tweenDuration / 2f);
+        mTransform.DOLocalMove(initPos + Vector3.up * decalUp, tweenDuration / 2f);
+        mTransform.DOLocalMove(initPos, tweenDuration / 2f).SetDelay(tweenDuration/2f);
 
 		Invoke ("Stop", tweenDuration);
 	}
@@ -46,11 +46,9 @@ public class Coin : MonoBehaviour {
 		Tween.Bounce (mTransform);
 
 		if (!heads) {
-			HOTween.To (mTransform, 0.2f, "forward", -Vector3.forward, false, EaseType.EaseOutBounce, 0f);
-			//			mTransform.forward = Vector3.forward;
+            mTransform.forward = -Vector3.forward;
 		} else {
-			HOTween.To (mTransform, 0.2f, "forward", Vector3.forward, false, EaseType.EaseOutBounce, 0f);
-			//			mTransform.forward = -Vector3.forward;
+            mTransform.forward = Vector3.forward;
 		}
 
 		Destroy (gameObject, 2f);

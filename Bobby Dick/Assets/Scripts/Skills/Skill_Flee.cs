@@ -36,7 +36,7 @@ public class Skill_Flee : Skill {
 		} else if ( DiceManager.Instance.HighestResult == 1 ) {
 
 
-			fighter.combatFeedback.Display("!", Color.magenta);
+			fighter.combatFeedback.Display("Fuite !", Color.magenta);
 			fighter.AddStatus (Fighter.Status.KnockedOut);
 
 			fighter.crewMember.energy = 0;
@@ -46,7 +46,7 @@ public class Skill_Flee : Skill {
 
 		} else {
 
-			fighter.combatFeedback.Display("x",Color.red);
+			fighter.combatFeedback.Display("Raté !",Color.red);
 
 			EndSkill ();
 

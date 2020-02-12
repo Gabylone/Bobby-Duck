@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class InventoryActionButton : MonoBehaviour {
 
@@ -74,8 +74,8 @@ public class InventoryActionButton : MonoBehaviour {
 		fillGroup.SetActive (true);
 		fillImage.fillAmount = 0f;
 
-		HOTween.Kill (fillImage);
-		HOTween.To ( fillImage , timeToShowDescription - timeToShowDescriptionFeedback, "fillAmount", 1f );
+        fillImage.DOKill();
+        fillImage.DOFillAmount(1f, timeToShowDescription - timeToShowDescriptionFeedback);
 
 	}
 
@@ -98,7 +98,7 @@ public class InventoryActionButton : MonoBehaviour {
 
 		Vector2 targetScale = new Vector2 ( targetWidth , y );
 
-		HOTween.To (descriptionRectTransform , tweenDuration , "sizeDelta" , targetScale );
+        descriptionRectTransform.DOSizeDelta(targetScale, tweenDuration);
 
 		fillGroup.SetActive (false);
 	}

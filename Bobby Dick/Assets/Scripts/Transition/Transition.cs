@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class Transition : MonoBehaviour {
 
@@ -17,19 +17,19 @@ public class Transition : MonoBehaviour {
 	public void FadeIn (float duration)
 	{
         CancelInvoke("FadeOutDelay");
-        HOTween.Kill(targetImage);
+        targetImage.DOKill();
 
         transitionCanvas.SetActive (true);
-		targetImage.color = Color.clear;
-		HOTween.To (targetImage , duration, "color" , targetColor);
+        targetImage.color = Color.clear;
+        targetImage.DOColor(targetColor, duration);
 	}
 	public void FadeOut (float duration)
 	{
         CancelInvoke("FadeOutDelay");
-        HOTween.Kill(targetImage);
+        targetImage.DOKill();
 
-		targetImage.color = targetColor;
-		HOTween.To (targetImage , duration, "color" , Color.clear);
+        targetImage.color = targetColor;
+        targetImage.DOFade(0, duration);
 		Invoke ("FadeOutDelay", duration);
 	}
 	void FadeOutDelay () {

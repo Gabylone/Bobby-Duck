@@ -40,8 +40,8 @@ public class CombatManager : MonoBehaviour {
 	List<Fighter> fighters = new List<Fighter> ();
 
 	[Header("Fighter Objects")]
-	[SerializeField] private GameObject playerFighters_Parent;
-	[SerializeField] private GameObject enemyFighters_Parent;
+	public GameObject playerFighters_Parent;
+	public GameObject enemyFighters_Parent;
 	public Fighter[] initPlayerFighters;
 	private Fighter[] initEnemyFighters;
 
@@ -119,10 +119,10 @@ public class CombatManager : MonoBehaviour {
             debugKill = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        /*if (Input.GetKeyDown(KeyCode.A))
         {
             PlayerInfo.Instance.AddPearl( 100 );
-        }
+        }*/
     }
 
         #region Combat Start
@@ -457,13 +457,14 @@ public class CombatManager : MonoBehaviour {
 		GoldManager.Instance.AddGold (po);
 
 	}
+
 	public void ReceiveXp() {
 
 		foreach (var item in currPlayerFighters) {
 
 			int xpPerMember = 40;
 
-			item.combatFeedback.Display ("" + xpPerMember,Color.blue);
+			item.combatFeedback.Display ("" + xpPerMember,Color.white);
 
 			item.crewMember.AddXP (xpPerMember);
 		}
@@ -473,8 +474,8 @@ public class CombatManager : MonoBehaviour {
 	void ShowLoot () {
 
         Invoke("ReceiveGold", 0.8f);
-        //ReceiveGold();
 
+        LootUI.Instance.OpenMemberLoot(Crews.playerCrew.captain);
         OtherInventory.Instance.StartLooting ();
 	}
 	#endregion 
@@ -584,7 +585,7 @@ public class CombatManager : MonoBehaviour {
 			Transitions.Instance.ActionTransition.FadeIn (0.5f);
 			ReceiveXp ();
 			Invoke ("ExitFight", 1f);
-			Invoke ("ShowLoot", 1f);
+			Invoke ("ShowLoot", 1.5f);
 			break;
 		case OutCome.None:
 			break;

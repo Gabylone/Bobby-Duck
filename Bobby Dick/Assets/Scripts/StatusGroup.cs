@@ -22,7 +22,7 @@ public class StatusGroup : MonoBehaviour {
 		for (int i = 0; i < (int)Fighter.Status.None; i++) {
 			GameObject statusFeedbackObj = Instantiate (statusFeedbackPrefab, group.transform) as GameObject;
 			statusFeedbackObj.transform.localScale = Vector3.one;
-			statusFeedbackObj.GetComponent<StatusFeedback> ().SetStatus ((Fighter.Status)i);
+			//statusFeedbackObj.GetComponent<StatusFeedback> ().SetStatus ((Fighter.Status)i);
 		}
 
 		statusFeedbacks = GetComponentsInChildren<StatusFeedback> (true);
@@ -48,10 +48,10 @@ public class StatusGroup : MonoBehaviour {
 			print (status.ToString () + " doesct fit in feedbacks ( L : " + statusFeedbacks.Length + ")");
 		}
 
-        Debug.Log("adding status");
+        //Debug.Log("adding status");
 
         statusFeedbacks[(int)status].Show();
-
+        statusFeedbacks[(int)status].SetStatus(status);
         statusFeedbacks[(int)status].SetMax(count);
         statusFeedbacks[(int)status].SetCount(count);
 

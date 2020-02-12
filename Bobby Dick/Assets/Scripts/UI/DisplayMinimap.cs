@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 using System;
 
 public class DisplayMinimap : MonoBehaviour {
@@ -156,6 +156,7 @@ public class DisplayMinimap : MonoBehaviour {
     {
         if (StoryLauncher.Instance.CurrentStorySource == StoryLauncher.StorySource.island)
         {
+            minimapChunks[Coords.current].Bounce();
             minimapChunks[Coords.current].SetVisited();
         }
     }
@@ -177,14 +178,15 @@ public class DisplayMinimap : MonoBehaviour {
 	{
 		overallRectTranfsorm.sizeDelta = minimapChunkScale * (MapGenerator.Instance.MapScale);
 
-		for (int x = 0; x <= MapGenerator.Instance.MapScale-1; x++) {
+		for (int x = 0; x < MapGenerator.Instance.MapScale; x++) {
 
-			for (int y = 0; y <= MapGenerator.Instance.MapScale-1; y++) {
+			for (int y = 0; y < MapGenerator.Instance.MapScale; y++) {
 
 				Coords chunk = new Coords (x, y);
 
 				if (Chunk.GetChunk (chunk).state == ChunkState.DiscoveredIsland
-					|| Chunk.GetChunk (chunk).state == ChunkState.VisitedIsland) {
+					|| Chunk.GetChunk (chunk).state == ChunkState.VisitedIsland
+                    || Chunk.GetChunk(chunk).state == ChunkState.UndiscoveredIsland) {
 
 					PlaceMapChunk (chunk);
 
@@ -256,7 +258,7 @@ public class DisplayMinimap : MonoBehaviour {
 
 		Vector2 targetPos = new Vector2(-x,-y);
 
-		HOTween.To (overallRectTranfsorm, centerTweenDuration, "anchoredPosition", targetPos, false, EaseType.Linear, 0f);
+        overallRectTranfsorm.DOAnchorPos(targetPos, centerTweenDuration);
 	}
 	#endregion
 
@@ -275,25 +277,23 @@ public class DisplayMinimap : MonoBehaviour {
 				Chunk chunk = Chunk.GetChunk (c);
 
 				switch (chunk.state) {
-				case ChunkState.UndiscoveredSea:
-					chunk.state = ChunkState.DiscoveredSea;
-					MapGenerator.Instance.discoveredCoords.coords.Add (c);
-					break;
 
-				case ChunkState.UndiscoveredIsland:
-					chunk.state = ChunkState.DiscoveredIsland;
-					chunk.Save (c);
-					PlaceMapChunk (c);
-					break;
+                    case ChunkState.UndiscoveredSea:
+                        chunk.state = ChunkState.DiscoveredSea;
+                        MapGenerator.Instance.discoveredCoords.coords.Add(c);
+                        break;
+                    case ChunkState.UndiscoveredIsland:
+                        chunk.state = ChunkState.DiscoveredIsland;
+                        chunk.Save(c);
+                        minimapChunks[c].SetDiscovered();
+                        break;
+                    case ChunkState.DiscoveredIsland:
+                        break;
+                    case ChunkState.VisitedIsland:
+                        break;
+                    default:
+                        break;
 
-				case ChunkState.DiscoveredIsland:
-					break;
-
-				case ChunkState.VisitedIsland:
-					break;
-
-				default:
-					break;
 
 				}
 			}
@@ -306,6 +306,12 @@ public class DisplayMinimap : MonoBehaviour {
 
 	#region map chunk
 	void PlaceMapChunk(Coords c) {
+        
+        if ( minimapChunks.ContainsKey(c))
+        {
+            Debug.Log("un minimap chunk est déjà présent à : " + c.ToString());
+            return;
+        }
 
 		// INST
 		GameObject minimapChunk = Instantiate (minimapChunkPrefab, minimapChunkParent.transform);
@@ -314,12 +320,10 @@ public class DisplayMinimap : MonoBehaviour {
 		minimapChunk.transform.localScale = Vector3.one;
 
 		// POS
-		//Vector2 decal = scale / (Boats.PlayerBoatInfo.ShipRange * 2 + 1);
 		float x = (minimapChunkScale.x/2) 	+ (c.x * overallRectTranfsorm.rect.width / MapGenerator.Instance.MapScale);
 		float y = (minimapChunkScale.y / 2) + c.y * minimapChunkScale.y;
 		Vector2 pos = new Vector2 (x,y);
 
-		//		minimapChunk.GetComponent<RectTransform>().anchoredPosition = getPosFromCoords (c);
 		minimapChunk.GetComponent<RectTransform>().anchoredPosition = pos;
 
 		minimapChunk.GetComponent<MinimapChunk> ().InitChunk (c);
@@ -352,7 +356,7 @@ public class DisplayMinimap : MonoBehaviour {
             boatPos.x += enemyBoatIconDecal.x;
         }
 
-        HOTween.To (boatRectTransform, centerTweenDuration-0.2f, "anchoredPosition", boatPos, false, EaseType.Linear, 0.2f);
+        boatRectTransform.DOAnchorPos(boatPos, centerTweenDuration - 0.2f).SetDelay(0.2f);
 
 		Tween.Bounce (boatRectTransform.transform);
 
@@ -455,7 +459,7 @@ public class DisplayMinimap : MonoBehaviour {
                 boatInfo.coords.y >= Boats.playerBoatInfo.coords.y - GetCurrentShipRange
                 )
             {
-                HOTween.To(targetMinimapBoat.rectTransform, centerTweenDuration, "anchoredPosition", targetPos);
+                targetMinimapBoat.rectTransform.DOAnchorPos(targetPos, centerTweenDuration);
 
                 targetMinimapBoat.GetComponentInChildren<Image>().color = boatInfo.color;
             }
@@ -587,11 +591,11 @@ public class DisplayMinimap : MonoBehaviour {
 	}
 	void FadeOut ()
 	{
-		HOTween.To ( rectTransform  , hideDuration , "anchoredPosition" , new Vector2 ( hiddenPos , 0f ) );
+        rectTransform.DOAnchorPos(new Vector2(hiddenPos, 0f), hideDuration);
 	}
 	void FadeIn ()
 	{
-		HOTween.To ( rectTransform  , hideDuration , "anchoredPosition" , new Vector2 ( initPosX , initPosY ) );
+        rectTransform.DOAnchorPos(new Vector2(initPosX, initPosY), hideDuration);
 	}
 	#endregion
 }

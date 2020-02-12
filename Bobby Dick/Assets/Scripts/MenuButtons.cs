@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class MenuButtons : MonoBehaviour {
 
@@ -24,34 +24,13 @@ public class MenuButtons : MonoBehaviour {
 
 	public void Hide ()
 	{
-		opened = false;
-
-		Invoke ("HideDelay", tweenDuration);
-
-		Vector2 targetPos = rectTransform.anchoredPosition;
-
-		targetPos.x = 100f;
-
-		HOTween.To ( rectTransform , tweenDuration , "anchoredPosition" , targetPos );
-
-
-	}
-	void HideDelay () {
 		group.SetActive (false);
+		opened = false;
 	}
 
 	public void Show ()
 	{
 		opened = true;
-
-		Vector2 targetPos = rectTransform.anchoredPosition;
-
 		group.SetActive (true);
-
-		targetPos.x = 0f;
-
-		HOTween.To ( rectTransform , tweenDuration , "anchoredPosition", targetPos);
-
-
     }
 }

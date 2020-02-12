@@ -8,7 +8,7 @@ public class Boats : MonoBehaviour {
 
 	public static PlayerBoatInfo playerBoatInfo;
 
-	BoatData boatData;
+	private BoatData boatData;
 
 	public List<OtherBoatInfo> getBoats {
 		//= new List<OtherBoatInfo> ();
@@ -18,7 +18,14 @@ public class Boats : MonoBehaviour {
 	}
 
 	[SerializeField]
-	private int otherBoatAmount = 10;
+    private int NumberOfBoats {
+        
+        get
+        {
+            return MapGenerator.mapParameters.numberOfNumberBoats;
+        }
+
+    }
 
 	[Header("Movement")]
 	[SerializeField]
@@ -45,14 +52,6 @@ public class Boats : MonoBehaviour {
 		StoryFunctions.Instance.getFunction += HandleGetFunction;
 	}
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            DestroyCurrentShip();
-        }
-    }
-
     public void RandomizeBoats( ) {
 
 		playerBoatInfo = new PlayerBoatInfo ();
@@ -61,7 +60,8 @@ public class Boats : MonoBehaviour {
 
 		boatData = new BoatData ();
 		boatData.boats = new List<OtherBoatInfo> ();
-		for (int i = 0; i < otherBoatAmount; i++) {
+
+		for (int i = 0; i < NumberOfBoats; i++) {
             OtherBoatInfo newBoat = CreateNewBoat();
         }
     }

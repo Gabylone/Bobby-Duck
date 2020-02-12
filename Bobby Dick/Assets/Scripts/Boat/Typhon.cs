@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Holoville.HOTween;
+using DG.Tweening;
+using DG.Tweening;
 
 public class Typhon : RandomPlacable
 {
@@ -28,8 +29,7 @@ public class Typhon : RandomPlacable
     {
         base.Trigger();
 
-        HOTween.To( PlayerBoat.Instance.getTransform , delay , "position" , transform.position );
-
+        PlayerBoat.Instance.getTransform.DOMove(transform.position, delay);
         PlayerBoat.Instance.animator.SetTrigger( "Typhon" );
 
         Invoke("TriggerDelay", delay);

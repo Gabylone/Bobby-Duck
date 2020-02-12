@@ -60,10 +60,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80f9f8a11db3764c8ba0d9eea44fde3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusImage_BG: {fileID: 5016466930373765319}
-  statusImage_Fill: {fileID: 6615169159199362580}
-  backgroundImage_BG: {fileID: 3561318190151942157}
-  backgroundImage_Fill: {fileID: 114280287994030606}
+  statusImage_BG: {fileID: 3561318190151942157}
+  statusImage_Fill: {fileID: 114280287994030606}
+  backgroundImage_BG: {fileID: 5016466930373765319}
+  backgroundImage_Fill: {fileID: 6615169159199362580}
   tweenDur: 0.5
   tweenScaleAmount: 1.2
   status: 0

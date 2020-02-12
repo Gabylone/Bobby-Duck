@@ -59,13 +59,18 @@ public class NameGeneration : MonoBehaviour {
 			text = text.Replace ( "DIRECTIONTOFORMULA" , FormulaManager.Instance.getDirectionToFormula () );
 		}
 
-		if ( text.Contains ("BOUNTY") ) {
+        if (text.Contains("NOMTRESOR"))
+        {
+            text = text.Replace("NOMTRESOR", MapGenerator.mapParameters.mapName);
+        }
+
+        if ( text.Contains ("BOUNTY") ) {
 			text = text.Replace ( "BOUNTY" , Karma.Instance.bounty.ToString () );
 		}
 
 		if ( text.Contains ("FORMULA") ) {
 
-			Formula formula = System.Array.Find(FormulaManager.Instance.formulas,x=>x.coords == Boats.playerBoatInfo.coords);
+			Formula formula = FormulaManager.Instance.formulas.Find(x=>x.coords == Boats.playerBoatInfo.coords);
 
 			if ( formula.found == false ) {
 				if ( onDiscoverFormula != null ) {

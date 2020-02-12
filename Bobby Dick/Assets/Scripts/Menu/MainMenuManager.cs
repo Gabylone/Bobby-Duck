@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class MainMenuManager : MonoBehaviour {
 
@@ -29,6 +29,8 @@ public class MainMenuManager : MonoBehaviour {
 
     public float mapsAppearDuration = 0.5f;
 
+    public Animator mapAnimator;
+
 	void Start () {
 		Transitions.Instance.ScreenTransition.FadeOut (0.5f);
 
@@ -51,11 +53,9 @@ public class MainMenuManager : MonoBehaviour {
 		Tween.Bounce (playButton.transform);
 
         mapsGroup.SetActive(true);
+        mapAnimator.SetBool("Opened", true);
 
         CancelInvoke("HideMapsDelay");
-
-        mapsGroup.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, 1000f );
-        HOTween.To(mapsGroup.GetComponent<RectTransform>(), mapsAppearDuration, "anchoredPosition", Vector2.zero);
 
         MenuObj.SetActive(false);
 
@@ -73,17 +73,16 @@ public class MainMenuManager : MonoBehaviour {
 
     public void HideMaps ()
     {
-        HOTween.To(mapsGroup.GetComponent<RectTransform>(), 1f, "anchoredPosition", new Vector2(0f, 1000f));
+        Invoke("HideMapsDelay", 0.5f);
 
-        Invoke("HideMapsDelay", 1f);
-
-        MenuObj.SetActive(true);
-
+        mapAnimator.SetBool("Opened", false);
 
     }
 
     void HideMapsDelay()
     {
+        MenuObj.SetActive(true);
+
         mapsGroup.SetActive(false);
     }
 
@@ -91,10 +90,11 @@ public class MainMenuManager : MonoBehaviour {
 	{
 		Transitions.Instance.ScreenTransition.FadeIn (transitionDuration);
 		Invoke ("NewGameDelay" , transitionDuration);
+        mapAnimator.SetBool("Opened", false);
 	}
 	private void NewGameDelay () {
 		KeepOnLoad.dataToLoad = -1;
-		SceneManager.LoadScene (1);
+		SceneManager.LoadScene ("Loading");
 	}
 	public void QuitButton () {
 
@@ -116,8 +116,8 @@ public class MainMenuManager : MonoBehaviour {
 		Invoke ("LoadDelay" , transitionDuration);
 	}
 	private void LoadDelay () {
-		SceneManager.LoadScene (1);
-	}
+		SceneManager.LoadScene ("Loading");
+    }
 
 	public void OpenLoadMenu () {
 		loadMenu.SetActive (true);

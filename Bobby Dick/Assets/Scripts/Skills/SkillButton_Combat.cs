@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class SkillButton_Combat : SkillButton {
 
@@ -88,7 +88,7 @@ public class SkillButton_Combat : SkillButton {
 			skill.Trigger (CombatManager.Instance.currentFighter);
 		}
 
-		HOTween.Kill (chargeFillImage);
+        chargeFillImage.DOKill();
 		CrewMember member = CombatManager.Instance.currentFighter.crewMember;
 		int charge = member.charges[skill.GetSkillIndex(member)];
 		UpdateCharge (charge);

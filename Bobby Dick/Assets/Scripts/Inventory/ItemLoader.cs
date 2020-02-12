@@ -82,14 +82,14 @@ public class ItemLoader : MonoBehaviour {
 			Item newItem =
 				new Item (
 				currentID,
-				cells[0],// name
-				cells[1],// description
-				int.Parse(cells[2]),// value
-				int.Parse(cells[3]),// price
-				int.Parse(cells[4]),// weight
-				int.Parse(cells[5]),// level
-//					GetSpriteIDs(cells[6]),
-				int.Parse(cells[6]),
+				cells[0],// french name
+				cells[1],// english name
+                cells[2],// description
+				int.Parse(cells[3]),// value
+				int.Parse(cells[4]),// price
+				int.Parse(cells[5]),// weight
+				int.Parse(cells[6]),// level
+				int.Parse(cells[7]),
 
 				currentType // category
 				);
@@ -200,19 +200,14 @@ public class ItemLoader : MonoBehaviour {
 		switch (cat) {
 		case ItemCategory.Provisions:
 			return 0;
-			break;
 		case ItemCategory.Weapon:
 			return items[0].Length;
-			break;
 		case ItemCategory.Clothes:
 			return items[0].Length + items[1].Length;
-			break;
 		case ItemCategory.Misc:
 			return items[0].Length + items[1].Length + items[2].Length;
-			break;
 		default:
 			return 0;
-			break;
 		}
 	}
 
@@ -221,19 +216,14 @@ public class ItemLoader : MonoBehaviour {
 		switch (cat) {
 		case ItemCategory.Provisions:
 			return items[0].Length;
-			break;
 		case ItemCategory.Weapon:
 			return items[0].Length + items[1].Length;
-			break;
 		case ItemCategory.Clothes:
 			return items[0].Length + items[1].Length + items[2].Length;
-			break;
 		case ItemCategory.Misc:
 			return items[0].Length + items[1].Length + items[2].Length + items[3].Length;
-			break;
 		default:
 			return 0;
-			break;
 		}
 	}
 }

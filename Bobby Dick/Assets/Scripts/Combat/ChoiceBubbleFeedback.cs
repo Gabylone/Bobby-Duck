@@ -4,15 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ChoiceBubbleFeedback : MonoBehaviour {
-
+    /*
 	public string SetSprite (string str) {
 
 		int index = 0;
 
-		foreach (var bubblePhrase in ChoiceManager.bubblePhrases) {
+		foreach (var bubblePhrase in ChoiceManager.Instance.bubblePhrases) {
 
 			if ( str.EndsWith(bubblePhrase) ) {
-				
 
 				GetComponent<Image>().enabled = true;
 				GetComponent<Image>().sprite = ChoiceManager.feedbackSprites [index];
@@ -34,4 +33,5 @@ public class ChoiceBubbleFeedback : MonoBehaviour {
 		return str;
 
 	}
+*/
 }

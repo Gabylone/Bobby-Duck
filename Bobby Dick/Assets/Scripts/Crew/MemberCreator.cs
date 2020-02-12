@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class MemberCreator : MonoBehaviour {
 
@@ -86,7 +86,7 @@ public class MemberCreator : MonoBehaviour {
 	}
 
 	public void HideStep (CreationStep step) {
-		HOTween.To (GetStep (step).transform, tweenDuration / 2f, "anchoredPosition", Vector2.up * -1000f, false, EaseType.Linear, 0f);
+        GetStep(step).GetComponent<RectTransform>().DOAnchorPos(Vector2.up * -1000f, tweenDuration);
 	}
     
 	public void ShowStep ( CreationStep step ) {
@@ -98,7 +98,7 @@ public class MemberCreator : MonoBehaviour {
         GetStep(step).SetActive (true);
 		GetStep (step).GetComponent<RectTransform>().anchoredPosition = new Vector3 (0f , 1000f , 0f);
 
-		HOTween.To (GetStep (step).transform, tweenDuration, "anchoredPosition", Vector2.zero, false, EaseType.Linear, 0f);
+        GetStep(step).GetComponent<RectTransform>().DOAnchorPos(Vector2.zero, tweenDuration);
 
         Invoke("ShowStepDelay", tweenDuration);
 
@@ -112,7 +112,7 @@ public class MemberCreator : MonoBehaviour {
         }
         else
         {
-            previousButtonObj.SetActive(true);
+            //previousButtonObj.SetActive(true);
         }
 
         confirmButtonObj.SetActive (true);
@@ -188,10 +188,8 @@ public class MemberCreator : MonoBehaviour {
 
         //animator.SetTrigger("close");
 
-        HOTween.To(rayblocker, tweenDuration, "color", Color.clear);
-
-        HOTween.To(fadeImage, tweenDuration, "color" , Color.black);
-
+        rayblocker.DOFade(0f, tweenDuration);
+        fadeImage.DOFade(0f, tweenDuration);
 
         HideStep(CreationStep.Appearance);
 
@@ -202,14 +200,12 @@ public class MemberCreator : MonoBehaviour {
         Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Map);
         InGameMenu.Instance.canOpen = true;
 
-
-
         Invoke("EndMemberCreationDelay",tweenDuration);
 
 	}
 	void EndMemberCreationDelay () {
 
-        HOTween.To(fadeImage, tweenDuration, "color", Color.clear);
+        fadeImage.DOFade(0f, tweenDuration);
 
         Hide();
 

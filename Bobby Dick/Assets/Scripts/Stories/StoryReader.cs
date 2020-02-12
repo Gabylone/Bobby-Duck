@@ -245,7 +245,6 @@ public class StoryReader : MonoBehaviour {
 		timer -= Time.deltaTime;
 
 		if (timer <= 0) {
-
 			waitToNextCell = false;
 			StoryReader.Instance.UpdateStory ();
 		}

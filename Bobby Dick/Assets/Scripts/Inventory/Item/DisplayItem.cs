@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 using System;
 
 public class DisplayItem : MonoBehaviour {

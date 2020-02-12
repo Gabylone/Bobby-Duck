@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class Card : MonoBehaviour {
 
@@ -80,20 +80,16 @@ public class Card : MonoBehaviour {
 	{
 		if (pickable) {
 
-            ShowTargetFeedback(Color.yellow);
+            ShowTargetFeedback(Color.magenta);
             targetFeedbackImage.GetComponent<Animator>().SetBool("bouncing", true);
-
         }
         else {
 
 			if ( playingTurn ) {
 				ShowTargetFeedback (Color.white);
-				//
 			} else {
 				HideTargetFeedback ();
-				//
 			}
-
 		}
 	}
 
@@ -128,7 +124,7 @@ public class Card : MonoBehaviour {
 		endTurnFeedback.gameObject.SetActive (true);
 
 		endTurnFeedback.localEulerAngles = Vector3.zero;
-		HOTween.To (endTurnFeedback , endTurnFeedbackDuration , "localEulerAngles" , Vector3.forward * 89 , false , EaseType.EaseInOutQuad , 0f );
+        endTurnFeedback.DOLocalRotate(Vector3.forward * 89f, endTurnFeedbackDuration).SetEase(Ease.InOutQuad);
 		Tween.Bounce (endTurnFeedback, 1f , 1.5f);
 
 		energyGroup.SetActive (false);
@@ -213,8 +209,8 @@ public class Card : MonoBehaviour {
 
 		float dur = 0.15f;
 
-		HOTween.To (healthFill, dur , "sizeDelta" , v );
-		HOTween.To (healthFillDelay, dur * 3f , "sizeDelta" , v , false , EaseType.EaseOutCirc , dur * 3f );
+        healthFill.DOSizeDelta(v, dur);
+        healthFillDelay.DOSizeDelta(v, dur * 3f).SetEase(Ease.OutCirc).SetDelay(dur * 3f);
 
 		// STATS
 		/*attackText.text = member.Attack.ToString ();

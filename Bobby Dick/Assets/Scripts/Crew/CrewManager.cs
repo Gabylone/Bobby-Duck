@@ -12,8 +12,9 @@ public class CrewManager : MonoBehaviour {
 
 	[SerializeField] private Crews.Side side;
 	[SerializeField] private Transform[] crewAnchors;
+    public Transform[] mapAnchors;
 
-	public int CurrentMemberCapacity {
+    public int CurrentMemberCapacity {
 		get {
 			return Boats.playerBoatInfo.crewCapacity;
 		}
@@ -84,7 +85,6 @@ public class CrewManager : MonoBehaviour {
 		}
 	}
 
-	public Transform[] mapAnchors;
 
 	public Transform[] CrewAnchors {
 		get {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class StatusFeedback : MonoBehaviour {
 
@@ -30,8 +30,11 @@ public class StatusFeedback : MonoBehaviour {
 	}
 
 	public void SetStatus ( Fighter.Status status ) {
-		this.status = status;
-		statusImage_BG.sprite = SkillManager.statusSprites [(int)status];
+
+        this.status = status;
+
+		statusImage_Fill.sprite = SkillManager.statusSprites [(int)status];
+        statusImage_BG.sprite = SkillManager.statusSprites [(int)status];
 	}
 
     private void UpdateUI(int i)

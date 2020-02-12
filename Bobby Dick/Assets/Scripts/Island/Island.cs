@@ -21,9 +21,9 @@ public class Island : RandomPlacable {
 	private GameObject group;
 
 	[SerializeField]
-	Collider _collider = null;
+	private Collider _collider = null;
 
-    Vector2 scale = Vector2.zero;
+    private Vector2 scale = Vector2.zero;
 
     public RectTransform uiBackground;
 
@@ -33,12 +33,6 @@ public class Island : RandomPlacable {
 	private RectTransform gameViewCenter;
 
     private IslandTrigger[] islandTriggers;
-
-    public float min_RangeX = 0f;
-    public float min_RangeY = 0f;
-
-    public float max_RangeX = 0f;
-    public float max_RangeY = 0f;
 
     public bool targeted = false;
 
@@ -57,6 +51,16 @@ public class Island : RandomPlacable {
         islandTriggers = GetComponentsInChildren<IslandTrigger>(true);
 
         Init();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Vector2 v = GetRandomPosition();
+            transform.localPosition = new Vector3(v.x,0f,v.y);
+
+        }
     }
 
     void Init () {
@@ -107,7 +111,6 @@ public class Island : RandomPlacable {
 
 	#region story
 	public void Enter () {
-
         StoryLauncher.Instance.PlayStory(Chunk.currentChunk.IslandData.storyManager, StoryLauncher.StorySource.island);
 	}
     #endregion
@@ -127,6 +130,9 @@ public class Island : RandomPlacable {
 
             //GetComponent<RectTransform> ().anchoredPosition = chunk.IslandData.positionOnScreen;
             transform.localPosition = new Vector3( chunk.IslandData.worldPosition.x  , 0f , chunk.IslandData.worldPosition.y);
+
+            //Debug.Log( "local position : " + transform.localPosition.x + " / local position " + transform.localPosition.y );
+
             transform.rotation = Quaternion.EulerAngles(0,chunk.IslandData.worldRotation,0);
 
             //GetComponentInChildren<Image>().sprite = sprites [islandData.storyManager.storyHandlers [0].Story.param];
@@ -150,6 +156,11 @@ public class Island : RandomPlacable {
     {
         base.OnMouseDown();
 
+        if (!WorldTouch.Instance.IsEnabled())
+        {
+            return;
+        }
+
         ActivateCollider();
 
         targeted = true;
@@ -160,7 +171,7 @@ public class Island : RandomPlacable {
 		if ( _transform == null )
 			_transform= GetComponent<RectTransform> ();
 
-        return new Vector2 (Random.Range(-min_RangeX,max_RangeX) , Random.Range(-min_RangeY,max_RangeY) );
+        return new Vector2 (Random.Range(minX,maxX) , Random.Range(minY,maxY) );
 	}
 
     public void CollideWithPlayer()

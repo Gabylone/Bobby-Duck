@@ -19,6 +19,7 @@ public class PlayerBoatInfo : BoatInfo {
 		base.Randomize ();
 
 		SetCoords(SaveManager.Instance.GameData.homeCoords);
+        Debug.Log("putting boat at random coords");
 //		coords = Coords.Zero;
 
 	}

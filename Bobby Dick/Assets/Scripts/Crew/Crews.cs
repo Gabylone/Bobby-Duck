@@ -3,10 +3,14 @@ using System.Collections;
 
 public class Crews : MonoBehaviour {
 
-//	public static int maxHunger = 35;
-	public static int maxHunger = 10;
+    /// <summary>
+    /// jours avant que le membre ait faim
+    /// </summary>
+//	public static int maxHunger = 35; // pas assez
+	//public static int maxHunger = 10; // trop
+	public static int maxHunger = 15;
 
-	public static Crews Instance;
+    public static Crews Instance;
 
     public float reducedDamage = 50f;
 
@@ -156,7 +160,6 @@ public class Crews : MonoBehaviour {
 		// set decal
 		if (storyCrew.MemberIDs.Count == 0) {
 
-
 			StoryReader.Instance.SetDecal (1);
 
 		} else {
@@ -243,9 +246,21 @@ public class Crews : MonoBehaviour {
 
         }
 
+        // get crew level
 		if ( parms.Length > 2 ) {
 
-			crewParams.level = int.Parse ( parms[2] );
+            int level = 0;
+
+            if ( parms[2] == "TREASURE")
+            {
+                level = MapGenerator.mapParameters.endFightLevel;
+            }
+            else
+            {
+                level = int.Parse(parms[2]);
+            }
+
+            crewParams.level = level;
 
 		}
 

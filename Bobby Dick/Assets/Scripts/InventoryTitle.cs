@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class InventoryTitle : MonoBehaviour {
 
@@ -21,11 +21,11 @@ public class InventoryTitle : MonoBehaviour {
     {
         if (LootUI.Instance.SelectedItem == null)
         {
-            HOTween.To(transform, duration, "position", initPos);
+            transform.DOMove(initPos, duration);
         }
         else
         {
-            HOTween.To(transform, duration, "position", initPos + Vector3.up * decal);
+            transform.DOMove(initPos + Vector3.up * decal , duration);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class DisplayHunger : MonoBehaviour {
 
@@ -12,7 +12,9 @@ public class DisplayHunger : MonoBehaviour {
 	float maxFillAmountScale = 1f;
 	public Image backGroundImage;
 
-	public virtual void Start () {
+    public bool tween = true;
+
+    public virtual void Start () {
 		maxFillAmountScale = fillImage.rectTransform.rect.height;
 	}
 
@@ -28,13 +30,21 @@ public class DisplayHunger : MonoBehaviour {
 
 		ShowHunger ();
 
-		HOTween.Kill (fillImage.rectTransform);
+        fillImage.rectTransform.DOKill();
 
 		float fillAmount = 1f - ((float)member.CurrentHunger / (float)Crews.maxHunger);
 		Vector2 v = new Vector2 (fillImage.rectTransform.rect.width, (fillAmount * maxFillAmountScale));
-		HOTween.To ( fillImage.rectTransform , 0.5f , "sizeDelta" , v );
 
-		Tween.Bounce (transform, 0.2f, 1.1f);
+        if ( tween )
+        {
+            fillImage.rectTransform.DOSizeDelta(v, 0.5f);
+        }
+        else
+        {
+            fillImage.rectTransform.sizeDelta = v;
+        }
+
+        Tween.Bounce (transform, 0.2f, 1.1f);
 
 	}
 }

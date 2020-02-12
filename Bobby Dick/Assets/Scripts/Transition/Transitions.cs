@@ -48,12 +48,12 @@ public class Transitions : MonoBehaviour {
 
             case FunctionType.Fade:
 
-			    //FadeScreen ();
+			    FadeScreen ();
 
 			    StoryReader.Instance.NextCell ();
 
-                //StoryReader.Instance.Wait (defaultTransition);
-                StoryReader.Instance.UpdateStory();
+                StoryReader.Instance.Wait (defaultTransition);
+                //StoryReader.Instance.UpdateStory();
 
                 break;
 		}

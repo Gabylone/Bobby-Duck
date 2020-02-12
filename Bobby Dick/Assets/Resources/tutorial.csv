@@ -13,9 +13,9 @@ Pluie;La pluie est trop dense pour y voir quoi que ce soir. Et si la nuit tombe 
 Statut;Il arrive quelques chose à un de vos gars ! Pendant un combat, les changements d’états de votre équipage est affiché en bas de sa vie.;premier statust
 Nouveau membre;Un nouveau gars à rejoint l’équipe ! C’est une nouvelle force en combat, mais aussi une nouvelle bouche à nourrir;nouveau membre 
 Compétence;Les boutons à gauche, c’est vos compétences. Le bouton vert, c’est vos compétences de métier.;combat player hcoice
-Energie & Charge;Chaque compétence à un coûts d’énergie ( Barres vertes ). Ainsi qu’un temps de recharge.;combat player hcoice
+Energie & Charge;Chaque compétence à un coûts d’énergie ( Bulles vertes ). Ainsi qu’un temps de recharge.;combat player hcoice
 Quête;CAPITAINE à reçu une quête. Elles donneront expérience, or et augmenteront le karma de l’équipage. Jetez un coup d’oeil dans le menu Quête, il vient d’apparaître !;recevoir quete
-Menu Quête;Ici apparaissent toutes les quêtes de CAPITAINE, ainsi que les indices découverts à propos du Trésor. Touchez une quête pour afficher sa destination.;recevoir quete
+Menu Quête;Ici apparaissent toutes les quêtes de CAPITAINE, ainsi que les indices découverts à propos du Trésor. Touchez une quête pour en savoir plus.;recevoir quete
 Gestion Bateau;Ici, vous voyez toutes caractéristiques de NOMBATEAU. CAPITAINE peut aller voir un charpentier, dans les îles et les villages, pour améliorer le bateau.;ouverture inventaire.
 Autres bateaux;CAPITAINE et NOMBATEAU vont croiser d’autres bateaux sur votre route. Certains passerons son chemin, d’autres iront à sa rencontre.;rencontre bateau
 Faim;Un de vos gars à faim ! Ouvrez l’inventaire pour lui donner quelque chose à manger.;commencement faim

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class CombatFeedback : MonoBehaviour {
 
@@ -45,7 +45,7 @@ public class CombatFeedback : MonoBehaviour {
 
 		// pos
 		transform.localPosition = initPos;
-		HOTween.To (transform, fadeDuration, "localPosition", initPos + Vector3.up * fadeDecal);
+        transform.DOLocalMove(initPos + Vector3.up * fadeDecal, fadeDuration);
 
 		// invokes
 		Invoke ("Fade",fadeDuration/2f);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class InfoFeedbacks : MonoBehaviour {
 
@@ -12,7 +12,7 @@ public class InfoFeedbacks : MonoBehaviour {
 	public Text text;
 	public Image image;
 
-	public float decalY = 30f;
+	public float decal = 30f;
 
 	public float duration = 2f;
 
@@ -23,18 +23,10 @@ public class InfoFeedbacks : MonoBehaviour {
 
 		Hide ();
 
-
         initPos = rectTransform.localPosition;
-        //rectTransform.transform.SetParent(transform.)
 
 	}
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F)) {
-            Print("soir");
-        }
-    }
     public virtual void Print ( string str ) {
 		Print (str, Color.white);
 	}
@@ -42,19 +34,17 @@ public class InfoFeedbacks : MonoBehaviour {
 		
 		Show ();
 
-
 		rectTransform.localPosition = initPos;
 
-		HOTween.Kill (rectTransform);
-		HOTween.Kill (transform);
-
+        rectTransform.DOKill();
+        transform.DOKill();
 
 		Tween.ClearFade (transform);
 
 		CancelInvoke ("Hide");
 		CancelInvoke ("Fade");
 
-		HOTween.To (rectTransform, duration, "localPosition", initPos + Vector3.up * decalY);
+        rectTransform.DOLocalMove(initPos + Vector3.right * decal, duration);
 
 		text.text = str;
 		image.color = color;

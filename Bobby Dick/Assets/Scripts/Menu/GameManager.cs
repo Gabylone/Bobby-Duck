@@ -2,13 +2,23 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour {
 
+   
+
 	public static GameManager Instance;
 
-	[SerializeField]
+    public enum Language
+    {
+        _fr,
+        _en,
+    }
+
+    public static Language language;
+
+    [SerializeField]
 	private GameObject overallObj;
 
 	public GameObject textObj;
@@ -23,7 +33,7 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {
 
-		Instance = this;
+        Instance = this;
 
 		InitializeGame ();
 //		StartCoroutine( InitializeGame () );
@@ -64,10 +74,6 @@ public class GameManager : MonoBehaviour {
 
             KeepOnLoad.displayTuto = true;
 
-            /// TEST
-            /// 
-
-
         }
 
 		InGameMenu.Instance.Init ();
@@ -102,7 +108,7 @@ public class GameManager : MonoBehaviour {
 		overallObj.SetActive (true);
 
 		image.color = Color.clear;
-		HOTween.To ( image , fadeDuration , "color" , Color.black  );
+        image.DOColor(Color.black, fadeDuration);
 
 		textObj.SetActive (false);
 

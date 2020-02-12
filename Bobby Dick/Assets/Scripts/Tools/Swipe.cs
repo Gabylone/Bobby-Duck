@@ -40,17 +40,19 @@ public class Swipe : MonoBehaviour {
 
 	void HandleOnTouchWorld ()
 	{
-//		Swipe_Start ();
+		Swipe_Start ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-//		if ( InputManager.Instance.OnInputDown() ) {
-//			Swipe_Start ();
-//		}
-
-		if (swiping) {
+        /*if (InputManager.Instance.OnInputDown())
+        {
+            Swipe_Start();
+        }*/
+	
+		if (swiping)
+        {
 			Swipe_Update ();
 		}
 
@@ -73,12 +75,7 @@ public class Swipe : MonoBehaviour {
 			Vector2 dir = (Vector2)InputManager.Instance.GetInputPosition () - prevPoint;
 			Directions direction = NavigationManager.Instance.getDirectionFromVector (dir);
 
-//			print ("swipe : " + direction.ToString() );
-
-			if ( onSwipe!=null)
-            {
-                onSwipe(direction);
-            }
+            TriggerSwipe(direction);
 
             Swipe_Exit ();
 		}
@@ -91,6 +88,18 @@ public class Swipe : MonoBehaviour {
 			Swipe_Exit ();
 		}
 	}
+
+    public void TriggerSwipe (Directions dir)
+    {
+        Flag.Instance.Hide();
+
+        WorldTouch.Instance.HandleOnSwipe();
+
+        if (onSwipe != null)
+        {
+            onSwipe(dir);
+        }
+    }
 
 	void Swipe_Exit () {
 		swiping = false;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class IslandInfo : MonoBehaviour {
 
@@ -53,7 +53,11 @@ public class IslandInfo : MonoBehaviour {
 
 	public void DisplayIslandInfo (Chunk chunk)
 	{
-		if (chunk.state == ChunkState.VisitedIsland)
+        if (chunk.IslandData.storyManager.CurrentStoryHandler.Story.name.StartsWith("Maison"))
+        {
+            uiText.text = "Maison";
+        }
+		else if (chunk.state == ChunkState.VisitedIsland)
         {
 			uiText.text = chunk.IslandData.storyManager.CurrentStoryHandler.Story.name;
 		} else {

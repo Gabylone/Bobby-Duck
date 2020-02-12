@@ -37,11 +37,11 @@ public class WeatherFeedback : InfoFeedbacks {
 	void HandleOnWrongLevel ()
 	{
 //		Print ("niveau insuffisant");
-		Print ("X");
+		Print ("Niveau trop bas");
 	}
 
 	void HandleOnFinishQuest (Quest quest)
 	{
-		Print ("+" + quest.experience + " xp" , Color.blue);
+		Print ("+" + quest.experience + " xp" , Color.white);
 	}
 }

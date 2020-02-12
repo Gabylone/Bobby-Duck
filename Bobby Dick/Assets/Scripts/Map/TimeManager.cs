@@ -15,7 +15,7 @@ public class TimeManager : MonoBehaviour {
 	public int rainRate_Min = 75;
 	public int rainRate_Max = 130;
 	public int rainDuration = 10;
-	int rainRate = 0;
+	private int rainRate = 0;
 
 	public Image nightImage;
 
@@ -148,7 +148,7 @@ public class TimeManager : MonoBehaviour {
 
 
 		++timeOfDay;
-		currentRain++;
+		//currentRain++;
 
 		if (timeOfDay == dayDuration)
 			timeOfDay = 0;
@@ -156,7 +156,7 @@ public class TimeManager : MonoBehaviour {
 		UpdateTimeOfDay ();
 
 		// rain image
-		UpdateRain();
+		//UpdateRain();
 
 		if (onNextHour != null)
 			onNextHour ();
@@ -271,7 +271,7 @@ public class TimeManager : MonoBehaviour {
 	}
 	void UpdateWeather() {
 		nightImage.gameObject.SetActive (dayState == DayState.Night);
-		rainImage.gameObject.SetActive (raining);
+		//rainImage.gameObject.SetActive (raining);
 	}
 	#endregion
 }

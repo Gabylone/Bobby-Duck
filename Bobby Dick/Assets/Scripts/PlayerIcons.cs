@@ -18,11 +18,9 @@ public class PlayerIcons : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-		//images = GetComponentsInChildren<Image> ();
-
 		Crews.playerCrew.onChangeCrewMembers += HandleOnChangeCrewMembers;
 
-		InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
+        InGameMenu.Instance.onOpenMenu += HandleOpenInventory;
 		InGameMenu.Instance.onCloseMenu += HandleOnCloseInventory;
 
         HandleOnChangeCrewMembers();
@@ -43,19 +41,20 @@ public class PlayerIcons : MonoBehaviour {
 
     void HandleOpenInventory ()
 	{
-		foreach (var item in images) {
-            item.color = Color.grey;
-		}
+        Invoke( "HandleOpenInventoryDelay" , 0.001f );
+	}
 
-        int id = Crews.playerCrew.CrewMembers.FindIndex(x => x.MemberID.SameAs(CrewMember.GetSelectedMember.MemberID));
-        if ( id < 0)
+    void HandleOpenInventoryDelay()
+    {
+        foreach (var item in images)
         {
-            Debug.Log("pas select");
+            item.color = Color.grey;
         }
 
+        int id = Crews.playerCrew.CrewMembers.FindIndex(x => x.MemberID.SameAs(CrewMember.GetSelectedMember.MemberID));
+
         images[id].color = Color.white;
-        //images[id].color = Color.clear;
-	}
+    }
 
 	void HandleOnChangeCrewMembers ()
 	{

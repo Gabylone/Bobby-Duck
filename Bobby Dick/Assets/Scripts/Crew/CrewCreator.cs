@@ -73,7 +73,6 @@ public class CrewCreator : MonoBehaviour
 
     public ApparenceItem GetApparenceItem(ApparenceType type, int id)
     {
-
         if ( (int) type >= apparenceGroups.Count)
         {
             Debug.LogError("ATTENTION : le type : " + type + " (" + ((int)type).ToString () + ") dépasse apparence groups count (l " + apparenceGroups.Count + ")");

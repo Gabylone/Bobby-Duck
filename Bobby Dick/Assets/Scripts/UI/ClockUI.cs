@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class ClockUI : MonoBehaviour {
 
@@ -59,7 +59,7 @@ public class ClockUI : MonoBehaviour {
 		float angle = TimeManager.Instance.timeOfDay * 360f / TimeManager.Instance.dayDuration;
 		Vector3 targetAngles = new Vector3 (0,0, angle);
 
-		HOTween.To ( clockBackground , duration , "eulerAngles" , targetAngles , false , EaseType.Linear , 0f );
+        clockBackground.Rotate(targetAngles, duration);
 		//clockBackground.eulerAngles = targetAngles;
 	}
 }

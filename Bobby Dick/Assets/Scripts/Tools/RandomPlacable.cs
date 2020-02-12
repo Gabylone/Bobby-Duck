@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class RandomPlacable : MonoBehaviour
 {
@@ -48,29 +48,34 @@ public class RandomPlacable : MonoBehaviour
 
     public void CheckProximityWithPlayer()
     {
+        Hide();
+
+        if (Chunk.currentChunk.IslandData != null)
+        {
+            return;
+        }
+
+        if ( NavigationManager.Instance.chunksTravelled < 2)
+        {
+            return;
+        }
+
         if (Random.value * 100 < chanceAppearing)
         {
             ResetPosition();
 
             if (Vector3.Distance(transform.position, Island.Instance.transform.position) < minDistanceToIsland)
             {
-                gameObject.SetActive(false);
+                return;
             }
-            else if (Vector3.Distance(transform.position, PlayerBoat.Instance.transform.position) < minDistanceToPlayerBoat)
-            {
-                gameObject.SetActive(false);
-            }
-            else
-            {
-                gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            gameObject.SetActive(false);
-        }
 
-        
+            if (Vector3.Distance(transform.position, PlayerBoat.Instance.transform.position) < minDistanceToPlayerBoat)
+            {
+                return;
+            }
+
+            Show();
+        }
     }
 
     void ResetPosition()
@@ -109,6 +114,16 @@ public class RandomPlacable : MonoBehaviour
         PlayerBoat.Instance.SetTargetPos(transform.position);
     }
 
+    void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player" && canTrigger)
@@ -126,13 +141,8 @@ public class RandomPlacable : MonoBehaviour
 
     public void Disappear()
     {
-        HOTween.To(transform, disappearDelay, "localScale", Vector3.zero, false, EaseType.EaseInBounce, 0f);
+        transform.DOScale(0f, disappearDelay).SetEase(Ease.InBounce);
 
-        Invoke("DisappearDelay", disappearDelay);
-    }
-
-    void DisappearDelay()
-    {
-        gameObject.SetActive(false);
+        Invoke("Hide", disappearDelay);
     }
 }

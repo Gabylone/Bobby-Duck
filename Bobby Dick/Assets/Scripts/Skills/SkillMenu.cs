@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class SkillMenu : MonoBehaviour {
 
+    public static SkillMenu Instance;
+
 	public GameObject group;
 
 	public bool opened = false;
 
+    public GameObject showSkillMenuButton;
+
     private void Awake()
     {
+        Instance = this;
+
         onShowSkillMenu = null;
         onHideSkillMenu = null;
     }
@@ -33,9 +39,13 @@ public class SkillMenu : MonoBehaviour {
 	public void Show () {
 
         InGameMenu.Instance.Open();
-        DisplayCrew.Instance.Show(CrewMember.GetSelectedMember);
+        //DisplayCrew.Instance.Show(CrewMember.GetSelectedMember);
+
+        showSkillMenuButton.SetActive(false);
 
         DisplayCrew.Instance.ShowSkillMenu();
+
+        LootUI.Instance.Hide();
 
         opened = true;
 
@@ -48,8 +58,10 @@ public class SkillMenu : MonoBehaviour {
 	public static OnHideCharacterStats onHideSkillMenu;
 	public void Close () {
 
-        InGameMenu.Instance.Hide();
-        DisplayCrew.Instance.Hide();
+        showSkillMenuButton.SetActive(true);
+
+        //InGameMenu.Instance.Hide();
+        //DisplayCrew.Instance.Hide();
 
         DisplayCrew.Instance.HideSkillMenu();
 

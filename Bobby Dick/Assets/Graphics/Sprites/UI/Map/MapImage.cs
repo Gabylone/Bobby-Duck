@@ -2,7 +2,7 @@
 //using UnityEngine.UI;
 //using System.Collections;
 //using System.Collections.Generic;
-//using Holoville.HOTween;
+//using DG.Tweening;
 //
 //public class MapImage : MonoBehaviour {
 //

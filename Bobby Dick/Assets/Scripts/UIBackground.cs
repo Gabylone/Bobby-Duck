@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Holoville.HOTween;
+using DG.Tweening;
 using System;
 
 public class UIBackground : MonoBehaviour {
 
 	RectTransform rectTransform;
 
-	public float initXPos = 0f;
+    public Vector2 initPos;
 	public float skillX = 0f;
 	public float hiddenX = 0f;
 
@@ -26,7 +26,7 @@ public class UIBackground : MonoBehaviour {
         CombatManager.Instance.onFightStart += HideBackground;
 		CombatManager.Instance.onFightEnd += HandleFightEnding;
 
-		initXPos = rectTransform.rect.position.x;
+		initPos = rectTransform.anchoredPosition;
 	}
 
     private void HandleOnChangeState(CombatManager.States currState, CombatManager.States prevState)
@@ -71,7 +71,7 @@ public class UIBackground : MonoBehaviour {
 
 	void ShowBackGround ()
 	{
-		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( initXPos , 0f ) );
+        rectTransform.DOAnchorPos(initPos, duration);
 
         playerIconsObj.SetActive(true);
 		//uiGroup.SetActive (true);
@@ -79,7 +79,7 @@ public class UIBackground : MonoBehaviour {
 
 	void MoveBackGround ()
 	{
-		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( skillX , 0f ) );
+        rectTransform.DOAnchorPos(new Vector2(skillX, initPos.y), duration);
 
 		//uiGroup.SetActive (false);
         playerIconsObj.SetActive(false);
@@ -87,7 +87,7 @@ public class UIBackground : MonoBehaviour {
 
 	void HideBackground ()
 	{
-		HOTween.To ( rectTransform  , duration , "anchoredPosition" , new Vector2 ( hiddenX , 0f ) );
+        rectTransform.DOAnchorPos(new Vector2(hiddenX, initPos.y), duration);
 
         playerIconsObj.SetActive(false);
 		//uiGroup.SetActive (false);

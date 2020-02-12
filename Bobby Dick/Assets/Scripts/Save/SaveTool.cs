@@ -15,6 +15,8 @@ public class SaveTool : MonoBehaviour
 {
 	public int chunkLimit = 10;
 
+    public bool usePlayerPrefs = false;
+
 	public static SaveTool Instance;
 
 	void Awake () {
@@ -36,7 +38,7 @@ public class SaveTool : MonoBehaviour
 	public void ResetIslandFolder ()
 	{
 		if ( DirectoryExists(GetSaveFolderPath() + "/Islands") == true ) {
-			Directory.Delete (GetSaveFolderPath() + "/Islands",true);
+            Directory.Delete (GetSaveFolderPath() + "/Islands",true);
 		}
 
 		Directory.CreateDirectory (GetSaveFolderPath() + "/Islands");
@@ -110,6 +112,11 @@ public class SaveTool : MonoBehaviour
 
     public bool FileExists(string mapName , string path)
     {
+        if (usePlayerPrefs)
+        {
+            //PlayerPrefs.GetString("")
+        }
+
         path = GetSaveFolderPath(mapName) + "/" + path + ".xml";
 
         byte[] bytes = Encoding.Unicode.GetBytes(path);
@@ -118,17 +125,6 @@ public class SaveTool : MonoBehaviour
         bool exists = (File.Exists(path));
 
         return exists;
-    }
-    public bool FileExists(string path)
-    {
-		path = GetSaveFolderPath () + "/" + path + ".xml";
-
-        byte[] bytes = Encoding.Unicode.GetBytes(path);
-        path = Encoding.Unicode.GetString(bytes);
-
-		bool exists = (File.Exists(path));
-
-		return exists;
     }
 	public bool DirectoryExists(string path)
 	{

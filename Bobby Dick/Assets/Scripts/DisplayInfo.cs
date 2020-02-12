@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class DisplayInfo : MonoBehaviour {
 
@@ -113,8 +113,8 @@ public class DisplayInfo : MonoBehaviour {
 
 	public void Show () {
 
-		HOTween.Kill (group.transform);
-		HOTween.Kill (rectTransform);
+        group.transform.DOKill();
+        rectTransform.DOKill();
 		CancelInvoke ("Hide");
 
 		Tween.ClearFade (group.transform);

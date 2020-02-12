@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class Flag : MonoBehaviour {
 
@@ -14,7 +14,7 @@ public class Flag : MonoBehaviour {
 
     public Camera cam;
 
-    bool visible = false;
+    public bool visible = false;
 
     SpriteRenderer spriteRenderer;
 
@@ -27,25 +27,19 @@ public class Flag : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        WorldTouch.onPointerDown += HandleOnPointerDown;
         WorldTouch.onPointerExit += HandleOnPointerExit;
 
-        PlayerBoat.Instance.onEndMovement += HandleOnEndMovement;
         NavigationManager.Instance.EnterNewChunk += HandleChunkEvent;
-
-        Swipe.onSwipe += HandleOnSwipe;
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
     }
 
-    private void HandleOnSwipe(Directions direction)
-    {
-        Hide();
-    }
-
     private void Update()
     {
-        if ( WorldTouch.Instance.touching && Swipe.Instance.timer > Swipe.Instance.minimumTime )
+        //if ( WorldTouch.Instance.touching )
+        if (WorldTouch.Instance.touching && Swipe.Instance.timer > Swipe.Instance.minimumTime )
         {
             if (!visible)
                 Show();
@@ -68,7 +62,6 @@ public class Flag : MonoBehaviour {
         {
             Debug.Log("failed to update flag position");
         }
-
     }
 
     void HandleChunkEvent ()
@@ -78,15 +71,16 @@ public class Flag : MonoBehaviour {
         PlayerBoat.Instance.SetTargetPos(transform.position);
     }
 
-    void HandleOnEndMovement()
+    public void HandleOnEndMovement()
     {
         Tween.Bounce(transform);
 
-        HOTween.Kill(spriteRenderer);
-        HOTween.To( spriteRenderer , Tween.defaultDuration , "color" , Color.clear );
+        spriteRenderer.DOKill();
+        spriteRenderer.DOFade(0f, Tween.defaultDuration);
 
         CancelInvoke("Hide");
         Invoke("Hide", Tween.defaultDuration);
+        
     }
 
 	void HandleOnTouchIsland ()
@@ -94,6 +88,10 @@ public class Flag : MonoBehaviour {
 		Hide ();
 	}
 
+    private void HandleOnPointerDown()
+    {
+
+    }
 
     void HandleOnPointerExit()
     {
@@ -106,13 +104,12 @@ public class Flag : MonoBehaviour {
 
     void Show()
     {
-        HOTween.Kill(spriteRenderer);
+        spriteRenderer.DOKill();
         CancelInvoke("Hide");
         spriteRenderer.color = Color.white;
 
         if (visible)
             return;
-
 
         visible = true;
 

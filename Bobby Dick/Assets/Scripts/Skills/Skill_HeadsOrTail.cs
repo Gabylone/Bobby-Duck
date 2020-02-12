@@ -40,10 +40,10 @@ public class Skill_HeadsOrTail : Skill {
 		base.ApplyEffect ();
 
 		if (heads) {
-			fighter.combatFeedback.Display ("!",Color.green);
+			fighter.combatFeedback.Display ("Bim !",Color.green);
 			fighter.TargetFighter.GetHit (fighter, fighter.crewMember.Attack , 2f);
 		} else {
-			fighter.combatFeedback.Display ("x", Color.red);
+			fighter.combatFeedback.Display ("Raté !", Color.red);
 		}
 
 		EndSkill ();

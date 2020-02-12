@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class Fighter : MonoBehaviour {
 
@@ -192,7 +192,6 @@ public class Fighter : MonoBehaviour {
 		// energy & status
 		crewMember.energy = 0;
 
-
 		onSkillDelay = null;
 
 		for (int i = 0; i < statusCount.Length; i++) {
@@ -215,12 +214,17 @@ public class Fighter : MonoBehaviour {
 
 		ChangeState (Fighter.states.none);
 
-		if ( HasStatus(Status.PreparingAttack) ) {
+        Vector3 targetPos = CombatManager.Instance.playerFighters_Parent.transform.position;
+        targetPos.x += crewMember.side == Crews.Side.Enemy ? 0.5f : -0.5f;
+
+        transform.DOMove(targetPos, moveBackDuration);
+
+        if ( HasStatus(Status.PreparingAttack) ) {
 
 			if (onSkillDelay != null) {
 				onSkillDelay (this);
 			}
-
+             
 			RemoveStatus (Status.PreparingAttack);
 			return;
 			//
@@ -245,17 +249,12 @@ public class Fighter : MonoBehaviour {
 			if ( crewMember.charges [i] > 0 )
 				crewMember.charges [i] -= 1;
 		}
-//		foreach (var item in crewMember.SpecialSkills) {
-//			if (item.currentCharge > 0)
-//				--item.currentCharge;
-//		}
 
 		CombatManager.Instance.StartActions ();
 
 		if (onSetTurn != null) {
-			onSetTurn ();
+			onSetTurn (); 
 		}
-
 
 	}
 
@@ -318,8 +317,6 @@ public class Fighter : MonoBehaviour {
 
 		Fade ();
 		CombatManager.Instance.DeleteFighter (this);
-//		CombatManager.Instance.NextTurn (true);
-//		print ("Skipping Turn : Member Is Dead");
 
 	}
 	#endregion
@@ -345,7 +342,7 @@ public class Fighter : MonoBehaviour {
 
 		Vector3 targetPos = TargetFighter.transform.position + dir * stopDistance;
 
-		HOTween.To ( transform , moveToTargetDuration , "position" , targetPos , false , EaseType.Linear , 0f);
+        transform.DOMove(targetPos, moveToTargetDuration);
 
 	}
 	public virtual void MoveToTarget_Update () {
@@ -367,12 +364,6 @@ public class Fighter : MonoBehaviour {
 		}
 
 	}
-//	public void ClampPos () {
-//		Vector3 pos = transform.localPosition;
-//		pos.x = Mathf.Clamp (pos.x, leftAnchor.localPosition.x , rightAnchor.localPosition.x);
-//
-//		transform.localPosition = pos;
-//	}
 	#endregion
 
 	#region move back
@@ -380,7 +371,7 @@ public class Fighter : MonoBehaviour {
 
 		Animator.SetFloat ("move", 1);
 
-		HOTween.To ( transform , moveBackDuration , "position" , initPos , false , EaseType.Linear , 0f);
+        transform.DOMove(initPos, moveBackDuration);
 
 	}
 
@@ -398,8 +389,6 @@ public class Fighter : MonoBehaviour {
 
 	#region hit
 	public virtual void hit_Start () {
-
-//		animator.SetInteger ("hitType", Random.Range (0,2));
 
 		hitting = false;
 
@@ -467,7 +456,6 @@ public class Fighter : MonoBehaviour {
 		
 	}
 	#endregion
-
 
 	public delegate void OnShowInfo();
 	public OnShowInfo onShowInfo;
@@ -575,7 +563,7 @@ public class Fighter : MonoBehaviour {
 				int xpPerMember = 25;
 
 				otherFighter.crewMember.AddXP (xpPerMember);
-				otherFighter.combatFeedback.Display ("" + xpPerMember, Color.blue);
+				otherFighter.combatFeedback.Display ("" + xpPerMember, Color.white);
 			}
 
 			crewMember.Kill ();
@@ -628,7 +616,7 @@ public class Fighter : MonoBehaviour {
 
 		if ( dodgeChange < dodgeSkill ) {
 			animator.SetTrigger("dodge");
-			combatFeedback.Display ("x", Color.red);
+			combatFeedback.Display ("Raté !", Color.red);
 			return true;
 		}
 

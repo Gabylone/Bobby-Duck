@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 using System;
 
 public class DisplayHunger_Icon : DisplayHunger {
@@ -20,6 +20,8 @@ public class DisplayHunger_Icon : DisplayHunger {
         // display food
     public GameObject displayFood_Obj;
     public float displayFood_Delay = 1.2f;
+    public Vector2 displayFood_InitPos;
+    public float displayFood_TargetXPos;
     public Text displayFood_Text;
     public Image displayFood_Image;
     public Sprite displayFood_FoodSprite;
@@ -27,12 +29,12 @@ public class DisplayHunger_Icon : DisplayHunger {
 
     public float lerpToHideHunger = 0.3f;
 
+
     public override void Start ()
 	{
 		base.Start ();
 
 		linkedIcon = GetComponentInParent<MemberIcon> ();
-
 
 		HideHunger ();
 		HideHeart ();
@@ -41,6 +43,7 @@ public class DisplayHunger_Icon : DisplayHunger {
 
         InitEvents();
 
+        displayFood_InitPos = displayFood_Obj.GetComponent<RectTransform>().anchoredPosition;
     }
 
     void ShowFoodFeedback()
@@ -60,6 +63,15 @@ public class DisplayHunger_Icon : DisplayHunger {
     {
         displayFood_Obj.SetActive(true);
 
+        if (hungerGroup.activeSelf)
+        {
+            displayFood_Obj.GetComponent<RectTransform>().anchoredPosition = new Vector2(displayFood_TargetXPos, displayFood_InitPos.y);
+        }
+        else
+        {
+            displayFood_Obj.GetComponent<RectTransform>().anchoredPosition = displayFood_InitPos;
+        }
+
         displayFood_Image.sprite = displayFood_HeartSprite;
         displayFood_Text.text = "- " + i;
 
@@ -69,6 +81,15 @@ public class DisplayHunger_Icon : DisplayHunger {
 
     public void DisplayFoodAmount(int i)
     {
+        if ( hungerGroup.activeSelf)
+        {
+            displayFood_Obj.GetComponent<RectTransform>().anchoredPosition = new Vector2(displayFood_TargetXPos, displayFood_InitPos.y);
+        }
+        else
+        {
+            displayFood_Obj.GetComponent<RectTransform>().anchoredPosition = displayFood_InitPos;
+        }
+
         displayFood_Obj.SetActive(true);
 
         displayFood_Image.sprite = displayFood_FoodSprite;

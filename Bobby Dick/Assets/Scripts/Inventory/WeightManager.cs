@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class WeightManager : MonoBehaviour {
 
@@ -49,14 +49,6 @@ public class WeightManager : MonoBehaviour {
 	{
 		if (upgradeType == BoatUpgradeManager.UpgradeType.Cargo)
 			UpdateDisplay ();
-	}
-
-	void Update () {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            GoldManager.Instance.CheckGold(30000);
-            CheckWeight(200);
-        }
 	}
 
 	#region weight control

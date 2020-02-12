@@ -184,17 +184,17 @@ MonoBehaviour:
       price: 200
     - apparenceType: 0
       sprite: {fileID: 21300004, guid: a75f796c0c5968043b5f0d424c586bd7, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 300
     - apparenceType: 0
       sprite: {fileID: 21300006, guid: a75f796c0c5968043b5f0d424c586bd7, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
     - apparenceType: 0
       sprite: {fileID: 21300008, guid: a75f796c0c5968043b5f0d424c586bd7, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
   - items:
@@ -210,17 +210,17 @@ MonoBehaviour:
       price: 50
     - apparenceType: 1
       sprite: {fileID: 21300004, guid: b1e1a91238878be4e9002020eb085783, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 100
     - apparenceType: 1
       sprite: {fileID: 21300006, guid: b1e1a91238878be4e9002020eb085783, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 200
     - apparenceType: 1
       sprite: {fileID: 21300008, guid: b1e1a91238878be4e9002020eb085783, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 500
   - items:
@@ -236,17 +236,17 @@ MonoBehaviour:
       price: 10
     - apparenceType: 2
       sprite: {fileID: 21300004, guid: 20bb8def5c4a35f4e85a255211a368ad, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
     - apparenceType: 2
       sprite: {fileID: 21300006, guid: 20bb8def5c4a35f4e85a255211a368ad, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
     - apparenceType: 2
       sprite: {fileID: 21300008, guid: 20bb8def5c4a35f4e85a255211a368ad, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
   - items:
@@ -272,12 +272,12 @@ MonoBehaviour:
       price: 10
     - apparenceType: 3
       sprite: {fileID: 21300006, guid: 9edc55f9a9813c14db8af1c721d57cfb, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
     - apparenceType: 3
       sprite: {fileID: 21300008, guid: 9edc55f9a9813c14db8af1c721d57cfb, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
   - items:
@@ -293,17 +293,17 @@ MonoBehaviour:
       price: 10
     - apparenceType: 4
       sprite: {fileID: 21300004, guid: 2656cb2a6242d344a8eead0155cfbac8, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
     - apparenceType: 4
       sprite: {fileID: 21300006, guid: 2656cb2a6242d344a8eead0155cfbac8, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
     - apparenceType: 4
       sprite: {fileID: 21300008, guid: 2656cb2a6242d344a8eead0155cfbac8, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
   - items:
@@ -319,17 +319,17 @@ MonoBehaviour:
       price: 10
     - apparenceType: 5
       sprite: {fileID: 21300004, guid: de380bfc18d6aa443b2c95b8b1c93daa, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
     - apparenceType: 5
       sprite: {fileID: 21300006, guid: de380bfc18d6aa443b2c95b8b1c93daa, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
     - apparenceType: 5
       sprite: {fileID: 21300008, guid: de380bfc18d6aa443b2c95b8b1c93daa, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 10
   - items:
@@ -376,12 +376,12 @@ MonoBehaviour:
       price: 10
     - apparenceType: 7
       sprite: {fileID: 21300000, guid: d7201fbeafe85e548a8eccbd7f05fd2d, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 50
     - apparenceType: 7
       sprite: {fileID: 21300000, guid: 0adba394aaa8bfa4d9f9d0a8184d386f, type: 3}
-      locked: 1
+      locked: 0
       id: 0
       price: 50
   - items:
@@ -403,11 +403,21 @@ MonoBehaviour:
       price: 100
     - apparenceType: 9
       sprite: {fileID: 21300000, guid: e34527dd7ade9a04b999651cb7b9e590, type: 3}
-      locked: 0
+      locked: 1
       id: 1
       price: 100
     - apparenceType: 9
       sprite: {fileID: 21300000, guid: e34527dd7ade9a04b999651cb7b9e590, type: 3}
-      locked: 0
+      locked: 1
+      id: 2
+      price: 100
+    - apparenceType: 9
+      sprite: {fileID: 21300000, guid: e34527dd7ade9a04b999651cb7b9e590, type: 3}
+      locked: 1
+      id: 2
+      price: 100
+    - apparenceType: 9
+      sprite: {fileID: 21300000, guid: e34527dd7ade9a04b999651cb7b9e590, type: 3}
+      locked: 1
       id: 2
       price: 100

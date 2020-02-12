@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class WorldTouch : MonoBehaviour
 {
-
     public static WorldTouch Instance;
 
     public delegate void OnTouchWorld();
@@ -26,9 +25,13 @@ public class WorldTouch : MonoBehaviour
 
     public bool isEnabled = false;
 
+    Vector2 oldPosition;
+
     public bool locked = false;
 
     bool invoking = false;
+
+    public float invokeDelay = 0.5f;
 
     private void Awake()
     {
@@ -38,13 +41,7 @@ public class WorldTouch : MonoBehaviour
         onPointerExit = null;
     }
 
-    // Use this for initialization
-    void Start()
-    {
-        Swipe.onSwipe += HandleOnSwipe;
-    }
-
-    private void Enable()
+    public void Enable()
     {
         isEnabled = true;
         invoking = false;
@@ -65,7 +62,7 @@ public class WorldTouch : MonoBehaviour
         locked = false;
     }
 
-    void HandleOnSwipe(Directions direction)
+    public void HandleOnSwipe()
     {
         touching = false;
         swipped = true;
@@ -81,7 +78,7 @@ public class WorldTouch : MonoBehaviour
                 invoking = true;
 
                 CancelInvoke("Enable");
-                Invoke("Enable", 0.01f);
+                Invoke("Enable", invokeDelay);
             }
         }
         else
@@ -96,14 +93,16 @@ public class WorldTouch : MonoBehaviour
 
     public bool IsEnabled ()
     {
-        //return isEnabled && IsPointerOverUIObject() == false;
-        return isEnabled;
+        return isEnabled && IsPointerOverUIObject() == false;
+        //return isEnabled;
     }
 
     public void OnMouseDown()
     {
         if (locked)
+        {
             return;
+        }
 
         if (!IsEnabled())
         {
@@ -145,7 +144,28 @@ public class WorldTouch : MonoBehaviour
     private bool IsPointerOverUIObject()
     {
         PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+
+        if (Application.isMobilePlatform)
+        {
+            if (Input.touchCount > 0)
+            {
+                Vector2 v = new Vector2(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
+
+                eventDataCurrentPosition.position = v;
+                oldPosition = v;
+            }
+            else
+            {
+                eventDataCurrentPosition.position = oldPosition;
+            }
+        }
+        else
+        {
+            eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+
+
+        }
+
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
 

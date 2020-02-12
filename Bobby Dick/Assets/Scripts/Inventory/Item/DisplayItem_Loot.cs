@@ -42,7 +42,6 @@ public class DisplayItem_Loot : DisplayItem {
         // select
 		if (selectedDisplayItem != null) {
 			selectedDisplayItem.Deselect ();
-
 		}
 
         selectedDisplayItem = this;
@@ -55,7 +54,7 @@ public class DisplayItem_Loot : DisplayItem {
 
 		Tween.Bounce (transform);
 
-		button.image.color = Color.blue;
+		button.image.color = LootManager.Instance.selectedButtonColor;
 
 	}
 
@@ -81,7 +80,7 @@ public class DisplayItem_Loot : DisplayItem {
 
 		float a = 0.7f;
 
-        if (CrewMember.GetSelectedMember.GetEquipment(HandledItem.EquipmentPart) == HandledItem && index == 0 )
+        /*if (CrewMember.GetSelectedMember.GetEquipment(HandledItem.EquipmentPart) == HandledItem && index == 0 )
         {
             if (HandledItem.category == ItemCategory.Clothes || HandledItem.category == ItemCategory.Weapon)
             {
@@ -94,7 +93,7 @@ public class DisplayItem_Loot : DisplayItem {
             }
         }
 
-        image.sprite = LootUI.Instance.itemSprite;
+        image.sprite = LootUI.Instance.itemSprite;*/
 
         if ( HandledItem.level > CrewMember.GetSelectedMember.Level ) {
 

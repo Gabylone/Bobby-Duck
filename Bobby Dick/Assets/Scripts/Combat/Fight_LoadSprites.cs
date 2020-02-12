@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class Fight_LoadSprites : MonoBehaviour {
 
@@ -88,7 +88,7 @@ public class Fight_LoadSprites : MonoBehaviour {
 	public void FadeSprites (float dur) {
 
 		foreach ( SpriteRenderer sprite in allSprites ) {
-			HOTween.To (sprite , dur , "color" , Color.clear);
+            sprite.DOFade(0f, dur);
 		}
 	}
 	#endregion

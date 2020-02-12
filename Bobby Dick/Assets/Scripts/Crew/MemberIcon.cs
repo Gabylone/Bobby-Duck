@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class MemberIcon : MonoBehaviour {
 
@@ -86,21 +86,25 @@ public class MemberIcon : MonoBehaviour {
 
 	}
 
-	#region overing
-	public void OnPointerDown() {
+    #region overing
+    public void OnPointerDown()
+    {
+        if (member.side == Crews.Side.Enemy)
+        {
+            StoryInput.Instance.LockFromMember();
+            GetComponentInChildren<StatGroup>().Display(member);
+            return;
+        }
 
-		if (member.side == Crews.Side.Enemy) {
-			StoryInput.Instance.LockFromMember ();
-			GetComponentInChildren<StatGroup> ().Display (member);
-			return;
-		}
+        if (!InGameMenu.Instance.canOpen)
+        {
+            print("cannot open player loot");
+            return;
+        }
 
-		if ( !InGameMenu.Instance.canOpen ) {
-			print ("cannot open player loot");
-			return;
-		}
+        LootUI.Instance.OpenMemberLoot(member);
 
-        LootUI.Instance.OpenMemberLoot( member );
+        SkillMenu.Instance.Close();
     }
     #endregion
 
@@ -116,7 +120,7 @@ public class MemberIcon : MonoBehaviour {
 
         if (currentPlacingType == Crews.PlacingType.Map) {
 
-            PlayerIcons.Instance.GetImage(index).color = Color.white;
+            //PlayerIcons.Instance.GetImage(index).color = Color.white;
 
             if (index < 0) {
 				Debug.LogError ("index : " + index + " mapanchors :" + Crews.getCrew (member.side).mapAnchors.Length);
@@ -128,12 +132,12 @@ public class MemberIcon : MonoBehaviour {
 		}
         else
         {
-            PlayerIcons.Instance.GetImage(index).color = Color.clear;
+            //PlayerIcons.Instance.GetImage(index).color = Color.clear;
         }
 
-		//Debug.Log ("Moving To : " + Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].name);
+        //Debug.Log ("Moving To : " + Crews.getCrew(member.side).CrewAnchors [(int)targetPlacingType].name);
 
-		HOTween.To (rectTransform, moveDuration , "position" , targetPos , false , EaseType.Linear , 0f );
+        rectTransform.DOMove(targetPos, moveDuration);
 
 		switch (currentPlacingType) {
 
@@ -201,7 +205,7 @@ public class MemberIcon : MonoBehaviour {
 		if (member.side == Crews.Side.Player)
 			targetScale.x = -targetScale.x;
 
-		HOTween.To ( group.transform , moveDuration / 2f , "localScale" , targetScale );
+        group.transform.DOScale(targetScale, moveDuration);
 
 	}
 	public void ShowBody () {
@@ -213,7 +217,7 @@ public class MemberIcon : MonoBehaviour {
         if (member.side == Crews.Side.Player)
             targetScale.x = -targetScale.x;
 
-        HOTween.To(group.transform, moveDuration / 2f, "localScale", targetScale);
+        group.transform.DOScale(targetScale,moveDuration);
 
     }
 

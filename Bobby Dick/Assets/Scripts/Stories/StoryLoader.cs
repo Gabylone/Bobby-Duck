@@ -59,6 +59,9 @@ public class StoryLoader : MonoBehaviour {
 	{
 		minFreq = 0f;
 
+        // set language
+        path += GameManager.language.ToString();
+
 		GetFiles (path);
 
 		for (int i = 0; i < storyFiles.Length; ++i )
@@ -84,20 +87,19 @@ public class StoryLoader : MonoBehaviour {
 			{
 				newStory.name = rowContent [0];
 
+				double frequence;
 
-				decimal frequence;
+                string value = rowContent[1];//.Replace (',', '.');
 
-				string value = rowContent [1].Replace (',', '.');
-
-				bool canParse = decimal.TryParse (value ,out frequence);
+				bool canParse = double.TryParse (value ,out frequence);
 
 				if ( canParse== false){ 
-					print ("ne peut pas parse la freq dans : " + newStory.name + " TRY PARSE : " + rowContent[1]);
-				}
+                    Debug.LogError("ne peut pas parse la freq dans : " + newStory.name + " TRY PARSE : ");
+					Debug.LogError(value);
+                }
 
-
-					// set story frequence
-				newStory.freq = (float)frequence;
+                // set story frequence
+                newStory.freq = (float)frequence;
 				newStory.rangeMin = minFreq;
 				newStory.rangeMax = minFreq + newStory.freq;
 
@@ -164,25 +166,18 @@ public class StoryLoader : MonoBehaviour {
 		switch (storyType) {
 		case StoryType.Normal:
 			return IslandStories;
-			break;
 		case StoryType.Treasure:
 			return TreasureStories;
-			break;
 		case StoryType.Home:
 			return HomeStories;
-			break;
 		case StoryType.Clue:
 			return ClueStories;
-			break;
 		case StoryType.Boat:
 			return BoatStories;
-			break;
 		case StoryType.Quest:
 			return Quests;
-			break;
 		default:
 			return IslandStories;
-			break;
 		}
 	}
 	public int getStoryIndexFromPercentage ( StoryType type ) {
@@ -228,9 +223,6 @@ public class StoryLoader : MonoBehaviour {
 	{
 		int storyIndex = getStories (storyType).FindIndex (x => x.name == storyName);
 
-		if (storyIndex < 0) {
-			Debug.LogError ("coun't find story / " + storyName + " /, returning null");
-		}
 
 		return storyIndex;
 	}

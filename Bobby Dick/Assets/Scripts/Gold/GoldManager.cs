@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class GoldManager : MonoBehaviour {
 
@@ -41,13 +41,13 @@ public class GoldManager : MonoBehaviour {
 		LootUI.useInventory+=HandleUseInventory;
 	}
 
-    void Update()
+    /*void Update()
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
             AddGold( 100 );
         }
-    }
+    }*/
 
     void HandleUseInventory (InventoryActionType actionType)
 	{

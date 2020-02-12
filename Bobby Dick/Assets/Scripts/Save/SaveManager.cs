@@ -135,8 +135,6 @@ public class SaveManager : MonoBehaviour
 	}
 	#endregion
 
-
-
 	/// <summary>
 	/// load
 	/// </summary>
@@ -200,7 +198,7 @@ public class SaveManager : MonoBehaviour
 //	void SaveAllIslandsCoroutine () {
 
 //		LoadingScreen.Instance.StartLoading ("Sauvegarde îles", MapGenerator.Instance.MapScale * MapGenerator.Instance.MapScale);
-		LoadingScreen.Instance.StartLoading ("Sauvegarde îles", MapGenerator.Instance.MapScale * MapGenerator.Instance.islandsPerCol);
+		LoadingScreen.Instance.StartLoading ("Sauvegarde îles", MapGenerator.Instance.MapScale * MapGenerator.Instance.IslandsPerCol);
 
 		yield return new WaitForEndOfFrame ();
 
@@ -324,7 +322,7 @@ public class PlayerInfo
     public void AddApparenceItem(ApparenceItem apparenceItem)
     {
         apparenceItems.Add(apparenceItem);
-
+       
         CrewCreator.Instance.GetApparenceItem(apparenceItem.apparenceType, apparenceItem.id).locked = false;
     }
 
@@ -351,7 +349,7 @@ public class GameData
 	public int 					karma = 0;
 	public int 					bounty = 0;
 
-	public Formula[] 			formulas;
+    public List<Formula>        formulas = new List<Formula>();
 
 	public PlayerBoatInfo 		playerBoatInfo;
 

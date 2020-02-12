@@ -71,10 +71,9 @@ public class DisplayPurchase : MonoBehaviour {
 
     public void Buy()
     {
-        apparenceItem.locked = false;
-
         PlayerInfo.Instance.RemovePearl(apparenceItem.price);
 
+        apparenceItem.locked = false;
         PlayerInfo.Instance.AddApparenceItem(apparenceItem);
 
         CrewCreator.Instance.UpdateApparenceItems();

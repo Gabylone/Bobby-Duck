@@ -6,9 +6,6 @@ public class PlayerBoat : Boat {
 
 	public static PlayerBoat Instance;
 
-	public delegate void OnEndMovement ();
-	public OnEndMovement onEndMovement;
-
     public LayerMask layerMask;
 
     void Awake()
@@ -57,14 +54,17 @@ public class PlayerBoat : Boat {
 	{
 		base.EndMovenent ();
 
+        Tween.Bounce(transform);
+
         WorldTouch.Instance.touching = false;
 
         SetTargetPos(transform.position);
 
+        agent.isStopped = true;
+
         moving = false;
 
-        if ( onEndMovement != null )
-			onEndMovement ();
+        Flag.Instance.HandleOnEndMovement();
 	}
 
 	public override void UpdatePositionOnScreen ()
@@ -77,7 +77,7 @@ public class PlayerBoat : Boat {
 
 	void OnTriggerEnter (Collider collider) {
 
-		if (collider.tag == "Flag")
+		if (collider.tag == "Flag" && !WorldTouch.Instance.touching)
         {
 			EndMovenent ();
 		}

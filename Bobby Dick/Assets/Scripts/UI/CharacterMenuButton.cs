@@ -41,7 +41,7 @@ public class CharacterMenuButton : MonoBehaviour {
 			print ("skill l : " + SkillManager.jobSprites.Length + " / member job " + (int)member.job);
 
 		jobImage.sprite = SkillManager.jobSprites [(int)member.job];
-		jobText.text = SkillManager.jobNames [(int)member.job];
+		//jobText.text = SkillManager.jobNames [(int)member.job];
 
 		Tween.Bounce (jobImage.transform);
 

@@ -24,6 +24,8 @@ public class LootManager : MonoBehaviour {
 	[SerializeField]
 	private CategoryContent inventoryCategoryContent;
 
+    public Color selectedButtonColor = Color.cyan;
+
 	public delegate void UdpateLoot();
 	public UdpateLoot updateLoot;
 
@@ -78,7 +80,7 @@ public class LootManager : MonoBehaviour {
 
         if ( debugItems)
         {
-            playerLoot.Randomize (ItemLoader.allCategories,3);
+            playerLoot.Randomize (ItemLoader.allCategories,10);
             Debug.LogError("debugging items");
         }
         else
@@ -271,23 +273,16 @@ public class LootManager : MonoBehaviour {
 		switch (catContentType) {
 		case CategoryContentType.Inventory:
 			return inventoryCategoryContent;
-			break;
-
 		case CategoryContentType.OtherLoot:
 			return lootCategoryContent_Other;
-			break;
 		case CategoryContentType.PlayerLoot:
 			return lootCategoryContent_Player;
-			break;
 		case CategoryContentType.PlayerTrade:
 			return tradeCategoryContent_Player;
-			break;
 		case CategoryContentType.OtherTrade:
 			return tradeCategoryContent_Other;
-			break;
 		case CategoryContentType.Combat:
 			return tradeCategoryContent_Combat;
-			break;
 		}
 		print ("category content reached zero");
 		return defaultCategoryContent;
@@ -303,8 +298,6 @@ public class LootManager : MonoBehaviour {
 			}
 
 			return foodSprites [id];
-
-			break;
 		case ItemCategory.Weapon:
 
 			if (weaponSprites.Length == 0) {
@@ -312,8 +305,6 @@ public class LootManager : MonoBehaviour {
 			}
 
 			return weaponSprites [id];
-
-			break;
 		case ItemCategory.Clothes:
 
 			if (clotheSprites.Length == 0) {
@@ -321,8 +312,6 @@ public class LootManager : MonoBehaviour {
 			}
 
 			return clotheSprites [id];
-
-			break;
 		case ItemCategory.Misc:
 
 			if (miscSprites.Length == 0) {
@@ -336,8 +325,6 @@ public class LootManager : MonoBehaviour {
 			}
 
 			return miscSprites [id];
-
-			break;
 		default:
 
 			if (miscSprites.Length == 0) {
@@ -345,8 +332,6 @@ public class LootManager : MonoBehaviour {
 			}
 
 			return miscSprites [id];
-
-			break;
 		}
 	}
 }

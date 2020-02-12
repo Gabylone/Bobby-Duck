@@ -23,15 +23,12 @@ public class LootUI : MonoBehaviour {
 
 	public RectTransform scollViewRectTransform;
 
-	Loot handledLoot;
+	private Loot handledLoot;
 
 	private Item selectedItem = null;
 
 	public delegate void OnSetSelectedItem ();
 	public static OnSetSelectedItem onSetSelectedItem;
-
-    public Sprite itemSprite;
-    public Sprite equipedItemSprite;
 
     public void ClearSelectedItem()
     {
@@ -74,9 +71,11 @@ public class LootUI : MonoBehaviour {
 
     public bool visible = false;
 
-	[Header("Item Buttons")]
-	public DisplayItem_Loot[] displayItems = new DisplayItem_Loot[0];
-    public DisplayItem_Loot displayEquipedItem;
+    [Header("Item Buttons")]
+    public DisplayItem_Loot[] displayItems = new DisplayItem_Loot[0];
+
+    public DisplayItem_Loot displayWeaponItem;
+    public DisplayItem_Loot displayClotheItem;
 
     public DisplayItem_Selected selectedItemDisplay;
 
@@ -109,6 +108,7 @@ public class LootUI : MonoBehaviour {
 	}
 
 	void Start () {
+
 		InGameMenu.onRemoveItemFromMember += HandleOnRemoveItemFromMember;
 
 		RayBlocker.onTouchRayBlocker += HandleOnTouchRayBlocker;
@@ -145,6 +145,8 @@ public class LootUI : MonoBehaviour {
 
         InGameMenu.Instance.Open();
 
+        currentPage = 0;
+
         ClearSelectedItem();
 
 		currentSide = side;
@@ -157,19 +159,18 @@ public class LootUI : MonoBehaviour {
 		InitButtons ();
 		InitCategory();
 
-		visible = true;
-		lootObj.SetActive (true);
 
         closeButton.SetActive(OnOtherLoot());
 
+        visible = true;
+        lootObj.SetActive(true);
 
-        UpdateLootUI ();
+        UpdateLootUI();
 
-        //Tween.Bounce ( lootObj.transform , 0.2f , 1.05f);
-
-
-		if (onShowLoot != null)
+        if (onShowLoot != null)
 			onShowLoot ();
+
+        OtherInventory.Instance.LerpIn();
 	}
 
     public void Close()
@@ -179,26 +180,13 @@ public class LootUI : MonoBehaviour {
 
         visible = false;
 
-        if (OnOtherLoot())
-        {
-
-            StoryReader.Instance.NextCell();
-            StoryReader.Instance.UpdateStory();
-
-            InGameMenu.Instance.Hide();
-
-            Crews.getCrew(Crews.Side.Player).captain.Icon.MoveToPoint(Crews.PlacingType.Discussion);
-
-        }
-
-        OtherInventory.Instance.type = OtherInventory.Type.None;
-
-        Hide();
-
         if (onHideLoot != null)
         {
             onHideLoot();
         }
+
+        OtherInventory.Instance.LerpOut();
+        Invoke("Hide", OtherInventory.Instance.lootTransition_Duration);
     }
 
     public void TakeAll()
@@ -246,6 +234,9 @@ public class LootUI : MonoBehaviour {
         switchToLoot.SetActive(false);
         switchToPlayer.SetActive(false);
         takeAllButton.SetActive(false);
+
+        previousPageButton.SetActive(false);
+        nextPageButton.SetActive(false);
     }
 
     public void InitButtons ()
@@ -276,13 +267,37 @@ public class LootUI : MonoBehaviour {
 		default:
 			break;
 		}
-	}
 
-	public delegate void OnHideLoot ();
+        if (currentPage > 0)
+        {
+            previousPageButton.SetActive(true);
+        }
+
+        if (handledLoot.AllItems[(int)currentCat].Count > ItemPerPage * (currentPage+1) )
+        {
+            nextPageButton.SetActive(true);
+        }
+
+    }
+
+    public delegate void OnHideLoot ();
 	public static OnHideLoot onHideLoot;
-	void Hide () {
-		lootObj.SetActive (false);
-	}
+    public void Hide()
+    {
+        lootObj.SetActive(false);
+
+        if (OnOtherLoot())
+        {
+            StoryReader.Instance.NextCell();
+            StoryReader.Instance.UpdateStory();
+
+            InGameMenu.Instance.Hide();
+
+            Crews.getCrew(Crews.Side.Player).captain.Icon.MoveToPoint(Crews.PlacingType.Discussion);
+        }
+
+        OtherInventory.Instance.type = OtherInventory.Type.None;
+    }
     bool OnOtherLoot ()
     {
         return OtherInventory.Instance.type == OtherInventory.Type.Loot || OtherInventory.Instance.type == OtherInventory.Type.Trade;
@@ -297,14 +312,33 @@ public class LootUI : MonoBehaviour {
 	#region item button	
 	public void UpdateItemButtons () {
 
-        int displayItemIndex = 0;
+        Item weapon = CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon);
+        if (weapon != null)
+        {
+            displayWeaponItem.gameObject.SetActive(true);
+            displayWeaponItem.HandledItem = weapon;
+        }
+        else
+        {
+            displayWeaponItem.gameObject.SetActive(false);
+        }
 
-        displayEquipedItem.gameObject.SetActive(false);
+        Item clothe = CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes);
+        if ( clothe != null)
+        {
+            displayClotheItem.gameObject.SetActive(true);
+            displayClotheItem.HandledItem = clothe;
+        }
+        else
+        {
+            displayClotheItem.gameObject.SetActive(false);
+        }
 
-        if ( (currentCat == ItemCategory.Clothes || currentCat == ItemCategory.Weapon) && currentPage == 0 && currentSide == Crews.Side.Player)
+        /*if ( (currentCat == ItemCategory.Clothes || currentCat == ItemCategory.Weapon) && currentPage == 0 && currentSide == Crews.Side.Player)
         {
             // get equiped item 
             Item equipedItem = CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Weapon);
+
             if ( currentCat == ItemCategory.Clothes)
                 equipedItem = CrewMember.GetSelectedMember.GetEquipment(CrewMember.EquipmentPart.Clothes);
 
@@ -313,23 +347,20 @@ public class LootUI : MonoBehaviour {
             {
                 displayEquipedItem.gameObject.SetActive(true);
                 displayEquipedItem.HandledItem = equipedItem;
-
-                // displayItems[displayItemIndex].HandledItem = equipedItem;
-                // ++displayItemIndex;
-
             }
 
-        }
+        }*/
 
-		int a = currentPage * ItemPerPage;
+        int itemIndex = currentPage * ItemPerPage;
+        int l = ItemPerPage;
 
-		for (int i = 0; i < ItemPerPage; ++i ) {
+        for (int i = 0; i < l; ++i ) {
 
 			DisplayItem_Loot displayItem = displayItems [i];
 
-			if ( a < handledLoot.AllItems [(int)currentCat].Count ) {
+			if ( itemIndex < handledLoot.AllItems [(int)currentCat].Count ) {
 
-                Item item = handledLoot.AllItems[(int)currentCat][a];
+                Item item = handledLoot.AllItems[(int)currentCat][itemIndex];
 				displayItem.HandledItem = item;
 
                 displayItem.gameObject.SetActive(true);
@@ -340,14 +371,14 @@ public class LootUI : MonoBehaviour {
                 displayItem.gameObject.SetActive(false);
             }
 
-            a++;
+            itemIndex++;
 		}
+
 
 	}
 	#endregion
 
 	#region category navigation
-
 	void InitCategory ()
 	{
 		for (int catIndex = 0; catIndex < categoryButtons.Length; catIndex++) {
@@ -414,7 +445,10 @@ public class LootUI : MonoBehaviour {
 			// no items in category
 			if ( handledLoot.AllItems[buttonIndex].Count == 0 ) {
 
-                if (currentSide == Crews.Side.Enemy)
+                categoryButtons[buttonIndex].interactable = false;
+                categoryButtons[buttonIndex].image.color = LootManager.Instance.item_EmptyColor;
+
+                /*if (currentSide == Crews.Side.Enemy)
                 {
                     categoryButtons[buttonIndex].interactable = false;
                     categoryButtons[buttonIndex].image.color = LootManager.Instance.item_EmptyColor;
@@ -440,7 +474,7 @@ public class LootUI : MonoBehaviour {
 
                     categoryButtons[buttonIndex].interactable = false;
                     categoryButtons[buttonIndex].image.color = LootManager.Instance.item_EmptyColor;
-                }
+                }*/
 
             }
             else
@@ -492,12 +526,6 @@ public class LootUI : MonoBehaviour {
 	}
 	#endregion
 
-	public int CurrentPage {
-		get {
-			return currentPage;
-		}
-	}
-
 	public GameObject LootObj {
 		get {
 			return lootObj;
@@ -507,10 +535,23 @@ public class LootUI : MonoBehaviour {
 		}
 	}
 
+    public void NextPage()
+    {
+        currentPage++;
+        UpdateLootUI();
+    }
+
+    public void PreviousPage()
+    {
+        --currentPage;
+        UpdateLootUI();
+    }
+
     public void OpenMemberLoot()
     {
         OpenMemberLoot(Crews.playerCrew.captain);
     }
+
     public void OpenMemberLoot(CrewMember targetCrewMember)
     {
         InGameMenu.Instance.Open();

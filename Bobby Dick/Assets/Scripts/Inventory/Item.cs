@@ -9,7 +9,14 @@ public class Item {
 
 	public int ID = 0;
 
-	public string 	name 		= "";
+    public string name
+    {
+        get
+        {
+            return names[(int)GameManager.language];
+        }
+    }
+    public string[] names;
 	public int 		value 		= 0;
 	public int 		price 		= 0;
 	public int 		weight 		= 0;
@@ -27,22 +34,25 @@ public class Item {
 
 		int _id,
 
-		string _name,
-		string _description,
+		string _name_fr,
+		string _name_en,
+        string _description,
 		int _value,
 		int _price,
 		int _weight,
 		int _level,
 		int _spriteID,
-//		int _type,
 
 		ItemCategory _cat
 		)
 	{
 		ID = _id;
 
-		name = _name;
-		value = _value;
+        names = new string[2];
+        names[0] = _name_fr;
+        names[1] = _name_en;
+
+        value = _value;
 		price = _price;
 		weight = _weight;
 		level = _level;
@@ -50,9 +60,6 @@ public class Item {
 		spriteID = _spriteID;
 
 		category = _cat;
-//
-//		Debug.Log ("item name : " + name);
-//		Debug.Log ("item sprite id : " + spriteID);
 	}
 
 	[OnSerialized()]

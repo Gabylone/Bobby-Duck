@@ -83,7 +83,6 @@ public class EnemyBoat : Boat {
 
             if (Vector2.Distance(targetPos, transform.position) < 0.5f)
             {
-                Debug.Log("left");
                 Leave();
             }
 
@@ -140,7 +139,7 @@ public class EnemyBoat : Boat {
     void ExitScreen()
     {
         Vector3 corner = NavigationManager.Instance.GetCornerPosition(otherBoatInfo.currentDirection);
-        Debug.Log("target position : " + otherBoatInfo.currentDirection);
+        //Debug.Log("target position : " + otherBoatInfo.currentDirection);
 
         Vector3 p = corner + (corner - Vector3.zero).normalized * decalToCenter;
 
@@ -161,8 +160,6 @@ public class EnemyBoat : Boat {
 		base.UpdatePositionOnScreen ();
 
         Vector3 corner = NavigationManager.Instance.GetOppositeCornerPosition(otherBoatInfo.currentDirection);
-
-        Debug.Log("starting position : " + NavigationManager.GetOppositeDirection(otherBoatInfo.currentDirection) );
 
         getTransform.position = corner;
 

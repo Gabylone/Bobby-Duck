@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Holoville.HOTween;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 

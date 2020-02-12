@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class Dice : MonoBehaviour {
 	
@@ -84,7 +84,7 @@ public class Dice : MonoBehaviour {
         //GetComponent<Rigidbody> ().AddForce ( dir * throwDirection *  Random.Range (minForce , maxForce) );
 
         Vector3 p = transform.position + dir * Random.Range(minForce, maxForce);
-        HOTween.To( transform , DiceManager.Instance.throwDuration , "position" , p );
+        transform.DOMove(p, DiceManager.Instance.throwDuration);
 
 	}
 
@@ -93,24 +93,24 @@ public class Dice : MonoBehaviour {
 
 	public void SettleDown () {
 
-        HOTween.Kill(transform);
-		HOTween.To ( transform , settleDuration , "localScale" , Vector3.one * 0.8f );
+        transform.DOKill();
+        transform.DOScale(Vector3.one * 0.8f, settleDuration);
 
         Color c = rends[0].color;
 
         c.a = 0.6f;
 
 		foreach (SpriteRenderer rend in rends) {
-			HOTween.To (rend, settleDuration, "color", c);
+            rend.DOColor(c, settleDuration);
 		}
 
 	}
 
 	public void SettleUp() {
-		
-		HOTween.Kill ( transform );
-		HOTween.To ( transform , settleDuration , "localScale" , Vector3.one * 1.2f);
 
+        transform.DOKill();
+        transform.DOScale(Vector3.one * 1.2f, settleDuration);
+        
         //Tween.Bounce (transform);
 
 		/*foreach (SpriteRenderer rend in GetComponentsInChildren<SpriteRenderer>()) {

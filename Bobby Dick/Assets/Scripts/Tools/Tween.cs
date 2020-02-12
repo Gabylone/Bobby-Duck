@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class Tween : MonoBehaviour {
 
@@ -9,8 +9,8 @@ public class Tween : MonoBehaviour {
 
 	public static void Scale (Transform t, float dur , float amount) {
 
-		EaseType eT = amount > 1 ? EaseType.EaseOutBounce : EaseType.Linear;
-		HOTween.To ( t , dur , "localScale" , Vector3.one * amount , false , eT , 0f );
+		Ease eT = amount > 1 ? Ease.OutBounce : Ease.Linear;
+        t.DOScale(Vector3.one * amount, dur).SetEase(eT);
 	}
 
 	public static void Bounce (Transform t) {
@@ -18,12 +18,12 @@ public class Tween : MonoBehaviour {
 	}
 
 	public static void Bounce (Transform t, float dur , Vector3 targetScale , float amount ) {
-		HOTween.To ( t , dur/2f, "localScale" , targetScale * amount , false , EaseType.EaseOutBounce , 0f);
-		HOTween.To ( t , dur/2f, "localScale" , targetScale , false , EaseType.Linear , dur/2f);
+        t.DOScale(targetScale * amount, dur/2f).SetEase(Ease.OutBounce);
+        t.DOScale(targetScale, dur / 2f).SetDelay(dur / 2f);
 	}
 	public static void Bounce (Transform t, float dur , float amount) {
-		HOTween.To ( t , dur/2f, "localScale" , Vector3.one * amount , false , EaseType.EaseOutBounce , 0f);
-		HOTween.To ( t , dur/2f, "localScale" , Vector3.one , false , EaseType.Linear , dur/2f);
+        t.DOScale(Vector3.one * amount, dur / 2f).SetEase(Ease.OutBounce);
+        t.DOScale(Vector3.one, dur / 2f).SetDelay(dur / 2f);
 	}
 
 	public static void Fade (Transform t, float dur ) {
@@ -31,13 +31,13 @@ public class Tween : MonoBehaviour {
 		foreach ( Image image in t.GetComponentsInChildren<Image>(true) ) {
 			Color c = image.color;
 			c.a = 0f;
-			HOTween.To ( image, dur , "color" , c  );
+            image.DOFade(0, dur);
 		}
 
 		foreach ( Text text in t.GetComponentsInChildren<Text>(true) ) {
 			Color c = text.color;
-			c.a = 0f;
-			HOTween.To ( text, dur , "color" , c  );
+            c.a = 0f;
+            text.DOFade(0f, dur);
 		}
 
 	}
@@ -45,14 +45,14 @@ public class Tween : MonoBehaviour {
 	public static void ClearFade (Transform t ) {
 
 		foreach ( Image image in t.GetComponentsInChildren<Image>(true) ) {
-			HOTween.Kill (image);
+            image.DOKill();
 			Color c = image.color;
 			c.a = 1f;
 			image.color = c;
 		}
 
 		foreach ( Text text in t.GetComponentsInChildren<Text>(true) ) {
-			HOTween.Kill (text);
+            text.DOKill();
 			Color c = text.color;
 			c.a = 1f;
 			text.color = c;

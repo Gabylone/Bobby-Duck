@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class DisplayCrew : MonoBehaviour {
 
@@ -47,25 +47,19 @@ public class DisplayCrew : MonoBehaviour {
     {
         member.ShowInInventory();
 
-        HOTween.To(rectTransform, duration, "anchoredPosition", initPos, false);
+        rectTransform.DOAnchorPos(initPos, duration);
 
         targetGameObject.SetActive(true);
 
         CancelInvoke("Hide");
         CancelInvoke("ShowDelay");
-        Invoke("ShowDelay", duration);
-    }
-    void ShowDelay()
-    {
-        Tween.Bounce(transform, 0.05f, 1.03f);
-
     }
 
     public void Hide ()
 	{
 		CancelInvoke ("HideDelay");
 		CancelInvoke ("ShowDelay");
-		HOTween.To (rectTransform, duration, "anchoredPosition", initPos + Vector2.up * decal, false);
+        rectTransform.DOAnchorPos(Vector2.up * decal, duration);
 		Invoke ("HideDelay", duration);
 	}
 

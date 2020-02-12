@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class FormulaManager : MonoBehaviour {
 
 	public static FormulaManager Instance;
 
-	[SerializeField]
-	private int formulaAmount = 2;
+	public int NumberOfCluesBeforeTreasure
+    {
+        get
+        {
+            return MapGenerator.mapParameters.numberOfCluesBeforeTreasure;
+        }
+    }
 
-	public Formula[] formulas;
+    public List<Formula> formulas = new List<Formula>();
 
 	[SerializeField]
 	private GameObject formulaGroup;
@@ -68,17 +74,27 @@ public class FormulaManager : MonoBehaviour {
 
 	public void CreateNewClues () {
 
-		formulas = new Formula[formulaAmount];
-
-		for (int i = 0; i < formulaAmount; ++i) {
+		for (int i = 0; i < NumberOfCluesBeforeTreasure; ++i) {
 
 			Formula newFormula = new Formula ();
 			newFormula.name = NameGeneration.Instance.randomWord;
-			newFormula.coords = MapGenerator.Instance.RandomCoords;
 
-			Chunk.GetChunk (newFormula.coords).InitIslandData (new IslandData (StoryType.Clue));
+            Coords targetCoords = MapGenerator.Instance.RandomCoords;
 
-			formulas [i] = newFormula;
+            while (targetCoords == SaveManager.Instance.GameData.treasureCoords
+                || targetCoords == SaveManager.Instance.GameData.homeCoords
+                || formulas.Find(x=>x.coords == targetCoords) != null )
+            {
+                Debug.Log("clue island is same position as other, rolling coords pos again");
+                targetCoords = MapGenerator.Instance.RandomCoords;
+            }
+
+            newFormula.coords = targetCoords;
+
+            //Chunk.GetChunk (newFormula.coords).InitIslandData (new IslandData (StoryType.Clue));
+            MapGenerator.Instance.CreateIsland(newFormula.coords, StoryType.Clue);
+
+			formulas.Add(newFormula);
 
 		}
 	}
@@ -95,24 +111,24 @@ public class FormulaManager : MonoBehaviour {
 		inputField.text = "";
 		formulaGroup.SetActive (false);
 
-		Formula containedFormula = System.Array.Find (formulas, x => stringToCheck.Contains (x.name.ToLower ()));
+		Formula containedFormula = formulas.Find ( x => stringToCheck.Contains (x.name.ToLower ()));
 
 		if ( containedFormula == null ) {
-			print ("input field does not contain any formulas");
+			//print ("input field does not contain any formulas");
 			StoryReader.Instance.SetDecal (0);
 			StoryReader.Instance.UpdateStory ();
 			return;
 		}
 
 		if ( containedFormula.verified ) {
-			print ("formula is already verified... need another one");
+			//print ("formula is already verified... need another one");
 			StoryReader.Instance.SetDecal (0);
 			StoryReader.Instance.UpdateStory ();
 			return;
 		}
 
 		containedFormula.verified = true;
-		print ("la formule est bonne");
+		//print ("la formule est bonne");
 
 		bool allFormulasHaveBeenVerified = true;
 

@@ -67,6 +67,8 @@ public class Boat : MonoBehaviour {
     #region moving
     public virtual void SetTargetPos(Vector3 p)
     {
+        agent.isStopped = false;
+
         agent.SetDestination(p);
 
         moving = true;

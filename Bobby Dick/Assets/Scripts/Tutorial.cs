@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class Tutorial : MonoBehaviour {
 
@@ -146,7 +146,6 @@ public enum TutorialStep {
 	Meeting2,
 	BigMap,
 	PowerfullFoe,
-
 }
 
 public class TutoStep {
@@ -246,6 +245,7 @@ public class TutoStep_Movements: TutoStep {
             Tutorial.onHideTutorial += HandleOnHideTutorial;
 
             WaitForConfirm();
+
         }
 
         count++;
@@ -523,7 +523,9 @@ public class TutoStep_Skills2: TutoStep {
 	{
 		base.Init ();
 
-		Tutorial.onDisplayTutorial += HandleOnDisplayTutorial;
+        // enlevé celui là parce qu'il dit de la merde mainteannt
+
+		//Tutorial.onDisplayTutorial += HandleOnDisplayTutorial;
 	}
 
 	void HandleOnDisplayTutorial (TutoStep tutoStep)
@@ -979,11 +981,16 @@ public class TutoStep_PowerfullFoe: TutoStep {
 
 			if (count > 1) {
 
-				if ( CombatManager.Instance.currEnemyFighters[0].crewMember.Level > Crews.playerCrew.captain.Level ) {
+				if ( CombatManager.Instance.currEnemyFighters.Count < 0
+                    && CombatManager.Instance.currEnemyFighters[0].crewMember.Level > Crews.playerCrew.captain.Level ) {
+
 					corner = DisplayInfo.Corner.TopRight;
 					CombatManager.Instance.onChangeState -= HandleOnChangeState;
-					Display ();
-					WaitForConfirm ();
+
+                    Display ();
+
+                    WaitForConfirm();
+
 				}
 
 			}

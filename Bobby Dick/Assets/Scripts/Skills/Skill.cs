@@ -154,6 +154,10 @@ public class Skill : MonoBehaviour {
 
 			Invoke ("InvokeMoveBack",1f);
 		}
+        else
+        {
+            InvokeMoveBack();
+        }
 	}
 
 	void InvokeMoveBack()  {

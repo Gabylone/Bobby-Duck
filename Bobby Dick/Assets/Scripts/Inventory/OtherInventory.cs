@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class OtherInventory : MonoBehaviour {
 
@@ -40,31 +40,53 @@ public class OtherInventory : MonoBehaviour {
         StartCoroutine(SwitchSideCoroutine());
     }
 
-    IEnumerator SwitchSideCoroutine()
+    public void LerpIn()
     {
-        HOTween.To(LootUI.Instance.transform, lootTransition_Duration, "position", Vector3.right * lootTransition_Decal, false, EaseType.Linear, 0f);
+        LootUI.Instance.transform.position = Vector3.right * lootTransition_Decal;
 
         LootUI.Instance.HideAllSwitchButtons();
         LootUI.Instance.closeButton.SetActive(false);
 
-        ///
-        yield return new WaitForSeconds(lootTransition_Duration);
-        ///
+        LootUI.Instance.transform.DOMove(Vector3.zero, lootTransition_Duration);
 
+        CancelInvoke("ShowButtons");
+        Invoke("ShowButtons",lootTransition_Duration);
+    }
+
+    public void LerpOut()
+    {
+        CancelInvoke("ShowButtons");
+
+        LootUI.Instance.transform.DOMove(Vector3.right * lootTransition_Decal, lootTransition_Duration);
+
+        LootUI.Instance.HideAllSwitchButtons();
+        LootUI.Instance.closeButton.SetActive(false);
+
+    }
+
+    void SwitchInventorySide()
+    {
         LootUI.Instance.currentSide = LootUI.Instance.currentSide == Crews.Side.Player ? Crews.Side.Enemy : Crews.Side.Player;
+        ShowLoot();
+    }
 
-        UpdateLoot();
-        LootUI.Instance.HideAllSwitchButtons();
-        LootUI.Instance.closeButton.SetActive(false);
-
-        HOTween.To(LootUI.Instance.transform, lootTransition_Duration, "position", Vector3.zero, false, EaseType.Linear, 0f);
-
-        ///
-        yield return new WaitForSeconds(lootTransition_Duration);
-        ///
-
+    void ShowButtons()
+    {
         LootUI.Instance.InitButtons();
         LootUI.Instance.closeButton.SetActive(true);
+    }
+
+    IEnumerator SwitchSideCoroutine()
+    {
+        LerpOut();
+
+        ///
+        yield return new WaitForSeconds(lootTransition_Duration);
+        ///
+
+        LerpIn();
+
+        SwitchInventorySide();
     }
 
 
@@ -81,7 +103,7 @@ public class OtherInventory : MonoBehaviour {
 		}
 	}
 
-    void UpdateLoot()
+    void ShowLoot()
     {
         if (LootUI.Instance.currentSide == Crews.Side.Player)
         {
@@ -155,7 +177,7 @@ public class OtherInventory : MonoBehaviour {
 
 		type = Type.Trade;
 
-        UpdateLoot();
+        ShowLoot();
 	}
 	#endregion
 
@@ -177,7 +199,7 @@ public class OtherInventory : MonoBehaviour {
 
 		type = Type.Loot;
 
-        UpdateLoot();
+        ShowLoot();
 
     }
 	#endregion

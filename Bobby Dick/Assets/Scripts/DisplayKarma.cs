@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class DisplayKarma : MonoBehaviour {
 
@@ -51,11 +51,18 @@ public class DisplayKarma : MonoBehaviour {
                 break;
         }
 
-        HOTween.To(targetRectTranform, tweenDuration, "anchoredPosition", Vector2.right * x );
+        targetRectTranform.DOAnchorPos(Vector2.right * x, tweenDuration);
 
         //targetRectTranform.anchoredPosition = Vector2.right * x;
 
         Tween.Bounce(group.transform);
 
+    }
+
+    public void OnPointerClick()
+    {
+        KarmaFeedback.Instance.DisplayKarma();
+
+        Tween.Bounce(transform);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Holoville.HOTween;
+using DG.Tweening;
 
 public class TurnFeedback : MonoBehaviour {
 
@@ -46,9 +46,9 @@ public class TurnFeedback : MonoBehaviour {
 		if ( currState == CombatManager.States.StartTurn ) {
 
 			if ( CombatManager.Instance.currentFighter.crewMember.side == Crews.Side.Player ) {
-				HOTween.To ( rectTransform , duration , "eulerAngles" , Vector3.forward * -initZAngle );
+                rectTransform.DORotate(Vector3.forward * -initZAngle, duration);
 			} else {
-				HOTween.To ( rectTransform , duration , "eulerAngles" , Vector3.forward * initZAngle );
+                rectTransform.DORotate(Vector3.forward * initZAngle, duration);
 			}
 
 			initPos = rectTransform.position;

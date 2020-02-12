@@ -74,7 +74,7 @@ public class Narrator : MonoBehaviour {
 
         InGameMenu.Instance.HideMenuButtons();
 
-        Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Hidden);
+        //Crews.playerCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Hidden);
         //Crews.enemyCrew.captain.Icon.MoveToPoint(Crews.PlacingType.Hidden);
 
         narratorButtonObj.SetActive(true);
