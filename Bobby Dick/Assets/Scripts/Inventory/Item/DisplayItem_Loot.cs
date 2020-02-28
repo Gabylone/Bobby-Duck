@@ -32,6 +32,13 @@ public class DisplayItem_Loot : DisplayItem {
 
 	}
 
+    public void EquipmentSelect()
+    {
+        if (LootUI.Instance.currentSide == Crews.Side.Enemy)
+            return;
+        Select();
+    }
+
 	public void Select () {
 
 		if ( selected ) {

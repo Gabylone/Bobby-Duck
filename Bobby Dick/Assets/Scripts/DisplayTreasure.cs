@@ -44,14 +44,6 @@ public class DisplayTreasure : MonoBehaviour {
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            ShowTreasure();
-        }
-    }
-
     private void ShowTreasure()
     {
         group.SetActive(true);

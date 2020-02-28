@@ -20,7 +20,7 @@ public class StoryLoader : MonoBehaviour {
 	[SerializeField]
 	private TextAsset functionFile;
 
-	private float minFreq = 0f;
+	private float minFreq = 0f;     
 
 	[SerializeField]
 	private StoryFunctions storyFunctions;
@@ -61,6 +61,8 @@ public class StoryLoader : MonoBehaviour {
 
         // set language
         path += GameManager.language.ToString();
+
+        Debug.Log("loading language : " + GameManager.language.ToString());
 
 		GetFiles (path);
 

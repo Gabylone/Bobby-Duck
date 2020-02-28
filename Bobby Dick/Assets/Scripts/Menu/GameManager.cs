@@ -6,8 +6,6 @@ using DG.Tweening;
 
 public class GameManager : MonoBehaviour {
 
-   
-
 	public static GameManager Instance;
 
     public enum Language
@@ -16,7 +14,7 @@ public class GameManager : MonoBehaviour {
         _en,
     }
 
-    public static Language language;
+    public static Language language = Language._en;
 
     [SerializeField]
 	private GameObject overallObj;

@@ -59,19 +59,6 @@ public class Karma : MonoBehaviour {
 
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            AddKarma(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            RemoveKarma(1);
-        }
-    }
-
     void HandleOpenInventory (CrewMember member)
 	{
 		Show ();

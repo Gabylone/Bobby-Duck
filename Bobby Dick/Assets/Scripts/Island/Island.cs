@@ -53,16 +53,6 @@ public class Island : RandomPlacable {
         Init();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            Vector2 v = GetRandomPosition();
-            transform.localPosition = new Vector3(v.x,0f,v.y);
-
-        }
-    }
-
     void Init () {
 
 		sprites = Resources.LoadAll<Sprite> ("Graph/IslandSprites");
